@@ -1,18 +1,320 @@
 ---
 import Base from '../layouts/Base.astro';
----
-<Base title="Systematized a Moment - Léa Giezek" current="system-event">
 
+/*
+  IMAGES : deposer le dossier `living-system/` dans /public/
+  (11 fichiers .webp, ~2 Mo au total, deja optimises).
+
+  Photos ecartees au montage pour la raison indiquee — voir les notes
+  du .md (« aucun visage reconnaissable, aucun nom d'invite lisible »).
+*/
+---
+<Base title="Living System - Léa Giezek"
+  current="system-event">
+
+<!-- CARD 1 : banner + intro -->
   <div class="card">
     <div class="banner">
+      <a class="banner__home" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>Back to home</a>
       <div class="banner__inner">
-        <p class="banner__standards">Systematized a Moment</p>
+        <p class="banner__standards">The same thinking,<br>off the <span class="banner__culture">screen.</span></p>
       </div>
     </div>
+
     <div class="p-intro" id="intro">
-      <h1 class="p-eyebrow">Systematized a Moment</h1>
-      <p class="p-intro__lead">Page en cours de redaction.</p>
+      <h1 class="p-eyebrow">Living System</h1>
+      <p class="p-intro__lead">Over more than a year, I designed and orchestrated a live event from end to end — one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.</p>
+      <p class="p-intro__lead">It's the proof I keep coming back to: <b>my way of working doesn't depend on the medium.</b> Systems thinking, brand coherence, experience design — they hold whether the output ships to production or lives in a garden for one day.</p>
     </div>
   </div>
 
+  <!-- THESIS : the one image that carries the whole argument -->
+  <section class="ls-thesis ls-reveal" aria-label="The system, in the world">
+    <figure class="ls-fig ls-thesis__fig">
+      <img src="/living-system/staging-arch.webp" width="1400" height="2100" alt="Ceremony arch hung with shapes from the event's visual identity, framed by floral pedestals and two seats" loading="eager" decoding="async" />
+    </figure>
+    <div class="ls-thesis__body">
+      <p class="ls-pull">A living system isn't one you finish. It's one that takes its real shape <em>in the hands of the people who use it</em> — here, off the screen, exactly as it does on it.</p>
+      <p class="ls-note">Not product. Not digital. Not communication. A living one — and it held together just the same.</p>
+    </div>
+  </section>
+
+  <!-- 01 - IDENTITY : the scatter proves the count -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-identity">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>01 — Identity</span></p>
+      <h2 class="ls-title" id="ch-identity">One identity, everywhere.</h2>
+      <p class="ls-body">A full visual identity, declined across every physical surface the day would touch: a monogram, a palette, signage, stationery, room tags, table names, favours, packaging. Dozens of touchpoints, one language — the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.</p>
+    </div>
+
+    <div class="ls-scatter" id="scatter" aria-label="Surfaces carrying the identity">
+      <figure class="ls-shot ls-shot--p" style="--x:0%;--y:44px;--rot:-4deg">
+        <img src="/living-system/identity-welcome-sign.webp" width="1200" height="1800" alt="Welcome sign on an easel showing the event monogram, beside stacked metal trunks" loading="lazy" decoding="async" />
+        <figcaption>Signage</figcaption>
+      </figure>
+      <figure class="ls-shot ls-shot--p" style="--x:25%;--y:0px;--rot:2.5deg">
+        <img src="/living-system/identity-invitation-suite.webp" width="1200" height="1800" alt="Invitation suite of layered printed cards and coloured envelopes" loading="lazy" decoding="async" />
+        <figcaption>Stationery</figcaption>
+      </figure>
+      <figure class="ls-shot ls-shot--l" style="--x:49%;--y:96px;--rot:-2deg">
+        <img src="/living-system/identity-invitation-open.webp" width="1600" height="1067" alt="Invitation opened out, showing die-cut shapes and colour blocks from the identity system" loading="lazy" decoding="async" />
+        <figcaption>Print system</figcaption>
+      </figure>
+      <figure class="ls-shot ls-shot--p" style="--x:76%;--y:16px;--rot:4deg">
+        <img src="/living-system/identity-cards.webp" width="1200" height="1800" alt="Wall rack holding message cards in the identity's colours and patterns" loading="lazy" decoding="async" />
+        <figcaption>Message cards</figcaption>
+      </figure>
+    </div>
+
+    <p class="ls-claim">Nothing was left to chance, and nothing drifted.<br><b>One identity, fifty-plus surfaces, zero inconsistency.</b></p>
+  </section>
+
+  <!-- 02 - STAGING : text holds, the space scrolls past -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-staging">
+    <div class="ls-split">
+      <div class="ls-split__text">
+        <p class="ls-eyebrow"><span>02 — Staging</span></p>
+        <h2 class="ls-title" id="ch-staging">Space, staged.</h2>
+        <p class="ls-body">An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.</p>
+        <p class="ls-body">The system on paper, and the system in the world — <b>the same jump from specification to production I run on the platform</b>, made physical.</p>
+      </div>
+      <div class="ls-split__media">
+        <figure class="ls-fig">
+          <img src="/living-system/staging-entrance.webp" width="1200" height="1800" alt="Entrance arrangement of seasonal flowers on a painted trunk beside the venue doors" loading="lazy" decoding="async" />
+          <figcaption class="ls-cap">Entrance</figcaption>
+        </figure>
+        <div class="ls-pair">
+          <figure class="ls-fig">
+            <img src="/living-system/staging-pedestal.webp" width="1200" height="1800" alt="Floral pedestal in the event's palette next to a printed menu panel" loading="lazy" decoding="async" />
+            <figcaption class="ls-cap">Pedestal</figcaption>
+          </figure>
+          <figure class="ls-fig">
+            <img src="/living-system/staging-flowers.webp" width="1200" height="1800" alt="Close view of the flower palette: white daisies, blue cornflowers and pink blooms" loading="lazy" decoding="async" />
+            <figcaption class="ls-cap">Palette</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 - THE GAME : a sequence, so it reads as one -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-game">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>03 — The centrepiece</span></p>
+      <h2 class="ls-title" id="ch-game">A game, by design.</h2>
+      <p class="ls-body">An escape game, designed from zero — rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
+    </div>
+
+    <ol class="ls-steps">
+      <li class="ls-step">
+        <figure class="ls-fig">
+          <img src="/living-system/game-locked.webp" width="1600" height="1067" alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid" loading="lazy" decoding="async" />
+        </figure>
+        <p class="ls-step__t"><span class="ls-step__n">01</span>The constraint</p>
+        <p class="ls-step__b">A locked trunk, a combination, and clues scattered across the day.</p>
+      </li>
+      <li class="ls-step">
+        <figure class="ls-fig">
+          <img src="/living-system/game-opened.webp" width="1200" height="1800" alt="Opened trunk revealing a framed congratulations card above rows of jars" loading="lazy" decoding="async" />
+        </figure>
+        <p class="ls-step__t"><span class="ls-step__n">02</span>The crack</p>
+        <p class="ls-step__b">Progression built so the last step feels earned, not handed over.</p>
+      </li>
+      <li class="ls-step">
+        <figure class="ls-fig">
+          <img src="/living-system/game-reward.webp" width="1600" height="1067" alt="Rows of jars packed in the trunk, each labelled with the event monogram on striped paper" loading="lazy" decoding="async" />
+        </figure>
+        <p class="ls-step__t"><span class="ls-step__n">03</span>The payoff</p>
+        <p class="ls-step__b">The reward carries the identity too. The system runs to the last object.</p>
+      </li>
+    </ol>
+
+    <div class="ls-body ls-body--wide">
+      <p>But here's what I love most about it: <b>it only became itself once people played it.</b> I designed the frame — tight, deliberate, engineered underneath — and the experience took its real shape in their hands, evolving as they moved through it, in ways no plan could fully script.</p>
+      <p>That's the whole truth about the systems I build: <b>you design them for the people who'll use them, not for yourself — and they come alive the moment you let go.</b> An escape game, a design system, a platform: same principle.</p>
+    </div>
+
+    <p class="ls-claim ls-claim--big">The frame is mine.<br>The life is theirs.</p>
+  </section>
+
+  <!-- 04 - COORDINATION : no photograph. That is the point. -->
+  <section class="ls-chapter ls-chapter--last ls-reveal" aria-labelledby="ch-coordination">
+    <div class="card ls-dark">
+      <div class="ls-dark__inner">
+        <p class="ls-eyebrow ls-eyebrow--light"><span>04 — Coordination</span></p>
+        <h2 class="ls-title" id="ch-coordination">The part nobody sees.</h2>
+        <div class="ls-body ls-body--light">
+          <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals — a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
+          <p>I designed the whole — the plan, the suppliers, the standard — then handed the day itself to a coordinator I briefed to run it without me. Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
+        </div>
+        <p class="ls-note ls-note--light">The same move as everything else I build: design the system, brief the owners, step back. It works in a repo. It works in a garden.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="ls-closing ls-reveal">
+    <p class="ls-closing__t">I don't just repeat a system.<br>I <em>version</em> it.</p>
+    <p class="ls-closing__b">This wasn't a one-off. It was the third edition — each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. The pattern doesn't stop at the screen — and it doesn't stop at work either.</p>
+  </section>
+
 </Base>
+
+<style is:global>
+  .banner__standards{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,48px);line-height:1.04;letter-spacing:-.01em}
+  .p-intro__lead + .p-intro__lead{margin-top:1em}
+
+  /* --- shared pieces ------------------------------------------------ */
+  .ls-fig{margin:0;overflow:hidden;border-radius:var(--r-lg);background:var(--tile-red);line-height:0}
+  .ls-fig img{display:block;width:100%;height:100%;object-fit:cover}
+  [data-theme="contrast"] .ls-fig{border:2px solid var(--line)}
+  .ls-cap{line-height:1.6;margin-top:10px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
+
+  .ls-eyebrow{display:flex;align-items:center;gap:16px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
+  .ls-eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+  [data-theme="contrast"] .ls-eyebrow{color:#0B57A4}
+  .ls-title{font-family:var(--display);font-weight:400;font-size:clamp(30px,4.6vw,58px);line-height:1.02;letter-spacing:-.025em;color:var(--ink);margin-top:18px}
+  .ls-body{font-size:clamp(16px,1.6vw,20px);color:var(--ink-soft);max-width:58ch;margin-top:20px}
+  .ls-body p + p{margin-top:1.1em}
+  .ls-body b{color:var(--ink);font-weight:700}
+  .ls-body em{font-style:italic;color:var(--ink)}
+  .ls-body--wide{max-width:72ch;margin-top:clamp(32px,4vw,48px)}
+  .ls-note{font-style:italic;font-size:clamp(15px,1.5vw,18px);color:var(--ink-muted);max-width:46ch;margin-top:24px;padding-left:18px;border-left:2px solid var(--accent)}
+  [data-theme="contrast"] .ls-note{border-left-color:#0B57A4}
+
+  .ls-chapter{margin:clamp(72px,10vw,140px) 0}
+  .ls-chapter--last{margin-bottom:clamp(48px,6vw,80px)}
+  .ls-head{max-width:62ch}
+
+  /* --- thesis spread ------------------------------------------------ */
+  .ls-thesis{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(24px,4vw,64px);align-items:center;margin:clamp(40px,5vw,72px) 0 clamp(72px,9vw,120px)}
+  .ls-thesis__fig{aspect-ratio:3/4}
+  .ls-pull{font-family:var(--display);font-weight:400;font-size:clamp(24px,3.4vw,44px);line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+  .ls-pull em{font-style:italic;color:var(--accent)}
+  [data-theme="contrast"] .ls-pull em{color:#0B57A4}
+
+  /* --- 01 identity scatter ------------------------------------------ */
+  .ls-scatter{position:relative;height:clamp(360px,42vw,500px);margin:clamp(40px,5vw,72px) 0 clamp(32px,4vw,48px);touch-action:none}
+  .ls-shot{position:absolute;left:var(--x);top:var(--y);margin:0;padding:10px 10px 0;background:var(--card);border-radius:20px;box-shadow:0 22px 44px -20px rgba(120,30,10,.32);transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;cursor:grab;user-select:none;z-index:1}
+  .ls-shot img{border-radius:12px;pointer-events:none}
+  .ls-shot figcaption{padding:8px 4px 10px;font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
+  .ls-shot--p{width:clamp(148px,17vw,204px)}
+  .ls-shot--l{width:clamp(196px,24vw,286px)}
+  .ls-shot:hover{transform:rotate(0deg) translateY(-8px) scale(1.02);box-shadow:0 34px 60px -24px rgba(120,30,10,.44);z-index:20}
+  .ls-shot.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);z-index:30}
+  [data-theme="contrast"] .ls-shot{border:2px solid #000;box-shadow:none}
+  .js .ls-scatter .ls-shot{opacity:0;transform:rotate(var(--rot)) scale(.5)}
+  .js .ls-scatter.in .ls-shot{animation:lsIn .55s cubic-bezier(.34,1.56,.64,1) forwards}
+  .js .ls-scatter.in .ls-shot:nth-child(2){animation-delay:.08s}
+  .js .ls-scatter.in .ls-shot:nth-child(3){animation-delay:.16s}
+  .js .ls-scatter.in .ls-shot:nth-child(4){animation-delay:.24s}
+  @keyframes lsIn{0%{opacity:0;transform:rotate(var(--rot)) scale(.5)}60%{opacity:1;transform:rotate(var(--rot)) scale(1.05)}100%{opacity:1;transform:rotate(var(--rot)) scale(1)}}
+
+  .ls-claim{font-family:var(--display);font-weight:400;font-size:clamp(22px,2.8vw,36px);line-height:1.14;letter-spacing:-.02em;color:var(--ink-muted);max-width:24ch}
+  .ls-claim b{color:var(--ink);font-weight:400}
+  .ls-claim--big{margin-top:clamp(40px,5vw,64px);font-size:clamp(30px,5vw,64px);line-height:1;color:var(--ink);max-width:none}
+
+  /* --- 02 staging split --------------------------------------------- */
+  .ls-split{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,80px);align-items:start}
+  .ls-split__text{position:sticky;top:calc(var(--mobbar-h) + 16px)}
+  .ls-split__media > .ls-fig{aspect-ratio:4/5}
+  .ls-pair{display:grid;grid-template-columns:1fr 1fr;gap:clamp(12px,2vw,20px);margin-top:clamp(12px,2vw,20px)}
+  .ls-pair .ls-fig{aspect-ratio:3/4}
+
+  /* --- 03 game sequence --------------------------------------------- */
+  .ls-steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(14px,2.4vw,24px);margin:clamp(40px,5vw,72px) 0 0;padding:0}
+  .ls-step .ls-fig{aspect-ratio:4/5}
+  .ls-step__t{display:flex;align-items:baseline;gap:12px;margin-top:16px;font-family:var(--display);font-weight:400;font-size:clamp(17px,1.9vw,22px);line-height:1.2;color:var(--ink)}
+  .ls-step__n{font-size:12px;letter-spacing:.1em;color:var(--accent);font-variant-numeric:tabular-nums}
+  [data-theme="contrast"] .ls-step__n{color:#0B57A4}
+  .ls-step__b{margin-top:8px;font-size:15px;line-height:1.55;color:var(--ink-muted)}
+
+  /* --- 04 coordination, deliberately unillustrated ------------------- */
+  .card.ls-dark{background:#070304;border:none}
+  .ls-dark__inner{padding:clamp(32px,5vw,72px)}
+  .ls-eyebrow--light{color:#fff}
+  .ls-eyebrow--light::after{background:rgba(255,255,255,.24)}
+  .ls-dark .ls-title{color:#fff}
+  .ls-body--light{color:rgba(255,255,255,.86);max-width:66ch}
+  .ls-body--light b,.ls-body--light em{color:#fff}
+  .ls-note--light{color:rgba(255,255,255,.7);border-left-color:#fff;max-width:56ch}
+
+  /* --- closing ------------------------------------------------------- */
+  .ls-closing{margin:clamp(72px,9vw,120px) 0 clamp(56px,7vw,96px);text-align:center}
+  .ls-closing__t{font-family:var(--display);font-weight:400;font-size:clamp(30px,5.4vw,68px);line-height:1;letter-spacing:-.03em;color:var(--ink)}
+  .ls-closing__t em{font-style:italic;color:var(--accent)}
+  [data-theme="contrast"] .ls-closing__t em{color:#0B57A4}
+  .ls-closing__b{font-size:clamp(15px,1.5vw,18px);color:var(--ink-muted);max-width:62ch;margin:24px auto 0}
+
+  /* --- reveals ------------------------------------------------------- */
+  .js .ls-reveal{opacity:0;transform:translateY(18px)}
+  .js .ls-reveal.in{opacity:1;transform:none;transition:opacity .6s ease,transform .7s cubic-bezier(.22,1,.36,1)}
+
+  @media(max-width:900px){
+    .ls-thesis{grid-template-columns:1fr;gap:clamp(20px,4vw,32px)}
+    .ls-thesis__fig{aspect-ratio:4/3}
+    .ls-split{grid-template-columns:1fr;gap:clamp(20px,4vw,32px)}
+    .ls-split__text{position:static}
+    .ls-steps{grid-template-columns:1fr;gap:clamp(28px,6vw,40px)}
+    .ls-step{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:clamp(16px,3vw,24px);align-items:center}
+    .ls-step .ls-fig{grid-row:span 3;aspect-ratio:1}
+    .ls-step__t{margin-top:0}
+    /* le scatter devient un carrousel : plus de superposition sur petit ecran */
+    .ls-scatter{height:auto;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:8px 0 20px;touch-action:auto;-webkit-overflow-scrolling:touch}
+    .ls-shot{position:static;flex:0 0 clamp(180px,52%,240px);scroll-snap-align:center;transform:rotate(var(--rot));cursor:default}
+    .ls-shot--l{flex-basis:clamp(230px,68%,300px)}
+    .ls-shot:hover{transform:rotate(var(--rot));box-shadow:0 22px 44px -20px rgba(120,30,10,.32)}
+    .js .ls-scatter .ls-shot,.js .ls-scatter.in .ls-shot{opacity:1;animation:none;transform:rotate(var(--rot))}
+  }
+  @media(max-width:720px){
+    .banner{flex-direction:column;align-items:flex-start;text-align:left;min-height:0;padding:calc(var(--mobbar-h) + 16px) clamp(16px,5vw,24px) clamp(32px,11vw,96px)}
+    .banner__inner{padding:0;margin-top:clamp(8px,2.5vw,16px)}
+  }
+  @media(max-width:560px){
+    .ls-step{grid-template-columns:1fr}
+    .ls-step .ls-fig{grid-row:auto;aspect-ratio:4/3}
+    .ls-step__t{margin-top:14px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .js .ls-reveal,.js .ls-reveal.in{opacity:1;transform:none;transition:none}
+    .ls-shot,.ls-shot:hover{transition:none;transform:rotate(var(--rot))}
+    .js .ls-scatter .ls-shot,.js .ls-scatter.in .ls-shot{opacity:1;animation:none;transform:rotate(var(--rot))}
+  }
+</style>
+
+<script is:inline>
+  (function(){
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function reveal(els,opts){
+      if(reduce || !("IntersectionObserver" in window)){ els.forEach(function(e){e.classList.add("in");}); return; }
+      var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},opts);
+      els.forEach(function(e){io.observe(e);});
+    }
+    reveal([].slice.call(document.querySelectorAll(".ls-reveal")),{threshold:0,rootMargin:"0px 0px -10% 0px"});
+    reveal([].slice.call(document.querySelectorAll(".ls-scatter")),{threshold:0,rootMargin:"0px 0px -8% 0px"});
+    reveal([].slice.call(document.querySelectorAll(".talk-card")),{threshold:0.2});
+
+    /* cartes deplacables : desktop uniquement, meme mecanique que la landing */
+    var z=10;
+    [].slice.call(document.querySelectorAll('.ls-shot')).forEach(function(c){
+      var ox=0,oy=0,dragging=false;
+      c.addEventListener('pointerdown',function(e){
+        if(window.matchMedia('(max-width:900px)').matches) return;
+        dragging=true; c.setPointerCapture(e.pointerId); c.classList.add('grabbing'); c.style.zIndex=++z;
+        var r=c.getBoundingClientRect();
+        ox=e.clientX-r.left; oy=e.clientY-r.top;
+      });
+      c.addEventListener('pointermove',function(e){
+        if(!dragging) return;
+        var p=c.parentElement.getBoundingClientRect();
+        var x=e.clientX-p.left-ox, y=e.clientY-p.top-oy;
+        x=Math.max(0,Math.min(x,p.width-c.offsetWidth));
+        y=Math.max(0,Math.min(y,p.height-c.offsetHeight));
+        c.style.left=x+'px'; c.style.top=y+'px';
+      });
+      function end(){ dragging=false; c.classList.remove('grabbing'); }
+      c.addEventListener('pointerup',end); c.addEventListener('pointercancel',end);
+    });
+  })();
+</script>
