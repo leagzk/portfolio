@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Philosophy - Léa Giezek"
+  current="philosophy">
+
+<!-- CARD 1 : banner (signature) + intro -->
+  <div class="card">
+    <div class="banner">
+      <a class="banner__home" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>Back to home</a>
+      <div class="banner__inner">
+        <p class="banner__standards">Six convictions behind the systems,<br>and the care that keeps them <span class="banner__culture">Alive</span></p>
+      </div>
+    </div>
+
+    <div class="p-intro" id="intro">
+      <h1 class="p-eyebrow">Philosophy</h1>
+      <p class="p-intro__lead">Anything can be systematized, once you truly understand each craft. I believe people move systems forward - not the other way around. Built on trust over control, and humility. Not a system someone maintains, but one a whole community owns, defends, and grows. <b>Never alone. Conviction over caution, always.</b></p>
+    </div>
+  </div>
+
+  <!-- CREED : the six tenets -->
+  <section class="creed" id="creed" aria-label="Philosophy">
+    <article class="tenet">
+      <div class="tenet__lead">
+        <span class="tenet__num" aria-hidden="true">01</span>
+        <div class="tenet__head">
+          <span class="tenet__idx" data-num="01">The premise</span>
+          <h2 class="tenet__title">Understanding comes before the system.</h2>
+        </div>
+      </div>
+      <div class="tenet__body">
+        <p>Not by putting experts in a room together. By understanding each craft deeply enough to translate it to the others. Systematization isn't the cause - it's what becomes possible once the understanding is there.</p>
+        <p>That's why my path runs through <b>brand, retail, agency and product</b>: I don't systematize what I haven't understood, and you don't understand a craft you haven't practiced - or at least dived deep enough into it to get along and speak the same language.</p>
+      </div>
+    </article>
+
+    <article class="tenet">
+      <div class="tenet__lead">
+        <span class="tenet__num" aria-hidden="true">02</span>
+        <div class="tenet__head">
+          <span class="tenet__idx" data-num="02">The method</span>
+          <h2 class="tenet__title">Communication at the core, from brief to ship.</h2>
+        </div>
+      </div>
+      <div class="tenet__body">
+        <p>In 2018, communication was my <em>subject</em> - I systematized how 2,500 people talked about IT. With Elements, communication became my <em>method</em> - I systematized digital products by making brand, design and engineering finally understand each other. <b>The subject moved from communication to product. The method never did.</b></p>
+      </div>
+    </article>
+
+    <article class="tenet">
+      <div class="tenet__lead">
+        <span class="tenet__num" aria-hidden="true">03</span>
+        <div class="tenet__head">
+          <span class="tenet__idx" data-num="03">The frame</span>
+          <h2 class="tenet__title">A system doesn't standardize people. It frees them.</h2>
+        </div>
+      </div>
+      <div class="tenet__body">
+        <p>The fear every craftsperson has of a system is that it will flatten them - make them interchangeable. The opposite is true. A good system carries the repeatable, so real expertise has room to breathe. The pivot was never rigidity; it was flexibility, and the collaboration with every stakeholder that made the whole thing rich. <b>You systematize the frame that frees the craft. You don't replace the craft.</b></p>
+      </div>
+    </article>
+
+    <article class="tenet">
+      <div class="tenet__lead">
+        <span class="tenet__num" aria-hidden="true">04</span>
+        <div class="tenet__head">
+          <span class="tenet__idx" data-num="04">The point</span>
+          <h2 class="tenet__title">What's left is what matters.</h2>
+        </div>
+      </div>
+      <div class="tenet__body">
+        <p>People doing the work that actually creates value - faster, yes, but mostly more <em>confident</em> in what they make, their core expertise valued instead of spent on what a system should have carried. Trusted to own their craft, and accountable for it. That's the point. Not adoption metrics. <b>People who trust what they ship.</b></p>
+      </div>
+    </article>
+
+    <article class="tenet">
+      <div class="tenet__lead">
+        <span class="tenet__num" aria-hidden="true">05</span>
+        <div class="tenet__head">
+          <span class="tenet__idx" data-num="05">The foundation</span>
+          <h2 class="tenet__title">Care isn't the soft part. It's the foundation.</h2>
+        </div>
+      </div>
+      <div class="tenet__body">
+        <p>A team that isn't well can't shine, and can't ship. So I hold the health of a team - its wellbeing, its inclusion, its safety to speak - with the <b>same force</b> I hold conviction and delivery.</p>
+        <p>But care doesn't stop at the team. It runs the whole length of a system's life: <b>care for the people who build it, care for the people who use it, care for the people it ultimately reaches</b> - the practitioner leaning on the library, and the patient on the other side of the screen.</p>
+        <p>A system is only as strong as the people who own it, and it only stays alive because it passes, with care, from one set of hands to the next. <b>Inclusion isn't a value I add on top. It's infrastructure.</b></p>
+      </div>
+    </article>
+
+    <article class="tenet">
+      <div class="tenet__lead">
+        <span class="tenet__num" aria-hidden="true">06</span>
+        <div class="tenet__head">
+          <span class="tenet__idx" data-num="06">The current</span>
+          <h2 class="tenet__title">I don't work against the current. I learn to ride it.</h2>
+        </div>
+      </div>
+      <div class="tenet__body">
+        <p>When AI arrived, I didn't brace against it - I learned its temper first: explore, listen, build the trust, then move. You don't tame a force you don't understand. <b>You earn the right to ride it - guardrails first, then the speed.</b></p>
+      </div>
+    </article>
+  </section>
+
+</Base>
+
+<style is:global>
+  .banner__standards{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,48px);line-height:1.04;letter-spacing:-.01em}
+  @media(max-width:720px){
+    .banner{flex-direction:column;align-items:flex-start;text-align:left;min-height:0;padding:calc(var(--mobbar-h) + 16px) clamp(16px,5vw,24px) clamp(32px,11vw,96px)}
+    .banner__inner{padding:0;margin-top:clamp(8px,2.5vw,16px)}
+  }
+</style>
+
+<script is:inline>
+  (function(){
+    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+/* scroll reveals : tenets + closing card */
+    function reveal(els,opts){
+      if(reduce || !("IntersectionObserver" in window)){ els.forEach(function(e){e.classList.add("in");}); return; }
+      var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},opts);
+      els.forEach(function(e){io.observe(e);});
+    }
+    reveal([].slice.call(document.querySelectorAll(".tenet")),{threshold:0,rootMargin:"0px 0px -12% 0px"});
+    reveal([].slice.call(document.querySelectorAll(".talk-card")),{threshold:0.2});
+  })();
+</script>

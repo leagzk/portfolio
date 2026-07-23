@@ -1,0 +1,15 @@
+# dependances
+node_modules/
+
+# build
+dist/
+.astro/
+
+# environnement
+.env
+.env.production
+.vercel
+
+# systeme
+.DS_Store
+*.log
