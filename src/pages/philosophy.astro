@@ -90,16 +90,8 @@ import Banner from '../components/Banner.astro';
 }
 </style>
 
-<script is:inline>
-  (function(){
-    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* scroll reveals : tenets + closing card */
-    function reveal(els,opts){
-      if(reduce || !("IntersectionObserver" in window)){ els.forEach(function(e){e.classList.add("in");}); return; }
-      var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},opts);
-      els.forEach(function(e){io.observe(e);});
-    }
-    reveal([].slice.call(document.querySelectorAll(".tenet")),{threshold:0,rootMargin:"0px 0px -12% 0px"});
-    reveal([].slice.call(document.querySelectorAll(".talk-card")),{threshold:0.2});
-  })();
+<script>
+  import { revealAll } from '../scripts/reveal';
+  revealAll('.tenet', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+  revealAll('.talk-card', { threshold: 0.2 });
 </script>

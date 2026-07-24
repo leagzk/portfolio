@@ -226,101 +226,59 @@ import Banner from '../components/Banner.astro';
   }
 </style>
 
-<script is:inline>
-  (function(){
-    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-/* draggable craft cards */
-    var z=10;
-    [].slice.call(document.querySelectorAll('.dcard')).forEach(function(c){
-      if(c.classList.contains('dcard--photo')) return;
-      if(c.classList.contains('dcard--flip')){
-        c.addEventListener('click',function(){ c.classList.toggle('flipped'); });
-        /* Entree / Espace epinglent la carte retournee, comme le clic.
-           Le simple focus la retourne deja (voir .dcard--flip:focus-visible). */
-        c.addEventListener('keydown',function(e){
-          if(e.key==='Enter'||e.key===' '){ e.preventDefault(); c.classList.toggle('flipped'); }
-        });
-        return;
+<script>
+  import { revealAll } from '../scripts/reveal';
+  import { rendreDeplacable } from '../scripts/drag';
+  import { carrousel } from '../scripts/carousel';
+  import { initLoader } from '../scripts/loader';
+  import { mouvementReduit } from '../scripts/motion';
+
+  /* les cartes photo et les cartes retournables ne se deplacent pas */
+  rendreDeplacable('.dcard:not(.dcard--photo):not(.dcard--flip)', '(max-width:720px)');
+
+  /* retournement : le focus seul suffit (CSS), Entree et Espace epinglent */
+  document.querySelectorAll<HTMLElement>('.dcard--flip').forEach((c) => {
+    c.addEventListener('click', () => c.classList.toggle('flipped'));
+    c.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        c.classList.toggle('flipped');
       }
-      var ox=0,oy=0,dragging=false;
-      c.addEventListener('pointerdown',function(e){
-        if(window.matchMedia('(max-width:720px)').matches) return;
-        dragging=true; c.setPointerCapture(e.pointerId); c.classList.add('grabbing'); c.style.zIndex=++z;
-        var r=c.getBoundingClientRect();
-        ox=e.clientX-r.left; oy=e.clientY-r.top;
-      });
-      c.addEventListener('pointermove',function(e){
-        if(!dragging) return;
-        var p=c.parentElement.getBoundingClientRect();
-        var x=e.clientX-p.left-ox, y=e.clientY-p.top-oy;
-        x=Math.max(0,Math.min(x,p.width-c.offsetWidth));
-        y=Math.max(0,Math.min(y,p.height-c.offsetHeight));
-        c.style.left=x+'px'; c.style.top=y+'px';
-      });
-      function end(){ dragging=false; c.classList.remove('grabbing'); }
-      c.addEventListener('pointerup',end); c.addEventListener('pointercancel',end);
     });
-    var dragEl=document.getElementById("drag");
-    if(dragEl){
-      if(reduce){ dragEl.classList.add("in"); }
-      else{
-        if("IntersectionObserver" in window){
-          var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){dragEl.classList.add("in");io.disconnect();}});},{threshold:0,rootMargin:"0px 0px -60px 0px"});
-          io.observe(dragEl);
-        }
-        setTimeout(function(){ dragEl.classList.add("in"); }, 2200);
-      }
+  });
+
+  /*
+    Entree en scene des tuiles. Le filet a 2200 ms couvre le cas ou le bloc est
+    deja dans le viewport au chargement, sous le loader : l'observateur ne
+    declencherait alors jamais.
+  */
+  const dragEl = document.getElementById('drag');
+  if (dragEl) {
+    if (mouvementReduit()) dragEl.classList.add('in');
+    else {
+      revealAll('#drag', { threshold: 0, rootMargin: '0px 0px -60px 0px' });
+      setTimeout(() => dragEl.classList.add('in'), 2200);
     }
-    var talkEl=document.querySelector(".talk-card");
-    if(talkEl && !reduce){
-      if("IntersectionObserver" in window){
-        var io2=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){talkEl.classList.add("in");io2.disconnect();}});},{threshold:0.2});
-        io2.observe(talkEl);
-      } else { talkEl.classList.add("in"); }
-    }
-    /* ---- carousel: center card 2, dots, expand ---- */
-    (function(){
-      var drag=document.getElementById("drag"); if(!drag) return;
-      var dotsWrap=document.getElementById("dots");
-      var flips=[].slice.call(drag.querySelectorAll(".dcard--flip"));
-      var dots=dotsWrap?[].slice.call(dotsWrap.querySelectorAll(".dot")):[];
-      var mq=window.matchMedia("(max-width:1024px)");
-      function carousel(){ return mq.matches; }
-      function centerOf(card){ return card.offsetLeft + card.offsetWidth/2; }
-      function scrollToCard(i,smooth){ var card=flips[i]; if(!card) return; var t=card.offsetLeft-(drag.clientWidth-card.offsetWidth)/2; t=Math.max(0,Math.min(t,drag.scrollWidth-drag.clientWidth)); drag.scrollTo({left:t,behavior:smooth?"smooth":"auto"}); }
-      function activeIndex(){ var mid=drag.scrollLeft+drag.clientWidth/2,best=0,bd=Infinity; flips.forEach(function(card,i){var d=Math.abs(centerOf(card)-mid); if(d<bd){bd=d;best=i;}}); return best; }
-      function syncDots(){ var a=activeIndex(); dots.forEach(function(d,i){var on=i===a; d.classList.toggle("is-active",on); if(on){d.setAttribute("aria-current","true");}else{d.removeAttribute("aria-current");}}); }
-      dots.forEach(function(d,i){ d.addEventListener("click",function(){ scrollToCard(i,true); }); });
-      function applyArc(){ if(!carousel()){ flips.forEach(function(c){ c.style.transform=""; }); return; } var mid=drag.scrollLeft+drag.clientWidth/2; flips.forEach(function(card){ var d=(centerOf(card)-mid)/drag.clientWidth; if(d>1)d=1; if(d<-1)d=-1; card.style.transform="translateY("+(Math.abs(d)*22).toFixed(1)+"px) rotate("+(d*6.5).toFixed(2)+"deg) scale("+(1-Math.abs(d)*0.055).toFixed(3)+")"; }); }
-      var raf; drag.addEventListener("scroll",function(){ if(raf)cancelAnimationFrame(raf); raf=requestAnimationFrame(function(){ syncDots(); applyArc(); }); });
-      function centerInit(){ if(carousel()){ scrollToCard(1,false); syncDots(); applyArc(); } else { flips.forEach(function(c){ c.style.transform=""; }); } }
-      function onChange(){ centerInit(); }
-      if(mq.addEventListener) mq.addEventListener("change",onChange); else if(mq.addListener) mq.addListener(onChange);
-      centerInit();
-      window.addEventListener("load",centerInit);
-    })();
-    var loaderEl=document.getElementById("loader");
-    if(loaderEl){
-      if(reduce){ loaderEl.style.display="none"; }
-      else{
-        var fly=document.getElementById("fly");
-        var panel=loaderEl.querySelector(".loader__panel");
-        var badge=document.querySelector(".banner__pepper");
-        var done=false;
-        function finishLoader(){ if(done)return; done=true; if(badge) badge.style.opacity="1"; loaderEl.style.display="none"; }
-        setTimeout(function(){
-          if(!badge){ panel.style.opacity="0"; setTimeout(finishLoader,600); return; }
-          var t=badge.getBoundingClientRect(), f=fly.getBoundingClientRect();
-          var dx=(t.left+t.width/2)-(f.left+f.width/2);
-          var dy=(t.top+t.height/2)-(f.top+f.height/2);
-          var s=t.width/f.width;
-          badge.style.opacity="0";
-          panel.style.opacity="0";
-          fly.style.transform="translate(calc(-50% + "+dx+"px), calc(-50% + "+dy+"px)) scale("+s+")";
-        },1150);
-        fly.addEventListener("transitionend",function(e){ if(e.propertyName==="transform") finishLoader(); });
-        setTimeout(finishLoader,2600);
-      }
-    }
-  })();
+  }
+
+  /*
+    Sous mouvement reduit, on ne revele PAS .talk-card ici : son titre resterait
+    a sa taille de base au lieu de sauter au grand format. Comportement d'origine
+    de l'accueil, different de philosophy et system-event - conserve tel quel.
+  */
+  if (!mouvementReduit()) revealAll('.talk-card', { threshold: 0.2 });
+
+  const drag = document.getElementById('drag');
+  if (drag) {
+    carrousel(drag, {
+      slides: '.dcard--flip',
+      dots: [...document.querySelectorAll<HTMLElement>('#dots .dot')],
+      arc: { y: 22, deg: 6.5, scale: 0.055 },
+      actifSi: '(max-width:1024px)',
+      classeDotActive: 'is-active',
+      depart: 1,
+    });
+  }
+
+  initLoader();
 </script>

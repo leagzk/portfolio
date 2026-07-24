@@ -703,98 +703,27 @@ const credits = [
   }
 </style>
 
-<script is:inline>
-  (function(){
-    var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+<script>
+  import { revealAll } from '../scripts/reveal';
+  import { fonduEnchaine } from '../scripts/crossfade';
+  import { rendreDeplacable } from '../scripts/drag';
+  import { carrousel } from '../scripts/carousel';
 
-    function reveal(els,opts){
-      if(reduce || !("IntersectionObserver" in window)){ els.forEach(function(e){e.classList.add("in");}); return; }
-      var io=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);}});},opts);
-      els.forEach(function(e){io.observe(e);});
-    }
-    reveal([].slice.call(document.querySelectorAll(".ls-reveal")),{threshold:0,rootMargin:"0px 0px -10% 0px"});
-    reveal([].slice.call(document.querySelectorAll(".talk-card")),{threshold:0.2});
+  revealAll('.ls-reveal', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+  revealAll('.talk-card', { threshold: 0.2 });
 
-    /* faire-part : cycle des trois etats quand le bloc est visible */
-    var stage=document.querySelector('.ls-suite__stage');
-    if(stage && !reduce){
-      var frames=[].slice.call(stage.querySelectorAll('.ls-suite__frame')), i=0, timer=null;
-      function step(){ frames[i].classList.remove('is-on'); i=(i+1)%frames.length; frames[i].classList.add('is-on'); }
-      if("IntersectionObserver" in window){
-        new IntersectionObserver(function(es){es.forEach(function(e){
-          if(e.isIntersecting && !timer){ timer=setInterval(step,2200); }
-          else if(!e.isIntersecting && timer){ clearInterval(timer); timer=null; }
-        });},{threshold:.25}).observe(stage);
-      } else { timer=setInterval(step,2200); }
-    }
+  const stage = document.querySelector<HTMLElement>('.ls-suite__stage');
+  if (stage) fonduEnchaine(stage, '.ls-suite__frame', 2200);
 
-    /* formes dragables : meme mecanique que les tuiles de la page d'accueil */
-    var z=10;
-    [].slice.call(document.querySelectorAll('.ls-shape')).forEach(function(c){
-      var ox=0,oy=0,dragging=false;
-      c.addEventListener('pointerdown',function(e){
-        if(window.matchMedia('(max-width:900px)').matches) return;
-        dragging=true; c.setPointerCapture(e.pointerId); c.classList.add('grabbing'); c.style.zIndex=++z;
-        var r=c.getBoundingClientRect(); ox=e.clientX-r.left; oy=e.clientY-r.top;
-      });
-      c.addEventListener('pointermove',function(e){
-        if(!dragging) return;
-        var p=c.parentElement.getBoundingClientRect();
-        var x=e.clientX-p.left-ox, y=e.clientY-p.top-oy;
-        x=Math.max(0,Math.min(x,p.width-c.offsetWidth));
-        y=Math.max(0,Math.min(y,p.height-c.offsetHeight));
-        c.style.left=x+'px'; c.style.top=y+'px';
-      });
-      function end(){ dragging=false; c.classList.remove('grabbing'); }
-      c.addEventListener('pointerup',end); c.addEventListener('pointercancel',end);
+  rendreDeplacable('.ls-shape', '(max-width:900px)');
+
+  const track = document.getElementById('lscarousel');
+  if (track) {
+    carrousel(track, {
+      slides: '.ls-carousel__slide',
+      dots: [...document.querySelectorAll<HTMLElement>('.ls-carousel__dots .ls-dot')],
+      arc: { y: 18, deg: 4.5, scale: 0.05 },
+      depart: Number(track.dataset.start ?? 0),
     });
-
-    /* carrousel : arc au defilement + pastilles, comme sur l'accueil */
-    (function(){
-      var track=document.getElementById('lscarousel'); if(!track) return;
-      var slides=[].slice.call(track.querySelectorAll('.ls-carousel__slide'));
-      var dots=[].slice.call(document.querySelectorAll('.ls-carousel__dots .ls-dot'));
-      function centerOf(el){ return el.offsetLeft + el.offsetWidth/2; }
-      function scrollTo(i,smooth){ var el=slides[i]; if(!el) return;
-        var t=el.offsetLeft-(track.clientWidth-el.offsetWidth)/2;
-        t=Math.max(0,Math.min(t,track.scrollWidth-track.clientWidth));
-        track.scrollTo({left:t,behavior:smooth?'smooth':'auto'}); }
-      function activeIndex(){ var mid=track.scrollLeft+track.clientWidth/2,best=0,bd=Infinity;
-        slides.forEach(function(el,i){var d=Math.abs(centerOf(el)-mid); if(d<bd){bd=d;best=i;}}); return best; }
-      function syncDots(){ var a=activeIndex();
-        dots.forEach(function(d,i){ if(i===a){d.setAttribute('aria-current','true');}else{d.removeAttribute('aria-current');} }); }
-      function applyArc(){ if(reduce) return; var mid=track.scrollLeft+track.clientWidth/2;
-        slides.forEach(function(el){ var d=(centerOf(el)-mid)/track.clientWidth;
-          if(d>1)d=1; if(d<-1)d=-1;
-          el.style.transform='translateY('+(Math.abs(d)*18).toFixed(1)+'px) rotate('+(d*4.5).toFixed(2)+'deg) scale('+(1-Math.abs(d)*0.05).toFixed(3)+')'; }); }
-      dots.forEach(function(d,i){ d.addEventListener('click',function(){ scrollTo(i,true); }); });
-      var raf; track.addEventListener('scroll',function(){ if(raf)cancelAnimationFrame(raf);
-        raf=requestAnimationFrame(function(){ syncDots(); applyArc(); }); });
-      /*
-        On ouvre sur la vignette 1 (Stationery) plutot que la 0 : les voisines
-        sont alors rognees a gauche et a droite, ce qui signale qu'on peut defiler.
-
-        Le snap doit etre neutralise pendant le positionnement. Avec
-        scroll-snap-type:x mandatory, le navigateur re-aligne le conteneur apres
-        la mise en page et ramene a la premiere vignette : un scrollLeft pose
-        avant ce re-snap est silencieusement annule.
-      */
-      var DEPART=parseInt(track.dataset.start||'0',10);
-      function ouvrirSur(i){
-        track.style.scrollSnapType='none';
-        scrollTo(i,false);
-        requestAnimationFrame(function(){
-          /* on vide le style inline plutot que de restaurer une valeur memorisee :
-             deux appels concurrents memoriseraient 'none' et le figeraient. */
-          track.style.scrollSnapType='';
-          syncDots(); applyArc();
-        });
-      }
-      syncDots(); applyArc();
-      ouvrirSur(DEPART);
-      /* si 'load' est deja passe, l'ecouteur ne partirait jamais : on n'en pose un
-         que dans le cas ou le chargement est encore en cours. */
-      if(document.readyState!=='complete') window.addEventListener('load',function(){ ouvrirSur(DEPART); });
-    })();
-  })();
+  }
 </script>
