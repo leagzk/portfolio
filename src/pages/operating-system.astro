@@ -1,20 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Banner from '../components/Banner.astro';
 ---
 <Base title="Operating System - Léa Giezek"
   description="The system behind the systems - how I structure practice, rituals and decisions so a team can ship without me in the room."
   current="operating-system" noindex>
 
   <div class="card">
-    <div class="banner">
-      <div class="banner__inner">
+    <Banner>
         <p class="banner__standards">The system behind the systems.</p>
-      </div>
-    </div>
-    <div class="p-intro" id="intro">
-      <h1 class="p-eyebrow">The system behind the systems.</h1>
+      
+    </Banner>
+    <PageIntro eyebrow="The system behind the systems.">
       <p class="p-intro__lead" lang="fr">Page en cours de rédaction.</p>
-    </div>
+    
+    </PageIntro>
   </div>
 
 </Base>

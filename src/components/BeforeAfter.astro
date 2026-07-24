@@ -1,0 +1,56 @@
+---
+/*
+  Diptyque "Specified / Built" : la page de specification a gauche, le resultat
+  reel a droite. Trois instances dans /system-event, structurellement identiques
+  et jusqu'ici recopiees en entier - 11 lignes chacune pour quatre valeurs qui
+  changent.
+
+  Le libelle de droite varie selon ce que la photo montre : "Built" pour ce qui a
+  ete construit, "Played" pour ce que les invites ont fait du dispositif. C'est
+  une nuance editoriale, d'ou la prop plutot qu'une valeur figee.
+*/
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Cote {
+  src: ImageMetadata;
+  alt: string;
+}
+
+export interface Props {
+  spec: Cote;
+  built: Cote;
+  /** "Built" par defaut ; "Played" quand la photo montre le dispositif en usage */
+  builtLabel?: string;
+  specLabel?: string;
+  caption: string;
+  /** ratio des deux cadres, pilote la CSS via --ba-ratio */
+  ratio?: string;
+}
+
+const {
+  spec,
+  built,
+  builtLabel = 'Built',
+  specLabel = 'Specified',
+  caption,
+  ratio = '4/5',
+} = Astro.props;
+
+/*
+  .ba reste sur deux colonnes a toutes les largeurs, y compris en mobile :
+  chaque cote occupe donc environ 50vw, jamais 100vw.
+*/
+const TAILLES = '(min-width: 1080px) 500px, 50vw';
+---
+<figure class="ba" style={`--ba-ratio:${ratio}`}>
+  <div class="ba__side ba__side--spec">
+    <p class="ba__label">{specLabel}</p>
+    <Image src={spec.src} alt={spec.alt} layout="constrained" sizes={TAILLES} loading="lazy" decoding="async" />
+  </div>
+  <div class="ba__side ba__side--built">
+    <p class="ba__label">{builtLabel}</p>
+    <Image src={built.src} alt={built.alt} layout="constrained" sizes={TAILLES} loading="lazy" decoding="async" />
+  </div>
+  <figcaption class="ba__cap">{caption}</figcaption>
+</figure>

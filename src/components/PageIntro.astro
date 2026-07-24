@@ -1,0 +1,21 @@
+---
+/*
+  Chapeau de page : l'eyebrow qui porte le <h1>, puis le texte d'introduction.
+
+  `id="intro"` est conserve sur les 5 pages qui l'avaient - il reste la cible de
+  liens existants. Le lien d'evitement, lui, vise desormais #main (etape 2).
+
+  Note de hierarchie : le <h1> est ici l'element visuellement le plus petit de la
+  page (12px, capitales), tandis que le texte dominant est un <p>. C'est un ecart
+  assume entre hierarchie semantique et hierarchie visuelle, pas un oubli.
+*/
+export interface Props {
+  /** texte du <h1>, rendu en petites capitales accentuees */
+  eyebrow: string;
+}
+const { eyebrow } = Astro.props;
+---
+<div class="p-intro" id="intro">
+  <h1 class="p-eyebrow">{eyebrow}</h1>
+  <slot />
+</div>

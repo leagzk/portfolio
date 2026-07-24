@@ -13,14 +13,18 @@
   ses surcharges de theme, et le descendre ici sans elles rouvrirait une
   question de cascade pour un gain nul.
 */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
 export interface Slide {
-  /** chemin absolu depuis la racine du site */
-  src: string;
+  /**
+   * Image importee depuis src/assets, pas un chemin en chaine : les dimensions
+   * viennent du fichier et une image manquante casse le build au lieu de
+   * produire un 404 silencieux en production.
+   */
+  src: ImageMetadata;
   /** texte alternatif descriptif - jamais vide, ces images portent du sens */
   alt: string;
-  /** dimensions reelles du fichier : evite tout decalage de mise en page */
-  width: number;
-  height: number;
   /** legende visible sous la vignette */
   caption: string;
 }
@@ -43,7 +47,20 @@ const { id, label, itemLabel = 'Item', start = 0, slides } = Astro.props;
     {slides.map((s) => (
       <li class="ls-carousel__slide">
         <figure class="ls-carousel__fig">
-          <img src={s.src} width={s.width} height={s.height} alt={s.alt} loading="lazy" decoding="async" />
+          {/*
+            sizes decrit la largeur d'AFFICHAGE, pas celle du fichier : une vignette
+            occupe environ 60vw en mobile et se fige autour de 340px au-dela de 900px.
+            Sans cette indication le navigateur suppose 100vw et telecharge trois
+            fois trop gros.
+          */}
+          <Image
+            src={s.src}
+            alt={s.alt}
+            layout="constrained"
+            sizes="(min-width: 900px) 340px, 60vw"
+            loading="lazy"
+            decoding="async"
+          />
           <figcaption>{s.caption}</figcaption>
         </figure>
       </li>

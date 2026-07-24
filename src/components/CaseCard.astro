@@ -1,0 +1,30 @@
+---
+/*
+  Carte de case study sur l'accueil. Trois instances.
+
+  Le bandeau superieur est de la donnee pure (categorie, periode, nom) : il passe
+  en props. Le crochet editorial reste en slot, pour la meme raison que dans
+  Tenet - c'est du texte qui se relit et se retouche.
+
+  Le lien "Read more" est genere ici : son ::after couvre toute la carte
+  (.case .btn3::after{position:absolute;inset:0}), ce qui rend la carte entiere
+  cliquable sans dupliquer le lien ni piéger un lecteur d'ecran dans deux cibles.
+*/
+export interface Props {
+  /** categorie affichee en petites capitales : "Systematized a practice" */
+  idx: string;
+  /** periode : "2023 - now" */
+  when: string;
+  /** nom court : "Digital", "Brand", "Event" */
+  name: string;
+  href: string;
+}
+const { idx, when, name, href } = Astro.props;
+---
+<div class="case">
+  <div class="case__top"><span class="case__idx">{idx}</span><span class="case__when">{when}</span><span class="case__name">{name}</span></div>
+  <div class="case__body">
+    <p class="case__hook"><slot /></p>
+    <a class="btn3" href={href}>Read more <span class="btn3__i">→</span></a>
+  </div>
+</div>

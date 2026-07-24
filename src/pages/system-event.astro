@@ -1,11 +1,35 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Banner from '../components/Banner.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Carousel from '../components/Carousel.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
 
 /*
-  IMAGES : deposer le dossier `living-system/` dans /public/
+  Toutes les images de la page, chargees en une fois plutot qu'en 31 imports.
+  Difference majeure avec les anciens chemins en chaine : un nom errone casse
+  le build ici, au lieu de produire un 404 silencieux en production.
+*/
+const fichiers = import.meta.glob<ImageMetadata>('../assets/living-system/*.webp', {
+  eager: true,
+  import: 'default',
+});
+const img = (nom: string): ImageMetadata => {
+  const cle = `../assets/living-system/${nom}.webp`;
+  const f = fichiers[cle];
+  if (!f) throw new Error(`Image introuvable dans src/assets/living-system : ${nom}.webp`);
+  return f;
+};
+
+/*
+  IMAGES : `src/assets/living-system/` - plus /public/, elles passent desormais
+  par astro:assets (redimensionnement + srcset au build).
   - photos     : credit EXIF/XMP Madeleine Photographe / studiomadeleine.fr
   - pages spec : credit EXIF/XMP Lea Giezek (c'est ton document)
+  Ces credits survivent a l'optimisation grace au service d'image maison
+  (src/imageService.mjs) : sharp les supprimerait sinon.
 */
 
 /*
@@ -15,24 +39,54 @@ import Carousel from '../components/Carousel.astro';
   Credit XMP des photos : Madeleine Photographe (voir en tete de fichier).
 */
 const surfaces = [
-  { src: '/living-system/identity-welcome-sign.webp', width: 1200, height: 1800, caption: 'Signage',
+    { src: img('identity-welcome-sign'), caption: 'Signage',
     alt: "Welcome sign on an easel showing the event monogram, beside stacked metal trunks" },
-  { src: '/living-system/identity-invitation-suite.webp', width: 1200, height: 1800, caption: 'Stationery',
+    { src: img('identity-invitation-suite'), caption: 'Stationery',
     alt: "Invitation suite of layered printed cards and coloured envelopes" },
-  { src: '/living-system/identity-monogram-arch.webp', width: 1200, height: 1800, caption: 'Scenography',
+    { src: img('identity-monogram-arch'), caption: 'Scenography',
     alt: "Monogram disc and a striped disc hanging from the ceremony arch above a floral pedestal" },
-  { src: '/living-system/identity-cards.webp', width: 1200, height: 1800, caption: 'Message cards',
+    { src: img('identity-cards'), caption: 'Message cards',
     alt: "Wall rack holding message cards in the identity's colours and patterns" },
-  { src: '/living-system/identity-place-setting.webp', width: 1200, height: 1800, caption: 'Table setting',
+    { src: img('identity-place-setting'), caption: 'Table setting',
     alt: "Place setting built on the patterned plate, with a monogram coaster and printed cards laid on it" },
-  { src: '/living-system/identity-message-desk.webp', width: 1200, height: 1800, caption: 'Writing desk',
+    { src: img('identity-message-desk'), caption: 'Writing desk',
     alt: "Writing desk set up for guests with coloured pens and a framed instruction card" },
-  { src: '/living-system/identity-dresscode.webp', width: 1600, height: 2400, caption: 'Dresscode',
+    { src: img('identity-dresscode'), caption: 'Dresscode',
     alt: "The dress code worn, seen from behind on a gravel path: a sequinned open-back top, a long white skirt, a white hair bow and a wildflower bouquet held low" },
-  { src: '/living-system/identity-guest-gift.webp', width: 1600, height: 2400, caption: 'Guest gift',
+    { src: img('identity-guest-gift'), caption: 'Guest gift',
     alt: "Enamel heart pin in the identity's ochre, worn on a navy lapel beside a bow tie in the scalloped pattern" },
-  { src: '/living-system/game-cats-board.webp', width: 1000, height: 1400, caption: 'Collaborative game',
+    { src: img('game-cats-board'), caption: 'Collaborative game',
     alt: "Print artwork for the first riddle: a nine by nine colour-region grid with its single rule set above it" },
+];
+
+/*
+  Palette du projet, prise sur la glacure de l'assiette Popolo.
+  Les noms sont en francais - d'ou le lang="fr" sur chaque <b>, sans quoi
+  une synthese vocale anglaise les ecorcherait.
+*/
+const couleurs = [
+  { hex: '#008C68', nom: 'Vert' },
+  { hex: '#455192', nom: 'Bleu' },
+  { hex: '#F05863', nom: 'Rouge' },
+  { hex: '#F7A800', nom: 'Jaune' },
+  { hex: '#FDC1BD', nom: 'Rose' },
+];
+
+/*
+  Les neuf prestataires de l'evenement. data-label reprend le nom : le CSS s'en
+  sert pour reserver la largeur du gras au survol, sans faire sauter la mise en
+  page - meme procede que .topnav a::after.
+*/
+const credits = [
+  { role: "Artwork & event design", nom: "Léa Giezek" },
+  { role: "Photography", nom: "Madeleine Photographe\u00a0©", href: 'https://studiomadeleine.fr/' },
+  { role: "Day-of coordination", nom: "Hera & Harmonia", href: 'https://hera-et-harmonia.com/' },
+  { role: "Venue", nom: "Le Grand Breuil", href: 'https://www.legrandbreuil.com/' },
+  { role: "Furniture", nom: "Agence Parade", href: 'https://agence-parade.fr/' },
+  { role: "Print", nom: "Les Ateliers Paquereau", href: 'https://www.imprimerie-paquereau.com/' },
+  { role: "Floral design", nom: "Les Nanas", href: 'https://lesnanas-studiofloral.com/' },
+  { role: "Tableware & linen", nom: "Maison Options", href: 'https://www.options.fr/' },
+  { role: "Cocktail bar", nom: "Le Horse Bar", href: 'https://sobarsodrink.squarespace.com/' },
 ];
 ---
 <Base title="Living System - Léa Giezek"
@@ -41,24 +95,22 @@ const surfaces = [
 
 <!-- CARD 1 : banner + intro -->
   <div class="card">
-    <div class="banner">
-      <a class="banner__home" href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>Back to home</a>
-      <div class="banner__inner">
+    <Banner home>
         <p class="banner__standards">The same thinking,<br>off the <span class="banner__culture">screen.</span></p>
-      </div>
-    </div>
+      
+    </Banner>
 
-    <div class="p-intro" id="intro">
-      <h1 class="p-eyebrow">Living System</h1>
+    <PageIntro eyebrow="Living System">
       <p class="p-intro__lead">Over more than a year, I designed and orchestrated a live event from end to end - one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.</p>
       <p class="p-intro__lead">It's the proof I keep coming back to: <b>my way of working doesn't depend on the medium.</b> Systems thinking, brand coherence, experience design - they hold whether the output ships to production or lives in a garden for one day.</p>
-    </div>
+    
+    </PageIntro>
   </div>
 
   <!-- THESIS -->
   <section class="ls-thesis ls-reveal" aria-label="The system, in the world">
     <figure class="ls-fig ls-thesis__fig">
-      <img src="/living-system/staging-arch.webp" width="1400" height="2100" alt="Ceremony arch hung with shapes from the event's visual identity, framed by floral pedestals and two seats" loading="eager" decoding="async" />
+      <Image src={img('staging-arch')} alt="Ceremony arch hung with shapes from the event's visual identity, framed by floral pedestals and two seats" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="eager" decoding="async" />
     </figure>
     <div class="ls-thesis__body">
       <p class="ls-pull">A living system isn't one you finish. It's one that takes its real shape <em>in the hands of the people who use it</em> - here, off the screen, exactly as it does on it.</p>
@@ -112,11 +164,13 @@ const surfaces = [
         <div class="ls-system__block">
           <p class="ls-system__label">Colors</p>
           <ul class="ls-swatches">
-            <li><span class="ls-swatch" style="--c:#008C68"></span><b lang="fr">Vert</b><code>#008C68</code></li>
-            <li><span class="ls-swatch" style="--c:#455192"></span><b lang="fr">Bleu</b><code>#455192</code></li>
-            <li><span class="ls-swatch" style="--c:#F05863"></span><b lang="fr">Rouge</b><code>#F05863</code></li>
-            <li><span class="ls-swatch" style="--c:#F7A800"></span><b lang="fr">Jaune</b><code>#F7A800</code></li>
-            <li><span class="ls-swatch" style="--c:#FDC1BD"></span><b lang="fr">Rose</b><code>#FDC1BD</code></li>
+            {couleurs.map((c) => (
+              <li>
+                <span class="ls-swatch" style={`--c:${c.hex}`}></span>
+                <b lang="fr">{c.nom}</b>
+                <code>{c.hex}</code>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -152,11 +206,11 @@ const surfaces = [
       </div>
       <div class="ls-signage__figs">
         <figure class="ls-fig">
-          <img src="/living-system/signage-door-tag.webp" width="1100" height="1650" alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type" loading="lazy" decoding="async" />
+          <Image src={img('signage-door-tag')} alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
           <figcaption class="ls-cap">Room tag, in place</figcaption>
         </figure>
         <figure class="ls-fig ls-fig--flat">
-          <img src="/living-system/print-glass-rules.webp" width="1100" height="1545" alt="Print artwork for the small card explaining what to do with your glass through the evening" loading="lazy" decoding="async" />
+          <Image src={img('print-glass-rules')} alt="Print artwork for the small card explaining what to do with your glass through the evening" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
           <figcaption class="ls-cap">Glass rules - 100 × 150 mm</figcaption>
         </figure>
       </div>
@@ -164,14 +218,14 @@ const surfaces = [
 
     <div class="ls-print">
       <figure class="ls-print__art">
-        <div class="ls-print__frame"><img src="/living-system/identity-invitation-detail.webp" width="1400" height="2100" alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table" loading="lazy" decoding="async" /></div>
+        <Image src={img('identity-invitation-detail')} alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
         <figcaption class="ls-cap">Printed, in the hand</figcaption>
       </figure>
       <figure class="ls-print__suite">
         <div class="ls-suite__stage">
-          <img class="ls-suite__frame is-on" src="/living-system/suite-state-1.webp" width="1400" height="1022" alt="The invitation suite laid flat, first arrangement" loading="lazy" decoding="async" />
-          <img class="ls-suite__frame" src="/living-system/suite-state-2.webp" width="1400" height="1430" alt="The invitation suite fully opened out, every card visible" loading="lazy" decoding="async" />
-          <img class="ls-suite__frame" src="/living-system/suite-state-3.webp" width="1400" height="1108" alt="The invitation suite arranged in place" loading="lazy" decoding="async" />
+          <Image class="ls-suite__frame is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
+          <Image class="ls-suite__frame" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
+          <Image class="ls-suite__frame" src={img('suite-state-3')} alt="The invitation suite arranged in place" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
         </div>
       </figure>
     </div>
@@ -189,37 +243,31 @@ const surfaces = [
       </div>
       <div class="ls-split__media">
         <figure class="ls-fig">
-          <img src="/living-system/staging-hall.webp" width="1800" height="1200" alt="Reception hall under exposed beams and string lights, long tables laid for a hundred guests" loading="lazy" decoding="async" />
+          <Image src={img('staging-hall')} alt="Reception hall under exposed beams and string lights, long tables laid for a hundred guests" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
           <figcaption class="ls-cap">The room, at scale</figcaption>
         </figure>
         <figure class="ls-fig">
-          <img src="/living-system/staging-table.webp" width="1600" height="1067" alt="Long table with patterned plates, gold cutlery and single-stem vases running down the centre" loading="lazy" decoding="async" />
+          <Image src={img('staging-table')} alt="Long table with patterned plates, gold cutlery and single-stem vases running down the centre" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
           <figcaption class="ls-cap">Tablescape</figcaption>
         </figure>
         <div class="ls-pair">
           <figure class="ls-fig">
-            <img src="/living-system/staging-glass.webp" width="1200" height="1800" alt="Place card clipped to a wine glass on the laid table, beside a small vase of ranunculus" loading="lazy" decoding="async" />
+            <Image src={img('staging-glass')} alt="Place card clipped to a wine glass on the laid table, beside a small vase of ranunculus" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
             <figcaption class="ls-cap">Place card</figcaption>
           </figure>
           <figure class="ls-fig">
-            <img src="/living-system/staging-flowers.webp" width="1400" height="933" alt="Close view of the flower palette: white daisies, blue cornflowers and pink blooms" loading="lazy" decoding="async" />
+            <Image src={img('staging-flowers')} alt="Close view of the flower palette: white daisies, blue cornflowers and pink blooms" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
             <figcaption class="ls-cap">Palette</figcaption>
           </figure>
         </div>
       </div>
     </div>
 
-    <figure class="ba" style="--ba-ratio:4/5">
-      <div class="ba__side ba__side--spec">
-        <p class="ba__label">Specified</p>
-        <div class="ba__frame"><img src="/living-system/spec-zone-seating.webp" width="1400" height="1615" alt="Page from the production guide: mockup of the seating panels with the material checklist" loading="lazy" decoding="async" /></div>
-      </div>
-      <div class="ba__side ba__side--built">
-        <p class="ba__label">Built</p>
-        <div class="ba__frame"><img src="/living-system/staging-entrance-evening.webp" width="1200" height="1800" alt="The seating panels installed at the venue doorway at dusk, flanked by floral columns" loading="lazy" decoding="async" /></div>
-      </div>
-      <figcaption class="ba__cap">Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later.</figcaption>
-    </figure>
+    <BeforeAfter
+      spec={{ src: img('spec-zone-seating'), alt: "Page from the production guide: mockup of the seating panels with the material checklist" }}
+      built={{ src: img('staging-entrance-evening'), alt: "The seating panels installed at the venue doorway at dusk, flanked by floral columns" }}
+      caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
+    />
   </section>
 
   <!-- 03 THE GAME -->
@@ -231,7 +279,7 @@ const surfaces = [
       </div>
       <p class="ls-body ls-gamehead__body">An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
       <figure class="ls-gamehead__fig">
-        <img src="/living-system/game-setup-wide.webp" width="1800" height="1012" alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement" loading="lazy" decoding="async" />
+        <Image src={img('game-setup-wide')} alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
       </figure>
     </div>
 
@@ -241,21 +289,21 @@ const surfaces = [
     <ol class="ls-steps">
       <li class="ls-step">
         <figure class="ls-fig">
-          <img src="/living-system/game-locked.webp" width="1600" height="1067" alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid" loading="lazy" decoding="async" />
+          <Image src={img('game-locked')} alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
         </figure>
         <p class="ls-step__t"><span class="ls-step__n">01</span>The constraint</p>
         <p class="ls-step__b">A locked trunk, a combination, and clues scattered across the day.</p>
       </li>
       <li class="ls-step">
         <figure class="ls-fig">
-          <img src="/living-system/game-opened.webp" width="1200" height="1800" alt="Opened trunk revealing a framed congratulations card above rows of jars" loading="lazy" decoding="async" />
+          <Image src={img('game-opened')} alt="Opened trunk revealing a framed congratulations card above rows of jars" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
         </figure>
         <p class="ls-step__t"><span class="ls-step__n">02</span>The crack</p>
         <p class="ls-step__b">Progression built so the last step feels earned, not handed over.</p>
       </li>
       <li class="ls-step">
         <figure class="ls-fig">
-          <img src="/living-system/game-reward.webp" width="1600" height="1067" alt="Rows of jars packed in the trunk, each labelled with the event monogram on striped paper" loading="lazy" decoding="async" />
+          <Image src={img('game-reward')} alt="Rows of jars packed in the trunk, each labelled with the event monogram on striped paper" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
         </figure>
         <p class="ls-step__t"><span class="ls-step__n">03</span>The payoff</p>
         <p class="ls-step__b">The reward carries the identity too. The system runs to the last object.</p>
@@ -268,29 +316,19 @@ const surfaces = [
 
     <p class="ls-sub">Shipped empty.<br><b>Finished by the people who played it.</b></p>
 
-    <figure class="ba" style="--ba-ratio:4/5">
-      <div class="ba__side ba__side--spec">
-        <p class="ba__label">Specified</p>
-        <div class="ba__frame"><img src="/living-system/spec-zone-murdle.webp" width="1400" height="1515" alt="Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes" loading="lazy" decoding="async" /></div>
-      </div>
-      <div class="ba__side ba__side--built">
-        <p class="ba__label">Played</p>
-        <div class="ba__frame"><img src="/living-system/game-murdle.webp" width="1100" height="1650" alt="The same deduction board after play, its grid filled with pink and green wooden tokens" loading="lazy" decoding="async" /></div>
-      </div>
-      <figcaption class="ba__cap">The deduction grid, before anyone touched it and after a hundred people did.</figcaption>
-    </figure>
+    <BeforeAfter
+      spec={{ src: img('spec-zone-murdle'), alt: "Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes" }}
+      built={{ src: img('game-murdle'), alt: "The same deduction board after play, its grid filled with pink and green wooden tokens" }}
+      builtLabel="Played"
+      caption="The deduction grid, before anyone touched it and after a hundred people did."
+    />
 
-    <figure class="ba" style="--ba-ratio:4/5">
-      <div class="ba__side ba__side--spec">
-        <p class="ba__label">Specified</p>
-        <div class="ba__frame"><img src="/living-system/spec-zone-wordsearch.webp" width="1400" height="1445" alt="Production guide page for the word-grid game: blank poster on an easel with its material checklist" loading="lazy" decoding="async" /></div>
-      </div>
-      <div class="ba__side ba__side--built">
-        <p class="ba__label">Played</p>
-        <div class="ba__frame"><img src="/living-system/game-wordsearch.webp" width="1100" height="733" alt="The word grid mid-game, crossed through with chalk lines as players work it out together" loading="lazy" decoding="async" /></div>
-      </div>
-      <figcaption class="ba__cap">I drew the grid. The marks on it aren't mine - and that was always the point.</figcaption>
-    </figure>
+    <BeforeAfter
+      spec={{ src: img('spec-zone-wordsearch'), alt: "Production guide page for the word-grid game: blank poster on an easel with its material checklist" }}
+      built={{ src: img('game-wordsearch'), alt: "The word grid mid-game, crossed through with chalk lines as players work it out together" }}
+      builtLabel="Played"
+      caption="I drew the grid. The marks on it aren't mine - and that was always the point."
+    />
 
     <div class="ls-body ls-body--wide">
       <p>That's the whole truth about the systems I build: <b>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</b> An escape game, a design system, a platform: same principle.</p>
@@ -316,7 +354,7 @@ const surfaces = [
         </div>
 
         <figure class="ls-fig ls-fig--wide">
-          <img src="/living-system/coordination-embrace.webp" width="1600" height="1067" alt="Guests embracing at the event, the designer among them rather than running the day" loading="lazy" decoding="async" />
+          <Image src={img('coordination-embrace')} alt="Guests embracing at the event, the designer among them rather than running the day" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
           <figcaption class="ls-cap ls-cap--light">Inside it, not behind it.</figcaption>
         </figure>
 
@@ -335,44 +373,20 @@ const surfaces = [
   <section class="ls-credits ls-reveal" aria-labelledby="ch-credits">
     <h2 class="ls-credits__t" id="ch-credits">Credits</h2>
     <p class="ls-credits__intro">Vision and execution directed by me, but everything else was operated by people far better than me at their own craft.</p>
-    <dl class="ls-credits__list">
-      <div class="ls-credits__row">
-        <dt>Artwork &amp; event design</dt>
-        <dd><span class="ls-credits__self">Léa Giezek</span></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Photography</dt>
-        <dd><a href="https://studiomadeleine.fr/" target="_blank" rel="noopener noreferrer" data-label="Madeleine Photographe ©">Madeleine Photographe&nbsp;©</a></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Day-of coordination</dt>
-        <dd><a href="https://hera-et-harmonia.com/" target="_blank" rel="noopener noreferrer" data-label="Hera &amp; Harmonia">Hera &amp; Harmonia</a></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Venue</dt>
-        <dd><a href="https://www.legrandbreuil.com/" target="_blank" rel="noopener noreferrer" data-label="Le Grand Breuil">Le Grand Breuil</a></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Furniture</dt>
-        <dd><a href="https://agence-parade.fr/" target="_blank" rel="noopener noreferrer" data-label="Agence Parade">Agence Parade</a></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Print</dt>
-        <dd><a href="https://www.imprimerie-paquereau.com/" target="_blank" rel="noopener noreferrer" data-label="Les Ateliers Paquereau">Les Ateliers Paquereau</a></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Floral design</dt>
-        <dd><a href="https://lesnanas-studiofloral.com/" target="_blank" rel="noopener noreferrer" data-label="Les Nanas">Les Nanas</a></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Tableware &amp; linen</dt>
-        <dd><a href="https://www.options.fr/" target="_blank" rel="noopener noreferrer" data-label="Maison Options">Maison Options</a></dd>
-      </div>
-      <div class="ls-credits__row">
-        <dt>Cocktail bar</dt>
-        <dd><a href="https://sobarsodrink.squarespace.com/" target="_blank" rel="noopener noreferrer" data-label="Le Horse Bar">Le Horse Bar</a></dd>
-      </div>
-    </dl>
+      <dl class="ls-credits__list">
+        {credits.map((c) => (
+          <div class="ls-credits__row">
+            {/* pas de set:html : le role est du texte brut, et set:html laisserait
+                passer un & nu la ou il faut &amp; */}
+            <dt>{c.role}</dt>
+            <dd>
+              {c.href
+                ? <a href={c.href} target="_blank" rel="noopener noreferrer" data-label={c.nom}>{c.nom}</a>
+                : <span class="ls-credits__self">{c.nom}</span>}
+            </dd>
+          </div>
+        ))}
+      </dl>
   </section>
 
 

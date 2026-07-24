@@ -1,0 +1,33 @@
+---
+/*
+  Banniere de tete, presente sur les 7 pages.
+
+  Ce qui est mutualise, c'est l'echafaudage - les deux div d'enveloppe, le lien
+  de retour avec son SVG (qui etait recopie a l'identique deux fois), le portrait
+  mobile. Le texte reste ecrit dans chaque page, en clair : c'est ce qui change
+  le plus souvent, et le lire dans la page vaut mieux que le retrouver dans une
+  chaine passee en prop.
+
+  Le slot fonctionne ici parce que les regles .banner* vivent dans
+  src/styles/shared.css, donc en global. Un <style> scope d'Astro ne traverserait
+  pas la frontiere du slot.
+*/
+export interface Props {
+  /** lien "Back to home" - masque sous 720px par le CSS, le menu mobile prend le relais */
+  home?: boolean;
+  /** portrait rond, visible sous 720px uniquement : reserve a l'accueil */
+  photo?: boolean;
+}
+const { home = false, photo = false } = Astro.props;
+---
+<div class="banner">
+  {photo && <div class="banner__photo" role="img" aria-label="Portrait of Léa Giezek"></div>}
+  {home && (
+    <a class="banner__home" href="/">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5"/><path d="m11 18-6-6 6-6"/></svg>Back to home
+    </a>
+  )}
+  <div class="banner__inner">
+    <slot />
+  </div>
+</div>

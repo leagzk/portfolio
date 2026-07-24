@@ -1,20 +1,21 @@
 ---
 import Base from '../layouts/Base.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Banner from '../components/Banner.astro';
 ---
 <Base title="Systematized a Practice - Léa Giezek"
   description="Case study in preparation: systematizing a design practice - its elements, its rituals, and the people who keep it alive."
   current="system-practice-elements" noindex>
 
   <div class="card">
-    <div class="banner">
-      <div class="banner__inner">
+    <Banner>
         <p class="banner__standards">Systematized a Practice</p>
-      </div>
-    </div>
-    <div class="p-intro" id="intro">
-      <h1 class="p-eyebrow">Systematized a Practice</h1>
+      
+    </Banner>
+    <PageIntro eyebrow="Systematized a Practice">
       <p class="p-intro__lead" lang="fr">Page en cours de rédaction.</p>
-    </div>
+    
+    </PageIntro>
   </div>
 
 </Base>

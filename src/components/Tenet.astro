@@ -1,0 +1,34 @@
+---
+/*
+  Une conviction du manifeste. Six instances dans /philosophy.
+
+  On mutualise l'echafaudage - le grand chiffre, l'eyebrow, le titre - et on
+  laisse le corps en slot. Ce corps est de la prose editoriale avec du <b> et
+  du <em> : la passer en chaine HTML dans un tableau ferait perdre la coloration
+  syntaxique et rendrait la relecture penible, pour un gain de lignes marginal.
+
+  Le chiffre est repris tel quel dans data-num, que le CSS reinjecte sous 900px
+  via .tenet__idx::before{content:attr(data-num) " - "} : sous ce seuil le grand
+  chiffre disparait et l'eyebrow devient "01 - The premise".
+*/
+export interface Props {
+  /** deux chiffres, "01" a "06" */
+  num: string;
+  /** court intitule : "The premise", "The method"... */
+  idx: string;
+  title: string;
+}
+const { num, idx, title } = Astro.props;
+---
+<article class="tenet">
+  <div class="tenet__lead">
+    <span class="tenet__num" aria-hidden="true">{num}</span>
+    <div class="tenet__head">
+      <span class="tenet__idx" data-num={num}>{idx}</span>
+      <h2 class="tenet__title">{title}</h2>
+    </div>
+  </div>
+  <div class="tenet__body">
+    <slot />
+  </div>
+</article>
