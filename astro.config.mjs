@@ -29,9 +29,16 @@ export default defineConfig({
   */
   scopedStyleStrategy: 'where',
 
-  // Styles globaux des images responsives, appliques en :where() donc surchargeables.
-  // Sert des que <Image layout="constrained"> est utilise (etape 5).
-  image: { responsiveStyles: true },
+  image: {
+    // Styles globaux des images responsives, appliques en :where() donc surchargeables.
+    responsiveStyles: true,
+    /*
+      Service maison : le service sharp d'Astro plus keepMetadata(), pour que
+      l'optimisation n'efface pas le copyright XMP des photos (Madeleine
+      Photographe). Voir l'en-tete de src/imageService.mjs.
+    */
+    service: { entrypoint: './src/imageService.mjs' },
+  },
 
   integrations: [
     sitemap({
