@@ -1,0 +1,43 @@
+/* Design tokens : socle de :root et les trois themes.
+   Seul fichier ou l'on declare des custom properties. */
+
+:root{--display:"Momo Trust Display",system-ui,sans-serif;
+    --body:"Maven Pro",system-ui,sans-serif;
+    --portrait:url("/Lea-Giezek-portrait.webp");
+    --r-xl:20px; --r-lg:16px; --r-pill:1000px;
+    --mobbar-h:clamp(72px,20vw,88px);}
+[data-theme="spicy"]{--canvas:#F6F6F4; --card:#FFFFFF; --line:#EBD9CD;
+    --ink:#070304; --ink-soft:#070304;
+    --accent:#E84140; --tile-red:#FFE1C5; --tile-red-ink:#070304; --btn3:#D83C3B; --grid-line:rgba(216,50,31,.11);
+    --hero-grad:linear-gradient(81deg,#E84140 0%,#E84140 27%,#FFE1C5 100%);
+    --hero-ink:#FFFFFF;
+    --culture-grad:linear-gradient(81deg,rgba(150,20,10,.42) 0%,rgba(232,65,64,.40) 100%);
+    --on-accent:#FFFFFF; --focus:#7A1B0A;
+    --ink-muted:#5A5453; --ring:rgba(255,255,255,.8);}
+[data-theme="mono"]{--canvas:#EBEAE6; --card:#FBFBF9; --line:#DDDCD7;
+    --ink:#1A1A18; --ink-soft:#47463F;
+    --accent:#232320; --tile-red:#E7E6E2; --tile-red-ink:#1A1A18; --btn3:#232320; --grid-line:rgba(26,26,24,.09);
+    --hero-grad:linear-gradient(103deg,#232320 0%,#3D3D37 46%,#605F58 76%,#83827A 100%);
+    --hero-ink:#FFFFFF;
+    --culture-grad:linear-gradient(103deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.10) 100%);
+    --on-accent:#FFFFFF; --focus:#000;
+    --ink-muted:#565349; --ring:rgba(255,255,255,.8);}
+[data-theme="contrast"]{--canvas:#F4F1E9; --card:#FFFFFF; --line:#111111;
+    --ink:#111111; --ink-soft:#111111;
+    --accent:#D0021B; --tile-red:#F7D000; --tile-red-ink:#111111; --btn3:#D0021B; --grid-line:rgba(255,255,255,.44);
+    --hero-grad:linear-gradient(90deg,#D0021B,#D0021B);
+    --hero-ink:#FFFFFF;
+    --culture-grad:linear-gradient(90deg,rgba(255,255,255,.22),rgba(255,255,255,.16));
+    --on-accent:#FFFFFF; --focus:#0B57A4;
+    --ink-muted:#4A4A4A; --ring:#111111;}
+[data-theme="contrast"] :focus-visible{outline-width:4px}
+[data-theme="contrast"] .topnav.stuck{border:2px solid var(--line);border-top:none}
+[data-theme="contrast"] .navgroup__menu a:hover{background:#F7D000;color:#111}
+[data-theme="mono"] .navgroup__menu a:hover{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px #070304}
+[data-theme="contrast"] .navgroup__menu{border:2px solid var(--line);border-top:none;left:-2px;right:-2px}
+[data-theme="contrast"] .topnav.menuopen{border:2px solid var(--line);border-top:none;border-bottom:none}
+[data-theme="contrast"] .topnav a[aria-current="page"]::before{background:#F7D000;height:6px;bottom:-8px;border:2px solid #111;border-radius:0}
+[data-theme="contrast"] .mobmenu a[aria-current="page"]{color:#F7D000}
+@media(max-width:720px){
+  [data-theme="contrast"] .mobbar{border:2px solid var(--line);border-top:none}
+}

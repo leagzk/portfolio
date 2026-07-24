@@ -1,0 +1,11 @@
+/* Keyframes partagees.
+   tilePulse est consommee par .banner__pepper (chrome global, toutes les pages)
+   ET par .osbridge__* (accueil) : la descendre dans index casserait l'animation
+   du piment ailleurs, sans erreur visible. */
+
+@keyframes circleIn{to{transform:scale(1)}}
+@keyframes pepperIn{60%{transform:scale(1.16) rotate(7deg)}to{transform:scale(1) rotate(0deg)}}
+@keyframes ringPulse{0%{transform:scale(.72);opacity:.75}100%{transform:scale(1.9);opacity:0}}
+@keyframes appIn{to{opacity:1}}
+@keyframes tilePulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.4);opacity:0}}
+@keyframes stickIn{0%{opacity:0;transform:rotate(var(--rot)) scale(.4)}60%{opacity:1;transform:rotate(var(--rot)) scale(1.06)}100%{opacity:1;transform:rotate(var(--rot)) scale(1)}}

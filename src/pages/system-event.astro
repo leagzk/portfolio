@@ -84,11 +84,11 @@ import Base from '../layouts/Base.astro';
         <div class="ls-system__block">
           <p class="ls-system__label">Colors</p>
           <ul class="ls-swatches">
-            <li><span class="ls-swatch" style="--c:#008C68"></span><b>Vert</b><code>#008C68</code></li>
-            <li><span class="ls-swatch" style="--c:#455192"></span><b>Bleu</b><code>#455192</code></li>
-            <li><span class="ls-swatch" style="--c:#F05863"></span><b>Rouge</b><code>#F05863</code></li>
-            <li><span class="ls-swatch" style="--c:#F7A800"></span><b>Jaune</b><code>#F7A800</code></li>
-            <li><span class="ls-swatch" style="--c:#FDC1BD"></span><b>Rose</b><code>#FDC1BD</code></li>
+            <li><span class="ls-swatch" style="--c:#008C68"></span><b lang="fr">Vert</b><code>#008C68</code></li>
+            <li><span class="ls-swatch" style="--c:#455192"></span><b lang="fr">Bleu</b><code>#455192</code></li>
+            <li><span class="ls-swatch" style="--c:#F05863"></span><b lang="fr">Rouge</b><code>#F05863</code></li>
+            <li><span class="ls-swatch" style="--c:#F7A800"></span><b lang="fr">Jaune</b><code>#F7A800</code></li>
+            <li><span class="ls-swatch" style="--c:#FDC1BD"></span><b lang="fr">Rose</b><code>#FDC1BD</code></li>
           </ul>
         </div>
 
@@ -160,14 +160,16 @@ import Base from '../layouts/Base.astro';
         </figure>
       </li>
       </ul>
-      <div class="ls-carousel__dots" role="tablist" aria-label="Choose a surface">
-      <button class="ls-dot" type="button" role="tab" aria-label="Surface 1" aria-selected="true"></button>
-      <button class="ls-dot" type="button" role="tab" aria-label="Surface 2" aria-selected="false"></button>
-      <button class="ls-dot" type="button" role="tab" aria-label="Surface 3" aria-selected="false"></button>
-      <button class="ls-dot" type="button" role="tab" aria-label="Surface 4" aria-selected="false"></button>
-      <button class="ls-dot" type="button" role="tab" aria-label="Surface 5" aria-selected="false"></button>
-      <button class="ls-dot" type="button" role="tab" aria-label="Surface 6" aria-selected="false"></button>
-      <button class="ls-dot" type="button" role="tab" aria-label="Surface 7" aria-selected="false"></button>
+      {/* Pagination de carrousel, pas des onglets : ni aria-controls, ni tabpanel,
+          ni navigation par fleches n'existaient derriere role="tab". */}
+      <div class="ls-carousel__dots" role="group" aria-label="Choose a surface">
+      <button class="ls-dot" type="button" aria-label="Surface 1" aria-current="true"></button>
+      <button class="ls-dot" type="button" aria-label="Surface 2"></button>
+      <button class="ls-dot" type="button" aria-label="Surface 3"></button>
+      <button class="ls-dot" type="button" aria-label="Surface 4"></button>
+      <button class="ls-dot" type="button" aria-label="Surface 5"></button>
+      <button class="ls-dot" type="button" aria-label="Surface 6"></button>
+      <button class="ls-dot" type="button" aria-label="Surface 7"></button>
       </div>
     </div>
 
@@ -406,7 +408,6 @@ import Base from '../layouts/Base.astro';
 </Base>
 
 <style is:global>
-  .banner__standards{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,48px);line-height:1.04;letter-spacing:-.01em}
   .p-intro__lead + .p-intro__lead{margin-top:1em}
 
   /* --- shared -------------------------------------------------------- */
@@ -575,8 +576,8 @@ import Base from '../layouts/Base.astro';
   [data-theme="contrast"] .ls-carousel__fig img{border:2px solid var(--line)}
   .ls-carousel__dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
   .ls-dot{width:7px;height:7px;padding:0;border:none;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s ease,transform .2s ease}
-  .ls-dot[aria-selected="true"]{background:var(--accent);transform:scale(1.35)}
-  [data-theme="contrast"] .ls-dot[aria-selected="true"]{background:#F7D000}
+  .ls-dot[aria-current="true"]{background:var(--accent);transform:scale(1.35)}
+  [data-theme="contrast"] .ls-dot[aria-current="true"]{background:#F7D000}
 
   /* --- faire-part : artwork + animation, fond transparent ------------- */
   .ls-print{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(20px,3.4vw,48px);align-items:center;margin:clamp(40px,5vw,72px) 0 0}
@@ -766,7 +767,7 @@ import Base from '../layouts/Base.astro';
       function activeIndex(){ var mid=track.scrollLeft+track.clientWidth/2,best=0,bd=Infinity;
         slides.forEach(function(el,i){var d=Math.abs(centerOf(el)-mid); if(d<bd){bd=d;best=i;}}); return best; }
       function syncDots(){ var a=activeIndex();
-        dots.forEach(function(d,i){ d.setAttribute('aria-selected', i===a?'true':'false'); }); }
+        dots.forEach(function(d,i){ if(i===a){d.setAttribute('aria-current','true');}else{d.removeAttribute('aria-current');} }); }
       function applyArc(){ if(reduce) return; var mid=track.scrollLeft+track.clientWidth/2;
         slides.forEach(function(el){ var d=(centerOf(el)-mid)/track.clientWidth;
           if(d>1)d=1; if(d<-1)d=-1;
