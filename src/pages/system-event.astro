@@ -218,7 +218,10 @@ const credits = [
 
     <div class="ls-print">
       <figure class="ls-print__art">
-        <Image src={img('identity-invitation-detail')} alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
+        {/* .ls-print__frame porte le border-radius, le fond et le contour de theme */}
+        <div class="ls-print__frame">
+          <Image src={img('identity-invitation-detail')} alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
+        </div>
         <figcaption class="ls-cap">Printed, in the hand</figcaption>
       </figure>
       <figure class="ls-print__suite">

@@ -44,13 +44,22 @@ const {
 const TAILLES = '(min-width: 1080px) 500px, 50vw';
 ---
 <figure class="ba" style={`--ba-ratio:${ratio}`}>
+  {/*
+    .ba__frame n'est pas decoratif : il porte l'aspect-ratio, le border-radius,
+    l'overflow:hidden qui rogne l'image, le fond, et le contour de theme
+    (--edge-w/--edge). Sans lui l'image sort nue, a angles droits.
+  */}
   <div class="ba__side ba__side--spec">
     <p class="ba__label">{specLabel}</p>
-    <Image src={spec.src} alt={spec.alt} layout="constrained" sizes={TAILLES} loading="lazy" decoding="async" />
+    <div class="ba__frame">
+      <Image src={spec.src} alt={spec.alt} layout="constrained" sizes={TAILLES} loading="lazy" decoding="async" />
+    </div>
   </div>
   <div class="ba__side ba__side--built">
     <p class="ba__label">{builtLabel}</p>
-    <Image src={built.src} alt={built.alt} layout="constrained" sizes={TAILLES} loading="lazy" decoding="async" />
+    <div class="ba__frame">
+      <Image src={built.src} alt={built.alt} layout="constrained" sizes={TAILLES} loading="lazy" decoding="async" />
+    </div>
   </div>
   <figcaption class="ba__cap">{caption}</figcaption>
 </figure>
