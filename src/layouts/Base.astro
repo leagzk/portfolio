@@ -1,21 +1,56 @@
 ---
 export interface Props {
   title: string;
+  /** resume de la page : meta description + Open Graph. ~155 caracteres. */
+  description: string;
   /** cle de l'entree de nav active : philosophy | operating-system | system-practice-elements | system-brand | system-event */
   current?: string;
   /** ecran de chargement, reserve a la page d'accueil */
   loader?: boolean;
+  /** page tenue hors des moteurs de recherche (brouillons) */
+  noindex?: boolean;
+  /** visuel de partage propre a la page, relatif a la racine du site */
+  ogImage?: string;
 }
-const { title, current, loader = false } = Astro.props;
+const {
+  title,
+  description,
+  current,
+  loader = false,
+  noindex = false,
+  ogImage = '/og-default.png',
+} = Astro.props;
 
+/* URL absolues : requises par Open Graph, qui refuse les chemins relatifs. */
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImageUrl = new URL(ogImage, Astro.site).href;
+
+/* Carte d'identite structuree, pour que Google relie le site a la personne. */
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Léa Giezek',
+  jobTitle: 'Design & Experience Systems Lead',
+  description:
+    'Cultivating practice, not just systems, through Design Leadership and Community Building.',
+  url: Astro.site?.href,
+  email: 'mailto:giezek.lea@gmail.com',
+  sameAs: ['https://www.linkedin.com/in/lea-giezek/'],
+};
+
+/*
+  Seules les pages redigees figurent dans la nav. Les trois brouillons
+  (operating-system, system-brand, system-practice-elements) restent
+  accessibles en direct mais sortent du menu et portent noindex tant
+  qu'ils affichent "Page en cours de redaction".
+  Pour en remettre une en ligne : la reinscrire ici et retirer son
+  attribut noindex dans la page.
+*/
 const main = [
-  { key: 'philosophy',       href: '/philosophy',       label: 'Philosophy' },
-  { key: 'operating-system', href: '/operating-system', label: 'Operating System' },
+  { key: 'philosophy', href: '/philosophy', label: 'Philosophy' },
 ];
 const work = [
-  { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematized a Practice' },
-  { key: 'system-brand',             href: '/system-brand',             label: 'Systematized a Brand' },
-  { key: 'system-event',             href: '/system-event',             label: 'Systematized a Moment' },
+  { key: 'system-event', href: '/system-event', label: 'Systematized a Moment' },
 ];
 ---
 <!DOCTYPE html>
@@ -24,13 +59,43 @@ const work = [
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{title}</title>
+<meta name="description" content={description} />
+<link rel="canonical" href={canonical} />
+{noindex && <meta name="robots" content="noindex, follow" />}
+
+<!-- Partage social : sans ces balises, un lien poste sur LinkedIn n'affiche ni image ni resume -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Léa Giezek" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={canonical} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_GB" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImageUrl} />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#E84140" />
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="preconnect" href="https://use.typekit.net" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&family=Maven+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
+<!--
+  Kit Adobe Fonts : "fino-sans" et "serenity", les polices du projet Living System.
+  Utilisees uniquement par le specimen de /system-event (--brand-display, --brand-sans).
+-->
+<link rel="stylesheet" href="https://use.typekit.net/hdf1vwn.css" />
+<script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
 </head>
 <body>
 {loader && <div class="loader" id="loader" aria-hidden="true"><div class="loader__panel"></div><div class="loader__fly" id="fly"><span class="loader__ring"></span><span class="loader__circle"><span class="loader__pepper">&#127798;</span></span></div></div>}
-<div class="app">
+<div class:list={['app', loader && 'app--reveal']}>
 <div class="mobbar" id="mobbar" aria-hidden="true"></div>
 <div class="topdock">
   <div class="topdock__inner">
@@ -75,7 +140,11 @@ const work = [
       <div class="talk__links">
         <a class="btn3" href="mailto:giezek.lea@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
         <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9z"/></svg>LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+        {/*
+          TODO Lea : deposer public/Lea-Giezek-CV.pdf puis retirer ce commentaire.
+          Le lien pointait vers un fichier absent : 404 sur les 6 pages.
         <a class="btn3" href="/Lea-Giezek-CV.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download CV</a>
+        */}
       </div>
       <p class="talk__legal">&copy; <b>L&eacute;a GIEZEK</b> - 2026<br>Designed by a human, developed with Claude, deployed with Vercel, iterated with peers. <b>Never alone.</b></p>
     </div>
@@ -149,7 +218,6 @@ const work = [
   .topnav.menuopen > a{color:var(--ink-muted)}
   .topnav.menuopen > a[aria-current="page"]{font-weight:500}
   .topnav.menuopen > a[aria-current="page"]::before{opacity:0}
-  [data-theme="contrast"] .topnav a:hover{font-weight:700}
   .hamb{display:none;flex-direction:column;justify-content:center;gap:4px;width:40px;height:32px;padding:8px 4px;background:transparent;border:none;cursor:pointer}
   .hamb span{display:block;width:24px;height:2.5px;background:#fff;border-radius:2px}
   .mobmenu{display:none}
@@ -172,7 +240,8 @@ const work = [
   @keyframes circleIn{to{transform:scale(1)}}
   @keyframes pepperIn{60%{transform:scale(1.16) rotate(7deg)}to{transform:scale(1) rotate(0deg)}}
   @keyframes ringPulse{0%{transform:scale(.72);opacity:.75}100%{transform:scale(1.9);opacity:0}}
-  .app{opacity:0;animation:appIn .6s ease 1.0s forwards}
+  /* le fondu d'entree attend la fin du loader : reserve aux pages qui en ont un */
+  .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
   @keyframes appIn{to{opacity:1}}
   /* BANNER (its own rounded top so the card can let the photo bleed out) */
   .banner{position:relative;background:var(--hero-grad);color:var(--hero-ink);overflow:hidden;min-height:clamp(240px,32vw,360px);display:flex;align-items:center;transition:background .45s ease;container-type:inline-size;border-radius:0}
@@ -329,8 +398,7 @@ const work = [
   [data-theme="contrast"] .topnav a[aria-current="page"]::before{background:#F7D000;height:6px;bottom:-8px;border:2px solid #111;border-radius:0}
   .mobmenu a[aria-current="page"]{color:var(--accent)}
   [data-theme="contrast"] .mobmenu a[aria-current="page"]{color:#F7D000}
-  /* BANNER - carries the signature tagline in full (opening borne) */
-  .banner{position:relative;background:var(--hero-grad);color:var(--hero-ink);overflow:hidden;min-height:clamp(240px,32vw,360px);display:flex;align-items:center;transition:background .45s ease;container-type:inline-size;border-radius:0}
+  /* BANNER - retour vers l'accueil (la regle .banner est definie plus haut) */
   .banner__home{position:absolute;top:clamp(16px,3vw,24px);left:clamp(16px,4vw,40px);z-index:4;height:clamp(48px,6vw,64px);display:inline-flex;align-items:center;gap:8px;color:var(--hero-ink);text-decoration:none;font-weight:600;font-size:16px;opacity:.92;transition:opacity .2s}
   .banner__home:hover{opacity:1}
   .banner__home svg{width:16px;height:16px;flex:none}
@@ -340,8 +408,6 @@ const work = [
   [data-theme="contrast"] .p-eyebrow{color:#0B57A4}
   .p-intro__lead{font-size:clamp(16px,1.75vw,20px);color:var(--ink-soft);margin-top:16px;max-width:62ch}
   .p-intro__lead b{color:var(--ink)}
-  /* BUTTONS */
-  .btn{font-weight:600;font-size:16px;text-decoration:none;text-align:center;padding:12px 24px;border-radius:var(--r-pill);transition:background .2s,color .2s;white-space:nowrap;display:inline-block}
   /* CREED - the six tenets */
   .creed{margin:clamp(32px,4vw,48px) 0 clamp(20px,3vw,24px)}
   .tenet{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(60px,6.5vw,88px);padding:clamp(32px,4.6vw,56px) 0;border-top:1px solid var(--line)}
@@ -365,10 +431,6 @@ const work = [
   .js .tenet.in .tenet__num{opacity:1;transform:none;transition:opacity .7s ease .08s,transform .7s cubic-bezier(.22,1,.36,1) .08s}
   .js .tenet.in .tenet__idx{opacity:1;transform:none;transition:opacity .6s ease .24s,transform .6s cubic-bezier(.22,1,.36,1) .24s}
   .js .tenet.in .tenet__title{opacity:1;transform:none;transition:opacity .6s ease .36s,transform .6s cubic-bezier(.22,1,.36,1) .36s}
-  /* FOOTER - Let's talk card, identical across all pages (from index) */
-  .talk{padding:clamp(32px,4vw,52px)}
-  /* FOOTER easter-egg swatches */
-  .swatch{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);cursor:pointer;padding:0;transition:transform .15s}
   @media(max-width:1024px){
     .intro__id{display:flex;gap:16px;align-items:center}
     .intro__photo{display:block;flex:none;width:clamp(88px,18vw,132px);height:clamp(88px,18vw,132px);border-radius:50%;overflow:hidden;border:3px solid var(--card);box-shadow:0 12px 26px -14px rgba(120,30,10,.4);background:var(--portrait) center/cover no-repeat}
@@ -443,7 +505,7 @@ const work = [
     .mobbar,.topnav,.topnav a,.pepperegg,.navgroup__menu,.navgroup__chev{transition:none}
     html{scroll-behavior:auto}
     .loader{display:none}
-    .app{opacity:1;animation:none}
+    .app--reveal{opacity:1;animation:none}
     .case,.dcard,.dcard--flip .dcard__inner{transition:none}
     .dcard--photo::after,.osbridge__visual::after,.osbridge__mini::after,.banner__pepper::after{animation:none}
     .js .drag .dcard{opacity:1;animation:none;transform:rotate(var(--rot))}

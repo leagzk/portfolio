@@ -8,6 +8,7 @@ import Base from '../layouts/Base.astro';
 */
 ---
 <Base title="Living System - Léa Giezek"
+  description="A case study: one live event treated as a design system. Identity, staging, a six-puzzle centrepiece and the production guide that let others run it."
   current="system-event">
 
 <!-- CARD 1 : banner + intro -->
@@ -64,15 +65,15 @@ import Base from '../layouts/Base.astro';
         <div class="ls-system__block">
           <p class="ls-system__label">Shapes</p>
           <ul class="ls-shapes" aria-label="The three cut-out shapes">
-          <li class="ls-shape" style="--x:0%;--y:0px;--rot:-8deg">
+          <li class="ls-shape" style="--x:0%;--y:0px;--rot:-8deg;--grad-ref:url(#lsgrad0)">
             <svg viewBox="0 0 155.09 155.09" aria-hidden="true"><defs><linearGradient id="lsgrad0" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--shape-a)"/><stop offset="1" stop-color="var(--shape-b)"/></linearGradient></defs><circle cx="77.54" cy="77.54" r="77.54" fill="url(#lsgrad0)"/></svg>
             <b>Circle</b>
           </li>
-          <li class="ls-shape" style="--x:36%;--y:96px;--rot:5deg">
+          <li class="ls-shape" style="--x:36%;--y:96px;--rot:5deg;--grad-ref:url(#lsgrad1)">
             <svg viewBox="0 0 135.38 144.45" aria-hidden="true"><defs><linearGradient id="lsgrad1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--shape-a)"/><stop offset="1" stop-color="var(--shape-b)"/></linearGradient></defs><path fill="url(#lsgrad1)" d="M86.34,0H0s0,119.69,0,119.69c0,13.67,11.08,24.75,24.75,24.75h110.62s0-95.41,0-95.41C135.38,21.95,113.42,0,86.34,0Z"/></svg>
             <b>Square</b>
           </li>
-          <li class="ls-shape" style="--x:70%;--y:14px;--rot:-4deg">
+          <li class="ls-shape" style="--x:70%;--y:14px;--rot:-4deg;--grad-ref:url(#lsgrad2)">
             <svg viewBox="0 0 164.64 171.5" aria-hidden="true"><defs><linearGradient id="lsgrad2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--shape-a)"/><stop offset="1" stop-color="var(--shape-b)"/></linearGradient></defs><path fill="url(#lsgrad2)" d="M5.28,76l-1.81-2.23c-7.07-8.7-2.81-21.8,8.02-24.68l2.78-.74c7.07-1.88,11.85-8.46,11.46-15.77l-.15-2.87c-.6-11.19,10.54-19.29,21-15.25l2.68,1.03c6.83,2.63,14.56.12,18.54-6.02l1.56-2.41c6.09-9.41,19.86-9.41,25.95,0l1.56,2.41c3.98,6.14,11.71,8.66,18.54,6.02l2.68-1.03c10.46-4.03,21.6,4.06,21,15.25l-.15,2.87c-.39,7.31,4.39,13.89,11.46,15.77l2.78.74c10.83,2.88,15.09,15.98,8.02,24.68l-1.81,2.23c-4.61,5.68-4.61,13.81,0,19.49l1.81,2.23c7.07,8.7,2.81,21.8-8.02,24.68l-2.78.74c-7.07,1.88-11.85,8.46-11.46,15.77l.15,2.87c.6,11.19-10.54,19.29-21,15.25l-2.68-1.03c-6.83-2.63-14.56-.12-18.54,6.02l-1.56,2.41c-6.09,9.41-19.86,9.41-25.95,0l-1.56-2.41c-3.97-6.14-11.71-8.66-18.54-6.02l-2.68,1.03c-10.46,4.03-21.6-4.06-21-15.25l.15-2.87c.39-7.31-4.39-13.89-11.46-15.77l-2.78-.74c-10.83-2.88-15.09-15.98-8.02-24.68l1.81-2.23c4.61-5.68,4.61-13.81,0-19.49Z"/></svg>
             <b>Star</b>
           </li>
@@ -621,7 +622,7 @@ import Base from '../layouts/Base.astro';
   .ls-closing__b{font-size:clamp(15px,1.5vw,18px);color:var(--ink-muted);max-width:62ch;margin:24px auto 0}
   /* --- credits ------------------------------------------------------- */
   .ls-credits{margin:0 0 clamp(56px,7vw,96px);padding-top:clamp(28px,3.4vw,44px);border-top:1px solid var(--line)}
-  .ls-credits__t{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-family:var(--sans)}
+  .ls-credits__t{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-family:var(--body)}
   [data-theme="contrast"] .ls-credits__t{color:#0B57A4}
   .ls-credits__intro{margin-top:14px;max-width:56ch;font-size:clamp(15px,1.5vw,17px);line-height:1.6;color:var(--ink-soft)}
   .ls-credits__list{margin:clamp(24px,3vw,36px) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:clamp(16px,2.2vw,28px) clamp(28px,4vw,56px)}

@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Brouillons : tenus hors index tant qu'ils affichent "Page en cours de redaction".
+# Le meta robots noindex de chaque page fait foi ; ces lignes evitent le crawl inutile.
+Disallow: /operating-system
+Disallow: /system-brand
+Disallow: /system-practice-elements
+
+Sitemap: https://leagiezek.design/sitemap-index.xml
