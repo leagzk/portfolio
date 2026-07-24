@@ -194,6 +194,18 @@ const work = [
 </div>
 
 <style is:global>
+  /* surcharges de theme du chrome - vivaient dans tokens.css, qui ne doit
+     contenir que des declarations de custom properties */
+  [data-theme="contrast"] .topnav.stuck{border:var(--edge-w) solid var(--edge);border-top:none}
+  [data-theme="contrast"] .navgroup__menu a:hover{background:var(--highlight);color:var(--on-highlight)}
+  [data-theme="mono"] .navgroup__menu a:hover{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px #070304}
+  [data-theme="contrast"] .navgroup__menu{border:var(--edge-w) solid var(--edge);border-top:none;left:-2px;right:-2px}
+  [data-theme="contrast"] .topnav.menuopen{border:var(--edge-w) solid var(--edge);border-top:none;border-bottom:none}
+  [data-theme="contrast"] .topnav a[aria-current="page"]::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
+  [data-theme="contrast"] .mobmenu a[aria-current="page"]{color:var(--highlight)}
+  @media(max-width:720px){
+  [data-theme="contrast"] .mobbar{border:var(--edge-w) solid var(--edge);border-top:none}
+}
   /*
     Chrome rendu par ce layout : nav, dock, menu mobile, loader, pied de page.
     Le CSS propre a une page vit desormais dans cette page ; les regles
@@ -225,7 +237,7 @@ const work = [
   .mobmenu{display:none}
   .mobbar{display:none}
   .topdock{position:fixed;top:0;left:0;right:0;z-index:51;pointer-events:none}
-  .topdock__inner{max-width:1080px;margin:0 auto;height:var(--mobbar-h);display:flex;align-items:center;padding-left:calc(clamp(16px,3vw,24px) + clamp(16px,4vw,28px));padding-right:calc(clamp(16px,3vw,24px) + clamp(16px,4vw,40px))}
+  .topdock__inner{max-width:1080px;margin:0 auto;height:var(--mobbar-h);display:flex;align-items:center;padding-left:calc(var(--sp-03) + var(--sp-09));padding-right:calc(var(--sp-03) + var(--sp-05))}
   .topdock__inner > *{pointer-events:auto}
   .mobmenu.open{display:flex;position:fixed;inset:0;z-index:60;background:#070304;flex-direction:column;justify-content:center;gap:8px;padding:28px}
   .mobmenu a{color:#fff;text-decoration:none;font-family:var(--display);font-weight:400;font-size:clamp(28px,8vw,44px);letter-spacing:-.01em;padding:8px 0}
@@ -237,15 +249,15 @@ const work = [
   .loader__circle{width:100%;height:100%;border-radius:50%;background:#FFFDFB;display:grid;place-items:center;transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards;box-shadow:0 14px 44px rgba(120,20,5,.32)}
   .loader__pepper{font-size:clamp(44px,6vw,64px);line-height:1;transform:scale(0) rotate(-28deg);animation:pepperIn .62s cubic-bezier(.34,1.56,.64,1) .42s forwards}
   .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
-  .pepperegg{position:relative;margin-left:auto;display:flex;align-items:center;gap:12px;transform-origin:right center;transform:translateY(calc(var(--mobbar-h)/2 + clamp(16px,3vw,24px) + clamp(48px,6vw,64px)/2));transition:transform .38s cubic-bezier(.22,1,.36,1)}
+  .pepperegg{position:relative;margin-left:auto;display:flex;align-items:center;gap:12px;transform-origin:right center;transform:translateY(calc(var(--mobbar-h)/2 + var(--sp-03) + var(--sp-21)/2));transition:transform .38s cubic-bezier(.22,1,.36,1)}
   .topdock.stuck .pepperegg{transform:scale(.78)}
   .pepperegg__sw{position:absolute;right:100%;padding-right:12px;top:50%;display:flex;gap:8px;align-items:center;opacity:0;pointer-events:none;transform:translate(8px,-50%);transition:transform .32s cubic-bezier(.22,1,.36,1),opacity .28s}
   .pepperegg:hover .pepperegg__sw,.pepperegg:focus-within .pepperegg__sw,.pepperegg.open .pepperegg__sw{opacity:1;pointer-events:auto;transform:translate(0,-50%)}
   .pepperegg.picked .pepperegg__sw{opacity:0;pointer-events:none;transform:translate(8px,-50%)}
-  .banner__pepper{position:relative;flex:none;width:clamp(48px,6vw,64px);height:clamp(48px,6vw,64px);border-radius:50%;background:#FFFDFB;border:none;cursor:pointer;display:grid;place-items:center;font-size:clamp(24px,3vw,32px);box-shadow:0 6px 20px rgba(120,20,5,.25)}
+  .banner__pepper{position:relative;flex:none;width:var(--sp-21);height:var(--sp-21);border-radius:50%;background:#FFFDFB;border:none;cursor:pointer;display:grid;place-items:center;font-size:clamp(24px,3vw,32px);box-shadow:0 6px 20px rgba(120,20,5,.25)}
   .banner__pepper::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--ring);opacity:0;pointer-events:none}
   .banner__pepper:hover::after{animation:tilePulse .9s ease-out}
-  .talk__legal{margin-top:clamp(32px,4vw,44px);padding-top:clamp(20px,3vw,24px);border-top:1px solid rgba(255,255,255,.16);font-size:12px;line-height:1.7;letter-spacing:.02em;color:rgba(255,255,255,.62)}
+  .talk__legal{margin-top:var(--sp-17);padding-top:var(--sp-03);border-top:1px solid rgba(255,255,255,.16);font-size:12px;line-height:1.7;letter-spacing:.02em;color:rgba(255,255,255,.62)}
   .talk__legal b{font-weight:600;color:rgba(255,255,255,.82)}
   .talk{padding:clamp(32px,4vw,52px)}
   .talk__head{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.02em}
@@ -269,7 +281,7 @@ const work = [
   .topnav{display:none}
   .hamb{display:flex}
   .pepperegg,.topdock.stuck .pepperegg{transform:none}
-  .mobbar{display:block;position:fixed;top:0;left:clamp(16px,3vw,24px);right:clamp(16px,3vw,24px);z-index:49;height:var(--mobbar-h);background:var(--hero-grad);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 6px 20px rgba(120,30,10,.18);opacity:0;pointer-events:none;transition:opacity .28s ease}
+  .mobbar{display:block;position:fixed;top:0;left:var(--sp-03);right:var(--sp-03);z-index:49;height:var(--mobbar-h);background:var(--hero-grad);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 6px 20px rgba(120,30,10,.18);opacity:0;pointer-events:none;transition:opacity .28s ease}
   .mobbar.show{opacity:1;pointer-events:auto}
   .talk-card.in .talk__head{font-size:clamp(32px,10vw,56px)}
   .talk__links{flex-direction:column;align-items:flex-start;gap:8px}

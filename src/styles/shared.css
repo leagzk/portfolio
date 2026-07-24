@@ -2,21 +2,21 @@
    Elles doivent rester globales : un <style> scope d'Astro ne traverse pas
    la frontiere du slot, le HTML slotte portant le hash du parent. */
 
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;margin-bottom:clamp(16px,2.4vw,20px);transition:background .45s ease,border-color .45s ease}
-[data-theme="contrast"] .card{border-width:2px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;margin-bottom:var(--sp-02);transition:background .45s ease,border-color .45s ease}
+[data-theme="contrast"] .card{border-width:var(--edge-w)}
 .banner{position:relative;background:var(--hero-grad);color:var(--hero-ink);overflow:hidden;min-height:clamp(240px,32vw,360px);display:flex;align-items:center;transition:background .45s ease;container-type:inline-size;border-radius:0}
 .banner__inner{z-index:3;padding:clamp(24px,4vw,48px)}
 .banner__grow{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);line-height:1.0;letter-spacing:-.01em;margin-top:.06em}
 .banner__culture{position:absolute;right:0;bottom:-.18em;z-index:-1;font-family:var(--display);font-weight:400;font-size:clamp(64px,22cqw,240px);line-height:1;letter-spacing:-.045em;white-space:nowrap;pointer-events:none;user-select:none;background:var(--culture-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .banner__photo{display:none}
 .btn{font-weight:600;font-size:16px;text-decoration:none;text-align:center;padding:12px 24px;border-radius:var(--r-pill);transition:background .2s,color .2s;white-space:nowrap;display:inline-block}
-.btn--primary{background:var(--accent);color:var(--on-accent)}
+.btn--primary{background:var(--accent-alt);color:var(--on-accent)}
 .btn--primary:hover{background:var(--ink)}
 .btn--ghost{position:relative;isolation:isolate;background:transparent;border:none;color:var(--ink);transition:color .2s,background .2s}
 .btn--ghost::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:2px;background:#070304;-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;z-index:-1;pointer-events:none}
 .btn--ghost:hover{background:var(--hero-grad);color:#fff}
 .btn--ghost:hover::before{background:var(--hero-grad)}
-[data-theme="contrast"] .btn--ghost::before{background:#0B57A4}
+[data-theme="contrast"] .btn--ghost::before{background:var(--accent-alt)}
 [data-theme="spicy"] .btn--ghost{color:var(--accent)}
 [data-theme="spicy"] .btn--ghost::before{background:var(--accent)}
 [data-theme="spicy"] .btn--ghost:hover{background:transparent;color:#070304}
@@ -32,25 +32,28 @@
 .btn3 svg{width:20px;height:20px;flex:none}
 .case .btn3::after{content:"";position:absolute;inset:0;z-index:1}
 .case__body .btn3{margin-top:24px;align-self:flex-start}
-[data-theme="contrast"] .btn--primary{background:#0B57A4}
-[data-theme="contrast"] .case__body .btn3{color:#0B57A4}
-[data-theme="contrast"] .case__body .btn3:hover{color:#111}
-[data-theme="contrast"] .case__body .btn3:hover .btn3__i{color:#F7D000}
-[data-theme="contrast"] .talk-card .btn3{color:#F7D000}
+[data-theme="contrast"] .case__body .btn3{color:var(--accent-alt)}
+[data-theme="contrast"] .case__body .btn3:hover{color:var(--ink)}
+[data-theme="contrast"] .case__body .btn3:hover .btn3__i{color:var(--highlight)}
+[data-theme="contrast"] .talk-card .btn3{color:var(--highlight)}
+/*
+  Seule couleur en dur qui subsiste, et seule occurrence de cette valeur dans
+  tout le projet : un bleu eclairci, pose uniquement sur le pied de page noir
+  ou --accent-alt manquerait de contraste. Pas de token pour un usage unique.
+*/
 [data-theme="contrast"] .talk-card .btn3:hover{color:#4A90E2}
-[data-theme="contrast"] .btn--primary:hover{background:#F7D000;color:#111}
-[data-theme="contrast"] .btn--ghost{color:#0B57A4}
-[data-theme="contrast"] .btn--ghost:hover{background:#F7D000;color:#111}
-[data-theme="contrast"] .btn--ghost:hover::before{background:#F7D000}
+[data-theme="contrast"] .btn--primary:hover{background:var(--highlight);color:var(--on-highlight)}
+[data-theme="contrast"] .btn--ghost{color:var(--accent-alt)}
+[data-theme="contrast"] .btn--ghost:hover{background:var(--highlight);color:var(--on-highlight)}
+[data-theme="contrast"] .btn--ghost:hover::before{background:var(--highlight)}
 .card.talk-card{background:#070304;border:none;border-radius:var(--r-xl) var(--r-xl) 0 0;margin-bottom:0}
 .talk-card .btn3{color:#fff}
 .talk-card .btn3:hover{color:var(--accent)}
-.banner__home{position:absolute;top:clamp(16px,3vw,24px);left:clamp(16px,4vw,40px);z-index:4;height:clamp(48px,6vw,64px);display:inline-flex;align-items:center;gap:8px;color:var(--hero-ink);text-decoration:none;font-weight:600;font-size:16px;opacity:.92;transition:opacity .2s}
+.banner__home{position:absolute;top:var(--sp-03);left:var(--sp-05);z-index:4;height:var(--sp-21);display:inline-flex;align-items:center;gap:8px;color:var(--hero-ink);text-decoration:none;font-weight:600;font-size:16px;opacity:.92;transition:opacity .2s}
 .banner__home:hover{opacity:1}
 .banner__home svg{width:16px;height:16px;flex:none}
-.p-intro{padding:clamp(24px,3.6vw,48px)}
-.p-eyebrow{display:inline-block;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent)}
-[data-theme="contrast"] .p-eyebrow{color:#0B57A4}
+.p-intro{padding:var(--sp-16)}
+.p-eyebrow{display:inline-block;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-alt)}
 .p-intro__lead{font-size:clamp(16px,1.75vw,20px);color:var(--ink-soft);margin-top:16px;max-width:62ch}
 .p-intro__lead b{color:var(--ink)}
 @media(max-width:720px){
@@ -68,6 +71,6 @@
 */
 .banner__standards{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.6vw,48px);line-height:1.04;letter-spacing:-.01em}
 @media(max-width:720px){
-  .banner{flex-direction:column;align-items:flex-start;text-align:left;min-height:0;padding:calc(var(--mobbar-h) + 16px) clamp(16px,5vw,24px) clamp(32px,11vw,96px)}
-  .banner__inner{padding:0;margin-top:clamp(8px,2.5vw,16px)}
+  .banner{flex-direction:column;align-items:flex-start;text-align:left;min-height:0;padding:calc(var(--mobbar-h) + 16px) var(--sp-04) var(--sp-18)}
+  .banner__inner{padding:0;margin-top:var(--sp-02)}
 }
