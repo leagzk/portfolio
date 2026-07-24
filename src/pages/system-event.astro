@@ -1,11 +1,39 @@
 ---
 import Base from '../layouts/Base.astro';
+import Carousel from '../components/Carousel.astro';
 
 /*
   IMAGES : deposer le dossier `living-system/` dans /public/
   - photos     : credit EXIF/XMP Madeleine Photographe / studiomadeleine.fr
   - pages spec : credit EXIF/XMP Lea Giezek (c'est ton document)
 */
+
+/*
+  Les sept surfaces du carrousel "One identity, fifty-plus surfaces".
+  Ajouter une image = une entree ici. Les pastilles de pagination en sont
+  derivees, elles ne peuvent plus se desynchroniser.
+  Credit XMP des photos : Madeleine Photographe (voir en tete de fichier).
+*/
+const surfaces = [
+  { src: '/living-system/identity-welcome-sign.webp', width: 1200, height: 1800, caption: 'Signage',
+    alt: "Welcome sign on an easel showing the event monogram, beside stacked metal trunks" },
+  { src: '/living-system/identity-invitation-suite.webp', width: 1200, height: 1800, caption: 'Stationery',
+    alt: "Invitation suite of layered printed cards and coloured envelopes" },
+  { src: '/living-system/identity-monogram-arch.webp', width: 1200, height: 1800, caption: 'Scenography',
+    alt: "Monogram disc and a striped disc hanging from the ceremony arch above a floral pedestal" },
+  { src: '/living-system/identity-cards.webp', width: 1200, height: 1800, caption: 'Message cards',
+    alt: "Wall rack holding message cards in the identity's colours and patterns" },
+  { src: '/living-system/identity-place-setting.webp', width: 1200, height: 1800, caption: 'Table setting',
+    alt: "Place setting built on the patterned plate, with a monogram coaster and printed cards laid on it" },
+  { src: '/living-system/identity-message-desk.webp', width: 1200, height: 1800, caption: 'Writing desk',
+    alt: "Writing desk set up for guests with coloured pens and a framed instruction card" },
+  { src: '/living-system/identity-dresscode.webp', width: 1600, height: 2400, caption: 'Dresscode',
+    alt: "The dress code worn, seen from behind on a gravel path: a sequinned open-back top, a long white skirt, a white hair bow and a wildflower bouquet held low" },
+  { src: '/living-system/identity-guest-gift.webp', width: 1600, height: 2400, caption: 'Guest gift',
+    alt: "Enamel heart pin in the identity's ochre, worn on a navy lapel beside a bow tie in the scalloped pattern" },
+  { src: '/living-system/game-cats-board.webp', width: 1000, height: 1400, caption: 'Collaborative game',
+    alt: "Print artwork for the first riddle: a nine by nine colour-region grid with its single rule set above it" },
+];
 ---
 <Base title="Living System - Léa Giezek"
   description="A case study: one live event treated as a design system. Identity, staging, a six-puzzle centrepiece and the production guide that let others run it."
@@ -108,70 +136,13 @@ import Base from '../layouts/Base.astro';
               <p class="ls-type__use">Text - rules, timings, instructions. Plain enough to disappear behind the display face.</p>
             </div>
           </div>
-          <p class="ls-type__scale"><span style="font-size:38px">Aa</span><span style="font-size:28px">Aa</span><span style="font-size:20px">Aa</span><span style="font-size:15px">Aa</span><span style="font-size:12px">Aa</span></p>
         </div>
       </div>
     </div>
 
     <h3 class="ls-claim ls-claim--head">Nothing was left to chance, and nothing drifted. <b>One identity, fifty-plus surfaces, zero inconsistency.</b></h3>
 
-    <div class="ls-carousel">
-      <ul class="ls-carousel__track" id="lscarousel">
-      <li class="ls-carousel__slide">
-        <figure class="ls-carousel__fig">
-          <img src="/living-system/identity-welcome-sign.webp" width="1200" height="1800" alt="Welcome sign on an easel showing the event monogram, beside stacked metal trunks" loading="lazy" decoding="async" />
-          <figcaption>Signage</figcaption>
-        </figure>
-      </li>
-      <li class="ls-carousel__slide">
-        <figure class="ls-carousel__fig">
-          <img src="/living-system/identity-invitation-suite.webp" width="1200" height="1800" alt="Invitation suite of layered printed cards and coloured envelopes" loading="lazy" decoding="async" />
-          <figcaption>Stationery</figcaption>
-        </figure>
-      </li>
-      <li class="ls-carousel__slide">
-        <figure class="ls-carousel__fig">
-          <img src="/living-system/identity-monogram-arch.webp" width="1200" height="1800" alt="Monogram disc and a striped disc hanging from the ceremony arch above a floral pedestal" loading="lazy" decoding="async" />
-          <figcaption>Scenography</figcaption>
-        </figure>
-      </li>
-      <li class="ls-carousel__slide">
-        <figure class="ls-carousel__fig">
-          <img src="/living-system/identity-cards.webp" width="1200" height="1800" alt="Wall rack holding message cards in the identity's colours and patterns" loading="lazy" decoding="async" />
-          <figcaption>Message cards</figcaption>
-        </figure>
-      </li>
-      <li class="ls-carousel__slide">
-        <figure class="ls-carousel__fig">
-          <img src="/living-system/identity-place-setting.webp" width="1200" height="1800" alt="Place setting built on the patterned plate, with a monogram coaster and printed cards laid on it" loading="lazy" decoding="async" />
-          <figcaption>Table setting</figcaption>
-        </figure>
-      </li>
-      <li class="ls-carousel__slide">
-        <figure class="ls-carousel__fig">
-          <img src="/living-system/identity-message-desk.webp" width="1200" height="1800" alt="Writing desk set up for guests with coloured pens and a framed instruction card" loading="lazy" decoding="async" />
-          <figcaption>Writing desk</figcaption>
-        </figure>
-      </li>
-      <li class="ls-carousel__slide">
-        <figure class="ls-carousel__fig">
-          <img src="/living-system/game-cats-board.webp" width="1000" height="1400" alt="Print artwork for the first riddle: a nine by nine colour-region grid with its single rule set above it" loading="lazy" decoding="async" />
-          <figcaption>Collaborative game</figcaption>
-        </figure>
-      </li>
-      </ul>
-      {/* Pagination de carrousel, pas des onglets : ni aria-controls, ni tabpanel,
-          ni navigation par fleches n'existaient derriere role="tab". */}
-      <div class="ls-carousel__dots" role="group" aria-label="Choose a surface">
-      <button class="ls-dot" type="button" aria-label="Surface 1" aria-current="true"></button>
-      <button class="ls-dot" type="button" aria-label="Surface 2"></button>
-      <button class="ls-dot" type="button" aria-label="Surface 3"></button>
-      <button class="ls-dot" type="button" aria-label="Surface 4"></button>
-      <button class="ls-dot" type="button" aria-label="Surface 5"></button>
-      <button class="ls-dot" type="button" aria-label="Surface 6"></button>
-      <button class="ls-dot" type="button" aria-label="Surface 7"></button>
-      </div>
-    </div>
+    <Carousel id="lscarousel" label="Choose a surface" itemLabel="Surface" start={1} slides={surfaces} />
 
     <div class="ls-signage">
       <div class="ls-signage__text">
@@ -500,7 +471,6 @@ import Base from '../layouts/Base.astro';
   .ls-type__meta{min-width:0}
   .ls-type__name{font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--ink)}
   .ls-type__use{margin-top:3px;font-size:13px;line-height:1.5;color:var(--ink-muted)}
-  .ls-type__scale{display:flex;align-items:baseline;gap:clamp(10px,1.6vw,18px);margin-top:16px;font-family:var(--brand-display);color:var(--ink-soft)}
 
   /* --- faire-part : trois etats en fondu ----------------------------- */
   .ls-suite__frame{position:absolute;inset:0;margin:auto;width:88%;height:88%;object-fit:contain;opacity:0;transition:opacity .9s ease}
@@ -528,6 +498,17 @@ import Base from '../layouts/Base.astro';
 
   /* chapitre identite : texte a gauche, detail de l'identite a droite */
   .ls-idgrid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,4vw,64px);align-items:start}
+  /*
+    min-width:0 est indispensable, pas cosmetique. Un item de grille vaut
+    min-width:auto par defaut : il refuse de descendre sous la largeur
+    min-content de son contenu. Les 5 pastilles de .ls-swatches imposaient
+    536px, qui remontaient jusqu'a la piste et faisaient deborder la grille
+    de 177px en mobile. Les conteneurs a overflow-x:auto ne defilaient donc
+    jamais : ils s'elargissaient au lieu de scroller.
+  */
+  .ls-idgrid > *{min-width:0}
+  .ls-system__block{min-width:0}
+  .ls-system > *{min-width:0}
   .ls-idgrid__text > * + *{margin-top:clamp(20px,2.4vw,28px)}
   .ls-idgrid .ls-head{max-width:none}
   .ls-idgrid .ls-body,.ls-idgrid .ls-lede{max-width:none}
@@ -775,8 +756,31 @@ import Base from '../layouts/Base.astro';
       dots.forEach(function(d,i){ d.addEventListener('click',function(){ scrollTo(i,true); }); });
       var raf; track.addEventListener('scroll',function(){ if(raf)cancelAnimationFrame(raf);
         raf=requestAnimationFrame(function(){ syncDots(); applyArc(); }); });
+      /*
+        On ouvre sur la vignette 1 (Stationery) plutot que la 0 : les voisines
+        sont alors rognees a gauche et a droite, ce qui signale qu'on peut defiler.
+
+        Le snap doit etre neutralise pendant le positionnement. Avec
+        scroll-snap-type:x mandatory, le navigateur re-aligne le conteneur apres
+        la mise en page et ramene a la premiere vignette : un scrollLeft pose
+        avant ce re-snap est silencieusement annule.
+      */
+      var DEPART=parseInt(track.dataset.start||'0',10);
+      function ouvrirSur(i){
+        track.style.scrollSnapType='none';
+        scrollTo(i,false);
+        requestAnimationFrame(function(){
+          /* on vide le style inline plutot que de restaurer une valeur memorisee :
+             deux appels concurrents memoriseraient 'none' et le figeraient. */
+          track.style.scrollSnapType='';
+          syncDots(); applyArc();
+        });
+      }
       syncDots(); applyArc();
-      window.addEventListener('load',function(){ syncDots(); applyArc(); });
+      ouvrirSur(DEPART);
+      /* si 'load' est deja passe, l'ecouteur ne partirait jamais : on n'en pose un
+         que dans le cas ou le chargement est encore en cours. */
+      if(document.readyState!=='complete') window.addEventListener('load',function(){ ouvrirSur(DEPART); });
     })();
   })();
 </script>

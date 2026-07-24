@@ -1,0 +1,62 @@
+---
+/*
+  Carrousel de surfaces.
+
+  Le markup etait ecrit a la main : sept <li> d'un cote, sept <button> de
+  pagination de l'autre, sans rien qui relie les deux. Ajouter une image
+  supposait de modifier les deux listes au bon endroit, et rien ne signalait
+  l'oubli - les pastilles pouvaient silencieusement ne plus correspondre aux
+  vignettes. Ici les pastilles sont derivees de `slides` : le nombre ne peut
+  plus diverger.
+
+  Le CSS (.ls-carousel*, .ls-dot) reste dans system-event.astro : il y cotoie
+  ses surcharges de theme, et le descendre ici sans elles rouvrirait une
+  question de cascade pour un gain nul.
+*/
+export interface Slide {
+  /** chemin absolu depuis la racine du site */
+  src: string;
+  /** texte alternatif descriptif - jamais vide, ces images portent du sens */
+  alt: string;
+  /** dimensions reelles du fichier : evite tout decalage de mise en page */
+  width: number;
+  height: number;
+  /** legende visible sous la vignette */
+  caption: string;
+}
+
+export interface Props {
+  id: string;
+  /** aria-label du groupe de pastilles */
+  label: string;
+  /** prefixe des pastilles : "Surface" donne aria-label="Surface 1" */
+  itemLabel?: string;
+  /** vignette centree a l'ouverture ; ses voisines sont rognees, ce qui signale qu'on peut defiler */
+  start?: number;
+  slides: Slide[];
+}
+
+const { id, label, itemLabel = 'Item', start = 0, slides } = Astro.props;
+---
+<div class="ls-carousel">
+  <ul class="ls-carousel__track" id={id} data-start={start}>
+    {slides.map((s) => (
+      <li class="ls-carousel__slide">
+        <figure class="ls-carousel__fig">
+          <img src={s.src} width={s.width} height={s.height} alt={s.alt} loading="lazy" decoding="async" />
+          <figcaption>{s.caption}</figcaption>
+        </figure>
+      </li>
+    ))}
+  </ul>
+  <div class="ls-carousel__dots" role="group" aria-label={label}>
+    {slides.map((_, i) => (
+      <button
+        class="ls-dot"
+        type="button"
+        aria-label={`${itemLabel} ${i + 1}`}
+        aria-current={i === start ? 'true' : undefined}
+      ></button>
+    ))}
+  </div>
+</div>
