@@ -9,9 +9,10 @@
   vignettes. Ici les pastilles sont derivees de `slides` : le nombre ne peut
   plus diverger.
 
-  Le CSS (.ls-carousel*, .ls-dot) reste dans system-event.astro : il y cotoie
-  ses surcharges de theme, et le descendre ici sans elles rouvrirait une
-  question de cascade pour un gain nul.
+  Le CSS (.ls-carousel*, .ls-dot) vit dans src/styles/case-study.css, importe
+  par les pages de case study. Il y a ete descendu depuis system-event.astro
+  avec ses surcharges de theme, ce qui rend le composant utilisable ailleurs :
+  un <style> scope ici ne traverserait pas la frontiere du slot de toute facon.
 */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -37,10 +38,25 @@ export interface Props {
   itemLabel?: string;
   /** vignette centree a l'ouverture ; ses voisines sont rognees, ce qui signale qu'on peut defiler */
   start?: number;
+  /*
+    Largeur d'AFFICHAGE d'une vignette. Le defaut vaut pour les photos portrait
+    de /system-event. Une vignette paysage occupe beaucoup plus large a hauteur
+    egale - .ls-carousel__fig img fixe la hauteur et laisse filer la largeur -
+    et garder ce defaut ferait telecharger une image deux fois trop petite,
+    donc floue. A recalculer des que le ratio des visuels change.
+  */
+  sizes?: string;
   slides: Slide[];
 }
 
-const { id, label, itemLabel = 'Item', start = 0, slides } = Astro.props;
+const {
+  id,
+  label,
+  itemLabel = 'Item',
+  start = 0,
+  sizes = '(min-width: 900px) 340px, 60vw',
+  slides,
+} = Astro.props;
 ---
 <div class="ls-carousel">
   <ul class="ls-carousel__track" id={id} data-start={start}>
@@ -48,16 +64,16 @@ const { id, label, itemLabel = 'Item', start = 0, slides } = Astro.props;
       <li class="ls-carousel__slide">
         <figure class="ls-carousel__fig">
           {/*
-            sizes decrit la largeur d'AFFICHAGE, pas celle du fichier : une vignette
-            occupe environ 60vw en mobile et se fige autour de 340px au-dela de 900px.
-            Sans cette indication le navigateur suppose 100vw et telecharge trois
-            fois trop gros.
+            sizes decrit la largeur d'AFFICHAGE, pas celle du fichier. Sans cette
+            indication le navigateur suppose 100vw et telecharge trop gros ; avec
+            une valeur trop basse il telecharge trop petit et l'image est floue.
+            Voir la prop du meme nom.
           */}
           <Image
             src={s.src}
             alt={s.alt}
             layout="constrained"
-            sizes="(min-width: 900px) 340px, 60vw"
+            sizes={sizes}
             loading="lazy"
             decoding="async"
           />

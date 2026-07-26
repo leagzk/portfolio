@@ -1,21 +1,786 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/PageIntro.astro';
+import '../styles/case-study.css';
 import Banner from '../components/Banner.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Tenet from '../components/Tenet.astro';
+import Carousel from '../components/Carousel.astro';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+/*
+  Meme convention que system-event : le glob resout les images a la compilation,
+  donc un nom errone casse le build au lieu de produire un 404 silencieux.
+*/
+const fichiers = import.meta.glob<ImageMetadata>('../assets/elements-system/*.webp', {
+  eager: true,
+  import: 'default',
+});
+const img = (nom: string): ImageMetadata => {
+  const cle = `../assets/elements-system/${nom}.webp`;
+  const f = fichiers[cle];
+  if (!f) throw new Error(`Image introuvable dans src/assets/elements-system : ${nom}.webp`);
+  return f;
+};
+
+/*
+  Les trois axes de la plateforme. La ligne `tension` n'est pas une legende :
+  c'est elle qui porte le propos - un tableau dirait « categories paralleles »,
+  alors que le sujet est qu'elles se connectent.
+*/
+const capacites = [
+  { axe: 'Brand × Product', titre: 'Corporate Experience',
+    description: 'The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence.',
+    tension: 'Where the brand becomes tangible.' },
+  { axe: 'Brand × Product', titre: 'Product Foundations',
+    description: 'The mandatory building blocks of every experience: principles, accessibility, grids, spatial system, motion, data visualisation, theming.',
+    tension: 'The digital non-negotiables.' },
+  { axe: 'System', titre: 'Design System',
+    description: 'The reusable, scalable foundation: token architecture, component libraries, integrated guidelines, engineering standards.',
+    tension: 'From token to production.' },
+  { axe: 'System', titre: 'Experience Patterns',
+    description: 'Standardized but flexible design and interaction patterns: from internal AI-driven tooling to marketing interfaces, business-specific.',
+    tension: 'Learn once, apply everywhere.' },
+  { axe: 'People', titre: 'Practitioner Experience',
+    description: 'The service layer around the people who use and contribute to the system: tiered service model, onboarding, unified tooling, rituals, academy.',
+    tension: 'The humans who use it, and those who craft it.' },
+  { axe: 'People', titre: 'Community of Practice',
+    description: 'The governance and culture that turn contribution into practice: inner source model, contribution pathways, shared rituals, practice leadership.',
+    tension: 'The humans who grow it.' },
+];
+
+/*
+  Les quatre captures forment une suite rhetorique, portee par les titres
+  incrustes dans les images : « You may think it is a Figma library », puis les
+  produits, les fils de discussion, l'equipe. L'ordre du tableau EST l'argument -
+  le reordonner casse la phrase.
+*/
+const facettes = [
+  { src: img('elements-library'), caption: 'Libraries',
+    alt: "Figma library screens: a Sanofi navigation bar, buttons, form controls, a data table and a date picker, shown in light and dark mode" },
+  { src: img('elements-digitalproducts-implementation'), caption: 'Product Implementation',
+    alt: "Two Sanofi products in production - a component explorer on a laptop and a public campaign page on a desktop screen - with a mobile study card in front" },
+  { src: img('elements-support'), caption: 'Integrated support',
+    alt: "Two phone screens side by side: a question answered in the Elements Slack community, and a GitHub issue on the design system component library" },
+  { src: img('elements-team'), caption: 'Global team',
+    alt: "Portraits of the team arranged over a world map, showing how widely its members are spread" },
+];
+
+/* Les cinq produits, dans l'ordre de la chaine design -> dev. */
+const produits = [
+  { nom: 'Token architecture', note: 'multi-brand, multi-theme' },
+  { nom: 'Figma Companion', note: 'palettes, accessibility checks, layout scaffolding' },
+  { nom: 'Elements Portal', note: 'documentation' },
+  { nom: 'MCP', note: 'born as a contribution' },
+  { nom: 'Living Documentation', note: 'versioned, visible, reachable' },
+];
+
+/* Valeur = mecanisme. Le renversement est le sujet, d'ou le traitement en equation. */
+const mecanismes = [
+  { valeur: 'Trust', mecanisme: 'write access',
+    note: 'Inner source means contributors change the system without going through me.' },
+  { valeur: 'Transparency', mecanisme: 'the living doc',
+    note: 'Not promised - versioned, visible, reachable.' },
+  { valeur: 'Accountability', mecanisme: 'per-capability ownership',
+    note: 'Each owner carries the decision and the result.' },
+];
+
+/*
+  Les quatre resultats. `pose` place la carte au bureau ; sous 1024px le
+  conteneur devient un rail et ces valeurs sont neutralisees par le CSS.
+*/
+const resultats = [
+  { pose: 'left:0%;top:8px;--rot:-3deg',
+    chiffre: '100%', quoi: 'adoption across the 3 Digital Accelerators',
+    detail: 'R&D, Commercial, Manufacturing. Every product in the perimeter runs on Elements.',
+    lien: { href: 'https://jobs.sanofi.com/fr/digital-accelerator', label: 'Discover more' } },
+  { pose: 'left:26%;top:96px;--rot:2deg',
+    chiffre: '86%', quoi: 'average component usage per product',
+    detail: 'Adopted, and depended on: when a team builds on Elements, 86% of their live interface is the system. The cost-rationalization bet, paid - teams build on it, not around it.' },
+  { pose: 'left:52%;top:0px;--rot:-1.5deg',
+    chiffre: '÷3', quoi: 'time-to-launch on strategic launches',
+    detail: 'Like Beyfortus®. The wait between experts, removed. What used to take a handoff chain now ships in seconds - accessible, responsive, on-brand by default.' },
+  { pose: 'left:74%;top:80px;--rot:3deg',
+    chiffre: '35+', quoi: 'contributors, from zero, in 18 months',
+    detail: 'Inner source, not headcount - the system grows because people own it, not because I staffed it.' },
+];
 ---
-<Base title="Systematized a Practice - Léa Giezek"
-  description="Case study in preparation: systematizing a design practice - its elements, its rituals, and the people who keep it alive."
+<Base title="Elements - Léa Giezek"
+  description="At global scale, a system isn't managed - it's governed. Building Sanofi's experience system: 45+ products, a €1M budget, 0 to 35+ contributors, and a Design System Awards governance finalist."
   current="system-practice-elements" noindex>
 
+<!-- ═══ 1 · HOOK ═══ -->
   <div class="card">
-    <Banner>
-        <p class="banner__standards">Systematized a Practice</p>
-      
+    <Banner home>
+      <p class="banner__standards">At global scale,<br>a system isn't managed. It's <span class="banner__culture banner__culture--desc">governed.</span></p>
     </Banner>
-    <PageIntro eyebrow="Systematized a Practice">
-      <p class="p-intro__lead" lang="fr">Page en cours de rédaction.</p>
-    
+
+    <PageIntro eyebrow="Elements - Design System Awards 2025, Governance finalist">
+      <p class="p-intro__lead">At Sanofi, I built Elements to remove the frictions between experts, reduce time to launch and enhance product experience at scale. Moving then from a design system as a product to one platform, one pipeline, brand and product and engineering pouring into the same chain.</p>
+
+      <p class="p-intro__lead">But the external recognition that means the most to me is the category we were named in at the Design System Awards: <b>Governance</b>, alongside HP and Tesco. Because this was never only a craft story. It was a leadership one.</p>
+
     </PageIntro>
   </div>
 
+
+<!-- ═══ 01 · THE RESULTS — remonte en tete : la preuve avant l'argument ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-results">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>01 - The results</span></p>
+      <h2 class="ls-title" id="ch-results">A structure only counts if it holds.</h2>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>This one does - and the numbers are the system's, not mine.</p>
+      <p>It started with a bold call: switching a role to embrace a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there - a <b>€1M budget</b> I owned end-to-end, <b>zero users to a community of 200+ practitioners</b>, and a system built to rest in many hands, never mine alone.</p>
+      <p>I set the direction, carried it to leadership, then handed my team the operational goal as OKRs of their own - always tied to the company's annual business objectives, so our ambition lived inside a shared project, never beside it.</p>
+    </div>
+
+    {/* Cartes manipulables au-dela de 1024px, rail a snap en dessous. Aucune
+        n'est exclue du selecteur de drag : contrairement aux tuiles de l'accueil,
+        celui-ci a vraiment des cartes a deplacer. */}
+    {/*
+      .el-figs-wrap n'est pas decoratif : il porte le rythme vertical du bloc, et
+      c'est lui qui rallume les pastilles sous 1024px (`.el-figs-wrap .dots`).
+      Sans lui le carrousel reste navigable, mais muet - aucun repere de position.
+    */}
+    <div class="el-figs-wrap">
+      <div class="el-figs" id="elfigs">
+        {resultats.map((r, i) => (
+          <div class:list={['el-fig-card', `el-fig-card--${i + 1}`]} style={r.pose}>
+            <p class="el-fig__n">{r.chiffre}</p>
+            <p class="el-fig__q">{r.quoi}</p>
+            <p class="el-fig__l">{r.detail}</p>
+            {r.lien && (
+              <a class="btn3 el-fig__cta" href={r.lien.href} target="_blank" rel="noopener noreferrer">
+                {r.lien.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="sr-only"> (opens in a new tab)</span>
+              </a>
+            )}
+          </div>
+        ))}
+      </div>
+      <div class="dots" id="elfigdots" role="group" aria-label="Results">
+        {resultats.map((_, i) => <button class="dot" type="button" aria-label={`Result ${i + 1}`}></button>)}
+      </div>
+    </div>
+
+    <p class="ls-claim ls-claim--big">Adopted. Trusted. Extended.<br><b>Everything a system needs to outlive the person who built it.</b></p>
+
+    <div class="ls-body ls-body--wide">
+      <p><b>And none of it was measured after the fact.</b> I ran the platform on live instruments, read as decisions and not trophies: DORA metrics reviewed every sprint for delivery health, a practitioner satisfaction survey at least twice a year, product priorities re-reviewed quarterly against the business's own priorities, and end-of-session feedback from every community ritual.</p>
+      <p>The data didn't prove the work was good. It told me where to invest, what to deprecate, and which product needed support next - and it changed how we worked: we iterated our whole support model on it, reshaped the rituals, and introduced rotating roles because the signal told us to.</p>
+    </div>
+  </section>
+
+<!-- ═══ 2 · THE STAKES ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-stakes">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>02 - The stakes</span></p>
+      <h2 class="ls-title" id="ch-stakes">One global and unified system.</h2>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>Elements is Sanofi's unified experience system - <b>one design language</b> serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.</p>
+      <p>Some of those platforms carry hundreds of surfaces on their own - <b>one marketing platform alone owns the delivery of 200+ websites worldwide.</b> Systematize at the source, and you reach every one of them at once.</p>
+    </div>
+
+    {/*
+      depart 0 et non 1 comme sur /system-event : ces quatre vignettes se lisent
+      dans l'ordre - « you may think it is a Figma library », puis les produits,
+      les fils, l'equipe - et ouvrir sur la deuxieme couperait la phrase.
+      sizes : la hauteur est plafonnee a 440px et le ratio est 16/9, donc une
+      vignette approche 780px de large, trois fois la valeur par defaut.
+    */}
+    <Carousel id="elfacettes" label="What Elements is" itemLabel="Facet"
+      start={0} sizes="(min-width: 900px) 780px, 90vw" slides={facettes} />
+
+    <p class="ls-sub el-after-fig">That's the scope that makes the stakes real.<br><b>A system this size is two bets in one.</b></p>
+
+    <div class="ls-body ls-body--wide">
+      <p><b>Cost rationalization</b> first, by mutualizing practice so every product team doesn't rebuild the same thing 45 times. Second, <b>experience at scale</b>: one coherent journey across every user touchpoint. Service design for an entire organization, from employee to patient.</p>
+      <p>Both bets only pay if the system is adopted. A system nobody trusts is the worst of both worlds: you fund the platform <em>and</em> the fragmentation it was meant to erase - while the experience stays broken touchpoint by touchpoint. And at this scale, every lost hour of velocity is lost across all of them at once.</p>
+    </div>
+
+    <p class="ls-cap el-scope">Multi-brand · multi-theme · B2B / B2C / internal · from employee to patient · worldwide</p>
+  </section>
+
+<!-- ═══ 3 · THE PROBLEM ═══ -->
+  {/*
+    Traite au layout de /philosophy : les trois mouvements deviennent des Tenet,
+    donc ce sont eux qui portent les <h2>. La section n'a plus de .ls-title - elle
+    est etiquetee par aria-label, exactement comme .creed sur philosophy.
+  */}
+  <section class="ls-chapter ls-reveal" aria-label="The problem">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>03 - The problem</span></p>
+    </div>
+
+    <div class="el-creed">
+      <Tenet num="01" title="Nobody meets.">
+        <p>A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. That's the tax. <b>Not incompetence - distance.</b> Three crafts, three silos, each solving in private what the others had already solved. And it wasn't one handoff, it was the whole ecosystem.</p>
+      </Tenet>
+
+      <Tenet num="02" title="The what was fragmented.">
+        <p>An ecosystem of products and touchpoints that didn't share a language, built on assets that didn't connect. Augmenting <b>design and engineering debts</b>, for every new product launch, at global scale.</p>
+      </Tenet>
+
+      <Tenet num="03" title="The how was worse.">
+        <p>Practices siloed team by team, none standardized. Everyone solving the same problems privately, in parallel, paying the same cost forty-five times over. This is where time goes. Not into the work - into the gaps between people redoing what already exists. Meanwhile the system itself can ship in seconds, digital constraints built in: accessible, responsive, on-brand by default. <b>The capability was there. The structure to use it wasn't.</b></p>
+      </Tenet>
+    </div>
+
+    <p class="ls-note">That's the problem I set out to fix - not with better components, with a better structure.</p>
+  </section>
+
+<!-- ═══ 4 · THE FAILURE — bloc sombre, le coeur emotionnel ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-failure">
+    <div class="card ls-dark">
+      <div class="ls-dark__inner">
+        <p class="ls-eyebrow ls-eyebrow--light"><span>04 - The failure, and the decision</span></p>
+        <h2 class="ls-title" id="ch-failure">You can't outsource the thing your whole system depends on.</h2>
+
+        <div class="ls-body ls-body--light">
+          <p>That's the lesson. Here's the half I don't get to blame on anyone else.</p>
+          <p>The engineering was externalized before my time - not my call. But <b>the early bet I shared, and got wrong, was priority.</b> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified, on-brand system. Piloted on sanofi.com, we were boxed into its framework, and we quietly deprioritized what product teams actually needed.</p>
+          <p>So the system was coherent, and barely adopted. It took me too long to see it: we'd built it brand-first and at arm's length - for the brand, and through a vendor, but not for the people who had to build on it. <b>A design system nobody adopts is the oldest failure in the field</b> - and we'd walked straight into it.</p>
+          <p>So I stopped fixing the output and fixed both sources. I pushed to internalize engineering - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero - design foundations, Figma kit, React repos - this time from a holistic view of the whole portfolio and the experience it had to serve. Brand <em>and</em> product, connected, because I'd learned what it costs to choose one.</p>
+          <p>It wasn't the safe path. Internalizing means owning the budget, the hiring, the reorg - <b>a €1M bet on a model, not a line item.</b> I drove it, and I carried it through.</p>
+        </div>
+
+        <p class="el-lesson">The best architecture I built started as the one I got backwards.</p>
+      </div>
+    </div>
+  </section>
+
+<!-- ═══ 5 · WHAT I OWNED ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-owned">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>05 - What I owned</span></p>
+      <h2 class="ls-title" id="ch-owned">The decision was the easy part.</h2>
+      <p class="ls-lede">A decision is easy to claim - <b>owning it isn't.</b> I didn't just call for internalization; I carried everything that came after.</p>
+    </div>
+
+    {/* registre, pas puces : chaque entree est un libelle display + sa prose */}
+    <dl class="el-ledger">
+      <div class="el-ledger__row">
+        <dt>The money</dt>
+        <dd>A €1M budget - I owned it, forecast it, and arbitrated what the platform funded and shipped.</dd>
+      </div>
+      <div class="el-ledger__row">
+        <dt>The people</dt>
+        <dd>I built the team from one designer to the roles the system needed - recruited them, and created the Experience Ops function: scoped it, defined the role, hired into it.</dd>
+      </div>
+      <div class="el-ledger__row">
+        <dt>The structure</dt>
+        <dd>I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real.</dd>
+      </div>
+      <div class="el-ledger__row">
+        <dt>The governance</dt>
+        <dd>
+          <p>Two models, not one. A <b>hybrid, federated model</b> for how the system is built - a centralized core my team owned, contribution opened outward through inner source, never fully federated: that's the trap. And a <b>tiered service model</b> for how we prioritized support, by each product's weight in the Sanofi portfolio, re-reviewed quarterly against the business's own priorities, so support followed strategy and not the loudest request.</p>
+          <p>A small team serving 45+ products without becoming the bottleneck. <em>This is the model the Design System Awards named a Governance finalist.</em></p>
+        </dd>
+      </div>
+      <div class="el-ledger__row">
+        <dt>The accountability</dt>
+        <dd>VP-level, end to end - from forecasting to stakeholder alignment to the outcome itself.</dd>
+      </div>
+    </dl>
+
+    <p class="ls-claim ls-claim--head">This is the layer no contributor can claim.<br><b>Not the components - the conditions.</b></p>
+  </section>
+
+<!-- ═══ 6 · THE ARCHITECTURE — quatre mouvements ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-architecture">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>06 - The architecture</span></p>
+      <h2 class="ls-title" id="ch-architecture">You maintain a design system. You run a platform.</h2>
+    </div>
+
+    <!-- 6a · trois axes -->
+    <div class="ls-body ls-body--wide">
+      <p>Elements isn't a design system. <b>It's a platform</b> - several products under one governance, one pipeline, for one community. Three axes, six capabilities. And the tension is the point: they aren't parallel axes; each one only works because the other two hold their end.</p>
+    </div>
+
+    {/*
+      Meme anatomie que .case sur l'accueil : bandeau colore + corps blanc.
+      Pas de composant partage pour autant - .case porte un href et rend toute
+      la carte cliquable via .btn3::after ; un axe ne mene nulle part. Ce qui se
+      partage, ce sont les tokens (--accent, --r-lg, --edge), pas le markup.
+    */}
+    <div class="el-axes-wrap">
+      <ul class="el-axes" id="elaxes">
+        {capacites.map((c) => (
+          <li class="el-axis">
+            <div class="el-axis__top">
+              <span class="el-axis__eyebrow">{c.axe}</span>
+              <span class="el-axis__name">{c.titre}</span>
+            </div>
+            <div class="el-axis__body">
+              <p class="el-axis__desc">{c.description} <b>{c.tension}</b></p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <div class="dots" id="elaxesdots" role="group" aria-label="Capabilities">
+        {capacites.map((_, i) => <button class="dot" type="button" aria-label={`Capability ${i + 1}`}></button>)}
+      </div>
+    </div>
+
+    <!-- 6b · le pipeline -->
+    <h3 class="ls-sub el-movement">Five products, one pipeline.</h3>
+    {/* La direction vit HORS du rail : placee a l'interieur, elle disparaissait
+        des que le conteneur defilait - or c'est elle qui porte la these. */}
+    <p class="el-pipe__dir" aria-hidden="true">design<span class="el-pipe__arrow">→</span>dev</p>
+    <ol class="el-pipe" aria-label="From design to dev: the five products of the platform">
+      {produits.map((p, i) => (
+        <li class="el-pipe__node">
+          <span class="el-pipe__n">{String(i + 1).padStart(2, '0')}</span>
+          <span class="el-pipe__name">{p.nom}</span>
+          <span class="el-pipe__note">{p.note}</span>
+        </li>
+      ))}
+    </ol>
+
+    <div class="ls-body ls-body--wide">
+      <p><b>The pipeline is the thesis made physical.</b> Brand, design and engineering pour into the same chain - the wait between experts, engineered out. That's the ÷3: not people working faster, but expertises no longer waiting on each other.</p>
+    </div>
+
+    <figure class="ls-fig el-shot">
+      <Image src={img('Elements-toolingsuite')}
+        alt="The Elements mark at the centre of its tooling suite, each tool grouped by role: documentation with Confluence and Zeroheight, design libraries with Figma, code packages with GitHub and React, code showcase with Storybook, communities with Slack and Teams, and AI solutions"
+        layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
+    </figure>
+
+    <!-- 6c · comment ca tient -->
+    <h3 class="ls-sub el-movement">How it holds itself.</h3>
+    <div class="ls-body ls-body--wide">
+      <p>I didn't build a system I hold together. I built the conditions where it holds itself. <b>Autonomous streams</b>, split by capability, each owned and moving without a central decision - held inside a <b>collective framing</b>, so a stream deciding alone still decides inside a frame it co-wrote. <b>Shared rituals</b> are the connective tissue keeping five hubs one system rather than an archipelago. And every week, the same conversation: <b>is the work moving, and is the person growing.</b> A team that isn't well doesn't ship, so wellbeing isn't a nice-to-have on the side - it's load-bearing.</p>
+      <p>On top of that, <b>a standing feedback loop</b>: we didn't just ship the system, we questioned how we built it - interviewing practitioners, collecting feedback, testing our own ways of working, and reprioritizing support against what we heard. The system improves; so does the team that makes it.</p>
+      <p>And when a product team was under water, we got into the work <em>with</em> them - ego aside, hands in: reviewing their codebase, auditing with concrete proposals, co-building to share the load. That wasn't just me; it was the standard I set and asked everyone to carry. You don't point at the problem from across the room, you cross it. <b>A team that only points the way isn't leading; it's watching.</b></p>
+    </div>
+
+    <p class="ls-sub el-movement">And the values aren't a panel - they're mechanisms.</p>
+    {/*
+      Le <dl> est conserve : chaque equation est bien un terme et sa definition.
+      Il porte juste la grille au bureau et le rail a snap en dessous.
+      .el-eq-wrap n'est pas decoratif - c'est lui qui rallume les pastilles.
+    */}
+    <div class="el-eq-wrap">
+      <dl class="el-equations" id="eleqs">
+        {mecanismes.map((m) => (
+          <div class="el-eq">
+            <dt class="el-eq__line"><span class="el-eq__v">{m.valeur}</span><span class="el-eq__s" aria-hidden="true">=</span><span class="el-eq__m">{m.mecanisme}</span></dt>
+            <dd class="el-eq__note">{m.note}</dd>
+          </div>
+        ))}
+      </dl>
+      <div class="dots" id="eleqdots" role="group" aria-label="Mechanisms">
+        {mecanismes.map((_, i) => <button class="dot" type="button" aria-label={`Mechanism ${i + 1}`}></button>)}
+      </div>
+    </div>
+    <!-- 6d · l equipe, bloc chaud -->
+    <h3 class="ls-sub el-movement">The team that runs it.</h3>
+    <div class="ls-body ls-body--wide">
+      <p>Agile is the tempo, not a checkbox - the metronome keeping six capabilities and five products in sync without a central hand.</p>
+      <p>I set the direction - the axes, the products, the pipeline, the priorities. Each capability runs itself, day to day, through the team I recruited and grew. I owned the <em>why</em> and the <em>what</em>; they owned the <em>how</em>, and made it sharper than I could have specified. Nothing shipped without us aligned.</p>
+    </div>
+
+    <ul class="el-people">
+      <li><b>Nicolas Chatelain</b> runs the People axis — Experience Ops, enablement, Community of Practice.</li>
+      <li><b>Rodolphe</b> runs the System axis — craft, front-end engineering, Experience Patterns.</li>
+    </ul>
+
+    <p class="el-big"><span class="el-big__n">Zero turnover</span><span class="el-big__l">one designer to four, no role lost</span></p>
+
+    <div class="ls-body ls-body--wide">
+      <p><b>Zero turnover isn't luck.</b> People stay where their growth and their wellbeing are part of the plan, not an afterthought - the same care I built into the system, pointed at the team.</p>
+    </div>
+
+    <p class="ls-claim ls-claim--head">My job wasn't to hold it up.<br><b>It was to build a structure that outlasts any of us.</b></p>
+  </section>
+
+<!-- ═══ 7 · THE COMMUNITY ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-community">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>07 - The community</span></p>
+      <h2 class="ls-title" id="ch-community">A design system you install. A community you have to earn.</h2>
+      <p class="ls-lede">Most system owners treat community as a comms afterthought. I made it the strategy.</p>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>The bet: adoption never comes from mandate - only from ownership. So the system had to belong to its users, not to me. <b>A system nobody believes in dies with its founder; one a community owns, outlives them.</b></p>
+      <p><b>Experience runs both ways.</b> Elements serves end users - patients, healthcare professionals - but it also serves the people who build for them. A practitioner is a user too. So their practice gets the same care as any patient journey: fluid, productive, coherent across every perimeter. <em>Design the experience of the people designing the experience.</em></p>
+      <p>So I created the <b>Experience Ops function</b> to make that real, and hired the people to run it. I set the direction - community-led adoption, contribution over control, a path that graduates a practitioner from consumer to contributor to maintainer. My team proposed, built and ran the machine: the Elements Portal, the monthly Elements Demo, the office hours, the contribution and triage rituals, the onboarding path.</p>
+    </div>
+
+    <p class="el-path" aria-label="The practitioner path: consumer, then contributor, then maintainer">
+      <span>consumer</span><span class="el-path__a" aria-hidden="true">→</span><span>contributor</span><span class="el-path__a" aria-hidden="true">→</span><span>maintainer</span>
+    </p>
+
+    <div class="ls-body ls-body--wide">
+      <p>This is how <b>30+ designers across 5 international hubs</b> and <b>200+ practitioners</b> became one community - end to end, from onboarding to production readiness. Not a mailing list: a practice, running on a contribution model adapted from Zalando's, where everyone gives at the level of their skill, from a flagged issue to a full component.</p>
+    </div>
+
+    <figure class="ls-fig el-shot">
+      <Image src={img('elements-community')}
+        alt="A collage of Elements community photographs: groups gathered around laptops in meeting rooms across several hubs, one session joined by remote colleagues on a wall screen"
+        layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
+    </figure>
+
+    <p class="ls-claim el-after-fig">The MCP didn't come from my roadmap.<br><b>It came from a contributor.</b></p>
+
+    <div class="ls-body ls-body--wide">
+      <p>I recognized it, backed it, and turned it into one of the platform's products. The system doesn't just get used, it gets <em>extended</em> - and I turn the strongest of those contributions into platform.</p>
+    </div>
+
+    <p class="el-big"><span class="el-big__n">4.7<span>/5</span></span><span class="el-big__l">practitioner satisfaction — people don't comply with Elements, they trust it</span></p>
+
+    <div class="ls-body ls-body--wide">
+      <p>Taking a system from near-zero to 86% adoption isn't a launch - it's <b>change management at scale</b>: shifting habits across 45+ products, turning resistance into ownership one team at a time. And it's where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - growth through the community, and reverse mentoring that kept me learning as much as I led.</p>
+    </div>
+
+    <p class="ls-note">Not a system people obey - one they own. That's what growing a culture means.</p>
+  </section>
+
+
+<!-- ═══ 9 · WHERE I'D TAKE IT NEXT ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-next">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>08 - Where I'd take it next</span></p>
+      <h2 class="ls-title" id="ch-next">I removed the wait between design and engineering. There's one wait left.</h2>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: because <b>the border between design and engineering is dissolving.</b> AI-augmented workflows are already redrawing both crafts, and a structure that keeps them siloed slows everyone down.</p>
+      <p>Bringing them under one line isn't reorg for its own sake. It's <b>velocity</b>, and it's <b>proximity</b> - sitting end to end with product teams instead of handing work across expertise walls. I'd rather build that structure before the shift forces it than retrofit it after.</p>
+      <p>The move I made once - agency to in-house - pointed here. <b>This is the next mile of the same road.</b></p>
+    </div>
+  </section>
+
+  {/* pas de titre a pointer ici, la chute est en <p> : d'ou l'aria-label */}
+  <section class="ls-closing ls-reveal" aria-label="In closing">
+    <p class="ls-closing__t">Design systems ship standards.<br>Experience systems <em>grow culture</em>.</p>
+    <p class="ls-closing__b">The next one grows it closer to the code.</p>
+  </section>
+
 </Base>
+
+<style is:global>
+  /* ═══ propre a cette page ═══
+     Les motifs `el-` n'existaient pas : ils portent des formes que /system-event
+     n'avait pas besoin de produire (chiffres poses grand, registre, axes,
+     pipeline, equations). La charpente narrative vient de case-study.css. */
+
+
+  /* « governed. » est le premier mot de banniere a porter une descendante : le
+     bottom:-.18em partage, cale sur des mots sans jambage, lui coupait le g. */
+  .banner__culture--desc{bottom:0}
+
+  /* l amorce, sortie du hero */
+
+  /*
+    Les quatre chiffres, en cartes manipulables. Au bureau elles sont posees en
+    absolu et se deplacent a la souris ; sous 1024px le conteneur devient un rail
+    a snap avec pastilles - meme mecanique que les tuiles de l accueil, mais ici
+    aucune carte n est exclue du drag, donc il fonctionne vraiment.
+  */
+  .el-figs-wrap{margin:var(--sp-20) 0}
+  .el-figs{position:relative;height:clamp(360px,40vw,430px);touch-action:none}
+  .el-fig-card{position:absolute;left:var(--x);top:var(--y);width:clamp(210px,24vw,264px);
+    padding:var(--sp-12);border-radius:28px;background:var(--card);
+    border:1px solid var(--line);border-width:max(1px,var(--edge-w));border-color:var(--line);
+    box-shadow:0 18px 38px -22px rgba(120,30,10,.28);cursor:grab;user-select:none;
+    transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;z-index:1}
+  .el-fig-card:hover{transform:rotate(0deg) translateY(-6px) scale(1.02);
+    box-shadow:0 28px 52px -24px rgba(120,30,10,.4);z-index:20}
+  .el-fig-card.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);z-index:30}
+  .el-fig-card--2{background:var(--tile-red)}
+  .el-fig-card--2 .el-fig__n{color:var(--tile-red-ink)}
+  .el-fig-card--2 .el-fig__l{color:var(--tile-red-ink);opacity:.72}
+  /*
+    Carte noire, meme procede que .dc2 sur l accueil : le fond prend --ink et le
+    texte passe en blanc en entier. L accent bleu de --accent-alt, tenu en theme
+    contrast, ne passerait pas sur ce fond - d ou le chiffre en blanc lui aussi.
+  */
+  .el-fig-card--3{background:var(--ink)}
+  .el-fig-card--3 .el-fig__n,.el-fig-card--3 .el-fig__q{color:#fff}
+  .el-fig-card--3 .el-fig__l{color:rgba(255,255,255,.72)}
+  .el-fig__n{font-family:var(--display);font-weight:400;font-size:clamp(36px,4.6vw,60px);line-height:.95;
+    letter-spacing:-.03em;color:var(--accent-alt)}
+  .el-fig__q{margin-top:12px;font-family:var(--display);font-weight:400;font-size:17px;line-height:1.2;
+    letter-spacing:-.01em;color:var(--ink)}
+  .el-fig__l{margin-top:8px;font-size:13px;line-height:1.45;color:var(--ink-muted)}
+  /* la carte porte user-select:none pour le glisser : on le rend au lien, sinon
+     son libelle n'est ni selectionnable ni copiable */
+  .el-fig__cta{margin-top:var(--sp-06);font-size:14px;user-select:auto}
+  /* .btn3 svg fait 20px, cale sur un libelle de 16px ; ici le libelle est a 14px */
+  .el-fig__cta svg{width:16px;height:16px}
+
+
+  /* les trois metiers : le rythme fait le travail */
+  /*
+    Equivalent local de .creed sur /philosophy : .tenet:first-of-type annule son
+    padding haut, il faut donc un ecart porte par le conteneur. .creed elle-meme
+    vit dans philosophy.astro et ne serait pas emise ici.
+  */
+  .el-creed{margin:var(--sp-16) 0 var(--sp-03)}
+
+  /* registre : libelle display + prose, jamais des puces */
+  .el-ledger{margin:var(--sp-16) 0 0;display:grid;gap:0}
+  .el-ledger__row{display:grid;grid-template-columns:minmax(0,.36fr) minmax(0,1fr);gap:var(--sp-19);
+    padding:var(--sp-14) 0;border-top:1px solid var(--line)}
+  .el-ledger__row:last-child{border-bottom:1px solid var(--line)}
+  .el-ledger dt{font-family:var(--display);font-weight:400;font-size:clamp(20px,2.4vw,30px);line-height:1.1;
+    letter-spacing:-.01em;color:var(--accent-alt)}
+  .el-ledger dd{margin:0;font-size:clamp(16px,1.6vw,20px);line-height:1.62;color:var(--ink-soft);max-width:58ch}
+  .el-ledger dd p + p{margin-top:1em}
+  .el-ledger dd b{color:var(--ink);font-weight:700}
+  .el-ledger dd em{font-style:italic;color:var(--ink)}
+
+  /* titre de mouvement, a l interieur d un chapitre */
+  .el-movement{margin-top:var(--sp-20)}
+
+  /*
+    Trois axes, a l'anatomie des cartes de case de l'accueil : bandeau
+    --hero-grad puis corps blanc. La ligne de tension porte toujours le propos.
+    Pas de :hover qui souleve la carte, contrairement a .case : ces cartes ne
+    mènent nulle part, un mouvement au survol promettrait un clic qui n'existe pas.
+    minmax(0,1fr) et non 1fr : « Corporate Design Experience » ferait sinon
+    deborder sa colonne, un item de grille refusant de passer sous min-content.
+  */
+  /*
+    Le schema de la suite d'outils est un aplat blanc opaque, a deux points du
+    canvas (#FFFFFF contre #F6F6F4) : sans filet ses bords se perdraient. On ne
+    peut pas s'en remettre a --edge, nul par defaut et pose seulement en Mondrian.
+  */
+  .el-shot{margin-top:var(--sp-16);background:var(--card);
+    border:1px solid var(--line);border-width:max(1px,var(--edge-w))}
+
+  .el-axes-wrap{margin:var(--sp-14) 0 0}
+  .el-axes{list-style:none;margin:0;padding:0;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-02)}
+  .el-axis{background:var(--card);border-radius:var(--r-lg);overflow:hidden;
+    display:flex;flex-direction:column;min-width:0;
+    box-shadow:0 16px 34px -20px rgba(120,30,10,.25);
+    border:var(--edge-w) solid var(--edge)}
+  /*
+    Bandeau en --hero-grad, comme .case__top sur l'accueil.
+
+    Le degrade s'eclaircit vers la droite (#FFE1C5 en spicy) : tout texte blanc
+    qui l'atteint devient illisible. Les deux max-width ci-dessous ne sont donc
+    pas de la mise en page, ce sont des garde-fous de contraste - ils font passer
+    le texte a la ligne pendant que le fond est encore sature. Toute augmentation
+    de ces valeurs, ou du corps du texte, degrade directement la lisibilite.
+    Le blanc est plein et non translucide : a 70% il retomberait de moitie.
+
+    Choix arbitre avec Lea, mesures a l'appui, le 26/07/2026. En theme spicy les
+    titres tombent entre 2,90 et 3,61:1 et les eyebrows autour de 3,7:1 - donc
+    sous les seuils AA (3:1 pour ces corps de titre, 4,5:1 pour l'eyebrow). C'est
+    assume, au meme titre que le rouge de marque a 4:1 : les themes mono (15,8:1)
+    et contrast (5,7:1) sont le remede accessible. Ne pas "corriger" en aplat
+    sans le lui redemander.
+  */
+  .el-axis__top{background:var(--hero-grad);padding:var(--sp-12);color:#fff}
+  /*
+    Garde-fous en pourcentage et non en ch : le degrade se calcule sur la largeur
+    du bandeau, donc la seule mesure qui compte est la fraction parcourue, pas un
+    nombre de caracteres. Au-dela d'environ 46% le fond est trop clair pour du
+    blanc ; 42% laisse la marge du retour a la ligne.
+  */
+  /*
+    Declarations reprises telles quelles de .case__idx / .case__when / .case__name
+    sur l'accueil - corps, graisses, interlettrages, couleurs, espacements.
+    L'axe tient lieu de categorie, le benefice tient lieu de date.
+
+    Seuls ajouts : les max-width. Ils ne touchent pas au styling, ils decident
+    seulement ou la ligne se coupe. Sans eux le texte traverse tout le bandeau et
+    finit sur le #FFE1C5 du degrade, ou il devient illisible - mesure a l'appui,
+    1,5:1 pour le benefice et 1,8:1 pour le titre.
+  */
+  .el-axis__eyebrow{font-weight:700;font-size:12px;letter-spacing:.12em;
+    text-transform:uppercase;color:#fff}
+  .el-axis__name{display:block;font-family:var(--display);font-weight:400;
+    font-size:clamp(15px,1.5vw,16px);line-height:1.15;letter-spacing:-.01em;color:#fff;
+    margin-top:.4em;white-space:nowrap}
+  .el-axis__body{padding:var(--sp-12);display:flex;flex-direction:column;flex:1}
+  .el-axis__desc{font-size:15px;line-height:1.55;color:var(--ink-soft);flex:1}
+  /* le benefice ferme la description : meme traitement que le gras de .ls-body */
+  .el-axis__desc b{color:var(--ink);font-weight:700}
+
+  /* pipeline : la forme dit « une seule chaine, zero handoff » */
+  .el-pipe{list-style:none;margin:var(--sp-06) 0 0;padding:0;display:flex;align-items:stretch;gap:0;
+    overflow-x:auto;scrollbar-width:none}
+  .el-pipe::-webkit-scrollbar{display:none}
+  .el-pipe__dir{margin-top:var(--sp-14);display:flex;align-items:center;gap:12px;
+    font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-muted)}
+  .el-pipe__arrow{color:var(--accent-alt);font-size:16px;letter-spacing:0}
+  .el-pipe__node{flex:1 1 0;min-width:150px;position:relative;padding:var(--sp-08) var(--sp-03) var(--sp-08) 0;
+    display:grid;gap:6px;align-content:start}
+  .el-pipe__node::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--accent-alt);opacity:.28}
+  .el-pipe__node::after{content:"";position:absolute;left:0;top:-4px;width:10px;height:10px;border-radius:50%;
+    background:var(--accent-alt)}
+  .el-pipe__n{font-size:11px;letter-spacing:.12em;color:var(--ink-muted);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .el-pipe__name{font-family:var(--display);font-weight:400;font-size:clamp(17px,1.8vw,22px);line-height:1.15;color:var(--ink)}
+  .el-pipe__note{font-size:13px;line-height:1.45;color:var(--ink-muted)}
+
+  /* valeur = mecanisme : le renversement, avec de l air */
+  .el-eq-wrap{margin:var(--sp-14) 0 0}
+  /* minmax(0,1fr) et non 1fr : un item de grille refuse sinon de descendre sous
+     sa largeur min-content, et « per-capability ownership » ferait deborder sa colonne */
+  .el-equations{margin:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-03)}
+  .el-eq{padding:var(--sp-12);border-radius:28px;background:var(--card);
+    border:1px solid var(--line);border-width:max(1px,var(--edge-w));border-color:var(--line);
+    box-shadow:0 18px 38px -22px rgba(120,30,10,.28)}
+  /* le corps descend de clamp(24px,3vw,40px) a l'echelle des titres de carte de
+     la page : a 40px, « per-capability ownership » tenait sur quatre lignes dans
+     une colonne de 280px */
+  .el-eq__line{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--sp-02);
+    font-family:var(--display);font-weight:400;font-size:clamp(20px,2.1vw,28px);line-height:1.15;letter-spacing:-.02em}
+  .el-eq__v{color:var(--ink)}
+  .el-eq__s{color:var(--ink-muted)}
+  .el-eq__m{color:var(--accent-alt)}
+  .el-eq__note{margin:12px 0 0;font-size:clamp(15px,1.5vw,18px);line-height:1.6;color:var(--ink-muted)}
+
+  /* les gens : prose, jamais une grille */
+  .el-people{list-style:none;margin:var(--sp-08) 0 0;padding:0;display:grid;gap:var(--sp-06);max-width:62ch}
+  .el-people li{font-size:clamp(16px,1.6vw,20px);line-height:1.62;color:var(--ink-soft)}
+  .el-people b{color:var(--ink);font-weight:700}
+
+  /* un chiffre pose grand et seul */
+  .el-big{margin:var(--sp-20) 0;display:grid;gap:10px;justify-items:start}
+  .el-big__n{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,96px);line-height:.95;
+    letter-spacing:-.03em;color:var(--accent-alt)}
+  .el-big__n span{font-size:.45em;color:var(--ink-muted)}
+  .el-big__l{font-size:clamp(15px,1.5vw,18px);line-height:1.5;color:var(--ink-muted);max-width:44ch}
+
+  /* le parcours du praticien */
+  .el-path{margin:var(--sp-16) 0;display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-03);
+    font-family:var(--display);font-weight:400;font-size:clamp(20px,2.4vw,32px);line-height:1.1;
+    letter-spacing:-.01em;color:var(--ink)}
+  .el-path__a{color:var(--accent-alt)}
+
+  .el-after-fig{margin-top:var(--sp-16)}
+  .el-scope{margin-top:var(--sp-16)}
+
+  /* la lecon du bloc sombre : posee seule */
+  .el-lesson{margin-top:var(--sp-16);font-family:var(--display);font-weight:400;
+    font-size:clamp(24px,3.4vw,44px);line-height:1.1;letter-spacing:-.02em;color:#fff;max-width:24ch}
+
+  @media(max-width:1024px){
+    /* rail a snap : le conteneur perd sa hauteur fixe, les cartes rentrent dans le flux */
+    .el-figs{height:auto;display:flex;overflow-x:auto;gap:var(--sp-03);scroll-snap-type:x mandatory;
+      touch-action:auto;padding:var(--sp-08) 0 var(--sp-12);scrollbar-width:none;
+      margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
+      padding-left:var(--sp-03);padding-right:var(--sp-03)}
+    .el-figs::-webkit-scrollbar{display:none}
+    .el-fig-card{position:relative!important;left:auto!important;top:auto!important;
+      flex:0 0 clamp(210px,62%,280px);scroll-snap-align:center;transform:none;cursor:default}
+    .el-fig-card:hover{transform:none;box-shadow:0 18px 38px -22px rgba(120,30,10,.28)}
+    .el-figs-wrap .dots{display:flex}
+
+    /* meme rail pour les trois mecanismes. Le padding vertical n'est pas du
+       confort : sans lui l'overflow:auto rognerait l'ombre portee des cartes. */
+    .el-equations{grid-template-columns:none;display:flex;overflow-x:auto;gap:var(--sp-03);
+      scroll-snap-type:x mandatory;scrollbar-width:none;
+      margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
+      padding:var(--sp-02) var(--sp-03) var(--sp-10)}
+    .el-equations::-webkit-scrollbar{display:none}
+    .el-eq{flex:0 0 clamp(240px,72%,320px);scroll-snap-align:center}
+    .el-eq-wrap .dots{display:flex}
+  }
+  @media(max-width:900px){
+    /*
+      Six cartes en pile feraient six ecrans : sous 900px la grille devient un
+      rail a snap, comme les resultats et les mecanismes. Les cartes gardent une
+      hauteur egale via align-items:stretch, defaut du flex.
+    */
+    .el-axes{grid-template-columns:none;display:flex;overflow-x:auto;gap:var(--sp-03);
+      scroll-snap-type:x mandatory;scrollbar-width:none;
+      margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
+      padding:var(--sp-02) var(--sp-03) var(--sp-10)}
+    .el-axes::-webkit-scrollbar{display:none}
+    .el-axis{flex:0 0 clamp(250px,74%,330px);scroll-snap-align:center}
+    .el-axes-wrap .dots{display:flex}
+    .el-ledger__row{grid-template-columns:1fr;gap:var(--sp-06)}
+    .el-pipe{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
+      padding:0 var(--sp-03);scroll-snap-type:x proximity}
+    .el-pipe__node{scroll-snap-align:start}
+  }
+  @media(max-width:560px){
+  }
+</style>
+
+<script>
+  import { revealAll } from '../scripts/reveal';
+  import { rendreDeplacable } from '../scripts/drag';
+  import { carrousel } from '../scripts/carousel';
+
+  revealAll('.ls-reveal', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+  revealAll('.talk-card', { threshold: 0.2 });
+  /* sans cet appel, `.js .tenet{opacity:0}` laisserait la section 03 invisible */
+  revealAll('.tenet', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+
+  /* au-dela de 1024px les cartes se deplacent ; en deca le conteneur est un rail */
+  rendreDeplacable('.el-fig-card', '(max-width:1024px)');
+
+  /*
+    Le glisser ecoute pointerdown sur la carte entiere, lien compris : partir du
+    bouton deplacerait la carte, et setPointerCapture rendrait le clic imprevisible.
+    On arrete l'evenement au lien pour qu'il ne remonte jamais jusqu'a la carte.
+  */
+  document.querySelectorAll('.el-fig-card a').forEach((a) => {
+    a.addEventListener('pointerdown', (e) => e.stopPropagation());
+  });
+
+  const facettes = document.getElementById('elfacettes');
+  if (facettes) {
+    carrousel(facettes, {
+      slides: '.ls-carousel__slide',
+      dots: [...facettes.parentElement!.querySelectorAll<HTMLElement>('.ls-carousel__dots .ls-dot')],
+      arc: { y: 18, deg: 4.5, scale: 0.05 },
+      depart: Number(facettes.dataset.start ?? 0),
+    });
+  }
+
+  const axes = document.getElementById('elaxes');
+  if (axes) {
+    carrousel(axes, {
+      slides: '.el-axis',
+      dots: [...document.querySelectorAll<HTMLElement>('#elaxesdots .dot')],
+      arc: { y: 12, deg: 3, scale: 0.04 },
+      /* la grille tient jusqu'a 900px : c'est la qu'elle cede, pas a 1024 */
+      actifSi: '(max-width:900px)',
+      classeDotActive: 'is-active',
+      depart: 0,
+    });
+  }
+
+  const eqs = document.getElementById('eleqs');
+  if (eqs) {
+    /* depart:0 et non 1 comme pour les resultats : les trois mecanismes se lisent
+       dans l'ordre, ouvrir sur le deuxieme couperait la sequence en son milieu. */
+    carrousel(eqs, {
+      slides: '.el-eq',
+      dots: [...document.querySelectorAll<HTMLElement>('#eleqdots .dot')],
+      arc: { y: 12, deg: 3, scale: 0.04 },
+      actifSi: '(max-width:1024px)',
+      classeDotActive: 'is-active',
+      depart: 0,
+    });
+  }
+
+  const figs = document.getElementById('elfigs');
+  if (figs) {
+    carrousel(figs, {
+      slides: '.el-fig-card',
+      dots: [...document.querySelectorAll<HTMLElement>('#elfigdots .dot')],
+      arc: { y: 18, deg: 4.5, scale: 0.05 },
+      actifSi: '(max-width:1024px)',
+      classeDotActive: 'is-active',
+      depart: 1,
+    });
+  }
+</script>

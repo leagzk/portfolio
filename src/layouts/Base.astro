@@ -44,17 +44,22 @@ const personSchema = {
 };
 
 /*
-  Seules les pages redigees figurent dans la nav. Les trois brouillons
-  (operating-system, system-brand, system-practice-elements) restent
-  accessibles en direct mais sortent du menu et portent noindex tant
-  qu'ils affichent "Page en cours de redaction".
-  Pour en remettre une en ligne : la reinscrire ici et retirer son
-  attribut noindex dans la page.
+  Seules les pages redigees figurent dans la nav. Les deux brouillons restants
+  (operating-system, system-brand) sont accessibles en direct mais sortent du
+  menu et portent noindex tant qu'ils affichent "Page en cours de redaction".
+  Pour en remettre une en ligne : la reinscrire ici et retirer son attribut
+  noindex dans la page.
+
+  system-practice-elements fait exception : elle est dans le menu mais garde son
+  noindex, et reste filtree du sitemap. Le texte est complet, les visuels non -
+  trois emplacements y sont encore visibles. Le lien permet de la faire lire ;
+  le noindex evite qu'elle soit indexee dans cet etat. A lever avec les visuels.
 */
 const main = [
   { key: 'philosophy', href: '/philosophy', label: 'Philosophy' },
 ];
 const work = [
+  { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematized a Practice' },
   { key: 'system-event', href: '/system-event', label: 'Systematized a Moment' },
 ];
 ---

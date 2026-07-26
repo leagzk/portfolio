@@ -102,13 +102,25 @@ export function carrousel(track: HTMLElement, o: OptionsCarrousel): void {
   const ouvrirSur = (i: number) => {
     track.style.scrollSnapType = 'none';
     allerA(i, false);
-    requestAnimationFrame(() => {
+    /*
+      Le retablissement passe par requestAnimationFrame, qui est suspendu tant
+      que l'onglet est en arriere-plan : une page ouverte en nouvel onglet
+      resterait alors sans snap une fois revenue au premier plan, le style
+      inline n'ayant jamais ete vide. D'ou le repli sur setTimeout, lui non
+      suspendu, et le verrou pour que le premier des deux fasse le travail.
+    */
+    let fait = false;
+    const retablir = () => {
+      if (fait) return;
+      fait = true;
       /* on vide le style inline plutot que de restaurer une valeur memorisee :
          deux appels concurrents memoriseraient 'none' et le figeraient */
       track.style.scrollSnapType = '';
       syncDots();
       appliquerArc();
-    });
+    };
+    requestAnimationFrame(retablir);
+    setTimeout(retablir, 100);
   };
 
   dots.forEach((d, i) => d.addEventListener('click', () => allerA(i, true)));

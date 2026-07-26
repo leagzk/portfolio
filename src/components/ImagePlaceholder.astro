@@ -1,0 +1,45 @@
+---
+/*
+  Emplacement de visuel, en attendant le fichier reel.
+
+  Il occupe exactement la place de la future image, pour que le rythme de la page
+  soit jugeable avant d'avoir produit la moindre capture. Le remplacement est
+  ensuite mecanique :
+
+      <ImagePlaceholder ref="B" ratio="16/9" brief="…" />
+   -> <figure class="ls-fig"><Image src={img('…')} alt="…" layout="constrained" … /></figure>
+
+  Il ne peut pas partir en production par megarde : la page qui en contient reste
+  `noindex` et hors nav, et le cadre est visuellement explicite.
+*/
+export interface Props {
+  /** reference courte, pour en parler ensemble : "A", "B"... */
+  ref: string;
+  /** ratio du futur visuel, syntaxe CSS aspect-ratio */
+  ratio?: string;
+  /** ce que le visuel doit montrer - c'est le brief de prise de vue */
+  brief: string;
+  /** occupe toute la largeur du chapitre plutot que sa colonne */
+  wide?: boolean;
+}
+const { ref, ratio = '3/2', brief, wide = false } = Astro.props;
+---
+<figure class:list={['slot', wide && 'slot--wide']} style={`--slot-ratio:${ratio}`} role="img" aria-label={`Emplacement de visuel ${ref} : ${brief}`}>
+  <div class="slot__inner">
+    <p class="slot__ref">Visuel {ref}</p>
+    <p class="slot__brief">{brief}</p>
+    <p class="slot__ratio">{ratio}</p>
+  </div>
+</figure>
+
+<style is:global>
+  .slot{margin:0;aspect-ratio:var(--slot-ratio,3/2);border-radius:var(--r-lg);
+    border:2px dashed var(--accent-alt);background:var(--tile-red);
+    display:grid;place-items:center;padding:var(--sp-08);text-align:center}
+  .slot--wide{margin-top:var(--sp-16)}
+  .slot__inner{max-width:44ch;display:grid;gap:var(--sp-01)}
+  .slot__ref{font-family:var(--display);font-size:clamp(20px,2.2vw,28px);color:var(--accent-alt);line-height:1.1}
+  .slot__brief{font-size:14px;line-height:1.5;color:var(--tile-red-ink)}
+  .slot__ratio{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+</style>

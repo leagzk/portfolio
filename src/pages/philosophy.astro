@@ -57,38 +57,6 @@ import Banner from '../components/Banner.astro';
   /* CSS propre a cette page, descendu depuis Base.astro :
      les autres pages ne le telechargent plus. */
   .creed{margin:var(--sp-17) 0 var(--sp-03)}
-  .tenet{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(60px,6.5vw,88px);padding:var(--sp-19) 0;border-top:1px solid var(--line)}
-  .tenet:first-of-type{border-top:none;padding-top:0}
-  .tenet__lead{position:relative;display:flex;align-items:stretch;gap:var(--sp-02)}
-  .tenet__num{flex:none;width:2ch;font-family:var(--display);font-weight:400;font-size:clamp(48px,6vw,72px);line-height:1;font-variant-numeric:tabular-nums;color:var(--accent);margin-top:-.11em}
-  .tenet__head{flex:1;min-width:0}
-  .tenet__idx{font-family:var(--display);font-weight:400;font-size:12px;line-height:1;margin-top:-.125em;letter-spacing:.16em;color:var(--accent);display:block}
-  .tenet__title{font-family:var(--display);font-weight:400;font-size:clamp(20px,2.2vw,28px);line-height:1.12;letter-spacing:-.02em;color:var(--ink);margin-top:12px;hyphens:none}
-  .tenet__body{font-size:clamp(16px,1.6vw,20px);color:var(--ink-soft);max-width:60ch}
-  .tenet__body + .tenet__body{margin-top:1em}
-  .tenet__body p + p{margin-top:1.15em}
-  .tenet__body b{color:var(--ink);font-weight:700}
-  .tenet__body em{font-style:italic;color:var(--ink)}
-  .js .tenet{opacity:0;transform:translateY(16px)}
-  .js .tenet.in{opacity:1;transform:none;transition:opacity .6s ease,transform .6s cubic-bezier(.22,1,.36,1)}
-  .js .tenet__num{opacity:0;transform:translateX(-16px) scale(.96);transform-origin:left center}
-  .js .tenet__idx{opacity:0;transform:translateY(8px)}
-  .js .tenet__title{opacity:0;transform:translateY(12px)}
-  .js .tenet.in .tenet__num{opacity:1;transform:none;transition:opacity .7s ease .08s,transform .7s cubic-bezier(.22,1,.36,1) .08s}
-  .js .tenet.in .tenet__idx{opacity:1;transform:none;transition:opacity .6s ease .24s,transform .6s cubic-bezier(.22,1,.36,1) .24s}
-  .js .tenet.in .tenet__title{opacity:1;transform:none;transition:opacity .6s ease .36s,transform .6s cubic-bezier(.22,1,.36,1) .36s}
-  /* palier harmonise : etait 880px, aligne sur le 900px de system-event */
-  @media(max-width:900px){
-  .tenet{grid-template-columns:1fr;gap:clamp(40px,6vw,48px)}
-  .tenet__lead{display:block}
-  .tenet__num{display:none}
-  .tenet__idx::before{content:attr(data-num) " · "}
-  .tenet__title{margin-top:8px;line-height:1.2}
-}
-  @media(prefers-reduced-motion:reduce){
-  .js .tenet{opacity:1;transform:none}
-  .js .tenet__num,.js .tenet__idx,.js .tenet__title{opacity:1;transform:none;transition:none}
-}
 </style>
 
 <script>

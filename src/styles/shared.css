@@ -74,3 +74,12 @@
   .banner{flex-direction:column;align-items:flex-start;text-align:left;min-height:0;padding:calc(var(--mobbar-h) + 16px) var(--sp-04) var(--sp-18)}
   .banner__inner{padding:0;margin-top:var(--sp-02)}
 }
+
+/*
+  Pagination de carrousel. Vivait dans index.astro, mais /system-practice-elements
+  l'utilise aussi : une regle qui sert deux pages ne peut pas vivre dans l'une
+  d'elles. Masquee par defaut, chaque page l'affiche a son propre breakpoint.
+*/
+.dots{display:none;justify-content:center;gap:12px;margin-top:16px}
+.dot{width:9px;height:9px;border-radius:50%;border:none;padding:0;cursor:pointer;background:var(--line);transition:transform .18s ease,background .18s ease}
+.dot.is-active{background:var(--accent);transform:scale(1.35)}

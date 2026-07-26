@@ -67,8 +67,14 @@ import Banner from '../components/Banner.astro';
   </section>
 
   <!-- I don't build design systems -->
-  <section class="betlede">
-    <h2 class="osbridge__title">I don't build design systems. I build experience systems.</h2>
+  {/*
+    Une <section> ne devient une region annoncable que si elle porte un nom
+    accessible ; sans lui elle est un conteneur generique et disparait du rotor.
+    On pointe le titre visible plutot que d'inventer un aria-label : le nom
+    annonce est alors exactement celui qui est lu a l'ecran.
+  */}
+  <section class="betlede" aria-labelledby="betlede-t">
+    <h2 class="osbridge__title" id="betlede-t">I don't build design systems. I build experience systems.</h2>
     <p class="osbridge__text">Fifty would be padding. Three prove it - a platform, an organisation, and a space you could immerse yourself in. <b>Same thinking, three worlds - no craft left in a silo.</b></p>
   </section>
   <div class="cases">
@@ -126,9 +132,6 @@ import Banner from '../components/Banner.astro';
   .dc1--grid .dcard__back{background:var(--tile-red)}
   .dc1--grid .dcard__t,.dc1--grid .dcard__b{color:var(--tile-red-ink)}
   .dc-hand{font-size:clamp(40px,6vw,56px);line-height:1;margin-top:16px;align-self:flex-start}
-  .dots{display:none;justify-content:center;gap:12px;margin-top:16px}
-  .dot{width:9px;height:9px;border-radius:50%;border:none;padding:0;cursor:pointer;background:var(--line);transition:transform .18s ease,background .18s ease}
-  .dot.is-active{background:var(--accent);transform:scale(1.35)}
   .dc2--flip .dcard__front,.dc2--flip .dcard__back{background:var(--ink)}
   .dc2--flip .dcard__front .dcard__t,.dc2--flip .dcard__back .dcard__b{color:#fff}
   .dc2__kbd{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:16px;padding:8px 12px;border:1.5px solid rgba(255,255,255,.4);border-radius:12px;font-family:var(--display);font-weight:400;font-size:12px;color:#fff}
@@ -160,13 +163,22 @@ import Banner from '../components/Banner.astro';
   .case__hook{font-size:16px;color:var(--ink-soft);flex:1}
   .btn3__i{transition:color .2s}
   @media(max-width:1024px){
+    /* les pastilles n apparaissent qu en mode carrousel */
+    .dots{display:flex}
   .intro__id{display:flex;gap:16px;align-items:center}
   .intro__photo{display:block;flex:none;width:clamp(88px,18vw,132px);height:clamp(88px,18vw,132px);border-radius:50%;overflow:hidden;border:3px solid var(--card);box-shadow:0 12px 26px -14px rgba(120,30,10,.4);background:var(--portrait) center/cover no-repeat}
   .intro__text{min-width:0}
-  .drag{height:auto;display:flex;overflow-x:auto;gap:16px;scroll-snap-type:x mandatory;padding:var(--sp-10) 0 var(--sp-13);-webkit-overflow-scrolling:touch;align-items:stretch;scroll-padding-left:0}
+  /*
+    touch-action:auto annule le `none` de la regle racine. Ce `none` sert au
+    glisser-deposer des tuiles au bureau : il empeche le navigateur de prendre
+    le geste a la place du pointerdown. Mais ici le drag est desactive et .drag
+    est devenu un rail defilant - laisser `none` revient a dire au navigateur de
+    ne traiter aucun geste tactile dessus, donc le balayage ne fait rien du tout.
+    Invisible au test programmatique : scrollLeft et les clics ignorent touch-action.
+  */
+  .drag{height:auto;display:flex;overflow-x:auto;gap:16px;scroll-snap-type:x mandatory;padding:var(--sp-10) 0 var(--sp-13);-webkit-overflow-scrolling:touch;align-items:stretch;scroll-padding-left:0;touch-action:auto}
   .dcard--photo{display:none}
   .dcard{position:relative!important;left:auto!important;top:auto!important;flex:0 0 clamp(440px,80%,640px);scroll-snap-align:center;transform:none}
-  .dots{display:flex}
   .dcard--flip{height:auto;border:5px solid #fff;border-radius:36px;overflow:hidden;box-shadow:0 24px 44px -26px rgba(40,20,12,.28);transform-origin:50% 58%;transition:transform .08s linear;will-change:transform}
   .dcard--flip:hover{transform:none;box-shadow:0 24px 44px -26px rgba(40,20,12,.28)}
   .dcard--flip .dcard__inner{transform:none!important;display:flex;flex-direction:row;height:100%;align-items:stretch}
