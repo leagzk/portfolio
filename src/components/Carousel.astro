@@ -46,6 +46,14 @@ export interface Props {
     donc floue. A recalculer des que le ratio des visuels change.
   */
   sizes?: string;
+  /*
+    Vignettes paysage. Par defaut c'est la HAUTEUR qui est fixee et la largeur
+    qui suit le ratio - juste pour des portraits, ruineux pour du 16/9 : sur un
+    ecran de 375px une vignette fait alors 498px de large, et on ne voit jamais
+    une image entiere, seulement un fragment de chacune. Ce drapeau inverse le
+    pilote sous 720px : la largeur se cale sur l'ecran, la hauteur suit.
+  */
+  wide?: boolean;
   slides: Slide[];
 }
 
@@ -55,10 +63,11 @@ const {
   itemLabel = 'Item',
   start = 0,
   sizes = '(min-width: 900px) 340px, 60vw',
+  wide = false,
   slides,
 } = Astro.props;
 ---
-<div class="ls-carousel">
+<div class:list={['ls-carousel', wide && 'ls-carousel--wide']}>
   <ul class="ls-carousel__track" id={id} data-start={start}>
     {slides.map((s) => (
       <li class="ls-carousel__slide">

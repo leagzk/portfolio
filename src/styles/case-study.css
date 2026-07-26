@@ -113,6 +113,17 @@
   .ba{grid-template-columns:1fr}
   .ba__frame{aspect-ratio:auto}
   .ba__frame img{height:auto}
+  /*
+    Variante paysage : la largeur devient le pilote, la hauteur suit le ratio de
+    l'image (donne par ses attributs width/height, Astro ne pose que height:auto).
+    84vw et non 100 : le reste de l'ecran laisse voir un bout de la vignette
+    suivante - c'est ce mors qui dit qu'on peut balayer. Sans lui, un carrousel
+    dont on voit une seule image ne se signale plus comme un carrousel.
+    Mesure a 375px : 16px de marge + 315px de vignette + 12px de gouttiere
+    laissent 32px de la suivante. A 88vw il n'en restait que 16, soit un lisere
+    qu'on prend pour un bord de page.
+  */
+  .ls-carousel--wide .ls-carousel__fig img{width:min(84vw,560px);height:auto}
 }
 @media(max-width:560px){
   .ls-step{grid-template-columns:1fr}

@@ -66,13 +66,19 @@ const facettes = [
     alt: "Portraits of the team arranged over a world map, showing how widely its members are spread" },
 ];
 
-/* Les cinq produits, dans l'ordre de la chaine design -> dev. */
+/*
+  Les sept produits, dans l'ordre de la chaine design -> dev. L'ordre EST la
+  these : on part des tokens et on finit sur la vitrine, sans qu'aucun relais
+  n'attende un humain. Le reordonner casse la demonstration du ÷3.
+*/
 const produits = [
   { nom: 'Token architecture', note: 'multi-brand, multi-theme' },
-  { nom: 'Figma Companion', note: 'palettes, accessibility checks, layout scaffolding' },
-  { nom: 'Elements Portal', note: 'documentation' },
-  { nom: 'MCP', note: 'born as a contribution' },
-  { nom: 'Living Documentation', note: 'versioned, visible, reachable' },
+  { nom: 'Libraries', note: 'Figma and React, hosted on GitHub' },
+  { nom: 'Figma Companion', note: 'palettes, accessibility checks, layout scaffolding directly from the canvas' },
+  { nom: 'Storybook', note: 'source of truth, living, versioned documentation' },
+  { nom: 'Elements MCP', note: 'integrated into AI design and engineering workflows' },
+  { nom: 'Integrated support channels', note: 'Slack and Teams streams with automation layers' },
+  { nom: 'Elements Portal', note: 'showcase website' },
 ];
 
 /* Valeur = mecanisme. Le renversement est le sujet, d'ou le traitement en equation. */
@@ -129,10 +135,12 @@ const resultats = [
     <div class="ls-head">
       <p class="ls-eyebrow"><span>01 - The results</span></p>
       <h2 class="ls-title" id="ch-results">A structure only counts if it holds.</h2>
+      {/* la reponse au titre, remontee du corps : c'est la relance du chapitre,
+          pas un paragraphe parmi trois - meme place que sur /system-event */}
+      <p class="ls-lede">This one does - and the numbers are the system's, not mine.</p>
     </div>
 
     <div class="ls-body ls-body--wide">
-      <p>This one does - and the numbers are the system's, not mine.</p>
       <p>It started with a bold call: switching a role to embrace a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there - a <b>€1M budget</b> I owned end-to-end, <b>zero users to a community of 200+ practitioners</b>, and a system built to rest in many hands, never mine alone.</p>
       <p>I set the direction, carried it to leadership, then handed my team the operational goal as OKRs of their own - always tied to the company's annual business objectives, so our ambition lived inside a shared project, never beside it.</p>
     </div>
@@ -191,9 +199,12 @@ const resultats = [
       les fils, l'equipe - et ouvrir sur la deuxieme couperait la phrase.
       sizes : la hauteur est plafonnee a 440px et le ratio est 16/9, donc une
       vignette approche 780px de large, trois fois la valeur par defaut.
+      Trois clauses parce qu'il y a trois regimes : hauteur plafonnee au-dela de
+      900px, hauteur encore fluide entre 721 et 899 (~70vw de large a ce ratio),
+      puis `wide` qui reprend la main sous 720px et cale la largeur sur l'ecran.
     */}
     <Carousel id="elfacettes" label="What Elements is" itemLabel="Facet"
-      start={0} sizes="(min-width: 900px) 780px, 90vw" slides={facettes} />
+      start={0} sizes="(min-width: 900px) 780px, (min-width: 721px) 70vw, 84vw" wide slides={facettes} />
 
     <p class="ls-sub el-after-fig">That's the scope that makes the stakes real.<br><b>A system this size is two bets in one.</b></p>
 
@@ -229,8 +240,6 @@ const resultats = [
         <p>Practices siloed team by team, none standardized. Everyone solving the same problems privately, in parallel, paying the same cost forty-five times over. This is where time goes. Not into the work - into the gaps between people redoing what already exists. Meanwhile the system itself can ship in seconds, digital constraints built in: accessible, responsive, on-brand by default. <b>The capability was there. The structure to use it wasn't.</b></p>
       </Tenet>
     </div>
-
-    <p class="ls-note">That's the problem I set out to fix - not with better components, with a better structure.</p>
   </section>
 
 <!-- ═══ 4 · THE FAILURE — bloc sombre, le coeur emotionnel ═══ -->
@@ -269,7 +278,7 @@ const resultats = [
       </div>
       <div class="el-ledger__row">
         <dt>The people</dt>
-        <dd>I built the team from one designer to the roles the system needed - recruited them, and created the Experience Ops function: scoped it, defined the role, hired into it.</dd>
+        <dd>I built the team from one designer to the roles the system needed - recruited them, and created the Practitioner Experience capability: scoped it, defined the role, hired into it.</dd>
       </div>
       <div class="el-ledger__row">
         <dt>The structure</dt>
@@ -329,11 +338,13 @@ const resultats = [
     </div>
 
     <!-- 6b · le pipeline -->
-    <h3 class="ls-sub el-movement">Five products, one pipeline.</h3>
-    {/* La direction vit HORS du rail : placee a l'interieur, elle disparaissait
-        des que le conteneur defilait - or c'est elle qui porte la these. */}
-    <p class="el-pipe__dir" aria-hidden="true">design<span class="el-pipe__arrow">→</span>dev</p>
-    <ol class="el-pipe" aria-label="From design to dev: the five products of the platform">
+    {/* La direction est passee dans le titre. Elle vivait avant dans un
+        « design → dev » separe, hors du rail pour qu'il ne defile pas avec lui :
+        une ligne de plus a placer, et une fleche qui mentait des que la chaine
+        passait a la verticale. Dans le titre elle ne peut plus se desolidariser
+        de ce qu'elle annonce. */}
+    <h3 class="ls-sub el-movement">Seven products, one pipeline from design to dev.</h3>
+    <ol class="el-pipe" aria-label="The seven products of the platform, from design to dev">
       {produits.map((p, i) => (
         <li class="el-pipe__node">
           <span class="el-pipe__n">{String(i + 1).padStart(2, '0')}</span>
@@ -383,19 +394,35 @@ const resultats = [
     <!-- 6d · l equipe, bloc chaud -->
     <h3 class="ls-sub el-movement">The team that runs it.</h3>
     <div class="ls-body ls-body--wide">
-      <p>Agile is the tempo, not a checkbox - the metronome keeping six capabilities and five products in sync without a central hand.</p>
-      <p>I set the direction - the axes, the products, the pipeline, the priorities. Each capability runs itself, day to day, through the team I recruited and grew. I owned the <em>why</em> and the <em>what</em>; they owned the <em>how</em>, and made it sharper than I could have specified. Nothing shipped without us aligned.</p>
+      <p>Agile is the tempo, not a checkbox - the metronome keeping six capabilities and seven products in sync without a central hand.</p>
+      <p>I set the direction - the axes, the products, the pipeline, the priorities. Each capability runs itself, day to day, through the team I recruited and grew. <b>I owned the <em>why</em> and the <em>what</em>; they owned the <em>how</em></b>, and made it sharper than I could have specified. Nothing shipped without us aligned.</p>
     </div>
 
-    <ul class="el-people">
-      <li><b>Nicolas Chatelain</b> runs the People axis — Experience Ops, enablement, Community of Practice.</li>
-      <li><b>Rodolphe</b> runs the System axis — craft, front-end engineering, Experience Patterns.</li>
-    </ul>
+    {/*
+      Le trio aux Design System Awards, dans le cercle de l'accueil : meme forme,
+      meme entree (stickIn), meme anneau au survol (tilePulse). La parente
+      visuelle n'est pas decorative - la photo de l'accueil est celle de Lea
+      seule, celle-ci est celle des trois, et c'est exactement le propos du
+      chapitre : le systeme ne tient pas dans une seule paire de mains.
+    */}
+    <div class="el-trio ls-reveal">
+      <figure class="el-trio__photo">
+        <Image src={img('lea-nicolas-rodolphe-elements-awards')}
+          alt="Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards"
+          layout="constrained" sizes="(min-width: 900px) 620px, 118vw" loading="lazy" decoding="async" />
+      </figure>
+      <div class="el-trio__body">
+        <p>For example, <a class="el-link" href="https://nicolas-chatelain-ops.vercel.app/" target="_blank" rel="noopener noreferrer">Nicolas Chatelain<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="sr-only"> (opens in a new tab)</span></a> was leading the People axis from Experience Operations enablement to Community of Practice engagement plan and POC. In parallel, <a class="el-link" href="https://rodolphe.design/chat" target="_blank" rel="noopener noreferrer">Rodolphe Peruzza<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="sr-only"> (opens in a new tab)</span></a> was leading the System axis, from craft to experiences patterns industrialization.</p>
+      </div>
+    </div>
 
-    <p class="el-big"><span class="el-big__n">Zero turnover</span><span class="el-big__l">one designer to four, no role lost</span></p>
+    {/* Le chiffre porte la duree, pas le detail : les trois autres faits sont des
+        mesures, pas des slogans, et vivent donc dans le corps juste apres. */}
+    <p class="el-big el-big--phrase"><span class="el-big__n">Zero resignations</span><span class="el-big__l">in three years</span></p>
 
     <div class="ls-body ls-body--wide">
-      <p><b>Zero turnover isn't luck.</b> People stay where their growth and their wellbeing are part of the plan, not an afterthought - the same care I built into the system, pointed at the team.</p>
+      <p>Design went from one to five. One contractor converted to full-time. Average completed engagement: <b>23 months against a one-year target.</b></p>
+      <p>The people who left in 2026 left for reasons none of us chose - a group budget call, a product remap, a scoped engagement that ended as planned. <b>Not one left me.</b> That's not luck. People stay where their growth and their wellbeing are part of the plan, not an afterthought, the same care I built into the system, pointed at the team.</p>
     </div>
 
     <p class="ls-claim ls-claim--head">My job wasn't to hold it up.<br><b>It was to build a structure that outlasts any of us.</b></p>
@@ -412,7 +439,7 @@ const resultats = [
     <div class="ls-body ls-body--wide">
       <p>The bet: adoption never comes from mandate - only from ownership. So the system had to belong to its users, not to me. <b>A system nobody believes in dies with its founder; one a community owns, outlives them.</b></p>
       <p><b>Experience runs both ways.</b> Elements serves end users - patients, healthcare professionals - but it also serves the people who build for them. A practitioner is a user too. So their practice gets the same care as any patient journey: fluid, productive, coherent across every perimeter. <em>Design the experience of the people designing the experience.</em></p>
-      <p>So I created the <b>Experience Ops function</b> to make that real, and hired the people to run it. I set the direction - community-led adoption, contribution over control, a path that graduates a practitioner from consumer to contributor to maintainer. My team proposed, built and ran the machine: the Elements Portal, the monthly Elements Demo, the office hours, the contribution and triage rituals, the onboarding path.</p>
+      <p>So I created the <b>Experience Ops function</b> to make that real, and elevate one of my team members to run it, identifying how the career growth potential and the outcome for the company were seamlessly paired. I set the direction - community-led adoption, contribution over control, a path that graduates a practitioner from consumer to contributor to maintainer. My team proposed, built and ran the machine: the Elements Portal, the monthly Elements Demo, the office hours, the contribution and triage rituals, the onboarding path.</p>
     </div>
 
     <p class="el-path" aria-label="The practitioner path: consumer, then contributor, then maintainer">
@@ -610,12 +637,11 @@ const resultats = [
   .el-axis__desc b{color:var(--ink);font-weight:700}
 
   /* pipeline : la forme dit « une seule chaine, zero handoff » */
-  .el-pipe{list-style:none;margin:var(--sp-06) 0 0;padding:0;display:flex;align-items:stretch;gap:0;
+  /* sp-14 et non sp-06 : cette marge portait l'ecart au « design → dev » qui
+     precedait la chaine ; sans lui c'est elle qui doit tenir l'ecart au titre */
+  .el-pipe{list-style:none;margin:var(--sp-14) 0 0;padding:0;display:flex;align-items:stretch;gap:0;
     overflow-x:auto;scrollbar-width:none}
   .el-pipe::-webkit-scrollbar{display:none}
-  .el-pipe__dir{margin-top:var(--sp-14);display:flex;align-items:center;gap:12px;
-    font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-muted)}
-  .el-pipe__arrow{color:var(--accent-alt);font-size:16px;letter-spacing:0}
   .el-pipe__node{flex:1 1 0;min-width:150px;position:relative;padding:var(--sp-08) var(--sp-03) var(--sp-08) 0;
     display:grid;gap:6px;align-content:start}
   .el-pipe__node::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--accent-alt);opacity:.28}
@@ -625,6 +651,20 @@ const resultats = [
     font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
   .el-pipe__name{font-family:var(--display);font-weight:400;font-size:clamp(17px,1.8vw,22px);line-height:1.15;color:var(--ink)}
   .el-pipe__note{font-size:13px;line-height:1.45;color:var(--ink-muted)}
+  /*
+    Au-dela de 900px la chaine ne defile plus : ni snap, ni pastilles, ni bord
+    coupe pour le signaler. Tout ce qui depasse la colonne de 1032px est donc
+    perdu sans que rien ne le dise - et avec sept maillons, `min-width:150px`
+    depassait de 18px. On rend la largeur au partage (min-width:0, sept colonnes
+    egales de ~147px) et on descend le corps du libelle en consequence : 22px
+    dans 127px de texte mettait « Integrated support channels » sur trois lignes
+    hautes qui desequilibraient toute la rangee.
+    En dessous de 900px on ne touche a rien : la c'est un rail, il DOIT deborder.
+  */
+  @media(min-width:901px){
+    .el-pipe__node{min-width:0;padding-right:var(--sp-02)}
+    .el-pipe__name{font-size:clamp(15px,1.5vw,19px)}
+  }
 
   /* valeur = mecanisme : le renversement, avec de l air */
   .el-eq-wrap{margin:var(--sp-14) 0 0}
@@ -645,16 +685,89 @@ const resultats = [
   .el-eq__note{margin:12px 0 0;font-size:clamp(15px,1.5vw,18px);line-height:1.6;color:var(--ink-muted)}
 
   /* les gens : prose, jamais une grille */
-  .el-people{list-style:none;margin:var(--sp-08) 0 0;padding:0;display:grid;gap:var(--sp-06);max-width:62ch}
-  .el-people li{font-size:clamp(16px,1.6vw,20px);line-height:1.62;color:var(--ink-soft)}
-  .el-people b{color:var(--ink);font-weight:700}
+  .el-trio{margin:var(--sp-16) 0 0;display:grid;
+    grid-template-columns:clamp(200px,26vw,320px) minmax(0,1fr);
+    gap:var(--sp-14);align-items:center}
+  /*
+    Cercle repris de .dcard--photo sur l'accueil. Deux differences assumees :
+    l'image passe par <Image> et non par un fond CSS (elle vit dans src/assets,
+    donc elle merite le pipeline responsive), et le conteneur porte donc
+    overflow:hidden + object-fit pour recadrer comme le ferait `center/cover`.
+  */
+  .el-trio__photo{position:relative;margin:0;aspect-ratio:1;border-radius:50%;overflow:hidden;
+    background:var(--tile-red);box-shadow:0 22px 44px -20px rgba(120,30,10,.30)}
+  /*
+    Recadrage en deux temps, parce qu'un seul ne suffit pas.
+
+    1. object-position - la photo est un 2/3 vertical (2000x3000) et les visages
+       occupent le tiers HAUT du cadre. Un carre centre prend la bande du milieu :
+       il coupait le haut du crane du premier et remplissait le bas du cercle de
+       jambes. 10% et non 0 : cale tout en haut, le cadrage gagnait 200px de
+       guirlande vide et collait le menton de la troisieme au bord du cercle.
+    2. scale() - il reste une quatrieme personne sous le trio, et aucun cadrage
+       carre ne l'exclut : elle est dans la meme bande que les trois autres. On
+       zoome donc dans la fenetre pour ne garder que son centre. A 1.9 le cercle
+       montre ~53% de la largeur d'origine ; les deux valeurs sont solidaires,
+       toucher l'une sans l'autre fait revenir le quatrieme visage par le bas.
+
+    Le scale vit sur l'img et non sur .el-trio__photo : la figure porte deja
+    l'animation d'entree (stickIn), qui ecraserait cette transform.
+    sizes suit : on affiche 320px mais on n'utilise que 53% du fichier, donc il
+    en faut ~620 sous peine d'un cercle flou.
+  */
+  .el-trio__photo img{width:100%;height:100%;object-fit:cover;object-position:center 10%;
+    transform:scale(1.9);display:block}
+  [data-theme="contrast"] .el-trio__photo{border:var(--edge-w) solid var(--edge);box-shadow:none}
+  /*
+    L'anneau au survol. Il ne peut pas vivre sur .el-trio__photo lui-meme :
+    overflow:hidden le rognerait, alors qu'il doit deborder de 3px. D'ou le
+    frere en position absolue, pose par-dessus et transparent aux clics.
+  */
+  .el-trio__photo::after{content:"";position:absolute;inset:0;border-radius:50%;
+    border:2px solid var(--ring);opacity:0;pointer-events:none}
+  .el-trio__photo:hover::after{animation:tilePulse .9s ease-out}
+  .el-trio__body{font-size:clamp(16px,1.6vw,20px);line-height:1.62;color:var(--ink-soft);max-width:52ch}
+  /*
+    Meme entree que les tuiles de l'accueil. --rot doit exister : stickIn
+    l'interpole dans son rotate(), et une custom property absente rend toute la
+    transform invalide - l'animation ne jouerait pas du tout. 0deg ici, la ou
+    l'accueil incline ses tuiles : une photo de groupe penchee se lit comme un
+    defaut de cadrage, pas comme une intention.
+  */
+  .el-trio__photo{--rot:0deg}
+  .js .el-trio__photo{opacity:0;transform:rotate(var(--rot)) scale(.4)}
+  .js .el-trio.in .el-trio__photo{animation:stickIn .55s cubic-bezier(.34,1.56,.64,1) forwards}
+
+  /*
+    Lien externe DANS le corps du texte. Meme signature que .btn3 - couleur
+    --btn3, meme glyphe de sortie, meme mention lecteur d'ecran - mais inline :
+    .btn3 est un bouton, son padding et son corps fixe de 16px creveraient
+    l'interligne d'un paragraphe fluide. inline-flex et non inline pour que le
+    nom et son icone ne se separent jamais en fin de ligne.
+  */
+  .el-link{display:inline-flex;align-items:center;gap:5px;color:var(--btn3);
+    font-weight:700;text-decoration:none;transition:color .2s}
+  .el-link:hover{color:var(--ink);text-decoration:underline}
+  .el-link svg{width:.8em;height:.8em;flex:none}
 
   /* un chiffre pose grand et seul */
   .el-big{margin:var(--sp-20) 0;display:grid;gap:10px;justify-items:start}
-  .el-big__n{font-family:var(--display);font-weight:400;font-size:clamp(40px,7vw,96px);line-height:.95;
-    letter-spacing:-.03em;color:var(--accent-alt)}
+  .el-big__n,.el-big--phrase .el-big__l{font-family:var(--display);font-weight:400;
+    font-size:clamp(40px,7vw,96px);line-height:.95;letter-spacing:-.03em;color:var(--accent-alt)}
   .el-big__n span{font-size:.45em;color:var(--ink-muted)}
   .el-big__l{font-size:clamp(15px,1.5vw,18px);line-height:1.5;color:var(--ink-muted);max-width:44ch}
+  /*
+    Variante « une seule phrase ». Le second segment n'est pas une legende sous
+    le chiffre mais la fin de la phrase - « Zero resignations in three years » -
+    donc il en reprend exactement le traitement. Deux consequences :
+    - gap a 0. A 10px entre deux lignes de 96px, la phrase se lisait comme deux
+      affirmations posees l'une sous l'autre, ce que la legende EST dans l'autre
+      .el-big de la page (« 4.7/5 » et sa glose), mais pas celle-ci.
+    - max-width neutralise. Les 44ch de la legende sont une mesure de lecture
+      pour du corps de 18px ; a 96px ils couperaient la phrase au hasard.
+  */
+  .el-big--phrase{gap:0}
+  .el-big--phrase .el-big__l{max-width:none}
 
   /* le parcours du praticien */
   .el-path{margin:var(--sp-16) 0;display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-03);
@@ -668,6 +781,50 @@ const resultats = [
   /* la lecon du bloc sombre : posee seule */
   .el-lesson{margin-top:var(--sp-16);font-family:var(--display);font-weight:400;
     font-size:clamp(24px,3.4vw,44px);line-height:1.1;letter-spacing:-.02em;color:#fff;max-width:24ch}
+
+  /* ═══ decouverte progressive ═══
+     Meme grammaire que .tenet et que les tuiles de l'accueil : le bloc entier
+     n'apparait pas d'un coup, ses elements se posent l'un apres l'autre dans
+     l'ordre de lecture. Ce qui se lit comme une suite (un registre, un chemin,
+     une chaine) se DECOUVRE comme une suite - la forme raconte le propos.
+     Tout est conditionne a `.js` : sans script, rien n'est masque. */
+
+  /* le registre : une ligne se pose quand on l'atteint, jamais les cinq d'un bloc */
+  .js .el-ledger__row{opacity:0;transform:translateY(14px)}
+  .js .el-ledger__row.in{opacity:1;transform:none;
+    transition:opacity .55s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+
+  /*
+    Le chemin du praticien. Les delais sont poses par --d et non par des regles
+    nth-child separees : les cinq enfants alternent mot / fleche, et c'est la
+    fleche qui doit arriver AVANT le mot qu'elle amene - sinon le mot apparait
+    puis la fleche le rattrape, ce qui inverse la lecture.
+  */
+  .js .el-path > *{opacity:0;transform:translateY(10px)}
+  .js .el-path.in > *{opacity:1;transform:none;
+    transition:opacity .5s ease var(--d,0s),transform .55s cubic-bezier(.22,1,.36,1) var(--d,0s)}
+  .js .el-path.in > :nth-child(2){--d:.14s}
+  .js .el-path.in > :nth-child(3){--d:.22s}
+  .js .el-path.in > :nth-child(4){--d:.36s}
+  .js .el-path.in > :nth-child(5){--d:.44s}
+
+  /*
+    Les six capacites et les trois equations, au bureau seulement : sous leurs
+    breakpoints respectifs ces blocs deviennent des rails et carrousel() pilote
+    leur `transform` (l'arc). Une transition d'apparition sur la meme propriete
+    se battrait avec lui a chaque image - d'ou les min-width, cales un pixel
+    au-dessus des max-width qui declenchent les rails.
+  */
+  @media(min-width:901px){
+    .js .el-axis{opacity:0;transform:translateY(16px)}
+    .js .el-axis.in{opacity:1;transform:none;
+      transition:opacity .5s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+  }
+  @media(min-width:1025px){
+    .js .el-eq{opacity:0;transform:translateY(16px)}
+    .js .el-eq.in{opacity:1;transform:none;
+      transition:opacity .5s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+  }
 
   @media(max-width:1024px){
     /* rail a snap : le conteneur perd sa hauteur fixe, les cartes rentrent dans le flux */
@@ -709,7 +866,66 @@ const resultats = [
       padding:0 var(--sp-03);scroll-snap-type:x proximity}
     .el-pipe__node{scroll-snap-align:start}
   }
+  @media(max-width:720px){
+    /*
+      La chaine passe a la verticale.
+
+      En rail horizontal sur 375px, cinq etapes tiennent en cinq demi-cartes :
+      on ne voit jamais la chaine, seulement un fragment, et rien ne dit qu'il
+      en reste. Or c'est la chaine ENTIERE qui porte la these - « une seule
+      chaine, zero handoff ». Verticale, elle se lit d'un bloc, dans le sens de
+      defilement du telephone, et chaque maillon se decouvre a son tour.
+
+      Le trait passe du haut du noeud a sa gauche : c'est le meme ::before, on
+      n'echange que les axes. left est calcule pour que le trait (2px) tombe au
+      centre du point (10px) place a -var(--sp-08).
+    */
+    .el-pipe{display:block;overflow:visible;scroll-snap-type:none;
+      margin:var(--sp-14) 0 0;width:auto;padding:0 0 0 var(--sp-08)}
+    .el-pipe__node{min-width:0;padding:0 0 var(--sp-12);scroll-snap-align:none}
+    .el-pipe__node:last-child{padding-bottom:0}
+    /* bottom negatif : a 0 le trait s'arrete au bord du noeud, soit 2px au-dessus
+       du point suivant - un cheveu de blanc, mais la chaine parait rompue */
+    .el-pipe__node::before{left:calc(var(--sp-08) * -1 + 4px);right:auto;top:6px;bottom:-4px;
+      width:2px;height:auto}
+    /* le dernier maillon ne relie rien : un trait qui pend annoncerait une suite */
+    .el-pipe__node:last-child::before{display:none}
+    .el-pipe__node::after{left:calc(var(--sp-08) * -1);top:2px}
+    /* decouverte progressive : le trait se tire, le point s'allume, le texte monte */
+    .js .el-pipe__node{opacity:0;transform:translateY(14px)}
+    .js .el-pipe__node.in{opacity:1;transform:none;
+      transition:opacity .5s ease,transform .55s cubic-bezier(.22,1,.36,1)}
+    .js .el-pipe__node::before{transform:scaleY(0);transform-origin:top}
+    .js .el-pipe__node.in::before{transform:scaleY(1);
+      transition:transform .55s cubic-bezier(.22,1,.36,1) .12s}
+    .js .el-pipe__node::after{transform:scale(0)}
+    .js .el-pipe__node.in::after{transform:scale(1);
+      transition:transform .4s cubic-bezier(.34,1.56,.64,1) .06s}
+
+    /* le cercle passe au-dessus du texte. width et non 1fr : etale sur toute la
+       colonne il ferait un disque de 343px de haut avant la premiere phrase */
+    .el-trio{grid-template-columns:1fr;gap:var(--sp-08)}
+    .el-trio__photo{width:clamp(160px,52vw,240px);justify-self:start}
+  }
   @media(max-width:560px){
+  }
+  /*
+    reveal() pose la classe immediatement sous prefers-reduced-motion, mais la
+    transition, elle, se declencherait quand meme. On la coupe partout ou cette
+    page en ajoute - meme clause que pour .ls-reveal dans case-study.css.
+  */
+  @media(prefers-reduced-motion:reduce){
+    .js .el-ledger__row,.js .el-ledger__row.in,
+    .js .el-path > *,.js .el-path.in > *,
+    .js .el-axis,.js .el-axis.in,
+    .js .el-eq,.js .el-eq.in,
+    .js .el-pipe__node,.js .el-pipe__node.in{opacity:1;transform:none;transition:none}
+    .js .el-pipe__node::before,.js .el-pipe__node.in::before,
+    .js .el-pipe__node::after,.js .el-pipe__node.in::after{transform:none;transition:none}
+    /* animation:none et pas seulement transition : le cercle entre par une
+       keyframe, que couper une transition ne desamorcerait pas */
+    .js .el-trio__photo,.js .el-trio.in .el-trio__photo{opacity:1;transform:none;animation:none}
+    .el-trio__photo:hover::after{animation:none}
   }
 </style>
 
@@ -722,6 +938,21 @@ const resultats = [
   revealAll('.talk-card', { threshold: 0.2 });
   /* sans cet appel, `.js .tenet{opacity:0}` laisserait la section 03 invisible */
   revealAll('.tenet', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+
+  /*
+    Decouverte progressive. Chaque element est observe pour lui-meme et non
+    revele avec sa section : un registre de cinq lignes ou une chaine de cinq
+    maillons depasse la hauteur d'ecran, donc une reveal de section jouerait
+    l'animation des elements du bas pendant qu'ils sont encore hors champ.
+    Le rootMargin negatif attend qu'ils soient franchement entres.
+    Les regles CSS correspondantes sont conditionnees a `.js` : si ce script ne
+    s'execute pas, rien n'est masque.
+  */
+  revealAll('.el-ledger__row', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+  revealAll('.el-pipe__node', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+  revealAll('.el-path', { threshold: 0.3 });
+  revealAll('.el-axis', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+  revealAll('.el-eq', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
 
   /* au-dela de 1024px les cartes se deplacent ; en deca le conteneur est un rail */
   rendreDeplacable('.el-fig-card', '(max-width:1024px)');
