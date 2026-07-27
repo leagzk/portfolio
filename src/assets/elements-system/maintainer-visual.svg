@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+<!--
+  Vignette au trait du parcours praticien (maintainer) sur le chapitre 07 de
+  system-practice-elements. Memes conventions que les trois autres vignettes du
+  site, a reappliquer apres chaque re-export depuis Illustrator - il les perd
+  toutes, et sans bruit :
+
+  1. PAS DE DISQUE. L'aplat rond vient du conteneur (.el-path__s), qui porte
+     deja son fond, son ombre et son anneau de survol. Le <circle cx=50 cy=50 r=36.5 fill=#EFFFD1> de l'export a
+     ete retire. Le viewBox de 100 est garde tel quel : le dessin conserve son
+     rapport au disque, qui occupait 73% de la boite. Ce qui deborde est voulu -
+     c'est meme le sujet ici, le dessin sort de la pastille.
+  5. UN CROCHET D'ANIMATION : class="pour" sur le groupe exterieur, celui que
+     l'export contenait deja et qui reunit l'arrosoir, son bec et la main qui le
+     tient. Les trois traces de la plante restent DEHORS : c'est elle qu'on
+     arrose, elle ne penche pas. Le groupe s'incline puis se redresse a
+     L'ARRIVEE DU BLOC dans le champ, pas au survol - sur mobile il n'y a pas de
+     pointeur (voir .el-path__i .pour dans la page). Sans cette classe rien ne
+     se joue, silencieusement.
+  2. currentColor, jamais une couleur en dur. L'export pose stroke:#231F20 ;
+     sans conversion le trait reste noir dans les quatre themes au lieu de
+     suivre --accent.
+  3. PAS DE style="..." PAR ELEMENT. Illustrator repete la meme declaration sur
+     chaque trace. Tout ce qui est commun - fill, stroke, linecap, linejoin,
+     miterlimit - est remonte en attributs de presentation sur la racine.
+  4. NI PROLOGUE XML NI COMMENTAIRE AVANT LA RACINE. L'export commence par
+     <?xml?> et une ligne « Generator: Adobe Illustrator » : les deux precedent
+     <svg>, et c'est exactement ce qui fait echouer le build sur
+     NoImageMetadata. La racine tient sur une ligne et porte width/height.
+-->
+<g class="pour">
+	<path d="M31.026,52.883L57.349,76.36l21.129-5.07c4.754-1.141,7.683-5.92,6.542-10.673l-5.445-22.694L49.5,44.5l3.501,13.738L34.595,47.06"/>
+		<line x1="51.333" y1="50.661" x2="81.077" y2="44.184"/>
+	<polygon points="34.326,47.125 30.962,52.615 25.008,54.628 22.95,53.366 31.361,39.645 33.419,40.907"/>
+	<g>
+		<path d="M55.092,33.426c2.234,1.997,5.035,2.513,7.208,1c1.465-1.02,2.505-2.258,3.096-3.513"/>
+		<path d="M53.5,8.5c-1.556,6.338-3.573,14.203-1.406,20.308c0.101,0.284,0.21,0.561,0.327,0.829"/>
+		<path d="M82.5,8.5c-0.805,5.204-4.168,12.369-4.877,13.73"/>
+		<path d="M61.093,35.222c0,0,3.288,3.302,7.954-0.318c4.666-3.62,3.912-8.578,1.176-10.035c-0.904-0.482-1.82-0.477-2.606-0.289"/>
+		<path d="M70.872,33.76c0.749,0.332,5.079,0.976,7.462-4.721c2.312-5.526-3.876-8.334-7.133-3.622"/>
+		<path d="M55.437,17.445c0,0,0.828,7.163,4.672,11.315c5.202,5.618,9.992-0.699,7.007-4.666c-1.914-2.544-1.33-4.088,0.556-6.526c1.998-2.581,4.555-4.861,2.828-9.068"/>
+	</g>
+	<path d="M57.351,24.361C52.585,27.916,49.5,33.598,49.5,40v4.978"/>
+	<path d="M83.264,53.296C86.512,49.813,88.5,45.139,88.5,40c0-10.77-8.73-19.5-19.5-19.5c-1.028,0-2.037,0.08-3.022,0.233"/>
+	<path d="M59.358,27.863C55.788,30.703,53.5,35.084,53.5,40v3.5"/>
+	<path d="M82.074,48.33C83.61,45.924,84.5,43.066,84.5,40c0-4.815-2.196-9.118-5.641-11.961"/>
+</g>
+<path d="M11.5,71.5c0,0,14,3,16,19c0,0,1-11,16-13"/>
+<path d="M3.5,67.5c0,0,1,23,20,13l0.411-0.098C28.5,63.5,3.5,67.5,3.5,67.5z"/>
+<path d="M33.5,81.5c-3-11,16-5,16-5S38.5,90.5,33.5,81.5"/>
+</svg>

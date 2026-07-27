@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+<!--
+  Vignette au trait du parcours praticien (contributor) sur le chapitre 07 de
+  system-practice-elements. Memes conventions que les trois autres vignettes du
+  site, a reappliquer apres chaque re-export depuis Illustrator - il les perd
+  toutes, et sans bruit :
+
+  1. PAS DE DISQUE. L'aplat rond vient du conteneur (.el-path__s), qui porte
+     deja son fond, son ombre et son anneau de survol. Le <path> de fond en #F0FFD2 de l'export a
+     ete retire. Le viewBox de 100 est garde tel quel : le dessin conserve son
+     rapport au disque, qui occupait 73% de la boite. Ce qui deborde est voulu -
+     c'est meme le sujet ici, le dessin sort de la pastille.
+  5. UN CROCHET D'ANIMATION : class="plant" sur le groupe de la tige et de ses
+     trois feuilles. Le bas de sa boite tombe sur le pied de la tige, la ou elle
+     rejoint les mains : c'est ce qui permet de la faire pousser depuis sa base
+     (voir .el-path__i .plant dans la page). La pousse se joue a L'ARRIVEE DU
+     BLOC dans le champ, pas au survol - sur mobile il n'y a pas de pointeur.
+     Sans cette classe rien ne se joue, silencieusement.
+  2. currentColor, jamais une couleur en dur. L'export pose stroke:#231F20 ;
+     sans conversion le trait reste noir dans les quatre themes au lieu de
+     suivre --accent.
+  3. PAS DE style="..." PAR ELEMENT. Illustrator repete la meme declaration sur
+     chaque trace. Tout ce qui est commun - fill, stroke, linecap, linejoin,
+     miterlimit - est remonte en attributs de presentation sur la racine.
+  4. NI PROLOGUE XML NI COMMENTAIRE AVANT LA RACINE. L'export commence par
+     <?xml?> et une ligne « Generator: Adobe Illustrator » : les deux precedent
+     <svg>, et c'est exactement ce qui fait echouer le build sur
+     NoImageMetadata. La racine tient sur une ligne et porte width/height.
+-->
+<path d="M26.438,70.398c0,0,4.649-4.012,12.444-3.439c7.795,0.573,9.019,3.166,12.555,2.447c3.536-0.72,9.947-6.145,13.319-0.545c3.977,6.605-14.68,12.636-14.68,12.636"/>
+<path d="M11.694,59.876c0,0,8.939-3.172,22.185-2.964"/>
+<path d="M26.758,88.73c0,0,20.92-1.7,37.541-7.639s25.987-21.172,22.048-25.06c-2.469-2.438-6.832,0.871-6.832,0.871l-9.038,5.735"/>
+<path d="M65.927,55.125l12.386-6.321c0,0,4.144-2.115,6.049,0.445c2.542,3.417-2.493,6.36-2.493,6.36"/>
+<path d="M61.805,50.225l9.129-4.659c0,0,4.144-2.115,6.049,0.445c0.842,1.131,0.853,2.21,0.491,3.148"/>
+<path d="M64.756,68.86c8.707-1.562,6.48-6.366,2.459-12.049C64.327,52.731,54.279,41.823,50.29,41.53c-3.744-0.275-9.921,7.401-17.531,17.248c-0.794,1.027-3.344,4.607-1.113,8.979"/>
+<g class="plant">
+<path d="M50,41.525c0-3.961-3.472-8.326,0.472-15.835c3.354-6.386-3.202-12.077-3.202-12.077"/>
+<path d="M53.678,26.677c0,0-1.452,11.272,12.588,7.78c-2.819-3.046-2.873-5.786-4.983-7.529C58.046,24.254,53.678,26.677,53.678,26.677z"/>
+<path d="M51.436,20.862c0,0-11.539,0.388-6.789-13.263c2.714,3.091,5.186,2.886,7.151,5.733C53.661,16.032,51.436,20.862,51.436,20.862z"/>
+<path d="M49.019,29.461c0.655-1.881,3.82-3.295,5.948-2.605c0,0,3.379,1.255,5.916,4.91"/>
+</g>
+<path d="M53.398,51.747c0,0,1.87-0.07,2.673-0.662"/>
+<path d="M41.906,56.12c0,0,1.272,1.009,3.457,0.973"/>
+<path d="M54.465,62.171c0,0,3.033,0.464,5.453-0.632"/>
+</svg>

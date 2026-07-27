@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+<!--
+  Vignette au trait du parcours praticien (consumer) sur le chapitre 07 de
+  system-practice-elements. Memes conventions que les trois autres vignettes du
+  site, a reappliquer apres chaque re-export depuis Illustrator - il les perd
+  toutes, et sans bruit :
+
+  1. PAS DE DISQUE. L'aplat rond vient du conteneur (.el-path__s), qui porte
+     deja son fond, son ombre et son anneau de survol. Le <circle cx=50 cy=50 r=36.5 fill=#F0FFD2> de l'export a
+     ete retire. Le viewBox de 100 est garde tel quel : le dessin conserve son
+     rapport au disque, qui occupait 73% de la boite. Ce qui deborde est voulu -
+     c'est meme le sujet ici, le dessin sort de la pastille.
+  5. UN CROCHET D'ANIMATION : class="leaf" sur le groupe des deux traces de la
+     feuille - la nervure et le limbe. Le geste se joue a L'ARRIVEE DU BLOC dans
+     le champ, pas au survol : sur mobile il n'y a pas de pointeur, et une
+     animation que la moitie des visiteurs ne voit jamais ne vaut pas la peine
+     d'etre ecrite. La feuille part de dehors, en bas a droite de la main, et
+     vient se poser au creux (voir .el-path__i .leaf dans la page). Le decalage
+     de depart vit dans la page, pas dans le dessin : ici la feuille est a sa
+     place d'arrivee, celle que l'artiste a dessinee. La main ne bouge pas et
+     n'a donc pas de crochet. Sans cette classe rien ne se joue,
+     silencieusement.
+  2. currentColor, jamais une couleur en dur. L'export pose stroke:#231F20 ;
+     sans conversion le trait reste noir dans les quatre themes au lieu de
+     suivre --accent.
+  3. PAS DE style="..." PAR ELEMENT. Illustrator repete la meme declaration sur
+     chaque trace. Tout ce qui est commun - fill, stroke, linecap, linejoin,
+     miterlimit - est remonte en attributs de presentation sur la racine.
+  4. NI PROLOGUE XML NI COMMENTAIRE AVANT LA RACINE. L'export commence par
+     <?xml?> et une ligne « Generator: Adobe Illustrator » : les deux precedent
+     <svg>, et c'est exactement ce qui fait echouer le build sur
+     NoImageMetadata. La racine tient sur une ligne et porte width/height.
+-->
+<g>
+	<path d="M87.574,34.532c-10.394-0.34-23.653-4.663-36.961-12.923c-6.73-4.177-10.386,2.974-7.109,7.231c1.893,2.46,6.3,5.96,6.3,5.96"/>
+	<path d="M38.256,45.355c0,0-13.384-3.054-17.529-3.78c-7.648-1.34-6.595-10.795,0.32-10.441c5.678,0.291,29.154,3.972,29.154,3.972"/>
+	<path d="M36.8,56.722c0,0-14.138-2.04-18.366-2.696c-7.673-1.191-6.474-10.846,0.427-10.278c6.701,0.552,19.463,1.56,19.463,1.56"/>
+	<path d="M36.61,56.792c0,0-10.161,0.071-15.847,0.069c-6.924-0.002-7.507,9.596,0.212,10.443c8.011,0.879,15.66,1.616,23.228,2.422l12.542,1.438c8.913,1.117,17.93,2.492,27.51,4.475"/>
+</g>
+<g class="leaf">
+<path d="M64.214,43.875c-1.577,3.748-3.911,8.36-7.214,12.875C49.5,67,42.5,64.625,42.5,64.625"/>
+<path d="M67,35.75c0,0-20.5,0.75-22.5,15.25c-0.566,4.103,3.358,7.5,7.5,7.5c3.5,0,5.5-2.5,5.5-2.5l0,1.727c0,3.559,2.743,6.663,6.3,6.77c3.681,0.11,6.7-2.841,6.7-6.497C70.5,58,70.5,49.5,67,35.75z"/>
+</g>
+</svg>

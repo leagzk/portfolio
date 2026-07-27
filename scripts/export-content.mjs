@@ -76,11 +76,16 @@ function inline(html) {
 }
 
 /* Retire ce qui n'est pas du contenu redactionnel avant le decoupage en blocs.
-   Les <button> sont les pastilles de carrousel : ils n'ont qu'un aria-label. */
+   Les <button> sont les pastilles de carrousel : ils n'ont qu'un aria-label.
+   Le <nav id="chaptabs"> est le fil d'Ariane lateral des case studies : ses
+   libelles sont deja dans les surtitres de section qu'il pointe, donc les
+   garder ferait apparaitre chaque chapitre deux fois dans l'export. Meme
+   raison que l'exclusion de la nav principale et du pied de page. */
 function nettoyer(html) {
   return html
     .replace(/<svg[\s\S]*?<\/svg>/g, '')
     .replace(/<(script|style)[\s\S]*?<\/\1>/g, '')
+    .replace(/<nav\b[^>]*id="chaptabs"[\s\S]*?<\/nav>/g, '')
     .replace(/<button[\s\S]*?<\/button>/g, '');
 }
 

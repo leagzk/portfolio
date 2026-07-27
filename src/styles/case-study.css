@@ -34,6 +34,16 @@
 .ls-note{font-style:italic;font-size:clamp(15px,1.5vw,18px);color:var(--ink-muted);max-width:46ch;margin-top:24px;padding-left:18px;border-left:2px solid var(--accent-alt)}
 .ls-sub b{color:var(--accent);font-weight:400}
 .ls-sub{font-family:var(--display);font-weight:400;font-size:clamp(20px,2.4vw,30px);line-height:1.12;letter-spacing:-.02em;color:var(--ink);margin-top:var(--sp-19)}
+/*
+  Cibles des onglets de chapitre (<ChapterTabs>). Sans marge de defilement,
+  l'ancre se pose exactement en haut du viewport, donc sous la nav collante -
+  haute de --mobbar-h - et le titre qu'on vient de cliquer est le seul element
+  cache. La barre de chapitres, elle, flotte en bas : elle ne rogne rien ici.
+  Le selecteur attaque le prefixe et non une classe parce que la cible est
+  tantot le <h2>, tantot la <section> quand le chapitre n'a pas de titre.
+*/
+[id^="ch-"]{scroll-margin-top:calc(var(--mobbar-h) + var(--sp-03))}
+
 .ls-chapter{margin:clamp(72px,10vw,140px) 0}
 .ls-head{max-width:62ch}
 .ls-head--after{margin-top:clamp(40px,5vw,64px)}

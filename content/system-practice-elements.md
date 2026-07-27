@@ -22,7 +22,7 @@ But the external recognition that means the most to me is the category we were n
 
 This one does - and the numbers are the system's, not mine.
 
-It started with a bold call: switching a role to embrace a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there - **zero users to a community of 200+ practitioners**, and a system built to rest in many hands, never mine alone.
+It started with a bold call: switching a role to embrace a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there - **zero users to a community of 2000+ practitioners**, and a system built to rest in many hands, never mine alone.
 
 I set the direction, carried it to leadership, then handed my team the operational goal as OKRs of their own - always tied to the company's annual business objectives, so our ambition lived inside a shared project, never beside it.
 
@@ -230,15 +230,15 @@ The bet: adoption never comes from mandate - only from ownership. So the system 
 
 **Experience runs both ways.** Elements serves end users - patients, healthcare professionals - but it also serves the people who build for them. A practitioner is a user too. So their practice gets the same care as any patient journey: fluid, productive, coherent across every perimeter. *Design the experience of the people designing the experience.*
 
+consumer
+→
+contributor
+→
+maintainer
+
 So I created the **Practitioner Experience capability** to make that real, and elevate one of my team members to run it, identifying how the career growth potential and the outcome for the company were seamlessly paired. I set the direction - community-led adoption, contribution over control, a path that graduates a practitioner from consumer to contributor to maintainer. My team proposed, built and ran the machine: the Elements Portal, the monthly Elements Demo, the office hours, the contribution and triage rituals, the onboarding path.
 
-💊consumer
-→
-🧪contributor
-→
-🔬maintainer
-
-This is how **30+ designers across 5 international hubs** and **200+ practitioners** became one community - end to end, from onboarding to production readiness. Not a mailing list: a practice, running on a contribution model adapted from Zalando's, where everyone gives at the level of their skill, from a flagged issue to a full component.
+This is how **30+ designers across 5 international hubs** and **2000+ practitioners** became one community - end to end, from onboarding to production readiness. Not a mailing list: a practice, running on a contribution model adapted from Zalando's, where everyone gives at the level of their skill, from a flagged issue to a full component.
 
 Taking a system from near-zero to 86% average usage ratio per product in production isn't a launch - it's **change management at scale**: shifting habits across more than 45 product teams, turning resistance into ownership one team, one hub, or even one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.
 

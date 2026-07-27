@@ -5,8 +5,49 @@ import Banner from '../components/Banner.astro';
 import PageIntro from '../components/PageIntro.astro';
 import Tenet from '../components/Tenet.astro';
 import Carousel from '../components/Carousel.astro';
+import ChapterTabs from '../components/ChapterTabs.astro';
+import IdeaVisual from '../assets/elements-system/idea-visual.svg';
+import ConsumerVisual from '../assets/elements-system/consumer-visual.svg';
+import ContributorVisual from '../assets/elements-system/contributor-visual.svg';
+import MaintainerVisual from '../assets/elements-system/maintainer-visual.svg';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+
+/*
+  Les chapitres, en un seul endroit.
+
+  Ils alimentent deux choses a la fois : les onglets lateraux (<ChapterTabs>) et
+  les surtitres de section. Ecrits deux fois, le numero et l'ancre auraient
+  derive des la premiere reorganisation - et une navigation qui pointe a cote
+  est pire qu'une absence de navigation. Le numero n'est d'ailleurs plus ecrit
+  du tout : il vient du rang dans le tableau, donc reordonner renumerote.
+
+  `onglet` est ecrit pour TOUS les chapitres, meme quand il repete le titre :
+  les deux ne suivent pas la meme regle. Le surtitre est une phrase de section
+  et garde son article - « 01 - The results ». L'onglet est une etiquette de
+  sommaire : pas d'article, meme forme partout, et le plus court possible parce
+  que c'est lui qui decide si les huit ancres tiennent dans la barre sur mobile.
+  Les laisser retomber sur `titre` par defaut aurait fait cohabiter les deux
+  regles dans la meme liste sans que ca se voie.
+*/
+const chapitres = [
+  { id: 'ch-results',      titre: 'The results',                  onglet: 'Results' },
+  { id: 'ch-stakes',       titre: 'The stakes',                   onglet: 'Stakes' },
+  { id: 'ch-problem',      titre: 'The problem',                  onglet: 'Problem' },
+  { id: 'ch-failure',      titre: 'The failure, and the decision', onglet: 'Failure' },
+  { id: 'ch-owned',        titre: 'What I owned',                 onglet: 'What I owned' },
+  { id: 'ch-architecture', titre: 'The architecture',             onglet: 'Architecture' },
+  { id: 'ch-community',    titre: 'The community',                onglet: 'Community' },
+  { id: 'ch-next',         titre: "Where I'd take it next",       onglet: "What's next" },
+];
+
+/* Surtitre d'un chapitre : « 05 - What I owned ». Jette si l'ancre est inconnue,
+   pour qu'un id renomme casse le build au lieu de vider un surtitre. */
+const chap = (id: string): string => {
+  const i = chapitres.findIndex((c) => c.id === id);
+  if (i < 0) throw new Error(`Chapitre inconnu : ${id}`);
+  return `${String(i + 1).padStart(2, '0')} - ${chapitres[i].titre}`;
+};
 
 /*
   Meme convention que system-event : le glob resout les images a la compilation,
@@ -132,8 +173,13 @@ type Preuve = {
   suffixe?: string;
   titre?: string;
   detail?: string;
-  /** ornement pose dans l'angle bas-droit ; purement decoratif, d'ou aria-hidden */
-  emoji?: string;
+  /*
+    Pastille ronde dans l'angle bas-droit. Booleen et non chaine : c'etait un
+    emoji, c'est desormais un dessin au trait unique a cette carte - il n'y a
+    donc plus rien a passer, seulement a dire si la pastille est la.
+    Purement decoratif, d'ou aria-hidden a la pose.
+  */
+  badge?: boolean;
   /** carte-visuel : l'image occupe toute la carte, sans texte */
   image?: { src: ImageMetadata; alt: string };
 };
@@ -145,7 +191,7 @@ const preuves: Preuve[] = [
      autant que l'amorce, la reduire au corps de legende l'aurait desamorcee */
   { pose: 'left:26%;top:104px;--rot:2.5deg', ton: 'red',
     titre: "The MCP didn't come from my roadmap initially. It came from a contributor.",
-    emoji: '💡' },
+    badge: true },
   { pose: 'left:52%;top:0px;--rot:-1.5deg',
     image: { src: img('design-community'),
       alt: 'The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon' } },
@@ -173,11 +219,13 @@ const preuves: Preuve[] = [
     </PageIntro>
   </div>
 
+  <ChapterTabs chapitres={chapitres} />
+
 
 <!-- ═══ 01 · THE RESULTS — remonte en tete : la preuve avant l'argument ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-results">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>01 - The results</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-results')}</span></p>
       <h2 class="ls-title" id="ch-results">A structure only counts if it holds.</h2>
       {/* la reponse au titre, remontee du corps : c'est la relance du chapitre,
           pas un paragraphe parmi trois - meme place que sur /system-event */}
@@ -185,7 +233,7 @@ const preuves: Preuve[] = [
     </div>
 
     <div class="ls-body ls-body--wide">
-      <p>It started with a bold call: switching a role to embrace a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there - <b>zero users to a community of 200+ practitioners</b>, and a system built to rest in many hands, never mine alone.</p>
+      <p>It started with a bold call: switching a role to embrace a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there - <b>zero users to a community of 2000+ practitioners</b>, and a system built to rest in many hands, never mine alone.</p>
       <p>I set the direction, carried it to leadership, then handed my team the operational goal as OKRs of their own - always tied to the company's annual business objectives, so our ambition lived inside a shared project, never beside it.</p>
     </div>
 
@@ -228,7 +276,7 @@ const preuves: Preuve[] = [
 <!-- ═══ 02 · THE STAKES ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-stakes">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>02 - The stakes</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-stakes')}</span></p>
       <h2 class="ls-title" id="ch-stakes">One global and unified system.</h2>
     </div>
 
@@ -266,9 +314,9 @@ const preuves: Preuve[] = [
     donc ce sont eux qui portent les <h2>. La section n'a plus de .ls-title - elle
     est etiquetee par aria-label, exactement comme .creed sur philosophy.
   */}
-  <section class="ls-chapter ls-reveal" aria-label="The problem">
+  <section class="ls-chapter ls-reveal" id="ch-problem" aria-label="The problem">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>03 - The problem</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-problem')}</span></p>
     </div>
 
     <div class="el-creed">
@@ -290,7 +338,7 @@ const preuves: Preuve[] = [
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-failure">
     <div class="card ls-dark">
       <div class="ls-dark__inner">
-        <p class="ls-eyebrow ls-eyebrow--light"><span>04 - The failure, and the decision</span></p>
+        <p class="ls-eyebrow ls-eyebrow--light"><span>{chap('ch-failure')}</span></p>
         <h2 class="ls-title" id="ch-failure">You can't outsource the thing your whole system depends on.</h2>
 
         <div class="ls-body ls-body--light">
@@ -313,7 +361,7 @@ const preuves: Preuve[] = [
 <!-- ═══ 05 · WHAT I OWNED ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-owned">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>05 - What I owned</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-owned')}</span></p>
       <h2 class="ls-title" id="ch-owned">The decision was the easy part.</h2>
       <p class="ls-lede"><b>A decision is easy to claim - owning it isn't.</b> I didn't just call for internalization; I carried everything that came after.</p>
     </div>
@@ -340,7 +388,7 @@ const preuves: Preuve[] = [
 <!-- ═══ 06 · THE ARCHITECTURE — quatre mouvements ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-architecture">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>06 - The architecture</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-architecture')}</span></p>
       <h2 class="ls-title" id="ch-architecture">You maintain a design system. You run a platform.</h2>
     </div>
 
@@ -470,7 +518,7 @@ const preuves: Preuve[] = [
 <!-- ═══ 07 · THE COMMUNITY ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-community">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>07 - The community</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-community')}</span></p>
       <h2 class="ls-title" id="ch-community">A design system you install. A community you have to earn.</h2>
       <p class="ls-lede">Most system owners treat community as a comms afterthought. I made it the strategy.</p>
     </div>
@@ -478,15 +526,28 @@ const preuves: Preuve[] = [
     <div class="ls-body ls-body--wide">
       <p>The bet: adoption never comes from mandate - only from ownership. So the system had to belong to its users, not to me. <b>A system nobody believes in dies with its founder; one a community owns, outlives them.</b></p>
       <p><b>Experience runs both ways.</b> Elements serves end users - patients, healthcare professionals - but it also serves the people who build for them. A practitioner is a user too. So their practice gets the same care as any patient journey: fluid, productive, coherent across every perimeter. <em>Design the experience of the people designing the experience.</em></p>
-      <p>So I created the <b>Practitioner Experience capability</b> to make that real, and elevate one of my team members to run it, identifying how the career growth potential and the outcome for the company were seamlessly paired. I set the direction - community-led adoption, contribution over control, a path that graduates a practitioner from consumer to contributor to maintainer. My team proposed, built and ran the machine: the Elements Portal, the monthly Elements Demo, the office hours, the contribution and triage rituals, the onboarding path.</p>
     </div>
 
-    <p class="el-path" aria-label="The practitioner path: consumer, then contributor, then maintainer">
-      <span class="el-path__s"><span class="el-path__i" aria-hidden="true">💊</span>consumer</span><span class="el-path__a" aria-hidden="true">→</span><span class="el-path__s"><span class="el-path__i" aria-hidden="true">🧪</span>contributor</span><span class="el-path__a" aria-hidden="true">→</span><span class="el-path__s"><span class="el-path__i" aria-hidden="true">🔬</span>maintainer</span>
-    </p>
+    {/*
+      Le rang est pose entre l'argument et sa mise en oeuvre. Au-dessus, les deux
+      paragraphes qui etablissent que le praticien est un utilisateur ; en
+      dessous, celui qui raconte comment la capability a fait vivre le parcours.
+      Le rang tombe donc a l'endroit exact ou « de consumer a maintainer » cesse
+      d'etre une idee pour devenir un dispositif - on le voit avant de lire ce
+      qui l'a construit.
+    */}
+    <div class="el-practice">
+      <p class="el-path" aria-label="The practitioner path: consumer, then contributor, then maintainer">
+        <span class="el-path__s"><span class="el-path__i" aria-hidden="true"><ConsumerVisual /></span>consumer</span><span class="el-path__a" aria-hidden="true">→</span><span class="el-path__s"><span class="el-path__i" aria-hidden="true"><ContributorVisual /></span>contributor</span><span class="el-path__a" aria-hidden="true">→</span><span class="el-path__s"><span class="el-path__i" aria-hidden="true"><MaintainerVisual /></span>maintainer</span>
+      </p>
+
+      <div class="ls-body ls-body--wide el-practice__body">
+        <p>So I created the <b>Practitioner Experience capability</b> to make that real, and elevate one of my team members to run it, identifying how the career growth potential and the outcome for the company were seamlessly paired. I set the direction - community-led adoption, contribution over control, a path that graduates a practitioner from consumer to contributor to maintainer. My team proposed, built and ran the machine: the Elements Portal, the monthly Elements Demo, the office hours, the contribution and triage rituals, the onboarding path.</p>
+      </div>
+    </div>
 
     <div class="ls-body ls-body--wide">
-      <p>This is how <b>30+ designers across 5 international hubs</b> and <b>200+ practitioners</b> became one community - end to end, from onboarding to production readiness. Not a mailing list: a practice, running on a contribution model adapted from Zalando's, where everyone gives at the level of their skill, from a flagged issue to a full component.</p>
+      <p>This is how <b>30+ designers across 5 international hubs</b> and <b>2000+ practitioners</b> became one community - end to end, from onboarding to production readiness. Not a mailing list: a practice, running on a contribution model adapted from Zalando's, where everyone gives at the level of their skill, from a flagged issue to a full component.</p>
     </div>
 
     <div class="ls-body ls-body--wide">
@@ -510,7 +571,7 @@ const preuves: Preuve[] = [
           <div
             class:list={['el-fig-card', p.ton && `el-fig-card--${p.ton}`,
                          p.image && 'el-fig-card--img',
-                         p.emoji && 'el-fig-card--badge',
+                         p.badge && 'el-fig-card--mark',
                          !p.chiffre && !p.image && 'el-fig-card--say']}
             style={p.pose}
           >
@@ -524,7 +585,7 @@ const preuves: Preuve[] = [
                 {p.chiffre && <p class="el-fig__n">{p.chiffre}{p.suffixe && <span>{p.suffixe}</span>}</p>}
                 <p class="el-fig__q">{p.titre}</p>
                 {p.detail && <p class="el-fig__l">{p.detail}</p>}
-                {p.emoji && <span class="el-fig__badge" aria-hidden="true">{p.emoji}</span>}
+                {p.badge && <span class="el-fig__mark" aria-hidden="true"><IdeaVisual /></span>}
               </>
             )}
           </div>
@@ -540,7 +601,7 @@ const preuves: Preuve[] = [
 <!-- ═══ 08 · WHERE I'D TAKE IT NEXT ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-next">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>08 - Where I'd take it next</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-next')}</span></p>
       <h2 class="ls-title" id="ch-next">I removed the wait between design and engineering. There's one wait left.</h2>
     </div>
 
@@ -624,14 +685,29 @@ const preuves: Preuve[] = [
     la derniere ligne de la carte est tantot le titre, tantot le detail, et la
     pastille est un <span> - elle ne peut donc pas etre prise pour cible.
   */
-  .el-fig-card--badge{display:flex;flex-direction:column}
-  .el-fig-card--badge p:last-of-type{margin-bottom:var(--sp-06)}
-  .el-fig__badge{margin:auto 0 0 auto;
-    width:clamp(52px,5.2vw,64px);height:clamp(52px,5.2vw,64px);border-radius:50%;
-    background:#fff;display:grid;place-items:center;
-    font-size:clamp(26px,2.6vw,32px);line-height:1;
-    box-shadow:0 8px 18px -10px rgba(120,30,10,.4);user-select:none}
-  [data-theme="contrast"] .el-fig__badge{border:var(--edge-w) solid var(--edge);box-shadow:none}
+  /*
+    overflow:hidden est ce qui rend le debordement possible : le dessin sort du
+    cadre par l'angle bas-droit et c'est le rayon de 28px de la carte qui le
+    coupe. Sans lui, il deborderait par-dessus le coin arrondi et la carte
+    perdrait sa silhouette.
+  */
+  .el-fig-card--mark{display:flex;flex-direction:column;overflow:hidden}
+  .el-fig-card--mark p:last-of-type{margin-bottom:var(--sp-06)}
+  /*
+    Plus de pastille : le dessin est pose a meme la carte, en grand, ancre dans
+    l'angle bas-droit et rogne - meme traitement que .dc-hand sur l'accueil.
+    Les marges negatives valent le padding de la carte plus 20px : elles
+    annulent la gouttiere pour que le dessin atteigne vraiment le bord, puis
+    mordent dessus. `margin-top:auto` le plaque en bas de la colonne flex.
+    Blanc sur --tile-red : c'est un filigrane, pas un pictogramme. Le rapport
+    de contraste est volontairement sous le seuil - il n'y a rien a y lire,
+    l'element est aria-hidden et le propos de la carte est dans son titre.
+  */
+  .el-fig__mark{color:#fff;flex:none;
+    width:clamp(132px,15vw,180px);height:clamp(132px,15vw,180px);
+    margin:auto calc(var(--sp-12) * -1 - 20px) calc(var(--sp-12) * -1 - 20px) auto;
+    display:grid;place-items:center;line-height:1;user-select:none}
+  .el-fig__mark svg{width:100%;height:100%}
 
   /* carte-visuel : pas de gouttiere, l'image EST la carte */
   .el-fig-card--img{padding:0;overflow:hidden}
@@ -968,17 +1044,61 @@ const preuves: Preuve[] = [
     Le mot passe de 32px a clamp(12px,1.6vw,19px) : il n'est plus pose sur une
     ligne libre mais inscrit dans un disque, et c'est le diametre qui commande.
   */
-  .el-path{margin:var(--sp-16) 0;display:flex;flex-wrap:wrap;align-items:center;
+  /*
+    Le parcours et les deux paragraphes qu'il illustre, empiles. Ce bloc a ete
+    essaye en deux colonnes, parcours a gauche : abandonne, le rang de trois
+    cercles se lit sur une ligne et une ligne demande toute la largeur.
+    Ce qui reste de l'essai et qui compte : les deux paragraphes ont ete
+    remontes ICI, sous le rang, parce que ce sont eux qui nomment les trois
+    etats. Le premier paragraphe du chapitre, lui, pose le pari d'adoption et
+    reste au-dessus.
+    La marge haute vaut --sp-16 PLUS --sp-08 : le dessin sort d'environ 20% de
+    la hauteur du cercle par le haut, et --sp-16 seul ne laissait que 5px avant
+    le paragraphe precedent - le dessin mordait dessus.
+  */
+  .el-practice{margin:calc(var(--sp-16) + var(--sp-08)) 0 var(--sp-16)}
+  .el-practice__body{margin-top:var(--sp-12)}
+
+  /* nowrap : le parcours est une ligne, a toutes les largeurs. Ce sont les
+     cercles qui cedent, pas le rang qui casse - voir .el-path__s. */
+  .el-path{margin:0;display:flex;flex-wrap:nowrap;align-items:center;
     gap:clamp(8px,1.6vw,20px);
     font-family:var(--display);font-weight:400;line-height:1.1;
     letter-spacing:-.01em;color:var(--ink)}
-  .el-path__s{position:relative;flex:none;
-    width:clamp(88px,15vw,180px);height:clamp(88px,15vw,180px);
+  /*
+    Les trois cercles se PARTAGENT la ligne au lieu d'avoir une taille imposee.
+    Une largeur en clamp avait un plancher de 104px : a 375px d'ecran il fallait
+    380px pour trois cercles, leurs fleches et leurs jours, contre 343
+    disponibles - le rang passait a deux lignes. Ici chacun prend le tiers de ce
+    qui reste apres les fleches et les jours, quelle que soit la largeur, et le
+    max-width l'empeche de depasser le palier haut sur grand ecran.
+    `min-width:0` sans quoi un element flex refuse de descendre sous la largeur
+    de son contenu, et `aspect-ratio` pour que le cercle reste rond puisque sa
+    hauteur n'est plus ecrite.
+  */
+  .el-path__s{position:relative;flex:1 1 0;min-width:0;max-width:208px;
+    aspect-ratio:1;
     border-radius:50%;background:var(--card);
     box-shadow:0 16px 34px -20px rgba(120,30,10,.28);
     border:var(--edge-w) solid var(--edge);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:.7em;text-align:center;font-size:clamp(12px,1.6vw,19px);
+    /*
+      Contenu cale en BAS et non centre. Centre, la marge sous le mot etait ce
+      qui restait apres que la marge negative du dessin ait pris sa part - donc
+      15px, et pas reglable : gagner de l'air sous le mot en agrandissant le
+      cercle en redonnait autant au dessin. Ancre en bas avec un padding, la
+      marge sous le libelle est ecrite, et le dessin deborde par le haut de ce
+      qu'il veut.
+
+      Le padding est en `em` et SURTOUT PAS en pourcentage : un padding en
+      pourcentage se resout sur la largeur du CONTENANT, pas sur l'element.
+      `15%` valait donc 15% des 1032px du rang, soit 155px de padding dans un
+      cercle de 194 - le dessin y avait ete comprime de 170 a 34px. En em, la
+      reference est la taille du mot lui-meme, ce qui est la bonne unite pour
+      l'air qu'on lui laisse, et elle suit le cercle puisque les deux sont en vw.
+    */
+    display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+    padding-bottom:1.7em;
+    gap:.8em;text-align:center;font-size:clamp(12px,1.6vw,19px);
     /*
       Le grossissement passe par la propriete `scale` et NON par `transform`.
       C'est deliberatif : la decouverte progressive du parcours anime deja le
@@ -991,17 +1111,111 @@ const preuves: Preuve[] = [
     transition:scale .25s cubic-bezier(.22,1,.36,1),box-shadow .25s ease}
   .el-path__s:hover{scale:1.07;box-shadow:0 24px 46px -22px rgba(120,30,10,.42)}
   /*
-    Anneau de pulsation, repris tel quel de .dcard--photo et .osbridge__* sur
-    l'accueil : meme inset, meme --ring, meme keyframe tilePulse (motion.css,
-    chargee par le layout). inset negatif, donc l'anneau deborde du disque -
-    d'ou le position:relative ci-dessus et l'absence d'overflow:hidden.
+    L'anneau de pulsation a ete retire : chaque vignette a desormais son propre
+    geste au survol, et deux signaux simultanes sur le meme element se
+    concurrencaient. Le grossissement du disque, lui, reste - c'est le retour
+    « cet element repond », pas une animation de contenu.
+
+    Les trois gestes suivent le dispositif de la vignette gouvernance de
+    l'accueil : le SVG porte des crochets de classe, la page porte le mouvement.
+    transform-box:fill-box pour que transform-origin se lise sur la boite du
+    groupe et non sur le viewBox entier - sans lui, « 50% 100% » designerait le
+    bas du carre de 100, pas le pied de la plante.
   */
-  .el-path__s::after{content:"";position:absolute;inset:-3px;border-radius:50%;
-    border:2px solid var(--ring);opacity:0;pointer-events:none}
-  .el-path__s:hover::after{animation:tilePulse .9s ease-out}
-  /* l'emoji n'est pas du texte : il ne suit pas l'echelle du mot, il la double */
-  .el-path__i{font-size:clamp(20px,2.8vw,34px);line-height:1}
+  .el-path__i .leaf,.el-path__i .plant,.el-path__i .pour{transform-box:fill-box}
+
+  /*
+    01 - la feuille se pose. Deux etats a interpoler, donc une transition : elle
+    part de dehors et le second etat doit TENIR, ce qu'une keyframe n'aurait pas
+    fait - elle aurait rendu la feuille a sa place de depart.
+    Origine en bas pour que la rotation la fasse pivoter en se posant, et non
+    tourner sur elle-meme.
+  */
+  .js .el-path__i .leaf{transform-origin:50% 100%;
+    /*
+      Ces quatre valeurs sortent d'une mesure, pas d'un gout : il fallait
+      satisfaire deux contraintes a la fois - degager l'encre de la main (sinon
+      la feuille n'est pas « dehors ») et ne pas descendre sur le libelle, qui
+      n'est qu'a 16px sous le dessin. Une simple translation echouait : assez
+      basse pour quitter l'avant-bras, elle touchait le mot.
+      Le `scale` debloque les deux. La feuille au repos est plus petite, donc
+      elle tient plus bas sans mordre sur le mot - et elle reprend sa taille en
+      se posant, ce qui appuie l'idee qu'elle arrive. Releve : chevauchement
+      avec la main nul, 5px avant le mot.
+    */
+    transform:translate(24px,36px) rotate(-30deg) scale(.76);
+    transition:transform .6s cubic-bezier(.22,1,.36,1) .3s}
+  .js .el-path.in .leaf{transform:none}
+
+  /*
+    02 - la plante pousse. scaleY depuis le pied de la tige, la ou elle rejoint
+    les mains : c'est le bas de la boite du groupe, d'ou l'origine a 100%.
+    Elle part quasi couchee (5% de hauteur) et depasse legerement avant de se
+    poser : c'est ce depassement qui fait lire une pousse plutot qu'un
+    etirement. Le leger balancement - un degre de part et d'autre - evite que la
+    tige monte comme un ascenseur.
+  */
+  .el-path__i .plant{transform-origin:50% 100%}
+  /*
+    L'etat couche est pose AVANT l'animation, sur .js seul. Sans lui la plante
+    s'afficherait a sa taille pleine puis se retracterait d'un coup au moment ou
+    la keyframe demarre - le `both` ne tient l'image de depart que pendant le
+    delai, pas avant que l'animation existe.
+  */
+  .js .el-path__i .plant{transform:scale(.66,.05) rotate(-5deg)}
+  @keyframes elPlantePousse{
+    0%{transform:scale(.66,.05) rotate(-5deg)}
+    62%{transform:scale(1.05,1.08) rotate(2.5deg)}
+    100%{transform:none}
+  }
+  .js .el-path.in .plant{animation:elPlantePousse .82s cubic-bezier(.22,1,.36,1) .52s both}
+
+  /*
+    03 - l'arrosoir s'incline. Keyframes, parce que le geste doit REVENIR : une
+    inclinaison tenue apres coup ressemblerait a un dessin de travers. Il penche,
+    tient l'angle un instant - le temps qu'on lise l'arrosage - puis se redresse.
+    L'angle est negatif parce qu'en SVG le sens positif est horaire et que le
+    bec se trouve a GAUCHE du pivot : positif, il serait monte au lieu de piquer
+    vers la plante. L'origine est posee au poignet plutot qu'au centre du
+    groupe, sinon l'arrosoir aurait tourne autour de lui-meme.
+  */
+  .el-path__i .pour{transform-origin:78% 58%}
+  @keyframes elArrosoirPenche{
+    0%{transform:none}
+    32%,62%{transform:rotate(-13deg)}
+    100%{transform:none}
+  }
+  .js .el-path.in .pour{animation:elArrosoirPenche 1.5s cubic-bezier(.4,0,.2,1) .74s both}
+  /*
+    Le dessin SORT de la pastille, c'est le principe : le disque d'origine
+    n'occupait que 73% du viewBox, donc rendre le SVG a 100% du cercle rend au
+    dessin le debordement que l'artiste avait prevu. La marge haute negative le
+    fait deborder par le haut et libere le bas du disque pour le mot.
+    Rien ici ne coupe : .el-path__s n'a pas d'overflow:hidden - c'est deja ce
+    qui laissait passer son anneau de pulsation.
+  */
+  /*
+    Le dessin est HORS FLUX, et c'est ce qui rend le reste possible.
+    Dans le flux, sa hauteur s'ajoutait a celle du mot et du padding : la somme
+    depassait le diametre, et comme la hauteur d'un element flex vient de son
+    contenu, l'`aspect-ratio` du cercle cedait - il s'allongeait en ovale et le
+    dessin ne debordait plus de rien. En absolu il ne pese plus sur la hauteur :
+    le cercle reste rond, et le dessin sort par le haut autant qu'il veut.
+    `bottom` en em cale sa base au-dessus du mot : 1.7em de padding bas, ~1.2em
+    de mot, .8em de respiration - les memes unites que celles qui placent le
+    mot, donc les deux bougent ensemble.
+  */
+  .el-path__i{position:absolute;left:50%;bottom:3.7em;transform:translateX(-50%);
+    width:88%;aspect-ratio:1;
+    color:var(--accent);display:grid;place-items:center;line-height:1}
+  .el-path__i svg{width:100%;height:100%;overflow:visible}
   .el-path__a{flex:none;color:var(--accent-alt);font-size:clamp(16px,2vw,26px)}
+  /* sous 560px, chaque pixel rendu par les jours et les fleches revient aux
+     cercles - c'est ce qui garde les libelles lisibles a 375px */
+  @media (max-width:560px){
+    .el-path{gap:6px}
+    .el-path__a{font-size:14px}
+  }
 
   /*
     La chute est cadree a gauche ici, la ou /system-event la centre. Deux raisons :
@@ -1136,8 +1350,6 @@ const preuves: Preuve[] = [
     .el-trio{grid-template-columns:1fr;gap:var(--sp-08)}
     .el-trio__photo{width:clamp(160px,52vw,240px);justify-self:start}
   }
-  @media(max-width:560px){
-  }
   /*
     reveal() pose la classe immediatement sous prefers-reduced-motion, mais la
     transition, elle, se declencherait quand meme. On la coupe partout ou cette
@@ -1156,6 +1368,14 @@ const preuves: Preuve[] = [
     /* `scale` et non `transform` : c'est la propriete que porte le survol des
        pastilles, la neutraliser ailleurs ne l'atteindrait pas */
     .el-path__s,.el-path__s:hover{scale:1;transition:none}
+    /* les trois gestes des vignettes : deux sont des keyframes, un est une
+       transition - il faut couper les deux mecanismes, pas un seul */
+    /* reveal() pose .in tout de suite ici : il faut donc neutraliser l'etat de
+       DEPART autant que l'animation, sinon la plante resterait couchee et la
+       feuille dehors - deux dessins qui n'aboutissent jamais */
+    .js .el-path__i .plant,.js .el-path.in .plant{transform:none;animation:none}
+    .js .el-path__i .leaf,.js .el-path.in .leaf{transform:none;transition:none}
+    .js .el-path.in .pour{transform:none;animation:none}
     .el-path__s:hover::after{animation:none}
   }
 </style>

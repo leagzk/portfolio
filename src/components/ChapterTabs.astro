@@ -1,0 +1,361 @@
+---
+/*
+  Sommaire des case studies : une barre flottante, centree en bas de fenetre,
+  qui apparait des que le premier chapitre entre dans le champ.
+
+  ELLE S'EFFACE QUAND ON DESCEND, revient quand on remonte ou qu'on s'arrete.
+  Une barre basse occupe en permanence la zone vers laquelle le regard descend
+  en lisant ; l'alternative etudiee - la ferrer a gauche dans la goutiere -
+  a ete mesuree et rejetee : a 1440px elle mordrait encore 143px sur la colonne
+  de texte (degagement complet seulement au-dela de 1726px), et elle sortirait
+  de l'axe centre que suit tout le chrome du site.
+  Le retour a l'arret est la moitie discutable du dispositif : s'arreter, c'est
+  souvent lire, et la barre revient alors sur la zone qu'on voulait degager. La
+  convention des chromes mobiles ne fait que le retour vers le haut. Si ca gene
+  a l'usage, retirer le minuteur REPOS suffit - le reste ne bouge pas.
+
+  UNE SEULE FORME, SUR TOUTES LES PAGES. Il a existe ici un mode « compact »
+  declenche par la mesure : les pages a huit chapitres perdaient leur libelle,
+  celles a quatre le gardaient. C'etait optimal page par page et incoherent d'une
+  page a l'autre - deux barres differentes pour le meme geste. La contrainte de
+  la page la plus chargee fixe donc la forme de toutes : le libelle sort du rang.
+
+  LE LIBELLE EST UN ONGLET, PAS UN BANDEAU. Il ne prend que la largeur du mot et
+  se pose en haut a GAUCHE du rang, qui reprend la pleine largeur juste apres :
+  la silhouette descend en marche d'escalier. Un bandeau pleine largeur aurait
+  fait un bloc massif au bas de l'ecran pour trois mots.
+  C'est aussi ce qui protege la largeur : le rang est toujours le plus large des
+  deux, donc l'etiquette ne peut jamais elargir la barre - ni la recentrer.
+
+  LA BARRE NE BOUGE JAMAIS D'UN PIXEL. Elle est centree par translateX(-50%),
+  donc toute variation de largeur la recentrerait et decalerait les onglets sous
+  le curseur. Ici tous les onglets sont identiques - un numero, rien d'autre -
+  et le libelle vit en dehors du rang : il ne reste rien qui puisse varier.
+
+  LE LIBELLE SUIT LE POINTEUR, PAS SEULEMENT LE DEFILEMENT. Au survol ou au
+  focus d'un onglet, l'etiquette annonce CE chapitre-la et l'onglet courant rend
+  la main ; en sortie, elle revient au chapitre courant. Sans ca on cliquerait un
+  numero sans savoir ou il mene. Sur mobile il n'y a pas de survol : le clic
+  ecrit l'etiquette immediatement, sans attendre la fin du defilement.
+
+  Dans l'onglet, le libelle reste present en .sr-only. Le nom accessible du lien
+  est donc « 03 Problem » et non « 03 » - l'etiquette au-dessus est, elle, en
+  aria-hidden, sans quoi un lecteur d'ecran l'annoncerait deux fois.
+*/
+interface Chapitre {
+  /** id de l'ancre — le <h2> du chapitre, ou la <section> quand elle n'en a pas */
+  id: string;
+  /** intitule long, celui du surtitre de section */
+  titre: string;
+  /** etiquette courte du sommaire, sans article */
+  onglet?: string;
+}
+
+interface Props {
+  chapitres: Chapitre[];
+  label?: string;
+}
+
+const { chapitres, label = 'Chapters' } = Astro.props;
+const num = (i: number) => String(i + 1).padStart(2, '0');
+---
+
+<nav class="chaptabs" id="chaptabs" aria-label={label}>
+  <p class="chaptabs__courant" aria-hidden="true"></p>
+  <ol class="chaptabs__list">
+    {chapitres.map((c, i) => (
+      <li class="chaptabs__item">
+        <a class="chaptabs__tab" href={`#${c.id}`} data-cible={c.id}>
+          <span class="chaptabs__num">{num(i)}</span>
+          <span class="chaptabs__nom sr-only">{c.onglet ?? c.titre}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .chaptabs{
+    --chaptabs-h:44px;
+
+    position:fixed;left:50%;bottom:var(--sp-03);z-index:48;
+    max-width:calc(100vw - var(--sp-03) * 2);
+    /* align-items:flex-start ferre l'etiquette a gauche et la laisse a la
+       largeur de son mot - c'est lui qui dessine la marche */
+    display:flex;flex-direction:column;align-items:flex-start;
+
+    /*
+      Une seule ombre pour les deux surfaces, et posee sur le parent : drop-shadow
+      suit la silhouette reelle, decroche compris. Deux box-shadow, une par
+      surface, auraient dessine l'ombre de l'etiquette SUR le rang - un trait
+      sombre en travers de la barre, la ou les deux se touchent.
+    */
+    filter:drop-shadow(0 10px 22px rgba(7,3,4,.20)) drop-shadow(0 2px 6px rgba(7,3,4,.07));
+
+    opacity:0;pointer-events:none;
+    /* le translateX porte le centrage ET l'entree : les deux doivent etre dans
+       la meme declaration, sinon la seconde ecrase la premiere */
+    transform:translate(-50%,10px);
+    transition:opacity .32s ease,transform .32s cubic-bezier(.22,1,.36,1);
+  }
+
+  /*
+    :focus-within et pas seulement .show. A la souris la barre apparait au
+    defilement. Au clavier il n'y a pas de defilement : on tabule, et la barre
+    vient tot dans l'ordre de tabulation. Sans cette regle on tabulerait dans
+    une navigation invisible. La solution inverse - `visibility:hidden` pour
+    sortir les liens de l'ordre de tabulation - se mord la queue : un element
+    invisible ne peut pas recevoir le focus, donc ne peut jamais se reveler.
+  */
+  .chaptabs.show,
+  .chaptabs:focus-within{opacity:1;pointer-events:auto;transform:translate(-50%,0)}
+
+  .chaptabs__courant{
+    /* -2px : l'etiquette mord sur le haut du rang pour qu'aucun liseré ne
+       s'ouvre entre deux surfaces de meme couleur. 2 et pas 1 parce que le
+       contour vaut 0 dans les themes clairs et 2px en Mondrian, ou il faut
+       interrompre le trait du dessus - c'est ce qui fait l'onglet. */
+    margin-bottom:-2px;
+    max-width:100%;
+    padding:9px 14px 8px;
+    background:var(--card);
+    border:var(--edge-w) solid var(--edge);border-bottom:none;
+    border-radius:var(--r-lg) var(--r-lg) 0 0;
+    font-size:12px;font-weight:700;letter-spacing:.14em;line-height:1;
+    text-transform:uppercase;
+    /*
+      --ink-muted et pas --accent, malgre les surtitres de section qui sont en
+      accent a cette taille exacte : ici c'est le SEUL endroit ou le nom du
+      chapitre s'affiche, alors que le surtitre, lui, a son titre juste dessous.
+      L'accent tombe a 3,99:1 sur la carte, sous le seuil AA pour du 12px gras.
+      L'encre attenuee donne 7,4:1, et c'est celle des numeros voisins.
+    */
+    color:var(--ink-muted);
+    white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  }
+
+  .chaptabs__list{
+    list-style:none;
+    display:flex;gap:3px;
+    max-width:100%;
+    padding:5px;
+    background:var(--card);
+    border:var(--edge-w) solid var(--edge);
+    /* coin haut-gauche carre : c'est la que l'etiquette vient se poser */
+    border-radius:0 var(--r-xl) var(--r-xl) var(--r-xl);
+    /* garde-fou pour les tres petites largeurs : le rang defile plutot que de
+       deborder de l'ecran */
+    overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  }
+  .chaptabs__list::-webkit-scrollbar{display:none}
+  .chaptabs__item{display:flex}
+
+  .chaptabs__tab{
+    display:flex;align-items:center;
+    height:var(--chaptabs-h);padding:0 9px;
+    border-radius:var(--r-lg);
+    background:transparent;
+    color:var(--ink-muted);text-decoration:none;
+    font-size:12px;font-weight:700;letter-spacing:.14em;line-height:1;
+    transition:background .22s ease,color .22s ease;
+  }
+
+  .chaptabs__tab[aria-current]{background:var(--accent);color:var(--on-accent)}
+  .chaptabs__tab:hover,
+  .chaptabs__tab:focus-visible{background:var(--accent);color:var(--on-accent)}
+
+  /*
+    Des que la barre est survolee, le courant rend la main, sauf s'il est
+    lui-meme la cible : un seul onglet allume a la fois, en accord avec
+    l'etiquette qui suit le pointeur.
+    `:has(:hover)` plutot que `:hover` sur la liste : la liste couvre aussi ses
+    5px de padding et les jours entre onglets, ou le curseur n'est sur rien. On
+    y aurait eteint le courant sans rien allumer a la place.
+  */
+  .chaptabs__list:has(.chaptabs__tab:hover) .chaptabs__tab[aria-current]:not(:hover){
+    background:transparent;color:var(--ink-muted);
+  }
+
+  @media (max-width:720px){
+    .chaptabs{bottom:var(--sp-02)}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    .chaptabs,.chaptabs__tab{transition:none}
+  }
+
+  @media print{.chaptabs{display:none}}
+</style>
+
+<script>
+  const nav = document.getElementById('chaptabs');
+  const liste = nav?.querySelector<HTMLElement>('.chaptabs__list');
+  const legende = nav?.querySelector<HTMLElement>('.chaptabs__courant');
+  const pied = document.getElementById('connect');
+
+  if (nav && liste) {
+    const onglets = [...nav.querySelectorAll<HTMLAnchorElement>('.chaptabs__tab')];
+
+    /*
+      Deux elements par onglet, et ce n'est pas un doublon :
+      - `ancre` est la cible du lien, le <h2> quand il existe ;
+      - `zone` est la <section> qui l'englobe, et c'est elle qu'on mesure.
+      Sans cette distinction le chapitre 03 d'Elements, qui n'a pas de <h2> et
+      pointe donc sur sa section, basculerait a l'actif plus tot que les autres :
+      on comparerait un haut de section a des hauts de titre.
+    */
+    const reperes = onglets
+      .map((tab) => {
+        const ancre = document.getElementById(tab.dataset.cible ?? '');
+        const nom = tab.querySelector('.chaptabs__nom')?.textContent?.trim() ?? '';
+        return ancre ? { tab, ancre, nom, zone: ancre.closest('.ls-chapter') ?? ancre } : null;
+      })
+      .filter((r): r is NonNullable<typeof r> => r !== null);
+
+    if (reperes.length) {
+      let actif = -1;
+      let attendu = false;
+
+      /* Course cumulee, en px, avant de basculer. Une comparaison brute de
+         scrollY ferait clignoter la barre au moindre soubresaut d'inertie. */
+      const SEUIL = 12;
+      /* Delai avant le retour a l'arret. Assez long pour ne pas se declencher
+         sur les micro-pauses d'un long defilement. */
+      const REPOS = 600;
+      /* Grace apres un clic d'onglet : le defilement doux qu'il declenche va
+         presque toujours vers le bas, et effacerait la barre pendant sa propre
+         navigation. */
+      const GRACE = 900;
+
+      let masque = false;
+      let dernierY = window.scrollY;
+      let cumul = 0;
+      let jusqua = 0;
+      let minuteur: ReturnType<typeof setTimeout> | undefined;
+
+      const ecrire = (texte: string) => {
+        if (legende) legende.textContent = texte;
+      };
+
+      const actualiser = () => {
+        attendu = false;
+        const H = window.innerHeight;
+
+        /*
+          Sens du defilement. L'accumulateur se remet a zero des que la
+          direction s'inverse : ce sont SEUIL pixels dans le meme sens qui
+          declenchent, pas SEUIL pixels nets depuis le dernier basculement -
+          sans quoi une longue descente rendrait la remontee interminable.
+          On ne masque pas sous le pointeur : la barre disparaitrait sous le
+          curseur de qui s'appretait a cliquer.
+        */
+        const y = window.scrollY;
+        const delta = y - dernierY;
+        dernierY = y;
+        if (delta !== 0 && performance.now() > jusqua) {
+          if (delta > 0 !== cumul > 0) cumul = 0;
+          cumul += delta;
+          if (cumul > SEUIL && !nav.matches(':hover')) {
+            masque = true;
+            cumul = 0;
+          } else if (cumul < -SEUIL) {
+            masque = false;
+            cumul = 0;
+          }
+        }
+
+        /*
+          Visible des que le premier chapitre entre dans le champ. Elle se
+          retire a l'arrivee du pied de page : la barre flotte en bas, et c'est
+          exactement la que se trouve l'appel a me contacter - le sommaire n'a
+          pas a le masquer au moment ou il compte.
+          Ces deux bornes sont un verrou dur : l'effacement au defilement est
+          une condition de plus, jamais un moyen de les contourner.
+        */
+        const debut = reperes[0].zone.getBoundingClientRect().top;
+        const fin = pied ? pied.getBoundingClientRect().top : Infinity;
+        nav.classList.toggle('show', debut < H && fin > H * 0.75 && !masque);
+
+        /*
+          Chapitre courant : le dernier dont le haut est passe au-dessus du tiers
+          haut du viewport. Mesure sur la section, pas sur l'ancre - voir plus
+          haut. Avant le premier chapitre on garde le premier.
+        */
+        const ligne = H * 0.34;
+        let i = 0;
+        reperes.forEach((r, n) => {
+          if (r.zone.getBoundingClientRect().top <= ligne) i = n;
+        });
+
+        if (i === actif) return;
+        actif = i;
+        reperes.forEach((r, n) => {
+          if (n === i) r.tab.setAttribute('aria-current', 'true');
+          else r.tab.removeAttribute('aria-current');
+        });
+        /* pas pendant qu'on survole : le pointeur a la priorite sur l'etiquette,
+           sinon un defilement a la molette ecraserait le chapitre vise */
+        if (!liste.querySelector('.chaptabs__tab:hover')) ecrire(reperes[i].nom);
+      };
+
+      const planifier = () => {
+        if (attendu) return;
+        attendu = true;
+        requestAnimationFrame(actualiser);
+      };
+
+      /*
+        Le minuteur de repos est arme sur l'evenement, pas dans actualiser() :
+        celui-ci est throttle en rAF, donc il ne tourne pas dans un onglet en
+        arriere-plan - la barre y reapparaitrait a contretemps au retour.
+      */
+      const auDefilement = () => {
+        planifier();
+        clearTimeout(minuteur);
+        minuteur = setTimeout(() => {
+          masque = false;
+          cumul = 0;
+          planifier();
+        }, REPOS);
+      };
+
+      addEventListener('scroll', auDefilement, { passive: true });
+      addEventListener('resize', planifier);
+      actualiser();
+
+      reperes.forEach(({ tab, ancre, nom }) => {
+        const viser = () => ecrire(nom);
+        const rendre = () => ecrire(reperes[actif]?.nom ?? '');
+        tab.addEventListener('mouseenter', viser);
+        tab.addEventListener('mouseleave', rendre);
+        tab.addEventListener('focus', viser);
+        tab.addEventListener('blur', rendre);
+
+        tab.addEventListener('click', () => {
+          /*
+            L'etiquette est ecrite tout de suite, sans attendre que le
+            defilement ait amene la section sous la ligne de bascule. Au tap, le
+            mot doit repondre au doigt - pas au bout de la course.
+          */
+          viser();
+          /*
+            La barre reste en place pendant le trajet qu'elle vient de
+            declencher : on la demasque, et on neutralise la lecture du sens du
+            defilement le temps que la page arrive. Sans ca, cliquer un chapitre
+            plus bas ferait disparaitre la barre au moment meme du clic.
+          */
+          masque = false;
+          cumul = 0;
+          jusqua = performance.now() + GRACE;
+          /*
+            Un lien d'ancre fait defiler la page mais ne deplace pas le focus
+            dans plusieurs navigateurs - meme raison que le tabindex="-1" du
+            <main>. preventScroll pour ne pas doubler le defilement en cours.
+          */
+          ancre.setAttribute('tabindex', '-1');
+          setTimeout(() => ancre.focus({ preventScroll: true }), 0);
+        });
+      });
+    }
+  }
+</script>

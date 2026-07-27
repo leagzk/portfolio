@@ -7,6 +7,7 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Carousel from '../components/Carousel.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
+import ChapterTabs from '../components/ChapterTabs.astro';
 
 /*
   Toutes les images de la page, chargees en une fois plutot qu'en 31 imports.
@@ -89,6 +90,26 @@ const credits = [
   { role: "Tableware & linen", nom: "Maison Options", href: 'https://www.options.fr/' },
   { role: "Cocktail bar", nom: "Le Horse Bar", href: 'https://sobarsodrink.squarespace.com/' },
 ];
+/*
+  Les chapitres, en un seul endroit : ils alimentent les onglets lateraux
+  (<ChapterTabs>) et les surtitres de section. Meme raison que sur
+  system-practice-elements - ecrits deux fois, l'ancre et le numero derivent a
+  la premiere reorganisation. Le numero vient du rang, donc reordonner
+  renumerote.
+*/
+const chapitres = [
+  { id: 'ch-identity',     titre: 'Identity' },
+  { id: 'ch-staging',      titre: 'Staging' },
+  { id: 'ch-game',         titre: 'The centrepiece', onglet: 'Centrepiece' },
+  { id: 'ch-coordination', titre: 'Coordination' },
+];
+
+const chap = (id: string): string => {
+  const i = chapitres.findIndex((c) => c.id === id);
+  if (i < 0) throw new Error(`Chapitre inconnu : ${id}`);
+  return `${String(i + 1).padStart(2, '0')} - ${chapitres[i].titre}`;
+};
+
 ---
 <Base title="Living System - Léa Giezek"
   description="A case study: one live event treated as a design system. Identity, staging, a six-puzzle centrepiece and the production guide that let others run it."
@@ -109,6 +130,8 @@ const credits = [
     </PageIntro>
   </div>
 
+  <ChapterTabs chapitres={chapitres} />
+
   <!-- THESIS -->
   <section class="ls-thesis ls-reveal" aria-label="The system, in the world">
     <figure class="ls-fig ls-thesis__fig">
@@ -123,7 +146,7 @@ const credits = [
   <!-- 01 IDENTITY -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-identity">
     <div class="ls-head">
-      <p class="ls-eyebrow"><span>01 - Identity</span></p>
+      <p class="ls-eyebrow"><span>{chap('ch-identity')}</span></p>
       <h2 class="ls-title" id="ch-identity">One identity, everywhere.</h2>
       <p class="ls-lede">Starting from a constraint you don't own, then making every other decision agree with it. That's most of the job on the platform too.</p>
     </div>
@@ -241,7 +264,7 @@ const credits = [
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-staging">
     <div class="ls-split">
       <div class="ls-split__text">
-        <p class="ls-eyebrow"><span>02 - Staging</span></p>
+        <p class="ls-eyebrow"><span>{chap('ch-staging')}</span></p>
         <h2 class="ls-title" id="ch-staging">Space, staged.</h2>
         <p class="ls-body">An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.</p>
         <p class="ls-body">The system on paper, and the system in the world - <b>the same jump from specification to production I run on the platform</b>, made physical.</p>
@@ -279,7 +302,7 @@ const credits = [
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-game">
     <div class="ls-gamehead">
       <div class="ls-gamehead__top">
-        <p class="ls-eyebrow"><span>03 - The centrepiece</span></p>
+        <p class="ls-eyebrow"><span>{chap('ch-game')}</span></p>
         <h2 class="ls-title" id="ch-game">A game, by design.</h2>
       </div>
       <p class="ls-body ls-gamehead__body">An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
@@ -346,7 +369,7 @@ const credits = [
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-coordination">
     <div class="card ls-dark">
       <div class="ls-dark__inner">
-        <p class="ls-eyebrow ls-eyebrow--light"><span>04 - Coordination</span></p>
+        <p class="ls-eyebrow ls-eyebrow--light"><span>{chap('ch-coordination')}</span></p>
         <h2 class="ls-title" id="ch-coordination">The part nobody sees.</h2>
         <div class="ls-body ls-body--light">
           <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
