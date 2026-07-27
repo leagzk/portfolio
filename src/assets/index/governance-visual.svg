@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+<!--
+  Vignette au trait de l'accueil. QUATRE conventions a reappliquer apres chaque
+  re-export depuis Illustrator - il les perd toutes, et sans bruit :
+
+  1. PAS DE DISQUE. L'aplat rond vient du conteneur (.osbridge__visual dans
+     index.astro), qui porte deja son fond et son survol. Le <circle class="st0"
+     cx=50 cy=50 r=36.5> de l'export a ete retire. Le viewBox de 100 est garde
+     tel quel : le dessin conserve son rapport au disque, qui occupait 73% de la
+     boite. Ce qui deborde est voulu.
+  2. currentColor, jamais une couleur en dur. L'export pose stroke:#231f20 ;
+     sans conversion le trait reste noir dans les quatre themes au lieu de
+     suivre --accent.
+  3. PAS DE BLOC <style>. Illustrator sort des classes .st0/.st1 dans un <defs>.
+     Astro inline le SVG dans la page, donc ce <style> devient GLOBAL : deux
+     vignettes exportees le meme jour porteraient les memes noms de classe et se
+     repeindraient l'une l'autre. Tout est passe en attributs de presentation.
+  4. QUATRE crochets pour l'animation de survol (voir index.astro) :
+     - class="hand" sur le groupe de la main ;
+     - class="grip" sur la poignee du fader de droite, celle que la main tient -
+       son sommet culmine a (67, 38), pile dans la boite de cette poignee ;
+     - class="track track--grip" sur la ligne de ce meme fader, qui doit
+       raccourcir quand la poignee remonte ;
+     - class="track track--mid" sur la ligne centrale BASSE, que le second doigt
+       affleure a y=50,5 : sans elle la main la traverserait en montant.
+     Sans ces classes le survol ne fait plus rien, silencieusement.
+-->
+  <g>
+    <g class="hand">
+      <path d="M32.66,74.72c3.61-9.69,7.57-19.31,9.95-22.08,5.25-6.11,8.53-1.65,8.53-1.65"/>
+      <path d="M47.81,57.35s5.25-13.83,13.36-6.57"/>
+      <path d="M72.74,55c.61,1.51,4.04,10.29,3.89,15.25-.11,3.62-4.89,11.15-9.36,19.62"/>
+      <path d="M58.6,56.63s4.98-12.07,8.68-16.4c3.69-4.33,9.58-1.8,8.15,4.74-1.44,6.54-5.37,16.65-6.15,25.81"/>
+    </g>
+    <line class="track track--grip" x1="70.5" y1="34.5" x2="70.5" y2="12.5"/>
+    <path class="grip" d="M65.5,42.5h-1c-1.1,0-2-.9-2-2v-4c0-1.1.9-2,2-2h12c1.1,0,2,.9,2,2v4c0,1.1-.9,2-2,2h-.82"/>
+    <line x1="50.5" y1="22.5" x2="50.5" y2="12.5"/>
+    <line class="track track--mid" x1="50.5" y1="50.5" x2="50.5" y2="30.5"/>
+    <rect x="42.5" y="22.5" width="16" height="8" rx="2" ry="2"/>
+    <line x1="30.5" y1="38.5" x2="30.5" y2="12.5"/>
+    <line x1="30.5" y1="67.5" x2="30.5" y2="46.5"/>
+    <rect x="22.5" y="38.5" width="16" height="8" rx="2" ry="2"/>
+  </g>
+</svg>

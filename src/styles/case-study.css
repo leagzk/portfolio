@@ -91,6 +91,29 @@
 .ls-dark .ls-title{color:#fff}
 .ls-body--light{color:rgba(255,255,255,.86);max-width:66ch}
 .ls-body--light b,.ls-body--light em{color:#fff}
+/*
+  .btn3 pose sur le bloc noir, aligne sur le pied de page - meme composant, meme
+  genre de fond, donc meme comportement. Sa couleur par defaut (--btn3) tombe a
+  4,5:1 sur #070304 en spicy et s'effondre en mono, ou --accent vaut #232320 :
+  du noir sur du noir. D'ou le blanc de base, a 19,6:1 dans les trois themes.
+
+  Le survol reprend la matrice de .talk-card (shared.css) telle quelle, y compris
+  ses deux surcharges de theme - une couleur unique ne peut pas tenir les trois :
+  --accent vire au quasi-noir en mono, et le bleu clair du theme Mondrian n'est
+  lisible que la. Mesures sur #070304 : accent 5,1:1, #4A90E2 6,2:1.
+  Toute retouche du survol du pied de page doit etre repercutee ici.
+*/
+.ls-dark .btn3{color:#fff}
+.ls-dark .btn3:hover{color:var(--accent)}
+[data-theme="mono"] .ls-dark .btn3:hover{color:#fff;font-weight:700}
+[data-theme="contrast"] .ls-dark .btn3:hover{color:#4A90E2}
+/*
+  Filet de respiration : il scinde le recit de l'erreur de celui de la decision.
+  Blanc a 14% - au-dela il fait barre et decoupe le bloc en deux cartes, en deca
+  il disparait sur le #070304. Porte par le <p> du lien, donc le paragraphe
+  suivant garde la marge que lui donne `p + p`.
+*/
+.ls-dark__rule{padding-bottom:var(--sp-08);border-bottom:1px solid rgba(255,255,255,.14)}
 .ls-note--light{color:rgba(255,255,255,.7);border-left-color:#fff;max-width:56ch;margin-top:var(--sp-12)}
 [data-theme="contrast"] .ls-eyebrow--light{color:var(--highlight)}
 [data-theme="contrast"] .ls-eyebrow--light::after{background:color-mix(in srgb, var(--highlight) 32%, transparent)}

@@ -1,6 +1,11 @@
 ---
 import Base from '../layouts/Base.astro';
 import CaseCard from '../components/CaseCard.astro';
+/* Astro 5.7+ : un .svg importe devient un composant, inline dans le HTML.
+   C'est ce qui permet a currentColor de descendre du conteneur - un
+   background-image ou un <img> seraient opaques a la couleur du theme. */
+import GovernanceVisual from '../assets/index/governance-visual.svg';
+import DesignVisual from '../assets/index/design-visual.svg';
 import Banner from '../components/Banner.astro';
 ---
 <Base title="Léa Giezek - Experience systems that grow culture"
@@ -10,8 +15,9 @@ import Banner from '../components/Banner.astro';
 <!-- CARD 1 : banner + intro -->
   <div class="card">
     <Banner photo>
-        <p class="banner__standards">Design systems ship standards.</p>
-        <p class="banner__grow">Experience systems grow <span class="banner__culture">culture</span></p>
+        <p class="banner__standards">Design systems ship standards,</p>
+        <p class="banner__grow">Experience systems grow culture</p>
+        <span class="banner__culture" style="--culture-size:26cqw" aria-hidden="true">System.</span>
       
     </Banner>
 
@@ -30,22 +36,29 @@ import Banner from '../components/Banner.astro';
   <!-- CRAFT TILES on the grey canvas -->
   <div class="drag" id="drag" aria-label="Craft and portrait">
         <div class="dcard dcard--photo" style="left:0%;top:108px;--rot:-3deg" role="img" aria-label="Portrait of Léa Giezek"></div>
-        <div class="dcard dc1 dcard--flip dc1--grid" style="left:42%;top:96px;--rot:-1deg" tabindex="0">
+        {/*
+          Ordre du DOM : dc3, dc2, dc1. Il ne decide de rien au bureau - les
+          cartes sont en position:absolute avec un left/top et un z-index
+          explicites - mais il EST l'ordre du rail sous 1024px, ou .dcard--photo
+          est masquee et ou les trois cartes defilent. D'ou la lecture voulue :
+          « hands dirty first », puis l'ingenierie, puis la direction.
+        */}
+        <div class="dcard dc3 dcard--flip" style="left:23%;top:0px;--rot:-5deg" tabindex="0">
           <div class="dcard__inner">
-            <div class="dcard__face dcard__front"><p class="dcard__t">Design in my own hands.</p></div>
-            <div class="dcard__face dcard__back"><p class="dcard__b">I've designed <b>the brand, the product, the system</b> - so when I set direction, it's <b>grounded in the work, not above it.</b></p></div>
+            <div class="dcard__face dcard__front"><p class="dcard__t">I lead the way I learned: hands dirty first.</p><span class="dc-hand" aria-hidden="true"><DesignVisual /></span></div>
+            <div class="dcard__face dcard__back"><p class="dcard__b">Having done the work myself is what tells me <b>when to step in and when to stay out</b> - close enough to help when it counts, <b>never close enough to hover.</b></p></div>
           </div>
         </div>
-        <div class="dcard dc2 dcard--flip dc2--flip" style="left:70%;top:12px;--rot:3deg" tabindex="0">
+        <div class="dcard dc2 dcard--flip dc2--flip" style="left:46%;top:116px;--rot:3.5deg" tabindex="0">
           <div class="dcard__inner">
             <div class="dcard__face dcard__front"><p class="dcard__t">Enough engineering to earn the room.</p><span class="dc2__kbd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 7v3"/></svg>Ctrl + Cmd + C</span></div>
             <div class="dcard__face dcard__back"><p class="dcard__b"><b>I read the code and ran component QA myself</b> - to back my team up when they needed it, and to understand the work well enough <b>never to decide against it.</b></p></div>
           </div>
         </div>
-        <div class="dcard dc3 dcard--flip" style="left:23%;top:0px;--rot:-5deg" tabindex="0">
+        <div class="dcard dc1 dcard--flip dc1--grid" style="left:70%;top:12px;--rot:3deg" tabindex="0">
           <div class="dcard__inner">
-            <div class="dcard__face dcard__front"><p class="dcard__t">I lead the way I learned: hands dirty first.</p><span class="dc-hand" aria-hidden="true">🖍️</span></div>
-            <div class="dcard__face dcard__back"><p class="dcard__b"><b>I've done the work myself</b>, so I <b>empower the people</b> doing it now - close enough to help when it counts, <b>never close enough to hover.</b></p></div>
+            <div class="dcard__face dcard__front"><p class="dcard__t">Direction earned, not assigned.</p></div>
+            <div class="dcard__face dcard__back"><p class="dcard__b">I've designed <b>the brand, the product, the system</b>. So when I set direction, it's grounded in the work - <b>I know what it costs to execute.</b></p></div>
           </div>
         </div>
       </div>
@@ -61,8 +74,7 @@ import Banner from '../components/Banner.astro';
       <a class="btn btn--ghost" href="/operating-system">Operating System →</a>
     </div>
     <div class="osbridge__viz">
-      <div class="osbridge__visual" aria-hidden="true">🎮</div>
-      <div class="osbridge__mini" aria-hidden="true">🏳️‍🌈</div>
+      <div class="osbridge__visual" aria-hidden="true"><GovernanceVisual /></div>
     </div>
   </section>
 
@@ -75,12 +87,12 @@ import Banner from '../components/Banner.astro';
   */}
   <section class="betlede" aria-labelledby="betlede-t">
     <h2 class="osbridge__title" id="betlede-t">I don't build design systems. I build experience systems.</h2>
-    <p class="osbridge__text">Fifty would be padding. Three prove it - a platform, an organisation, and a space you could immerse yourself in. <b>Same thinking, three worlds - no craft left in a silo.</b></p>
+    <p class="osbridge__text">Fifty would be padding. Three prove it - a platform, a brand, and a space you could immerse yourself in. <b>Same thinking, three worlds - no craft left in a silo.</b></p>
   </section>
   <div class="cases">
-    <CaseCard idx="Systematized a practice" when="2023 - now" name="Digital" href="/system-practice-elements"><b>The product failed. The platform scaled.</b> Same system, rebuilt from zero - into the standard a strategic digital portfolio depends on, and the community that makes it last.</CaseCard>
-    <CaseCard idx="Systematized a brand" when="2018 - 2021" name="Brand" href="/system-brand">2,500 people, one language - before I'd have called it a design system. Not just product, not just design, not just communication: <b>anything can be systematized</b> once you understand each craft, and how to connect the dots. The pattern, five years early.</CaseCard>
-    <CaseCard idx="Systematized a moment" when="a year in the making" name="Event" href="/system-event">A full identity, a staged space, and an escape game - one live experience, orchestrated end to end. The same thinking, off the screen entirely. <b>Proof it travels anywhere.</b></CaseCard>
+    <CaseCard idx="Systematized a practice" when="2023 - now" name="Governance" href="/system-practice-elements"><b>The product failed. The platform scaled.</b> Same system, rebuilt from zero - into the standard a strategic digital portfolio depends on, and the community that makes it last.</CaseCard>
+    <CaseCard idx="Systematized a brand" when="2018 - 2022" name="Language" href="/system-brand">2,500 people, one language - before I'd have called it a design system. Not just product, not just design, not just communication: <b>anything can be systematized</b> once you understand each craft, and how to connect the dots. The pattern, five years early.</CaseCard>
+    <CaseCard idx="Systematized a moment" when="a year in the making" name="Surfaces" href="/system-event">A full identity, a staged space, and an escape game - one live experience, orchestrated end to end. The same thinking, off the screen entirely. <b>Proof it travels anywhere.</b></CaseCard>
   </div>
 
   <!-- CARD 3 : let's talk -->
@@ -103,7 +115,10 @@ import Banner from '../components/Banner.astro';
   [data-theme="contrast"] .dcard--flip{border:none}
   [data-theme="contrast"] .dcard--flip .dcard__face{border:var(--edge-w) solid var(--edge);box-shadow:none}
   .dcard__t{font-family:var(--display);font-weight:400;font-size:clamp(20px,2vw,24px);color:var(--ink);letter-spacing:-.01em;line-height:1.12}
-  .dcard__b{font-size:clamp(16px,1.6vw,20px);color:var(--ink-soft);margin-top:12px}
+  /* 16px fixe, comme .case__hook plus bas : les deux familles de cartes
+     racontent la meme chose a deux endroits, elles se lisent au meme corps.
+     C'etait un clamp montant a 20px, donc plus gros que les cards de cas. */
+  .dcard__b{font-size:16px;color:var(--ink-soft);margin-top:12px}
   .dcard--photo{padding:0;aspect-ratio:1;border-radius:50%;background:var(--portrait) center/cover no-repeat;z-index:3;border:none;cursor:default}
   .dcard--photo::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--ring);opacity:0;pointer-events:none}
   .dcard--photo:hover::after{animation:tilePulse .9s ease-out}
@@ -113,8 +128,13 @@ import Banner from '../components/Banner.astro';
   .js .drag.in .dcard:nth-child(3){animation-delay:.18s}
   .js .drag.in .dcard:nth-child(4){animation-delay:.27s}
   .dc1{z-index:5}
-  .dc2{background:var(--ink)}
-  .dc3{z-index:4;background:var(--tile-red)}
+  .dc2{z-index:7;background:var(--ink)}
+  /* Ordre d'empilement, eclate sur cinq regles et donc ecrit ici une fois :
+     .dcard 1 → .dcard--photo 3 → .dc1 5 → .dc3 6 → .dc2 7, puis 20 au survol
+     et 30 pendant un glisser (drag.ts recompte a partir de 10, donc toute carte
+     saisie passe devant). .dc2 occupe la position centrale et passe au premier
+     plan ; elle recouvre donc le coin bas-droit de .dc3, ou vit la vignette. */
+  .dc3{z-index:6;background:var(--tile-red)}
   .dc2 .dcard__t,.dc2 .dcard__b{color:#fff}
   .dc3 .dcard__t,.dc3 .dcard__b{color:var(--tile-red-ink)}
   .dcard--flip{background:transparent;border:none;box-shadow:none;padding:0;cursor:pointer;perspective:1100px;height:clamp(224px,25vw,264px)}
@@ -131,7 +151,69 @@ import Banner from '../components/Banner.astro';
   .dc1--grid .dcard__front .dcard__t{position:relative;z-index:1}
   .dc1--grid .dcard__back{background:var(--tile-red)}
   .dc1--grid .dcard__t,.dc1--grid .dcard__b{color:var(--tile-red-ink)}
-  .dc-hand{font-size:clamp(40px,6vw,56px);line-height:1;margin-top:16px;align-self:flex-start}
+  /*
+    Vignette sans disque, posee sur le bord bas de la carte.
+
+    margin-top:auto la pousse en bas : la face est une colonne flex en
+    justify-content:center, et une marge auto sur le dernier enfant absorbe tout
+    l'espace restant. Le margin-bottom negatif compense le padding de 24px de la
+    face, pour que le dessin vienne effectivement TOUCHER le bord au lieu de
+    flotter au-dessus.
+
+    100% et non 137% : le 137% servait a faire coincider le disque implicite du
+    fichier avec un disque CSS. Sans disque, cette correspondance n'a plus
+    d'objet et le dessin occupe simplement sa boite.
+  */
+  /*
+    Ferree a droite, donc l'agrandir gagne deux fois : le dessin s'etend vers la
+    GAUCHE, c'est-a-dire dans la bande que .dc2 ne recouvre pas. Mesures a
+    1440px : .dc2 coupe a 205px du bord de la carte, la vignette est calee a
+    288px - a 152px de large il n'en ressortait que 82, a 224 il en ressort 141.
+    Le debord bas passe a --sp-14 pour compenser : sans lui, une vignette de
+    224px de haut viendrait manger le titre, qui descend a 136px.
+  */
+  /*
+    margin-top et non auto : `auto` ne pousse en bas que s'il reste de la place,
+    or la vignette remplit la face - l'espace libre tombe a zero et l'ecart au
+    titre disparaissait. C'est justify-content:flex-start sur la face qui epingle
+    le titre en haut, et le debord bas qui place la vignette.
+
+    La valeur est NEGATIVE et ce n'est pas une erreur. Le dessin ne remplit pas
+    sa boite : son encre ne commence qu'a 8,3% du viewBox, soit 20px de vide en
+    haut. A margin-top:16px l'ecart VISUEL au titre valait donc 36px, et la
+    vignette paraissait flotter trop bas. A -2px elle remonte de 18px et il reste
+    18px de respiration reelle jusqu'au trait. Toucher a l'un sans l'autre casse
+    le calcul : si le dessin est re-exporte avec un cadrage plus serre, cette
+    valeur doit remonter vers 16.
+  */
+  /* overflow:hidden - la vignette deborde de ~86px sous la carte, et c'est la
+     carte qui la coupe, sur son rayon de 36px. Le meme procede que
+     .dc1--grid .dcard__front, donc sans risque pour le retournement 3D. */
+  .dc3 .dcard__front{justify-content:flex-start;overflow:hidden}
+  /*
+    Meme traitement pour la carte jaune, et pas pour la meme raison : son titre
+    etait centre verticalement, donc pose a 98px dans une face de 264. Il
+    plongeait au milieu de la carte, la ou la carte noire - plus haute et
+    voisine - le recouvrait. L'epingler en haut le remonte de ~70px sans deplacer
+    la carte, ce qu'aucune remontee raisonnable n'aurait obtenu : il aurait fallu
+    84px, soit sortir la carte par le haut du conteneur.
+  */
+  /*
+    padding-right en POURCENTAGE, pour retrecir la colonne de texte sans toucher
+    au bord gauche : le titre reste ferre a gauche et passe sur trois lignes.
+    Mesures a 1440px : « Direction earned, » fait 209px pour une colonne de 232,
+    d'ou deux lignes. A 30% de padding a droite la colonne tombe vers 175px -
+    sous les 209 qui forcent la coupe, et au-dessus des 138 de « earned, not »
+    qui la feraient partir a quatre lignes.
+    En pourcentage et non en px parce que la carte est fluide (27vw) : une valeur
+    fixe donnerait quatre lignes sur les ecrans de bureau les plus etroits.
+  */
+  .dc1 .dcard__front{justify-content:flex-start;padding-right:30%}
+  .dc-hand{width:clamp(96px,17vw,224px);height:clamp(96px,17vw,224px);
+    color:var(--accent);display:grid;place-items:center;line-height:1;flex:none;
+    margin:-2px 0 calc(var(--sp-14) * -1) auto;
+    align-self:flex-end}
+  .dc-hand svg{width:100%;height:100%}
   .dc2--flip .dcard__front,.dc2--flip .dcard__back{background:var(--ink)}
   .dc2--flip .dcard__front .dcard__t,.dc2--flip .dcard__back .dcard__b{color:#fff}
   .dc2__kbd{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:16px;padding:8px 12px;border:1.5px solid rgba(255,255,255,.4);border-radius:12px;font-family:var(--display);font-weight:400;font-size:12px;color:#fff}
@@ -139,11 +221,48 @@ import Banner from '../components/Banner.astro';
   .dcard--photo:hover{transform:rotate(var(--rot));z-index:3;box-shadow:0 22px 44px -20px rgba(120,30,10,.3)}
   .osbridge{display:grid;grid-template-columns:2fr 1fr;gap:var(--sp-14);align-items:center;margin:var(--sp-22) 0 clamp(56px,6vw,72px)}
   .osbridge__viz{position:relative;width:100%;max-width:340px;aspect-ratio:1;justify-self:center}
-  .osbridge__visual{position:absolute;inset:0;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:clamp(80px,14vw,160px);line-height:1;box-shadow:0 18px 40px -20px rgba(120,30,10,.3)}
-  .osbridge__mini{position:absolute;top:-10%;left:-8%;width:42%;height:42%;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:clamp(32px,5.5vw,64px);line-height:1;box-shadow:0 12px 26px -14px rgba(120,30,10,.32);z-index:2}
-  [data-theme="contrast"] .osbridge__visual,[data-theme="contrast"] .osbridge__mini{border:var(--edge-w) solid var(--edge)}
-  .osbridge__visual::after,.osbridge__mini::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--ring);opacity:0;pointer-events:none}
-  .osbridge__visual:hover::after,.osbridge__mini:hover::after{animation:tilePulse .9s ease-out}
+  /*
+    Aplat blanc, trait en --accent : c'est le TRAIT qui porte le theme ici.
+    Passer par --ink n'aurait rien change a l'oeil - --ink et --tile-red-ink ont
+    la meme valeur dans les trois themes - alors que --accent donne le rouge de
+    marque en spicy, le quasi-noir en mono et le rouge Mondrian en contrast.
+  */
+  .osbridge__visual{position:absolute;inset:0;border-radius:50%;background:#fff;color:var(--accent);display:grid;place-items:center;line-height:1}
+  /*
+    137% et non 100% : le disque occupait 73% du viewBox du fichier d'origine.
+    En rendant la vignette a 100/73, son disque implicite retombe exactement sur
+    celui du conteneur, et le dessin deborde comme il le doit. Toucher a l'un
+    sans l'autre desaligne le trait et l'aplat.
+  */
+  /* translateY(2%) : le dessin a son centre optique a y=48 pour un viewBox de
+     centre 50 - mesure au getBBox(). Deux unites, soit 2% de la hauteur du svg. */
+  .osbridge__visual svg{width:137%;height:137%;overflow:visible;transform:translateY(2%)}
+  /*
+    Survol : la main pousse un fader vers le haut, et redescend en sortant.
+
+    Le dessin est un pupitre - trois faders verticaux, une main qui en tient un.
+    Une transition et non une keyframe : l'etat de repos et l'etat survole sont
+    deux poses, pas un cycle, et le retour doit s'animer aussi bien que l'aller.
+
+    --course pilote les quatre elements a la fois. Les deux lignes ne se
+    deplacent pas, elles RACCOURCISSENT - une ligne qu'on translate laisserait
+    un trou a son sommet. D'ou un scaleY calcule sur leur longueur reelle :
+    22 unites pour le fader de droite (12,5 → 34,5), 20 pour la centrale basse
+    (30,5 → 50,5). Ces deux nombres viennent du fichier ; les changer sans
+    changer ceux-ci decalerait le trait de la poignee.
+
+    transform-origin en unites de viewBox, sans toucher a transform-box : c'est
+    deja son defaut pour un element SVG. Le point choisi est le SOMMET de chaque
+    ligne, pour qu'elle se retracte par le bas, du cote de la main.
+  */
+  .osbridge__visual .hand,.osbridge__visual .grip,.osbridge__visual .track{
+    --course:7px;transition:transform .5s cubic-bezier(.22,1,.36,1)}
+  .osbridge__visual .track--grip{transform-origin:70.5px 12.5px}
+  .osbridge__visual .track--mid{transform-origin:50.5px 30.5px}
+  .osbridge__visual:hover .hand,.osbridge__visual:hover .grip{transform:translateY(calc(var(--course) * -1))}
+  /* (22 - 7) / 22 et (20 - 7) / 20 */
+  .osbridge__visual:hover .track--grip{transform:scaleY(.682)}
+  .osbridge__visual:hover .track--mid{transform:scaleY(.65)}
   .osbridge__title{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);line-height:1.25;letter-spacing:-.02em;color:var(--ink);margin-bottom:16px}
   .osbridge__text{font-size:clamp(16px,1.6vw,20px);color:var(--ink-soft);max-width:54ch;margin-bottom:24px}
   .osbridge__text b{color:var(--ink)}
@@ -210,14 +329,43 @@ import Banner from '../components/Banner.astro';
   .dcard--flip .dcard__face{padding:var(--sp-11)}
   .dcard--flip .dcard__front{flex:0 0 auto;padding-right:var(--sp-11);padding-bottom:8px}
   .dcard--flip .dcard__back{flex:1 1 auto;padding-left:var(--sp-11);padding-top:8px}
-  .dc3 .dcard__front{flex-direction:row;align-items:center;gap:clamp(12px,3.5vw,20px)}
-  .dc3 .dc-hand{order:-1;margin-top:0;flex:none;align-self:center}
+  /*
+    La face reste une colonne, comme au bureau : la vignette va en bas a droite.
+    Elle doit tenir dans .dcard__front, qui ne fait que 42% de la carte - soit
+    environ 78px utiles a 375px une fois les 24px de padding retires. D'ou une
+    echelle propre au mobile, bien plus petite que le clamp du bureau.
+  */
+  /*
+    Sous 640px .dcard__inner est une colonne : la face avant, donc la vignette,
+    passe AVANT la description. Pour la poser sous elle, on la sort du flux.
+
+    position:static sur la face est la cle : en relative elle etait le bloc
+    conteneur de la vignette, qui se serait ancree sur elle et non sur la carte.
+    Neutralisee, l'ancrage remonte a .dcard, qui est en position:relative depuis
+    le palier 1024px.
+    Le padding bas de la face arriere reserve la place : sans lui le texte
+    passerait sous la vignette des qu'une carte serait courte.
+  */
+  .dc3 .dcard__front{position:static;overflow:visible}
+  .dc3 .dcard__back{padding-bottom:calc(clamp(52px,19vw,78px) + var(--sp-11))}
+  /*
+    z-index indispensable : .dcard__back est en position:relative avec un fond
+    opaque et vient APRES la vignette dans le DOM. Sans cote d'empilement, elle
+    peignait par-dessus et la vignette disparaissait - presente, mesurable,
+    invisible.
+  */
+  .dc3 .dc-hand{position:absolute;right:var(--sp-11);bottom:var(--sp-11);z-index:2;
+    width:clamp(52px,19vw,78px);height:clamp(52px,19vw,78px);margin:0}
   .osbridge{grid-template-columns:1fr;position:relative}
   .osbridge__body{position:relative;z-index:1}
   .osbridge__viz{position:absolute;inset:0;max-width:none;width:auto;margin:0;justify-self:auto;aspect-ratio:auto;z-index:-1;pointer-events:none}
-  .osbridge__visual{inset:auto;right:auto;left:-20%;top:34%;transform:translateY(-50%);width:clamp(150px,30vw,210px);height:clamp(150px,30vw,210px);font-size:0;box-shadow:0 18px 44px -26px rgba(120,30,10,.16)}
-  .osbridge__mini{display:none}
-  [data-theme="contrast"] .osbridge__visual{border:none}
+  /*
+    Sous 640px, plus de disque du tout : le trait seul, en filigrane derriere le
+    texte (.osbridge__viz est en z-index:-1). C'est le meme procede que le mot
+    geant des bannieres - un dessin qu'on devine plutot qu'on ne lit.
+    Il occupe donc toute la colonne au lieu d'un rond de 210px.
+  */
+  .osbridge__visual{inset:auto;left:auto;right:-14%;top:38%;transform:translateY(-50%);width:clamp(240px,72vw,340px);height:clamp(240px,72vw,340px);background:none;color:#fff}
 }
   /* palier harmonise : etait 520px, aligne sur le 560px de system-event */
   @media(max-width:560px){
@@ -227,7 +375,9 @@ import Banner from '../components/Banner.astro';
 }
   @media(prefers-reduced-motion:reduce){
   .case,.dcard,.dcard--flip .dcard__inner{transition:none}
-  .dcard--photo::after,.osbridge__visual::after,.osbridge__mini::after,.banner__pepper::after{animation:none}
+  .dcard--photo::after,.banner__pepper::after{animation:none}
+  .osbridge__visual .hand,.osbridge__visual .grip,.osbridge__visual .track{transition:none}
+    .osbridge__visual:hover .hand,.osbridge__visual:hover .grip,.osbridge__visual:hover .track{transform:none}
   .js .drag .dcard{opacity:1;animation:none;transform:rotate(var(--rot))}
 }
 

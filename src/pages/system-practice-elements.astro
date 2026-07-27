@@ -87,7 +87,7 @@ const mecanismes = [
     note: "No component, no roadmap line ever shipped without discovery: what the ecosystem actually needs, what already exists. Then one shared convention, written down - so the standard isn't a review at the end, it's the default at the start." },
   { valeur: 'Responsibility', mecanisme: 'the floor, not the reach.',
     note: 'WCAG AA as the Sanofi digital standard, not our own bar. Full library audited to 100% before our first major, then held there - so no product team paid the cost downstream.' },
-  { valeur: 'Ethics', mecanisme: 'a constraint I chose.',
+  { valeur: 'Ethics', mecanisme: 'a constraint nobody asked me to keep.',
     note: 'When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. Not everyone draws it. I do.' },
 ];
 
@@ -158,16 +158,17 @@ const preuves: Preuve[] = [
   description="At global scale, a system isn't managed - it's governed. Building Sanofi's experience system: 45+ products, a €1M budget, 0 to 35+ contributors, and a Design System Awards governance finalist."
   current="system-practice-elements" noindex>
 
-<!-- ═══ 1 · HOOK ═══ -->
+<!-- ═══ 00 · HOOK ═══ -->
   <div class="card">
     <Banner home>
-      <p class="banner__standards">At global scale,<br>a system isn't managed. It's <span class="banner__culture banner__culture--desc">governed.</span></p>
+      <p class="banner__standards">At global scale a system isn't managed, it's governed</p>
+      <span class="banner__culture" style="--culture-size:17cqw" aria-hidden="true">Governance.</span>
     </Banner>
 
-    <PageIntro eyebrow="Elements - Design System Awards 2025, Governance finalist">
+    <PageIntro eyebrow="Elements - Sanofi global experience system">
       <p class="p-intro__lead">At Sanofi, I built Elements to remove the frictions between experts, reduce time to launch and enhance product experience at scale. Moving then from a design system as a product to one platform, one pipeline, brand and product and engineering pouring into the same chain.</p>
 
-      <p class="p-intro__lead">But the external recognition that means the most to me is the category we were named in at the Design System Awards: <b>Governance</b>, alongside HP and Tesco. Because this was never only a craft story. It was a leadership one.</p>
+      <p class="p-intro__lead">But the external recognition that means the most to me is the category we were named in at the <b>global Design System Awards 2025: Governance, finishing finalist alongside HP and Tesco.</b> Because this was never only a craft story. It was a leadership one. Starting back in 2022 as Design Lead, managing today the platform as the Director.</p>
 
     </PageIntro>
   </div>
@@ -224,7 +225,7 @@ const preuves: Preuve[] = [
     </div>
   </section>
 
-<!-- ═══ 2 · THE STAKES ═══ -->
+<!-- ═══ 02 · THE STAKES ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-stakes">
     <div class="ls-head">
       <p class="ls-eyebrow"><span>02 - The stakes</span></p>
@@ -259,7 +260,7 @@ const preuves: Preuve[] = [
     <p class="ls-cap el-scope">Multi-brand · multi-theme · B2B / B2C / internal · from employee to patient · worldwide</p>
   </section>
 
-<!-- ═══ 3 · THE PROBLEM ═══ -->
+<!-- ═══ 03 · THE PROBLEM ═══ -->
   {/*
     Traite au layout de /philosophy : les trois mouvements deviennent des Tenet,
     donc ce sont eux qui portent les <h2>. La section n'a plus de .ls-title - elle
@@ -285,7 +286,7 @@ const preuves: Preuve[] = [
     </div>
   </section>
 
-<!-- ═══ 4 · THE FAILURE — bloc sombre, le coeur emotionnel ═══ -->
+<!-- ═══ 04 · THE FAILURE — bloc sombre, le coeur emotionnel ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-failure">
     <div class="card ls-dark">
       <div class="ls-dark__inner">
@@ -295,6 +296,10 @@ const preuves: Preuve[] = [
         <div class="ls-body ls-body--light">
           <p>That's the lesson. Here's the half I don't get to blame on anyone else.</p>
           <p>The engineering was externalized before my time - not my call. But <b>the early bet I shared, and got wrong, was priority.</b> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified, on-brand system. Piloted on sanofi.com, we were boxed into its framework, and we quietly deprioritized what product teams actually needed.</p>
+          {/* le lien vit dans un <p> et non nu entre deux paragraphes : .ls-body
+              espace ses blocs avec `p + p`, et un <a> intercale ferait perdre sa
+              marge haute au paragraphe suivant */}
+          <p class="ls-dark__rule"><a class="btn3" href="/system-brand">Deep dive in the origin story <span class="btn3__i">→</span></a></p>
           <p>So the system was coherent, and barely adopted. It took me too long to see it: we'd built it brand-first and at arm's length - for the brand, and through a vendor, but not for the people who had to build on it. <b>A design system nobody adopts is the oldest failure in the field</b> - and we'd walked straight into it.</p>
           <p>So I stopped fixing the output and fixed both sources. I pushed to internalize engineering - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero - design foundations, Figma kit, React repos - this time from a holistic view of the whole portfolio and the experience it had to serve. Brand <em>and</em> product, connected, because I'd learned what it costs to choose one.</p>
           <p>It wasn't the safe path. Internalizing means owning the budget, the hiring, the reorg - <b>a €1M bet on a model, not a line item.</b> I drove it, and I carried it through.</p>
@@ -305,7 +310,7 @@ const preuves: Preuve[] = [
     </div>
   </section>
 
-<!-- ═══ 5 · WHAT I OWNED ═══ -->
+<!-- ═══ 05 · WHAT I OWNED ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-owned">
     <div class="ls-head">
       <p class="ls-eyebrow"><span>05 - What I owned</span></p>
@@ -332,7 +337,7 @@ const preuves: Preuve[] = [
     <p class="ls-claim ls-claim--head">This is the layer no contributor can claim. <b>Not the components - the conditions.</b></p>
   </section>
 
-<!-- ═══ 6 · THE ARCHITECTURE — quatre mouvements ═══ -->
+<!-- ═══ 06 · THE ARCHITECTURE — quatre mouvements ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-architecture">
     <div class="ls-head">
       <p class="ls-eyebrow"><span>06 - The architecture</span></p>
@@ -417,13 +422,10 @@ const preuves: Preuve[] = [
       {/* le titre vit DANS le bandeau : il annonce les trois volets, pas la
           section - dehors, l'aplat blanc commencait au milieu du propos */}
       <p class="ls-sub">I don't state values. I install them.</p>
-      <dl class="el-equations" id="eleqs">
+      <dl class="el-equations">
         {mecanismes.map((m) => (
           <div class="el-eq">
-            {/* le signe et le mecanisme partagent un meme conteneur, donc un meme
-                flux de texte : c'est la seule facon qu'un mecanisme trop long se
-                replie SOUS lui-meme au lieu de repousser le « = » sur sa propre ligne */}
-            <dt class="el-eq__line"><span class="el-eq__v">{m.valeur}</span><span class="el-eq__r"><span class="el-eq__s" aria-hidden="true">=</span><span class="el-eq__m">{m.mecanisme}</span></span></dt>
+            <dt class="el-eq__line"><span class="el-eq__v">{m.valeur}</span><span class="el-eq__m">{m.mecanisme}</span></dt>
             <dd class="el-eq__note">{m.note}</dd>
           </div>
         ))}
@@ -465,7 +467,7 @@ const preuves: Preuve[] = [
     <p class="ls-claim ls-claim--head">My job wasn't to hold it up.<br><b>It was to build a structure that outlasts any of us.</b></p>
   </section>
 
-<!-- ═══ 7 · THE COMMUNITY ═══ -->
+<!-- ═══ 07 · THE COMMUNITY ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-community">
     <div class="ls-head">
       <p class="ls-eyebrow"><span>07 - The community</span></p>
@@ -535,7 +537,7 @@ const preuves: Preuve[] = [
   </section>
 
 
-<!-- ═══ 9 · WHERE I'D TAKE IT NEXT ═══ -->
+<!-- ═══ 08 · WHERE I'D TAKE IT NEXT ═══ -->
   <section class="ls-chapter ls-reveal" aria-labelledby="ch-next">
     <div class="ls-head">
       <p class="ls-eyebrow"><span>08 - Where I'd take it next</span></p>
@@ -562,9 +564,6 @@ const preuves: Preuve[] = [
      equations). La charpente narrative vient de case-study.css. */
 
 
-  /* « governed. » est le premier mot de banniere a porter une descendante : le
-     bottom:-.18em partage, cale sur des mots sans jambage, lui coupait le g. */
-  .banner__culture--desc{bottom:0}
 
   /* l amorce, sortie du hero */
 
@@ -861,22 +860,15 @@ const preuves: Preuve[] = [
   .el-eq__line{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--sp-02);
     font-family:var(--display);font-weight:400;font-size:clamp(20px,2.1vw,28px);line-height:1.15;letter-spacing:-.02em}
   /*
-    Deux lignes a TOUTES les largeurs : la valeur seule, puis « = » et son
-    mecanisme ensemble. Les deux `flex:0 0 100%` provoquent le retour sans <br>.
-
-    .el-eq__r existe parce que les deux spans doivent partager un flux de texte.
-    En items de flex freres, un mecanisme qui ne tenait pas a cote du signe se
-    reportait ENTIER a la ligne suivante et laissait le « = » seul sur la sienne -
-    mesure a l'appui, c'etait le cas des trois volets au bureau.
-
-    La couleur ne bouge pas d'un breakpoint a l'autre : valeur en --ink, signe en
-    --ink-muted, mecanisme en --accent-alt.
+    Deux lignes a TOUTES les largeurs : la valeur, puis son mecanisme. Les deux
+    `flex:0 0 100%` provoquent le retour sans <br>, et chaque span replie son
+    propre texte a l'interieur de sa ligne.
+    C'est desormais la seule couleur qui porte le renversement - le « = » qui le
+    disait a ete retire. Valeur en --ink, mecanisme en --accent-alt, identique
+    d'un breakpoint a l'autre.
   */
   .el-eq__v{flex:0 0 100%;color:var(--ink)}
-  .el-eq__r{flex:0 0 100%}
-  /* l'ecart au mecanisme n'est plus la gouttiere du flex - on est dans du texte */
-  .el-eq__s{color:var(--ink-muted);margin-right:.35em}
-  .el-eq__m{color:var(--accent-alt)}
+  .el-eq__m{flex:0 0 100%;color:var(--accent-alt)}
   .el-eq__note{margin:12px 0 0;font-size:clamp(15px,1.5vw,18px);line-height:1.6;color:var(--ink-muted)}
 
   /* les gens : prose, jamais une grille */

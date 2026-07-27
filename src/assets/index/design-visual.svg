@@ -1,0 +1,36 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+<!--
+  Vignette au trait de la tuile « hands dirty first ». Memes conventions que
+  governance-visual.svg, a reappliquer apres chaque re-export :
+
+  1. PAS DE DISQUE. L'aplat vient du conteneur (.dc-hand dans index.astro), qui
+     porte le fond. Le cercle d'origine - fill #FDE9F1, cx/cy 50, r 36,5 - a ete
+     retire, et le viewBox de 100 conserve : le disque occupait 73% de la boite,
+     ce qui deborde est voulu.
+  2. currentColor PARTOUT, jamais une couleur en dur. Ici l'encre est blanche,
+     posee par le conteneur, parce que le fond est l'accent de marque.
+
+  Trois retouches propres a cet export, en plus de la conversion des couleurs :
+  - les `style="..."` d'Illustrator sont passes en attributs de presentation, et
+    ce qui est commun (linecap, linejoin, miterlimit) est remonte sur le <svg> ;
+  - deux elements sont des aplats et non des traits - la pointe du crayon et le
+    petit triangle : ils prennent fill="currentColor" et stroke="none" ;
+  - un tracé OUVERT portait fill:#FFD9F3. Un remplissage sur une courbe ouverte
+    est un artefact d'export : il peignait un croissant rose qui n'a rien a faire
+    la. Passe a fill="none".
+-->
+<path d="M58.457,19.873c-6.065-1.504-10.273-1.092-12.882,0.291c-4.521,2.396-7.587,8.062-3.281,13.255c4.306,5.193,11.792,0.467,9.997-4.456s-2.838-5.443-2.838-5.443"/>
+  <path d="M96.391,43.276c0,0-6.056-8.293-21.515-16.641c-1.19-0.643-2.344-1.239-3.461-1.791"/>
+  <line x1="65.451" y1="10.062" x2="52.328" y2="29.204"/>
+  <line x1="66.819" y1="31.536" x2="76.441" y2="17.605"/>
+  <polyline points="47.985,35.539 38.863,48.845 36.699,63.11 49.436,56.701 59.201,42.565"/>
+  <ellipse transform="matrix(0.5543 -0.8323 0.8323 0.5543 20.2062 65.2757)" cx="71.05" cy="13.772" rx="2.179" ry="6.674"/>
+  <ellipse transform="matrix(0.5543 -0.8323 0.8323 0.5543 20.2062 65.2757)" cx="71.05" cy="13.772" rx="0.638" ry="1.955" fill="currentColor" stroke="none"/>
+  <path d="M51.551,53.74c0,0,5.212,1.015,9.851-1.135c3.709-1.719,6.257-8.785-2.092-10.035"/>
+  <path d="M48.6,57.046c0.005,1.586,1.547,5.166,6.774,5.294c3.749,0.092,6.546-1.326,8.41-3.43c1.497-1.69,2.25-5.238-1.428-6.838"/>
+  <path d="M75.04,80.629c-3.024-7.813-6.932-14.449-12.53-20.276"/>
+  <path d="M70.142,32.251c0,0-1.253-0.426-3.15-0.725c-2.469-0.389-6.029-0.561-9.335,0.704c-5.845,2.237-4.484,9.92,1.228,10.242c5.712,0.322,10.022,2.451,10.022,2.451s-1.779,8.112,5.879,12.49"/>
+  <path d="M38.812,49.014c0,0,2.631,4.841,6.388,6.298"/>
+  <path d="M37.025,57.958c0,0,1.394,2.385,4.408,3.241c-3.822,1.633-4.734,1.91-4.734,1.91L37.025,57.958z" fill="currentColor" stroke="none"/>
+  <path d="M11.596,68.702c4.091,5.843,18.128-2.17,15.447-19.277c-1.663-10.613-10.213-8.809-9.319,1.149C18.629,60.671,28.319,67.043,37,63.085"/>
+</svg>

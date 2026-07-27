@@ -11,7 +11,17 @@
     --accent:#E84140; --tile-red:#FFE1C5; --tile-red-ink:#070304; --btn3:#D83C3B; --grid-line:rgba(216,50,31,.11);
     --hero-grad:linear-gradient(81deg,#E84140 0%,#E84140 27%,#FFE1C5 100%);
     --hero-ink:#FFFFFF;
-    --culture-grad:linear-gradient(81deg,rgba(150,20,10,.42) 0%,rgba(232,65,64,.40) 100%);
+    /*
+      Filigrane clair, comme en mono et en contrast. Il a ete rouge sombre tant
+      qu'il portait le dernier mot de la phrase et devait donc se lire ; depuis
+      qu'il est sorti du titre (voir .banner__culture dans shared.css) il n'a
+      plus a etre lisible, il a a ne pas gener.
+      Blanc decroissant vers la droite, dans le sens du degrade : le mot se pose
+      en pale sur le rouge sature puis se dissout dans le creme (#FFE1C5) au
+      lieu d'y faire une tache. Mesure du cote gauche : 1,47:1 - volontairement
+      bas, c'est un filigrane et il n'est plus porteur de sens.
+    */
+    --culture-grad:linear-gradient(81deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,.16) 100%);
     --on-accent:#FFFFFF; --focus:#7A1B0A;
     --ink-muted:#5A5453; --ring:rgba(255,255,255,.8);
     /* accent secondaire et emphase : confondus avec l accent principal ici,

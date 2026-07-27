@@ -7,7 +7,57 @@
 .banner{position:relative;background:var(--hero-grad);color:var(--hero-ink);overflow:hidden;min-height:clamp(240px,32vw,360px);display:flex;align-items:center;transition:background .45s ease;container-type:inline-size;border-radius:0}
 .banner__inner{z-index:3;padding:clamp(24px,4vw,48px)}
 .banner__grow{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);line-height:1.0;letter-spacing:-.01em;margin-top:.06em}
-.banner__culture{position:absolute;right:0;bottom:-.18em;z-index:-1;font-family:var(--display);font-weight:400;font-size:clamp(64px,22cqw,240px);line-height:1;letter-spacing:-.045em;white-space:nowrap;pointer-events:none;user-select:none;background:var(--culture-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
+/*
+  Ombre portee sur le titre de banniere, et ce n'est pas un effet : c'est un
+  correctif de contraste. --hero-grad s'eclaircit vers la droite (jusqu'a
+  #FFE1C5 en spicy) et le titre court jusqu'a ~68% de la largeur, ou le fond
+  vaut deja #F59B8B. Le blanc y tombe a 2,11:1 - sous le seuil AA de 3:1 pour
+  ce corps. L'ombre assombrit le pourtour immediat de chaque lettre et remonte
+  le rapport la ou il manque, sans toucher au dégradé lui-meme.
+  Diffuse (12px de flou, pas d'offset lateral) plutot que nette : une ombre
+  portee franche se lirait comme un relief, alors qu'on veut seulement decoller
+  la lettre de son fond.
+*/
+/*
+  text-wrap:balance remplace les <br> qui forcaient la coupe des titres. Un
+  retour en dur ne connait qu'une largeur : cale sur le bureau, il produisait
+  des cesures absurdes partout ailleurs. La coupe naturelle, elle, remplit la
+  premiere ligne et laisse tomber le reste - a 900px « …a system isn't managed,
+  it's » puis « governed » seul, soit 684px contre 152.
+  `balance` egalise les lignes a chaque largeur, ce qu'aucune valeur fixe ne
+  peut faire. Non supporte, il est simplement ignore : on retombe sur la coupe
+  naturelle, jamais sur du texte casse.
+*/
+.banner__standards,.banner__grow{text-wrap:balance;text-shadow:0 1px 12px rgba(120,20,5,.42),0 1px 2px rgba(120,20,5,.22)}
+/*
+  Mot d'emphase, en filigrane pleine largeur.
+
+  Il a longtemps porte le dernier mot de la phrase de banniere - « …it's
+  governed. » - ce qui l'obligeait a etre lisible tout en vivant derriere le
+  titre : deux exigences contradictoires. Il en est sorti. Le titre est
+  maintenant une phrase complete, et le mot est un ornement thematique pose en
+  dessous. D'ou trois consequences :
+
+  - aria-hidden dans chaque page : ce n'est plus une partie de la phrase, et le
+    laisser lisible ferait pendre un mot orphelin apres le titre a l'oral.
+  - il peut redevenir clair et discret (voir --culture-grad dans tokens.css) :
+    on ne lui demande plus de contraste, on lui demande de ne pas gener.
+  - la taille est pilotee par page. Les quatre mots n'ont pas la meme longueur
+    (System. / Philosophy. / Governance. / Surfaces.) et « pleine largeur »
+    n'est donc pas une valeur unique : chaque page pose son --culture-size, en
+    cqw, cale sur la largeur de sa banniere.
+
+  text-shadow:none reste par prudence : le span n'herite plus de l'ombre du
+  titre depuis qu'il en est sorti, mais son glyphe est transparent
+  (-webkit-text-fill-color) et toute ombre heritee se dessinerait derriere le
+  caractere et transparaitrait au travers.
+*/
+/*
+  Cale en bas, ferre a droite, et le point deborde. Le `right` negatif est en
+  em et non en px : il suit donc le corps, qui varie d'une page a l'autre via
+  --culture-size. C'est l'overflow:hidden de .banner qui fait la coupe.
+*/
+.banner__culture{position:absolute;left:0;right:-.05em;bottom:0;z-index:-1;text-align:right;font-family:var(--display);font-weight:400;font-size:var(--culture-size,20cqw);line-height:1;letter-spacing:-.045em;white-space:nowrap;pointer-events:none;user-select:none;text-shadow:none;background:var(--culture-grad);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
 .banner__photo{display:none}
 .btn{font-weight:600;font-size:16px;text-decoration:none;text-align:center;padding:12px 24px;border-radius:var(--r-pill);transition:background .2s,color .2s;white-space:nowrap;display:inline-block}
 .btn--primary{background:var(--accent-alt);color:var(--on-accent)}
