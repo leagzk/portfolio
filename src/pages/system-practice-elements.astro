@@ -1080,7 +1080,14 @@ const preuves: Preuve[] = [
     aspect-ratio:1;
     border-radius:50%;background:var(--card);
     box-shadow:0 16px 34px -20px rgba(120,30,10,.28);
-    border:var(--edge-w) solid var(--edge);
+    /*
+      Pas de contour, meme en Mondrian, ou tout objet en porte un par defaut :
+      le disque blanc n'est pas ici une surface a delimiter, c'est le fond du
+      dessin. Un cercle noir de 2px autour d'un trait rouge donnait deux
+      contours concentriques et fermait une vignette qui doit au contraire
+      deborder. Meme decision que pour le cercle blanc du bloc gouvernance sur
+      l'accueil.
+    */
     /*
       Contenu cale en BAS et non centre. Centre, la marge sous le mot etait ce
       qui restait apres que la marge negative du dessin ait pris sa part - donc

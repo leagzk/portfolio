@@ -62,6 +62,16 @@ const work = [
   { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematized a Practice' },
   { key: 'system-event', href: '/system-event', label: 'Systematized a Moment' },
 ];
+/*
+  La page courante est-elle une des entrees de « Selected work » ? Sur une page
+  de case study, la marque de position vivait dans le menu deroulant - donc
+  invisible tant qu'on ne l'ouvrait pas, et la nav fermee ne disait plus ou on
+  se trouvait. Le declencheur la porte desormais.
+  Un drapeau et pas un aria-current : le bouton n'ouvre pas une page, c'est le
+  lien du menu qui est la page courante et qui garde la semantique. Deux marques
+  « courant » dans le meme groupe se liraient deux fois a l'oreille.
+*/
+const workCourant = work.some((i) => i.key === current);
 ---
 <!DOCTYPE html>
 <html lang="en" data-theme="spicy">
@@ -158,7 +168,7 @@ const work = [
   <nav class="topnav" aria-label="Primary">
     {main.map(i => <a href={i.href} data-label={i.label} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
     <div class="navgroup">
-      <button class="navgroup__trigger" id="worktrigger" aria-expanded="false" aria-controls="workmenu"><span class="navgroup__label" data-label="Selected work">Selected work</span><svg class="navgroup__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
+      <button class="navgroup__trigger" id="worktrigger" data-current={workCourant ? 'true' : undefined} aria-expanded="false" aria-controls="workmenu"><span class="navgroup__label" data-label="Selected work">Selected work</span><svg class="navgroup__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
       <div class="navgroup__menu" id="workmenu" role="group" aria-labelledby="worktrigger">
         {work.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
       </div>
@@ -207,6 +217,7 @@ const work = [
   [data-theme="contrast"] .navgroup__menu{border:var(--edge-w) solid var(--edge);border-top:none;left:-2px;right:-2px}
   [data-theme="contrast"] .topnav.menuopen{border:var(--edge-w) solid var(--edge);border-top:none;border-bottom:none}
   [data-theme="contrast"] .topnav a[aria-current="page"]::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
+  [data-theme="contrast"] .navgroup__trigger[data-current] .navgroup__label::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
   [data-theme="contrast"] .mobmenu a[aria-current="page"]{color:var(--highlight)}
   @media(max-width:720px){
   [data-theme="contrast"] .mobbar{border:var(--edge-w) solid var(--edge);border-top:none}
@@ -223,7 +234,17 @@ const work = [
   .topnav a::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
   .topnav a:hover{font-weight:700}
   .navgroup{position:static;display:flex;align-items:center}
-  .navgroup__trigger{position:relative;display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:500;font-size:16px;color:var(--ink);background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;transition:color .28s ease}
+  /*
+    line-height:inherit est ce qui aligne le trait de « Selected work » sur
+    celui des autres entrees. Un <button> ne suit pas la ligne du document : les
+    navigateurs lui imposent `line-height:normal`, soit ~1.2 la ou les liens
+    heritent du 1.62 du corps. Sa boite faisait donc 19px contre 26, et le trait
+    - accroche au bas de cette boite par `bottom:-8px` - remontait de 4px.
+    Corriger la hauteur de ligne plutot que compenser le `bottom` : les deux
+    reglages restent alors une seule valeur, et un changement de graisse ou de
+    corps ne les desolidarise pas.
+  */
+  .navgroup__trigger{position:relative;display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:500;font-size:16px;line-height:inherit;color:var(--ink);background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;transition:color .28s ease}
   .navgroup__label::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
   .navgroup__trigger:hover .navgroup__label,.navgroup.open .navgroup__label{font-weight:700}
   .navgroup__chev{width:16px;height:16px;flex:none;transition:transform .22s ease}
@@ -281,6 +302,22 @@ const work = [
   .sw-contrast{background:linear-gradient(#111,#111) 58% 0/2.5px 100% no-repeat,linear-gradient(#111,#111) 0 55%/100% 2.5px no-repeat,conic-gradient(from 90deg at 58% 55%,#0B57A4 0 25%,#fff 25% 50%,#D0021B 50% 75%,#F7D000 75% 100%)}
   .topnav a[aria-current="page"]{font-weight:700}
   .topnav a[aria-current="page"]::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;background:var(--accent);transition:opacity .28s ease}
+  /*
+    Le declencheur « Selected work » n'est pas un <a> : la regle ci-dessus ne
+    l'atteint pas, d'ou ce jumeau. Le trait est pose sur le LABEL et non sur le
+    bouton, sinon il aurait aussi souligne le chevron - les autres entrees
+    soulignent leur texte, pas leur boite.
+  */
+  .navgroup__trigger[data-current] .navgroup__label{font-weight:700;position:relative}
+  .navgroup__trigger[data-current] .navgroup__label::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;background:var(--accent);transition:opacity .28s ease}
+  /*
+    Les entrees du menu deroulant, elles, n'ont plus de trait. Ce sont des
+    pastilles arrondies : un soulignement pose 8px sous elles est le vocabulaire
+    de la nav principale applique la ou il ne veut rien dire - et en Mondrian
+    c'etait une barre jaune de 6px cerclee de noir sous une pilule. La graisse
+    suffit a marquer la page courante une fois le menu ouvert.
+  */
+  .navgroup__menu a[aria-current="page"]::before{content:none}
   .mobmenu a[aria-current="page"]{color:var(--accent)}
   @media(max-width:720px){
   .topnav{display:none}
