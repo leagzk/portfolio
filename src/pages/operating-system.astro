@@ -1,21 +1,251 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/PageIntro.astro';
+/*
+  case-study.css arrive ici alors que la page n'est pas un case study : son
+  en-tete le dit lui-meme, le prefixe `ls-` se lit « long story » et ces regles
+  decrivent une narration longue et chapitree - ce que cette page est. On y
+  prend le bloc noir (.card.ls-dark) et la chute (.ls-closing), plutot que de
+  les recopier.
+*/
+import '../styles/case-study.css';
 import Banner from '../components/Banner.astro';
+import PageIntro from '../components/PageIntro.astro';
+import Tenet from '../components/Tenet.astro';
+import ChapterTabs from '../components/ChapterTabs.astro';
+import Equations from '../components/Equations.astro';
+import CollectiveOwnership from '../assets/operating-system/collective-ownership-visual.svg';
+
+/*
+  Les sept principes, en un seul endroit.
+
+  Ils alimentent trois choses : le sommaire flottant, le surtitre de chaque
+  principe et son ancre. Ecrits trois fois, le numero et l'id auraient derive a
+  la premiere reorganisation - et le numero n'est d'ailleurs plus ecrit du tout,
+  il vient du rang, donc reordonner renumerote.
+
+  Un seul intitule par principe, pas deux : le sommaire l'affiche desormais dans
+  une legende large de toute la barre - 255px mesures - et non plus dans une
+  boite de 114px au creux de l'onglet. « Source of truth » y tient (135px), il
+  n'y a donc rien a raccourcir.
+
+  « Inclusion » pour le principe 03 est un choix d'ecriture et non de place : le
+  titre nomme deux choses - accessibilite et responsabilite - et le texte donne
+  lui-meme leur denominateur, « same driver, inclusion, different reach ».
+*/
+const principes = [
+  { id: 'ch-discovery', idx: 'Discovery',
+    titre: 'Nothing ships without discovery.' },
+  { id: 'ch-truth',     idx: 'Source of truth',
+    titre: 'One source of truth - trusted by humans, verified by machines.' },
+  { id: 'ch-inclusion', idx: 'Inclusion',
+    titre: 'Accessibility is the floor. Responsibility is the reach.' },
+  { id: 'ch-ethics',    idx: 'Ethics',
+    titre: 'AI should earn trust, not exploit it.' },
+  { id: 'ch-releases',  idx: 'Releases',
+    titre: 'We break nothing without a bridge.' },
+  { id: 'ch-support',   idx: 'Support',
+    titre: 'Support on their terms, not mine.' },
+  { id: 'ch-owners',    idx: 'Ownership',
+    titre: 'A team of owners, not a team of hands.' },
+];
+
+/* Numero d'un principe : « 03 ». Jette si l'ancre est inconnue, pour qu'un id
+   renomme casse le build au lieu de vider un chiffre. */
+const num = (id: string): string => {
+  const i = principes.findIndex((x) => x.id === id);
+  if (i < 0) throw new Error(`Principe inconnu : ${id}`);
+  return String(i + 1).padStart(2, '0');
+};
+const p = (id: string) => principes[principes.findIndex((x) => x.id === id)];
+
+/*
+  Les trois formes de la sobriete, dans le bandeau <Equations> - celui d'Elements,
+  sorti en composant pour l'occasion. Elles sortent du corps du principe 03 : dans
+  la colonne droite d'un Tenet, large de 60ch, trois colonnes en feraient 20
+  chacune. En bandeau elles respirent, et elles equilibrent le principe le plus
+  dense de la page.
+
+  Le decoupage terme / suite n'est pas force : le document source ecrivait deja
+  ces trois points en deux temps - « Light by default », « Quiet by design »,
+  « Fewer components, more coverage ». Le bandeau ne fait que rendre visible une
+  bascule qui etait dans la phrase.
+
+  La virgule de « Fewer components, » a saute : les deux moities tombent sur
+  deux lignes, elle n'y servait a rien - et l'export Markdown les rejoint par un
+  tiret, ce qui donnait « Fewer components, — more coverage ».
+*/
+const sobriete = [
+  { terme: 'Light', suite: 'by default.',
+    note: 'Smallest possible package weight, and modular imports - teams pulled only the components they needed, never the whole library, so production sites stayed lean. A lighter system reaches more people, on more devices, with less energy.' },
+  { terme: 'Quiet', suite: 'by design.',
+    note: 'The system stayed deliberately sober, so brands could express themselves without fighting it. Restraint as a feature, not a limitation.' },
+  { terme: 'Fewer components', suite: 'more coverage.',
+    note: 'Simple, flexible component architectures - the smallest set that meets the widest need, instead of a library that sprawls. Same for patterns: I ran a rationalization pass to keep them coherent across every product and positioned as standards.' },
+];
 ---
 <Base title="Operating System - Léa Giezek"
-  description="The system behind the systems - how I structure practice, rituals and decisions so a team can ship without me in the room."
+  description="How my team ships: discovery as a gate, one source of truth, accessibility as the floor, ethics before AI - and distributed ownership holding all of it together."
   current="operating-system" noindex>
 
+<!-- ═══ 00 · HOOK ═══ -->
   <div class="card">
-    <Banner>
-        <p class="banner__standards">The system behind the systems.</p>
-      
+    <Banner home>
+      <p class="banner__standards">Designed to be handed over - seven principles, each with a practice behind it</p>
+      {/*
+        Le filigrane reprend le mot qui traverse la page entiere : les sept
+        principes se resument a distribuer la propriete. Meme dispositif que
+        Governance. sur Elements ou Philosophy. sur le manifeste.
+      */}
+      <span class="banner__culture" style="--culture-size:19cqw" aria-hidden="true">Ownership.</span>
     </Banner>
-    <PageIntro eyebrow="The system behind the systems.">
-      <p class="p-intro__lead" lang="fr">Page en cours de rédaction.</p>
-    
+
+    <PageIntro eyebrow="Operating System">
+      <p class="p-intro__lead"><b>I didn't want a team that executes. I wanted a team of owners.</b> Recognized, accountable, proactive - experts with a name, a face, not just a pair of hands.</p>
+
+      <p class="p-intro__lead">Everything below is how I built that, and it runs on one conviction: the technical system and the human system obey the same rule. Design tokens make products autonomous, distributed ownership makes people autonomous. <b>One variable in common: trust.</b></p>
     </PageIntro>
   </div>
 
+  <ChapterTabs chapitres={principes.map((x) => ({ id: x.id, titre: x.idx }))}
+    label="Principles" />
+
+<!-- ═══ LES SEPT PRINCIPES ═══ -->
+  <section class="creed" aria-label="Operating principles">
+
+    <Tenet num={num('ch-discovery')} idx={p('ch-discovery').idx} id="ch-discovery"
+      title={p('ch-discovery').titre}>
+      <p>No component, no line of the roadmap ever shipped on a hunch. Every one started with the same work: what does the product ecosystem actually need, and what already exists that we can build on? <b>Need first, existing second, decision third.</b></p>
+      <p>It's how we knew what to build versus what to buy - and it's the discipline I put in place after learning, the hard way, what it costs to build for the brand instead of the people who adopt it. <b>Discovery isn't a phase. It's the gate.</b> And it doesn't stop at launch: we kept interviewing, testing our own ways of working, and reprioritizing against what we heard.</p>
+    </Tenet>
+
+    <Tenet num={num('ch-truth')} idx={p('ch-truth').idx} id="ch-truth"
+      title={p('ch-truth').titre}>
+      <p>One language, not four. <b>Multi-surface design tokens</b> carry brand and behavior across web, native and content; <b>Figma variables</b> hold the component architecture on the design side; <b>Storybook</b> is the engineering source of truth on the code side.</p>
+      <p>And trust doesn't mean unchecked: every pull request runs <b>automated conformity checks before a double human validation</b>, and <b>Chromatic</b> catches visual regressions before they ship. I ran the team on live signal too - <b>DORA metrics every sprint</b>, satisfaction surveys, ritual feedback - read as decisions, not dashboards for show. Automate the repeatable, measure what matters, keep the human judgment where it counts. <b>That's governance you can't skip and don't have to police.</b></p>
+    </Tenet>
+
+    <Tenet num={num('ch-inclusion')} idx={p('ch-inclusion').idx} id="ch-inclusion"
+      title={p('ch-inclusion').titre}>
+      <p><b>WCAG AA</b> wasn't our bar - I positioned it as the Sanofi digital standard, the minimum for every product, not just the library. We audited the full library to <b>100% compliance before our first major</b>, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - so no product team paid the accessibility cost downstream.</p>
+      <p>But inclusion doesn't stop at who can <em>use</em> the product. A system touching 45+ products has a footprint - societal and environmental - and it isn't small. So responsibility was designed in, not bolted on, and it looked like <b>sobriety</b> at every level.</p>
+    </Tenet>
+
+    <Equations entete="Sobriety, at every level." volets={sobriete}>
+      Accessibility protects the user. Responsibility protects everything around them. Same driver - inclusion - different reach.
+    </Equations>
+
+    <Tenet num={num('ch-ethics')} idx={p('ch-ethics').idx} id="ch-ethics"
+      title={p('ch-ethics').titre}>
+      <p>When AI entered the digital roadmap, most teams asked what it could <em>do</em>. I asked what it should <em>never</em> do - and put that on the table first.</p>
+      <p>Before shipping AI-assisted features, I've asked the team to investigate, test prior to rolling anything at scale - to keep consistency, value and on-brand positioning across every product. AI wasn't just a new technology to embrace, but more a tool to add to our stack with responsible usage. And so got the community of practice sensitized too.</p>
+      <p>An AI that nudges, manipulates, anchors on dark patterns or manufactures urgency isn't a feature, it's a breach of trust - and in healthcare, that trust isn't abstract. <b>It starts with an employee and it finishes with a patient.</b></p>
+      <p>Not everyone shares this as a priority. I do. A system that shapes how people interact with their health has no business optimizing for engagement over honesty. Coherent and on-brand is the baseline. <b>Ethical is the standard.</b></p>
+    </Tenet>
+
+    <Tenet num={num('ch-releases')} idx={p('ch-releases').idx} id="ch-releases"
+      title={p('ch-releases').titre}>
+      <p>With that many products depending on us, a careless breaking change is a tax paid 45 times over. So: <b>one major release a year, maximum</b> - protected, deliberate - and a steady cadence of improvements and fixes, roughly <b>one release per two-week sprint</b>.</p>
+      <p>When a breaking change was unavoidable, we shipped a <b>patch path</b> alongside it and left product teams a real buffer to upgrade on their own schedule. The documentation was industrialized to match - at the component and the library level - structured to keep side effects from ever surprising a consumer.</p>
+    </Tenet>
+
+    {/*
+      La charniere. Elle tombe apres le 05 et pas ailleurs : les cinq premiers
+      principes sont techniques - decouverte, source de verite, inclusion,
+      ethique, releases - et les deux derniers sont humains. La phrase qui les
+      relie se lit donc entre les deux, pas en conclusion : elle annonce la
+      seconde moitie au lieu de resumer la premiere.
+      Bloc noir, comme le coeur emotionnel d'Elements : c'est la seule rupture
+      de fond de la page, elle doit se voir.
+    */}
+    <div class="card ls-dark op-hinge ls-reveal">
+      <div class="ls-dark__inner op-hinge__inner">
+        <p class="ls-title op-hinge__t">Same principle, top to bottom: everyone - leaders, practitioner, teammate - gets to own their part.</p>
+        <div class="op-hinge__disc" aria-hidden="true"><CollectiveOwnership /></div>
+      </div>
+    </div>
+
+    <Tenet num={num('ch-support')} idx={p('ch-support').idx} id="ch-support"
+      title={p('ch-support').titre}>
+      <p>The system serves the people building on it, so support flexed to them, not the other way around. <b>Office hours</b> for whoever wanted synchronous help; <b>asynchronous support</b> for whoever needed to move on their own clock - product teams kept full control over the urgency of their own problems.</p>
+      <p>And communication was built to outgrow me. I kept it proactive and regular, but the point was always for the community to take the mic: <b>members carrying the messages, answering each other directly</b>, becoming the channel instead of routing everything through me.</p>
+    </Tenet>
+
+    <Tenet num={num('ch-owners')} idx={p('ch-owners').idx} id="ch-owners"
+      title={p('ch-owners').titre}>
+      <p>Inside the team, ownership was structural, not a pep talk. The <b>support lead rotated every sprint</b> - a model we didn't guess at but iterated into, reading the support and satisfaction data until the rotation was what the signal asked for - so responsibility, and recognition as the identified point of contact, moved around and no one got stuck in execution. Roles rotated. <b>Sprint planning was collective</b>, <b>retros ran every sprint</b>, and I sat in on the <b>dailies</b> as often as I could - mostly to absorb the hot updates coming down, so the team could stay in the work instead of the noise.</p>
+      <p>All of it lived on <b>Confluence</b>, documented like a team mantra - so a new joiner became an owner fast, and the rest of Sanofi could see exactly how we worked. <b>Transparency wasn't a value on a wall. It was the onboarding.</b></p>
+      <p>And growth didn't run top-down. It ran through the community: people levelled up by contributing, teaching, carrying the message - and I grew as much through them. <b>Reverse mentoring by practice</b> isn't a nice idea to me, it's how a system stays honest: the day you think you're the one who knows, you've stopped listening. <em>I lead, and I stay a student.</em></p>
+    </Tenet>
+
+  </section>
+
+<!-- ═══ LA CHUTE ═══ -->
+  <section class="ls-closing ls-reveal" aria-label="In closing">
+    <p class="ls-closing__t">That's not the soft version of leadership. It's the <em>operating system</em>.</p>
+  </section>
+
 </Base>
+
+<style is:global>
+  /* CSS propre a cette page. Le reste vient de <Tenet>, qui emet ses regles
+     lui-meme, et de shared.css pour la banniere et l'intro. */
+  .creed{margin:var(--sp-17) 0 var(--sp-03)}
+
+  /*
+    La charniere. Le disque tient dans une colonne `auto` : le texte prend ce qui
+    reste, et c'est le dessin qui commande sa propre taille.
+  */
+  .op-hinge{margin:var(--sp-20) 0}
+  .op-hinge__inner{display:grid;grid-template-columns:minmax(0,1fr) auto;
+    gap:clamp(24px,4vw,64px);align-items:center}
+  /* .ls-title porte un margin-top de 18px, qui l'ecarte de l'eyebrow des
+     chapitres. Ici il n'y a pas d'eyebrow. */
+  .op-hinge__t{margin-top:0;max-width:20ch}
+  /*
+    Meme partage que la vignette gouvernance de l'accueil : le conteneur porte
+    l'aplat rond, le dessin prend la couleur du theme. Sur le noir du bloc, le
+    disque blanc est le seul endroit ou le trait d'accent se lit sans effort.
+  */
+  .op-hinge__disc{flex:none;width:clamp(168px,22vw,260px);height:clamp(168px,22vw,260px);
+    border-radius:50%;background:#fff;color:var(--accent);
+    display:grid;place-items:center;line-height:1}
+  /*
+    137% : le disque de l'export occupait 73% du viewBox, donc rendre le SVG a
+    cette taille lui rend le debordement que l'artiste avait prevu - le dessin
+    sort de la pastille sur le noir, ou l'accent reste lisible (5,1:1).
+  */
+  .op-hinge__disc svg{width:137%;height:137%;overflow:visible}
+
+  /*
+    La chute est cadree a gauche ici, la ou case-study.css la centre. Tout le
+    chapitrage de la page est ferre a gauche, du premier surtitre au bandeau :
+    centree, elle aurait ete le seul element sur l'axe.
+    Selecteur double (.ls-closing.ls-reveal) et non simple : `text-align:center`
+    vient de case-study.css a specificite egale, et l'ordre du bundle ne se
+    decrete pas. Meme raison que sur Elements.
+  */
+  .ls-closing.ls-reveal{text-align:left}
+  /*
+    Pas de <br> dans cette chute, contrairement aux deux case studies : le
+    retour force y coupait la phrase au meme endroit a toutes les largeurs et
+    produisait des cesures batardes sur les breakpoints intermediaires - meme
+    raison que sur les titres du hero de l'accueil. `text-wrap:balance` fait le
+    travail que le <br> faisait a la main, en s'adaptant.
+  */
+  .ls-closing__t{text-wrap:balance}
+
+  @media(max-width:900px){
+    /* le disque passe sous le texte et perd sa colonne */
+    .op-hinge__inner{grid-template-columns:minmax(0,1fr);justify-items:start}
+    .op-hinge__t{max-width:none}
+  }
+
+</style>
+
+<script>
+  import { revealAll } from '../scripts/reveal';
+  revealAll('.tenet', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+  revealAll('.ls-closing', { threshold: 0.2 });
+  revealAll('.op-hinge', { threshold: 0.15 });
+  revealAll('.talk-card', { threshold: 0.2 });
+</script>

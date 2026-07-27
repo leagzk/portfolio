@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+<!--
+  Vignette au trait du bloc « collective ownership » sur /operating-system.
+  Memes conventions que les cinq autres vignettes du site, a reappliquer apres
+  chaque re-export depuis Illustrator - il les perd toutes, et sans bruit :
+
+  1. PAS DE DISQUE. L'aplat rond vient du conteneur (.op-hinge__disc dans la
+     page), qui porte deja son fond blanc. Le <circle cx=50 cy=50 fill=#E9F6FF>
+     de l'export a ete retire, et le viewBox de 100 garde tel quel : le dessin
+     conserve son rapport au disque, ce qui deborde est voulu.
+  2. currentColor, jamais une couleur en dur. L'export pose stroke:#231F20 ;
+     sans conversion le trait reste noir - invisible sur un aplat blanc pose
+     dans un bloc noir.
+  3. PAS DE style="..." PAR ELEMENT. Illustrator repete la meme declaration sur
+     chaque trace. Ce qui est commun - fill, stroke, linecap, linejoin,
+     miterlimit - est remonte en attributs de presentation sur la racine.
+     Attention aussi a `style="enable-background:..."` sur la racine elle-meme,
+     qui ne sert a rien et part avec.
+  4. NI PROLOGUE XML NI COMMENTAIRE AVANT LA RACINE. L'export commence par
+     <?xml?> et une ligne « Generator: Adobe Illustrator » : les deux precedent
+     <svg>, et c'est exactement ce qui fait echouer le build sur
+     NoImageMetadata. La racine tient sur une ligne et porte width/height.
+
+  AUCUN CROCHET D'ANIMATION, et c'est une decision mesuree.
+
+  Une orbite du trio de cubes a ete construite puis retiree. Le dessin ne s'y
+  prete pas : les mains encadrent le trio au plus juste - le creux qu'elles
+  menagent fait 14,5 unites de rayon quand le trio, lui, en balaie 20,7 des
+  qu'il tourne. Un triangle balaie toujours bien plus large que son empreinte
+  immobile. Mesure faite sur 619 points echantillonnes le long des deux traces :
+  il aurait fallu reduire le trio a 65% pour degager un blanc d'un seul pixel a
+  tous les angles, et a 60% pour qu'il soit franc.
+
+  Ce n'est pas un reglage a trouver, c'est un dessin different. La composition
+  vaut mieux telle quelle : trois cubes tenus, encadres par deux mains, en echo
+  a la phrase posee a cote.
+-->
+<g>
+	<g>
+		<path d="M55.261,35.071c-2.091-3.536-4.381-4.925-8.134-7.658c-4.966-3.617-1.365-7.608,0.615-8.09"/>
+		<path d="M83.897,73.581c0,0-7.06-5.047-14.138-13.354"/>
+		<path d="M48.773,11.223c-5.514-0.301-4.958,5.952-2.538,7.134c0,0,7.334,4.052,10.752,8.171"/>
+		<path d="M61.856,20.967c0,0-5.517-6.36-12.606-9.501c-6.894-3.054-4.472-11.991,3.599-9.023c7.4,2.722,14.777,7.224,29.256,23.404c7.417,8.288,9.298,11.169,14.443,15.011"/>
+		<path d="M75.416,52.784c0,0-3.957-4.085-4.723-9.447c-1.021-4.979-2.886-6.528-5.49-8.04c-4.824-2.802-2.415-11.205,6.503-7.683c8.918,3.522,16.434,12.661,16.434,12.661"/>
+	</g>
+	<g>
+		<path d="M43.787,61.979c1.971,3.241,5.47,7.975,9.086,10.609c4.966,3.617,1.365,7.608-0.615,8.09"/>
+		<path d="M16.103,26.419c0,0,12.081,8.552,20.397,20.879"/>
+		<path d="M51.227,88.777c5.514,0.301,4.958-5.952,2.538-7.134c0,0-7.334-4.052-10.752-8.171"/>
+		<path d="M38.144,79.033c0,0,5.517,6.36,12.606,9.501c6.894,3.054,4.472,11.991-3.599,9.023c-7.4-2.722-14.777-7.224-29.256-23.404c-7.417-8.288-9.298-10.169-14.443-14.011"/>
+		<path d="M26.394,46.997c0,0,2.847,2.732,3.064,9.191c0.638,5.106,2.735,7.002,5.34,8.515c4.824,2.802,2.415,11.205-6.503,7.683C19.377,68.865,11.86,59.725,11.86,59.725"/>
+	</g>
+  <g>
+		<polygon points="33.5,52.5 40.5,48.5 47.5,52.5 40.5,56.5"/>
+		<polyline points="33.5,52.5 33.5,59.5 40.5,63.5 47.5,59.5 47.5,52.5"/>
+			<line x1="40.5" y1="56.5" x2="40.5" y2="63.5"/>
+	</g>
+  <g>
+		<polygon points="45.5,37.5 52.5,33.488 59.5,37.5 52.5,41.5"/>
+		<polyline points="45.5,37.5 45.5,44.5 52.612,48.5 59.5,44.5 59.5,37.5"/>
+			<line x1="52.5" y1="41.5" x2="52.612" y2="48.5"/>
+	</g>
+  <g>
+		<polyline points="44.5,61.5 52.612,66.5 60.5,62.5"/>
+	</g>
+  <g>
+			<line x1="36.5" y1="43.5" x2="45.5" y2="39.5"/>
+			<line x1="36.5" y1="43.5" x2="36.5" y2="50.5"/>
+	</g>
+  <g>
+			<line x1="68.5" y1="43.5" x2="59.5" y2="39.5"/>
+			<line x1="68.5" y1="44" x2="68.5" y2="51"/>
+	</g>
+  <g>
+		<polygon points="56.5,52.5 63.5,48.5 70.5,52.5 63.5,56.5"/>
+		<polyline points="56.5,52.5 56.5,59.5 63.5,63.5 70.5,59.5 70.5,52.5"/>
+			<line x1="63.5" y1="56.5" x2="63.5" y2="63.5"/>
+	</g>
+</g>
+</svg>

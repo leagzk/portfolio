@@ -2,6 +2,19 @@
    Elles doivent rester globales : un <style> scope d'Astro ne traverse pas
    la frontiere du slot, le HTML slotte portant le hash du parent. */
 
+/*
+  Cibles des onglets de chapitre (<ChapterTabs>). Sans marge de defilement,
+  l'ancre se pose exactement en haut du viewport, donc sous la nav collante -
+  haute de --mobbar-h - et le titre qu'on vient de cliquer est le seul element
+  cache. La barre de chapitres, elle, flotte en bas : elle ne rogne rien ici.
+  Le selecteur attaque le prefixe et non une classe parce que la cible est
+  tantot un <h2> de chapitre, tantot une <section>, tantot un <h2> de principe
+  sur /operating-system. Il vit ici et non dans case-study.css parce que trois
+  pages utilisent desormais le sommaire, dont une qui n'est pas un case study.
+*/
+[id^="ch-"]{scroll-margin-top:calc(var(--mobbar-h) + var(--sp-03))}
+
+
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;margin-bottom:var(--sp-02);transition:background .45s ease,border-color .45s ease}
 [data-theme="contrast"] .card{border-width:var(--edge-w)}
 .banner{position:relative;background:var(--hero-grad);color:var(--hero-ink);overflow:hidden;min-height:clamp(240px,32vw,360px);display:flex;align-items:center;transition:background .45s ease;container-type:inline-size;border-radius:0}

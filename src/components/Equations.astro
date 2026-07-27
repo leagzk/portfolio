@@ -1,0 +1,124 @@
+---
+/*
+  Bandeau de trois volets « terme / suite », sur un aplat qui traverse la page.
+
+  Ne vivait que dans system-practice-elements, sous le prefixe .el-eq. Il en
+  sort parce que /operating-system en a le meme usage : trois affirmations
+  paralleles qui doivent se lire comme trois volets d'un seul propos, et non
+  comme une liste. Le prefixe est passe de `el-` a `eq-` en meme temps - `el-`
+  voulait dire Elements, et ce n'est plus vrai.
+
+  LA FORME EST UN RENVERSEMENT, pas un titre suivi d'un texte. Chaque volet dit
+  un terme, puis ce a quoi il se resout : « Rigour / nothing ships on a hunch »,
+  « Light / by default ». Les deux moities tombent toujours sur deux lignes et
+  changent de couleur - encre puis accent. C'est cette bascule qui porte le
+  sens ; le « = » qui l'ecrivait a ete retire, la couleur suffit.
+
+  Le composant emet ses propres regles en is:global et s'inscrit lui-meme au
+  reveal : une page qui l'importe n'a rien a declarer.
+*/
+export interface Props {
+  /** annonce des trois volets ; vit DANS le bandeau, pas au-dessus */
+  entete: string;
+  /** trois volets. `terme` en encre, `suite` en accent, `note` en corps */
+  volets: { terme: string; suite: string; note: string }[];
+}
+const { entete, volets } = Astro.props;
+---
+<div class="eq-band">
+  {/* l'entete vit DANS le bandeau : elle annonce les trois volets, pas la
+      section - dehors, l'aplat commencait au milieu du propos */}
+  <p class="eq-band__t">{entete}</p>
+  {/* respiration facultative entre l'annonce et les volets : une phrase qui
+      resume ce que les trois disent ensemble. Vide sur Elements, ou l'entete se
+      suffit. */}
+  <div class="eq-band__lede"><slot /></div>
+  <dl class="eq-band__grid">
+    {volets.map((v) => (
+      <div class="eq">
+        <dt class="eq__line"><span class="eq__terme">{v.terme}</span><span class="eq__suite">{v.suite}</span></dt>
+        <dd class="eq__note">{v.note}</dd>
+      </div>
+    ))}
+  </dl>
+</div>
+
+<style is:global>
+  /*
+    Le bandeau saigne jusqu'aux bords (marge negative + 100vw) mais son padding
+    lateral reprend la formule de .ls-carousel__track - `max(--sp-03, 50vw - 540px
+    + --sp-03)`, 540 etant la demi-largeur du .shell : le contenu reste donc cale
+    sur la colonne de texte pendant que l'aplat, lui, va d'un bord a l'autre.
+
+    Filets haut et bas : le blanc du bandeau et le canvas ne sont separes que de
+    deux points (#FFFFFF contre #F6F6F4). Sans eux le bandeau n'existerait pas a
+    l'oeil.
+  */
+  .eq-band{margin:var(--sp-19) calc(50% - 50vw) 0;width:100vw;
+    background:var(--card);
+    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    border-width:max(1px,var(--edge-w)) 0;
+    padding:var(--sp-19) max(var(--sp-03),calc(50vw - 540px + var(--sp-03)))}
+  /* meme echelle que .ls-sub des case studies, sans son margin-top : dans le
+     bandeau c'est le padding qui tient l'ecart */
+  .eq-band__t{font-family:var(--display);font-weight:400;
+    font-size:clamp(20px,2.4vw,30px);line-height:1.12;letter-spacing:-.02em;color:var(--ink)}
+  .eq-band__t b{color:var(--accent);font-weight:400}
+  /*
+    Le slot est toujours rendu, meme vide : `:empty` le neutralise plutot que de
+    conditionner le markup, sinon une page qui ne s'en sert pas heriterait quand
+    meme de sa marge.
+    Corps du site, en gras : c'est une affirmation, pas une legende - et elle
+    doit tenir tete a l'entete qui la precede sans lui voler son echelle.
+  */
+  .eq-band__lede{margin-top:var(--sp-06);max-width:56ch;
+    font-size:clamp(16px,1.6vw,20px);line-height:1.5;font-weight:700;color:var(--ink)}
+  .eq-band__lede:empty{display:none}
+  /*
+    minmax(0,1fr) et non 1fr : un item de grille refuse sinon de descendre sous
+    sa largeur min-content.
+    gap:0 et filets portes par border-left : une gouttiere ne separe pas, elle
+    espace. Ici les trois colonnes doivent se lire comme trois volets d'un meme
+    bandeau, et c'est le trait qui le dit.
+  */
+  .eq-band__grid{margin:var(--sp-16) 0 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0}
+  .eq{padding:0 var(--sp-12);border-left:1px solid var(--line)}
+  .eq:first-child{border-left:none;padding-left:0}
+  .eq:last-child{padding-right:0}
+  /* le corps descend de clamp(24px,3vw,40px) a l'echelle des titres de carte :
+     a 40px, « nothing ships on a hunch. » tenait sur quatre lignes dans une
+     colonne de 280px */
+  .eq__line{display:flex;flex-wrap:wrap;align-items:baseline;gap:0 var(--sp-02);
+    font-family:var(--display);font-weight:400;font-size:clamp(20px,2.1vw,28px);line-height:1.15;letter-spacing:-.02em}
+  /*
+    Deux lignes a TOUTES les largeurs : le terme, puis sa suite. Les deux
+    `flex:0 0 100%` provoquent le retour sans <br>, et chaque span replie son
+    propre texte a l'interieur de sa ligne.
+  */
+  .eq__terme{flex:0 0 100%;color:var(--ink)}
+  .eq__suite{flex:0 0 100%;color:var(--accent-alt)}
+  .eq__note{margin:12px 0 0;font-size:clamp(15px,1.5vw,18px);line-height:1.6;color:var(--ink-muted)}
+
+  .js .eq{opacity:0;transform:translateY(16px)}
+  .js .eq.in{opacity:1;transform:none;
+    transition:opacity .5s ease,transform .6s cubic-bezier(.22,1,.36,1)}
+
+  @media(max-width:1024px){
+    /* les trois volets s'empilent et le filet bascule a l'horizontale : en
+       colonne, un trait vertical ne separerait plus rien */
+    .eq-band__grid{grid-template-columns:1fr}
+    .eq{padding:var(--sp-12) 0 0;border-left:none;border-top:1px solid var(--line);
+      margin-top:var(--sp-12)}
+    .eq:first-child{padding-top:0;border-top:none;margin-top:0}
+    .eq:last-child{padding-right:0}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .js .eq,.js .eq.in{opacity:1;transform:none;transition:none}
+  }
+</style>
+
+<script>
+  import { revealAll } from '../scripts/reveal';
+  revealAll('.eq', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+</script>

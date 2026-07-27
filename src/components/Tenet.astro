@@ -17,15 +17,17 @@ export interface Props {
   /** court intitule : "The premise", "The method"... ; omis, l'eyebrow ne porte que le chiffre */
   idx?: string;
   title: string;
+  /** ancre du principe, posee sur le <h2> : cible des liens de <ChapterTabs> */
+  id?: string;
 }
-const { num, idx, title } = Astro.props;
+const { num, idx, title, id } = Astro.props;
 ---
 <article class="tenet">
   <div class="tenet__lead">
     <span class="tenet__num" aria-hidden="true">{num}</span>
     <div class="tenet__head">
       <span class="tenet__idx" data-num={num}>{idx}</span>
-      <h2 class="tenet__title">{title}</h2>
+      <h2 class="tenet__title" id={id}>{title}</h2>
     </div>
   </div>
   <div class="tenet__body">

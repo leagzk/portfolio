@@ -44,11 +44,16 @@ const personSchema = {
 };
 
 /*
-  Seules les pages redigees figurent dans la nav. Les deux brouillons restants
-  (operating-system, system-brand) sont accessibles en direct mais sortent du
-  menu et portent noindex tant qu'ils affichent "Page en cours de redaction".
+  Seules les pages redigees figurent dans la nav. Il ne reste qu'un brouillon,
+  system-brand : accessible en direct mais hors du menu, et sous noindex tant
+  qu'il affiche "Page en cours de redaction".
   Pour en remettre une en ligne : la reinscrire ici et retirer son attribut
   noindex dans la page.
+
+  operating-system vient d'y entrer. Elle porte ENCORE noindex et reste exclue
+  du sitemap dans astro.config.mjs : elle est donc visible pour qui parcourt le
+  site, invisible pour les moteurs. Les deux se retirent en meme temps le jour
+  ou la page est jugee publiable.
 
   system-practice-elements fait exception : elle est dans le menu mais garde son
   noindex, et reste filtree du sitemap. Le texte est complet, les visuels non -
@@ -57,6 +62,7 @@ const personSchema = {
 */
 const main = [
   { key: 'philosophy', href: '/philosophy', label: 'Philosophy' },
+  { key: 'operating-system', href: '/operating-system', label: 'Operating System' },
 ];
 const work = [
   { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematized a Practice' },
