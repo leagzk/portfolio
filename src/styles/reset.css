@@ -8,7 +8,7 @@ a.sr-only:focus{position:fixed;top:12px;left:12px;z-index:200;width:auto;height:
 a{color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:4px;border-radius:8px}
 [tabindex="-1"]:focus{outline:none}
-.shell{max-width:1080px;margin:0 auto;padding:0 var(--sp-03)}
+.shell{max-width:var(--shell-w);margin:0 auto;padding:0 var(--sp-03)}
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
 }

@@ -9,6 +9,17 @@ export interface Arc {
   scale: number;
 }
 
+/*
+  La courbure des rails de vignettes et de cartes. Ces trois coefficients etaient
+  recopies a l'identique sur quatre appels - les surfaces de /system-event, les
+  facettes, les resultats et les preuves d'Elements. Recopies, ils derivent : un
+  rail se serait retrouve a courber autrement que ses voisins sans que personne
+  ne l'ait decide.
+  Les axes d'Elements gardent leur propre valeur, plus plate : leurs cartes sont
+  plus hautes, et la meme amplitude y penchait trop.
+*/
+export const ARC_VIGNETTE: Arc = { y: 18, deg: 4.5, scale: 0.05 };
+
 export interface OptionsCarrousel {
   /** selecteur des vignettes, relatif a la piste */
   slides: string;

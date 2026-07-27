@@ -19,7 +19,6 @@
 .p-intro__lead + .p-intro__lead{margin-top:1em}
 .ls-fig{margin:0;overflow:hidden;border-radius:var(--r-lg);background:var(--tile-red);line-height:0;border:var(--edge-w) solid var(--edge)}
 .ls-fig img{display:block;width:100%;height:100%;object-fit:cover}
-.ls-fig--soft{background:var(--card)}
 .ls-fig--wide{margin-top:var(--sp-16);aspect-ratio:3/2}
 .ls-cap{line-height:1.6;margin-top:10px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
 .ls-cap--light{color:rgba(255,255,255,.68)}
@@ -69,7 +68,7 @@
 .ba__side--spec .ba__frame img{width:100%;height:auto;max-height:100%;object-fit:contain}
 .ba__cap{grid-column:1 / -1;margin-top:14px;font-size:clamp(14px,1.4vw,16px);line-height:1.55;color:var(--ink-muted);max-width:62ch}
 .ls-carousel{margin:var(--sp-16) calc(50% - 50vw) 0;width:100vw}
-.ls-carousel__track{list-style:none;margin:0;padding:var(--sp-02) max(var(--sp-03),calc(50vw - 540px + var(--sp-03))) var(--sp-06);display:flex;gap:var(--sp-02);overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.ls-carousel__track{list-style:none;margin:0;padding:var(--sp-02) var(--bleed-pad) var(--sp-06);display:flex;gap:var(--sp-02);overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none}
 .ls-carousel__track::-webkit-scrollbar{display:none}
 .ls-carousel__slide{flex:0 0 auto;scroll-snap-align:center;transition:transform .18s ease-out}
 .ls-carousel__fig{margin:0}
@@ -91,22 +90,8 @@
 .ls-dark .ls-title{color:#fff}
 .ls-body--light{color:rgba(255,255,255,.86);max-width:66ch}
 .ls-body--light b,.ls-body--light em{color:#fff}
-/*
-  .btn3 pose sur le bloc noir, aligne sur le pied de page - meme composant, meme
-  genre de fond, donc meme comportement. Sa couleur par defaut (--btn3) tombe a
-  4,5:1 sur #070304 en spicy et s'effondre en mono, ou --accent vaut #232320 :
-  du noir sur du noir. D'ou le blanc de base, a 19,6:1 dans les trois themes.
-
-  Le survol reprend la matrice de .talk-card (shared.css) telle quelle, y compris
-  ses deux surcharges de theme - une couleur unique ne peut pas tenir les trois :
-  --accent vire au quasi-noir en mono, et le bleu clair du theme Mondrian n'est
-  lisible que la. Mesures sur #070304 : accent 5,1:1, #4A90E2 6,2:1.
-  Toute retouche du survol du pied de page doit etre repercutee ici.
-*/
-.ls-dark .btn3{color:#fff}
-.ls-dark .btn3:hover{color:var(--accent)}
-[data-theme="mono"] .ls-dark .btn3:hover{color:#fff;font-weight:700}
-[data-theme="contrast"] .ls-dark .btn3:hover{color:#4A90E2}
+/* .btn3 pose sur le bloc noir : meme matrice que le pied de page, et desormais
+   ecrite une seule fois - voir « .btn3 sur fond noir » dans shared.css. */
 /*
   Filet de respiration : il scinde le recit de l'erreur de celui de la decision.
   Blanc a 14% - au-dela il fait barre et decoupe le bloc en deux cartes, en deca
@@ -119,6 +104,18 @@
 [data-theme="contrast"] .ls-eyebrow--light::after{background:color-mix(in srgb, var(--highlight) 32%, transparent)}
 [data-theme="contrast"] .ls-note--light{border-left-color:var(--highlight)}
 .ls-closing{margin:clamp(72px,9vw,120px) 0 clamp(56px,7vw,96px);text-align:center}
+/*
+  Chute ferree a gauche. Deux des trois pages a chute la veulent ainsi - celles
+  dont tout le chapitrage est ferre a gauche, ou une chute centree serait le
+  seul element sur l'axe. Chacune posait sa propre regle, avec le meme selecteur
+  double `.ls-closing.ls-reveal` et le meme paragraphe d'explication recopie.
+
+  Le doublement de selecteur reste NECESSAIRE : `text-align:center` ci-dessus a
+  la meme specificite, et l'ordre des fichiers dans le bundle ne se decrete pas.
+  Ici les deux regles vivent dans le meme fichier, donc l'ordre est acquis - mais
+  on garde la garde, elle ne coute rien et survit a un deplacement.
+*/
+.ls-closing.ls-closing--left{text-align:left}
 .ls-closing__t{font-family:var(--display);font-weight:400;font-size:clamp(30px,5.4vw,68px);line-height:1;letter-spacing:-.03em;color:var(--ink)}
 .ls-closing__t em{font-style:italic;color:var(--accent-alt)}
 .ls-closing__b{font-size:clamp(15px,1.5vw,18px);color:var(--ink-muted);max-width:62ch;margin:24px auto 0}
@@ -135,8 +132,8 @@
   .ba{gap:var(--sp-08)}
 }
 @media(max-width:720px){
-  .banner{flex-direction:column;align-items:flex-start;text-align:left;min-height:0;padding:calc(var(--mobbar-h) + 16px) var(--sp-04) var(--sp-18)}
-  .banner__inner{padding:0;margin-top:var(--sp-02)}
+  /* le repli de .banner sous 720px vivait ici a l'identique de shared.css, qui
+     est charge sur toutes les pages : la copie ne pouvait que diverger. */
   .ba{grid-template-columns:1fr}
   .ba__frame{aspect-ratio:auto}
   .ba__frame img{height:auto}

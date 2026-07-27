@@ -102,3 +102,29 @@ const {
     ))}
   </div>
 </div>
+
+<script>
+  /*
+    Le composant se cable lui-meme, comme <Equations> pose son propre reveal.
+    Les deux pages qui l'utilisent repetaient sinon le meme bloc d'amorcage -
+    getElementById, garde, memes options - et ne le repetaient deja pas tout a
+    fait pareil : l'une cherchait ses pastilles dans le document entier, ce qui
+    aurait croise les series le jour ou une page en porterait deux. La recherche
+    part donc de la piste, et l'`id` de la prop n'a plus a servir de crochet.
+
+    Astro n'emet ce script qu'une fois par page, quel que soit le nombre
+    d'instances : d'ou la boucle sur toutes les pistes plutot qu'un seul element.
+    `data-start` porte la vignette d'ouverture - c'est la meme valeur que celle
+    qui pose aria-current au build, donc les deux ne peuvent pas diverger.
+  */
+  import { carrousel, ARC_VIGNETTE } from '../scripts/carousel';
+
+  document.querySelectorAll<HTMLElement>('.ls-carousel__track').forEach((piste) => {
+    carrousel(piste, {
+      slides: '.ls-carousel__slide',
+      dots: [...(piste.parentElement?.querySelectorAll<HTMLElement>('.ls-carousel__dots .ls-dot') ?? [])],
+      arc: ARC_VIGNETTE,
+      depart: Number(piste.dataset.start ?? 0),
+    });
+  });
+</script>

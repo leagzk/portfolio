@@ -7,6 +7,7 @@ import CaseCard from '../components/CaseCard.astro';
 import GovernanceVisual from '../assets/index/governance-visual.svg';
 import DesignVisual from '../assets/index/design-visual.svg';
 import Banner from '../components/Banner.astro';
+import Dots from '../components/Dots.astro';
 ---
 <Base title="Léa Giezek - Experience systems that grow culture"
   description="Design and experience systems lead. Fifteen years across brand, retail, agency and product - I don't systematize what I haven't practiced."
@@ -18,7 +19,6 @@ import Banner from '../components/Banner.astro';
         <p class="banner__standards">Design systems ship standards,</p>
         <p class="banner__grow">Experience systems grow culture</p>
         <span class="banner__culture" style="--culture-size:26cqw" aria-hidden="true">System.</span>
-      
     </Banner>
 
     <div class="intro" id="intro">
@@ -62,9 +62,9 @@ import Banner from '../components/Banner.astro';
           </div>
         </div>
       </div>
-  {/* Pagination de carrousel, pas des onglets : role="tab" promettait aria-controls,
-      un tabpanel et la navigation par fleches, dont rien n'existait ici. */}
-  <div class="dots" id="dots" role="group" aria-label="Tiles"><button class="dot" type="button" data-i="0" aria-label="Tile 1"></button><button class="dot" type="button" data-i="1" aria-label="Tile 2"></button><button class="dot" type="button" data-i="2" aria-label="Tile 3"></button></div>
+  {/* trois pastilles pour les trois cartes retournables - .dcard--photo n'en a
+      pas, elle est masquee des que le bloc devient un rail */}
+  <Dots id="dots" count={3} label="Tiles" itemLabel="Tile" />
 
   <!-- OPERATING SYSTEM bridge -->
   <section class="osbridge" aria-labelledby="os-title">
@@ -106,7 +106,7 @@ import Banner from '../components/Banner.astro';
   .intro__photo{display:none}
   .intro__name{font-family:var(--display);font-weight:400;font-size:clamp(32px,4.2vw,52px);line-height:1;letter-spacing:-.02em}
   .intro__lead{font-size:clamp(16px,1.7vw,20px);color:var(--ink-soft);margin-top:12px;max-width:52ch}
-  .intro__cta{margin-top:20px}
+  /* .intro__cta vit dans shared.css : /404 le porte aussi */
   .drag{position:relative;height:clamp(390px,42vw,450px);margin:clamp(60px,6vw,84px) 0 var(--sp-03);touch-action:none}
   .dcard{position:absolute;width:clamp(230px,27vw,290px);padding:var(--sp-08);border-radius:36px;border:5px solid #fff;background:var(--card);box-shadow:0 22px 44px -20px rgba(120,30,10,.30);cursor:grab;transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;user-select:none;z-index:1}
   .dcard:hover{transform:rotate(0deg) translateY(-8px) scale(1.02);box-shadow:0 34px 60px -24px rgba(120,30,10,.42);z-index:20}
@@ -146,8 +146,18 @@ import Banner from '../components/Banner.astro';
   .dcard--flip .dcard__t{line-height:1.2;color:var(--ink)}
   .dcard--flip .dcard__back{background:var(--card);transform:rotateY(180deg)}
   .dcard--flip .dcard__back .dcard__b{color:var(--ink);margin-top:0}
+  /*
+    Le papier quadrille de la carte « Direction earned ». Les deux tracés et leur
+    pas de 36px etaient ecrits en entier a DEUX endroits - une fois sur la face
+    avant au bureau, une fois sur l'enveloppe sous 1024px, ou la carte s'ouvre a
+    plat. Deux copies de 300 caracteres pour un motif dont seul l'`inset` change.
+    Le motif est pose ici une fois ; les deux regles n'ecrivent plus que ce qui
+    leur est propre. `var(--grid-line)` reste resolu au point d'usage, donc le
+    trait suit toujours le theme.
+  */
+  .dc1--grid{--grid-paper:linear-gradient(180deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px),linear-gradient(90deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px)}
   .dc1--grid .dcard__front{background:var(--tile-red);overflow:hidden}
-  .dc1--grid .dcard__front::before{content:"";position:absolute;inset:var(--sp-12);border-radius:16px;background-image:linear-gradient(180deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px),linear-gradient(90deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
+  .dc1--grid .dcard__front::before{content:"";position:absolute;inset:var(--sp-12);border-radius:16px;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
   .dc1--grid .dcard__front .dcard__t{position:relative;z-index:1}
   .dc1--grid .dcard__back{background:var(--tile-red)}
   .dc1--grid .dcard__t,.dc1--grid .dcard__b{color:var(--tile-red-ink)}
@@ -308,7 +318,9 @@ import Banner from '../components/Banner.astro';
   [data-theme="contrast"] .dcard--flip .dcard__face{border:none}
   .dc1--grid .dcard__front::before{display:none}
   .dc1--grid .dcard__inner{background:var(--tile-red);isolation:isolate}
-  .dc1--grid .dcard__inner::before{content:"";position:absolute;inset:var(--sp-07);border-radius:16px;background-image:linear-gradient(180deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px),linear-gradient(90deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
+  /* le motif lui-meme vient de --grid-paper, pose sur .dc1--grid : seuls le
+     porteur (l'enveloppe, non plus la face) et l'inset changent ici */
+  .dc1--grid .dcard__inner::before{content:"";position:absolute;inset:var(--sp-07);border-radius:16px;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
   .dc1--grid .dcard__front,.dc1--grid .dcard__back{background:transparent;z-index:1}
 }
   @media(max-width:720px){
@@ -375,7 +387,8 @@ import Banner from '../components/Banner.astro';
 }
   @media(prefers-reduced-motion:reduce){
   .case,.dcard,.dcard--flip .dcard__inner{transition:none}
-  .dcard--photo::after,.banner__pepper::after{animation:none}
+  /* .banner__pepper::after est deja neutralise par Base.astro, qui le rend */
+  .dcard--photo::after{animation:none}
   .osbridge__visual .hand,.osbridge__visual .grip,.osbridge__visual .track{transition:none}
     .osbridge__visual:hover .hand,.osbridge__visual:hover .grip,.osbridge__visual:hover .track{transform:none}
   .js .drag .dcard{opacity:1;animation:none;transform:rotate(var(--rot))}
@@ -383,9 +396,17 @@ import Banner from '../components/Banner.astro';
 
   /* l'accueil porte deux lignes de titre : echelle plus petite que shared.css */
   .banner__standards{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);line-height:1.04;letter-spacing:-.01em}
+  /*
+    Surcharge du repli mobile. Seules les deux valeurs qui CHANGENT sont
+    reecrites : la gouttiere laterale (--sp-10 au lieu de --sp-04, l'accueil
+    portant un titre sur deux lignes) et l'ecart au-dessus. Le reste du repli -
+    flex-direction, alignement, min-height - vient de shared.css et etait recopie
+    ici a l'identique, ce qui donnait a lire quatre declarations sans effet pour
+    en trouver deux qui en avaient un.
+  */
   @media(max-width:720px){
-    .banner{flex-direction:column;align-items:flex-start;text-align:left;min-height:0;padding:calc(var(--mobbar-h) + 16px) var(--sp-10) var(--sp-18)}
-    .banner__inner{padding:0;margin-top:clamp(16px,4vw,24px)}
+    .banner{padding:calc(var(--mobbar-h) + 16px) var(--sp-10) var(--sp-18)}
+    .banner__inner{margin-top:clamp(16px,4vw,24px)}
   }
 </style>
 
@@ -424,16 +445,10 @@ import Banner from '../components/Banner.astro';
     }
   }
 
-  /*
-    Sous mouvement reduit, on ne revele PAS .talk-card ici : son titre resterait
-    a sa taille de base au lieu de sauter au grand format. Comportement d'origine
-    de l'accueil, different de philosophy et system-event - conserve tel quel.
-  */
-  if (!mouvementReduit()) revealAll('.talk-card', { threshold: 0.2 });
+  /* .talk-card est revele par le layout, qui rend le pied de page */
 
-  const drag = document.getElementById('drag');
-  if (drag) {
-    carrousel(drag, {
+  if (dragEl) {
+    carrousel(dragEl, {
       slides: '.dcard--flip',
       dots: [...document.querySelectorAll<HTMLElement>('#dots .dot')],
       arc: { y: 22, deg: 6.5, scale: 0.055 },

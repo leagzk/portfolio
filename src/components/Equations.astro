@@ -46,9 +46,10 @@ const { entete, volets } = Astro.props;
 <style is:global>
   /*
     Le bandeau saigne jusqu'aux bords (marge negative + 100vw) mais son padding
-    lateral reprend la formule de .ls-carousel__track - `max(--sp-03, 50vw - 540px
-    + --sp-03)`, 540 etant la demi-largeur du .shell : le contenu reste donc cale
-    sur la colonne de texte pendant que l'aplat, lui, va d'un bord a l'autre.
+    lateral vaut --bleed-pad : le contenu reste cale sur la colonne de texte
+    pendant que l'aplat, lui, va d'un bord a l'autre. Ce token porte la formule
+    que les trois blocs pleine largeur du site recopiaient chacun de leur cote -
+    voir tokens.css.
 
     Filets haut et bas : le blanc du bandeau et le canvas ne sont separes que de
     deux points (#FFFFFF contre #F6F6F4). Sans eux le bandeau n'existerait pas a
@@ -58,7 +59,7 @@ const { entete, volets } = Astro.props;
     background:var(--card);
     border-top:1px solid var(--line);border-bottom:1px solid var(--line);
     border-width:max(1px,var(--edge-w)) 0;
-    padding:var(--sp-19) max(var(--sp-03),calc(50vw - 540px + var(--sp-03)))}
+    padding:var(--sp-19) var(--bleed-pad)}
   /* meme echelle que .ls-sub des case studies, sans son margin-top : dans le
      bandeau c'est le padding qui tient l'ecart */
   .eq-band__t{font-family:var(--display);font-weight:400;

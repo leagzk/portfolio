@@ -345,7 +345,22 @@ const workCourant = work.some((i) => i.key === current);
 
 <script>
   import { initChrome } from '../scripts/chrome';
+  import { revealAll } from '../scripts/reveal';
+
   initChrome();
+
+  /*
+    Le pied de page est rendu ICI, sur les 7 pages : son entree en scene est donc
+    la responsabilite du layout. Chacune des cinq pages a script le redeclarait,
+    et l'accueil le faisait differemment - `if (!mouvementReduit())`, ce qui
+    laissait son « Let's talk. » au petit corps sous mouvement reduit quand les
+    quatre autres sautaient au grand. Un ecart documente comme « conserve tel
+    quel », mais que rien ne justifiait : c'est le meme pied de page.
+    Il est desormais uniforme, et aligne sur le comportement majoritaire - le
+    titre prend sa grande taille partout, sans transition sous mouvement reduit
+    (voir la clause prefers-reduced-motion plus haut).
+  */
+  revealAll('.talk-card', { threshold: 0.2 });
 </script>
 </body>
 </html>

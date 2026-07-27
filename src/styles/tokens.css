@@ -5,7 +5,22 @@
     --body:"Maven Pro",system-ui,sans-serif;
     --portrait:url("/Lea-Giezek-portrait.webp");
     --r-xl:20px; --r-lg:16px; --r-pill:1000px;
-    --mobbar-h:clamp(72px,20vw,88px);}
+    --mobbar-h:clamp(72px,20vw,88px);
+    /*
+      Largeur de la colonne de contenu. Elle est POSEE ici et consommee par
+      .shell (reset.css) et par --bleed-pad ci-dessous : la demi-largeur etait
+      auparavant recopiee en dur - « 540px » - dans les trois blocs pleine
+      largeur du site, chacun documente d'un « 540 etant la demi-largeur du
+      .shell ». Trois copies d'une valeur qu'un seul fichier decidait.
+    */
+    --shell-w:1080px;
+    /*
+      Gouttiere d'un bloc qui saigne d'un bord a l'autre (marge negative +
+      100vw) mais dont le CONTENU doit rester cale sur la colonne de texte.
+      En dessous de --shell-w la formule retombe d'elle-meme sur --sp-03.
+      Consommee par .ls-carousel__track, .eq-band et .el-axes.
+    */
+    --bleed-pad:max(var(--sp-03),calc(50vw - var(--shell-w) / 2 + var(--sp-03)));}
 [data-theme="spicy"]{--canvas:#F6F6F4; --card:#FFFFFF; --line:#EBD9CD;
     --ink:#070304; --ink-soft:#070304;
     --accent:#E84140; --tile-red:#FFE1C5; --tile-red-ink:#070304; --btn3:#D83C3B; --grid-line:rgba(216,50,31,.11);

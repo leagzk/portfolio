@@ -13,12 +13,10 @@ import Banner from '../components/Banner.astro';
     <Banner home>
         <p class="banner__standards">Six convictions behind the systems, and the care that keeps them alive</p>
         <span class="banner__culture" style="--culture-size:18.5cqw" aria-hidden="true">Philosophy.</span>
-      
     </Banner>
 
     <PageIntro eyebrow="Philosophy">
       <p class="p-intro__lead">Anything can be systematized, once you truly understand each craft. I believe people move systems forward - not the other way around. Built on trust over control, and humility. Not a system someone maintains, but one a whole community owns, defends, and grows. <b>Never alone. Conviction over caution, always.</b></p>
-    
     </PageIntro>
   </div>
 
@@ -54,14 +52,10 @@ import Banner from '../components/Banner.astro';
 
 </Base>
 
-<style is:global>
-  /* CSS propre a cette page, descendu depuis Base.astro :
-     les autres pages ne le telechargent plus. */
-  .creed{margin:var(--sp-17) 0 var(--sp-03)}
-</style>
+{/* Aucun <style> : .creed et .tenet* sont emis par <Tenet>, la banniere et
+    l'intro par shared.css. Cette page n'a plus de regle qui lui soit propre. */}
 
 <script>
   import { revealAll } from '../scripts/reveal';
   revealAll('.tenet', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
-  revealAll('.talk-card', { threshold: 0.2 });
 </script>

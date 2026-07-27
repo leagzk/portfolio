@@ -1,0 +1,52 @@
+---
+/*
+  Lien sortant : le glyphe « ouvre ailleurs », la cible et la mention pour les
+  lecteurs d'ecran, en un seul endroit.
+
+  Le triptyque etait recopie a l'identique - le meme SVG de trois traces, le meme
+  `target="_blank" rel="noopener noreferrer"`, la meme <span class="sr-only">
+  (opens in a new tab)</span>. Trois copies dans /system-practice-elements, et
+  autant d'occasions d'en oublier une moitie : c'est le `rel` qui saute en
+  premier, et il est le seul des trois a etre une question de securite -
+  `noopener` coupe l'acces a window.opener depuis la page ouverte.
+
+  La mention sr-only n'est pas decorative : sans elle, rien n'annonce a l'oreille
+  que le lien quitte le site - l'icone est aria-hidden, et elle doit le rester,
+  sinon le nom accessible du lien finirait par la decrire.
+
+  Deux habillages pour un seul comportement, d'ou `variant` :
+  - `btn3` : le bouton du site, corps fixe de 16px et icone de 20px. Ses regles
+    vivent dans shared.css, charge partout.
+  - `inline` : la meme signature dans le fil du texte, ou le padding et le corps
+    fixe de .btn3 creveraient l'interligne d'un paragraphe fluide. Ses regles
+    sont emises ci-dessous, donc elles suivent le composant partout ou il va -
+    elles vivaient avant dans le <style> d'une seule page.
+
+  Le markup tient sur une ligne, sans blanc entre le libelle et le glyphe : les
+  deux habillages sont en inline-flex avec une gouttiere, et un retour a la ligne
+  y ajouterait un noeud de texte de plus a distribuer.
+*/
+export interface Props {
+  href: string;
+  /** habillage : bouton autonome, ou lien dans le fil du texte */
+  variant?: 'btn3' | 'inline';
+  /** classes supplementaires de la page appelante (.el-fig__cta...) */
+  class?: string;
+}
+const { href, variant = 'btn3', class: classe } = Astro.props;
+---
+<a class:list={[variant === 'btn3' ? 'btn3' : 'xlink', classe]} href={href} target="_blank" rel="noopener noreferrer"><slot /><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="sr-only"> (opens in a new tab)</span></a>
+
+<style is:global>
+  /*
+    Variante inline. Meme signature que .btn3 - couleur --btn3, meme glyphe,
+    meme mention lecteur d'ecran - mais posee dans une phrase.
+    inline-flex et non inline pour que le nom et son icone ne se separent jamais
+    en fin de ligne. Le glyphe est dimensionne en `em` : il suit le corps du
+    texte qui le porte, la ou les 20px de .btn3 sont cales sur un libelle de 16.
+  */
+  .xlink{display:inline-flex;align-items:center;gap:5px;color:var(--btn3);
+    font-weight:700;text-decoration:none;transition:color .2s}
+  .xlink:hover{color:var(--ink);text-decoration:underline}
+  .xlink svg{width:.8em;height:.8em;flex:none}
+</style>

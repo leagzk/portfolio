@@ -45,6 +45,17 @@ const { num, idx, title, id } = Astro.props;
     page appelante, et un style scope d'Astro ne franchit pas cette frontiere -
     .tenet__body p ne matcherait jamais.
   */
+  /*
+    Le conteneur d'une serie de Tenet. Il vivait dans philosophy.astro ET dans
+    operating-system.astro, a la valeur identique : .tenet:first-of-type annule
+    son propre padding haut, donc l'ecart au bloc precedent doit etre porte par
+    le conteneur, et les deux pages en avaient tire la meme regle chacune de son
+    cote. Elle descend ici, avec le composant qu'elle enveloppe.
+    /system-practice-elements garde .el-creed : meme role, mais un ecart plus
+    court (--sp-16), cale sur le rythme de ses chapitres et non sur celui d'une
+    page de manifeste.
+  */
+  .creed{margin:var(--sp-17) 0 var(--sp-03)}
   .tenet{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(60px,6.5vw,88px);padding:var(--sp-19) 0;border-top:1px solid var(--line)}
   .tenet:first-of-type{border-top:none;padding-top:0}
   .tenet__lead{position:relative;display:flex;align-items:stretch;gap:var(--sp-02)}

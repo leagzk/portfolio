@@ -1,0 +1,41 @@
+---
+/*
+  Pastilles de pagination d'un carrousel.
+
+  Le markup etait ecrit a la main quatre fois - une par rail : les tuiles de
+  l'accueil, les resultats, les axes et les preuves d'Elements. Sur l'accueil il
+  etait ecrit vignette par vignette, avec un `data-i` que rien ne lisait (le
+  carrousel travaille par index de position, pas par attribut) ; ailleurs il
+  etait deja derive d'un `.map`, mais chaque page redisait la meme enveloppe.
+  Ici le nombre vient de `count` : les pastilles ne peuvent plus diverger des
+  vignettes qu'elles paginent.
+
+  role="group" et non "tablist" : ce sont des pastilles de carrousel. `role="tab"`
+  promettrait aria-controls, un tabpanel et la navigation par fleches, dont rien
+  n'existe ici.
+
+  Le CSS (.dots, .dot) vit dans shared.css - deux pages l'utilisent, il ne peut
+  pas vivre dans l'une d'elles. Masque par defaut, chaque page l'affiche a son
+  propre point de rupture ; un <style> scope ici ne l'atteindrait pas.
+
+  L'etat actif est pose par carrousel() (src/scripts/carousel.ts), qui ecrit
+  aria-current et la classe passee en `classeDotActive`. Rien n'est rendu actif
+  au build : sans script, il n'y a pas de defilement a paginer.
+*/
+export interface Props {
+  /** id du conteneur, cible du selecteur de pastilles dans le script de la page */
+  id: string;
+  /** nombre de pastilles - toujours derive du tableau des vignettes */
+  count: number;
+  /** aria-label du groupe : « Results », « Capabilities »... */
+  label: string;
+  /** prefixe d'une pastille : "Result" donne aria-label="Result 1" */
+  itemLabel: string;
+}
+const { id, count, label, itemLabel } = Astro.props;
+---
+<div class="dots" id={id} role="group" aria-label={label}>
+  {Array.from({ length: count }, (_, i) => (
+    <button class="dot" type="button" aria-label={`${itemLabel} ${i + 1}`}></button>
+  ))}
+</div>

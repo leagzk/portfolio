@@ -8,6 +8,8 @@ import type { ImageMetadata } from 'astro';
 import Carousel from '../components/Carousel.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import ChapterTabs from '../components/ChapterTabs.astro';
+import { sommaire } from '../lib/chapitres';
+import { chercheurImages } from '../lib/images';
 
 /*
   Toutes les images de la page, chargees en une fois plutot qu'en 31 imports.
@@ -18,12 +20,7 @@ const fichiers = import.meta.glob<ImageMetadata>('../assets/living-system/*.webp
   eager: true,
   import: 'default',
 });
-const img = (nom: string): ImageMetadata => {
-  const cle = `../assets/living-system/${nom}.webp`;
-  const f = fichiers[cle];
-  if (!f) throw new Error(`Image introuvable dans src/assets/living-system : ${nom}.webp`);
-  return f;
-};
+const img = chercheurImages(fichiers, 'living-system');
 
 /*
   IMAGES : `src/assets/living-system/` - plus /public/, elles passent desormais
@@ -104,11 +101,8 @@ const chapitres = [
   { id: 'ch-coordination', titre: 'Coordination' },
 ];
 
-const chap = (id: string): string => {
-  const i = chapitres.findIndex((c) => c.id === id);
-  if (i < 0) throw new Error(`Chapitre inconnu : ${id}`);
-  return `${String(i + 1).padStart(2, '0')} - ${chapitres[i].titre}`;
-};
+/* chap('ch-staging') -> « 02 - Staging ». Voir src/lib/chapitres.ts. */
+const { surtitre: chap } = sommaire(chapitres);
 
 ---
 <Base title="Living System - Léa Giezek"
@@ -120,13 +114,11 @@ const chap = (id: string): string => {
     <Banner home>
         <p class="banner__standards">Same systems thinking, same care - just off the screen</p>
         <span class="banner__culture" style="--culture-size:22.5cqw" aria-hidden="true">Surfaces.</span>
-      
     </Banner>
 
     <PageIntro eyebrow="Living System">
       <p class="p-intro__lead">Over more than a year, I designed and orchestrated a live event from end to end - one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.</p>
       <p class="p-intro__lead">It's the proof I keep coming back to: <b>my way of working doesn't depend on the medium.</b> Systems thinking, brand coherence, experience design - they hold whether the output ships to production or lives in a garden for one day.</p>
-    
     </PageIntro>
   </div>
 
@@ -373,7 +365,7 @@ const chap = (id: string): string => {
         <h2 class="ls-title" id="ch-coordination">The part nobody sees.</h2>
         <div class="ls-body ls-body--light">
           <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
-          <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <b>A production guide precise enough to be executed without me in the room</b> - then I handed the day itself to <a href="https://hera-et-harmonia.com/" target="_blank" rel="noopener noreferrer">Hera &amp; Harmonia</a>, who ran it from the brief. <b>One page per zone, one owner per page. That's the whole method.</b></p>
+          <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <b>A production guide precise enough to be executed without me in the room</b> - then I handed the day itself to <a href="https://hera-et-harmonia.com/" target="_blank" rel="noopener noreferrer">Hera &amp; Harmonia<span class="sr-only"> (opens in a new tab)</span></a>, who ran it from the brief. <b>One page per zone, one owner per page. That's the whole method.</b></p>
         </div>
 
 
@@ -409,8 +401,17 @@ const chap = (id: string): string => {
                 passer un & nu la ou il faut &amp; */}
             <dt>{c.role}</dt>
             <dd>
+              {/*
+                Pas <ExternalLink> ici : ces neuf liens n'ont pas le glyphe de
+                sortie - neuf fleches dans un registre de credits feraient une
+                colonne de pictogrammes. Ils en reprennent en revanche la mention
+                sr-only, qui manquait : partout ailleurs sur le site un lien
+                sortant s'annonce, et rien ne justifiait que ceux-la se taisent.
+                Invisible a l'oeil - .sr-only fait 1px - donc `data-label`, qui
+                reserve la largeur du gras au survol, n'en est pas affecte.
+              */}
               {c.href
-                ? <a href={c.href} target="_blank" rel="noopener noreferrer" data-label={c.nom}>{c.nom}</a>
+                ? <a href={c.href} target="_blank" rel="noopener noreferrer" data-label={c.nom}>{c.nom}<span class="sr-only"> (opens in a new tab)</span></a>
                 : <span class="ls-credits__self">{c.nom}</span>}
             </dd>
           </div>
@@ -441,8 +442,6 @@ const chap = (id: string): string => {
   .ls-swatches{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:var(--sp-01)}
   .ls-swatches li{display:flex;flex-direction:column;gap:6px;min-width:0}
   .ls-swatch{display:block;aspect-ratio:1;border-radius:14px;background:var(--c);border:var(--edge-w) solid var(--edge)}
-  .ls-swatch--todo{position:relative;opacity:.45}
-  .ls-swatch--todo::after{content:"?";position:absolute;inset:0;display:grid;place-items:center;font-family:var(--display);font-size:26px;color:#fff}
   .ls-swatches b{font-size:12px;font-weight:600;color:var(--ink)}
   .ls-swatches code{font-size:11px;letter-spacing:.04em;color:var(--ink-muted);font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
   .ls-type{display:flex;align-items:baseline;gap:var(--sp-02);padding:14px 0;border-bottom:1px solid var(--line)}
@@ -452,11 +451,6 @@ const chap = (id: string): string => {
   .ls-type__meta{min-width:0}
   .ls-type__name{font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--ink)}
   .ls-type__use{margin-top:3px;font-size:13px;line-height:1.5;color:var(--ink-muted)}
-  .ls-suite__frame{position:absolute;inset:0;margin:auto;width:88%;height:88%;object-fit:contain;opacity:0;transition:opacity .9s ease}
-  .ls-suite__frame.is-on{opacity:1}
-  @media(prefers-reduced-motion:reduce){
-    .ls-suite__frame{transition:none}
-  }
   .ls-gamehead{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:0 var(--sp-14);align-items:start}
   .ls-gamehead__top{grid-column:1 / -1;margin-bottom:var(--sp-06)}
   .ls-gamehead__body{margin-top:0;max-width:none}
@@ -502,7 +496,6 @@ const chap = (id: string): string => {
   .ls-credits__row a::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
   .ls-credits__row a:hover{font-weight:700}
   .ls-credits__self{font-weight:700;color:var(--ink)}
-  .ls-credits__note{margin-top:var(--sp-03);font-size:12px;line-height:1.7;color:var(--ink-muted)}
   @media(max-width:560px){
     .ls-credits__row{flex-direction:column;align-items:flex-start;gap:4px}
     .ls-credits__row dd{text-align:left}
@@ -544,23 +537,12 @@ const chap = (id: string): string => {
   import { revealAll } from '../scripts/reveal';
   import { fonduEnchaine } from '../scripts/crossfade';
   import { rendreDeplacable } from '../scripts/drag';
-  import { carrousel } from '../scripts/carousel';
 
   revealAll('.ls-reveal', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
-  revealAll('.talk-card', { threshold: 0.2 });
 
   const stage = document.querySelector<HTMLElement>('.ls-suite__stage');
   if (stage) fonduEnchaine(stage, '.ls-suite__frame', 2200);
 
   rendreDeplacable('.ls-shape', '(max-width:900px)');
-
-  const track = document.getElementById('lscarousel');
-  if (track) {
-    carrousel(track, {
-      slides: '.ls-carousel__slide',
-      dots: [...document.querySelectorAll<HTMLElement>('.ls-carousel__dots .ls-dot')],
-      arc: { y: 18, deg: 4.5, scale: 0.05 },
-      depart: Number(track.dataset.start ?? 0),
-    });
-  }
+  /* le carrousel des surfaces s'amorce lui-meme, dans <Carousel> */
 </script>

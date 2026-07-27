@@ -13,6 +13,7 @@ import PageIntro from '../components/PageIntro.astro';
 import Tenet from '../components/Tenet.astro';
 import ChapterTabs from '../components/ChapterTabs.astro';
 import Equations from '../components/Equations.astro';
+import { sommaire } from '../lib/chapitres';
 import CollectiveOwnership from '../assets/operating-system/collective-ownership-visual.svg';
 
 /*
@@ -49,14 +50,10 @@ const principes = [
     titre: 'A team of owners, not a team of hands.' },
 ];
 
-/* Numero d'un principe : « 03 ». Jette si l'ancre est inconnue, pour qu'un id
-   renomme casse le build au lieu de vider un chiffre. */
-const num = (id: string): string => {
-  const i = principes.findIndex((x) => x.id === id);
-  if (i < 0) throw new Error(`Principe inconnu : ${id}`);
-  return String(i + 1).padStart(2, '0');
-};
-const p = (id: string) => principes[principes.findIndex((x) => x.id === id)];
+/* num('ch-truth') -> « 02 », p('ch-truth') -> l'entree. Le numero vient du rang,
+   donc reordonner renumerote ; un id inconnu jette au lieu de vider un chiffre.
+   Voir src/lib/chapitres.ts - les trois pages chapitrees partagent ce helper. */
+const { num, de: p } = sommaire(principes);
 
 /*
   Les trois formes de la sobriete, dans le bandeau <Equations> - celui d'Elements,
@@ -180,7 +177,7 @@ const sobriete = [
   </section>
 
 <!-- ═══ LA CHUTE ═══ -->
-  <section class="ls-closing ls-reveal" aria-label="In closing">
+  <section class="ls-closing ls-closing--left ls-reveal" aria-label="In closing">
     <p class="ls-closing__t">That's not the soft version of leadership. It's the <em>operating system</em>.</p>
   </section>
 
@@ -188,8 +185,7 @@ const sobriete = [
 
 <style is:global>
   /* CSS propre a cette page. Le reste vient de <Tenet>, qui emet ses regles
-     lui-meme, et de shared.css pour la banniere et l'intro. */
-  .creed{margin:var(--sp-17) 0 var(--sp-03)}
+     lui-meme - .creed comprise - et de shared.css pour la banniere et l'intro. */
 
   /*
     La charniere. Le disque tient dans une colonne `auto` : le texte prend ce qui
@@ -216,15 +212,9 @@ const sobriete = [
   */
   .op-hinge__disc svg{width:137%;height:137%;overflow:visible}
 
-  /*
-    La chute est cadree a gauche ici, la ou case-study.css la centre. Tout le
-    chapitrage de la page est ferre a gauche, du premier surtitre au bandeau :
-    centree, elle aurait ete le seul element sur l'axe.
-    Selecteur double (.ls-closing.ls-reveal) et non simple : `text-align:center`
-    vient de case-study.css a specificite egale, et l'ordre du bundle ne se
-    decrete pas. Meme raison que sur Elements.
-  */
-  .ls-closing.ls-reveal{text-align:left}
+  /* La chute est ferree a gauche - tout le chapitrage de la page l'est, du
+     premier surtitre au bandeau. Porte par .ls-closing--left (case-study.css),
+     que /system-practice-elements partage pour la meme raison. */
   /*
     Pas de <br> dans cette chute, contrairement aux deux case studies : le
     retour force y coupait la phrase au meme endroit a toutes les largeurs et
@@ -247,5 +237,4 @@ const sobriete = [
   revealAll('.tenet', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
   revealAll('.ls-closing', { threshold: 0.2 });
   revealAll('.op-hinge', { threshold: 0.15 });
-  revealAll('.talk-card', { threshold: 0.2 });
 </script>

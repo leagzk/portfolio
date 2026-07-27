@@ -7,6 +7,10 @@ import Tenet from '../components/Tenet.astro';
 import Carousel from '../components/Carousel.astro';
 import ChapterTabs from '../components/ChapterTabs.astro';
 import Equations from '../components/Equations.astro';
+import Dots from '../components/Dots.astro';
+import ExternalLink from '../components/ExternalLink.astro';
+import { sommaire } from '../lib/chapitres';
+import { chercheurImages } from '../lib/images';
 import IdeaVisual from '../assets/elements-system/idea-visual.svg';
 import ConsumerVisual from '../assets/elements-system/consumer-visual.svg';
 import ContributorVisual from '../assets/elements-system/contributor-visual.svg';
@@ -42,13 +46,10 @@ const chapitres = [
   { id: 'ch-next',         titre: "Where I'd take it next",       onglet: "What's next" },
 ];
 
-/* Surtitre d'un chapitre : « 05 - What I owned ». Jette si l'ancre est inconnue,
-   pour qu'un id renomme casse le build au lieu de vider un surtitre. */
-const chap = (id: string): string => {
-  const i = chapitres.findIndex((c) => c.id === id);
-  if (i < 0) throw new Error(`Chapitre inconnu : ${id}`);
-  return `${String(i + 1).padStart(2, '0')} - ${chapitres[i].titre}`;
-};
+/* Surtitre d'un chapitre : « 05 - What I owned ». Le numero vient du rang, donc
+   reordonner renumerote ; un id inconnu jette au lieu de vider un surtitre.
+   Voir src/lib/chapitres.ts. */
+const { surtitre: chap } = sommaire(chapitres);
 
 /*
   Meme convention que system-event : le glob resout les images a la compilation,
@@ -58,12 +59,7 @@ const fichiers = import.meta.glob<ImageMetadata>('../assets/elements-system/*.we
   eager: true,
   import: 'default',
 });
-const img = (nom: string): ImageMetadata => {
-  const cle = `../assets/elements-system/${nom}.webp`;
-  const f = fichiers[cle];
-  if (!f) throw new Error(`Image introuvable dans src/assets/elements-system : ${nom}.webp`);
-  return f;
-};
+const img = chercheurImages(fichiers, 'elements-system');
 
 /*
   Les trois axes de la plateforme. La ligne `tension` n'est pas une legende :
@@ -254,16 +250,12 @@ const preuves: Preuve[] = [
             <p class="el-fig__q">{r.quoi}</p>
             <p class="el-fig__l">{r.detail}</p>
             {r.lien && (
-              <a class="btn3 el-fig__cta" href={r.lien.href} target="_blank" rel="noopener noreferrer">
-                {r.lien.label}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="sr-only"> (opens in a new tab)</span>
-              </a>
+              <ExternalLink href={r.lien.href} class="el-fig__cta">{r.lien.label}</ExternalLink>
             )}
           </div>
         ))}
       </div>
-      <div class="dots" id="elfigdots" role="group" aria-label="Results">
-        {resultats.map((_, i) => <button class="dot" type="button" aria-label={`Result ${i + 1}`}></button>)}
-      </div>
+      <Dots id="elfigdots" count={resultats.length} label="Results" itemLabel="Result" />
     </div>
 
     <p class="ls-claim ls-claim--big">Adopted. Trusted. Extended.<br><b>Everything a system needs to outlive the person who built it.</b></p>
@@ -418,9 +410,7 @@ const preuves: Preuve[] = [
           </li>
         ))}
       </ul>
-      <div class="dots" id="elaxesdots" role="group" aria-label="Capabilities">
-        {capacites.map((_, i) => <button class="dot" type="button" aria-label={`Capability ${i + 1}`}></button>)}
-      </div>
+      <Dots id="elaxesdots" count={capacites.length} label="Capabilities" itemLabel="Capability" />
     </div>
 
     <!-- 6b · le pipeline -->
@@ -488,7 +478,7 @@ const preuves: Preuve[] = [
           layout="constrained" sizes="(min-width: 900px) 620px, 118vw" loading="lazy" decoding="async" />
       </figure>
       <div class="el-trio__body">
-        <p>For example, <a class="el-link" href="https://nicolaschatelain.com" target="_blank" rel="noopener noreferrer">Nicolas Chatelain<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="sr-only"> (opens in a new tab)</span></a> was leading the People axis from Experience Operations enablement to Community of Practice engagement plan and POC. In parallel, <a class="el-link" href="https://rodolphe.design/chat" target="_blank" rel="noopener noreferrer">Rodolphe Peruzza<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg><span class="sr-only"> (opens in a new tab)</span></a> was leading the System axis, from craft to experiences patterns industrialization.</p>
+        <p>For example, <ExternalLink href="https://nicolaschatelain.com" variant="inline">Nicolas Chatelain</ExternalLink> was leading the People axis from Experience Operations enablement to Community of Practice engagement plan and POC. In parallel, <ExternalLink href="https://rodolphe.design/chat" variant="inline">Rodolphe Peruzza</ExternalLink> was leading the System axis, from craft to experiences patterns industrialization.</p>
       </div>
     </div>
 
@@ -580,9 +570,7 @@ const preuves: Preuve[] = [
           </div>
         ))}
       </div>
-      <div class="dots" id="elproofdots" role="group" aria-label="What the community proved">
-        {preuves.map((_, i) => <button class="dot" type="button" aria-label={`Proof ${i + 1}`}></button>)}
-      </div>
+      <Dots id="elproofdots" count={preuves.length} label="What the community proved" itemLabel="Proof" />
     </div>
   </section>
 
@@ -601,7 +589,7 @@ const preuves: Preuve[] = [
   </section>
 
   {/* pas de titre a pointer ici, la chute est en <p> : d'ou l'aria-label */}
-  <section class="ls-closing ls-reveal" aria-label="In closing">
+  <section class="ls-closing ls-closing--left ls-reveal" aria-label="In closing">
     <p class="ls-closing__t">Design systems ship standards.<br>Experience systems <em>grow culture</em>.</p>
   </section>
 
@@ -625,7 +613,11 @@ const preuves: Preuve[] = [
   */
   .el-figs-wrap{margin:var(--sp-20) 0}
   .el-figs{position:relative;height:clamp(360px,40vw,430px);touch-action:none}
-  .el-fig-card{position:absolute;left:var(--x);top:var(--y);width:clamp(210px,24vw,264px);
+  /* le placement (left/top/--rot) vient du champ `pose` de chaque entree, pose
+     en style inline. Les `left:var(--x);top:var(--y)` qui trainaient ici ne
+     servaient rien : --x/--y ne sont ecrits nulle part sur ces cartes, et le
+     style inline l'emportait de toute facon. */
+  .el-fig-card{position:absolute;width:clamp(210px,24vw,264px);
     padding:var(--sp-12);border-radius:28px;background:var(--card);
     border:1px solid var(--line);border-width:max(1px,var(--edge-w));border-color:var(--line);
     box-shadow:0 18px 38px -22px rgba(120,30,10,.28);cursor:grab;user-select:none;
@@ -771,12 +763,11 @@ const preuves: Preuve[] = [
     Une seule ligne qui defile dit la bonne chose : une serie, parcourue.
 
     Le rail sort de la grille et court d'un bord a l'autre de l'ecran, a toutes
-    les largeurs. Le padding lateral est la formule exacte de .ls-carousel__track
-    dans case-study.css - `max(--sp-03, 50vw - 540px + --sp-03)`, ou 540 est la
-    demi-largeur du .shell : la premiere carte reste donc calee sur la colonne de
-    texte pendant que la serie file hors cadre a droite. Les deux carrousels de
-    la page se comportent ainsi a l'identique, et sous 900px la formule retombe
-    d'elle-meme sur --sp-03 sans qu'on ait a la redire.
+    les largeurs. Le padding lateral vaut --bleed-pad (tokens.css), le meme token
+    que .ls-carousel__track et .eq-band : la premiere carte reste donc calee sur
+    la colonne de texte pendant que la serie file hors cadre a droite. Les deux
+    carrousels de la page se comportent ainsi a l'identique, et sous 900px la
+    formule retombe d'elle-meme sur --sp-03 sans qu'on ait a la redire.
 
     Le padding vertical n'est pas du confort : overflow-x:auto rogne aussi en
     vertical, et sans lui l'ombre portee des cartes serait coupee.
@@ -784,7 +775,7 @@ const preuves: Preuve[] = [
   .el-axes{list-style:none;margin:0 calc(50% - 50vw);width:100vw;
     display:flex;gap:var(--sp-02);overflow-x:auto;scroll-snap-type:x mandatory;
     scrollbar-width:none;
-    padding:var(--sp-02) max(var(--sp-03),calc(50vw - 540px + var(--sp-03))) var(--sp-10)}
+    padding:var(--sp-02) var(--bleed-pad) var(--sp-10)}
   .el-axes::-webkit-scrollbar{display:none}
   .el-axes-wrap .dots{display:flex}
   /* en vw et non en % : le conteneur fait desormais 100vw, un pourcentage s'y
@@ -941,17 +932,8 @@ const preuves: Preuve[] = [
   .js .el-trio__photo{opacity:0;transform:rotate(var(--rot)) scale(.4)}
   .js .el-trio.in .el-trio__photo{animation:stickIn .55s cubic-bezier(.34,1.56,.64,1) forwards}
 
-  /*
-    Lien externe DANS le corps du texte. Meme signature que .btn3 - couleur
-    --btn3, meme glyphe de sortie, meme mention lecteur d'ecran - mais inline :
-    .btn3 est un bouton, son padding et son corps fixe de 16px creveraient
-    l'interligne d'un paragraphe fluide. inline-flex et non inline pour que le
-    nom et son icone ne se separent jamais en fin de ligne.
-  */
-  .el-link{display:inline-flex;align-items:center;gap:5px;color:var(--btn3);
-    font-weight:700;text-decoration:none;transition:color .2s}
-  .el-link:hover{color:var(--ink);text-decoration:underline}
-  .el-link svg{width:.8em;height:.8em;flex:none}
+  /* le lien externe inline (.xlink) est emis par <ExternalLink> : il suit le
+     composant au lieu d'attendre dans le <style> de la page qui s'en servait */
 
   /* un chiffre pose grand et seul */
   .el-big{margin:var(--sp-20) 0;display:grid;gap:10px;justify-items:start}
@@ -1164,16 +1146,10 @@ const preuves: Preuve[] = [
     .el-path__a{font-size:14px}
   }
 
-  /*
-    La chute est cadree a gauche ici, la ou /system-event la centre. Deux raisons :
-    cette page n'a plus de sous-ligne sous la phrase - centree et seule, elle
-    flottait sans rien pour la caler - et tout le reste du chapitrage est ferre a
-    gauche, du premier eyebrow a la derniere carte.
-    Selecteur double (.ls-closing.ls-reveal) et non simple : `text-align:center`
-    vient de case-study.css a specificite egale, et l'ordre du bundle ne se
-    decrete pas.
-  */
-  .ls-closing.ls-reveal{text-align:left}
+  /* La chute est ferree a gauche - cette page n'a plus de sous-ligne sous la
+     phrase, et tout son chapitrage l'est deja, du premier eyebrow a la derniere
+     carte. Porte par .ls-closing--left (case-study.css), partage avec
+     /operating-system. */
 
   .el-after-fig{margin-top:var(--sp-16)}
   .el-scope{margin-top:var(--sp-16)}
@@ -1318,10 +1294,15 @@ const preuves: Preuve[] = [
 <script>
   import { revealAll } from '../scripts/reveal';
   import { rendreDeplacable } from '../scripts/drag';
-  import { carrousel } from '../scripts/carousel';
+  import { carrousel, ARC_VIGNETTE } from '../scripts/carousel';
+  import type { OptionsCarrousel } from '../scripts/carousel';
+
+  /* les pastilles d'un rail, dans l'ordre du DOM */
+  const pastilles = (id: string) => [
+    ...document.querySelectorAll<HTMLElement>(`#${id} .dot`),
+  ];
 
   revealAll('.ls-reveal', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
-  revealAll('.talk-card', { threshold: 0.2 });
   /* sans cet appel, `.js .tenet{opacity:0}` laisserait la section 03 invisible */
   revealAll('.tenet', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
 
@@ -1349,56 +1330,31 @@ const preuves: Preuve[] = [
     a.addEventListener('pointerdown', (e) => e.stopPropagation());
   });
 
-  const facettes = document.getElementById('elfacettes');
-  if (facettes) {
-    carrousel(facettes, {
-      slides: '.ls-carousel__slide',
-      dots: [...facettes.parentElement!.querySelectorAll<HTMLElement>('.ls-carousel__dots .ls-dot')],
-      arc: { y: 18, deg: 4.5, scale: 0.05 },
-      depart: Number(facettes.dataset.start ?? 0),
-    });
-  }
-
-  const axes = document.getElementById('elaxes');
-  if (axes) {
-    carrousel(axes, {
-      slides: '.el-axis',
-      dots: [...document.querySelectorAll<HTMLElement>('#elaxesdots .dot')],
-      arc: { y: 12, deg: 3, scale: 0.04 },
-      /* plus d'actifSi : ce n'est plus une grille qui cede en rail sous 900px,
-         c'est un carrousel a toutes les largeurs */
-      classeDotActive: 'is-active',
-      depart: 0,
-    });
-  }
-
-  const figs = document.getElementById('elfigs');
-  if (figs) {
-    carrousel(figs, {
-      slides: '.el-fig-card',
-      dots: [...document.querySelectorAll<HTMLElement>('#elfigdots .dot')],
-      arc: { y: 18, deg: 4.5, scale: 0.05 },
-      actifSi: '(max-width:1024px)',
-      classeDotActive: 'is-active',
-      depart: 1,
-    });
-  }
+  /* le carrousel des facettes s'amorce lui-meme, dans <Carousel> */
 
   /*
-    Meme dispositif pour les preuves du chapitre 07. `slides` est resolu DANS la
-    piste par carrousel(), donc le meme selecteur '.el-fig-card' ne fait pas se
-    croiser les deux series. depart:0 et non 1 comme pour les resultats : ces
-    quatre cartes se lisent dans l'ordre et la premiere porte le chiffre.
+    Les trois rails propres a la page. `slides` est resolu DANS la piste par
+    carrousel(), donc le meme selecteur '.el-fig-card' ne fait pas se croiser les
+    resultats et les preuves.
+
+    Les cartes ne se deplacent qu'au-dela de 1024px ; en deca le conteneur est un
+    rail, d'ou `actifSi` sur ces deux-la. Les axes, eux, sont un carrousel a
+    toutes les largeurs - ce n'est plus une grille qui cede en rail sous 900px -
+    donc pas de garde.
+
+    depart : les resultats ouvrent sur la deuxieme carte, qui est au centre du
+    jeu ; les preuves sur la premiere, parce que ces quatre-la se lisent dans
+    l'ordre et que c'est elle qui porte le chiffre.
   */
-  const preuves = document.getElementById('elproof');
-  if (preuves) {
-    carrousel(preuves, {
-      slides: '.el-fig-card',
-      dots: [...document.querySelectorAll<HTMLElement>('#elproofdots .dot')],
-      arc: { y: 18, deg: 4.5, scale: 0.05 },
-      actifSi: '(max-width:1024px)',
-      classeDotActive: 'is-active',
-      depart: 0,
-    });
-  }
+  const rail = (id: string, o: Omit<OptionsCarrousel, 'classeDotActive'>) => {
+    const piste = document.getElementById(id);
+    if (piste) carrousel(piste, { ...o, classeDotActive: 'is-active' });
+  };
+
+  rail('elaxes', { slides: '.el-axis', dots: pastilles('elaxesdots'),
+    arc: { y: 12, deg: 3, scale: 0.04 }, depart: 0 });
+  rail('elfigs', { slides: '.el-fig-card', dots: pastilles('elfigdots'),
+    arc: ARC_VIGNETTE, actifSi: '(max-width:1024px)', depart: 1 });
+  rail('elproof', { slides: '.el-fig-card', dots: pastilles('elproofdots'),
+    arc: ARC_VIGNETTE, actifSi: '(max-width:1024px)', depart: 0 });
 </script>

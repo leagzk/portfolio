@@ -91,7 +91,6 @@
 [data-theme="mono"] .btn--ghost:hover{background:var(--accent);color:var(--on-accent)}
 [data-theme="mono"] .btn--ghost:hover::before{background:var(--accent)}
 [data-theme="mono"] .case__body .btn3:hover{color:var(--btn3);font-weight:700}
-[data-theme="mono"] .talk-card .btn3:hover{color:#fff;font-weight:700}
 .btn3 svg{width:20px;height:20px;flex:none}
 .case .btn3::after{content:"";position:absolute;inset:0;z-index:1}
 .case__body .btn3{margin-top:24px;align-self:flex-start}
@@ -99,19 +98,38 @@
 [data-theme="contrast"] .case__body .btn3:hover{color:var(--ink)}
 [data-theme="contrast"] .case__body .btn3:hover .btn3__i{color:var(--highlight)}
 [data-theme="contrast"] .talk-card .btn3{color:var(--highlight)}
-/*
-  Seule couleur en dur qui subsiste, et seule occurrence de cette valeur dans
-  tout le projet : un bleu eclairci, pose uniquement sur le pied de page noir
-  ou --accent-alt manquerait de contraste. Pas de token pour un usage unique.
-*/
-[data-theme="contrast"] .talk-card .btn3:hover{color:#4A90E2}
 [data-theme="contrast"] .btn--primary:hover{background:var(--highlight);color:var(--on-highlight)}
 [data-theme="contrast"] .btn--ghost{color:var(--accent-alt)}
 [data-theme="contrast"] .btn--ghost:hover{background:var(--highlight);color:var(--on-highlight)}
 [data-theme="contrast"] .btn--ghost:hover::before{background:var(--highlight)}
 .card.talk-card{background:#070304;border:none;border-radius:var(--r-xl) var(--r-xl) 0 0;margin-bottom:0}
-.talk-card .btn3{color:#fff}
-.talk-card .btn3:hover{color:var(--accent)}
+/*
+  ═══ .btn3 sur fond noir ═══
+
+  Deux surfaces noires portent ce bouton : le pied de page (.talk-card, rendu
+  par le layout, donc sur les 7 pages) et le bloc sombre des recits longs
+  (.ls-dark, dans case-study.css). Cette matrice vivait EN DOUBLE - une copie
+  ici, une copie dans case-study.css - sous un commentaire qui demandait de
+  repercuter a la main toute retouche de l'une sur l'autre. C'est exactement la
+  regle qu'on finit par oublier de repercuter : elle est ecrite une fois.
+
+  Elle vit dans shared.css, charge partout, et non dans case-study.css, qui ne
+  l'est que par les recits longs. Le selecteur .ls-dark ne matche simplement
+  rien sur les pages qui n'en ont pas.
+
+  Pourquoi trois lignes et pas une couleur : aucune valeur unique ne tient les
+  trois themes. --btn3 tombe a 4,5:1 sur #070304 en spicy et s'effondre en mono,
+  ou --accent vaut #232320 - du noir sur du noir. D'ou le blanc de base, a
+  19,6:1 partout. Au survol, --accent vire au quasi-noir en mono (d'ou le retour
+  au blanc, la graisse portant le changement d'etat) et le bleu clair du theme
+  Mondrian n'est lisible que la. Mesures sur #070304 : accent 5,1:1,
+  #4A90E2 6,2:1 - seule occurrence de cette valeur dans le projet, pas de token
+  pour un usage unique.
+*/
+.talk-card .btn3,.ls-dark .btn3{color:#fff}
+.talk-card .btn3:hover,.ls-dark .btn3:hover{color:var(--accent)}
+[data-theme="mono"] .talk-card .btn3:hover,[data-theme="mono"] .ls-dark .btn3:hover{color:#fff;font-weight:700}
+[data-theme="contrast"] .talk-card .btn3:hover,[data-theme="contrast"] .ls-dark .btn3:hover{color:#4A90E2}
 .banner__home{position:absolute;top:var(--sp-03);left:var(--sp-05);z-index:4;height:var(--sp-21);display:inline-flex;align-items:center;gap:8px;color:var(--hero-ink);text-decoration:none;font-weight:600;font-size:16px;opacity:.92;transition:opacity .2s}
 .banner__home:hover{opacity:1}
 .banner__home svg{width:16px;height:16px;flex:none}
@@ -119,6 +137,14 @@
 .p-eyebrow{display:inline-block;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-alt)}
 .p-intro__lead{font-size:clamp(16px,1.75vw,20px);color:var(--ink-soft);margin-top:16px;max-width:62ch}
 .p-intro__lead b{color:var(--ink)}
+/*
+  Appel a l'action sous un chapeau de page. La regle vivait dans le <style> de
+  l'accueil - donc emise avec l'accueil SEUL - alors que /404 porte la meme
+  classe sur son bouton « Back to home » : le bouton y etait colle au paragraphe
+  qui le precede, sans que rien ne le signale. Deux pages la portent, elle vit
+  donc dans le fichier que les deux chargent.
+*/
+.intro__cta{margin-top:20px}
 @media(max-width:720px){
   .banner__photo{display:block;width:clamp(104px,30vw,150px);height:clamp(104px,30vw,150px);border-radius:50%;overflow:hidden;border:3px solid rgba(255,255,255,.92);box-shadow:0 14px 32px -16px rgba(120,20,5,.55);margin:0 auto;background:var(--portrait) center/cover no-repeat}
   .talk-card .btn3{padding:16px 4px}
