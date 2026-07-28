@@ -10,7 +10,7 @@ indexable: true
 
 Design systems ship standards,
 
-Experience systems grow culture
+Experience systems grow culture.
 
 # Léa Giezek
 
@@ -36,19 +36,19 @@ Rigor and care aren't opposites - they're the same discipline. Every principle h
 
 Fifty would be padding. Three prove it - a platform, a brand, and a space you could immerse yourself in. **Same thinking, three worlds - no craft left in a silo.**
 
-Systematized a practice
+Systematize a practice
 2023 - now
 Governance
 
 **The product failed. The platform scaled.** Same system, rebuilt from zero - into the standard a strategic digital portfolio depends on, and the community that makes it last.
 
-Systematized a brand
+Systematize a brand
 2018 - 2022
 Language
 
-2,500 people, one language - before I'd have called it a design system. Not just product, not just design, not just communication: **anything can be systematized** once you understand each craft, and how to connect the dots. The pattern, five years early.
+2,500 people, one language - before I'd have called it a design system. Then a corporate rebrand, translated for screens, and every siloed UI kit in the portfolio put on one standard. **Anything can be systematized** once you understand each craft. This is where Elements starts.
 
-Systematized a moment
+Systematize a moment
 a year in the making
 Surfaces
 

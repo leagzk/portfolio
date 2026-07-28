@@ -60,7 +60,34 @@ export function carrousel(track: HTMLElement, o: OptionsCarrousel): void {
     track.scrollTo({ left: t, behavior: doux ? 'smooth' : 'auto' });
   };
 
+  /*
+    La vignette courante est la plus proche du centre du rail - SAUF aux deux
+    bouts, ou ce critere ne peut jamais designer l'extremite.
+
+    En butee gauche, la premiere vignette est calee contre le bord : son centre
+    reste a une demi-vignette du bord, donc bien a gauche du centre du rail, et
+    une voisine est toujours plus proche. Comme on ne peut plus defiler pour
+    corriger, la premiere pastille ne s'allumait jamais. Symetrique a droite.
+    Mesure sur le nuancier de /system-brand a 375px : en butee gauche l'index
+    calcule valait 1, en butee droite 8 sur 10 - la premiere et la derniere
+    pastille etaient inatteignables. Le defaut touchait tous les rails du site,
+    d'ou le correctif ici et non dans une page.
+
+    Aux butees, la reponse ne se calcule donc pas, elle se decide : on ne peut
+    pas aller plus loin, l'extremite EST la vignette courante.
+
+    Tolerance de 2px et non une egalite stricte : scrollLeft est fractionnaire
+    des que la mise en page l'est (densite d'ecran, zoom), et scrollWidth arrondit
+    de son cote. Deux pixels absorbent cet ecart sans jamais mordre sur la
+    vignette voisine, large d'au moins 130px partout sur le site.
+  */
+  const BUTEE = 2;
+
   const indexActif = () => {
+    const max = track.scrollWidth - track.clientWidth;
+    if (track.scrollLeft <= BUTEE) return 0;
+    if (track.scrollLeft >= max - BUTEE) return slides.length - 1;
+
     const mid = track.scrollLeft + track.clientWidth / 2;
     let best = 0;
     let bd = Infinity;

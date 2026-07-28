@@ -8,7 +8,7 @@ indexable: false
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-Designed to be handed over - seven principles, each with a practice behind it
+Designed to be handed over - seven principles, each with a practice behind it.
 
 # Operating System
 
@@ -80,4 +80,4 @@ All of it lived on **Confluence**, documented like a team mantra - so a new join
 
 And growth didn't run top-down. It ran through the community: people levelled up by contributing, teaching, carrying the message - and I grew as much through them. **Reverse mentoring by practice** isn't a nice idea to me, it's how a system stays honest: the day you think you're the one who knows, you've stopped listening. *I lead, and I stay a student.*
 
-That's not the soft version of leadership. It's the *operating system*.
+That's not the soft version of leadership. It's the *operating system.*

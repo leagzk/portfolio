@@ -44,29 +44,30 @@ const personSchema = {
 };
 
 /*
-  Seules les pages redigees figurent dans la nav. Il ne reste qu'un brouillon,
-  system-brand : accessible en direct mais hors du menu, et sous noindex tant
-  qu'il affiche "Page en cours de redaction".
-  Pour en remettre une en ligne : la reinscrire ici et retirer son attribut
-  noindex dans la page.
+  Toutes les pages redigees figurent desormais dans la nav : il n'y a plus de
+  brouillon tenu hors du menu.
 
-  operating-system vient d'y entrer. Elle porte ENCORE noindex et reste exclue
-  du sitemap dans astro.config.mjs : elle est donc visible pour qui parcourt le
-  site, invisible pour les moteurs. Les deux se retirent en meme temps le jour
-  ou la page est jugee publiable.
+  Trois d'entre elles gardent leur `noindex` et restent filtrees du sitemap dans
+  astro.config.mjs - operating-system, system-practice-elements et system-brand.
+  Elles sont donc visibles pour qui parcourt le site, invisibles pour les
+  moteurs. Le lien permet de les faire lire ; le noindex evite qu'elles soient
+  indexees dans leur etat actuel : le texte est complet, les visuels non.
+  Les deux se retirent EN MEME TEMPS le jour ou une page est jugee publiable -
+  l'attribut dans la page, et l'entree dans le filtre du sitemap. Lever l'un
+  sans l'autre remet les deux reglages en contradiction.
 
-  system-practice-elements fait exception : elle est dans le menu mais garde son
-  noindex, et reste filtree du sitemap. Le texte est complet, les visuels non -
-  trois emplacements y sont encore visibles. Le lien permet de la faire lire ;
-  le noindex evite qu'elle soit indexee dans cet etat. A lever avec les visuels.
+  L'ordre de « Selected work » est chronologique a l'envers : la pratique
+  d'abord, la marque ensuite, le moment pour finir. Il suit celui des cartes de
+  l'accueil, et les deux doivent le rester - c'est la meme serie, lue deux fois.
 */
 const main = [
   { key: 'philosophy', href: '/philosophy', label: 'Philosophy' },
   { key: 'operating-system', href: '/operating-system', label: 'Operating System' },
 ];
 const work = [
-  { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematized a Practice' },
-  { key: 'system-event', href: '/system-event', label: 'Systematized a Moment' },
+  { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematize a Practice' },
+  { key: 'system-brand', href: '/system-brand', label: 'Systematize a Brand' },
+  { key: 'system-event', href: '/system-event', label: 'Systematize a Moment' },
 ];
 /*
   La page courante est-elle une des entrees de « Selected work » ? Sur une page
@@ -182,13 +183,46 @@ const workCourant = work.some((i) => i.key === current);
     <a href="#connect" data-label="Connect">Connect</a>
   </nav>
 
+  {/*
+    Le menu mobile reprend la structure de la nav de bureau plutot que d'aplatir
+    ses six liens en une seule liste : « Selected work » y est un groupe, il doit
+    le rester ici. Les trois recits sont donc annonces par leur surtitre et
+    tenus entre deux filets - la meme lecture que sous le menu deroulant, sans
+    avoir a deplier quoi que ce soit.
+
+    « Let's talk » plutot que « Connect », et suivi des trois memes boutons que
+    le pied de page : depuis un telephone, la moitie des visites s'arrete a
+    « comment vous joindre » - autant y repondre dans le menu plutot que de
+    renvoyer vers un ancrage en bas de page.
+  */}
   <nav class="mobmenu" id="mobmenu" aria-hidden="true" aria-label="Menu">
     <button class="mobmenu__close" id="mobclose" aria-label="Close menu">&#10005;</button>
     {/* Sous 720px, .banner__home est masque et la nav n'avait aucun lien vers
         l'accueil : depuis une sous-page, le retour etait impossible. */}
     <a href="/" aria-current={current === undefined ? 'page' : undefined}>Home</a>
-    {[...main, ...work].map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-    <a href="#connect">Connect</a>
+    {main.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
+
+    <div class="mobmenu__group">
+      <p class="mobmenu__eyebrow" id="mobwork">Selected work</p>
+      <hr class="mobmenu__rule">
+      {work.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
+    </div>
+
+    {/*
+      « Let's talk » est un surtitre de section et non un lien, comme « Selected
+      work » : ce qui suit EST la destination - les trois boutons - et un lien
+      de plus vers l'ancrage du pied de page aurait fait deux chemins pour la
+      meme intention, dont un plus long.
+    */}
+    <div class="mobmenu__group">
+      <p class="mobmenu__eyebrow">Let's talk</p>
+      <hr class="mobmenu__rule">
+      <div class="mobmenu__links">
+        <a class="btn3" href="mailto:giezek.lea@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
+        <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9z"/></svg>LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="btn3" href="/Lea-Giezek-CV.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
+      </div>
+    </div>
   </nav>
 
   {/* tabindex="-1" : sans lui, le lien d'evitement fait defiler la page mais ne
@@ -224,7 +258,7 @@ const workCourant = work.some((i) => i.key === current);
   [data-theme="contrast"] .topnav.menuopen{border:var(--edge-w) solid var(--edge);border-top:none;border-bottom:none}
   [data-theme="contrast"] .topnav a[aria-current="page"]::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
   [data-theme="contrast"] .navgroup__trigger[data-current] .navgroup__label::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
-  [data-theme="contrast"] .mobmenu a[aria-current="page"]{color:var(--highlight)}
+  [data-theme="contrast"] .mobmenu > a[aria-current="page"],[data-theme="contrast"] .mobmenu__group > a[aria-current="page"]{color:var(--highlight)}
   @media(max-width:720px){
   [data-theme="contrast"] .mobbar{border:var(--edge-w) solid var(--edge);border-top:none}
 }
@@ -271,8 +305,46 @@ const workCourant = work.some((i) => i.key === current);
   .topdock{position:fixed;top:0;left:0;right:0;z-index:51;pointer-events:none}
   .topdock__inner{max-width:1080px;margin:0 auto;height:var(--mobbar-h);display:flex;align-items:center;padding-left:calc(var(--sp-03) + var(--sp-09));padding-right:calc(var(--sp-03) + var(--sp-05))}
   .topdock__inner > *{pointer-events:auto}
-  .mobmenu.open{display:flex;position:fixed;inset:0;z-index:60;background:#070304;flex-direction:column;justify-content:center;gap:8px;padding:28px}
-  .mobmenu a{color:#fff;text-decoration:none;font-family:var(--display);font-weight:400;font-size:clamp(28px,8vw,44px);letter-spacing:-.01em;padding:8px 0}
+  /*
+    overflow-y:auto : le menu porte desormais neuf entrees, deux filets et trois
+    boutons. Sur un telephone bas - ou avec une taille de police systeme
+    agrandie - le contenu peut depasser, et un panneau plein ecran qui deborde
+    sans defiler rend ses derniers liens inatteignables.
+  */
+  .mobmenu.open{display:flex;position:fixed;inset:0;z-index:60;background:#070304;flex-direction:column;justify-content:center;gap:4px;padding:28px;overflow-y:auto}
+  /*
+    `> a` et non `a` : les trois boutons de contact sont eux aussi des liens, et
+    la matrice display de la navigation n'a rien a leur faire. Ils gardent celle
+    de .btn3, comme dans le pied de page.
+  */
+  /*
+    .mobmenu__group > a AUSSI, ET C'EST LE COEUR DU CORRECTIF. Les trois liens
+    "Systematize a..." vivent depuis peu dans un .mobmenu__group (pour que le
+    filet se dimensionne sur eux) : ce sont donc des PETITS-ENFANTS de .mobmenu,
+    plus des enfants directs, et le combinateur `>` ne les atteint plus. Ils
+    retombaient sur `a{color:inherit}` du reset et le soulignement par defaut du
+    navigateur - visible dans le theme Mondrian, ou --ink est assez sombre pour
+    que la difference saute aux yeux, mais le defaut existait dans les trois.
+  */
+  .mobmenu > a,.mobmenu__group > a{color:#fff;text-decoration:none;font-family:var(--display);font-weight:400;font-size:clamp(14px,4vw,22px);letter-spacing:-.01em;padding:6px 0}
+  /* surtitre du groupe : meme matrice que les intitules de figures du site */
+  /*
+    Le filet doit s'arreter au bord de la plus longue ligne qu'il separe, pas
+    courir sur toute la largeur du panneau. `.mobmenu` etire ses enfants en
+    largeur par defaut (flex column, align-items normal = stretch) - c'est ce
+    qui donnait au filet les 100% du panneau. Le groupe casse cet etirement :
+    `width:max-content` le fait retomber sur la largeur intrinseque de son
+    enfant le plus large, calculee AVANT tout etirement. A l'interieur, un
+    nouveau contexte flex column restaure le stretch : chaque ligne, y compris
+    le filet en `width:100%`, s'aligne alors sur cette largeur - celle du plus
+    long intitule, pas celle de l'ecran.
+  */
+  .mobmenu__group{display:flex;flex-direction:column;width:max-content;max-width:100%}
+  .mobmenu__eyebrow{margin:18px 0 0;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .mobmenu__rule{width:100%;height:1px;margin:8px 0 10px;border:0;background:rgba(255,255,255,.18)}
+  /* empiles et non en ligne : a trois boutons dont un « Download CV », le
+     retour a la ligne tombait apres le deuxieme et laissait un rang orphelin */
+  .mobmenu__links{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
   .mobmenu__close{position:absolute;top:16px;left:16px;background:transparent;border:none;color:#fff;font-size:32px;line-height:1;cursor:pointer}
   .loader{position:fixed;inset:0;z-index:100;pointer-events:none}
   .loader__panel{position:absolute;inset:0;background:var(--hero-grad);z-index:1;transition:opacity .55s ease}
@@ -324,7 +396,20 @@ const workCourant = work.some((i) => i.key === current);
     suffit a marquer la page courante une fois le menu ouvert.
   */
   .navgroup__menu a[aria-current="page"]::before{content:none}
-  .mobmenu a[aria-current="page"]{color:var(--accent)}
+  .mobmenu > a[aria-current="page"],.mobmenu__group > a[aria-current="page"]{color:var(--accent)}
+  /*
+    EN MONO LA COULEUR NE PEUT PAS PORTER LA MARQUE DE POSITION. --accent y vaut
+    #232320 : sur le #070304 du panneau, 1,3:1 - du noir sur du noir. La page
+    courante etait donc signalee dans deux themes sur trois et pas dans le
+    troisieme, sans que rien ne le montre tant qu'on ne bascule pas.
+
+    Le soulignement plutot que la graisse : la fonte display du menu n'a qu'une
+    seule graisse, et lui en demander une deuxieme ferait fabriquer un faux gras
+    par le navigateur. C'est la meme raison qui interdit <b> dans les titres du
+    site.
+  */
+  [data-theme="mono"] .mobmenu > a[aria-current="page"],[data-theme="mono"] .mobmenu__group > a[aria-current="page"]{color:#fff;
+    text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
   @media(max-width:720px){
   .topnav{display:none}
   .hamb{display:flex}

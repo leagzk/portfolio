@@ -1,19 +1,2268 @@
 ---
 import Base from '../layouts/Base.astro';
-import PageIntro from '../components/PageIntro.astro';
+import '../styles/case-study.css';
 import Banner from '../components/Banner.astro';
+import PageIntro from '../components/PageIntro.astro';
+import ChapterTabs from '../components/ChapterTabs.astro';
+import Equations from '../components/Equations.astro';
+import ProofCards from '../components/ProofCards.astro';
+import Timeline from '../components/Timeline.astro';
+import Swatches from '../components/Swatches.astro';
+import Dots from '../components/Dots.astro';
+import ZoomBadge from '../components/ZoomBadge.astro';
+import type { Couleur } from '../components/Swatches.astro';
+import type { Carte } from '../components/ProofCards.astro';
+import { sommaire } from '../lib/chapitres';
+import { chercheurImages } from '../lib/images';
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+/* inline, contrairement aux personnages : ce dessin-la suit le theme via
+   currentColor, ce qu'un <img> ne permet pas. Voir l'en-tete du fichier. */
+import BrandCommunication from '../assets/brand-system/brand-communication.svg';
+import BrandVariation from '../assets/brand-system/brand-variation-visual.svg';
+/*
+  Les SVG de /brand-system sont charges en URL (`?url`) et poses en <img>, PAS
+  inlines comme ceux de l'accueil.
+
+  Inliner un SVG ne sert qu'a une chose ici : laisser currentColor descendre du
+  conteneur pour que le dessin suive le theme. Ces illustrations-la sont a plat
+  et gardent leurs propres aplats - aucune n'utilise currentColor - donc
+  l'inlining n'apporte rien.
+  Et il couterait cher : elles portent chacune un <style> interne avec des noms
+  generiques sortis d'Illustrator (.cls-1, .cls-2...). Sur les quinze fichiers,
+  28 de ces 33 classes sont definies DIFFEREMMENT d'un fichier a l'autre. Dans
+  un meme document, la derniere definition l'emporterait pour tout le monde et
+  les treize personnages sortiraient avec les couleurs du dernier inline.
+  En <img>, chaque SVG garde son propre document : aucune collision possible.
+*/
+const svg = import.meta.glob<string>('../assets/brand-system/*.svg', {
+  eager: true, import: 'default', query: '?url',
+});
+const dessin = (nom: string): string => {
+  const f = svg[`../assets/brand-system/${nom}.svg`];
+  if (!f) throw new Error(`SVG introuvable dans src/assets/brand-system : ${nom}.svg`);
+  return f;
+};
+
+/* les planches des deux concepts, resolues a la compilation : un nom errone
+   casse le build au lieu de produire un 404 silencieux */
+const planchesFichiers = import.meta.glob<ImageMetadata>('../assets/brand-system/*.webp', {
+  eager: true, import: 'default',
+});
+const img = chercheurImages(planchesFichiers, 'brand-system');
+
+/*
+  Les deux concepts du rebranding de 2020, poses cote a cote - c'est la
+  comparaison qui porte le propos, pas chaque planche prise seule. D'ou deux
+  colonnes et non une suite : on doit pouvoir passer de l'un a l'autre a hauteur
+  egale, surface par surface.
+
+  L'ordre des planches est le meme des deux cotes, et il n'est pas indifferent :
+  le deck d'abord (couverture, section, contenu), puis l'email et sa variation
+  de service, puis le social. On descend du support le plus institutionnel au
+  plus quotidien - et a chaque palier les deux colonnes montrent la MEME surface,
+  sans quoi la comparaison ne tiendrait pas.
+*/
+const planches = [
+  { nom: 'slide-cover',             legende: 'Cover slide' },
+  { nom: 'slide-section',           legende: 'Section slide' },
+  { nom: 'slide',                   legende: 'Content slide' },
+  { nom: 'email',                   legende: 'Email' },
+  { nom: 'email-service-variation', legende: 'Email, service variation' },
+  { nom: 'socialnetwork-picture',   legende: 'Social post' },
+  { nom: 'socialnetwork-icon',      legende: 'Social post variation' },
+];
+
+/*
+  Les quatre ecrans d'Elements en production, dans des cadres au format d'une
+  fenetre de navigateur (16/10) qui defilent d'eux-memes.
+
+  CE SONT DES PAGES ENTIERES, pas des captures d'ecran : 3000px de large pour
+  5 200 a 15 186 de haut - l'article fait 5,1 fois sa largeur. Les montrer
+  entieres les reduirait a une bande illisible ; les rogner reviendrait a n'en
+  montrer que l'en-tete. Le cadre qui defile est le seul dispositif qui rende ce
+  qu'elles sont : des pages qu'on parcourt.
+
+  LA VITESSE EST LA MEME POUR LES QUATRE. A duree fixe, l'article - huit
+  hauteurs de cadre - filerait trois fois plus vite que le search, qui n'en fait
+  que deux et demie : quatre animations sans rapport les unes avec les autres.
+  En derivant la duree de la distance reelle, les quatre defilent au meme rythme
+  et se lisent comme quatre fenetres d'un meme systeme.
+
+  ON NE SORT D'ICI QUE `--r`, LE RAPPORT DU FICHIER (hauteur / largeur), et rien
+  d'autre. La course et la duree se deduisent de `--r` ET du rapport du cadre,
+  qui n'est pas le meme dans la grille et dans la loupe - et qui change encore
+  entre un telephone et un ecran large. Les calculer ici obligerait a en figer
+  un ; le CSS, lui, connait le cadre sous lequel il s'applique. Voir
+  .sb-screen__cadre pour la formule.
+*/
+const ecrans = [
+  { nom: 'elements-article',   legende: 'Article page', alt: 'An article page of a Sanofi product built on Elements' },
+  { nom: 'elements-events',    legende: 'Event page',  alt: 'An events listing built on Elements' },
+  { nom: 'elements-search',    legende: 'Search results', alt: 'A search results page built on Elements' },
+  { nom: 'elements-videogrid', legende: 'Video grid', alt: 'A video grid built on Elements' },
+].map((e) => {
+  const src = img(e.nom);
+  return { ...e, src, r: +(src.height / src.width).toFixed(4) };
+});
+
+/*
+  Les trois pistes du chapitre 07 - la traduction digitale de la marque de 2022.
+  Elles n'ont ni statut ni planche, contrairement aux deux concepts du 06 : on
+  est ici sur ce qui a ete EXPLORE, pas sur ce qui a ete arbitre. D'ou trois
+  colonnes de texte seul, dans la meme grammaire que les autres concepts -
+  surtitre, nom, propos - pour qu'on les reconnaisse au premier coup d'oeil comme
+  des objets de meme nature.
+*/
+
+
+/*
+  La discovery du chapitre 07, en deux temps : ce qui contraignait, puis ce qui
+  a ete explore. Deux blocs intitules l'un sous l'autre plutot que deux colonnes
+  cote a cote - trois planches d'un cote et cinq de l'autre auraient donne deux
+  colonnes de hauteurs tres inegales, et surtout des vignettes deux fois plus
+  petites pour un contenu qui demande a etre regarde.
+
+  Toutes les planches ont la meme taille. Le moodboard a eu un temps un statut
+  a part, etale sur toute la largeur parce qu'il est le plus dense ; il l'a perdu
+  en passant au carrousel, ou une vignette plus large serait aussi plus haute et
+  romprait l'alignement du rang. Dans une serie qu'on parcourt, l'egalite des
+  tuiles vaut mieux qu'une hierarchie.
+*/
+/*
+  Les quatre planches du chapitre 05 : la carte des capacites et les trois jeux
+  d'iconographie qui en decoulent.
+
+  Elles se posent SOUS le nuancier parce qu'elles en sont la suite : la couleur
+  seule ne fait pas une identite de capacite, c'est son appariement a une
+  iconographie qui la rend reconnaissable. Les separer d'un ecran aurait fait
+  lire deux inventaires la ou il n'y a qu'une demonstration.
+
+  Meme dispositif que les series de la discovery - rail, pastilles, cartes
+  cliquables : ce sont les memes objets, des planches de travail trop denses pour
+  se lire a 340px.
+*/
+const appariements = [
+  { nom: 'its-capability-map', legende: 'Capability map',
+    alt: 'Map of the IT business capabilities and the colour assigned to each' },
+  { nom: 'its-iconography-research-development', legende: 'Research & Development',
+    alt: 'Iconography set built for the Research and Development capability' },
+  { nom: 'its-iconography-medical-regulatory', legende: 'Medical & Regulatory',
+    alt: 'Iconography set built for the Medical and Regulatory capability' },
+  { nom: 'its-iconography-business-units', legende: 'Business Units',
+    alt: 'Iconography set built for the Business Units capability' },
+].map((pl) => {
+  const src = img(pl.nom);
+  /*
+    LE CONTENEUR PREND LE RAPPORT DU FICHIER, ce n'est pas l'image qui prend
+    celui du conteneur. .sb-planche impose un 16/9 en `cover` a ses planches -
+    juste pour la discovery, dont les fichiers sont natifs en 16/9 - mais ces
+    quatre-ci font 1,42 : vingt pour cent partaient en haut et en bas, soit
+    exactement le liseré bleu qui encadre chaque planche. Le rapport se lit dans
+    le fichier a la compilation, donc un re-export au format different se recale
+    tout seul.
+  */
+  return { ...pl, src, ar: `${src.width} / ${src.height}` };
+});
+
+/*
+  Les quatre livrables sortis du travail avec les directions, en tas deplacable.
+
+  ELLES NE S'AGRANDISSENT PAS, et c'est voulu : ce ne sont pas des planches a
+  examiner mais des PREUVES QU'ON MANIPULE - le rapport qu'un directeur a eu
+  entre les mains. Le geste dit ce que le paragraphe raconte, une identite qui
+  passe par l'agenda de chacun ; une loupe en aurait fait un inventaire de plus.
+
+  --x/--y/--rot sont poses en CSS et non en attribut style : sous 720px le
+  glisser est coupe et le tas devient un rail, ou la position absolue doit
+  disparaitre. En inline, elle aurait gagne contre la requete media.
+
+  LA SCENE EST CE QUI BORNE LE GLISSER. rendreDeplacable() contraint chaque carte
+  a son parent : un groupe = une scene, donc une piece ne peut jamais atterrir
+  chez le voisin. C'est aussi ce qui permet a l'intitule de tenir - il est pose
+  sur la premiere carte du groupe, qui ne peut s'eloigner que de la largeur de sa
+  propre scene.
+
+  LA NEWSLETTER PORTE `defile` ET UN RAPPORT. C'est une page entiere - 1800 de
+  large pour 13 582 de haut - la ou les rapports sont des documents cadres. Elle
+  passe donc dans un cadre qui defile, comme les ecrans d'Elements, avec la meme
+  formule : --k vaut --r x --fr, et la duree en decoule pour que la vitesse soit
+  celle du reste de la page. Son cadre reprend le rapport des cartes voisines,
+  0,71, pour que les trois se lisent comme une meme famille.
+*/
+const groupes = [
+  {
+    pieces: [
+      { nom: 'rd-report-cover-q4-2020', x: '0%', y: '0px', rot: '-3.5deg',
+        legende: 'ITS R&D Quarterly Report',
+        alt: 'Cover of the ITS R&D quarterly report carrying the platform' },
+      { nom: 'rd-report-summary-view', x: '42%', y: '34px', rot: '2.5deg',
+        alt: 'Summary spread of the ITS R&D quarterly report carrying the platform' },
+    ],
+  },
+  {
+    pieces: [
+      { nom: 'digital-rd-newsletter', x: '20%', y: '16px', rot: '2deg', defile: true,
+        legende: 'ITS R&D Newsletter',
+        alt: 'The ITS R&D newsletter sent to the department' },
+    ],
+  },
+].map((g) => ({
+  ...g,
+  pieces: g.pieces.map((pc) => {
+    const src = img(pc.nom);
+    return { ...pc, src, r: +(src.height / src.width).toFixed(4) };
+  }),
+}));
+
+const discovery = [
+  { id: 'sbconstraints', label: 'Sample of corporate constraints', planches: [
+    { nom: 'sanofi-brandbook-color-palette', legende: 'Colour palette',
+      alt: 'Colour palette pages from the Sanofi brand book' },
+    { nom: 'sanofi-brandbook-logotype', legende: 'Logotype',
+      alt: 'Logotype pages from the Sanofi brand book' },
+    { nom: 'sanofi-brandbook-photography', legende: 'Photography',
+      alt: 'Photography direction pages from the Sanofi brand book' },
+  ] },
+  { id: 'sbdiscovery', label: 'Product Design Discovery Extract', planches: [
+    { nom: 'moodboard-notes-summary', legende: 'Moodboard notes',
+      alt: 'Summary board of the notes gathered during the product design discovery' },
+    { nom: 'competitors-findings-synthesis', legende: 'Competitors findings',
+      alt: 'Synthesis of the competitor findings gathered during the product design discovery' },
+    { nom: 'color-system-references', legende: 'Colour scale',
+      alt: 'Colour scale references gathered during the product design discovery' },
+    { nom: 'prism-art-deco-revival', legende: 'Art deco revival',
+      alt: 'Art deco revival prism explored during the discovery' },
+    { nom: 'prism-people-matter', legende: 'People matter',
+      alt: 'People matter prism explored during the discovery' },
+    { nom: 'prism-perspective', legende: 'Perspective',
+      alt: 'Perspective prism explored during the discovery' },
+    { nom: 'prism-scientific', legende: 'Scientific',
+      alt: 'Scientific prism explored during the discovery' },
+  ] },
+];
+
+const pistes = [
+  { rang: '01', nom: 'Clinical Revival', visuel: 'visual-design-concept-1',
+    alt: 'Full page mockup of the Clinical Revival concept',
+    texte: 'Reinventing conventional Pharma standards through flexible but structured layouts to inspire trust, simplicity and focus, avoiding the unnecessary.' },
+  { rang: '02', nom: 'Pharma-zine', visuel: 'visual-design-concept-2',
+    alt: 'Full page mockup of the Pharma-zine concept',
+    texte: "Pushing the boundaries of traditional Pharma branding by adopting magazines' graphical conventions to create a bold and dynamic content-driven storytelling." },
+  { rang: '03', nom: 'Connecting the Dot', visuel: 'visual-design-concept-3',
+    alt: 'Full page mockup of the Connecting the Dot concept',
+    texte: 'Embracing the playfulness of the Sanofi dot story through motion design to maximize the recognition of the brand and propose a unique experience.' },
+/*
+  Les trois maquettes sont des PAGES ENTIERES, comme les ecrans d'Elements :
+  1688 de large pour 3101 a 5624 de haut. Elles reprennent donc le meme cadre,
+  le meme --r et la meme vitesse - un troisieme dispositif pour le meme genre
+  d'objet aurait fait lire trois series sans rapport la ou il n'y en a qu'une.
+*/
+].map((t) => {
+  const src = img(t.visuel);
+  return { ...t, src, r: +(src.height / src.width).toFixed(4) };
+});
+
+const concepts = [
+  { rang: '01', nom: 'Evolution', statut: 'retained', retenu: true,
+    texte: 'The existing, made simple and fresh. Same equity, less weight - nothing to relearn, and a migration path already half-built.' },
+  { rang: '02', nom: 'Reinterpreted', statut: 'not retained', retenu: false,
+    texte: 'Bold, screen-first, and the one I argued for: a function shipping products should look like one.' },
+];
+
+/*
+  Les chapitres, en un seul endroit : ils alimentent les onglets flottants
+  (<ChapterTabs>) et les surtitres de section. Meme convention que les deux
+  autres case studies - le numero vient du RANG et n'est ecrit nulle part, donc
+  reordonner la liste renumerote la page entiere.
+
+  La suite est calquee sur celle d'Elements - les resultats ouvrent, le tournant
+  ferme - parce que les deux pages racontent le meme geste a cinq ans d'ecart.
+  C'est la rime qui porte le propos : on doit pouvoir passer de l'une a l'autre
+  sans changer de grille de lecture.
+
+  `onglet` est ecrit pour tous, meme quand il repete le titre : le surtitre est
+  une phrase de section et garde son article - « 02 - The problem » -, l'onglet
+  est une etiquette de sommaire et n'en a pas.
+*/
+const chapitres = [
+  { id: 'ch-results',  titre: 'The results',        onglet: 'Results' },
+  { id: 'ch-problem',  titre: 'The problem',        onglet: 'Problem' },
+  { id: 'ch-solution', titre: 'The solution',       onglet: 'Solution' },
+  { id: 'ch-adoption', titre: 'The adoption',       onglet: 'Adoption' },
+  { id: 'ch-ops',      titre: 'The operations',     onglet: 'Operations' },
+  { id: 'ch-version',  titre: 'The version change', onglet: 'Version change' },
+  { id: 'ch-turn',     titre: 'The turning point',  onglet: 'Turning point' },
+];
+const { surtitre: chap } = sommaire(chapitres);
+
+/*
+  Les quatre resultats du chapitre 01, dans le dispositif d'Elements : cartes
+  manipulables au-dela de 1024px, rail a snap en dessous.
+
+  Trois chiffres et une affirmation, comme la serie du chapitre 07 d'Elements -
+  la quatrieme carte ferme sur ce que les trois autres rendent possible, et une
+  affirmation ne se chiffre pas.
+
+  L'ordre est un crescendo d'echelle : les gens, puis ce qu'ils ont produit,
+  puis l'evenement, puis le standard. Theia® ne tient plus sa propre carte - elle
+  est devenue la CHUTE de celle de Captivate, ou elle porte plus : un hackathon
+  qui donne 6 000 participants est une audience, un hackathon dont une idee
+  arrive en production est un resultat.
+  Les poses reprennent celles des resultats d'Elements : meme dispositif, meme
+  jeu, la parente doit se voir avant qu'on lise.
+*/
+const resultats: Carte[] = [
+  { pose: 'left:0%;top:8px;--rot:-3deg',
+    chiffre: '2,500', titre: 'people shipping on-brand',
+    detail: 'From COMEX to front-line, with no bottleneck in the middle - because the system lived in the tools they already had open, not only in the ones designers use.' },
+  { pose: 'left:26%;top:96px;--rot:2deg', ton: 'red',
+    chiffre: '200+', titre: 'campaigns and internal events',
+    detail: 'All of them ran on the system - libraries, templates, kits, production line. Not a showcase. The default way things shipped.' },
+  { pose: 'left:52%;top:0px;--rot:-1.5deg', ton: 'ink',
+    chiffre: '6,000', titre: 'participants reached',
+    detail: "Captivate, Sanofi's first internal hackathons, ran on the platform. One idea from it shipped for real: Theia\u00ae, a mobile app for patients living with sight loss." },
+  /*
+    Sans `chiffre`, donc rendue en `--say` par <ProofCards> : c'est la phrase qui
+    prend le corps que le nombre occupait. Elle porte deja ses deux « One » - un
+    « 1 » pose au-dessus les redirait une troisieme fois.
+    Le detail reste court expres : le benchmark, l'audit et ce que le pilote a
+    appris sont racontes en entier au chapitre 07. Ici on annonce, on ne raconte
+    pas - une carte qui dit tout retire au chapitre sa raison d'exister.
+  */
+  { pose: 'left:74%;top:80px;--rot:3deg',
+    titre: 'One standard, One pilot',
+    detail: 'The 2022 rebrand, translated for screens and piloted on sanofi.com.' },
+];
+
+/*
+  Les quatre paliers du chapitre 07, dans le <Timeline> d'Elements - la meme
+  chaine que ses sept produits, posee sur le bloc sombre.
+
+  Le `pivot` est le verbe, et c'est LUI le propos : il bascule a chaque palier
+  et c'est le seul mot qui change de couleur. Il est donne a part parce que
+  l'intitule est rendu en texte, jamais en HTML.
+
+  LES QUATRE VERBES DOIVENT DIFFERER. Le pivot marque ce qui CHANGE d'un palier
+  au suivant ; deux fois le meme dit qu'il ne s'est rien passe entre les deux.
+  Le 2023 disait « became » comme le 2022 - il dit desormais « grew », le seul
+  des quatre a porter l'echelle plutot que la substitution, et c'est bien de ca
+  qu'il s'agit : 45+ produits. Au passage il rime avec la ligne qui porte tout
+  le portfolio - « Experience systems grow culture ».
+*/
+const paliers = [
+  { repere: '2018', intitule: 'communication was the system', pivot: 'was' },
+  { repere: '2020', intitule: 'the system outlived its own identity', pivot: 'outlived' },
+  { repere: '2022', intitule: 'the brand became the system', pivot: 'became' },
+  { repere: '2023', intitule: 'the system grew into the method', pivot: 'grew' },
+];
+
+/*
+  Le specimen du chapitre 03 - ce que la plateforme de marque a produit, montre
+  plutot que decrit. Meme dispositif que l'identite du Living System : des blocs
+  intitules, cote a cote.
+
+  DEUX TABLEAUX ENCORE VIDES. Les personnages arrivent en SVG - inline, mais
+  SANS currentColor : ce sont des illustrations a plat, elles gardent leurs
+  propres aplats et ne suivent donc pas le theme, contrairement aux vignettes de
+  l'accueil ou aux formes du Living System. La palette des capabilities suit.
+  Tant qu'ils sont vides, les deux groupes n'affichent que leur intitule : c'est
+  un emplacement, pas un rendu final.
+*/
+const personnages = [
+  { fichier: 'research',         metier: 'R&D' },
+  { fichier: 'development',      metier: 'Development' },
+  { fichier: 'medical',          metier: 'Medical & Regulatory' },
+  { fichier: 'manufatcuring',    metier: 'Manufacturing' },
+  { fichier: 'supplychain',      metier: 'Supply Chain' },
+  { fichier: 'salesmarketing',   metier: 'Sales & Marketing' },
+  { fichier: 'compliance',       metier: 'Compliance' },
+  { fichier: 'supportfunction',  metier: 'Support Functions' },
+  { fichier: 'IT',               metier: 'IT' },
+  { fichier: 'businessareas',    metier: 'Business Areas' },
+  { fichier: 'patients',         metier: 'Patients' },
+  { fichier: 'physicians',       metier: 'Physicians' },
+  { fichier: 'healthauthorirties', metier: 'Health Authorities' },
+];
+
+/*
+  Dix capabilities, dix couleurs - et treize personnages : les trois derniers
+  (patients, physicians, health authorities) sont les interlocuteurs de la
+  fonction, pas des capabilities. Ils ont un visage, pas une couleur.
+*/
+const capacites: Couleur[] = [
+  { nom: 'R&D',                  hex: '#456730' },
+  { nom: 'Development',          hex: '#7EB066' },
+  { nom: 'Medical & Regulatory', hex: '#0CAC95' },
+  { nom: 'Manufacturing',        hex: '#CA5F51' },
+  { nom: 'Supply Chain',         hex: '#FAA429' },
+  { nom: 'Sales & Marketing',    hex: '#EBDC2E' },
+  { nom: 'Compliance',           hex: '#7A5FA1' },
+  { nom: 'Support Functions',    hex: '#0594D0' },
+  { nom: 'IT',                   hex: '#2F4F9D' },
+  { nom: 'Business Areas',       hex: '#CCA878' },
+];
+
+/*
+  Les quatre pratiques de l'ecran 05. Terme = suite : le renversement est le
+  sujet - ce qui a change n'est pas l'outil, c'est qu'il n'y en ait plus qu'une
+  facon de s'en servir. D'ou le bandeau plutot qu'une liste, comme sur Elements
+  et /operating-system.
+
+  A quatre, <Equations> passe de lui-meme en 2x2 : ces notes-ci sont de la prose
+  et non des legendes, elles ne tiendraient pas dans une colonne sur quatre.
+  L'ordre porte le « each one feeds the next » de l'entete - le rituel fait
+  remonter le besoin, le calendrier l'arbitre, le plan le met en forme, la
+  mesure dit ce qu'il a donne, et ca repart dans le rituel suivant.
+*/
+const artefacts = [
+  { terme: 'Rituals', suite: 'three directions, one practice.',
+    note: 'Inward, a design review where my work-study students and everyone with hands in the system showed the work and had it challenged. Across the team, a standing alignment between contact points - each of us owned a business, none of us should advance blind to the others. Outward, a recurring conversation with my perimeters, where needs surfaced early enough to be planned instead of absorbed.', chute: 'Craft, cohesion, demand.' },
+  { terme: 'Editorial calendar', suite: 'run like a roadmap.',
+    note: 'Because it was one. Needs centralized from every digital entity, arbitrated together, locked for the quarter, reviewed at the next - so what shipped stayed on point instead of drifting toward whoever asked loudest. What came next stopped being a personal habit.', chute: 'It became a commitment made with the people it bound.' },
+  { terme: 'Communication plans', suite: 'nobody starts from a blank page.',
+    note: 'One standard format, structure already decided, so the time went into the content that carried value instead of the shape holding it. Same artefact in both rooms - the one we worked from, the one we brought to the IT leadership board. And it spread past my team without anyone mandating it, which meant any plan could be read by anyone.', chute: 'A shared format is one nobody has to explain.' },
+  { terme: 'Campaign metrics', suite: 'produced by default.',
+    note: "Engagement rate, open rate, reach, on dashboards that filled themselves rather than waiting to be asked. The dashboard is the easy part. What makes numbers mean anything is the engineering under them: one collection method, one reporting frequency, one reading grid, cycle after cycle.", chute: "Standardize how you measure, or you're not comparing campaigns - you're comparing methods." },
+];
 ---
-<Base title="Systematized a Brand - Léa Giezek"
-  description="Case study in preparation: turning a brand into a system its teams can actually run."
+<Base title="Foundations - Léa Giezek"
+  description="At 2,500 people a brand isn't a charter, it's a language. Building Sanofi IT's brand platform, then the digital standard its rebrand landed on - where Elements starts."
   current="system-brand" noindex>
 
+<!-- ═══ 00 · HOOK ═══ -->
   <div class="card">
-    <Banner>
-      <p class="banner__standards">Systematized a Brand</p>
+    <Banner home>
+      <p class="banner__standards">At 2,500 people, a brand isn't a charter, it's a language.</p>
+      {/*
+        L'echelle se REGLE, elle ne se recopie pas : les six bannieres du site
+        visent la meme largeur rendue - le mot occupe presque tout le cadre sans
+        l'atteindre - et chacune y arrive avec sa propre valeur, parce que huit
+        signes ne font pas la meme largeur selon lesquels. « Surfaces » tient a
+        23,7cqw la ou « Language », a signes egaux, en demande 21,3.
+        Mesure a 1030px de banniere : 1017px, dans la plage des cinq autres
+        (1012 a 1025).
+
+        POUR REMESURER, NE PAS SE FIER A scrollWidth. Le filigrane est ferre a
+        droite dans une boite pleine largeur : il deborde donc vers la GAUCHE, et
+        scrollWidth ne compte que le debordement vers la droite - il rend la
+        largeur de la boite, pas celle du mot, quelle que soit l'echelle. Passer
+        par une sonde sans ferrage (position:absolute, white-space:nowrap) posee
+        DANS .banner, pour que les cqw se resolvent sur le bon conteneur.
+      */}
+      <span class="banner__culture" style="--culture-size:21.3cqw" aria-hidden="true">Language</span>
     </Banner>
-    <PageIntro eyebrow="Systematized a Brand">
-      <p class="p-intro__lead" lang="fr">Page en cours de rédaction.</p>
+
+    <PageIntro eyebrow="Sanofi IT brand platform & Product Design Foundations">
+      {/*
+        « its people » et non « 2,500 people ». Le chiffre est ecrit DEUX fois
+        sur toute la page, et pas une de plus : le titre juste au-dessus, ou il
+        pose l'echelle dont depend l'argument, et la premiere carte du chapitre
+        01, ou il est la preuve. Partout ailleurs on le dit sans le chiffrer.
+        Il en a compte jusqu'a cinq : passe deux ou trois poses, un nombre cesse
+        d'etre un ordre de grandeur et devient un tic - on l'enjambe a la
+        lecture, et il ne pese plus la ou il devait peser.
+      */}
+      <p class="p-intro__lead">At Sanofi, I built <b>IT's brand platform</b> to make an invisible function legible - then handed its people the language to talk about it themselves. Positioning, territory, personality, tone of voice, and the <b>production system</b> that carried all four into the hands of people who had never opened a design tool.</p>
+
+      <p class="p-intro__lead">Then in 2022 the company unified every internal identity, and I took the part nobody had defined: what that brand becomes on a screen. Starting in 2018 as <b>Digital Communication Service Owner</b>, running the platform end to end - brand, communication, production - then <b>Product Design Lead</b> from 2021, when Sanofi created its Consumer Experience team.</p>
     </PageIntro>
   </div>
 
+  <ChapterTabs chapitres={chapitres} />
+
+<!-- ═══ 01 · THE RESULTS — la preuve avant l'argument, comme sur l'ancre ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-results">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>{chap('ch-results')}</span></p>
+      <h2 class="ls-title" id="ch-results">A brand only counts when people use it without asking.</h2>
+      {/*
+        La reponse au titre, remontee du corps : c'est la relance du chapitre,
+        pas un paragraphe parmi trois - meme place que sur les deux autres.
+
+        « They » et non « 2,500 » : l'antecedent est le mot `people` du titre
+        juste au-dessus, donc la phrase se tient seule, et le chiffre est rendu
+        a la carte qui arrive deux paragraphes plus bas - c'est elle qui doit le
+        porter, une carte chiffree n'a que ca a dire.
+      */}
+      <p class="ls-lede">They did - and the proof is what they made with it, <b>not what I drew.</b></p>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>The platform was never judged on how it looked. It was judged on whether people reached for the tools instead of improvising around them.</p>
+    </div>
+
+    {/*
+      La note ne ferme plus le chapitre, elle l'amorce : posee AVANT les cartes,
+      elle dit ce qui compte comme resultat, et les quatre cartes le livrent.
+      Apres, elle commentait une serie deja lue - donc elle arrivait trop tard
+      pour changer la facon de la lire.
+    */}
+    <p class="ls-note">Adopted without being enforced - and re-adopted when the identity underneath it changed. That's the only result a brand platform can claim.</p>
+
+    {/* depart 1 comme les resultats d'Elements : la deuxieme carte est au centre
+        du jeu, et c'est celle qu'on veut voir en premier sur un rail */}
+    <ProofCards id="fdresults" cartes={resultats} label="Results" itemLabel="Result" depart={1} />
+  </section>
+
+<!-- ═══ 02 · THE PROBLEM ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-problem">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>{chap('ch-problem')}</span></p>
+      <h2 class="ls-title" id="ch-problem">IT wasn't a support function. It was a <em class="sb-em">business driver</em> - and nobody outside IT could see it.</h2>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>That was the brief, and it wasn't a branding one. Sanofi needed its IT to weigh more across the value chain, and the obstacle was perception: everyone treated as a service desk what was actually driving business value. Its role went unexplained, its image was dated, and its communication was scattered across the whole function, every team improvising the brand.</p>
+      <p>And illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - shadow IT, the tax an organisation pays for a function it can't read. A brand doesn't solve that on its own. Nothing solves it without one.</p>
+      {/* la note de fin de chapitre ferme desormais ce paragraphe. En aparte
+          italique sous lui, elle commentait un raisonnement deja clos ; a la
+          suite, elle en est la conclusion - « deux problemes » appelle
+          directement l'ordre dans lequel on les prend. */}
+      <p>A logo doesn't move that. Perception doesn't shift because the assets got prettier - it shifts when the function becomes legible, and when everyone inside it can say the same thing about what it does. <b>That's two problems, and solving one without the other solves nothing.</b> Understand first, systematize second. The move started here.</p>
+    </div>
+  </section>
+
+<!-- ═══ 03 · THE SOLUTION ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-solution">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>{chap('ch-solution')}</span></p>
+      <h2 class="ls-title" id="ch-solution">You can't templatize what nobody understands yet.</h2>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>Before a single template, I did the harder work: <b>classifying and vulgarizing what IT actually did</b> - naming its place in the value chain in words a manufacturing lead or a medical rep could use, then translating it graphically so it could be <em>seen</em>, not just read.</p>
+      {/* VISUEL 1 - l'artefact de vulgarisation : la place de l'IT dans la chaine
+          de valeur, tel que produit a l'epoque. Le seul visuel de la page qui
+          porte un argument ; il remplace toute demonstration ecrite du propos
+          ci-dessus. */}
+      <p>That understanding is what a brand platform is built on, and I built the whole one: <b>positioning, territory, personality, tone of voice</b> - what IT stood for, and how it was allowed to sound. Not decoration laid over the function. The argument for it, made explicit.</p>
+      <p>And none of it was built off to the side. The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.</p>
+    </div>
+
+    {/* toujours pas de <br> - voir .sb-duo dans le <style> : la cesure vient de
+        la mise en page, mais elle ne peut plus tomber au milieu d'une phrase. */}
+    <p class="ls-claim sb-duo"><span>The Sanofi brand was the constraint.</span><b>The IT world was the playground.</b></p>
+
+    <div class="sb-system">
+      <div class="ls-system__block">
+        <p class="ls-system__label">Lively flat design characters</p>
+        <ul class="sb-cast" id="sbcast" aria-label="The illustrated cast, one per business capability">
+          {personnages.map((p) => (
+            /* alt vide : le metier est deja ecrit juste dessous, en texte. Le
+               repeter dans l'alt le ferait annoncer deux fois de suite. */
+            <li><img src={dessin(p.fichier)} alt="" loading="lazy" decoding="async" /><b>{p.metier}</b></li>
+          ))}
+        </ul>
+        <Dots id="sbcastdots" count={personnages.length} label="Business capabilities" itemLabel="Capability" />
+      </div>
+      <Swatches label="One color per business capability" couleurs={capacites} rail id="sbcolors" />
+
+      <div class="ls-system__block">
+        <p class="ls-system__label">Sample of visual strategy pairing</p>
+        <ul class="sb-planches" id="sbpairing">
+          {appariements.map((pl) => (
+            <li>
+              <figure class="ls-fig sb-planche sb-planche--entier ls-reveal"
+                style={`--ar:${pl.ar}`}>
+                <button type="button" class="sb-zoom" data-loupe="image"
+                  aria-label={`Enlarge ${pl.legende}`} data-legende={pl.legende}>
+                  <Image src={pl.src} alt={pl.alt} layout="constrained"
+                    sizes="(min-width: 900px) 340px, 74vw"
+                    loading="lazy" decoding="async" />
+                  <ZoomBadge />
+                </button>
+                <figcaption class="ls-cap">{pl.legende}</figcaption>
+              </figure>
+            </li>
+          ))}
+        </ul>
+        <Dots id="sbpairingdots" count={appariements.length} label="Visual strategy pairing" itemLabel="Board" />
+      </div>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>Then the system that carried it: a colour architecture that scaled across entities, a visual language with its own rules of composition, and each digital entity given its own personality - matched to the business it served, and unmistakably Sanofi.</p>
+      <p>None of which is worth anything until someone can pick it up. So the production line: <b>shared libraries on Creative Cloud</b>, where every asset lived once and updated everywhere at once - social, Microsoft suite, illustration kits, newsletters typed by objective rather than by sender. <b>A template per intent, not per person.</b></p>
+      <p>All of it built and systematized in the Adobe suite, for the people whose job is craft - then translated into the tools everyone else opens every morning. <b>PowerPoint included, yes sir.</b></p>
+    </div>
+
+    {/* VISUEL 2 - planche des artefacts reels : librairies, templates social,
+        suite Microsoft, kits d'illustration, versions de newsletter. Porte
+        l'enumeration a la place du texte.
+        Legende : « A template per intent, not per person. » */}
+
+  </section>
+
+<!-- ═══ 04 · THE ADOPTION — l'antagoniste du recit ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-adoption">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>{chap('ch-adoption')}</span></p>
+      <h2 class="ls-title" id="ch-adoption">Nobody asks for <b>an umbrella</b>. They ask for their own logo.</h2>
+    </div>
+
+    {/*
+      LE TEXTE EST COUPE EN DEUX, et c'est la seule facon d'obtenir les deux
+      ordres demandes sans ecrire le contenu deux fois. Au bureau les images sont
+      une colonne a gauche des trois paragraphes ; en mobile elles doivent
+      s'intercaler APRES le deuxieme. Un seul conteneur de texte ne peut pas se
+      faire traverser, donc la grille recoit trois zones - texte-a, images,
+      texte-b - et se contente de les replacer.
+
+      Le rythme entre le deuxieme et le troisieme paragraphe est alors a
+      retablir a la main : `.ls-body p + p` ne franchit pas la coupure.
+    */}
+    <div class="sb-terrain">
+      <div class="ls-body sb-terrain__a">
+        <p>Until then, everyone had done what they wanted. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like. <b>Consolidation reads as a loss long before it reads as a gain.</b> That was the real obstacle, and it wasn't a design problem.</p>
+        <p>So I started where the decisions were made. Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.</p>
+      </div>
+
+      <div class="sb-colonne">
+        <ul class="sb-pieces ls-reveal" id="sbpieces">
+          {groupes.map((g) => (
+            <li class="sb-groupe">
+              <div class="sb-groupe__scene">
+                {g.pieces.map((pc) => (
+                  <figure class="sb-piece" style={`--x:${pc.x};--y:${pc.y};--rot:${pc.rot}`}>
+                    {pc.defile ? (
+                      <span class="sb-piece__cadre" style={`--r:${pc.r}`}>
+                        <Image src={pc.src} alt={pc.alt} layout="constrained"
+                          widths={[400, 800, 1200]}
+                          sizes="(min-width:1025px) 160px, (min-width:721px) 15vw, 44vw"
+                          loading="lazy" decoding="async" />
+                      </span>
+                    ) : (
+                      <Image src={pc.src} alt={pc.alt} layout="constrained"
+                        sizes="(min-width:1025px) 160px, (min-width:721px) 15vw, 44vw"
+                        loading="lazy" decoding="async" />
+                    )}
+                    {pc.legende && <figcaption class="ls-cap">{pc.legende}</figcaption>}
+                  </figure>
+                ))}
+              </div>
+            </li>
+          ))}
+        </ul>
+        <Dots id="sbpiecesdots" count={groupes.flatMap((g) => g.pieces).length}
+          label="Deliverables" itemLabel="Deliverable" />
+      </div>
+
+      <div class="ls-body sb-terrain__b">
+        <p>And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. <b>Change management doesn't run beside the strategy. It rides it.</b></p>
+      </div>
+    </div>
+
+    <p class="ls-sub">Selling it was the start.<br><b>Staying in the room was the job.</b></p>
+
+    <div class="ls-body ls-body--wide">
+      <p>Each of us was the point of contact for a given department - mine were Vaccines, R&amp;D and Medical - not as a gate, as a catalyst: training teams, surfacing what they were missing, and adjusting the system against what came back. Leadership's messages and the front-line's assets pulled from the same platform, instead of two versions of the same story.</p>
+    </div>
+
+    {/*
+      Le dessin a GAUCHE du texte, dans le dispositif du bloc gouvernance de
+      l'accueil : un aplat rond porte par le conteneur, le trait en --accent qui
+      deborde, et sous 640px le rond passe en filigrane DERRIERE le texte au lieu
+      de le pousser vers le bas.
+    */}
+    <div class="sb-taught">
+      <div class="sb-taught__viz"><div class="sb-taught__visual" aria-hidden="true"><BrandCommunication /></div></div>
+      <div class="sb-taught__body ls-body">
+        <p>And a brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. <b>Guides on the intranet</b>, for the person who needs it at 9pm. <b>Short videos</b>, for what you'd rather be shown than read. And the live formats for what needs a room: <b>sharing sessions</b> where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.</p>
+      </div>
+    </div>
+
+    {/* VISUEL 3 - les trois vitesses en trois colonnes : async / video / live.
+        La forme porte le propos, le texte peut encore maigrir si le module est
+        assez clair. */}
+
+    <div class="ls-body ls-body--wide">
+      {/* descendu du registre display au corps, puis fondu dans le paragraphe
+          qui precede : le dispositif et ce qu'il exigeait se racontent d'un
+          trait. C'est « Not a charter people obey » qui porte la chute du
+          chapitre, juste apres. */}
+      <p>Same content, three ways in. <b>Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.</b> Contribution and continuous improvement weren't policies. <b>They were the only way a shared identity survives contact with fifteen roadmaps.</b></p>
+    </div>
+
+    {/*
+      La chute du chapitre, montee de .ls-note au registre display : elle etait
+      en aparte italique sous la claim, donc lue apres coup et a voix basse -
+      alors que c'est elle qui referme l'adoption, et elle seule qui repond au
+      titre de la page (« a brand isn't a charter, it's a language »). Cet echo
+      ne peut pas tenir dans une legende.
+    */}
+    {/* .sb-duo, comme la claim du 03 : une phrase par ligne, et la cesure ne
+        peut pas tomber au milieu de l'une des deux. Le renversement se lit de
+        part et d'autre du retour - « pas ceci » / « mais cela ». */}
+    <p class="ls-claim sb-duo"><span>Not a charter people obey.</span><b>A language people use.</b></p>
+  </section>
+
+<!-- ═══ 05 · THE OPERATIONS ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-ops">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>{chap('ch-ops')}</span></p>
+      <h2 class="ls-title" id="ch-ops">I didn't just standardize the assets. I standardized <b>the practice</b>.</h2>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      <p>The tools made people autonomous. But autonomy without a shared practice just scatters faster - so I standardized how the communication team itself worked.</p>
+    </div>
+
+    {/* pas de respiration dans le slot ici : l'entete porte deja le « each one
+        feeds the next », et une phrase de plus avant les quatre volets
+        retarderait ce qu'elle annonce. */}
+    <Equations entete="Four things, one way of running each - and each one feeds the next." volets={artefacts}>
+      <BrandVariation slot="decor" />
+    </Equations>
+
+    <div class="ls-body ls-body--wide">
+      <p>Numbers only cover what they can see. So every quarter we ran a qualitative survey on the rest - starting with whether the sessions and the webinars had been worth the time people gave them.</p>
+      <p>That changed the job. When the signal arrives on its own, a communication team stops defending its choices and starts adjusting them - and what it learns goes back into the next ritual, and the next quarter's calendar. <em>Measured while it ran - not after the fact.</em></p>
+      <p>And I built the autonomy into people, not just process: I mentored two work-study students and levelled up colleagues until they could run the system themselves. Self-service isn't a portal - it's the day nobody needs to ask you. <b>Knowledge shared is autonomy that stays</b> - the same conviction I'd scale into Elements' 35+ contributors years later.</p>
+    </div>
+
+    {/* pas de <br> : les trois phrases s'enchainent, le retour a la ligne vient
+        de la mesure et pas du markup - comme les claims des chapitres 03 et 06. */}
+    <p class="ls-claim ls-claim--head">The <em class="sb-em">what</em> is assets, templates, identity. The <em class="sb-em">how</em> is practices, method, measurement. Fragmentation lives in both, so I fixed both.</p>
+
+    {/* le « why » ferme le chapitre a la place de la note : c'est la seule des
+        trois questions qui ne parle pas d'outillage, elle ne peut donc pas se
+        dire en legende italique sous les deux autres. */}
+    <div class="ls-body ls-body--wide">
+      <p class="sb-plein">The <b><em>why</em></b> is simpler. A digital function scattered across entities was meant to end up feeling like one - not looking unified, being unified, by people who worked the same way and could recognize each other's work at a glance. A shared identity makes a function legible to the outside. <b>A shared practice makes it a community to itself.</b></p>
+    </div>
+  </section>
+
+<!-- ═══ 06 · THE VERSION CHANGE — le systeme survit a sa propre identite ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-version">
+    <div class="ls-head">
+      <p class="ls-eyebrow"><span>{chap('ch-version')}</span></p>
+      <h2 class="ls-title" id="ch-version">A reorg is a breaking change. I shipped a major.</h2>
+    </div>
+
+    <div class="ls-body ls-body--wide">
+      {/*
+        « I didn't defend mine. I versioned it. » ferme le paragraphe au lieu de
+        se poser en .ls-sub au-dessus de la claim. Deux frappes en display l'une
+        derriere l'autre se concurrencaient ; en gras de corps la phrase reste ce
+        qu'elle est - la reponse immediate au fait qu'on vient de raconter - et
+        c'est la claim seule qui prend le registre display juste apres.
+      */}
+      <p>Then the function changed underneath the brand. In 2020, Sanofi moved its IT from service provider to enabler and stood up its first product teams - one notch up, inside a digital transformation running across the whole company. New digital leadership came with it, and the digital identity was reset from the top. <b>I didn't defend mine. I versioned it.</b></p>
+    </div>
+
+    {/* pas de <br> ici, contrairement aux autres .ls-claim de la page : les trois
+        phrases s'enchainent, elles ne se repondent pas de part et d'autre d'une
+        cesure. Le retour a la ligne vient de la mesure (30ch), pas du markup. */}
+    <p class="ls-claim ls-claim--head">Positioning moved. Territory moved. <b>The problem underneath didn't move an inch.</b></p>
+
+    {/*
+      Les deux concepts. Chaque planche porte `ls-reveal` et se decouvre donc
+      pour elle-meme : le revealAll de la page observe chaque element, pas la
+      section, si bien que la pile se devoile au fil du defilement plutot que
+      d'un bloc. C'est le procede de la chaine d'Elements, pour la meme raison -
+      sept planches par colonne depassent la hauteur d'ecran.
+    */}
+    <div class="sb-concepts">
+      {concepts.map((c) => (
+        <section class="sb-concept" aria-label={`Concept ${c.rang}, ${c.nom}`}>
+          {/* un seul enfant pour la premiere rangee de la subgrid : l'eyebrow
+              et la ligne du nom vivent ensemble, sinon les trois rangees
+              partagees deviendraient quatre et l'alignement des deux colonnes
+              se ferait sur les mauvaises */}
+          <div class="sb-concept__head">
+            <p class="sb-concept__n">Concept {c.rang}</p>
+            <p class="sb-concept__idx">
+              <span class="sb-concept__nom">{c.nom}</span>
+              {/* le statut n'est pas une decoration : c'est lui qui dit lequel
+                  des deux a ete retenu, et le propos du chapitre tient a ce que
+                  ce ne soit pas celui que je defendais */}
+              <span class:list={['sb-concept__statut', c.retenu && 'sb-concept__statut--oui']}>{c.statut}</span>
+            </p>
+          </div>
+          <p class="sb-concept__texte">{c.texte}</p>
+          {/* --sens porte le cote d'entree : la colonne de gauche fait venir ses
+              planches de la gauche, celle de droite de la droite. Elles semblent
+              donc arriver du dehors de la page, chacune de son bord. */}
+          <div class="sb-deck-cadre ls-reveal">
+          <ol class="sb-deck" style={`--base:${c.retenu ? -1 : 1}`}
+              aria-label={`${c.nom} concept, seven surfaces`}>
+            {/* --alt inverse une carte sur deux ; il ne sert qu'en colonne
+                unique, ou c'est la seule facon de garder de l'alternance */}
+            {planches.map((pl, i) => (
+              <li class="sb-deck__card" style={`--i:${i};--alt:${i % 2 ? -1 : 1}`}>
+                {/* deux etages, un par axe : voir .sb-deck__pose dans le style */}
+                <div class="sb-deck__pose">
+                <figure class="sb-deck__fig">
+                  <Image src={img(`concept${c.rang}-${pl.nom}`)}
+                    alt={`${pl.legende} in the ${c.nom} concept`}
+                    layout="constrained" sizes="(min-width: 900px) 480px, 92vw"
+                    loading="lazy" decoding="async" />
+                  <figcaption class="ls-cap">{pl.legende}</figcaption>
+                </figure>
+                </div>
+              </li>
+            ))}
+          </ol>
+          </div>
+        </section>
+      ))}
+    </div>
+
+    {/*
+      L'arbitrage, juste sous les deux planches. Il ne peut pas venir avant : on
+      doit avoir vu les deux concepts pour que « j'ai defendu le 02 » veuille
+      dire quelque chose. En .ls-note - l'aparte en voix propre, deja utilise au
+      meme chapitre pour « Years later I'd have the word for it » - parce que
+      c'est un retour sur la decision, pas la decision elle-meme.
+    */}
+    <p class="ls-note">Leadership picked 01. I'd argued for 02 - but 01 was the shorter migration, and the shortest path for the people moving is the one I've defended everywhere else. Taste on one side, adoption on the other. I arbitrated, and I shipped 01 like it had been my idea.</p>
+
+    <div class="ls-body ls-body--wide">
+      <p>It was still the one I'd started with: nobody outside IT could see where IT began or ended, and shadow IT kept filling the gap. But the foundations held - so this wasn't a rebuild, it was a refinement. A leaner brand structure, organized around what the function had actually become: products and service lines, not departments. V1 had made IT legible. V2 made it navigable.</p>
+      <p>What I didn't rebuild was the machine. The editorial calendar, one contact point per department, the sharing sessions, the webinars carried by leadership - all of it held, and all of it went to work on the migration. The campaigns stopped being campaigns about the brand. They became the migration path: pushing usage, walking teams off the old templates, getting people to upgrade. <b>Communication wasn't announcing the system. It was deploying it.</b></p>
+      <p>There's no deprecation warning in PowerPoint. The old deck still opens, and it always will. You can't break the previous version - you can only make the next one worth the switch.</p>
+    </div>
+
+    <p class="ls-note">Years later I'd have the word for it: a major. Breaking change, migration path, adopters to move off the old version. I shipped one before I knew what to call it.</p>
+  </section>
+
+<!-- ═══ 07 · THE TURNING POINT — bloc sombre, la bascule vers Elements ═══ -->
+  <section class="ls-chapter ls-reveal" aria-labelledby="ch-turn">
+    <div class="card ls-dark">
+      <div class="ls-dark__inner">
+        <p class="ls-eyebrow ls-eyebrow--light"><span>{chap('ch-turn')}</span></p>
+        <h2 class="ls-title" id="ch-turn">A brand book doesn't survive contact with a screen.</h2>
+
+        <div class="ls-body ls-body--light">
+          <p>The first time the ground moved, it was one function. The second time, it was the whole company. In 2022, Sanofi unified every internal identity into a single brand. The part nobody had defined was what that brand becomes once it's interactive - so I took it: <b>translating the new corporate identity through a digital prism</b>, and shipping the first concepts that proved it could hold on a product, not just on a page.</p>
+          <p>I wasn't the only one moving - and by then I'd moved too. The product teams that appeared in the last reset had turned into a function: Sanofi stood up product design in 2021 with the creation of the Consumer Experience team, and I joined it as <b>Product Design Lead</b>, carrying four years of brand and communication in with me. So when the rebrand landed, the two forces looking for each other - brand on one side, product on the other - met in a role that had lived in both. <b>That's the gap I've always worked in.</b></p>
+        </div>
+      </div>
+    </div>
+
+    {/*
+      La suite du chapitre SORT du bloc sombre et revient sur le fond de page.
+
+      L'aplat noir ne couvre plus que la bascule elle-meme - le moment ou le sol
+      bouge, et ou je me retrouve a l'intersection. Ce qui suit n'est plus le
+      choc, c'est le travail : la decouverte, l'audit, la reponse. Le garder au
+      noir aurait donne un bloc de six paragraphes ou l'accent finit par ne plus
+      rien accentuer.
+      Consequence directe : plus aucune variante `--light` en dessous, et le
+      <Timeline> perd son drapeau - sur le canvas clair, ses points et son trait
+      reprennent --accent-alt sans risque de contraste.
+    */}
+    <div class="ls-body ls-body--wide">
+      <p>Translating the brand meant looking hard at what it would land on. So I ran the discovery - a broad benchmark of the field, then an audit of what Sanofi already had. The finding was familiar: <b>UI kits and design systems everywhere, one per entity, none speaking to the others.</b> The exact fragmentation I'd spent four years removing from communication, sitting one layer deeper - in the interface itself.</p>
+    </div>
+
+    <div class="sb-discovery">
+      {discovery.map((bloc) => (
+        <div class="ls-system__block">
+          <p class="ls-system__label">{bloc.label}</p>
+          <ul class="sb-planches" id={bloc.id}>
+            {bloc.planches.map((pl) => (
+              <li>
+                <figure class="ls-fig sb-planche ls-reveal">
+                  {/*
+                    Seule la discovery s'agrandit : ses planches sont des
+                    documents de travail qu'on ne lit pas a 340px. Les contraintes
+                    corporate d'a cote sont des pages de charte, lisibles telles
+                    quelles - les rendre cliquables promettrait un detail qui n'y
+                    est pas.
+
+                    UN <button> ET NON UN <div> AVEC UN onclick : c'est ce qui
+                    donne gratuitement le focus au clavier, l'activation a Entree
+                    et Espace, et l'annonce aux lecteurs d'ecran.
+
+                    RIEN A PRECHARGER POUR LA LOUPE : le srcset de la vignette
+                    monte deja jusqu'a 2934w - Astro fabrique toute l'echelle, et
+                    c'est `sizes` qui decide de ce qui descend. La loupe recopie
+                    ce srcset et remplace `sizes` par 92vw ; le navigateur choisit
+                    alors le grand variant de lui-meme. Fabriquer un second jeu de
+                    fichiers n'aurait fait que doubler le repertoire de sortie.
+                  */}
+                  {bloc.id === 'sbdiscovery' ? (
+                    <button type="button" class="sb-zoom" data-loupe="image"
+                      aria-label={`Enlarge ${pl.legende}`} data-legende={pl.legende}>
+                      <Image src={img(pl.nom)} alt={pl.alt} layout="constrained"
+                        sizes="(min-width: 900px) 340px, 74vw"
+                        loading="lazy" decoding="async" />
+                      <ZoomBadge />
+                    </button>
+                  ) : (
+                    <Image src={img(pl.nom)} alt={pl.alt} layout="constrained"
+                      sizes="(min-width: 900px) 340px, 74vw"
+                      loading="lazy" decoding="async" />
+                  )}
+                  <figcaption class="ls-cap">{pl.legende}</figcaption>
+                </figure>
+              </li>
+            ))}
+          </ul>
+          <Dots id={`${bloc.id}dots`} count={bloc.planches.length} label={bloc.label} itemLabel="Board" />
+        </div>
+      ))}
+    </div>
+
+    {/*
+      Titre de mouvement : il ouvre les trois pistes, et c'est lui qui dit sous
+      quel angle les lire - la marque et le produit qui se cherchent, quatre ans
+      apres, chacun depuis l'autre rive. Un <h3> et pas un <p> : le chapitre
+      porte deja son <h2>, celui-ci ouvre un mouvement a l'interieur.
+    */}
+    <h3 class="ls-sub">Same relationship as four years earlier - from the other side of it.</h3>
+
+    <ol class="sb-pistes">
+      {pistes.map((t) => (
+        <li>
+          <button type="button" class="sb-zoom sb-screen__btn sb-piste__vue"
+            data-loupe="ecran" style={`--r:${t.r}`} data-legende={t.nom}
+            aria-label={`Enlarge ${t.nom}`}>
+            <span class="sb-screen__cadre">
+              <Image src={t.src} alt={t.alt} layout="constrained"
+                widths={[640, 1080, 1400]}
+                sizes="(min-width:1025px) 330px, (min-width:721px) 46vw, 92vw"
+                loading="lazy" decoding="async" />
+            </span>
+            <ZoomBadge />
+          </button>
+          <p class="sb-concept__n">Concept {t.rang}</p>
+          <p class="sb-concept__idx"><span class="sb-concept__nom">{t.nom}</span></p>
+          <p class="sb-concept__texte">{t.texte}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="ls-body ls-body--wide">
+      <p>So I pushed the answer one level up. Not a brand adaptation per product: <b>one standard for the portfolio</b>, with <b>sanofi.com</b> as the pilot - the first real product to carry it, and the one that would tell us what the standard got right and what it didn't.</p>
+    </div>
+
+    <Timeline etapes={paliers} label="From communication to system to method" />
+
+    {/* la derniere planche de la page, et la premiere d'Elements : les tokens
+        sont le point ou le standard devient un systeme. Elle est POSEE CONTRE la
+        phrase qui l'annonce plutot qu'en dessous - le schema et le texte disent
+        la meme chose, les mettre l'un sous l'autre les aurait fait lire comme
+        deux etapes. */}
+    <div class="sb-origin">
+      <figure class="ls-fig sb-tokens ls-reveal">
+        <Image src={img('tokens')} alt="Token architecture linking colour modes, foundations and components"
+          layout="constrained" sizes="(min-width:1100px) 400px, (min-width:721px) 38vw, 94vw"
+          loading="lazy" decoding="async" />
+        <figcaption class="ls-cap">Elements Design System tokens origin</figcaption>
+      </figure>
+
+      <div class="ls-body sb-origin__texte">
+        {/* « And that's where Elements begins. » vivait en sous-ligne du « A pilot
+            isn't a proof ». Elle ferme le CHAPITRE et non la page - c'est le
+            dernier palier de la chaine, 2023, qu'elle designe - et elle est
+            desormais la derniere phrase de son paragraphe : le « decade » qui la
+            precede appelle directement la suite, une cesure entre les deux
+            l'aurait fait attendre pour rien. */}
+        <p>Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <b>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</b> And that's where Elements Design System begins.</p>
+      </div>
+    </div>
+
+    {/* ce que les tokens sont devenus : quatre pages en production. La page
+        s'arrete sur ce qu'elle a rendu possible, pas sur elle-meme. */}
+    <ul class="sb-screens" id="sbscreens">
+      {ecrans.map((e) => (
+        <li>
+          <figure class="sb-screen">
+            <button type="button" class="sb-zoom sb-screen__btn" data-loupe="ecran"
+              style={`--r:${e.r}`} data-legende={e.legende}
+              aria-label={`Enlarge ${e.legende}`}>
+              <span class="sb-screen__cadre">
+                {/* les fichiers font 3000px de large ; la vignette en affiche 500
+                    au plus et la loupe 1400. Sans `widths`, Astro fabrique
+                    jusqu'au 3000w - 1,2 Mo qu'aucun `sizes` ne fera jamais
+                    choisir. Le plafond reel est la loupe a 92vw. */}
+                <Image src={e.src} alt={e.alt} layout="constrained"
+                  widths={[640, 1080, 1400]}
+                  sizes="(min-width:1025px) 500px, (min-width:721px) 46vw, 92vw"
+                  loading="lazy" decoding="async" />
+              </span>
+              <ZoomBadge />
+            </button>
+            <figcaption class="ls-cap">{e.legende}</figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+    <Dots id="sbscreensdots" count={ecrans.length} label="Elements screens" itemLabel="Screen" />
+  </section>
+
+  {/* pas de titre a pointer ici, la chute est en <p> : d'ou l'aria-label.
+      Ferree a gauche comme sur Elements - tout le chapitrage l'est deja. */}
+  <section class="ls-closing ls-closing--left ls-reveal" aria-label="In closing">
+    {/* pas de <br> : les deux phrases s'enchainent, la coupe vient de la mesure */}
+    <p class="ls-closing__t">A pilot isn't a proof. It's the fastest way to find out <em>what you got wrong.</em></p>
+    {/*
+      La reciproque du « Deep dive in the origin story → » pose dans le chapitre
+      04 d'Elements. Les deux pages se tiennent par ce couple de liens : celle-ci
+      finit ou l'autre commence, et l'aller-retour se fait dans les deux sens.
+
+      .btn--ghost et non .btn3 : le bouton secondaire de l'accueil, celui qui
+      mene a /operating-system. Un .btn3 est un lien dans le fil du texte - il
+      convient au chapitre 04 d'Elements, ou il s'intercale entre deux
+      paragraphes ; ici il ferme la page, et une chute appelle un bouton.
+
+      RIEN N'EST PROPRE A CETTE PAGE. Les trois pieces viennent de shared.css et
+      sont celles de l'accueil : .intro__cta pour l'ecart, .btn pour la pastille,
+      .btn--ghost pour le secondaire. Il a existe ici une `.sb-next` qui ne
+      portait qu'une marge - une classe de plus pour ce que .intro__cta faisait
+      deja, et un endroit de plus ou le bouton aurait pu diverger.
+      La fleche est du texte et non un <span>, comme sur l'accueil : .btn n'a pas
+      de gouttiere a distribuer, c'est un inline-block centre.
+    */}
+    <p class="intro__cta"><a class="btn btn--ghost" href="/system-practice-elements">Discover what came next →</a></p>
+  </section>
+
+  {/*
+    LA LOUPE : un seul <dialog> pour les deux series de la page.
+
+    <dialog> ET NON UN OVERLAY MAISON. Il apporte gratuitement ce qu'une div
+    plein ecran demanderait cent lignes a refaire, et mal : le fond assombri
+    (::backdrop), la fermeture a Echap, le focus enferme dans la boite, le reste
+    de la page rendu inerte pour les lecteurs d'ecran, et le focus rendu au
+    bouton d'origine a la fermeture. Refaire tout cela a la main, c'est
+    exactement la ou les modales deviennent inutilisables au clavier.
+
+    DEUX MODES, UNE SEULE BOITE : une planche de discovery est une image fixe
+    qu'on veut voir en grand ; un ecran d'Elements est une page entiere qui doit
+    continuer a defiler. Deux <dialog> auraient duplique le fond, la fermeture et
+    le bouton pour une seule difference - ce qu'il y a dedans.
+  */}
+  <dialog class="sb-loupe" id="sbloupe" aria-label="Enlarged view">
+    <div class="sb-loupe__boite">
+      <button type="button" class="sb-loupe__fermer" data-fermer aria-label="Close">
+        <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor"
+          stroke-width="1.7" stroke-linecap="round"><path d="M3 3l10 10M13 3L3 13" /></svg>
+      </button>
+      <img class="sb-loupe__img" alt="" hidden />
+      <div class="sb-loupe__cadre" hidden><img alt="" /></div>
+      <p class="ls-cap sb-loupe__legende"></p>
+    </div>
+  </dialog>
 </Base>
+
+<style is:global>
+  /* ═══ propre a cette page ═══
+     La charpente narrative - chapitre, tete de section, corps, citation, chute,
+     bloc sombre - vient de case-study.css. Ne reste ici que ce que cette page
+     est seule a produire. */
+
+  /*
+    Les quatre paliers du 07 sont un <Timeline>, qui emet son CSS - et rien a
+    regler ici pour l'entourer. Il a existe une `.ls-dark .tl{margin-bottom}` du
+    temps ou la chaine vivait dans le bloc sombre, suivie d'un .ls-body--light
+    qui ne posait que 20px. Sur le fond de page elle est suivie d'un
+    .ls-body--wide, dont les --sp-16 sont exactement l'ecart voulu : c'est deja
+    ce qui se passe sur Elements, et la surcharge est devenue sans objet.
+  */
+
+  /*
+    Le mot qui porte, en accent et en italique. Trois poses sur la page :
+    « business driver » dans le titre du 02, puis `what` et `how` dans la claim
+    du 05. Le `why` du paragraphe suivant l'a portee un temps ; il est repasse en
+    noir avec tout son paragraphe, d'ou la disparition de `.ls-body` du selecteur.
+
+    UNE SEULE CLASSE POUR LES TROIS, parce que c'est un seul geste. Elles ne
+    tombent pourtant pas dans le meme bloc - un .ls-title, une .ls-claim - et
+    aucun des deux ne colore ses <em> par defaut. Sans classe dediee, le meme
+    geste dependrait de l'endroit du texte ou il tombe.
+
+    Le selecteur descend jusqu'a l'element (`em.sb-em`) et pas seulement la classe :
+    `.ls-body em` pese (0,2,0) et l'emporterait sur un `.sb-em` seul. Ecrit ainsi
+    la regle gagne quel que soit l'ordre des fichiers dans le bundle - ordre qui,
+    ici comme ailleurs, ne se decrete pas.
+
+    L'italique vient de <em> lui-meme, pas d'ici : dans le registre display il
+    est synthetise (la Momo Trust Display n'a qu'un style), ce que le site fait
+    deja pour .ls-closing__t em et .tl__pivot.
+  */
+  .ls-title em.sb-em,.ls-claim em.sb-em{color:var(--accent)}
+
+  /*
+    Paragraphe a pleine encre. .ls-body pose --ink-soft sur son conteneur et les
+    <p> en heritent ; une couleur ecrite DIRECTEMENT sur le paragraphe l'emporte
+    sur celle qu'il herite, sans avoir a renforcer le selecteur.
+    Ici c'est le « why » qui ferme le chapitre : il ne commente pas ce qui
+    precede, il le conclut, et il se lit donc au meme noir que les titres.
+  */
+  .ls-body p.sb-plein{color:var(--ink)}
+
+  /*
+    Emphase de titre par la COULEUR SEULE, sans italique - c'est la convention du
+    registre display sur tout le site : .ls-claim b et .ls-sub b font deja
+    exactement ca. `font-weight:400` est le point important : la Momo Trust
+    Display n'a qu'un seul poids, un <b> laisse a lui-meme y produirait un faux
+    gras que le navigateur synthetise, plus epais et plus sale que le vrai.
+    C'est donc l'accent qui detache, jamais la graisse.
+  */
+  .ls-title b{color:var(--accent);font-weight:400}
+
+  /*
+    Le specimen du 03 : deux blocs intitules, EMPILES et non cote a cote - comme
+    les trois du Living System, dont la .ls-system est elle aussi en une seule
+    colonne. Essayes en 50/50, les deux groupes etouffaient : dix pastilles dans
+    une demi-colonne tombaient a 28px de large et « Medical & Regulatory » y
+    passait sur trois lignes. Ces deux series veulent la pleine mesure.
+    On ne reprend pas .ls-system telle quelle : elle porte en plus les polices de
+    la marque decrite et un filet de separation, deux choses sans objet ici.
+    L'echafaudage du bloc intitule (.ls-system__block / __label) vient de
+    case-study.css, ou il a ete descendu le jour ou cette page en a eu besoin.
+  */
+  .sb-system{display:grid;grid-template-columns:1fr;
+    gap:clamp(28px,5vw,48px);margin-top:var(--sp-19)}
+  .sb-system > *{min-width:0}
+
+  /*
+    La discovery, en deux series PARCOURUES.
+
+    Ce fut une grille - `auto-fit` d'abord, puis trois colonnes fixes. Les deux
+    butaient sur le meme mur : a sept planches, la grille produisait des rangees
+    incompletes et des tuiles de plus en plus petites, alors que ces visuels ne
+    valent que si on les voit. Un rail regle les deux d'un coup - la tuile garde
+    sa taille quel que soit le nombre de planches, et la serie s'allonge au lieu
+    de se tasser.
+
+    TOUTES LES TUILES ONT LA MEME LARGEUR, donc la meme hauteur : elles sont
+    toutes en 16/9. C'est ce qui aligne le rang, et c'est pour ca que le
+    moodboard a perdu son statut de planche large - plus haute, elle aurait
+    decale les legendes de toute la serie.
+
+    Le rail saigne d'un bord a l'autre avec --bleed-pad, donc la premiere planche
+    reste calee sur la colonne de texte pendant que la serie file hors cadre.
+  */
+  .sb-discovery{margin-top:var(--sp-19);display:grid;gap:clamp(32px,5vw,56px)}
+  .sb-planches{list-style:none;margin:var(--sp-12) 0 0;padding:0 var(--bleed-pad) var(--sp-06);
+    display:flex;gap:var(--sp-02);overflow-x:auto;
+    scroll-snap-type:x mandatory;scroll-padding-left:var(--bleed-pad);
+    touch-action:pan-x;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw}
+  .sb-planches::-webkit-scrollbar{display:none}
+  .sb-planches > li{flex:0 0 clamp(248px,30vw,340px);scroll-snap-align:start;min-width:0}
+  .sb-planches + .dots{display:flex}
+  /*
+    --tile-red de .ls-fig est un fond de photo : sous une page de brandbook il
+    depasserait en lisere rouge le temps du chargement. Fond de carte et filet,
+    comme .ls-fig--flat.
+  */
+  .sb-planche{background:var(--card);border-color:var(--line);
+    border-width:max(1px,var(--edge-w));display:flex;flex-direction:column}
+  .sb-planche img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+  /*
+    Variante sans rognage : la carte prend le rapport du fichier au lieu de
+    l'inverse. Le 16/9 ci-dessus convient aux planches de la discovery, natives
+    dans ce format ; il ne convient a rien d'autre, et ce qu'il coupe se voit
+    d'autant plus que ces documents sont bordes.
+  */
+  .sb-planche--entier img{aspect-ratio:var(--ar);object-fit:contain}
+  /*
+    PAS D'ARRONDI SOUS L'IMAGE D'UNE PLANCHE. .sb-zoom arrondit ses quatre coins,
+    ce qui convient a un visuel isole - les ecrans d'Elements - mais pas ici :
+    l'image est collee a son intitule, et les deux coins du bas venaient mordre
+    dans le liseré des planches, juste au-dessus du texte. Les coins du haut sont
+    deja pris en charge par .ls-fig, qui arrondit et rogne la carte entiere ; le
+    bouton n'a donc rien a arrondir du tout.
+  */
+  .sb-planche .sb-zoom{border-radius:0}
+  .sb-planche figcaption{padding:0 var(--sp-01) var(--sp-01)}
+
+  /*
+    L'ecart entre la chute et son bouton. .intro__cta pose 20px, ce qui convient
+    sous le paragraphe d'accueil dont il vient - pas sous une phrase de 68px.
+    A cette echelle, 20px collent le bouton au texte et il se lit comme la suite
+    de la phrase plutot que comme l'action qui ferme la page.
+    Scope a .ls-closing : l'accueil et le 404 gardent leur valeur.
+  */
+  .ls-closing .intro__cta{margin-top:var(--sp-16)}
+
+  /*
+    La planche des tokens contre le paragraphe qui l'annonce.
+
+    LE POINT DE BASCULE EST DICTE PAR LA LIGNE DE TEXTE, PAS PAR UN APPAREIL.
+    Deux colonnes ne tiennent que tant que celle de droite reste lisible : en
+    dessous d'une quarantaine de caracteres, l'oeil revient a la ligne trop
+    souvent et le paragraphe devient penible - c'est un critere de lisibilite,
+    pas de gout. D'ou `flex-wrap` avec des bases explicites plutot qu'une
+    requete media : la colonne de texte ne descend jamais sous sa base de 400px,
+    elle passe dessous. Le seuil se lit dans les chiffres ci-dessous et non dans
+    une largeur d'ecran devinee.
+
+    Les deux bases + l'ecart valent 400 + 360 + 40 = 800 : au-dela, cote a cote ;
+    en deca, empile. Toucher a l'une des trois deplace le seuil.
+
+    LE 100 DE flex-grow N'EST PAS UNE COQUILLE. Empilee, la planche est seule sur
+    sa ligne et doit occuper toute la largeur - un schema de 360px perdu dans 700
+    disponibles serait illisible. Cote a cote, elle ne doit au contraire pas
+    prendre un pixel de plus que sa base, sinon c'est la colonne de texte qui
+    maigrit. Un rapport de croissance de 100 contre 1 fait les deux d'un coup :
+    le peu d'espace libre part quasi entierement dans le texte, et quand la
+    planche se retrouve seule il n'y a plus personne avec qui partager. C'est ce
+    qui evite une requete media, donc un point de bascule devine en pixels
+    d'ecran alors que le vrai critere est la longueur de ligne.
+
+    max-width sur la planche cale sur la largeur reelle du fichier - 867px : une
+    fois empilee sur grand ecran, l'etirer au-dela rendrait un schema au trait
+    mou sans rien montrer de plus.
+  */
+  .sb-origin{margin-top:var(--sp-19);display:flex;flex-wrap:wrap;
+    align-items:center;gap:var(--sp-08) var(--sp-10)}
+  .sb-origin__texte{flex:100 1 400px;min-width:0;margin:0;max-width:none}
+  .sb-tokens{flex:1 1 360px;margin:0;max-width:867px;
+    background:var(--card);border-color:var(--line);
+    border-width:max(1px,var(--edge-w))}
+  .sb-tokens img{width:100%;height:auto}
+  .sb-tokens figcaption{padding:0 var(--sp-01) var(--sp-01)}
+
+  /*
+    Les quatre ecrans d'Elements, en 2x2.
+
+    Le cadre est au format d'une fenetre de navigateur, et l'image - une page
+    entiere, de deux a huit fois plus haute - defile dedans.
+
+    ON ANIME `top`, PAS `transform`, et ce n'est pas un detail. Un pourcentage
+    de translateY se resout sur la hauteur de L'IMAGE, qui n'est pas la meme
+    d'un ecran a l'autre ; un pourcentage de `top` se resout sur la hauteur du
+    CADRE, la seule grandeur commune aux quatre. La course vaut donc
+    (1 - k) x 100% de cadre, avec k la hauteur de l'image en cadres, calculee
+    dans le frontmatter d'apres le fichier. Aucune valeur a tenir a jour.
+
+    L'animation ne tourne que quand le bloc est a l'ecran : quatre defilements
+    infinis qui continuent hors champ, c'est de la batterie pour rien. D'ou une
+    classe posee ET RETIREE par l'observateur, la ou .in de revealAll ne fait
+    qu'un aller simple.
+  */
+  /*
+    Secondes par hauteur de cadre parcourue : LE SEUL REGLAGE DE VITESSE de la
+    page, partage par la grille et par la loupe. Pose sur .ls-chapter et non sur
+    chaque cadre pour qu'il n'y ait qu'un endroit ou le toucher.
+  */
+  .ls-chapter{--vitesse:2.6s}
+
+  /*
+    Le bouton qui rend une carte cliquable. Il ne dessine rien : la planche ou le
+    cadre gardent leur apparence, il ne fait qu'ajouter la zone de clic, le focus
+    clavier et le coin ou se pose la pastille.
+  */
+  .sb-zoom{position:relative;display:block;width:100%;padding:0;margin:0;
+    border:0;background:none;color:inherit;font:inherit;cursor:zoom-in;
+    border-radius:var(--r-lg);overflow:hidden;line-height:0}
+  .sb-zoom:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  .sb-screens{list-style:none;margin:var(--sp-16) 0 0;padding:0;
+    display:grid;gap:var(--sp-16) var(--sp-08);
+    grid-template-columns:repeat(2,minmax(0,1fr))}
+  .sb-screen{margin:0}
+
+  /*
+    LA COURSE ET LA DUREE SE DEDUISENT DE DEUX NOMBRES, jamais ecrits en dur.
+
+      --r   rapport du FICHIER (hauteur / largeur), pose par le frontmatter
+      --fr  rapport du CADRE (largeur / hauteur), pose ici, a cote du
+            aspect-ratio dont il est la traduction en nombre
+      --k   hauteur de l'image exprimee en hauteurs de cadre : r x fr
+
+    L'image descend donc de (1 - k) hauteurs de cadre, et met (k - 1) x --vitesse
+    a le faire. Cette derniere multiplication est ce qui donne LA MEME VITESSE
+    aux quatre : sans elle, l'article - huit hauteurs - filerait trois fois plus
+    vite que le search, qui n'en fait que deux et demie.
+
+    C'est aussi ce qui permet a la loupe de reutiliser les memes regles avec un
+    cadre tout autre : elle redeclare --fr, et la course se recalcule seule. Si
+    aspect-ratio change ici, --fr doit changer avec - c'est la seule paire a
+    tenir synchronisee, et le seul endroit ou une erreur ne se verrait pas.
+  */
+  .sb-screen__cadre{--fr:1.6;--k:calc(var(--r) * var(--fr));
+    position:relative;display:block;aspect-ratio:16/10;overflow:hidden;
+    border-radius:var(--r-lg);border:var(--edge-w) solid var(--edge);
+    background:var(--card);line-height:0}
+  /* l'image deborde le cadre par le bas : hauteur libre, ancree en haut */
+  .sb-screen__cadre img{position:absolute;top:0;left:0;
+    width:100%;height:auto;display:block}
+  @keyframes sbDefile{from{top:0}to{top:calc((1 - var(--k)) * 100%)}}
+
+  /*
+    LE DEFILEMENT PART AU SURVOL, plus tout seul. Quatre pages qui defilent en
+    permanence se disputaient le regard et ne disaient pas qu'on pouvait les
+    ouvrir ; declenche a l'approche, le mouvement devient une reponse - il
+    signale que la carte repond, avant meme que la pastille ne le dise.
+
+    :focus-visible a cote de :hover : au clavier, la carte doit se comporter
+    comme sous la souris. Sans survol du tout - tactile - rien ne bouge dans la
+    grille : c'est la loupe qui montre la page, et elle s'ouvre au premier appui.
+  */
+  .js .sb-screen__btn:hover .sb-screen__cadre img,
+  .js .sb-screen__btn:focus-visible .sb-screen__cadre img{
+    animation:sbDefile calc(var(--vitesse) * (var(--k) - 1))
+      cubic-bezier(.5,0,.5,1) infinite alternate}
+
+  /*
+    SANS SURVOL, RIEN NE DOIT DEPENDRE DU SURVOL. Sur un appareil tactile la
+    regle ci-dessus ne se declenche jamais : les quatre cartes resteraient quatre
+    captures immobiles, et rien ne dirait que ce sont des pages entieres.
+
+    L'appui, lui, ouvre deja la loupe - ou la page defile. Ce qui manque n'est
+    donc pas l'acces au geste mais l'INDICE qu'il y a quelque chose a ouvrir. Les
+    cadres defilent donc d'eux-memes ici, comme celui de la newsletter, et
+    l'appui garde son role : agrandir. Faire du premier appui un declencheur de
+    defilement et du second une ouverture aurait demande deux gestes pour ce que
+    la souris obtient sans un seul.
+
+    Meme observateur que la newsletter : hors champ, l'animation s'arrete.
+  */
+  @media(hover:none){
+    .js .sb-screen__cadre.defile img{
+      animation:sbDefile calc(var(--vitesse) * (var(--k) - 1))
+        cubic-bezier(.5,0,.5,1) infinite alternate}
+  }
+
+  /*
+    Des que la grille empile, elle devient un rail : deux cartes cote a cote
+    passent a une seule, et quatre blocs de 224px empiles font defiler la page
+    sur pres de mille pixels pour quatre vignettes. Le rail les remet a portee
+    de pouce, avec la meme pagination que les autres series de la page.
+  */
+  @media(max-width:720px){
+    .sb-screens{display:flex;gap:var(--sp-02);overflow-x:auto;
+      scroll-snap-type:x mandatory;touch-action:pan-x;scrollbar-width:none;
+      -webkit-overflow-scrolling:touch;
+      margin:var(--sp-16) calc(50% - 50vw) 0;width:100vw;
+      padding:0 var(--bleed-pad) var(--sp-06)}
+    .sb-screens::-webkit-scrollbar{display:none}
+    .sb-screens > li{flex:0 0 min(82vw,420px);scroll-snap-align:center;min-width:0}
+    .sb-screens + .dots{display:flex}
+  }
+
+  /*
+    La loupe.
+
+    Le <dialog> lui-meme n'est qu'un conteneur transparent centre : tout le
+    dessin est sur .sb-loupe__boite, pour que le clic qui tombe A COTE de la
+    boite atteigne le dialog et le ferme. C'est la contrepartie du geste demande
+    - « au clic en dehors, la card reprend sa taille » -, et elle ne marche que
+    si le dialog n'occupe pas plus de place que son contenu.
+  */
+  .sb-loupe{border:0;padding:0;background:none;color:var(--ink);
+    max-width:100vw;max-height:100dvh;width:100%;height:100%;
+    display:none;place-items:center}
+  .sb-loupe[open]{display:grid}
+  .sb-loupe::backdrop{background:rgba(7,3,4,.78)}
+  .js .sb-loupe[open]{animation:sbLoupe .24s cubic-bezier(.22,1,.36,1)}
+  @keyframes sbLoupe{from{opacity:0}}
+
+  .sb-loupe__boite{position:relative;display:grid;gap:10px;justify-items:start;
+    /* la boite ne prend que la place de son contenu : tout le reste du dialog
+       est une zone de fermeture */
+    width:max-content;max-width:96vw}
+  .js .sb-loupe[open] .sb-loupe__boite{animation:sbLoupeBoite .3s cubic-bezier(.22,1,.36,1)}
+  @keyframes sbLoupeBoite{from{transform:scale(.96)}}
+  .sb-loupe__legende{margin:0;color:rgba(255,255,255,.72)}
+
+  /* le bouton de fermeture est POSE SUR le coin du contenu et non au-dessus :
+     sur un telephone en hauteur, une barre d'outils separee aurait mange la
+     place qu'on vient de gagner */
+  .sb-loupe__fermer{position:absolute;top:10px;right:10px;z-index:3;
+    width:38px;height:38px;border-radius:50%;display:grid;place-items:center;
+    border:1px solid var(--line);background:var(--canvas);color:var(--ink);
+    cursor:pointer;padding:0}
+  .sb-loupe__fermer:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+  /* mode planche : une image fixe, bornee par la fenetre */
+  .sb-loupe__img{display:block;max-width:96vw;max-height:82dvh;
+    width:auto;height:auto;border-radius:var(--r-lg);background:var(--card)}
+
+  /*
+    Mode ecran : le meme cadre que dans la grille, en grand, et qui defile
+    toujours. Il REDECLARE --fr a cote de son aspect-ratio, et la course se
+    recalcule seule a partir du --r que le script recopie depuis la carte - voir
+    .sb-screen__cadre pour la formule.
+
+    Le cadre est dimensionne PAR SA LARGEUR ou PAR SA HAUTEUR selon la place, et
+    jamais borne par un max-height : une hauteur maximale changerait le rapport
+    reel du cadre sans changer --fr, et l'image s'arreterait avant le bas de la
+    page. Chaque regle ci-dessous fixe donc les deux ensemble.
+  */
+  .sb-loupe__cadre{--fr:1.6;--k:calc(var(--r) * var(--fr));
+    position:relative;overflow:hidden;line-height:0;
+    width:min(92vw,1200px);aspect-ratio:16/10;
+    border-radius:var(--r-lg);border:var(--edge-w) solid var(--edge);
+    background:var(--card)}
+  .sb-loupe__cadre img{position:absolute;top:0;left:0;width:100%;height:auto;
+    display:block;
+    animation:sbDefile calc(var(--vitesse,2.6s) * (var(--k) - 1))
+      cubic-bezier(.5,0,.5,1) infinite alternate}
+  /* en portrait, un cadre 16/10 rendrait la loupe plus basse que la vignette
+     qu'on vient de quitter : on prend la hauteur disponible */
+  @media(max-width:720px){
+    .sb-loupe__cadre{--fr:.75;width:96vw;aspect-ratio:3/4}
+  }
+  /* ecran bas - telephone couche, petit portable : c'est la HAUTEUR qui borne,
+     donc c'est elle qui dimensionne, et le rapport reste celui de --fr */
+  @media(max-height:620px){
+    .sb-loupe__cadre{--fr:1.6;width:auto;height:74dvh;aspect-ratio:16/10}
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    .js .sb-loupe[open],.js .sb-loupe[open] .sb-loupe__boite{animation:none}
+    .sb-loupe__cadre img{animation:none}
+    /* sans defilement, la page entiere doit rester atteignable a la main */
+    .sb-loupe__cadre{overflow-y:auto}
+  }
+
+  /*
+    Le tas de livrables du chapitre 04.
+
+    Meme dispositif que les cartes de l'accueil - rendreDeplacable(), position
+    absolue, compteur de z-index - parce que c'est le meme geste, et qu'un
+    deuxieme mecanisme de glisser sur le site aurait diverge au premier reglage.
+
+    touch-action:none sur le conteneur : sans lui le navigateur prend le geste a
+    la place du pointerdown et la carte ne suit pas le doigt. Il est rendu au
+    tactile plus bas, quand le tas redevient un rail.
+  */
+  /*
+    Trois zones - le texte coupe en deux et la colonne d'images entre les deux -
+    pour que la meme suite de blocs se lise dans deux ordres sans etre ecrite
+    deux fois. Au bureau : images a gauche, texte a droite. En mobile : le
+    premier bloc de texte, les images, puis la fin.
+
+    row-gap a zero et non un espacement : les deux moities de texte doivent se
+    lire comme un seul paragraphe suivi d'un autre, donc c'est la marge de
+    .sb-terrain__b qui reprend le 1.1em de `.ls-body p + p`, que la coupure
+    empeche de s'appliquer.
+  */
+  .sb-terrain{margin-top:var(--sp-16);display:grid;align-items:start;
+    /*
+      LA COLONNE D'IMAGES MAIGRIT AVEC L'ECRAN, elle n'est pas figee a 320. Une
+      piste fixe laissait au texte 374px a 768 de fenetre et 323 a 721 - une
+      quarantaine de caracteres, puis moins : sous ce seuil l'oeil revient a la
+      ligne trop souvent et le paragraphe devient penible. En pourcentage borne,
+      le texte garde 411px au plus etroit et la colonne ne depasse jamais la
+      taille utile des cartes.
+    */
+    grid-template-columns:minmax(0,clamp(200px,30%,320px)) minmax(0,1fr);
+    grid-template-areas:"images texte-a" "images texte-b";
+    column-gap:var(--sp-08);row-gap:0}
+  .sb-terrain__a{grid-area:texte-a}
+  .sb-terrain__b{grid-area:texte-b}
+  .sb-colonne{grid-area:images}
+  .sb-terrain__a,.sb-terrain__b{margin:0;max-width:none;min-width:0}
+  .sb-terrain__b > p{margin-top:1.1em}
+
+  .sb-pieces{list-style:none;margin:0;padding:0;
+    display:grid;gap:var(--sp-10);touch-action:none}
+  .sb-groupe{min-width:0}
+  /* la scene porte la hauteur : les cartes etant en absolu, elles n'en donnent
+     aucune a leur conteneur */
+  .sb-groupe__scene{position:relative;height:clamp(212px,23vw,266px)}
+  .sb-piece{position:absolute;left:var(--x);top:var(--y);display:block;margin:0;
+    width:clamp(120px,15vw,160px);cursor:grab;user-select:none;z-index:1;
+    transform:rotate(var(--rot));
+    transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease}
+
+  /*
+    Le cadre de la newsletter. Meme formule que .sb-screen__cadre - --k vaut
+    --r x --fr, la duree en decoule - avec un rapport de cadre pris sur les
+    cartes voisines plutot que sur une fenetre de navigateur : ce sont trois
+    documents cote a cote, pas un ecran au milieu de deux papiers.
+
+    IL DEFILE SEUL, la ou les ecrans d'Elements attendent le survol. Une carte
+    deplacable n'invite pas au survol - on la saisit - et c'est le mouvement qui
+    dit ici qu'il y a plus a voir que la premiere section. L'observateur coupe
+    l'animation hors champ : elle est infinie, la laisser tourner sur une page de
+    dix ecrans ferait travailler le compositeur pour personne.
+  */
+  .sb-piece__cadre{--fr:.71;--k:calc(var(--r) * var(--fr));
+    display:block;position:relative;overflow:hidden;aspect-ratio:71/100;
+    border-radius:var(--r-md);background:var(--card);line-height:0;
+    /*
+      PAS DE BORDURE, ET C'EST DE L'ARITHMETIQUE. Une bordure retranche ses deux
+      pixels a la boite de contenu, or l'image y est posee en absolu tandis que
+      --fr decrit la boite de bordure : la course calculee et la course reelle
+      divergeaient de 1 % et l'image depassait le bas du cadre de onze pixels.
+      Le filet est donc dessine par ::after, qui ne participe pas a la mise en
+      page - les deux boites coincident et la formule retombe juste.
+    */
+    box-shadow:0 18px 36px -20px rgba(120,30,10,.34)}
+  /*
+    LE FILET EST DESSINE A L'INTERIEUR, ET IL LE FAUT. Il tenait dans un
+    box-shadow non inset, donc trace HORS de la boite - et le rail mobile le
+    rognait : `overflow-x:auto` force `overflow-y` a `auto`, le rail n'a aucun
+    rembourrage haut, et le cadre commence a zero. Le filet du haut disparaissait
+    dans tous les themes, sans que rien d'autre ne bouge.
+
+    Un `inset` sur le cadre lui-meme n'aurait pas suffi : les ombres internes se
+    peignent SOUS le contenu, et l'image occupe tout le cadre. D'ou un ::after
+    pose par-dessus, qu'aucun parent ne peut couper.
+  */
+  .sb-piece__cadre::after{content:"";position:absolute;inset:0;z-index:1;
+    border-radius:inherit;pointer-events:none;
+    box-shadow:inset 0 0 0 max(1px,var(--edge-w)) var(--line)}
+  .js .sb-piece__cadre.defile img{
+    animation:sbDefile calc(var(--vitesse) * (var(--k) - 1))
+      cubic-bezier(.5,0,.5,1) infinite alternate}
+  [data-theme="contrast"] .sb-piece__cadre{box-shadow:none}
+  [data-theme="contrast"] .sb-piece__cadre::after{box-shadow:inset 0 0 0 var(--edge-w) var(--edge)}
+  .sb-piece:hover{transform:rotate(0deg) translateY(-6px) scale(1.02);z-index:20}
+  .sb-piece.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);z-index:30}
+  .sb-piece img{display:block;width:100%;height:auto;border-radius:var(--r-md);
+    background:var(--card);border:max(1px,var(--edge-w)) solid var(--line);
+    box-shadow:0 18px 36px -20px rgba(120,30,10,.34);
+    /* le glisser part du pointerdown : sans ca le navigateur lance son propre
+       glisser d'image et la carte reste sur place */
+    -webkit-user-drag:none;pointer-events:none}
+  [data-theme="contrast"] .sb-piece img{box-shadow:none}
+  /*
+    APRES .sb-piece img, ET C'EST TOUT L'ENJEU. A specificite egale c'est l'ordre
+    qui tranche : ecrite avant, cette regle laissait passer la bordure des cartes,
+    dont les deux pixels rognaient la boite de contenu en border-box. L'image
+    rendait alors 1194px de haut au lieu de 1207, --k reel divergeait de 1 % du
+    --k calcule, et l'image depassait le bas du cadre de onze pixels en fin de
+    course. Rien ne le signalait : la bordure etait invisible sous le cadre.
+
+    aspect-ratio pose la hauteur A PARTIR DE --r au lieu de la laisser au fichier.
+    Astro sert un variant redimensionne, dont le rapport est arrondi au pixel -
+    ici 7,5438 contre 7,5456 a la source. L'ecart est infime, mais la course de
+    l'animation est calculee sur --r : les deux doivent decrire la meme image, pas
+    presque la meme.
+  */
+  .sb-piece__cadre img{position:absolute;top:0;left:0;
+    width:100%;height:auto;aspect-ratio:1 / var(--r);
+    border:0;border-radius:0;box-shadow:none;background:none}
+  .sb-piece figcaption{margin-top:8px}
+  .sb-colonne .dots{display:none;margin-top:var(--sp-04)}
+
+  /*
+    Les trois pistes du 07. Elles reprennent telles quelles les classes des
+    concepts du 06 - __n, __idx, __nom, __texte - parce que ce sont les memes
+    objets a une etape differente du recit. Seule la grille leur est propre :
+    trois colonnes au lieu de deux, et pas de subgrid a partager puisqu'il n'y a
+    qu'une rangee.
+  */
+  .sb-pistes{list-style:none;margin:var(--sp-19) 0 0;padding:0;display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(24px,4vw,48px)}
+  .sb-pistes > li{min-width:0}
+  /* le cadre coiffe le concept : le surtitre « Concept 01 » le suit
+     immediatement, donc pas de marge basse ici, c'est lui qui la porte */
+  .sb-piste__vue{margin-bottom:var(--sp-06)}
+  .sb-piste__vue + .sb-concept__n{margin-top:0}
+
+  /*
+    Les deux concepts, cote a cote. La comparaison EST le propos : a chaque
+    palier les deux colonnes montrent la meme surface, donc elles doivent rester
+    lisibles ensemble - c'est ce qui interdit de les empiler tant que l'ecran le
+    permet, et ce qui les fait tomber d'un bloc en dessous.
+  */
+  .sb-concepts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    grid-template-rows:auto auto auto;
+    column-gap:clamp(24px,4vw,56px);row-gap:0;margin-top:var(--sp-19)}
+  /*
+    SUBGRID, et c'est ce qui fait tenir la comparaison. Les deux colonnes n'ont
+    pas le meme chapeau - le texte du concept 01 court sur une ligne de plus que
+    celui du 02 - et sans partage de grille toute la pile de droite se decalait
+    d'autant. Les paires avaient pourtant des hauteurs identiques (326, 569,
+    371px) : elles etaient justes, simplement pas en face.
+    En subgrid, l'intitule, le texte et la pile occupent la MEME rangee des deux
+    cotes. Le reste suit tout seul, puisque les deux colonnes montrent les memes
+    surfaces dans le meme ordre.
+  */
+  .sb-concept{display:grid;grid-template-rows:subgrid;grid-row:span 3}
+
+  .sb-concept__n{font-size:11px;font-weight:700;letter-spacing:.16em;
+    text-transform:uppercase;color:var(--ink-muted)}
+  /* le nom et son statut sur la MEME ligne, sous l'eyebrow : le statut qualifie
+     le concept, pas le chapitre - il doit se lire avec son nom, pas au-dessus */
+  .sb-concept__idx{margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px}
+  .sb-concept__nom{font-family:var(--display);font-weight:400;
+    font-size:clamp(20px,2.2vw,28px);line-height:1.1;letter-spacing:-.02em;color:var(--ink)}
+  /*
+    Le statut, en pastille. Ce n'est pas une decoration : tout le chapitre tient
+    a ce que le concept retenu ne soit PAS celui que je defendais, et c'est la
+    seule chose a l'ecran qui le dit. D'ou un contraste franc entre les deux
+    etats plutot qu'une nuance de gris.
+    Le retenu prend l'encre pleine ; l'ecarte reste en contour, present mais en
+    retrait - il a existe, il n'a pas gagne.
+  */
+  .sb-concept__statut{flex:none;padding:4px 10px;border-radius:var(--r-pill);
+    font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+    color:var(--ink-muted);box-shadow:inset 0 0 0 1px var(--line)}
+  .sb-concept__statut--oui{background:var(--ink);color:#fff;box-shadow:none}
+  .sb-concept__texte{margin-top:12px;font-size:clamp(15px,1.5vw,17px);
+    line-height:1.6;color:var(--ink-soft)}
+
+  /*
+    La pile. Les planches n'ont pas toutes le meme rapport - 1,73 pour les
+    slides, 0,93 pour les emails, 1,49 pour le social - et on ne le corrige PAS :
+    ce sont des maquettes, les recadrer a un format commun mentirait sur ce
+    qu'elles sont. Chacune garde sa hauteur, et les deux colonnes se recalent
+    d'elles-memes puisqu'elles montrent les memes surfaces dans le meme ordre.
+  */
+  /*
+    UNE PILE, PAS UNE COLONNE. Les sept planches occupent la MEME boite : elles
+    sont superposees et tournent d'elles-memes, la premiere passant derriere
+    toutes les autres a chaque tour. C'est le rythme du deck qui montre la serie,
+    pas le defilement du lecteur.
+
+    `--d` est la PROFONDEUR dans la pile, posee par le script a chaque tour. Le
+    CSS n'en connait rien d'autre : il traduit une profondeur en decalage,
+    en echelle et en cote d'empilement. Deplacer la logique dans le script
+    reviendrait a y ecrire des pixels.
+
+    LE DECALAGE VERTICAL EST NEGATIF, et c'est ce qui rend la legende lisible.
+    Les cartes du dessous depassent par le HAUT ; leur bas - donc leur legende -
+    reste couvert par la carte de devant. Un decalage positif les aurait fait
+    depasser par le bas et on aurait lu sept legendes empilees.
+
+    `--x` EST LE COTE, pas une distance : 0 dans la pile, 1 en attente hors
+    cadre. Le sens, lui, vient de `--sens`, pose par la page - la colonne de
+    gauche fait entrer ses planches par la gauche, celle de droite par la droite.
+    Multiplier un pourcentage par deux nombres sans unite est licite en calc(),
+    et c'est ce qui evite d'ecrire deux jeux de regles symetriques.
+
+    L'ARRIVEE EST ARQUEE, et les coefficients ne sont pas inventes : ce sont
+    ceux d'ARC_VIGNETTE (carousel.ts), la courbure des rails du site - 18px de
+    chute, 4,5 degres, 5% d'echelle. La planche arrive donc plus bas, penchee et
+    un peu plus petite, puis se redresse en se posant, exactement comme une
+    vignette qui rejoint le centre du carrousel de /system-event.
+    Le SIGNE de la rotation suit `--sens`, comme le `d` signe du carrousel suit
+    le cote ou se trouve la vignette : celle qui vient de la gauche penche dans
+    l'autre sens que celle qui vient de la droite. Les deux colonnes sont donc en
+    miroir, et pas seulement decalees.
+    La chute, elle, n'est pas signee - `--x` ne vaut que 0 ou 1 - ce qui reproduit
+    l'`abs()` du carrousel : on tombe toujours vers le bas, de quelque cote qu'on
+    vienne.
+
+    LA CARTE QUI SORT NE SORT PAS. Elle s'efface derriere la pile, sur place. Une
+    sortie laterale l'aurait fait croiser celle qui arrive, et sur la colonne de
+    gauche elle serait passee devant celle de droite. Seule l'ARRIVEE vient du
+    dehors : c'est elle qu'on regarde.
+
+    Au-dela de la troisieme, les cartes sont transparentes : une pile ne montre
+    que ses premieres tranches, et garder les sept visibles epaissit un bord qui
+    ne dit plus rien.
+  */
+  /*
+    LE CADRE EXISTE POUR CLIPPER, et il est indispensable. Les cartes en attente
+    sont posees a 118% de leur largeur hors de la pile - soit ~550px - et une
+    fois traduites elles COMPTENT dans le debordement du document : mesure a
+    342px de defilement horizontal apparu sur toute la page, `overflow-x:hidden`
+    du body ne suffisant pas a l'empecher.
+
+    Le clip est a 0 a GAUCHE ET A DROITE, donc pile aux bords de la colonne :
+    c'est la que les planches doivent disparaitre.
+
+    EN BAS IL EN FAUT BEAUCOUP PLUS QU'IL N'Y PARAIT. L'arc fait descendre la
+    planche de 64px, et une planche a mi-vol est deja largement dans la colonne :
+    mesure, elle etait rognee de 37px alors qu'elle etait visible aux trois
+    quarts. Les 72px couvrent la chute et l'ombre (13px). En haut, 32 suffisent :
+    seule la tranche des cartes du dessous y depasse, de 24px au plus.
+    L'ombre ne deborde PAS lateralement (flou 34, etalement -20 : 17 - 20 < 0),
+    donc un clip horizontal a ras ne lui coute rien.
+  */
+  .sb-deck-cadre{overflow:hidden;margin-top:var(--sp-12);padding:32px 0 72px}
+  /*
+    --base est le cote de la COLONNE, --sens celui qu'une carte applique
+    reellement. Les deux se confondent tant que les concepts sont cote a cote :
+    chaque colonne fait venir ses planches de son propre bord de page.
+  */
+  .sb-deck{--sens:var(--base,-1);
+    position:relative;list-style:none;margin:0;padding:0;
+    aspect-ratio:4/3}
+  /*
+    LE CADRE VISUEL EST SUR L'ETAGE QUI BOUGE, pas sur celui-ci. Fond, bord,
+    rayon et ombre vivaient ici, sur l'element qui ne porte que le deplacement
+    HORIZONTAL : pendant l'arc, le contenu descendait de 64px a l'interieur d'une
+    carte blanche qui, elle, ne bougeait pas - la legende sortait par le bas.
+    Cet element ne fait plus que placer et deplacer lateralement ; tout ce qui se
+    voit appartient a .sb-deck__pose, donc la carte et son contenu arquent
+    ensemble.
+  */
+  .sb-deck__card{position:absolute;inset:0;
+    transform:translateX(calc(var(--x,0) * var(--sens,-1) * 118%))
+      translateY(calc(var(--d,0) * -12px)) scale(calc(1 - var(--d,0) * .04));
+    /* la transform est plus lente que l'opacite : la carte finit d'arriver
+       apres etre devenue opaque, donc on la voit se poser au lieu d'apparaitre */
+    transition:transform .78s cubic-bezier(.22,1,.36,1),opacity .42s ease}
+
+  /*
+    DEUX ETAGES, ET C'EST CE QUI FAIT L'ARC. La carte porte le deplacement
+    HORIZONTAL, cet element-ci porte le vertical, l'inclinaison et l'echelle.
+    Sur un seul element, les deux axes partagent forcement la meme transition -
+    `transform` est une seule propriete - donc ils s'interpolent ensemble et le
+    trajet est une DIAGONALE DROITE, quelle que soit l'amplitude qu'on lui donne.
+    Separes, chacun suit sa propre courbe : l'horizontale decelere tot pendant
+    que la verticale s'attarde en bas, puis remonte vite sur la fin. C'est ce
+    decalage entre les deux qui creuse la trajectoire.
+
+    Amplitudes accentuees par rapport a ARC_VIGNETTE (18px / 4,5deg / 5%), et
+    volontairement : les vignettes du carrousel parcourent la largeur d'une
+    vignette, ces planches traversent ~576px. Le meme arc y serait invisible.
+  */
+  .sb-deck__pose{height:100%;
+    background:var(--card);border-radius:var(--r-lg);
+    border:1px solid var(--line);border-width:max(1px,var(--edge-w));
+    box-shadow:0 16px 34px -20px rgba(120,30,10,.25);
+    transform:translateY(calc(var(--x,0) * 64px))
+      rotate(calc(var(--x,0) * var(--sens,-1) * 11deg))
+      scale(calc(1 - var(--x,0) * .1));
+    transition:transform .78s cubic-bezier(.72,0,.3,1)}
+  /* le fond de .sb-deck__pose est OPAQUE et ce n'est pas un detail : une planche
+     translucide laisserait voir celle qu'elle recouvre, et la pile serait
+     illisible des la troisieme. */
+  .sb-deck__fig{margin:0;height:100%;display:flex;flex-direction:column;
+    padding:var(--sp-01)}
+  /* contain et non cover : ce sont des maquettes, un recadrage couperait
+     l'interface qu'elles montrent. Les trois rapports coexistent donc dans une
+     boite commune, chacun a sa taille. */
+  .sb-deck__fig img{flex:1;min-height:0;width:100%;object-fit:contain}
+  .sb-deck__fig figcaption{flex:none;padding-top:10px}
+
+  /*
+    Le rond de communication et son texte. Meme dispositif que .osbridge sur
+    l'accueil, en miroir : le dessin a gauche, le propos a droite.
+
+    L'APLAT EST DANS LE CSS, LE TRAIT DANS LE FICHIER. Le disque du SVG a ete
+    retire (voir l'en-tete de brand-communication.svg) : c'est le conteneur qui
+    le porte, en blanc, exactement comme .osbridge__visual. Le trait, lui, suit
+    --accent - donc le rouge de marque en spicy, le quasi-noir en mono, le rouge
+    Mondrian en contrast. Passer par --ink n'y changerait rien a l'oeil sur les
+    deux derniers, mais perdrait le rouge sur le premier.
+
+    112% ET NON 137%, ET C'EST MESURE. Le 137% de l'accueil vient d'un calcul
+    (100/73) qui fait retomber le disque implicite du fichier sur celui du
+    conteneur. Il ne se transpose pas : ce qui compte a l'oeil n'est pas le
+    disque du fichier mais la place qu'y prend l'ENCRE, et les deux dessins n'ont
+    pas la meme densite dans leur viewBox.
+    Mesure au getBBox() : l'encre de governance-visual fait 56 unites de large,
+    celle-ci 82,7. A 137%, la premiere occupe 0,77 fois son disque - elle rentre
+    dedans - quand la seconde en occupe 1,13 et deborde vers le paragraphe.
+    A 112%, l'encre retombe a 0,93 : le dessin garde toute sa presence dans le
+    rond et laisse ~11px de blanc de chaque cote. Remesurer au getBBox() avant de
+    toucher a cette valeur, jamais a vue.
+  */
+  .sb-taught{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);
+    gap:var(--sp-14);align-items:center;margin-top:var(--sp-19)}
+  /*
+    DEUX niveaux, comme sur l'accueil, et ce n'est pas une precaution : la boite
+    carree et le disque ne peuvent pas etre le meme element. Le SVG est rendu a
+    137%, donc plus grand que sa boite ; si le disque porte lui-meme
+    `aspect-ratio:1`, ce contenu trop haut l'emporte sur le ratio et l'etire -
+    mesure a 300x411, soit un ovale. En absolu sur `inset:0`, sa hauteur vient du
+    parent et le debordement ne pese plus rien.
+  */
+  .sb-taught__viz{position:relative;width:100%;max-width:300px;aspect-ratio:1;justify-self:center}
+  .sb-taught__visual{position:absolute;inset:0;border-radius:50%;background:#fff;
+    color:var(--accent);display:grid;place-items:center;line-height:1}
+  .sb-taught__visual svg{width:112%;height:112%;overflow:visible}
+
+  /*
+    ENTREE DU DESSIN : les trois ronds de la bulle s'allument l'un apres l'autre,
+    puis les deux traits de vibration arrivent. L'ordre EST le propos - on ecrit,
+    puis ca vibre - donc les traits partent apres le dernier rond, pas avec lui.
+
+    transform-box:fill-box, sans quoi transform-origin se lirait sur le viewBox
+    entier et chaque rond grossirait depuis le centre du dessin au lieu du sien.
+
+    Tout est conditionne a `.js` : sans script, rien n'est masque.
+  */
+  .js .sb-taught__visual .dot,.js .sb-taught__visual .wave{transform-box:fill-box;transform-origin:50% 50%}
+  .js .sb-taught__visual .dot{opacity:0;transform:scale(.2)}
+  .js .sb-taught.in .sb-taught__visual .dot{opacity:1;transform:none;
+    transition:opacity .28s ease var(--d,0s),transform .5s cubic-bezier(.34,1.56,.64,1) var(--d,0s)}
+  .js .sb-taught__visual .dot:nth-of-type(1){--d:.12s}
+  .js .sb-taught__visual .dot:nth-of-type(2){--d:.28s}
+  .js .sb-taught__visual .dot:nth-of-type(3){--d:.44s}
+  /* les traits s'ecartent de la bulle en apparaissant : ils ne se posent pas,
+     ils sont EMIS - d'ou la translation vers l'exterieur plutot qu'un fondu nu */
+  .js .sb-taught__visual .wave{opacity:0;transform:translateX(6px) scale(.6)}
+  .js .sb-taught.in .sb-taught__visual .wave{opacity:1;transform:none;
+    transition:opacity .34s ease var(--d,0s),transform .5s cubic-bezier(.22,1,.36,1) var(--d,0s)}
+  .js .sb-taught__visual .wave--1{--d:.66s}
+  .js .sb-taught__visual .wave--2{--d:.78s}
+
+  @media(prefers-reduced-motion:reduce){
+    /*
+      Sous mouvement reduit il n'y a PAS de rotation - le script s'arrete - donc
+      une pile laisserait six planches sur sept inaccessibles. Elle redevient
+      une colonne : tout est visible, rien ne bouge, chaque carte garde sa
+      legende. C'est le seul repli qui ne perde pas de contenu.
+    */
+    /* plus rien a clipper une fois la pile depliee en colonne, et le clip
+       couperait les ombres des sept cartes */
+    .sb-deck-cadre{overflow:visible;padding:0}
+    .sb-deck{aspect-ratio:auto;display:grid;gap:var(--sp-08)}
+    .sb-deck__card{position:static;transform:none;opacity:1;z-index:auto}
+    .sb-deck__pose{transform:none;transition:none}
+    .sb-deck__fig{height:auto}
+    .sb-deck__fig img{flex:none;height:auto}
+
+    /* reveal() pose .in tout de suite ici : il faut neutraliser l'etat de DEPART
+       autant que la transition, sinon les ronds resteraient a scale(.2) */
+    .js .sb-taught__visual .dot,.js .sb-taught.in .sb-taught__visual .dot,
+    .js .sb-taught__visual .wave,.js .sb-taught.in .sb-taught__visual .wave{
+      opacity:1;transform:none;transition:none}
+
+    /* les ecrans s'arretent en haut de page : le cadre montre alors l'en-tete
+       du produit, ce qu'une capture donnerait de toute facon. Rien de perdu
+       qu'un defilement manuel ne rende - d'ou l'ascenseur ci-dessous. */
+    .js .sb-screen__cadre.defile img{animation:none}
+    .sb-screen__cadre{overflow-y:auto}
+  }
+  .sb-taught__body{margin-top:0;max-width:none}
+
+  /*
+    Les personnages, dans la grille du nuancier : colonnes egales, une tuile
+    carree par visuel, l'intitule dessous.
+
+    C'EST LA TUILE QUI DONNE LA TAILLE, PAS LE FICHIER. Les treize SVG n'ont pas
+    le meme rapport - 235x153 pour la R&D, 211x165 pour l'IT, et ainsi de suite -
+    donc leur imposer une largeur commune leur laissait des hauteurs
+    differentes : le rang ondulait et les intitules ne s'alignaient plus.
+    `aspect-ratio:1` fixe la boite, `object-fit:contain` y loge le dessin sans le
+    deformer ni le rogner. Tous occupent alors le meme carre, quel que soit leur
+    cadrage d'origine.
+
+    AUCUNE couleur posee ici, et c'est le point : ces illustrations portent leurs
+    propres aplats. Leur donner `color` n'aurait aucun effet - elles n'utilisent
+    pas currentColor - mais l'ecrire laisserait croire le contraire a la
+    prochaine lecture.
+  */
+  .sb-cast{list-style:none;display:flex;gap:var(--sp-02);overflow-x:auto;
+    scroll-snap-type:x mandatory;touch-action:pan-x;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    margin:0 calc(50% - 50vw);width:100vw;padding:0 var(--bleed-pad) var(--sp-06)}
+  .sb-cast::-webkit-scrollbar{display:none}
+  /* meme plancher que le nuancier : les deux series se lisent l'une sous
+     l'autre, une largeur de tuile differente les ferait lire comme deux
+     dispositifs sans rapport */
+  .sb-cast li{flex:0 0 clamp(132px,16vw,164px);scroll-snap-align:center;
+    display:flex;flex-direction:column;gap:6px;min-width:0}
+  .sb-cast + .dots{display:flex}
+  .sb-cast img{display:block;width:100%;aspect-ratio:1;object-fit:contain}
+  .sb-cast b{font-size:12px;font-weight:600;color:var(--ink)}
+
+  /*
+    Claim en deux temps : chaque moitie tombe sur SA ligne, et la cesure ne peut
+    plus se poser au milieu d'une phrase.
+
+    Pas un <br>, qui ne dit rien de ce qui doit rester ensemble : il pose une
+    coupe a un endroit et laisse le reste se replier ou il veut. Ici chaque
+    moitie est un bloc de flex a 100% - elle prend toute la ligne, et si elle est
+    encore trop longue elle se replie A L'INTERIEUR de la sienne, jamais dans
+    celle de l'autre. C'est le procede de .eq__line dans <Equations>, pour
+    exactement la meme raison.
+
+    max-width neutralise, et ce n'est pas un detail : les 24ch de .ls-claim
+    coupaient « The Sanofi brand was the constraint. » - 36 signes - donc la
+    phrase repartait sur deux lignes a elle seule et on en retrouvait quatre.
+    Le selecteur double tient la specificite de .ls-claim sans dependre de
+    l'ordre du bundle.
+  */
+  .ls-claim.sb-duo{display:flex;flex-wrap:wrap;max-width:none}
+  .sb-duo > *{flex:0 0 100%}
+
+
+  /*
+    Sous 640px le rond passe en filigrane DERRIERE le texte - meme seuil et meme
+    procede que .osbridge sur l'accueil. Empile, il aurait pousse le paragraphe
+    d'une hauteur d'ecran pour un dessin qui accompagne le propos sans le porter.
+
+    Le filigrane s'obtient exactement comme sur l'accueil : l'aplat blanc
+    disparait et le trait passe au blanc. Le dessin suit currentColor, donc une
+    seule declaration suffit - pas besoin de jouer sur l'opacite.
+  */
+  /*
+    Les paliers vont du plus large au plus etroit, et DANS CET ORDRE : a media
+    queries de meme specificite, c'est la derniere ecrite qui l'emporte.
+  */
+  @media(max-width:900px){
+    /* trois colonnes de texte tombent sous 240px a cette largeur : les pistes
+       s'empilent, comme les concepts juste au-dessus */
+    .sb-pistes{grid-template-columns:1fr;gap:var(--sp-14)}
+
+    /*
+      Sous ce seuil rendreDeplacable() se coupe : un tas immobile de cartes
+      superposees serait illisible, il redevient donc un rail.
+
+      !important sur position/left/top : drag.ts ecrit ces trois-la en inline
+      des qu'une carte a ete saisie, et l'inline gagne contre une requete media.
+      Meme correctif que sur .dcard de l'accueil.
+
+      touch-action:auto annule le `none` du conteneur, qui servait au glisser :
+      laisse tel quel, il dirait au navigateur de ne traiter aucun geste tactile,
+      donc le balayage du rail ne ferait rien. Invisible a la mesure - scrollLeft
+      et les clics ignorent touch-action.
+    */
+  }
+
+  /*
+    LES DEUX CONCEPTS TIENNENT JUSQU'A 720 ET NON 900. Ils empilaient avec les
+    pistes, au meme seuil, alors que ce ne sont pas les memes objets : trois
+    colonnes de texte deviennent illisibles bien avant deux colonnes de
+    maquettes. La comparaison cote a cote est ce que ce bloc raconte - un concept
+    retenu contre un concept ecarte - donc elle se garde aussi longtemps qu'elle
+    reste lisible.
+
+    LE PLANCHER EST TOUJOURS DE 300px PAR COLONNE, seul le calcul a change : a
+    721 de fenetre, une colonne fait encore (721 - 46 - 32) / 2 = 321. A 900 elle
+    en faisait 411 - il y avait donc deux cents pixels de marge inutilisee.
+    Recalculer si l'ecart ou la marge du shell bougent.
+  */
+  @media(max-width:720px){
+    /*
+      Une seule colonne, et les images entre les deux moities du texte.
+      row-gap redevient un espacement : les deux blocs ne se suivent plus.
+
+      CE SEUIL EST CELUI DU GLISSER, ET IL DOIT LE RESTER. Ces regles vivaient
+      dans le bloc 900px, avec les pistes : entre 721 et 900 les cartes etaient
+      donc deja un rail alors que rendreDeplacable() les tenait encore pour
+      deplacables. Un glisser dans un rail qui defile lui vole son balayage - et
+      rien ne le montre a la mesure, ni scrollLeft ni un clic.
+    */
+    .sb-terrain{grid-template-columns:minmax(0,1fr);
+      grid-template-areas:"texte-a" "images" "texte-b";row-gap:var(--sp-12)}
+    .sb-terrain__b > p{margin-top:0}
+
+    /*
+      LES TROIS PIECES DEVIENNENT LES TROIS VUES D'UN RAIL, et c'est `display:
+      contents` qui le permet : les groupes et leurs scenes cessent de former des
+      boites, si bien que les figures deviennent enfants directes du rail. Sans
+      lui il aurait fallu deux rails - un par groupe - ou dupliquer le balisage.
+    */
+    .sb-pieces{display:flex;gap:var(--sp-02);overflow-x:auto;
+      scroll-snap-type:x mandatory;touch-action:auto;scrollbar-width:none;
+      -webkit-overflow-scrolling:touch;
+      margin:0 calc(50% - 50vw);width:100vw;
+      padding:0 var(--bleed-pad) var(--sp-06)}
+    .sb-pieces::-webkit-scrollbar{display:none}
+    .sb-groupe,.sb-groupe__scene{display:contents}
+    .sb-piece{position:relative!important;left:auto!important;top:auto!important;
+      flex:0 0 min(58vw,240px);scroll-snap-align:center;
+      width:auto;transform:none;cursor:default}
+    .sb-piece:hover{transform:none}
+    .sb-colonne .dots{display:flex}
+
+    /* la subgrid n'a plus rien a aligner - il n'y a plus qu'une colonne - et
+       elle doit etre defaite explicitement, sinon les trois rangees du parent
+       contraindraient encore les deux concepts empiles */
+    .sb-concepts{grid-template-columns:1fr;grid-template-rows:none;row-gap:var(--sp-19)}
+    .sb-concept{display:block}
+    /*
+      EN COLONNE UNIQUE, L'ALTERNANCE CHANGE D'ECHELLE. Cote a cote, chaque
+      colonne tire ses planches de son bord de page : le cote dit ou l'on est.
+      Empilees, les deux concepts occupent la meme colonne et ce reperage n'a
+      plus d'objet - toutes les planches d'un meme concept arriveraient du meme
+      bord, sept fois de suite.
+      L'alternance descend donc d'un cran : elle passe du concept a la CARTE. Une
+      sur deux vient de l'autre bord, et --base decide seulement par lequel on
+      commence - les deux concepts restent donc en miroir l'un de l'autre.
+    */
+    .sb-deck__card{--sens:calc(var(--base,-1) * var(--alt,1))}
+  }
+  @media(max-width:640px){
+    .sb-taught{grid-template-columns:1fr;position:relative}
+    .sb-taught__body{position:relative;z-index:1}
+    .sb-taught__viz{position:absolute;inset:0;max-width:none;width:auto;margin:0;
+      justify-self:auto;aspect-ratio:auto;z-index:-1;pointer-events:none}
+    /* a gauche, la ou l'accueil le pose a droite : c'est de ce cote que le
+       dessin se tient au bureau, le filigrane ne doit pas changer de bord */
+    .sb-taught__visual{inset:auto;right:auto;left:-14%;top:50%;transform:translateY(-50%);
+      width:clamp(240px,72vw,340px);height:clamp(240px,72vw,340px);
+      background:none;color:#fff}
+  }
+
+</style>
+
+<script>
+  /*
+    LA LOUPE. Deux series de cartes l'ouvrent : les planches de la discovery en
+    mode image, les ecrans d'Elements en mode cadre defilant.
+
+    LE SRCSET EST RECOPIE DEPUIS LA VIGNETTE, ET SEUL `sizes` CHANGE. C'est ce
+    qui evite un second jeu de fichiers : Astro a deja fabrique toute l'echelle
+    de largeurs - jusqu'a 2934w pour les planches - et `sizes` est ce qui dit au
+    navigateur laquelle prendre. Passer de « 340px » a « 92vw » suffit a lui
+    faire chercher la grande. On ecrit `sizes` AVANT `srcset` : dans l'autre
+    ordre, le navigateur choisit avec l'ancienne valeur et telecharge la petite.
+
+    Ce que <dialog> fait tout seul et qu'on n'a donc pas a ecrire : le fond
+    assombri, Echap, le focus enferme puis rendu au bouton d'origine, et le reste
+    de la page rendu inerte pour les lecteurs d'ecran.
+  */
+  const loupe = document.querySelector<HTMLDialogElement>('#sbloupe');
+  if (loupe) {
+    const plate = loupe.querySelector<HTMLImageElement>('.sb-loupe__img')!;
+    const cadre = loupe.querySelector<HTMLElement>('.sb-loupe__cadre')!;
+    const dedans = cadre.querySelector<HTMLImageElement>('img')!;
+    const legende = loupe.querySelector<HTMLElement>('.sb-loupe__legende')!;
+
+    const montrer = (bouton: HTMLElement) => {
+      const source = bouton.querySelector<HTMLImageElement>('img');
+      if (!source) return;
+      const ecran = bouton.dataset.loupe === 'ecran';
+      const cible = ecran ? dedans : plate;
+
+      plate.hidden = ecran;
+      cadre.hidden = !ecran;
+      cible.sizes = '92vw';
+      cible.srcset = source.srcset;
+      cible.src = source.src;
+      cible.alt = source.alt;
+      if (ecran) cadre.style.setProperty('--r', bouton.style.getPropertyValue('--r'));
+      legende.textContent = bouton.dataset.legende ?? '';
+      loupe.showModal();
+    };
+
+    document.querySelectorAll<HTMLElement>('.sb-zoom').forEach((b) =>
+      b.addEventListener('click', () => montrer(b)),
+    );
+
+    /*
+      Un seul ecouteur pour les deux fermetures. Le clic « en dehors » se
+      reconnait a ce que sa cible EST le dialog : le fond assombri n'est pas un
+      element, les evenements qu'il recoit sont attribues au dialog lui-meme.
+      C'est pour cela que .sb-loupe__boite ne prend que la taille de son contenu -
+      sinon il n'y aurait pas de « dehors » a cliquer.
+    */
+    loupe.addEventListener('click', (e) => {
+      const cible = e.target as HTMLElement;
+      if (cible === loupe || cible.closest('[data-fermer]')) loupe.close();
+    });
+
+    /* on vide l'image a la fermeture : laissee en place, elle continuerait a
+       occuper sa memoire decodee pour une boite que personne ne regarde */
+    loupe.addEventListener('close', () => {
+      [plate, dedans].forEach((i) => {
+        i.removeAttribute('srcset');
+        i.removeAttribute('src');
+      });
+    });
+  }
+
+  import { revealAll } from '../scripts/reveal';
+  import { carrousel } from '../scripts/carousel';
+  import { rendreDeplacable } from '../scripts/drag';
+  import { mouvementReduit } from '../scripts/motion';
+
+  /* les cartes-preuves s'amorcent dans <ProofCards>, les volets dans
+     <Equations>, le nuancier dans <Swatches> : ne restent ici que l'entree en
+     scene des chapitres et le rail des personnages. */
+  revealAll('.ls-reveal', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+
+  /*
+    arc:false, comme le nuancier juste en dessous : une courbure ferait pencher
+    les personnages aux extremites, or ce sont des illustrations a plat - elles
+    n'ont pas de perspective a emprunter.
+  */
+  /* le dessin s'anime pour lui-meme et non avec son chapitre : la section fait
+     plusieurs hauteurs d'ecran, une reveal de chapitre jouerait les ronds bien
+     avant qu'ils soient en vue */
+  revealAll('.sb-taught', { threshold: 0.35 });
+
+  /*
+    Les deux piles de concepts tournent d'elles-memes.
+
+    Le script ne pose qu'une chose : `--d`, la profondeur de chaque carte. Le
+    reste - decalage, echelle, opacite, cote d'empilement - est du CSS. Ecrire
+    les pixels ici aurait rendu la pile impossible a retoucher sans relire du JS.
+
+    ELLES NE TOURNENT QUE VISIBLES. Un `setInterval` laisse a demeure ferait
+    travailler deux piles en permanence sur une page qui en fait dix ecrans de
+    haut, batterie comprise. L'observateur coupe le minuteur des que la pile
+    sort du champ et le relance en revenant.
+
+    Rien sous mouvement reduit : le CSS y remet la pile a plat, en colonne, et
+    une rotation par-dessus n'aurait plus rien a faire tourner.
+  */
+  const PROFONDEUR_VISIBLE = 2;
+  const TOUR = 2600;
+  /*
+    DELAI AVANT LE PREMIER TOUR, et il ne vaut pas TOUR.
+
+    Un setInterval nu ne se declenche qu'au bout d'une periode : la pile restait
+    donc immobile 2,6s apres etre apparue, le temps qu'un tour entier s'ecoule
+    dans le vide. A l'ecran, l'animation semblait se declencher trop tard - elle
+    ne se declenchait pas du tout, elle attendait. D'ou une amorce courte, juste
+    assez pour que la premiere planche parte APRES avoir ete vue immobile, et
+    non en meme temps que l'apparition du bloc.
+  */
+  const AMORCE = 700;
+
+  if (!mouvementReduit()) {
+    document.querySelectorAll<HTMLElement>('.sb-deck').forEach((pile) => {
+      const cartes = [...pile.querySelectorAll<HTMLElement>('.sb-deck__card')];
+      if (cartes.length < 2) return;
+      let devant = 0;
+
+      const poser = () => {
+        cartes.forEach((carte, i) => {
+          /*
+            `devant - i` ET NON `i - devant` : c'est ce qui met la pile dans le
+            bon sens. Avec la soustraction inverse, la carte rangee hors cadre
+            etait celle qui venait de QUITTER le devant - les planches sortaient
+            sur le cote au lieu d'y entrer, exactement l'inverse du geste voulu.
+            Ici la profondeur croit avec l'anciennete : devant = la derniere
+            arrivee, et celle qui n'est pas encore venue attend au fond.
+          */
+          const d = (devant - i + cartes.length) % cartes.length;
+          /* la plus profonde est la PROCHAINE a entrer : on la range hors cadre
+             du cote de sa colonne, pour qu'elle ait le chemin a parcourir quand
+             son tour vient. Les autres retirees s'effacent sur place. */
+          const enAttente = d === cartes.length - 1;
+          /*
+            La carte en attente porte --d:0 et non sa profondeur reelle. Le
+            decalage de profondeur (-12px par cran) est le signe de l'EMPILEMENT,
+            et elle n'est pas dans la pile - elle attend dehors. Lui laisser sa
+            profondeur la remontait de 36px, ce qui annulait les 18px de chute de
+            l'arc et la faisait arriver par le haut au lieu du bas, a l'envers du
+            carrousel dont on reprend la courbure.
+            Sa pose vient donc entierement de --x : chute, inclinaison, echelle.
+          */
+          carte.style.setProperty('--d', enAttente ? '0' : String(Math.min(d, PROFONDEUR_VISIBLE + 1)));
+          carte.style.setProperty('--x', enAttente ? '1' : '0');
+          carte.style.opacity = d > PROFONDEUR_VISIBLE ? '0' : '1';
+          carte.style.zIndex = String(cartes.length - d);
+        });
+      };
+      poser();
+
+      const tourner = () => {
+        devant = (devant + 1) % cartes.length;
+        poser();
+      };
+
+      let minuteur: ReturnType<typeof setInterval> | undefined;
+      let amorce: ReturnType<typeof setTimeout> | undefined;
+      new IntersectionObserver(
+        ([e]) => {
+          clearInterval(minuteur);
+          clearTimeout(amorce);
+          if (!e.isIntersecting) return;
+          amorce = setTimeout(() => {
+            tourner();
+            minuteur = setInterval(tourner, TOUR);
+          }, AMORCE);
+        },
+        /*
+          `threshold: 0` et non 0.25 : la pile occupe plusieurs centaines de
+          pixels de haut, donc en exiger le quart imposait d'en faire defiler
+          autant de plus avant que le minuteur ne s'arme. Cumule a l'attente
+          ci-dessus, la premiere planche arrivait bien apres la lecture du titre.
+          Ici elle s'arme des le premier pixel.
+        */
+        { threshold: 0 },
+      ).observe(pile);
+    });
+  }
+
+  /*
+    Les deux series de la discovery. Meme dispositif que le rang de personnages :
+    arc:false, parce qu'une courbure ferait pencher des pages de brandbook - ce
+    sont des documents, pas des vignettes qu'on feuillette.
+  */
+  /*
+    LES DEUX SERIES N'OUVRENT PAS AU MEME ENDROIT, et c'est ce qui les distingue
+    a l'oeil. Les contraintes tiennent en trois planches : elles ouvrent sur la
+    premiere, calee sur la colonne de texte, et le rang se termine dans la marge
+    - une serie qu'on embrasse d'un regard.
+    La discovery en compte sept. Elle ouvre sur la planche CENTRALE, donc elle
+    deborde des DEUX cotes : le bord coupe a gauche autant qu'a droite dit qu'il
+    y a plus a voir que ce que le cadre montre. La meme largeur de tuile produit
+    ainsi deux lectures differentes, sans qu'on ait a le declarer.
+
+    Seulement au-dela du palier mobile : sur telephone on ne voit qu'une planche
+    et demie, ouvrir au milieu y ferait commencer la lecture en cours de serie.
+  */
+  const AU_DELA_DU_MOBILE = window.matchMedia('(min-width: 721px)').matches;
+
+  [
+    { id: 'sbconstraints', centre: false },
+    { id: 'sbdiscovery', centre: true },
+  ].forEach(({ id, centre }) => {
+    const piste = document.getElementById(id);
+    if (!piste) return;
+    const vignettes = piste.querySelectorAll('li').length;
+    carrousel(piste, {
+      slides: 'li',
+      dots: [...document.querySelectorAll<HTMLElement>(`#${id}dots .dot`)],
+      arc: false,
+      classeDotActive: 'is-active',
+      depart: centre && AU_DELA_DU_MOBILE ? Math.floor(vignettes / 2) : 0,
+    });
+  });
+
+  const cast = document.getElementById('sbcast');
+  if (cast) {
+    carrousel(cast, {
+      slides: 'li',
+      dots: [...document.querySelectorAll<HTMLElement>('#sbcastdots .dot')],
+      arc: false,
+      classeDotActive: 'is-active',
+    });
+  }
+
+  /*
+    Les quatre ecrans. Ils ne sont un rail QUE sous 721px - au-dessus c'est une
+    grille 2x2 qui ne defile pas. Le carrousel est branche dans les deux cas, et
+    c'est sans consequence : sans debordement horizontal, indexActif() renvoie 0
+    et les pastilles sont de toute facon masquees par la meme requete media qui
+    defait le rail. Le brancher sous condition aurait demande de le rebrancher au
+    redimensionnement, pour rattraper un cas qui ne coute rien.
+  */
+  /* meme seuil que le rail ci-dessous dans le style : au-dela le tas defile, et
+     y laisser le glisser lui volerait les gestes tactiles */
+  rendreDeplacable('.sb-piece', '(max-width:720px)');
+
+  /*
+    Les cadres qui defilent seuls : la newsletter partout, les ecrans d'Elements
+    uniquement sur les appareils sans survol - c'est le CSS qui en decide, le
+    script se contente de poser la classe pour les deux.
+
+    Elle est posee ET RETIREE, contrairement au .in de revealAll qui ne fait
+    qu'un aller simple : une animation infinie qui continue hors champ ferait
+    tourner le compositeur pour personne.
+  */
+  const cadresPiece = document.querySelectorAll<HTMLElement>('.sb-piece__cadre,.sb-screen__cadre');
+  if (cadresPiece.length) {
+    const vu = new IntersectionObserver(
+      (entrees) => entrees.forEach((e) => e.target.classList.toggle('defile', e.isIntersecting)),
+      { threshold: 0 },
+    );
+    cadresPiece.forEach((c) => vu.observe(c));
+  }
+
+  const piecesRail = document.getElementById('sbpieces');
+  if (piecesRail) {
+    carrousel(piecesRail, {
+      slides: '.sb-piece',
+      dots: [...document.querySelectorAll<HTMLElement>('#sbpiecesdots .dot')],
+      arc: false,
+      classeDotActive: 'is-active',
+    });
+  }
+
+  const appariementsRail = document.getElementById('sbpairing');
+  if (appariementsRail) {
+    carrousel(appariementsRail, {
+      slides: 'li',
+      dots: [...document.querySelectorAll<HTMLElement>('#sbpairingdots .dot')],
+      arc: false,
+      classeDotActive: 'is-active',
+    });
+  }
+
+  const ecransRail = document.getElementById('sbscreens');
+  if (ecransRail) {
+    carrousel(ecransRail, {
+      slides: 'li',
+      dots: [...document.querySelectorAll<HTMLElement>('#sbscreensdots .dot')],
+      arc: false,
+      classeDotActive: 'is-active',
+    });
+  }
+</script>

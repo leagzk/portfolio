@@ -8,7 +8,7 @@ indexable: false
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-At global scale a system isn't managed, it's governed
+At global scale a system isn't managed, it's governed.
 
 # Elements - Sanofi global experience system
 
@@ -265,7 +265,7 @@ I've argued Elements belongs closer to engineering - one reporting line from des
 Bringing them under one line isn't reorg for its own sake. It's **velocity**, and it's **proximity** - sitting end to end with product teams instead of handing work across expertise walls. I'd rather build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. **This is the next mile of the same road.**
 
 Design systems ship standards.
-Experience systems *grow culture*.
+Experience systems *grow culture.*
 
 ---
 

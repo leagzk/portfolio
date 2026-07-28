@@ -54,6 +54,19 @@ export interface Props {
     pilote sous 720px : la largeur se cale sur l'ecran, la hauteur suit.
   */
   wide?: boolean;
+  /*
+    Carrousel tenu DANS la colonne, au lieu de saigner d'un bord a l'autre.
+
+    Le defaut de ce composant est le plein cadre : `margin:0 calc(50% - 50vw)` +
+    `width:100vw`, avec un padding lateral en --bleed-pad pour que la premiere
+    vignette reste calee sur la colonne de texte pendant que la serie file hors
+    ecran. C'est juste pour un carrousel qui occupe toute la largeur, et ruineux
+    des qu'on en met deux cote a cote : chacun deborderait sur l'autre et sur les
+    marges de la page.
+    La variante rend la largeur au conteneur et cale la vignette sur LUI - c'est
+    alors la colonne qui decide, pas la fenetre.
+  */
+  colonne?: boolean;
   slides: Slide[];
 }
 
@@ -64,10 +77,11 @@ const {
   start = 0,
   sizes = '(min-width: 900px) 340px, 60vw',
   wide = false,
+  colonne = false,
   slides,
 } = Astro.props;
 ---
-<div class:list={['ls-carousel', wide && 'ls-carousel--wide']}>
+<div class:list={['ls-carousel', wide && 'ls-carousel--wide', colonne && 'ls-carousel--col']}>
   <ul class="ls-carousel__track" id={id} data-start={start}>
     {slides.map((s) => (
       <li class="ls-carousel__slide">

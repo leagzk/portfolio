@@ -1,0 +1,175 @@
+---
+/*
+  Suite de paliers relies par un trait : une chaine au bureau, une timeline
+  verticale sur telephone.
+
+  Ne vivait que dans system-practice-elements, sous le prefixe `el-pipe` - la
+  chaine des sept produits, « une seule chaine, zero handoff ». Il en sort parce
+  que /system-brand en a le meme usage - quatre annees, le meme geste a chaque
+  fois - et le prefixe change avec le demenagement : `el-` voulait dire Elements.
+  Meme trajet que <Equations> et <ProofCards>.
+
+  LA FORME EST LE PROPOS. Les paliers ne sont pas une liste, ils se suivent : un
+  point les ouvre, un trait les relie. Sous 720px la chaine bascule a la
+  verticale plutot que de defiler - en rail horizontal sur 375px on ne voit
+  jamais la suite entiere, seulement un fragment, et rien ne dit qu'il en reste.
+  C'est le meme ::before qui porte le trait dans les deux sens : on n'echange que
+  les axes.
+
+  LE PIVOT. Un palier peut detacher UN mot de son intitule - le verbe qui bascule
+  d'un palier a l'autre (« was », « became »). Il est passe a part et non balise
+  dans la chaine : `intitule` est rendu en texte, jamais en HTML, et du markup
+  dedans s'afficherait en clair. S'il ne s'y trouve pas, rien n'est detache et
+  l'intitule sort entier - une chaine qui n'a pas de verbe pivot, comme celle
+  d'Elements, n'a rien a declarer.
+*/
+export interface Etape {
+  /** repere court en chasse fixe : « 01 », « 2018 » */
+  repere: string;
+  /** l'intitule du palier, dans le registre display */
+  intitule: string;
+  /** mot de `intitule` a detacher en accent ; doit s'y trouver tel quel */
+  pivot?: string;
+  /** precision facultative, en corps */
+  note?: string;
+}
+
+export interface Props {
+  etapes: Etape[];
+  /** aria-label de la liste : ce que la suite raconte */
+  label: string;
+  /** posee sur un bloc sombre : les encres s'inversent */
+  light?: boolean;
+}
+const { etapes, label, light = false } = Astro.props;
+
+/* Decoupe l'intitule autour du pivot. Retourne les trois segments, dont deux
+   peuvent etre vides ; sans pivot trouve, tout est dans `avant`. */
+const decoupe = (intitule: string, pivot?: string) => {
+  const i = pivot ? intitule.indexOf(pivot) : -1;
+  if (i < 0) return { avant: intitule, pivot: '', apres: '' };
+  return { avant: intitule.slice(0, i), pivot, apres: intitule.slice(i + pivot!.length) };
+};
+---
+<ol class:list={['tl', light && 'tl--light']} aria-label={label}>
+  {etapes.map((e) => {
+    const { avant, pivot, apres } = decoupe(e.intitule, e.pivot);
+    return (
+      <li class="tl__node">
+        <span class="tl__n">{e.repere}</span>
+        <span class="tl__name">{avant}{pivot && <em class="tl__pivot">{pivot}</em>}{apres}</span>
+        {e.note && <span class="tl__note">{e.note}</span>}
+      </li>
+    );
+  })}
+</ol>
+
+<style is:global>
+  .tl{list-style:none;margin:var(--sp-14) 0 0;padding:0;display:flex;align-items:stretch;gap:0;
+    overflow-x:auto;scrollbar-width:none}
+  .tl::-webkit-scrollbar{display:none}
+  .tl__node{flex:1 1 0;min-width:150px;position:relative;padding:var(--sp-08) var(--sp-03) var(--sp-08) 0;
+    display:grid;gap:6px;align-content:start}
+  .tl__node::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--accent-alt);opacity:.28}
+  .tl__node::after{content:"";position:absolute;left:0;top:-4px;width:10px;height:10px;border-radius:50%;
+    background:var(--accent-alt)}
+  .tl__n{font-size:11px;letter-spacing:.12em;color:var(--ink-muted);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  .tl__name{font-family:var(--display);font-weight:400;font-size:clamp(17px,1.8vw,22px);line-height:1.15;color:var(--ink)}
+  /* le pivot se detache par la COULEUR, jamais par la graisse : la Momo Trust
+     Display n'a qu'un poids, un <b> n'y produirait qu'un faux gras. Meme
+     traitement que .ls-pull em et .ls-closing__t em. */
+  .tl__pivot{font-style:italic;color:var(--accent-alt)}
+  .tl__note{font-size:13px;line-height:1.45;color:var(--ink-muted)}
+
+  /*
+    Variante sur bloc sombre.
+
+    --accent-alt ne peut PAS y rester : il vaut le bleu de marque en Mondrian,
+    mais il retombe sur --accent dans les deux autres themes - donc #232320 en
+    mono, soit 1,3:1 sur le #070304 du bloc. Point, trait et pivot y
+    disparaitraient dans un theme sur trois.
+    On suit la convention deja etablie sur ce bloc par .ls-body--light et
+    .ls-cap--light : blanc attenue pour ce qui accompagne, blanc plein pour ce
+    qui porte. Mesures sur #070304 : repere 9,3:1, intitule 15,0:1, pivot 20,5:1.
+  */
+  .tl--light .tl__n{color:rgba(255,255,255,.68)}
+  .tl--light .tl__name{color:rgba(255,255,255,.86)}
+  .tl--light .tl__pivot{color:#fff}
+  .tl--light .tl__note{color:rgba(255,255,255,.68)}
+  .tl--light .tl__node::before{background:#fff;opacity:.32}
+  .tl--light .tl__node::after{background:#fff}
+  /* Mondrian met le jaune la ou les autres themes mettent du blanc, comme
+     .ls-eyebrow--light sur ce meme bloc. #F7D000 sur #070304 : 13,7:1. */
+  [data-theme="contrast"] .tl--light .tl__n,
+  [data-theme="contrast"] .tl--light .tl__pivot{color:var(--highlight)}
+  [data-theme="contrast"] .tl--light .tl__node::after{background:var(--highlight)}
+
+  /*
+    Au-dela de 900px la chaine ne defile plus : ni snap, ni pastilles, ni bord
+    coupe pour le signaler. Tout ce qui depasse la colonne est donc perdu sans
+    que rien ne le dise - et avec sept maillons, `min-width:150px` depassait de
+    18px. On rend la largeur au partage et on descend le corps du libelle en
+    consequence. En dessous de 900px on ne touche a rien : la c'est un rail, il
+    DOIT deborder.
+  */
+  @media(min-width:901px){
+    .tl__node{min-width:0;padding-right:var(--sp-02)}
+    .tl__name{font-size:clamp(15px,1.5vw,19px)}
+  }
+  @media(max-width:900px){
+    .tl{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
+      padding:0 var(--sp-03);scroll-snap-type:x proximity}
+    .tl__node{scroll-snap-align:start}
+  }
+  @media(max-width:720px){
+    /*
+      La chaine passe a la verticale. En rail horizontal sur 375px, les paliers
+      tiennent en demi-cartes : on ne voit jamais la suite, seulement un
+      fragment. Verticale, elle se lit d'un bloc, dans le sens de defilement du
+      telephone, et chaque palier se decouvre a son tour.
+      Le trait passe du haut du noeud a sa gauche : meme ::before, axes echanges.
+      `left` est calcule pour que le trait (2px) tombe au centre du point (10px)
+      place a -var(--sp-08).
+    */
+    .tl{display:block;overflow:visible;scroll-snap-type:none;
+      margin:var(--sp-14) 0 0;width:auto;padding:0 0 0 var(--sp-08)}
+    .tl__node{min-width:0;padding:0 0 var(--sp-12);scroll-snap-align:none}
+    .tl__node:last-child{padding-bottom:0}
+    /* bottom negatif : a 0 le trait s'arrete au bord du noeud, soit 2px au-dessus
+       du point suivant - un cheveu de blanc, mais la chaine parait rompue */
+    .tl__node::before{left:calc(var(--sp-08) * -1 + 4px);right:auto;top:6px;bottom:-4px;
+      width:2px;height:auto}
+    /* le dernier palier ne relie rien : un trait qui pend annoncerait une suite */
+    .tl__node:last-child::before{display:none}
+    .tl__node::after{left:calc(var(--sp-08) * -1);top:2px}
+    /* decouverte progressive : le trait se tire, le point s'allume, le texte monte */
+    .js .tl__node{opacity:0;transform:translateY(14px)}
+    .js .tl__node.in{opacity:1;transform:none;
+      transition:opacity .5s ease,transform .55s cubic-bezier(.22,1,.36,1)}
+    .js .tl__node::before{transform:scaleY(0);transform-origin:top}
+    .js .tl__node.in::before{transform:scaleY(1);
+      transition:transform .55s cubic-bezier(.22,1,.36,1) .12s}
+    .js .tl__node::after{transform:scale(0)}
+    .js .tl__node.in::after{transform:scale(1);
+      transition:transform .4s cubic-bezier(.34,1.56,.64,1) .06s}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .js .tl__node,.js .tl__node.in{opacity:1;transform:none;transition:none}
+    .js .tl__node::before,.js .tl__node.in::before,
+    .js .tl__node::after,.js .tl__node.in::after{transform:none;transition:none}
+  }
+</style>
+
+<script>
+  /*
+    Chaque palier est observe pour lui-meme et non revele avec sa section : une
+    chaine de sept maillons depasse la hauteur d'ecran, donc une reveal de
+    section jouerait l'animation des paliers du bas pendant qu'ils sont encore
+    hors champ. Le rootMargin negatif attend qu'ils soient franchement entres.
+    Les regles CSS correspondantes sont conditionnees a `.js` : si ce script ne
+    s'execute pas, rien n'est masque.
+  */
+  import { revealAll } from '../scripts/reveal';
+  revealAll('.tl__node', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+</script>

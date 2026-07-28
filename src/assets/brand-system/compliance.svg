@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 183.35 181.25">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        fill: none;
+      }
+
+      .cls-5 {
+        fill: #c4b4d2;
+      }
+
+      .cls-6 {
+        fill: #231f20;
+      }
+
+      .cls-7 {
+        fill: url(#linear-gradient);
+      }
+
+      .cls-8 {
+        opacity: .2;
+      }
+
+      .cls-8, .cls-9 {
+        fill: #fff;
+      }
+
+      .cls-10 {
+        fill: #f3a985;
+      }
+
+      .cls-2 {
+        stroke: #e6e7e8;
+      }
+
+      .cls-2, .cls-3, .cls-4 {
+        stroke-miterlimit: 10;
+      }
+
+      .cls-2, .cls-4 {
+        stroke-width: .5px;
+      }
+
+      .cls-11 {
+        clip-path: url(#clippath-1);
+      }
+
+      .cls-12 {
+        clip-path: url(#clippath-3);
+      }
+
+      .cls-13 {
+        clip-path: url(#clippath-4);
+      }
+
+      .cls-14 {
+        clip-path: url(#clippath-2);
+      }
+
+      .cls-15 {
+        clip-path: url(#clippath-5);
+      }
+
+      .cls-16 {
+        fill: #c6c8ca;
+      }
+
+      .cls-17 {
+        fill: #808285;
+      }
+
+      .cls-3 {
+        stroke: #6f5a27;
+      }
+
+      .cls-18 {
+        fill: #6f687e;
+      }
+
+      .cls-4 {
+        stroke: #726eab;
+      }
+
+      .cls-19 {
+        fill: #f09971;
+      }
+
+      .cls-20 {
+        fill: #7e599b;
+      }
+
+      .cls-21 {
+        fill: #d4af79;
+      }
+
+      .cls-22 {
+        fill: #523566;
+      }
+
+      .cls-23 {
+        fill: #95979a;
+      }
+
+      .cls-24 {
+        clip-path: url(#clippath);
+      }
+
+      .cls-25 {
+        fill: #896f33;
+      }
+    </style>
+    <clipPath id="clippath">
+      <circle class="cls-1" cx="112.14" cy="51.36" r="13.21"/>
+    </clipPath>
+    <clipPath id="clippath-1">
+      <rect class="cls-1" x="40.15" y="40.61" width="32.74" height="45.06"/>
+    </clipPath>
+    <clipPath id="clippath-2">
+      <circle class="cls-1" cx="85.98" cy="104.65" r="33.2"/>
+    </clipPath>
+    <clipPath id="clippath-3">
+      <circle class="cls-1" cx="150.11" cy="51.23" r="21.24"/>
+    </clipPath>
+    <clipPath id="clippath-4">
+      <rect class="cls-1" x="34.53" y="34.86" width="52.66" height="72.47" transform="translate(-.73 .63) rotate(-.59)"/>
+    </clipPath>
+    <linearGradient id="linear-gradient" x1="93.73" y1="18.53" x2="93.73" y2="9.28" gradientTransform="translate(-33.11 47.48) rotate(-.59)" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f6bfa2"/>
+      <stop offset="1" stop-color="#f3a985"/>
+    </linearGradient>
+    <clipPath id="clippath-5">
+      <path class="cls-1" d="M52.83,142.39c-1.16,1.07-3.95-.07-6.25-2.54s-3.22-5.35-2.06-6.42L3.49,168.01c-1.63,1.51-.33,5.58,2.92,9.08,3.24,3.5,7.2,5.11,8.83,3.6l37.6-38.3Z"/>
+    </clipPath>
+  </defs>
+  <g id="All_Art" data-name="All Art">
+    <g>
+      <g>
+        <g>
+          <polygon class="cls-17" points="95.11 38.85 83.75 38.85 88.36 12.33 99.73 12.33 95.11 38.85"/>
+          <polygon class="cls-16" points="92.41 38.85 81.04 38.85 85.65 12.33 97.02 12.33 92.41 38.85"/>
+        </g>
+        <g>
+          <rect class="cls-9" x="33.63" y="28.91" width="98.62" height="59.88" rx="1" ry="1"/>
+          <g>
+            <g>
+              <rect class="cls-9" x="33.63" y="31.33" width="98.62" height="59.88" rx="1" ry="1"/>
+              <rect class="cls-2" x="33.63" y="31.33" width="98.62" height="59.88" rx="1" ry="1"/>
+            </g>
+            <g>
+              <rect class="cls-18" x="80.29" y="68.31" width="44.91" height="3.52"/>
+              <rect class="cls-18" x="80.29" y="74.91" width="44.91" height="3.52"/>
+              <rect class="cls-18" x="80.29" y="81.52" width="44.91" height="3.52"/>
+            </g>
+            <g class="cls-24">
+              <g>
+                <circle class="cls-5" cx="112.14" cy="51.36" r="13.21"/>
+                <circle class="cls-4" cx="112.14" cy="32.87" r="13.21"/>
+                <circle class="cls-4" cx="112.14" cy="70.73" r="13.21"/>
+                <ellipse class="cls-4" cx="112.14" cy="51.36" rx="8.48" ry="13.21"/>
+                <line class="cls-4" x1="112.14" y1="65.01" x2="112.14" y2="38.15"/>
+                <line class="cls-4" x1="98.93" y1="51.36" x2="125.35" y2="51.36"/>
+              </g>
+            </g>
+            <rect class="cls-22" x="40.15" y="40.61" width="32.74" height="45.06"/>
+            <g class="cls-11">
+              <g>
+                <polyline class="cls-17" points="47.34 65.21 65.71 65.21 65.71 50.11 47.34 50.11"/>
+                <path class="cls-20" d="M56.52,63.51c-7.05,0-10.28,4.23-10.28,9.44l.61,27.8h19.32l.61-27.8c0-5.21-3.23-9.44-10.28-9.44Z"/>
+                <path class="cls-10" d="M53.75,59.28v4.82s0,.05,0,.08c0,1.33,2.78,5.63,2.78,5.63,0,0,2.78-4.29,2.78-5.63v-4.76"/>
+                <path class="cls-10" d="M63.32,54.86c0,4-3.04,7.25-6.79,7.25h0c-3.75,0-6.79-3.24-6.79-7.25v-4.63c0-4,3.04-7.25,6.79-7.25h0c3.75,0,6.79,3.24,6.79,7.25v4.63Z"/>
+                <path class="cls-17" d="M47.52,50.11h18.01c-.08-3.95-4.08-7.13-9.01-7.13s-8.93,3.18-9.01,7.13Z"/>
+              </g>
+            </g>
+          </g>
+        </g>
+        <polygon class="cls-17" points="89.84 38.85 78.48 38.85 75.23 12.33 86.6 12.33 89.84 38.85"/>
+        <polygon class="cls-16" points="87.14 38.85 75.77 38.85 72.52 12.33 83.89 12.33 87.14 38.85"/>
+        <circle class="cls-6" cx="79.63" cy="25.16" r="3.3"/>
+        <g>
+          <polygon class="cls-8" points="78.31 90.98 63.31 90.98 36.01 31.99 51.02 31.99 78.31 90.98"/>
+          <polygon class="cls-8" points="88.44 90.98 81.8 90.98 54.5 31.99 61.14 31.99 88.44 90.98"/>
+        </g>
+        <g>
+          <polygon class="cls-8" points="121.46 90.98 106.45 90.98 79.16 31.99 94.16 31.99 121.46 90.98"/>
+          <polygon class="cls-8" points="131.59 90.98 124.94 90.98 97.65 31.99 104.29 31.99 131.59 90.98"/>
+        </g>
+      </g>
+      <g>
+        <circle class="cls-5" cx="85.98" cy="104.65" r="33.2"/>
+        <g class="cls-14">
+          <g>
+            <g>
+              <rect class="cls-9" x="24" y="19.5" width="158.61" height="96.3" rx="1" ry="1" transform="translate(-.69 1.07) rotate(-.59)"/>
+              <rect class="cls-2" x="24" y="19.5" width="158.61" height="96.3" rx="1" ry="1" transform="translate(-.69 1.07) rotate(-.59)"/>
+            </g>
+            <g>
+              <rect class="cls-18" x="99.21" y="78.65" width="72.23" height="5.66" transform="translate(-.83 1.4) rotate(-.59)"/>
+              <rect class="cls-18" x="99.31" y="89.27" width="72.23" height="5.66" transform="translate(-.94 1.4) rotate(-.59)"/>
+              <rect class="cls-18" x="99.42" y="99.89" width="72.23" height="5.66" transform="translate(-1.05 1.4) rotate(-.59)"/>
+            </g>
+            <g class="cls-12">
+              <g>
+                <circle class="cls-5" cx="150.11" cy="51.23" r="21.24"/>
+                <circle class="cls-4" cx="149.81" cy="21.49" r="21.24"/>
+                <circle class="cls-4" cx="150.43" cy="82.39" r="21.24"/>
+                <ellipse class="cls-4" cx="150.11" cy="51.23" rx="13.63" ry="21.24" transform="translate(-.52 1.55) rotate(-.59)"/>
+                <line class="cls-4" x1="150.34" y1="73.18" x2="149.89" y2="29.99"/>
+                <line class="cls-4" x1="128.87" y1="51.45" x2="171.36" y2="51.01"/>
+              </g>
+            </g>
+            <rect class="cls-22" x="34.53" y="34.86" width="52.66" height="72.47" transform="translate(-.73 .63) rotate(-.59)"/>
+            <g class="cls-13">
+              <g>
+                <polyline class="cls-17" points="46.13 74.59 75.67 74.28 75.42 49.99 45.88 50.29"/>
+                <path class="cls-20" d="M60.87,71.69c-11.33.12-16.46,6.97-16.37,15.36l1.45,44.69,31.08-.32.53-44.71c-.09-8.39-5.35-15.13-16.68-15.02Z"/>
+                <path class="cls-19" d="M56.34,64.94l.08,7.76s-.01.08-.01.12c.02,2.15,4.56,9.01,4.56,9.01,0,0,4.4-6.95,4.38-9.1l-.08-7.66"/>
+                <path class="cls-7" d="M71.65,57.66c.07,6.44-4.77,11.7-10.8,11.77h0c-6.03.06-10.97-5.11-11.04-11.54l-.08-7.45c-.07-6.44,4.77-11.7,10.8-11.77h0c6.03-.06,10.97,5.11,11.04,11.54l.08,7.45Z"/>
+                <path class="cls-17" d="M46.17,50.29l28.97-.3c-.19-6.35-6.68-11.39-14.6-11.31-7.93.08-14.3,5.26-14.37,11.61Z"/>
+              </g>
+            </g>
+          </g>
+        </g>
+        <path class="cls-16" d="M60.31,128.44c-14.63-15.78-13.69-40.43,2.09-55.06,15.78-14.63,40.43-13.69,55.06,2.09,14.63,15.78,13.69,40.43-2.09,55.06-15.78,14.63-40.43,13.69-55.06-2.09ZM111.45,126.3c13.45-12.46,14.24-33.47,1.78-46.91-12.46-13.45-33.47-14.24-46.91-1.78-13.45,12.46-14.24,33.47-1.78,46.91,12.46,13.45,33.47,14.24,46.91,1.78Z"/>
+        <g>
+          <ellipse class="cls-21" cx="48.68" cy="137.9" rx="2.85" ry="6.11" transform="translate(-80.77 69.86) rotate(-42.83)"/>
+          <path class="cls-25" d="M52.83,142.39c-1.16,1.07-3.95-.07-6.25-2.54s-3.22-5.35-2.06-6.42L3.49,168.01c-1.63,1.51-.33,5.58,2.92,9.08,3.24,3.5,7.2,5.11,8.83,3.6l37.6-38.3Z"/>
+          <g class="cls-15">
+            <g>
+              <line class="cls-3" x1=".17" y1="161.68" x2="32.44" y2="173.18"/>
+              <line class="cls-3" x1="12.28" y1="150.45" x2="44.55" y2="161.96"/>
+              <line class="cls-3" x1="24.38" y1="139.23" x2="56.66" y2="150.73"/>
+            </g>
+          </g>
+        </g>
+        <circle class="cls-16" cx="53.56" cy="133.79" r="6.28"/>
+        <path class="cls-23" d="M57.4,131.14c-14.63-15.78-13.69-40.43,2.09-55.06,15.78-14.63,40.43-13.69,55.06,2.09s13.69,40.43-2.09,55.06c-15.78,14.63-40.43,13.69-55.06-2.09ZM108.54,128.99c13.45-12.46,14.24-33.47,1.78-46.91-12.46-13.45-33.47-14.24-46.91-1.78-13.45,12.46-14.24,33.47-1.78,46.91,12.46,13.45,33.47,14.24,46.91,1.78Z"/>
+      </g>
+    </g>
+  </g>
+</svg>

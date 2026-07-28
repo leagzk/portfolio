@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+<!--
+  Vignette au trait du chapitre 05 de /system-brand : une main qui assemble des
+  volumes, pour les variations de la plateforme. Memes conventions que
+  governance-visual.svg sur l'accueil - Illustrator les perd toutes a chaque
+  re-export, et sans bruit :
+
+  1. PAS DE DISQUE. Le <circle style="fill:#FFF5CF" cx="50" cy="50" r="36.5"> de
+     l'export a ete retire. Ici, contrairement aux autres vignettes du site,
+     AUCUN aplat ne le remplace : le dessin est pose a meme le bandeau blanc
+     d'<Equations>, ou il joue le filigrane. Le viewBox de 100 est garde tel
+     quel, donc le dessin conserve ses proportions d'origine.
+  2. currentColor, jamais une couleur en dur. L'export pose stroke:#231F20
+     quatorze fois ; sans conversion le trait resterait noir dans les quatre
+     themes, et le passage en gris clair sur mobile n'aurait aucun effet.
+  3. PAS DE BLOC <style>. Celui-ci n'en avait pas - Illustrator avait sorti des
+     styles inline - mais un re-export peut en produire : Astro inline le SVG
+     dans la page, donc ce <style> deviendrait GLOBAL et repeindrait les autres
+     vignettes. Tout est passe en attributs de presentation, sur la racine.
+  4. Pas de crochet d'animation : ce dessin habille le bandeau, il ne raconte
+     pas de geste.
+-->
+  <g>
+    <path d="M68.441,56.992c0,0-7.532-5.872-13.787-7.277s-12,4.34-4.851,9.702s7.404,6.128,7.404,6.128s-0.383,9.574,9.191,14.681"/>
+    <path d="M40.027,62.375c1.811,4.206,6.019,6.317,7.989,6.872c3.511,0.989,8.298-0.83,5.904-6.479"/>
+    <path d="M40.803,64.205c0,0-6.099,2.818-2.202,9.096c1.723,2.777,5.363,4.388,9.096,4.309c4.5-0.096,6.798-5.362,2.872-8.138"/>
+    <path d="M92.16,69.232c0,0-12.758-14.879-26.957-25.027c-0.466-0.333-1.413-0.987-2.237-1.552"/>
+    <path d="M56.875,92.875c-3.359-5.079-8.312-12.156-11.796-15.33"/>
+    <polyline points="47.84,51.375 47.84,7.125 62.84,7.125 62.84,53.375"/>
+    <polyline points="53.215,62.125 47.84,62.125 47.84,57.625"/>
+    <polyline points="62.84,53.125 62.84,47.125 7.84,47.125 7.84,62.125 52.715,62.125"/>
+    <polyline points="43.592,46.75 24.13,16.582 36.735,8.451 47.734,25.5"/>
+    <polyline points="27.465,47.011 8.941,35.766 16.725,22.944 35.59,34.396"/>
+    <rect x="47.84" y="20.125" width="15" height="15"/>
+    <line x1="41.207" y1="43" x2="38.825" y2="47.125"/>
+    <polyline points="23.095,44.37 30.595,31.38 35.715,34.336"/>
+    <rect x="20.84" y="47.125" width="15" height="15"/>
+    <polyline points="47.84,35.968 40.283,41.03 31.935,28.567 44.398,20.22 47.516,24.875"/>
+  </g>
+</svg>

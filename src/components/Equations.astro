@@ -18,26 +18,58 @@
   reveal : une page qui l'importe n'a rien a declarer.
 */
 export interface Props {
-  /** annonce des trois volets ; vit DANS le bandeau, pas au-dessus */
+  /** annonce des volets ; vit DANS le bandeau, pas au-dessus */
   entete: string;
-  /** trois volets. `terme` en encre, `suite` en accent, `note` en corps */
-  volets: { terme: string; suite: string; note: string }[];
+  /*
+    Les volets. `terme` en encre, `suite` en accent, `note` en corps.
+
+    `chute` est la derniere phrase de la note, celle qui la conclut, et elle est
+    posee en gras - le meme marqueur que le <b> de .ls-body : « c'est ici que ca
+    se joue ». Un champ a part plutot qu'un <b> dans la chaine, parce que `note`
+    est rendue en texte, jamais en HTML : mettre du markup dedans l'afficherait
+    en clair. Facultative - une note qui n'appuie sur rien n'en a pas.
+  */
+  volets: { terme: string; suite: string; note: string; chute?: string }[];
 }
 const { entete, volets } = Astro.props;
+/*
+  QUATRE VOLETS PASSENT EN 2x2, PAS EN UNE RANGEE DE QUATRE.
+
+  A trois, chaque colonne fait ~310px et la note tient en legende. A quatre elle
+  tomberait a ~230px - or les notes ne sont pas toutes des legendes : sur
+  /system-brand ce sont des paragraphes de cinquante mots, qui y feraient une
+  vingtaine de lignes hautes et etroites. En 2x2 la colonne remonte a ~490px et
+  la note redevient lisible.
+
+  Derive de `volets.length` et non passe en prop : le nombre de colonnes n'est
+  pas une decision de mise en page a reprendre page par page, c'est une
+  consequence du nombre de volets. Une page qui en ajoute un n'a rien a rerégler.
+*/
+const paire = volets.length === 4;
 ---
-<div class="eq-band">
-  {/* l'entete vit DANS le bandeau : elle annonce les trois volets, pas la
+<div class:list={['eq-band', Astro.slots.has('decor') && 'eq-band--decor']}>
+  {/*
+    Emplacement decoratif, facultatif : une page peut glisser une vignette dans
+    le bandeau via <Fragment slot="decor">. Un slot NOMME et non le slot par
+    defaut, qui porte deja la respiration sous l'entete - et rendu seulement
+    s'il est rempli, pour qu'Elements et /operating-system n'heritent pas d'un
+    conteneur absolu vide.
+  */}
+  {Astro.slots.has('decor') && (
+    <div class="eq-band__decor" aria-hidden="true"><slot name="decor" /></div>
+  )}
+  {/* l'entete vit DANS le bandeau : elle annonce les volets, pas la
       section - dehors, l'aplat commencait au milieu du propos */}
   <p class="eq-band__t">{entete}</p>
   {/* respiration facultative entre l'annonce et les volets : une phrase qui
-      resume ce que les trois disent ensemble. Vide sur Elements, ou l'entete se
+      resume ce qu'ils disent ensemble. Vide sur Elements, ou l'entete se
       suffit. */}
   <div class="eq-band__lede"><slot /></div>
-  <dl class="eq-band__grid">
+  <dl class:list={['eq-band__grid', paire && 'eq-band__grid--pair']}>
     {volets.map((v) => (
       <div class="eq">
         <dt class="eq__line"><span class="eq__terme">{v.terme}</span><span class="eq__suite">{v.suite}</span></dt>
-        <dd class="eq__note">{v.note}</dd>
+        <dd class="eq__note">{v.note}{v.chute && <> <b>{v.chute}</b></>}</dd>
       </div>
     ))}
   </dl>
@@ -51,15 +83,98 @@ const { entete, volets } = Astro.props;
     que les trois blocs pleine largeur du site recopiaient chacun de leur cote -
     voir tokens.css.
 
-    Filets haut et bas : le blanc du bandeau et le canvas ne sont separes que de
-    deux points (#FFFFFF contre #F6F6F4). Sans eux le bandeau n'existerait pas a
-    l'oeil.
+    PAS DE FILET HAUT NI BAS. Il y en a eu, poses parce que le blanc du bandeau
+    et le canvas ne sont separes que de deux points et demi (#FFFFFF contre
+    #F6F6F4) : sans eux, disait-on, le bandeau n'existerait pas a l'oeil.
+    L'ecart suffit en fait a le faire lire, et le trait avait un cout - il
+    dessinait deux lignes en travers de la page a chaque bandeau, la ou l'aplat
+    seul se contente d'eclaircir. Retire sur les trois pages qui portent le
+    composant, pas seulement ici : un bandeau qui se delimite autrement d'une
+    page a l'autre ne serait plus le meme objet.
   */
   .eq-band{margin:var(--sp-19) calc(50% - 50vw) 0;width:100vw;
     background:var(--card);
-    border-top:1px solid var(--line);border-bottom:1px solid var(--line);
-    border-width:max(1px,var(--edge-w)) 0;
-    padding:var(--sp-19) var(--bleed-pad)}
+    padding:var(--sp-19) var(--bleed-pad);
+    /* le decor est cale a droite et deborde : c'est le bandeau qui le coupe,
+       en haut, en bas et au bord de l'ecran */
+    position:relative;overflow:hidden}
+  /*
+    La vignette du bandeau : CENTREE, large, et coupee par le bas.
+
+    Elle est posee en --canvas, la couleur de fond de la PAGE, sur un bandeau
+    blanc. Elle ne se lit donc pas comme un dessin ajoute mais comme une
+    DECOUPE - le fond de la page reapparait a travers l'aplat. C'est ce qui lui
+    permet de passer DERRIERE les quatre volets et de les couvrir sans gener la
+    lecture : deux points et demi separent les deux blancs, assez pour deviner le
+    trait, trop peu pour concurrencer le texte.
+
+    UNE SEULE POSE POUR TOUTES LES LARGEURS. Elle en a eu deux un temps - calee a
+    droite sur la marge au-dessus de 1024px, filigrane en dessous - soit deux
+    comportements a tenir pour un seul objet. Centree et dimensionnee en vw, elle
+    se contente de retrecir : la colonne peut se plier, la vignette n'a rien a
+    rejouer.
+
+    Elle passe DERRIERE le contenu, et c'est le role des z-index poses sur
+    l'entete, la respiration et la grille : sans cote d'empilement explicite, un
+    element en position absolue passe devant ses freres en flux, et le dessin
+    serait tombe SUR le texte.
+  */
+  .eq-band__decor{position:absolute;bottom:0;left:50%;
+    /*
+      7,1% : l'encre du dessin s'arrete a 92,875 sur un viewBox de 100, donc la
+      boite du SVG porte 7,125% de vide sous elle. A `bottom:0` ce vide se voyait
+      comme une marge et le dessin flottait au-dessus du bord au lieu d'y etre
+      coupe. On pousse la boite d'autant : l'ENCRE affleure le bas du bandeau, et
+      le vide passe dessous, ou l'overflow le mange.
+      Un pourcentage dans translate se resout sur l'element lui-meme, donc le
+      calage tient quelle que soit la taille - contrairement a un `bottom` en px
+      qu'il aurait fallu reprendre a chaque palier.
+    */
+    transform:translate(-50%,7.1%);
+    /*
+      Le plafond se calcule sur l'ENCRE, pas sur la boite. Le dessin n'occupe que
+      84,3% de son viewBox en largeur (7,84 a 92,16 sur 100), donc une boite de
+      1120 ne peignait que 944px et les quatre volets - larges de 1032 - lui
+      depassaient des deux cotes. 1032 / 0,843 = 1224, arrondi a 1240.
+      Remesurer au getBBox() si le fichier est re-exporte avec un autre cadrage.
+    */
+    width:clamp(340px,90vw,1240px);height:auto;aspect-ratio:1;
+    z-index:0;pointer-events:none;color:var(--canvas);
+    display:grid;place-items:center;line-height:1}
+  .eq-band__decor svg{width:100%;height:100%;overflow:visible}
+
+  /*
+    OUVERTURE EN EVENTAIL. Le dessin se decouvre du haut vers le bas, comme si la
+    main depliait les volumes un a un.
+
+    Un clip-path et non une opacite : le fondu ferait apparaitre TOUT le trait a
+    la fois, plus ou moins pale. Le clip, lui, revele une bande qui descend -
+    chaque forme entre entiere, a son tour, dans l'ordre ou elle est posee. C'est
+    ce sequencement qui donne l'eventail, et il vient de la geometrie du dessin,
+    pas d'un delai qu'il aurait fallu regler forme par forme.
+
+    Ecrit en `inset` depuis le BAS : `inset(0 0 100% 0)` masque tout, `0 0 0 0`
+    ne masque rien. La bande revelee grandit donc vers le bas, dans le sens de la
+    lecture.
+
+    Conditionne a `.js` : sans script, la vignette est simplement la.
+  */
+  /*
+    C'EST LE BANDEAU QU'ON OBSERVE, PAS LA VIGNETTE, et ce n'est pas un detail de
+    confort : un clip-path REDUIT le rectangle d'intersection vu par
+    IntersectionObserver. Masquee par son propre clip, la vignette etait donc
+    rapportee a 0x0, jamais intersectante - l'observateur n'ajoutait jamais la
+    classe qui aurait retire le clip, et le dessin restait invisible pour
+    toujours. L'animation se rendait elle-meme impossible.
+    Le bandeau, lui, n'est jamais clippe : il declenche, elle repond.
+  */
+  .js .eq-band__decor{clip-path:inset(0 0 100% 0)}
+  .js .eq-band.in .eq-band__decor{clip-path:inset(0 0 0 0);
+    transition:clip-path 1.15s cubic-bezier(.22,1,.36,1)}
+  @media(prefers-reduced-motion:reduce){
+    .js .eq-band__decor,.js .eq-band.in .eq-band__decor{clip-path:none;transition:none}
+  }
+  .eq-band__t,.eq-band__lede,.eq-band__grid{position:relative;z-index:1}
   /* meme echelle que .ls-sub des case studies, sans son margin-top : dans le
      bandeau c'est le padding qui tient l'ecart */
   .eq-band__t{font-family:var(--display);font-weight:400;
@@ -86,6 +201,41 @@ const { entete, volets } = Astro.props;
   .eq{padding:0 var(--sp-12);border-left:1px solid var(--line)}
   .eq:first-child{border-left:none;padding-left:0}
   .eq:last-child{padding-right:0}
+  /*
+    Variante 2x2. Le filet vertical ne peut plus se contenter de `:first-child` :
+    c'est le premier de CHAQUE rangee qui doit le perdre, d'ou les `2n+1`. Et une
+    deuxieme rangee demande un filet horizontal, sinon les quatre volets se
+    lisent comme deux blocs poses l'un sur l'autre sans rapport.
+    `nth-child(n+3)` vise la seconde rangee entiere - ecrit ainsi, la regle tient
+    encore si un cinquieme volet arrive un jour.
+  */
+  .eq-band__grid--pair{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .eq-band__grid--pair .eq:nth-child(2n+1){border-left:none;padding-left:0}
+  .eq-band__grid--pair .eq:nth-child(2n){padding-right:0}
+  /* le filet redevient un simple bord. Il a existe ici un pseudo-element qui
+     s'arretait avant la vignette, du temps ou celle-ci arrivait par la droite et
+     la barrait ; centree et posee en couleur de fond, elle ne la coupe plus. */
+  .eq-band__grid--pair .eq:nth-child(n+3){margin-top:var(--sp-12);padding-top:var(--sp-12);
+    border-top:1px solid var(--line)}
+  /*
+    Le filet vertical de la SECONDE rangee ne doit pas toucher le filet
+    horizontal. Celui de la premiere ne le touche deja pas, et sans qu'on ait
+    rien demande : le `margin-top` des items du bas ouvre --sp-12 entre la fin
+    de la rangee du haut et le trait.
+
+    En bas la symetrie ne vient pas toute seule, parce que le jour y est un
+    `padding-top` - donc INTERIEUR a la boite de bordure, la ou la marge lui est
+    exterieure. Un `border-left` part du haut de cette boite, soit au ras du
+    filet horizontal. On le redessine donc en pseudo-element, decale du meme
+    --sp-12 : les deux jours deviennent egaux de part et d'autre du trait.
+
+    Le selecteur cumule les deux conditions - `2n` pour n'attraper que les
+    colonnes de droite, `n+3` pour n'attraper que les rangees suivantes. Ecrit
+    ainsi il tient encore si un cinquieme volet arrive.
+  */
+  .eq-band__grid--pair .eq:nth-child(n+3){position:relative;border-left:none}
+  .eq-band__grid--pair .eq:nth-child(2n):nth-child(n+3)::before{content:"";position:absolute;
+    left:0;top:var(--sp-12);bottom:0;width:1px;background:var(--line)}
   /* le corps descend de clamp(24px,3vw,40px) a l'echelle des titres de carte :
      a 40px, « nothing ships on a hunch. » tenait sur quatre lignes dans une
      colonne de 280px */
@@ -99,19 +249,82 @@ const { entete, volets } = Astro.props;
   .eq__terme{flex:0 0 100%;color:var(--ink)}
   .eq__suite{flex:0 0 100%;color:var(--accent-alt)}
   .eq__note{margin:12px 0 0;font-size:clamp(15px,1.5vw,18px);line-height:1.6;color:var(--ink-muted)}
+  /* meme traitement que le <b> de .ls-body : la chute remonte de --ink-muted a
+     --ink, donc elle se detache de la note sans changer d'echelle */
+  .eq__note b{color:var(--ink);font-weight:700}
 
   .js .eq{opacity:0;transform:translateY(16px)}
   .js .eq.in{opacity:1;transform:none;
     transition:opacity .5s ease,transform .6s cubic-bezier(.22,1,.36,1)}
 
+  /*
+    AU-DELA DU PALIER, DEUX CHANGEMENTS.
+
+    1. LE HAUT DU DESSIN DOIT SE VOIR. Une largeur fixe le rendait carre de
+       1240px pour un bandeau haut de 886 : il en debordait de 350 et se faisait
+       decapiter. On cale donc sa HAUTEUR sur celle du bandeau au lieu de fixer
+       sa largeur. 85,75% du viewBox portent l'encre verticalement (de 7,125 a
+       92,875), donc une boite de 112% du bandeau y loge le dessin entier avec un
+       peu d'air en haut. La largeur suit par l'aspect-ratio.
+       Consequence assumee : l'encre n'atteint plus toute la largeur des quatre
+       volets. Un carre ne peut pas a la fois tenir dans 886px de haut et couvrir
+       1032px de large - il fallait choisir, et le haut du dessin l'emporte.
+
+    2. AUCUN FILET DES QU'ON QUITTE LE TELEPHONE - voir la regle a 721px.
+  */
+  @media(min-width:1025px){
+    .eq-band--decor .eq-band__decor{width:auto;height:112%}
+  }
+
+  /*
+    PAS UN SEUL FILET AU-DESSUS DE 721px, ni en grille ni en pile.
+
+    La decoupe traverse tout le bandeau : elle occupe deja l'espace que les
+    filets separaient, et deux systemes de separation dans la meme zone se
+    contrarient. Les volets gardent leur gouttiere, et surtout leur entete -
+    un terme en encre suivi de sa suite en accent, dans le registre display.
+    C'est cela qui les distingue ; un trait ne ferait que le redire.
+
+    Le seuil est a 721px et non a 1024 : entre les deux, les volets sont deja
+    empiles mais la vignette est toujours la, aussi large. Ce qui decide n'est
+    donc pas la mise en colonne, c'est la presence du dessin.
+    En dessous, sur telephone, les filets restent : la vignette y est reduite et
+    quatre blocs de prose empiles sans rien entre eux se lisent comme un seul.
+
+    Scope a .eq-band--decor : un bandeau SANS vignette garde tous ses filets,
+    faute de quoi il n'aurait plus rien pour separer ses volets.
+  */
+  @media(min-width:721px){
+    /*
+      Le second selecteur reprend `nth-child(n+3)` alors qu'il vise les memes
+      elements que le premier, et ce n'est pas une redite : la regle de base qui
+      pose le filet horizontal s'ecrit `.eq-band__grid--pair .eq:nth-child(n+3)`
+      et pese donc (0,3,0). Un `.eq-band--decor .eq` a (0,2,0) et perdait en
+      silence - les volets du bas gardaient leur trait. Il faut aller la chercher
+      a sa propre specificite.
+    */
+    .eq-band--decor .eq-band__grid--pair .eq,
+    .eq-band--decor .eq-band__grid--pair .eq:nth-child(n+3){border-left:none;border-top:none}
+    .eq-band--decor .eq-band__grid--pair .eq:nth-child(2n):nth-child(n+3)::before{content:none}
+  }
+
   @media(max-width:1024px){
-    /* les trois volets s'empilent et le filet bascule a l'horizontale : en
-       colonne, un trait vertical ne separerait plus rien */
-    .eq-band__grid{grid-template-columns:1fr}
+    /* les volets s'empilent et le filet bascule a l'horizontale : en colonne,
+       un trait vertical ne separerait plus rien */
+    .eq-band__grid,.eq-band__grid--pair{grid-template-columns:1fr}
     .eq{padding:var(--sp-12) 0 0;border-left:none;border-top:1px solid var(--line);
       margin-top:var(--sp-12)}
     .eq:first-child{padding-top:0;border-top:none;margin-top:0}
     .eq:last-child{padding-right:0}
+    /* la variante 2x2 n'a plus de rangees : ses regles de bord retombent sur
+       celles de la pile, sans quoi le premier volet de l'ex-seconde rangee
+       garderait un ecart double. Et le filet vertical de l'ex-colonne de droite
+       n'a plus rien a separer - en pile, c'est le trait horizontal qui le fait. */
+    .eq-band__grid--pair .eq:nth-child(n+3){margin-top:var(--sp-12);padding-top:var(--sp-12)}
+    .eq-band__grid--pair .eq:nth-child(2n):nth-child(n+3)::before{content:none}
+    /* en pile, c'est le border-top de .eq qui reprend le filet : le
+       pseudo-element ferait doublon */
+    .eq-band__grid--pair .eq:nth-child(n+3)::after{content:none}
   }
 
   @media(prefers-reduced-motion:reduce){
@@ -122,4 +335,9 @@ const { entete, volets } = Astro.props;
 <script>
   import { revealAll } from '../scripts/reveal';
   revealAll('.eq', { threshold: 0, rootMargin: '0px 0px -12% 0px' });
+  /* on observe le BANDEAU et non la vignette - voir la regle .eq-band.in : une
+     vignette clippee n'intersecte plus rien et ne serait jamais revelee.
+     Seuil bas parce que le bandeau depasse la hauteur d'ecran : a 0,2 il aurait
+     fallu en voir un cinquieme, soit bien apres que la vignette est entree. */
+  revealAll('.eq-band', { threshold: 0.08 });
 </script>

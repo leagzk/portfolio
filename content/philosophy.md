@@ -8,7 +8,7 @@ indexable: true
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-Six convictions behind the systems, and the care that keeps them alive
+Six convictions behind the systems, and the care that keeps them alive.
 
 # Philosophy
 

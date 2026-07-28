@@ -8,6 +8,9 @@ import Carousel from '../components/Carousel.astro';
 import ChapterTabs from '../components/ChapterTabs.astro';
 import Equations from '../components/Equations.astro';
 import Dots from '../components/Dots.astro';
+import ProofCards from '../components/ProofCards.astro';
+import Timeline from '../components/Timeline.astro';
+import type { Carte } from '../components/ProofCards.astro';
 import ExternalLink from '../components/ExternalLink.astro';
 import { sommaire } from '../lib/chapitres';
 import { chercheurImages } from '../lib/images';
@@ -110,14 +113,14 @@ const facettes = [
   n'attende un humain. Le reordonner casse la demonstration du ÷3.
 */
 const produits = [
-  { nom: 'Token architecture', note: 'multi-brand, multi-theme, multi-surface' },
-  { nom: 'Libraries', note: 'Figma and React, hosted on GitHub' },
-  { nom: 'Figma Companion', note: 'palettes, accessibility checks, layout scaffolding directly from the canvas' },
-  { nom: 'Storybook', note: 'source of truth, living, versioned documentation' },
-  { nom: 'Elements MCP', note: 'integrated into AI design and engineering workflows' },
-  { nom: 'Integrated support channels', note: 'Slack and Teams streams with automation layers' },
-  { nom: 'Elements Portal', note: 'showcase website' },
-];
+  { intitule: 'Token architecture', note: 'multi-brand, multi-theme, multi-surface' },
+  { intitule: 'Libraries', note: 'Figma and React, hosted on GitHub' },
+  { intitule: 'Figma Companion', note: 'palettes, accessibility checks, layout scaffolding directly from the canvas' },
+  { intitule: 'Storybook', note: 'source of truth, living, versioned documentation' },
+  { intitule: 'Elements MCP', note: 'integrated into AI design and engineering workflows' },
+  { intitule: 'Integrated support channels', note: 'Slack and Teams streams with automation layers' },
+  { intitule: 'Elements Portal', note: 'showcase website' },
+].map((p, i) => ({ ...p, repere: String(i + 1).padStart(2, '0') }));
 
 /* Terme = suite. Le renversement est le sujet, d'ou le traitement en bandeau. */
 const mecanismes = [
@@ -132,55 +135,33 @@ const mecanismes = [
 /*
   Les quatre resultats. `pose` place la carte au bureau ; sous 1024px le
   conteneur devient un rail et ces valeurs sont neutralisees par le CSS.
+  Le ton est nomme et non deduit du rang - voir l'en-tete de <ProofCards>.
 */
-const resultats = [
+const resultats: Carte[] = [
   { pose: 'left:0%;top:8px;--rot:-3deg',
-    chiffre: '100%', quoi: 'adoption across the 3 Digital Accelerators',
+    chiffre: '100%', titre: 'adoption across the 3 Digital Accelerators',
     detail: 'R&D, Commercial, Manufacturing. Every product in the perimeter runs on Elements.',
     lien: { href: 'https://jobs.sanofi.com/fr/digital-accelerator', label: 'Discover more' } },
-  { pose: 'left:26%;top:96px;--rot:2deg',
-    chiffre: '86%', quoi: 'average component usage per product',
+  { pose: 'left:26%;top:96px;--rot:2deg', ton: 'red',
+    chiffre: '86%', titre: 'average component usage per product',
     detail: 'Adopted, and depended on: when a team builds on Elements, 86% of their live interface is the system. The cost-rationalization bet, paid - teams build on it, not around it.' },
-  { pose: 'left:52%;top:0px;--rot:-1.5deg',
-    chiffre: '÷3', quoi: 'time-to-launch on strategic launches',
+  { pose: 'left:52%;top:0px;--rot:-1.5deg', ton: 'ink',
+    chiffre: '÷3', titre: 'time-to-launch on strategic launches',
     detail: 'Like Beyfortus®. The wait between experts, removed. What used to take a handoff chain now ships in seconds - accessible, responsive, on-brand by default.' },
   { pose: 'left:74%;top:80px;--rot:3deg',
-    chiffre: '35+', quoi: 'contributors, from zero, in 18 months',
+    chiffre: '35+', titre: 'contributors, from zero, in 18 months',
     detail: 'Inner source, not headcount - the system grows because people own it, not because I staffed it.' },
 ];
 
 /*
   Le faisceau de preuves du chapitre 07, dans le meme dispositif que les
-  resultats. Trois differences avec `resultats`, qui justifient le type explicite :
+  resultats. Deux libertes que la serie du 01 ne prend pas :
 
-  - le ton est NOMME et non deduit du rang. Les resultats sont quatre chiffres
-    interchangeables, ou coupler la couleur a l'index est sans risque ; ici la
-    serie melange un chiffre, deux affirmations et un visuel, et reordonner le
-    propos ne doit pas reordonner les couleurs avec lui.
   - une carte peut n'avoir aucun chiffre. C'est alors la phrase qui porte le
     poids visuel, d'ou le corps plus grand pose par `--say`.
   - une carte peut n'etre qu'un visuel, sans texte ni gouttiere.
 */
-type Preuve = {
-  /** placement au bureau ; neutralise par le CSS sous 1024px, comme `resultats` */
-  pose: string;
-  ton?: 'red' | 'ink';
-  chiffre?: string;
-  /** exposant du chiffre, a l'echelle de « /5 » */
-  suffixe?: string;
-  titre?: string;
-  detail?: string;
-  /*
-    Pastille ronde dans l'angle bas-droit. Booleen et non chaine : c'etait un
-    emoji, c'est desormais un dessin au trait unique a cette carte - il n'y a
-    donc plus rien a passer, seulement a dire si la pastille est la.
-    Purement decoratif, d'ou aria-hidden a la pose.
-  */
-  badge?: boolean;
-  /** carte-visuel : l'image occupe toute la carte, sans texte */
-  image?: { src: ImageMetadata; alt: string };
-};
-const preuves: Preuve[] = [
+const preuves: Carte[] = [
   { pose: 'left:0%;top:16px;--rot:-2.5deg',
     chiffre: '4.7', suffixe: '/5', titre: 'practitioner satisfaction',
     detail: "People don't comply with Elements, they trust it." },
@@ -188,7 +169,7 @@ const preuves: Preuve[] = [
      autant que l'amorce, la reduire au corps de legende l'aurait desamorcee */
   { pose: 'left:26%;top:104px;--rot:2.5deg', ton: 'red',
     titre: "The MCP didn't come from my roadmap initially. It came from a contributor.",
-    badge: true },
+    badge: IdeaVisual },
   { pose: 'left:52%;top:0px;--rot:-1.5deg',
     image: { src: img('design-community'),
       alt: 'The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon' } },
@@ -204,8 +185,8 @@ const preuves: Preuve[] = [
 <!-- ═══ 00 · HOOK ═══ -->
   <div class="card">
     <Banner home>
-      <p class="banner__standards">At global scale a system isn't managed, it's governed</p>
-      <span class="banner__culture" style="--culture-size:17cqw" aria-hidden="true">Governance.</span>
+      <p class="banner__standards">At global scale a system isn't managed, it's governed.</p>
+      <span class="banner__culture" style="--culture-size:17.7cqw" aria-hidden="true">Governance</span>
     </Banner>
 
     <PageIntro eyebrow="Elements - Sanofi global experience system">
@@ -234,29 +215,8 @@ const preuves: Preuve[] = [
       <p>I set the direction, carried it to leadership, then handed my team the operational goal as OKRs of their own - always tied to the company's annual business objectives, so our ambition lived inside a shared project, never beside it.</p>
     </div>
 
-    {/* Cartes manipulables au-dela de 1024px, rail a snap en dessous. Aucune
-        n'est exclue du selecteur de drag : contrairement aux tuiles de l'accueil,
-        celui-ci a vraiment des cartes a deplacer. */}
-    {/*
-      .el-figs-wrap n'est pas decoratif : il porte le rythme vertical du bloc, et
-      c'est lui qui rallume les pastilles sous 1024px (`.el-figs-wrap .dots`).
-      Sans lui le carrousel reste navigable, mais muet - aucun repere de position.
-    */}
-    <div class="el-figs-wrap">
-      <div class="el-figs" id="elfigs">
-        {resultats.map((r, i) => (
-          <div class:list={['el-fig-card', `el-fig-card--${i + 1}`]} style={r.pose}>
-            <p class="el-fig__n">{r.chiffre}</p>
-            <p class="el-fig__q">{r.quoi}</p>
-            <p class="el-fig__l">{r.detail}</p>
-            {r.lien && (
-              <ExternalLink href={r.lien.href} class="el-fig__cta">{r.lien.label}</ExternalLink>
-            )}
-          </div>
-        ))}
-      </div>
-      <Dots id="elfigdots" count={resultats.length} label="Results" itemLabel="Result" />
-    </div>
+    {/* les resultats ouvrent sur la deuxieme carte, qui est au centre du jeu */}
+    <ProofCards id="elfigs" cartes={resultats} label="Results" itemLabel="Result" depart={1} />
 
     <p class="ls-claim ls-claim--big">Adopted. Trusted. Extended.<br><b>Everything a system needs to outlive the person who built it.</b></p>
 
@@ -420,15 +380,7 @@ const preuves: Preuve[] = [
         passait a la verticale. Dans le titre elle ne peut plus se desolidariser
         de ce qu'elle annonce. */}
     <h3 class="ls-sub el-movement">Seven products, one pipeline from design to dev.</h3>
-    <ol class="el-pipe" aria-label="The seven products of the platform, from design to dev">
-      {produits.map((p, i) => (
-        <li class="el-pipe__node">
-          <span class="el-pipe__n">{String(i + 1).padStart(2, '0')}</span>
-          <span class="el-pipe__name">{p.nom}</span>
-          <span class="el-pipe__note">{p.note}</span>
-        </li>
-      ))}
-    </ol>
+    <Timeline etapes={produits} label="The seven products of the platform, from design to dev" />
 
     <div class="ls-body ls-body--wide">
       <p><b>The pipeline is the thesis made physical.</b> Brand, design and engineering pour into the same chain - the wait between experts, engineered out. That's the ÷3: not people working faster, but expertises no longer waiting on each other.</p>
@@ -541,37 +493,10 @@ const preuves: Preuve[] = [
       dispositif du 01, ils deviennent ce qu'ils sont - le faisceau de preuves
       du chapitre - et la serie ferme la section a la place de la note.
 
-      Le meme `.el-figs-wrap` que les resultats : c'est lui qui porte le rythme
-      vertical ET qui rallume les pastilles sous 1024px.
+      depart 0 et non 1 comme les resultats : ces quatre-la se lisent dans
+      l'ordre, et c'est la premiere qui porte le chiffre.
     */}
-    <div class="el-figs-wrap">
-      <div class="el-figs" id="elproof">
-        {preuves.map((p) => (
-          <div
-            class:list={['el-fig-card', p.ton && `el-fig-card--${p.ton}`,
-                         p.image && 'el-fig-card--img',
-                         p.badge && 'el-fig-card--mark',
-                         !p.chiffre && !p.image && 'el-fig-card--say']}
-            style={p.pose}
-          >
-            {p.image ? (
-              /* sizes cale sur la largeur reelle de la carte : clamp(210,24vw,264)
-                 au bureau, clamp(210,62%,280) dans le rail - jamais 100vw */
-              <Image src={p.image.src} alt={p.image.alt} layout="constrained"
-                sizes="(min-width: 1025px) 280px, 65vw" loading="lazy" decoding="async" />
-            ) : (
-              <>
-                {p.chiffre && <p class="el-fig__n">{p.chiffre}{p.suffixe && <span>{p.suffixe}</span>}</p>}
-                <p class="el-fig__q">{p.titre}</p>
-                {p.detail && <p class="el-fig__l">{p.detail}</p>}
-                {p.badge && <span class="el-fig__mark" aria-hidden="true"><IdeaVisual /></span>}
-              </>
-            )}
-          </div>
-        ))}
-      </div>
-      <Dots id="elproofdots" count={preuves.length} label="What the community proved" itemLabel="Proof" />
-    </div>
+    <ProofCards id="elproof" cartes={preuves} label="What the community proved" itemLabel="Proof" />
   </section>
 
 
@@ -590,7 +515,7 @@ const preuves: Preuve[] = [
 
   {/* pas de titre a pointer ici, la chute est en <p> : d'ou l'aria-label */}
   <section class="ls-closing ls-closing--left ls-reveal" aria-label="In closing">
-    <p class="ls-closing__t">Design systems ship standards.<br>Experience systems <em>grow culture</em>.</p>
+    <p class="ls-closing__t">Design systems ship standards.<br>Experience systems <em>grow culture.</em></p>
   </section>
 
 </Base>
@@ -605,110 +530,8 @@ const preuves: Preuve[] = [
 
   /* l amorce, sortie du hero */
 
-  /*
-    Les quatre chiffres, en cartes manipulables. Au bureau elles sont posees en
-    absolu et se deplacent a la souris ; sous 1024px le conteneur devient un rail
-    a snap avec pastilles - meme mecanique que les tuiles de l accueil, mais ici
-    aucune carte n est exclue du drag, donc il fonctionne vraiment.
-  */
-  .el-figs-wrap{margin:var(--sp-20) 0}
-  .el-figs{position:relative;height:clamp(360px,40vw,430px);touch-action:none}
-  /* le placement (left/top/--rot) vient du champ `pose` de chaque entree, pose
-     en style inline. Les `left:var(--x);top:var(--y)` qui trainaient ici ne
-     servaient rien : --x/--y ne sont ecrits nulle part sur ces cartes, et le
-     style inline l'emportait de toute facon. */
-  .el-fig-card{position:absolute;width:clamp(210px,24vw,264px);
-    padding:var(--sp-12);border-radius:28px;background:var(--card);
-    border:1px solid var(--line);border-width:max(1px,var(--edge-w));border-color:var(--line);
-    box-shadow:0 18px 38px -22px rgba(120,30,10,.28);cursor:grab;user-select:none;
-    transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;z-index:1}
-  .el-fig-card:hover{transform:rotate(0deg) translateY(-6px) scale(1.02);
-    box-shadow:0 28px 52px -24px rgba(120,30,10,.4);z-index:20}
-  .el-fig-card.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);z-index:30}
-  /*
-    Deux ecritures pour les memes tons, et c'est voulu : les resultats les
-    tiennent de leur rang (--2, --3), la serie du chapitre 07 les nomme (--red,
-    --ink). La ou quatre chiffres sont interchangeables, l'index suffit ; la ou
-    la serie melange chiffre, phrases et visuel, la couleur doit pouvoir rester
-    en place quand le propos bouge.
-  */
-  .el-fig-card--2,.el-fig-card--red{background:var(--tile-red)}
-  .el-fig-card--2 .el-fig__n,.el-fig-card--red .el-fig__n{color:var(--tile-red-ink)}
-  .el-fig-card--2 .el-fig__l,.el-fig-card--red .el-fig__l{color:var(--tile-red-ink);opacity:.72}
-  /*
-    Carte noire, meme procede que .dc2 sur l accueil : le fond prend --ink et le
-    texte passe en blanc en entier. L accent bleu de --accent-alt, tenu en theme
-    contrast, ne passerait pas sur ce fond - d ou le chiffre en blanc lui aussi.
-  */
-  .el-fig-card--3,.el-fig-card--ink{background:var(--ink)}
-  .el-fig-card--3 .el-fig__n,.el-fig-card--3 .el-fig__q,
-  .el-fig-card--ink .el-fig__n,.el-fig-card--ink .el-fig__q{color:#fff}
-  .el-fig-card--3 .el-fig__l,.el-fig-card--ink .el-fig__l{color:rgba(255,255,255,.72)}
-  /*
-    Carte sans chiffre : c'est la phrase qui porte, elle prend donc le corps que
-    le chiffre occupait. Sans ca elle tombait a 17px - la taille d'une legende
-    sous un chiffre de 60px - et la carte se lisait comme s'il lui manquait
-    quelque chose au-dessus.
-  */
-  .el-fig-card--say .el-fig__q{margin-top:0;font-size:clamp(19px,1.9vw,23px);line-height:1.16}
-  /*
-    Pastille ronde blanche dans l'angle bas-droit.
-
-    En flux et non en position:absolute : pose en absolu, elle passait sous le
-    texte des que la carte etait courte - or ces cartes n'ont pas de hauteur
-    fixe, elles suivent leur contenu. La carte devient donc une colonne flex,
-    et `margin:auto 0 0 auto` colle la pastille en bas a droite de l'espace
-    restant. Le padding de la carte (--sp-12) fait le reste : c'est lui qui
-    tient l'ecart aux deux bords, donc les deux valeurs restent solidaires
-    sans qu'on ait a les repeter ici.
-    La marge basse garantit l'ecart minimum au texte quand il ne reste aucun
-    espace a distribuer. Elle vise `p:last-of-type` et non une classe precise :
-    la derniere ligne de la carte est tantot le titre, tantot le detail, et la
-    pastille est un <span> - elle ne peut donc pas etre prise pour cible.
-  */
-  /*
-    overflow:hidden est ce qui rend le debordement possible : le dessin sort du
-    cadre par l'angle bas-droit et c'est le rayon de 28px de la carte qui le
-    coupe. Sans lui, il deborderait par-dessus le coin arrondi et la carte
-    perdrait sa silhouette.
-  */
-  .el-fig-card--mark{display:flex;flex-direction:column;overflow:hidden}
-  .el-fig-card--mark p:last-of-type{margin-bottom:var(--sp-06)}
-  /*
-    Plus de pastille : le dessin est pose a meme la carte, en grand, ancre dans
-    l'angle bas-droit et rogne - meme traitement que .dc-hand sur l'accueil.
-    Les marges negatives valent le padding de la carte plus 20px : elles
-    annulent la gouttiere pour que le dessin atteigne vraiment le bord, puis
-    mordent dessus. `margin-top:auto` le plaque en bas de la colonne flex.
-    Blanc sur --tile-red : c'est un filigrane, pas un pictogramme. Le rapport
-    de contraste est volontairement sous le seuil - il n'y a rien a y lire,
-    l'element est aria-hidden et le propos de la carte est dans son titre.
-  */
-  .el-fig__mark{color:#fff;flex:none;
-    width:clamp(132px,15vw,180px);height:clamp(132px,15vw,180px);
-    margin:auto calc(var(--sp-12) * -1 - 20px) calc(var(--sp-12) * -1 - 20px) auto;
-    display:grid;place-items:center;line-height:1;user-select:none}
-  .el-fig__mark svg{width:100%;height:100%}
-
-  /* carte-visuel : pas de gouttiere, l'image EST la carte */
-  .el-fig-card--img{padding:0;overflow:hidden}
-  /* l'image porte le rayon de la carte via son overflow:hidden, elle n'a donc
-     ni bord ni rayon propre - deux rayons concentriques se verraient */
-  .el-fig-card--img img{display:block;width:100%;height:auto}
-  .el-fig__n{font-family:var(--display);font-weight:400;font-size:clamp(36px,4.6vw,60px);line-height:.95;
-    letter-spacing:-.03em;color:var(--accent-alt)}
-  /* exposant du chiffre, meme rapport que le « /5 » de .el-big__n */
-  .el-fig__n span{font-size:.45em;color:var(--ink-muted)}
-  .el-fig__q{margin-top:12px;font-family:var(--display);font-weight:400;font-size:17px;line-height:1.2;
-    letter-spacing:-.01em;color:var(--ink)}
-  .el-fig__l{margin-top:8px;font-size:13px;line-height:1.45;color:var(--ink-muted)}
-  /* la carte porte user-select:none pour le glisser : on le rend au lien, sinon
-     son libelle n'est ni selectionnable ni copiable */
-  .el-fig__cta{margin-top:var(--sp-06);font-size:14px;user-select:auto}
-  /* .btn3 svg fait 20px, cale sur un libelle de 16px ; ici le libelle est a 14px */
-  .el-fig__cta svg{width:16px;height:16px}
-
-
+  /* les deux series de cartes-preuves (chapitres 01 et 07) vivent desormais
+     dans <ProofCards>, qui emet leur CSS et se cable lui-meme */
   /* les trois metiers : le rythme fait le travail */
   /*
     Equivalent local de .creed sur /philosophy : .tenet:first-of-type annule son
@@ -848,35 +671,8 @@ const preuves: Preuve[] = [
   /* le benefice ferme la description : meme traitement que le gras de .ls-body */
   .el-axis__desc b{color:var(--ink);font-weight:700}
 
-  /* pipeline : la forme dit « une seule chaine, zero handoff » */
-  /* sp-14 et non sp-06 : cette marge portait l'ecart au « design → dev » qui
-     precedait la chaine ; sans lui c'est elle qui doit tenir l'ecart au titre */
-  .el-pipe{list-style:none;margin:var(--sp-14) 0 0;padding:0;display:flex;align-items:stretch;gap:0;
-    overflow-x:auto;scrollbar-width:none}
-  .el-pipe::-webkit-scrollbar{display:none}
-  .el-pipe__node{flex:1 1 0;min-width:150px;position:relative;padding:var(--sp-08) var(--sp-03) var(--sp-08) 0;
-    display:grid;gap:6px;align-content:start}
-  .el-pipe__node::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background:var(--accent-alt);opacity:.28}
-  .el-pipe__node::after{content:"";position:absolute;left:0;top:-4px;width:10px;height:10px;border-radius:50%;
-    background:var(--accent-alt)}
-  .el-pipe__n{font-size:11px;letter-spacing:.12em;color:var(--ink-muted);
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
-  .el-pipe__name{font-family:var(--display);font-weight:400;font-size:clamp(17px,1.8vw,22px);line-height:1.15;color:var(--ink)}
-  .el-pipe__note{font-size:13px;line-height:1.45;color:var(--ink-muted)}
-  /*
-    Au-dela de 900px la chaine ne defile plus : ni snap, ni pastilles, ni bord
-    coupe pour le signaler. Tout ce qui depasse la colonne de 1032px est donc
-    perdu sans que rien ne le dise - et avec sept maillons, `min-width:150px`
-    depassait de 18px. On rend la largeur au partage (min-width:0, sept colonnes
-    egales de ~147px) et on descend le corps du libelle en consequence : 22px
-    dans 127px de texte mettait « Integrated support channels » sur trois lignes
-    hautes qui desequilibraient toute la rangee.
-    En dessous de 900px on ne touche a rien : la c'est un rail, il DOIT deborder.
-  */
-  @media(min-width:901px){
-    .el-pipe__node{min-width:0;padding-right:var(--sp-02)}
-    .el-pipe__name{font-size:clamp(15px,1.5vw,19px)}
-  }
+  /* la chaine des sept produits vit desormais dans <Timeline>, qui emet son
+     CSS et pose son propre reveal */
 
   /* les gens : prose, jamais une grille */
   .el-trio{margin:var(--sp-16) 0 0;display:grid;
@@ -1188,25 +984,6 @@ const preuves: Preuve[] = [
   .js .el-path.in > :nth-child(4){--d:.36s}
   .js .el-path.in > :nth-child(5){--d:.44s}
 
-  /*
-    Les trois volets, a toutes les largeurs. Cette regle etait gardee par un
-    min-width:1025px tant que le bloc devenait un rail en dessous : carrousel()
-    y pilotait le meme `transform` (l'arc) et les deux se battaient a chaque
-    image. Le rail n'existe plus - les volets s'empilent - donc la garde non plus.
-  */
-  @media(max-width:1024px){
-    /* rail a snap : le conteneur perd sa hauteur fixe, les cartes rentrent dans le flux */
-    .el-figs{height:auto;display:flex;overflow-x:auto;gap:var(--sp-03);scroll-snap-type:x mandatory;
-      touch-action:auto;padding:var(--sp-08) 0 var(--sp-12);scrollbar-width:none;
-      margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
-      padding-left:var(--sp-03);padding-right:var(--sp-03)}
-    .el-figs::-webkit-scrollbar{display:none}
-    .el-fig-card{position:relative!important;left:auto!important;top:auto!important;
-      flex:0 0 clamp(210px,62%,280px);scroll-snap-align:center;transform:none;cursor:default}
-    .el-fig-card:hover{transform:none;box-shadow:0 18px 38px -22px rgba(120,30,10,.28)}
-    .el-figs-wrap .dots{display:flex}
-
-  }
   @media(max-width:900px){
     /*
       Le rail est deja en pleine largeur au-dessus, et sa formule de padding
@@ -1217,46 +994,8 @@ const preuves: Preuve[] = [
     */
     .el-axes{gap:var(--sp-03)}
     .el-axis{flex:0 0 clamp(250px,74vw,330px)}
-    .el-pipe{margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
-      padding:0 var(--sp-03);scroll-snap-type:x proximity}
-    .el-pipe__node{scroll-snap-align:start}
   }
   @media(max-width:720px){
-    /*
-      La chaine passe a la verticale.
-
-      En rail horizontal sur 375px, cinq etapes tiennent en cinq demi-cartes :
-      on ne voit jamais la chaine, seulement un fragment, et rien ne dit qu'il
-      en reste. Or c'est la chaine ENTIERE qui porte la these - « une seule
-      chaine, zero handoff ». Verticale, elle se lit d'un bloc, dans le sens de
-      defilement du telephone, et chaque maillon se decouvre a son tour.
-
-      Le trait passe du haut du noeud a sa gauche : c'est le meme ::before, on
-      n'echange que les axes. left est calcule pour que le trait (2px) tombe au
-      centre du point (10px) place a -var(--sp-08).
-    */
-    .el-pipe{display:block;overflow:visible;scroll-snap-type:none;
-      margin:var(--sp-14) 0 0;width:auto;padding:0 0 0 var(--sp-08)}
-    .el-pipe__node{min-width:0;padding:0 0 var(--sp-12);scroll-snap-align:none}
-    .el-pipe__node:last-child{padding-bottom:0}
-    /* bottom negatif : a 0 le trait s'arrete au bord du noeud, soit 2px au-dessus
-       du point suivant - un cheveu de blanc, mais la chaine parait rompue */
-    .el-pipe__node::before{left:calc(var(--sp-08) * -1 + 4px);right:auto;top:6px;bottom:-4px;
-      width:2px;height:auto}
-    /* le dernier maillon ne relie rien : un trait qui pend annoncerait une suite */
-    .el-pipe__node:last-child::before{display:none}
-    .el-pipe__node::after{left:calc(var(--sp-08) * -1);top:2px}
-    /* decouverte progressive : le trait se tire, le point s'allume, le texte monte */
-    .js .el-pipe__node{opacity:0;transform:translateY(14px)}
-    .js .el-pipe__node.in{opacity:1;transform:none;
-      transition:opacity .5s ease,transform .55s cubic-bezier(.22,1,.36,1)}
-    .js .el-pipe__node::before{transform:scaleY(0);transform-origin:top}
-    .js .el-pipe__node.in::before{transform:scaleY(1);
-      transition:transform .55s cubic-bezier(.22,1,.36,1) .12s}
-    .js .el-pipe__node::after{transform:scale(0)}
-    .js .el-pipe__node.in::after{transform:scale(1);
-      transition:transform .4s cubic-bezier(.34,1.56,.64,1) .06s}
-
     /* le cercle passe au-dessus du texte. width et non 1fr : etale sur toute la
        colonne il ferait un disque de 343px de haut avant la premiere phrase */
     .el-trio{grid-template-columns:1fr;gap:var(--sp-08)}
@@ -1269,9 +1008,6 @@ const preuves: Preuve[] = [
   */
   @media(prefers-reduced-motion:reduce){
     .js .el-path > *,.js .el-path.in > *,
-    .js .el-pipe__node,.js .el-pipe__node.in{opacity:1;transform:none;transition:none}
-    .js .el-pipe__node::before,.js .el-pipe__node.in::before,
-    .js .el-pipe__node::after,.js .el-pipe__node.in::after{transform:none;transition:none}
     /* animation:none et pas seulement transition : le cercle entre par une
        keyframe, que couper une transition ne desamorcerait pas */
     .js .el-trio__photo,.js .el-trio.in .el-trio__photo{opacity:1;transform:none;animation:none}
@@ -1293,9 +1029,7 @@ const preuves: Preuve[] = [
 
 <script>
   import { revealAll } from '../scripts/reveal';
-  import { rendreDeplacable } from '../scripts/drag';
-  import { carrousel, ARC_VIGNETTE } from '../scripts/carousel';
-  import type { OptionsCarrousel } from '../scripts/carousel';
+  import { carrousel } from '../scripts/carousel';
 
   /* les pastilles d'un rail, dans l'ordre du DOM */
   const pastilles = (id: string) => [
@@ -1315,46 +1049,23 @@ const preuves: Preuve[] = [
     Les regles CSS correspondantes sont conditionnees a `.js` : si ce script ne
     s'execute pas, rien n'est masque.
   */
-  revealAll('.el-pipe__node', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
   revealAll('.el-path', { threshold: 0.3 });
 
-  /* au-dela de 1024px les cartes se deplacent ; en deca le conteneur est un rail */
-  rendreDeplacable('.el-fig-card', '(max-width:1024px)');
+  /* les facettes s'amorcent dans <Carousel>, les deux series de cartes-preuves
+     dans <ProofCards> : ne reste ici que le rail propre a la page. */
 
   /*
-    Le glisser ecoute pointerdown sur la carte entiere, lien compris : partir du
-    bouton deplacerait la carte, et setPointerCapture rendrait le clic imprevisible.
-    On arrete l'evenement au lien pour qu'il ne remonte jamais jusqu'a la carte.
+    Les axes sont un carrousel a toutes les largeurs - ce n'est plus une grille
+    qui cede en rail sous 900px - donc pas de garde `actifSi`.
   */
-  document.querySelectorAll('.el-fig-card a').forEach((a) => {
-    a.addEventListener('pointerdown', (e) => e.stopPropagation());
-  });
-
-  /* le carrousel des facettes s'amorce lui-meme, dans <Carousel> */
-
-  /*
-    Les trois rails propres a la page. `slides` est resolu DANS la piste par
-    carrousel(), donc le meme selecteur '.el-fig-card' ne fait pas se croiser les
-    resultats et les preuves.
-
-    Les cartes ne se deplacent qu'au-dela de 1024px ; en deca le conteneur est un
-    rail, d'ou `actifSi` sur ces deux-la. Les axes, eux, sont un carrousel a
-    toutes les largeurs - ce n'est plus une grille qui cede en rail sous 900px -
-    donc pas de garde.
-
-    depart : les resultats ouvrent sur la deuxieme carte, qui est au centre du
-    jeu ; les preuves sur la premiere, parce que ces quatre-la se lisent dans
-    l'ordre et que c'est elle qui porte le chiffre.
-  */
-  const rail = (id: string, o: Omit<OptionsCarrousel, 'classeDotActive'>) => {
-    const piste = document.getElementById(id);
-    if (piste) carrousel(piste, { ...o, classeDotActive: 'is-active' });
-  };
-
-  rail('elaxes', { slides: '.el-axis', dots: pastilles('elaxesdots'),
-    arc: { y: 12, deg: 3, scale: 0.04 }, depart: 0 });
-  rail('elfigs', { slides: '.el-fig-card', dots: pastilles('elfigdots'),
-    arc: ARC_VIGNETTE, actifSi: '(max-width:1024px)', depart: 1 });
-  rail('elproof', { slides: '.el-fig-card', dots: pastilles('elproofdots'),
-    arc: ARC_VIGNETTE, actifSi: '(max-width:1024px)', depart: 0 });
+  const axes = document.getElementById('elaxes');
+  if (axes) {
+    carrousel(axes, {
+      slides: '.el-axis',
+      dots: pastilles('elaxesdots'),
+      arc: { y: 12, deg: 3, scale: 0.04 },
+      depart: 0,
+      classeDotActive: 'is-active',
+    });
+  }
 </script>

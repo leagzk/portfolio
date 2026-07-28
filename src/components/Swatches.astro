@@ -1,0 +1,149 @@
+---
+/*
+  Nuancier : un bloc intitule, puis les pastilles avec leur nom et leur hexa.
+
+  Ne vivait que dans system-event, sous le prefixe `ls-swatch`. Il en sort parce
+  que /system-brand en a le meme usage - une couleur par business capability - et
+  le prefixe tombe avec le demenagement : `ls-` se lit « long story », or ce bloc
+  n'a rien de narratif, c'est un specimen. Meme trajet que <Equations>,
+  <ProofCards> et <Timeline>.
+
+  LE NOMBRE DE COLONNES VIENT DES DONNEES. Il etait ecrit en dur - `repeat(5,...)`
+  pour les cinq couleurs du Living System - donc une sixieme serait passee a la
+  ligne toute seule et une quatrieme aurait laisse un trou. Il se derive
+  desormais de `couleurs.length`, comme les pastilles de <Dots> se derivent de
+  leurs vignettes : deux nombres qui ne peuvent plus diverger.
+
+  minmax(0,1fr) et non 1fr : un item de grille refuse sinon de descendre sous sa
+  largeur min-content, et un nom long ferait deborder sa colonne.
+*/
+import Dots from './Dots.astro';
+
+export interface Couleur {
+  /** valeur posee telle quelle en fond ET affichee sous la pastille */
+  hex: string;
+  nom: string;
+}
+
+export interface Props {
+  /*
+    Serie PARCOURUE plutot que grille : rail a snap et pastilles, a toutes les
+    largeurs. Choix de la page appelante et non deduit du nombre, parce que ce
+    qui decide n'est pas combien il y a de couleurs mais la longueur de leurs
+    noms : cinq « Vert / Bleu / Rouge » tiennent en grille, dix
+    « Medical & Regulatory » n'y tiennent pas sans se couper en deux lignes.
+    Meme raisonnement que les axes d'Elements, passes en carrousel a toutes les
+    largeurs parce qu'une grille 3x2 se lisait comme deux groupes de trois.
+  */
+  rail?: boolean;
+  /** graine des id, requise en mode rail : les pastilles en derivent */
+  id?: string;
+  /** intitule du bloc, en petites capitales : « Colors » */
+  label: string;
+  couleurs: Couleur[];
+  /** langue des noms quand ils ne sont pas en anglais - « Vert », « Bleu »... */
+  lang?: string;
+}
+const { label, couleurs, lang, rail = false, id } = Astro.props;
+/*
+  Le rang se plie a cinq. Au-dela, la colonne passe sous ~190px et les noms
+  longs - « Medical & Regulatory », « Sales & Marketing » - se coupent en deux
+  lignes, ce qui desaligne toute la rangee de pastilles.
+  Cinq est donc un plafond mesure, pas un gout : a la pleine colonne de 1032px,
+  c'est le dernier palier ou le plus long des noms tient sur une ligne.
+*/
+const colonnes = Math.min(couleurs.length, 5);
+---
+<div class="ls-system__block">
+  <p class="ls-system__label">{label}</p>
+  <ul class:list={['swatches', rail && 'swatches--rail']} id={rail ? id : undefined}
+      style={rail ? undefined : `--n:${colonnes}`}>
+    {couleurs.map((c) => (
+      <li>
+        <span class="swatches__tile" style={`--c:${c.hex}`}></span>
+        <b lang={lang}>{c.nom}</b>
+        <code>{c.hex}</code>
+      </li>
+    ))}
+  </ul>
+  {rail && <Dots id={`${id}dots`} count={couleurs.length} label={label} itemLabel="Colour" />}
+</div>
+
+<style is:global>
+  .swatches{list-style:none;margin:0;padding:0;display:grid;
+    grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:var(--sp-01)}
+  .swatches li{display:flex;flex-direction:column;gap:6px;min-width:0}
+  /*
+    PAS `.swatch` TOUT COURT : ce nom est deja pris. Base.astro le donne aux
+    trois pastilles du selecteur de theme, dans le dock - 28px, rondes, curseur
+    pointeur. Une pastille de nuancier qui s'appelle pareil en herite en silence
+    et se retrouve figee a 28px de large au lieu de remplir sa colonne. C'est
+    exactement ce qui est arrive en renommant `ls-swatch` en `swatch` : l'ancien
+    prefixe protegeait de la collision sans le dire.
+
+    Le fond vient de --c, pose en style inline : c'est une VALEUR de la donnee,
+    pas un choix de theme. Une pastille de nuancier doit montrer la couleur
+    exacte de la marque decrite, donc elle ne suit ni --accent ni le theme actif.
+    Le contour, lui, reste sur --edge : il delimite la pastille, il ne la colore
+    pas, et en Mondrian tout objet en porte un.
+  */
+  .swatches__tile{display:block;aspect-ratio:1;border-radius:14px;background:var(--c);
+    border:var(--edge-w) solid var(--edge)}
+  .swatches b{font-size:12px;font-weight:600;color:var(--ink)}
+  .swatches code{font-size:11px;letter-spacing:.04em;color:var(--ink-muted);
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+
+  /*
+    Mode rail. La serie sort de la colonne et court d'un bord a l'autre, comme
+    les axes d'Elements : le padding lateral vaut --bleed-pad, donc la premiere
+    pastille reste calee sur la colonne de texte pendant que la suite file hors
+    cadre a droite. C'est ce bord coupe qui dit qu'il y a une suite.
+
+    132px de plancher, et ce n'est pas un chiffre rond : « Medical & Regulatory »
+    mesure 121px au corps et a la graisse de ces intitules. En dessous il se
+    couperait en deux lignes et desalignerait toute la rangee. Toute reduction de
+    cette valeur doit etre remesuree sur le plus long des noms.
+  */
+  .swatches--rail{display:flex;gap:var(--sp-02);overflow-x:auto;
+    scroll-snap-type:x mandatory;touch-action:pan-x;scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    margin:0 calc(50% - 50vw);width:100vw;padding:0 var(--bleed-pad) var(--sp-06)}
+  .swatches--rail::-webkit-scrollbar{display:none}
+  .swatches--rail li{flex:0 0 clamp(132px,16vw,164px);scroll-snap-align:center}
+  /* les pastilles de pagination sont masquees par defaut dans shared.css :
+     ici le rail existe a toutes les largeurs, donc elles aussi */
+  .swatches--rail + .dots{display:flex}
+
+  @media(max-width:560px){
+    /* la grille cede en rail : a cette largeur, cinq colonnes donneraient des
+       pastilles de 60px ou le nom ne tiendrait plus */
+    .swatches:not(.swatches--rail){display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+      touch-action:pan-x;gap:12px;padding-bottom:8px;scrollbar-width:none;
+      -webkit-overflow-scrolling:touch}
+    .swatches:not(.swatches--rail)::-webkit-scrollbar{display:none}
+    .swatches:not(.swatches--rail) li{flex:0 0 clamp(78px,26vw,104px);scroll-snap-align:center}
+  }
+</style>
+
+<script>
+  /*
+    Le rail se cable lui-meme, comme <Carousel> et <ProofCards>. Astro n'emet ce
+    script qu'une fois par page quel que soit le nombre d'instances, d'ou la
+    boucle. Les pastilles sont cherchees depuis l'enveloppe et non par id : deux
+    nuanciers sur la meme page ne peuvent donc pas se croiser.
+
+    arc:false - la courbure des rails de vignettes ferait pencher et retrecir les
+    pastilles aux extremites. Sur une photo c'est un effet ; sur un echantillon
+    de couleur c'est une deformation, et sur un carre de reference ca ment.
+  */
+  import { carrousel } from '../scripts/carousel';
+
+  document.querySelectorAll<HTMLElement>('.swatches--rail').forEach((piste) => {
+    carrousel(piste, {
+      slides: 'li',
+      dots: [...(piste.parentElement?.querySelectorAll<HTMLElement>('.dots .dot') ?? [])],
+      arc: false,
+      classeDotActive: 'is-active',
+    });
+  });
+</script>

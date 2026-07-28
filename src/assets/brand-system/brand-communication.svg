@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="500" height="500" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10">
+<!--
+  Vignette au trait du chapitre 04 de /system-brand. Memes conventions que
+  governance-visual.svg sur l'accueil - Illustrator les perd toutes a chaque
+  re-export, et sans bruit :
+
+  1. PAS DE DISQUE. L'aplat rond vient du conteneur (.sb-taught__viz dans
+     system-brand.astro), qui porte deja son fond. Le <circle style="fill:#F0FFD2"
+     cx="50" cy="50" r="36.5"> de l'export a ete retire. Le viewBox de 100 est
+     garde tel quel : le dessin conserve son rapport au disque, qui occupait 73%
+     de la boite - d'ou le rendu a 137%. Ce qui deborde est voulu, ici la bulle
+     et ses antennes.
+  2. currentColor, jamais une couleur en dur. L'export pose stroke:#231F20 onze
+     fois ; sans conversion le trait resterait noir dans les quatre themes au
+     lieu de suivre --accent, et le filigrane mobile - qui passe la couleur au
+     blanc - n'aurait aucun effet.
+  3. PAS DE BLOC <style>. Celui-ci n'en avait pas (Illustrator avait sorti des
+     styles inline), mais un re-export peut en produire : Astro inline le SVG
+     dans la page, donc ce <style> deviendrait GLOBAL et repeindrait les autres
+     vignettes. Tout reste en attributs de presentation, poses sur la racine.
+  4. CINQ crochets pour l'animation d'entree (voir system-brand.astro) :
+     class="dot" sur les trois ronds de la bulle, qui s'allument l'un apres
+     l'autre, puis class="wave wave--1" et class="wave wave--2" sur les deux
+     traits de vibration a gauche, qui arrivent ensuite. Sans ces classes
+     l'animation ne fait plus rien, silencieusement.
+-->
+  <g>
+    <path d="M67.63,50.175c0,0-7.532-5.872-13.787-7.277s-12,4.34-4.851,9.702s7.404,6.128,7.404,6.128s-0.383,9.574,9.191,14.681"/>
+    <path d="M39.02,49.902c-0.549,1.14-0.715,2.693-0.178,4.805c1.34,5.266,5.989,7.055,8.362,7.723c3.511,0.989,8.298-0.83,5.904-6.479"/>
+    <path d="M39.992,57.388c0,0-6.099,2.818-2.202,9.096c1.723,2.777,5.363,4.388,9.096,4.309c4.5-0.096,6.798-5.362,2.872-8.138"/>
+    <path d="M91.375,65.239c0,0-8.97-11.548-20.719-22.522"/>
+    <path d="M60.992,93.452c0,0-10.979-17.489-16.723-22.723"/>
+    <path class="wave wave--1" d="M13.431,24.453c0,0-1.861,5.704,2.623,14.53"/>
+    <path class="wave wave--2" d="M9.008,25.113c0,0-1.861,5.704,2.623,14.53"/>
+    <path d="M63.406,47.094c8.193-3.909,13.625-10.754,13.625-18.546c0-12.15-13.208-22-29.5-22c-16.292,0-29.5,9.85-29.5,22c0,5.823,3.039,11.114,7.992,15.049l-4.992,9.951l12.941-5.463c3.818,1.477,8.119,2.354,12.684,2.454"/>
+  </g>
+  <g>
+    <circle class="dot" cx="33" cy="29" r="4.5"/>
+    <circle class="dot" cx="47" cy="29" r="4.5"/>
+    <circle class="dot" cx="61" cy="29" r="4.5"/>
+  </g>
+</svg>

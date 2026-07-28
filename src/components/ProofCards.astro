@@ -1,0 +1,260 @@
+---
+/*
+  Serie de cartes-preuves : un chiffre pose grand, sa glose, et le detail.
+
+  Ne vivait que dans system-practice-elements, sous le prefixe `el-`. Il en sort
+  parce que /system-brand en a le meme usage - un chapitre « The results » qui
+  ouvre sur quatre chiffres - et le prefixe change avec le demenagement : `el-`
+  voulait dire Elements, et ce n'est plus vrai. Meme trajet que <Equations>,
+  sorti de la meme page pour la meme raison.
+
+  LE DISPOSITIF EST LE PROPOS. Au-dela de 1024px les cartes sont posees en
+  absolu, inclinees, et se DEPLACENT a la souris ; en dessous le conteneur
+  devient un rail a snap avec pastilles. Des chiffres qu'on peut pousser du doigt
+  se lisent comme un jeu de preuves qu'on manipule, pas comme un tableau de bord.
+
+  Le composant se cable lui-meme - glisser, rail, pastilles - comme <Carousel>
+  pose son propre carrousel et <Equations> son propre reveal. Astro n'emet le
+  script qu'une fois par page quel que soit le nombre d'instances : d'ou la
+  boucle sur toutes les series plutot qu'un amorcage par id. C'est ce qui permet
+  a une page d'en porter deux sans que leurs pastilles se croisent - la recherche
+  part de l'enveloppe, jamais du document.
+
+  LE TON EST NOMME, JAMAIS DEDUIT DU RANG. Les resultats d'Elements le tenaient
+  de leur index (`--2`, `--3`) et ses preuves le nommaient (`--red`, `--ink`) :
+  deux ecritures pour la meme chose, ce qu'un composant partage ne peut pas
+  garder. Le nom l'emporte parce qu'il est le seul des deux qui survit a un
+  reordonnancement du propos - deplacer une carte ne doit pas repeindre la serie.
+*/
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Dots from './Dots.astro';
+import ExternalLink from './ExternalLink.astro';
+
+export interface Carte {
+  /** placement au bureau : `left`, `top` et `--rot` ; neutralise par le CSS sous 1024px */
+  pose: string;
+  /** aplat de la carte ; absent, elle reste sur le fond de carte */
+  ton?: 'red' | 'ink';
+  chiffre?: string;
+  /** exposant du chiffre, a l'echelle de « /5 » */
+  suffixe?: string;
+  titre?: string;
+  detail?: string;
+  /*
+    Dessin pose en filigrane dans l'angle bas-droit. Un `.svg` importe est un
+    COMPOSANT (Astro 5.7+) et non un chemin : il se passe donc tel quel, ce qui
+    evite au composant d'aller chercher lui-meme un visuel qui appartient a la
+    page appelante. Type volontairement large - Astro n'expose pas de type public
+    pour un composant, et le seul qui existe vit derriere un chemin interne
+    qu'une montee de version deplacerait.
+  */
+  badge?: any;
+  /** carte-visuel : l'image occupe toute la carte, sans texte ni gouttiere */
+  image?: { src: ImageMetadata; alt: string };
+  lien?: { href: string; label: string };
+}
+
+export interface Props {
+  /** graine des id : la serie et ses pastilles en derivent */
+  id: string;
+  cartes: Carte[];
+  /** aria-label du groupe de pastilles : « Results »... */
+  label: string;
+  /** prefixe d'une pastille : "Result" donne aria-label="Result 1" */
+  itemLabel: string;
+  /** carte centree a l'ouverture du rail */
+  depart?: number;
+}
+const { id, cartes, label, itemLabel, depart = 0 } = Astro.props;
+---
+{/*
+  .proof-wrap n'est pas decoratif : il porte le rythme vertical du bloc, et c'est
+  lui qui rallume les pastilles sous 1024px (`.proof-wrap .dots`). Sans lui le
+  rail reste navigable, mais muet - aucun repere de position.
+*/}
+<div class="proof-wrap">
+  <div class="proof-set" id={id} data-depart={depart}>
+    {cartes.map((c) => {
+      /* capitalise pour etre rendu comme un composant, cf. `badge` plus haut */
+      const Badge = c.badge;
+      return (
+        <div
+          class:list={['proof-card', c.ton && `proof-card--${c.ton}`,
+                       c.image && 'proof-card--img',
+                       c.badge && 'proof-card--mark',
+                       !c.chiffre && !c.image && 'proof-card--say']}
+          style={c.pose}
+        >
+          {c.image ? (
+            /* sizes cale sur la largeur reelle de la carte : clamp(210,24vw,264)
+               au bureau, clamp(210,62%,280) dans le rail - jamais 100vw */
+            <Image src={c.image.src} alt={c.image.alt} layout="constrained"
+              sizes="(min-width: 1025px) 280px, 65vw" loading="lazy" decoding="async" />
+          ) : (
+            <>
+              {c.chiffre && <p class="proof__n">{c.chiffre}{c.suffixe && <span>{c.suffixe}</span>}</p>}
+              <p class="proof__q">{c.titre}</p>
+              {c.detail && <p class="proof__l">{c.detail}</p>}
+              {c.lien && (
+                <ExternalLink href={c.lien.href} class="proof__cta">{c.lien.label}</ExternalLink>
+              )}
+              {Badge && <span class="proof__mark" aria-hidden="true"><Badge /></span>}
+            </>
+          )}
+        </div>
+      );
+    })}
+  </div>
+  <Dots id={`${id}dots`} count={cartes.length} label={label} itemLabel={itemLabel} />
+</div>
+
+<style is:global>
+  .proof-wrap{margin:var(--sp-20) 0}
+  .proof-set{position:relative;height:clamp(360px,40vw,430px);touch-action:none}
+  /* le placement (left/top/--rot) vient du champ `pose` de chaque entree, pose
+     en style inline */
+  .proof-card{position:absolute;width:clamp(210px,24vw,264px);
+    padding:var(--sp-12);border-radius:28px;background:var(--card);
+    border:1px solid var(--line);border-width:max(1px,var(--edge-w));border-color:var(--line);
+    box-shadow:0 18px 38px -22px rgba(120,30,10,.28);cursor:grab;user-select:none;
+    transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;z-index:1}
+  .proof-card:hover{transform:rotate(0deg) translateY(-6px) scale(1.02);
+    box-shadow:0 28px 52px -24px rgba(120,30,10,.4);z-index:20}
+  .proof-card.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);z-index:30}
+  .proof-card--red{background:var(--tile-red)}
+  .proof-card--red .proof__n{color:var(--tile-red-ink)}
+  .proof-card--red .proof__l{color:var(--tile-red-ink);opacity:.72}
+  /*
+    Carte noire, meme procede que .dc2 sur l accueil : le fond prend --ink et le
+    texte passe en blanc en entier. L accent bleu de --accent-alt, tenu en theme
+    contrast, ne passerait pas sur ce fond - d ou le chiffre en blanc lui aussi.
+  */
+  .proof-card--ink{background:var(--ink)}
+  .proof-card--ink .proof__n,.proof-card--ink .proof__q{color:#fff}
+  .proof-card--ink .proof__l{color:rgba(255,255,255,.72)}
+  /*
+    Carte sans chiffre : c'est la phrase qui porte, elle prend donc le corps que
+    le chiffre occupait. Sans ca elle tombait a 17px - la taille d'une legende
+    sous un chiffre de 60px - et la carte se lisait comme s'il lui manquait
+    quelque chose au-dessus.
+  */
+  .proof-card--say .proof__q{margin-top:0;font-size:clamp(19px,1.9vw,23px);line-height:1.16}
+  /*
+    Le dessin est pose a meme la carte, en grand, ancre dans l'angle bas-droit et
+    rogne - meme traitement que .dc-hand sur l'accueil.
+
+    En flux et non en position:absolute : pose en absolu, il passait sous le
+    texte des que la carte etait courte - or ces cartes n'ont pas de hauteur
+    fixe, elles suivent leur contenu. La carte devient donc une colonne flex, et
+    `margin:auto ... auto` colle le dessin en bas a droite de l'espace restant.
+    La marge basse de `p:last-of-type` garantit l'ecart minimum au texte quand il
+    ne reste aucun espace a distribuer. Elle vise `p:last-of-type` et non une
+    classe precise : la derniere ligne de la carte est tantot le titre, tantot le
+    detail, et le dessin est un <span> - il ne peut donc pas etre pris pour cible.
+
+    overflow:hidden est ce qui rend le debordement possible : le dessin sort du
+    cadre par l'angle bas-droit et c'est le rayon de 28px de la carte qui le
+    coupe. Sans lui, il deborderait par-dessus le coin arrondi et la carte
+    perdrait sa silhouette.
+  */
+  .proof-card--mark{display:flex;flex-direction:column;overflow:hidden}
+  .proof-card--mark p:last-of-type{margin-bottom:var(--sp-06)}
+  /*
+    Les marges negatives valent le padding de la carte plus 20px : elles annulent
+    la gouttiere pour que le dessin atteigne vraiment le bord, puis mordent
+    dessus. `margin-top:auto` le plaque en bas de la colonne flex.
+    Blanc sur --tile-red : c'est un filigrane, pas un pictogramme. Le rapport de
+    contraste est volontairement sous le seuil - il n'y a rien a y lire,
+    l'element est aria-hidden et le propos de la carte est dans son titre.
+  */
+  .proof__mark{color:#fff;flex:none;
+    width:clamp(132px,15vw,180px);height:clamp(132px,15vw,180px);
+    margin:auto calc(var(--sp-12) * -1 - 20px) calc(var(--sp-12) * -1 - 20px) auto;
+    display:grid;place-items:center;line-height:1;user-select:none}
+  .proof__mark svg{width:100%;height:100%}
+
+  /* carte-visuel : pas de gouttiere, l'image EST la carte */
+  .proof-card--img{padding:0;overflow:hidden}
+  /* l'image porte le rayon de la carte via son overflow:hidden, elle n'a donc
+     ni bord ni rayon propre - deux rayons concentriques se verraient */
+  .proof-card--img img{display:block;width:100%;height:auto}
+  .proof__n{font-family:var(--display);font-weight:400;font-size:clamp(36px,4.6vw,60px);line-height:.95;
+    letter-spacing:-.03em;color:var(--accent-alt)}
+  /* exposant du chiffre, meme rapport que le « /5 » de .el-big__n */
+  .proof__n span{font-size:.45em;color:var(--ink-muted)}
+  .proof__q{margin-top:12px;font-family:var(--display);font-weight:400;font-size:17px;line-height:1.2;
+    letter-spacing:-.01em;color:var(--ink)}
+  .proof__l{margin-top:8px;font-size:13px;line-height:1.45;color:var(--ink-muted)}
+  /* la carte porte user-select:none pour le glisser : on le rend au lien, sinon
+     son libelle n'est ni selectionnable ni copiable */
+  .proof__cta{margin-top:var(--sp-06);font-size:14px;user-select:auto}
+  /* .btn3 svg fait 20px, cale sur un libelle de 16px ; ici le libelle est a 14px */
+  .proof__cta svg{width:16px;height:16px}
+
+  @media(max-width:1024px){
+    /* rail a snap : le conteneur perd sa hauteur fixe, les cartes rentrent dans le flux */
+    .proof-set{height:auto;display:flex;overflow-x:auto;gap:var(--sp-03);scroll-snap-type:x mandatory;
+      touch-action:auto;padding:var(--sp-08) 0 var(--sp-12);scrollbar-width:none;
+      margin-left:calc(50% - 50vw);margin-right:calc(50% - 50vw);width:100vw;
+      padding-left:var(--sp-03);padding-right:var(--sp-03)}
+    .proof-set::-webkit-scrollbar{display:none}
+    .proof-card{position:relative!important;left:auto!important;top:auto!important;
+      flex:0 0 clamp(210px,62%,280px);scroll-snap-align:center;transform:none;cursor:default}
+    .proof-card:hover{transform:none;box-shadow:0 18px 38px -22px rgba(120,30,10,.28)}
+    /*
+      La carte-visuel doit remplir sa carte, ici et pas au bureau.
+
+      Dans le rail les cartes sont des items de flex en align-items:stretch :
+      elles prennent toutes la hauteur de la plus haute. L'image, elle, gardait
+      `height:auto` et s'arretait a la hauteur que lui donnait son ratio - d'ou
+      un liseré de fond sous la photo, mesure a 8px sur un ecran de 375px. Le
+      defaut se voyait d'autant plus que la carte est bordee et arrondie : le
+      vide y lit comme un mauvais recadrage.
+
+      Au bureau la carte n'a AUCUNE hauteur imposee - elle est en position
+      absolue et c'est l'image qui la lui donne. Y forcer 100% ferait donc
+      dependre la hauteur de l'image d'elle-meme. D'ou un correctif tenu dans le
+      rail, et pas dans la regle de base.
+
+      object-fit ecrit explicitement bien qu'il vaille deja `cover` : il le tient
+      des styles responsives globaux d'Astro, pas de ce composant. Sans lui ici,
+      couper cette option ailleurs deformerait la photo sans qu'on voie le lien.
+    */
+    .proof-card--img img{height:100%;object-fit:cover}
+    .proof-wrap .dots{display:flex}
+  }
+</style>
+
+<script>
+  import { carrousel, ARC_VIGNETTE } from '../scripts/carousel';
+  import { rendreDeplacable } from '../scripts/drag';
+
+  /* au-dela de 1024px les cartes se deplacent ; en deca le conteneur est un rail */
+  rendreDeplacable('.proof-card', '(max-width:1024px)');
+
+  /*
+    Le glisser ecoute pointerdown sur la carte entiere, lien compris : partir du
+    bouton deplacerait la carte, et setPointerCapture rendrait le clic imprevisible.
+    On arrete l'evenement au lien pour qu'il ne remonte jamais jusqu'a la carte.
+  */
+  document.querySelectorAll('.proof-card a').forEach((a) => {
+    a.addEventListener('pointerdown', (e) => e.stopPropagation());
+  });
+
+  /*
+    `slides` est resolu DANS la piste par carrousel(), et les pastilles sont
+    cherchees depuis l'enveloppe : deux series sur la meme page ne peuvent donc
+    pas se croiser, meme en partageant le selecteur `.proof-card`.
+  */
+  document.querySelectorAll<HTMLElement>('.proof-set').forEach((piste) => {
+    carrousel(piste, {
+      slides: '.proof-card',
+      dots: [...(piste.parentElement?.querySelectorAll<HTMLElement>('.dots .dot') ?? [])],
+      arc: ARC_VIGNETTE,
+      actifSi: '(max-width:1024px)',
+      depart: Number(piste.dataset.depart ?? 0),
+      classeDotActive: 'is-active',
+    });
+  });
+</script>

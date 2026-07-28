@@ -114,7 +114,9 @@
   regle qu'on finit par oublier de repercuter : elle est ecrite une fois.
 
   Elle vit dans shared.css, charge partout, et non dans case-study.css, qui ne
-  l'est que par les recits longs. Le selecteur .ls-dark ne matche simplement
+  l'est que par les recits longs. Le menu mobile s'y ajoute : c'est le meme noir
+  #070304, donc le meme probleme de contraste, et l'ajouter aux selecteurs
+  existants evite d'en recopier les trois lignes de reglage par theme. Le selecteur .ls-dark ne matche simplement
   rien sur les pages qui n'en ont pas.
 
   Pourquoi trois lignes et pas une couleur : aucune valeur unique ne tient les
@@ -126,10 +128,10 @@
   #4A90E2 6,2:1 - seule occurrence de cette valeur dans le projet, pas de token
   pour un usage unique.
 */
-.talk-card .btn3,.ls-dark .btn3{color:#fff}
-.talk-card .btn3:hover,.ls-dark .btn3:hover{color:var(--accent)}
-[data-theme="mono"] .talk-card .btn3:hover,[data-theme="mono"] .ls-dark .btn3:hover{color:#fff;font-weight:700}
-[data-theme="contrast"] .talk-card .btn3:hover,[data-theme="contrast"] .ls-dark .btn3:hover{color:#4A90E2}
+.talk-card .btn3,.ls-dark .btn3,.mobmenu .btn3{color:#fff}
+.talk-card .btn3:hover,.ls-dark .btn3:hover,.mobmenu .btn3:hover{color:var(--accent)}
+[data-theme="mono"] .talk-card .btn3:hover,[data-theme="mono"] .ls-dark .btn3:hover,[data-theme="mono"] .mobmenu .btn3:hover{color:#fff;font-weight:700}
+[data-theme="contrast"] .talk-card .btn3:hover,[data-theme="contrast"] .ls-dark .btn3:hover,[data-theme="contrast"] .mobmenu .btn3:hover{color:#4A90E2}
 .banner__home{position:absolute;top:var(--sp-03);left:var(--sp-05);z-index:4;height:var(--sp-21);display:inline-flex;align-items:center;gap:8px;color:var(--hero-ink);text-decoration:none;font-weight:600;font-size:16px;opacity:.92;transition:opacity .2s}
 .banner__home:hover{opacity:1}
 .banner__home svg{width:16px;height:16px;flex:none}

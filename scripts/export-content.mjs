@@ -76,17 +76,26 @@ function inline(html) {
 }
 
 /* Retire ce qui n'est pas du contenu redactionnel avant le decoupage en blocs.
-   Les <button> sont les pastilles de carrousel : ils n'ont qu'un aria-label.
    Le <nav id="chaptabs"> est le fil d'Ariane lateral des case studies : ses
    libelles sont deja dans les surtitres de section qu'il pointe, donc les
    garder ferait apparaitre chaque chapitre deux fois dans l'export. Meme
-   raison que l'exclusion de la nav principale et du pied de page. */
+   raison que l'exclusion de la nav principale et du pied de page.
+
+   LES <button> SONT VIDES DE LEUR ENVELOPPE, PAS DE LEUR CONTENU. La regle
+   d'origine les supprimait entiers, ce qui etait juste tant qu'ils n'etaient
+   que des pastilles de carrousel - un aria-label et rien d'autre. Depuis que
+   les planches cliquables de /system-brand sont enveloppees d'un <button>,
+   les supprimer emportait ONZE textes alternatifs avec elles : l'export est
+   tombe de 29 alt a 18 sans qu'aucune ligne de contenu ne change, donc sans
+   que le compte de blocs - le garde-fou habituel - ne bronche. Un bouton qui
+   contient une image contient de la copy ; on ne jette que sa coquille. */
 function nettoyer(html) {
   return html
     .replace(/<svg[\s\S]*?<\/svg>/g, '')
     .replace(/<(script|style)[\s\S]*?<\/\1>/g, '')
     .replace(/<nav\b[^>]*id="chaptabs"[\s\S]*?<\/nav>/g, '')
-    .replace(/<button[\s\S]*?<\/button>/g, '');
+    .replace(/<button\b[^>]*>([\s\S]*?)<\/button>/g, (_, dedans) =>
+      /<img\b/.test(dedans) ? dedans : '');
 }
 
 /*

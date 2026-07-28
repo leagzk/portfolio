@@ -1,0 +1,53 @@
+---
+/*
+  La pastille « agrandir », posee dans le coin d'une carte cliquable.
+
+  Elle existe en composant et non en SVG duplique parce que deux series de la
+  page l'utilisent - les planches de la discovery et les ecrans d'Elements - et
+  qu'une carte qui s'ouvre doit le dire de la meme facon partout. Deux copies
+  auraient diverge a la premiere retouche.
+
+  aria-hidden : le bouton qui l'englobe porte deja son intitule (« Enlarge
+  Moodboard notes »). Annoncee en plus, la pastille ferait repeter l'action.
+
+  currentColor sur le trait : la pastille suit la couleur de son bouton, donc
+  les quatre themes sans une seule valeur en dur.
+*/
+---
+
+<span class="zoom-badge" aria-hidden="true">
+  <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor"
+    stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M9.5 2H14v4.5M6.5 14H2V9.5M14 2l-5.5 5.5M2 14l5.5-5.5" />
+  </svg>
+</span>
+
+<style>
+  .zoom-badge{position:absolute;top:10px;right:10px;z-index:2;
+    width:30px;height:30px;border-radius:50%;
+    display:grid;place-items:center;
+    background:var(--canvas);color:var(--ink);
+    border:1px solid var(--line);
+    /* la pastille s'efface tant qu'on ne s'approche pas : sur une planche
+       chargee, un rond opaque en permanence mangerait le coin du document */
+    opacity:0;transform:scale(.9);
+    transition:opacity .18s ease,transform .18s cubic-bezier(.22,1,.36,1)}
+  /*
+    :global() SUR LE BOUTON, ET C'EST OBLIGATOIRE. Sans lui, Astro scope les
+    DEUX cotes du selecteur et sort
+    `:where(.astro-xxx):where(button:hover) > .zoom-badge:where(.astro-xxx)` -
+    or le bouton vit dans la page, pas dans ce composant : il ne portera jamais
+    ce marqueur, et la regle ne s'applique nulle part. La pastille serait restee
+    invisible au survol sur toute la page, sans la moindre erreur nulle part.
+    Verifie dans le CSS compile, pas dans la source.
+
+    :focus-visible et pas :focus - au clavier elle doit apparaitre, mais un clic
+    souris ne doit pas la laisser allumee apres coup.
+  */
+  :global(button:hover) > .zoom-badge,
+  :global(button:focus-visible) > .zoom-badge{opacity:1;transform:none}
+  /* sans survol - tactile - il n'y a pas de deuxieme chance de decouvrir que la
+     carte s'ouvre : la pastille reste visible */
+  @media(hover:none){.zoom-badge{opacity:1;transform:none}}
+  @media(prefers-reduced-motion:reduce){.zoom-badge{transition:none}}
+</style>
