@@ -10,8 +10,9 @@
     {
       "name": "build servi",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "preview", "--", "--port", "4322"],
-      "port": 4322
+      "runtimeArgs": ["run", "preview"],
+      "port": 4322,
+      "autoPort": true
     }
   ]
 }
