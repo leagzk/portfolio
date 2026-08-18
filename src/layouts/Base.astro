@@ -1,4 +1,5 @@
 ---
+import '../styles/fonts.css';
 import '../styles/tokens.css';
 import '../styles/reset.css';
 import '../styles/motion.css';
@@ -16,6 +17,12 @@ export interface Props {
   noindex?: boolean;
   /** visuel de partage propre a la page, relatif a la racine du site */
   ogImage?: string;
+  /**
+   * Charge le kit Adobe Fonts (fino-sans, serenity). Reserve aux pages qui
+   * montrent un specimen de la marque Living System - aujourd'hui la seule
+   * /system-event. Voir le commentaire du <link> dans le <head>.
+   */
+  brandFonts?: boolean;
 }
 const {
   title,
@@ -24,6 +31,7 @@ const {
   loader = false,
   noindex = false,
   ogImage = '/og-default.png',
+  brandFonts = false,
 } = Astro.props;
 
 /* URL absolues : requises par Open Graph, qui refuse les chemins relatifs. */
@@ -136,15 +144,34 @@ const workCourant = work.some((i) => i.key === current);
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#E84140" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link rel="preconnect" href="https://use.typekit.net" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Momo+Trust+Display&family=Maven+Pro:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <!--
-  Kit Adobe Fonts : "fino-sans" et "serenity", les polices du projet Living System.
-  Utilisees uniquement par le specimen de /system-event (--brand-display, --brand-sans).
+  Les deux polices du site sont servies par notre domaine (src/styles/fonts.css).
+  On precharge le seul sous-ensemble utilise au premier rendu, le latin : la
+  declaration @font-face vit dans un CSS que le navigateur doit d'abord lire,
+  donc sans ce preload les titres s'affichent une fraction de seconde en
+  system-ui. Ne pas y ajouter latin-ext, que la plupart des pages ne touchent
+  jamais - ce serait 40 Ko preleves sur le chemin critique pour rien.
 -->
-<link rel="stylesheet" href="https://use.typekit.net/hdf1vwn.css" />
+<link rel="preload" href="/fonts/MomoTrustDisplay-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/MavenPro-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+{/*
+  Kit Adobe Fonts : "fino-sans" et "serenity", les polices du projet Living System.
+  Utilisees par le seul specimen de /system-event (--brand-display, --brand-sans),
+  d'ou le chargement sous condition et non dans toutes les pages.
+
+  Cette feuille reste tierce, contrairement aux deux autres polices : la licence
+  Adobe Fonts interdit d'heberger les fichiers soi-meme, il faut passer par leur
+  CDN. C'est la seule origine externe que la CSP de vercel.json autorise, et la
+  restreindre a une page limite d'autant la surface qu'un proxy d'entreprise peut
+  couper. Si le specimen disparait, retirer cette origine de la CSP en meme temps.
+*/}
+{brandFonts && (
+  <>
+    <link rel="preconnect" href="https://use.typekit.net" crossorigin />
+    <link rel="stylesheet" href="https://use.typekit.net/hdf1vwn.css" />
+  </>
+)}
 <script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
 </head>
 <body>
