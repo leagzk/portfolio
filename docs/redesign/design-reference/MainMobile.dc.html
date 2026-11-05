@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Léa Giezek — Landing mobile</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;700;800;900&amp;family=Maven+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+.m{width:390px;font-family:'Maven Pro',system-ui,sans-serif;color:#111;background:#fff;overflow:hidden}
+.eb{margin:0;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.hd{font-family:'Hanken Grotesk',sans-serif;font-weight:900;letter-spacing:-.03em;margin:0}
+.sb{position:relative;align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;padding:0 20px 0 30px;text-decoration:none;color:inherit;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:15px;overflow:hidden;background:none;border:0;cursor:pointer}
+.sb{padding:0 18px}
+.sb .sbk{position:absolute;left:0;top:0;width:100%;height:100%;transition:opacity .15s}
+.sb:active .sbk{opacity:.85}
+.sb .sbt{position:relative;z-index:1}
+.sb.w .sbt{color:#fff}.sb.y .sbt{color:#111}
+.sb:focus-visible{outline:3px solid #0B57A4;outline-offset:3px}
+.grid{display:grid;grid-template-columns:1fr;gap:2px;background:#111;border-top:2px solid #111;border-bottom:2px solid #111}
+.grid>*{background:#fff;position:relative;overflow:hidden;min-width:0}
+.wt{display:flex;flex-direction:column;gap:10px;padding:80px 24px 28px;text-decoration:none;color:#111;position:relative}
+.wt .bl{position:absolute;left:0;right:0;height:2px;background:#111}
+.wt .row{display:flex;justify-content:space-between;align-items:center}
+.wt .ttl{font-family:'Hanken Grotesk',sans-serif;font-size:28px;font-weight:900;line-height:1;letter-spacing:-.02em}
+.wt .ds{font-size:14px;line-height:1.55}
+.ico{display:flex;align-items:center;justify-content:center;width:24px;height:24px;flex-shrink:0;transition:transform .35s}
+.duo{display:grid;grid-template-columns:3fr 2fr;gap:2px;background:#111;transition:grid-template-columns .5s cubic-bezier(.2,.7,.2,1)}
+.duo.a{grid-template-columns:1fr 24px}.duo.b{grid-template-columns:24px 1fr}
+.dk{all:unset;box-sizing:border-box;cursor:pointer;padding:24px;min-height:200px;display:flex;flex-direction:column;gap:12px;min-width:0;overflow:hidden}
+.dk .in{display:flex;flex-direction:column;gap:12px;min-width:150px;transition:opacity .25s}
+.duo.a .dB .in,.duo.b .dA .in{opacity:0}
+.tg.on .ico{transform:rotate(45deg)}
+.t{font-family:'Hanken Grotesk',sans-serif;font-weight:900;font-size:19px;line-height:1.12}
+.more{font-size:14px;line-height:1.55;display:none}
+.duo.a .dA .more,.duo.b .dB .more,.tg.on .more{display:block}
+.tg{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:12px;width:100%}
+.dk:focus-visible,.tg:focus-visible{outline:3px solid #0B57A4;outline-offset:-6px}
+.pcar{background:#111 !important;display:flex;flex-direction:column;gap:2px}
+.ptrack{display:flex;gap:2px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;-webkit-overflow-scrolling:touch;background:#111}
+.ptrack::-webkit-scrollbar{display:none}
+.pcard{all:unset;box-sizing:border-box;flex:0 0 290px;scroll-snap-align:start;min-height:0;padding:24px 24px 32px;display:flex;flex-direction:column;gap:14px;cursor:pointer}
+.pcard .t{font-size:21px}
+.pcard.on .ico{transform:rotate(45deg)}.pcard.on .more{display:block}
+.pcard:focus-visible{outline:3px solid #0B57A4;outline-offset:-6px}
+.pend{flex:0 0 64px;background:#fff}
+.pdots{display:flex;align-items:center;gap:8px;padding:14px 24px;background:#fff}
+.pdots span{width:10px;height:10px;background:#E4E4E1;transition:background .3s}
+.pdots span.on{background:#0A0708}
+</style>
+</helmet>
+<div class="m">
+
+  <section style="background:#0A0708;color:#fff;position:relative;overflow:hidden;padding:0 0 56px">
+    <nav style="position:relative;z-index:2;display:flex;align-items:stretch;height:64px;background:#fff">
+      <div style="flex:1;display:flex;align-items:center;padding:0 16px;border-bottom:2px solid #111">
+        <button aria-label="Open menu" style="all:unset;cursor:pointer;display:flex;align-items:center;justify-content:center;width:44px;height:44px;margin-left:-10px;color:#111"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true" shape-rendering="crispEdges"><rect x="3" y="5" width="18" height="2.5" fill="currentColor"/><rect x="3" y="11" width="18" height="2.5" fill="currentColor"/><rect x="3" y="17" width="18" height="2.5" fill="currentColor"/></svg></button>
+      </div>
+      <a href="#" style="display:flex;align-items:center;padding:0 20px;background:#F5CD00;color:#111;text-decoration:none;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:15px;border-left:2px solid #111;border-bottom:2px solid #111;gap:10px">Download CV <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg></a>
+    </nav>
+    <div style="position:relative;padding:32px 16px 0;display:flex;flex-direction:column;gap:20px">
+      <h1 class="hd" style="font-size: 36px; line-height: 1.02">Design systems ship standards. Experience systems grow culture.</h1>
+      <p style="margin:0;font-size:16px;line-height:1.65;color:#E6E2E3">Fifteen years across brand, retail, agency and product - every rung of the craft before the direction. I nurture the practice and the people, not just the system. <b>That's my leadership bet.</b></p>
+      <div style="display:flex;align-items:center;gap:14px;margin-top:8px"><img src="/_blob/f2c39de21e42a1cd395e096be8ed6690" alt="Portrait of Léa Giezek" style="display:block;width:56px;height:56px;border-radius:50%;object-fit:cover;flex-shrink:0"><span style="display:flex;flex-direction:column;gap:7px;min-width:0"><span class="hd" style="font-size:22px;line-height:1;letter-spacing:-.02em">Léa Giezek</span><span class="eb" style="color:#CFCACB;font-size:10px;letter-spacing:.16em;white-space:nowrap">Moving design practice forward</span></span></div>
+    </div>
+  </section>
+
+  <div style="padding:40px 16px 0">
+    <div class="grid">
+
+      <a href="#" class="wt" style="padding-right:80px">
+        <span class="bl" style="top:56px"></span>
+        <span aria-hidden="true" style="position:absolute;right:56px;top:56px;bottom:0;width:2px;background:#111"></span>
+        <span aria-hidden="true" style="position:absolute;left:0;top:0;width:100%;height:56px;background:#0B57A4"></span>
+        <span class="row eb"><span>Systematize a practice</span><span style="font-size:20px;letter-spacing:0">→</span></span>
+        <span class="ttl">Governance</span>
+        <span class="ds"><strong>The product failed. The platform scaled.</strong> Same system, rebuilt from zero - and the community that makes it last.</span>
+      </a>
+
+      <a href="Language.dc.html" class="wt" style="padding-bottom:60px;padding-left:80px">
+        <span class="bl" style="top:56px"></span>
+        <span aria-hidden="true" style="position:absolute;left:56px;top:56px;bottom:28px;width:2px;background:#111"></span>
+        <span aria-hidden="true" style="position:absolute;left:0;top:0;width:56px;height:56px;background:#0A0708"></span>
+        <span class="bl" style="bottom:28px"></span>
+        <span aria-hidden="true" style="position:absolute;left:0;bottom:0;width:100%;height:28px;background:#F5CD00"></span>
+        <span class="row eb"><span>Systematize a brand</span><span style="font-size:20px;letter-spacing:0">→</span></span>
+        <span class="ttl">Language</span>
+        <span class="ds">2,500 people, one language - then a rebrand, translated for screens. <strong>Anything can be systematized.</strong></span>
+      </a>
+
+      <a href="#" class="wt" style="padding-right:80px">
+        <span class="bl" style="top:56px"></span>
+        <span aria-hidden="true" style="position:absolute;right:56px;top:0;bottom:0;width:2px;background:#111"></span>
+        <span aria-hidden="true" style="position:absolute;right:0;top:0;width:56px;height:56px;background:#D0021B"></span>
+        <span class="row eb"><span>Systematize a moment</span><span style="font-size:20px;letter-spacing:0">→</span></span>
+        <span class="ttl">Surfaces</span>
+        <span class="ds">One live experience, orchestrated end to end. <strong>Proof it travels anywhere.</strong></span>
+      </a>
+
+      <figure style="margin:0;padding:32px 24px 32px;display:flex;flex-direction:column;gap:24px">
+        <blockquote class="hd" style="margin:0;font-size:26px;line-height:1.12;letter-spacing:-.015em">Cultivating practice, not just systems, through Design Leadership and Community Building.</blockquote>
+        <a href="#" class="sb w"><span class="sbk" aria-hidden="true" style="background:#0B57A4"></span><span class="sbt">Philosophy →</span></a>
+      </figure>
+
+      <div class="pcar" aria-label="Principles">
+        <div class="ptrack" ref="{{setTrack}}">
+          <button class="pcard {{cr.cls}}" aria-expanded="{{cr.exp}}" onClick="{{cr.toggle}}" style="background:#D0021B;color:#fff">
+            <span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+            <span class="t">I lead the way I learned: hands dirty first.</span>
+            <span class="more">It's how I lead people: I know <strong>when to step in and when to stay out</strong> - close enough to help when it counts, <strong>never close enough to hover.</strong></span>
+          </button>
+          <button class="pcard {{cy.cls}}" aria-expanded="{{cy.exp}}" onClick="{{cy.toggle}}" style="background:#F5CD00;color:#111">
+            <span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+            <span class="t">Direction earned, not assigned.</span>
+            <span class="more">It's how I make the calls: I've designed <strong>the brand, the product and the system</strong>, so my direction comes from the work, not the org chart - <strong>I know what it costs to execute.</strong></span>
+          </button>
+          <button class="pcard {{ck.cls}}" aria-expanded="{{ck.exp}}" onClick="{{ck.toggle}}" style="background:#0A0708;color:#fff">
+            <span class="ico" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg></span>
+            <span class="t">Enough engineering to earn the room.</span>
+            <span class="more"><strong>I read the code and ran component QA myself</strong> - to back my team up, and to understand the work well enough <strong>never to decide against it.</strong></span>
+          </button>
+          <span class="pend" aria-hidden="true"></span>
+        </div>
+        <div class="pdots" aria-hidden="true"><span class="{{d0}}"></span><span class="{{d1}}"></span><span class="{{d2}}"></span><span style="margin-left:auto;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;width:auto;height:auto;opacity:1;background:none;color:#555">Swipe →</span></div>
+      </div>
+
+      <section style="padding:32px 24px 96px;display:flex;flex-direction:column;gap:16px">
+        <span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:56px;height:2px;background:#111"></span>
+        <span aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:56px;background:#0B57A4"></span>
+        <p class="eb">Operating system</p>
+        <h2 class="hd" style="font-size:26px;line-height:1.1;letter-spacing:-.015em">The best rules are the ones you don't have to police.</h2>
+        <p style="margin:0;font-size:15px;line-height:1.65;color:#333">Rigor and care aren't opposites - they're the same discipline: discovery before code, ethics before AI, wellbeing before delivery. <span style="color:#111;font-weight:700">Distribute the ownership, or become the bottleneck.</span></p>
+        <a href="#" class="sb w" style="margin-top:8px"><span class="sbk" aria-hidden="true" style="background:#D0021B"></span><span class="sbt">Operating System →</span></a>
+      </section>
+    </div>
+
+    <section style="background:#0A0708;color:#fff;border-radius:0 0 6px 6px;padding:40px 24px 28px">
+      <h2 class="hd" style="font-size:56px;line-height:.9;letter-spacing:-.035em">Let's talk.</h2>
+      <p style="margin:16px 0 0;font-size:15px;line-height:1.65">Conviction, delivery, and care - I hold all three at the same heat. A team that isn't well can't shine, and can't ship. <strong>That's not the soft part of the job. It's the foundation.</strong></p>
+      <div style="display:flex;flex-direction:column;margin-top:16px;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:15px">
+        <a href="mailto:giezek.lea@gmail.com" style="color:#F5CD00;text-decoration:none;display:flex;align-items:center;gap:10px;min-height:44px;border-bottom:1px solid #2a2627">Email</a>
+        <a href="https://www.linkedin.com/in/lea-giezek/" style="color:#F5CD00;text-decoration:none;display:flex;align-items:center;gap:10px;min-height:44px;border-bottom:1px solid #2a2627">LinkedIn</a>
+        <a href="#" style="color:#F5CD00;text-decoration:none;display:flex;align-items:center;gap:10px;min-height:44px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Download CV</a>
+      </div>
+      <div style="margin-top:20px;padding-top:16px;border-top:1px solid #2a2627;font-size:12px;line-height:1.7;color:#A9A4A5">
+        <div>© <strong style="color:#fff">Léa GIEZEK</strong> - 2026</div>
+        <div>Designed by a human, developed with Claude, deployed with Vercel, iterated with peers. <strong style="color:#fff">Never alone.</strong></div>
+      </div>
+    </section>
+    <div style="height:40px"></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":390,"height":3000}}'>
+class Component extends DCLogic {
+  constructor(props) { super(props); this.state = { open: {}, idx: 0 }; }
+  componentDidMount() {
+    const fit = () => {
+      try {
+        const g = this.ghostEl; const t = g && g.querySelector('text');
+        if (!t) return; const b = t.getBBox();
+        if (b.width) g.setAttribute('viewBox', b.x + ' ' + b.y + ' ' + b.width + ' ' + b.height);
+      } catch (e) {}
+    };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); else fit();
+    this.t = setTimeout(fit, 400);
+    this.onScroll = () => {
+      const tr = this.trackEl; if (!tr) return;
+      const i = Math.min(2, Math.round(tr.scrollLeft / 292));
+      if (i !== this.state.idx) this.setState({ idx: i });
+    };
+    if (this.trackEl) this.trackEl.addEventListener('scroll', this.onScroll, { passive: true });
+  }
+  componentWillUnmount() {
+    clearTimeout(this.t);
+    if (this.trackEl && this.onScroll) this.trackEl.removeEventListener('scroll', this.onScroll);
+  }
+  renderVals() {
+    const o = this.state.open, i = this.state.idx;
+    const c = (k) => ({ cls: o[k] ? 'on' : '', exp: o[k] ? 'true' : 'false', toggle: () => this.setState({ open: { ...o, [k]: !o[k] } }) });
+    return {
+      setGhost: (el) => { this.ghostEl = el; },
+      setTrack: (el) => { this.trackEl = el; },
+      cr: c('r'), cy: c('y'), ck: c('k'),
+      d0: i === 0 ? 'on' : '', d1: i === 1 ? 'on' : '', d2: i === 2 ? 'on' : ''
+    };
+  }
+}
+</script>
+</body>
+</html>
