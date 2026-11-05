@@ -97,6 +97,12 @@
   l'utilise aussi : une regle qui sert deux pages ne peut pas vivre dans l'une
   d'elles. Masquee par defaut, chaque page l'affiche a son propre breakpoint.
 */
-.dots{display:none;justify-content:center;gap:12px;margin-top:16px}
-.dot{width:9px;height:9px;border-radius:50%;border:none;padding:0;cursor:pointer;background:var(--line);transition:transform .18s ease,background .18s ease}
+/* gap 16 et non 12 : avec la cible de 24px posee ci-dessous, deux pastilles
+   distantes de 9+12=21px verraient leurs zones se chevaucher. A 16, les
+   centres sont a 25px. */
+.dots{display:none;justify-content:center;gap:16px;margin-top:16px}
+/* La pastille reste un repere de 9px ; le ::after lui donne la cible de 24px
+   de la WCAG 2.5.8 sans toucher a la mise en page. */
+.dot{position:relative;width:9px;height:9px;border-radius:50%;border:none;padding:0;cursor:pointer;background:var(--line);transition:transform .18s ease,background .18s ease}
+.dot::after{content:"";position:absolute;inset:-7.5px}
 .dot.is-active{background:var(--accent);transform:scale(1.35)}

@@ -27,6 +27,32 @@ a{color:inherit}
 :focus-visible{outline:3px solid var(--focus);outline-offset:4px;border-radius:0}
 [tabindex="-1"]:focus{outline:none}
 .shell{max-width:var(--shell-w);margin:0 auto;padding:0 var(--sp-03)}
+/*
+  MOUVEMENT REDUIT : UN FILET DE SECURITE, PAS UN INTERRUPTEUR.
+
+  Les dispositifs qui comptent se coupent chacun chez eux - les scripts
+  interrogent mouvementReduit() avant de poser la moindre classe, et les
+  feuilles du gabarit enferment leurs animations dans « no-preference ». Mais
+  l'audit a compte vingt-et-une regles d'animation ou de transition reparties
+  sur vingt fichiers, dont quatre sans aucune garde : shared.css, motion.css,
+  ExternalLink et ProofCards. Compter sur la discipline a chaque ajout, c'est
+  accepter qu'une regle passe un jour au travers.
+
+  La duree tombe donc a presque rien pour TOUT, par defaut. Presque et non zero
+  : une animation de duree nulle n'emet pas d'evenement « animationend », et deux
+  de nos scripts attendent celui-ci pour retirer une classe - la section qui se
+  deplie, et le trace de la grille.
+
+  « iteration-count:1 » est ce qui arrete les boucles infinies, que la duree seule
+  ne suffirait pas a calmer. Les cadres defilants, eux, n'emettent meme pas leur
+  regle sous cette preference : voir .cadref dans etude.css.
+*/
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
 }

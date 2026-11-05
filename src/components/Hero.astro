@@ -234,7 +234,16 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   /* L'icone maison, seule et sans rond : c'est le lien de retour des pages
      interieures. Sur l'accueil la cellule reste vide - elle tient la colonne,
      pour que les liens tombent au meme endroit d'une page a l'autre. */
-  .hero__accueil a{display:inline-flex;color:var(--white);opacity:.92;transition:opacity .2s}
+  /*
+    UNE CIBLE DE 44px POUR UNE ICONE DE 22. Le lien epousait son icone : 22x22,
+    sous le minimum de 24 de la WCAG 2.5.8, et la seule cible aussi petite du
+    site. La boite passe a 44 - la cible tactile confortable - et la marge
+    negative de 11px garde l'icone exactement ou elle etait : la colonne de la
+    nav fait 48px, l'icone restait calee a gauche, et sans cette compensation
+    elle se serait recentree 11px plus loin.
+  */
+  .hero__accueil a{display:grid;place-items:center;width:44px;height:44px;
+    margin-left:-11px;color:var(--white);opacity:.92;transition:opacity .2s}
   .hero__accueil a:hover{opacity:1}
   .hero__liens{display:flex;flex-wrap:wrap;justify-content:flex-end;
     gap:clamp(16px,2.4vw,32px);list-style:none;margin:0;padding:0}

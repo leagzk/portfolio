@@ -23,6 +23,35 @@
 .ls-cap{line-height:1.6;margin-top:10px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
 .ls-cap--light{color:rgba(255,255,255,.68)}
 /*
+  UNE FIGURE QUI PORTE UNE LEGENDE NE PEUT PAS ETRE UNE BOITE AU RAPPORT FIXE.
+
+  .ls-fig impose un aspect-ratio et un overflow:hidden, et son image remplit la
+  hauteur : la legende, poussee dessous, tombait HORS du cadre et etait rognee.
+  Les sept legendes de /system-event etaient donc ecrites, exportees dans
+  content/, et invisibles - mesure : la legende commencait a 637px dans une
+  figure de 629.
+
+  Et la ou elle depassait, elle etait blanche a 68% sur le gris des
+  emplacements (#F3F3F3) : 1,07:1. Rendre le cadre a l'image remet la legende
+  sur le bloc sombre qui l'entoure, ou elle passe a 9,3:1.
+
+  :has(figcaption) : seules les figures legendees changent. Les autres - la
+  grande majorite - gardent leur cadre au rapport fixe, qui est ce qui aligne
+  les rangees.
+*/
+.ls-fig:has(figcaption){aspect-ratio:auto;overflow:visible;background:none;
+  border:0;border-radius:0;line-height:inherit;
+  /*
+    min-width:0 : sans le rapport fixe, la taille automatique de la figure
+    redevient celle de son CONTENU - la largeur intrinseque du fichier - et
+    dans une grille ou un flex elle s'impose comme minimum. Mesure a 1280 :
+    321px de figure dans une case de 270, donc 4px de debordement pour la page.
+  */
+  min-width:0;max-width:100%}
+.ls-fig:has(figcaption) :is(img,picture){border-radius:var(--r-lg);
+  border:var(--edge-w) solid var(--edge);background:var(--placeholder);
+  display:block;width:100%;max-width:100%;height:auto}
+/*
   Bloc de specimen : un intitule en petites capitales, puis ce qu'il decrit.
   Vivait dans system-event, seule page a montrer une identite ; /system-brand en
   a desormais le meme usage. Ce sont deux regles d'echafaudage, sans rien qui
@@ -106,8 +135,21 @@
 .ls-carousel--col .ls-carousel__track{padding:var(--sp-02) 0 var(--sp-06)}
 .ls-carousel--col .ls-carousel__slide{max-width:88%}
 .ls-carousel--col .ls-carousel__fig img{width:100%;height:auto;max-width:none}
-.ls-carousel__dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
-.ls-dot{width:7px;height:7px;padding:0;border:none;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s ease,transform .2s ease}
+/*
+  L'ECART PASSE DE 8 A 18px, ET CE N'EST PAS UN CHOIX DE MISE EN PAGE. Avec la
+  cible de 24px posee ci-dessous, deux pastilles distantes de 7+8=15px voient
+  leurs zones se chevaucher : on viserait la troisieme et on activerait la
+  deuxieme. A 18, les centres sont a 25px et chaque cible est a elle seule.
+*/
+.ls-carousel__dots{display:flex;justify-content:center;gap:18px;margin-top:4px}
+/*
+  LA PASTILLE RESTE A 7px, SA CIBLE FAIT 24. Le point est un REPERE - l'agrandir
+  en ferait un bouton, et six boutons de 24px sous un carrousel pesent plus que
+  ce qu'ils indiquent. Le ::after etend la zone cliquable sans rien changer a la
+  mise en page : c'est le minimum de la WCAG 2.5.8, mesure a 7x7 avant.
+*/
+.ls-dot{position:relative;width:7px;height:7px;padding:0;border:none;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s ease,transform .2s ease}
+.ls-dot::after{content:"";position:absolute;inset:-8.5px}
 .ls-dot[aria-current="true"]{background:var(--accent);transform:scale(1.35)}
 .ls-dot[aria-current="true"]{background:var(--highlight)}
 .ls-steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-02);margin:var(--sp-20) 0 0;padding:0}

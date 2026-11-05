@@ -57,6 +57,20 @@ export default defineConfig({
         // Nos deux polices sont locales ; le kit Adobe sert les siennes depuis
         // son CDN. Retirer l'hote le jour ou le specimen de /system-event part.
         "font-src 'self' https://use.typekit.net",
+        /*
+          p.typekit.net N'EST PAS DANS style-src, ET C'EST VOULU.
+
+          La feuille du kit (use.typekit.net) en appelle une seconde,
+          p.typekit.net/p.css : c'est le mouchard d'usage d'Adobe, pas les
+          polices. La CSP la bloque, et la console de /system-event affiche donc
+          une violation a chaque visite. Mesure : les deux familles du specimen -
+          fino-sans et serenity - sont bien chargees malgre ce blocage, le
+          specimen s'affiche correctement.
+
+          L'ouvrir ferait taire l'erreur et rendrait a Adobe son comptage de
+          pages vues ; ce serait aussi le seul tiers a recevoir une requete
+          depuis ce site. En l'etat, le site n'en a aucun.
+        */
         "connect-src 'self'",
         // Rien a soumettre, rien a embarquer, aucune <base> a detourner.
         "form-action 'none'",

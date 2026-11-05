@@ -434,7 +434,17 @@ const pratiques: Tuile[] = [
     </div>
 
     {/* ═══════════ 01 · The problem ═══════════ */}
-    <section class="pan" id="pan-problem" aria-labelledby="carte-problem">
+    <section class="pan" id="pan-problem" aria-labelledby="titre-problem">
+    {/*
+      UN TITRE DE NIVEAU 2, INVISIBLE MAIS DANS LE PLAN. La section etait
+      nommee par la carte qui la commande (aria-labelledby sur le <button>) :
+      elle avait donc un nom, mais aucun titre - et le plan du document sautait
+      de h1 a h3, si bien qu'en naviguant par titres on passait du titre de la
+      page aux sous-parties sans jamais rencontrer les trois temps du recit.
+      Le titre porte le nom de la carte ; c'est lui qui nomme la section
+      desormais, et le lien bouton → section reste assure par aria-controls.
+    */}
+      <h2 class="sr-only" id="titre-problem">01 &middot; The problem</h2>
       <div class="subsec">
         <div class="split">
           <p class="lead">IT wasn't a support function. It was a <em class="em-rouge">business driver</em> - and nobody outside IT could see it.</p>
@@ -449,7 +459,8 @@ const pratiques: Tuile[] = [
     </section>
 
     {/* ═══════════ 02 · The approach ═══════════ */}
-    <section class="pan" id="pan-approach" aria-labelledby="carte-approach">
+    <section class="pan" id="pan-approach" aria-labelledby="titre-approach">
+      <h2 class="sr-only" id="titre-approach">02 &middot; The approach</h2>
 
       <div class="subsec">
         <p class="eb">The solution</p>
@@ -621,7 +632,8 @@ const pratiques: Tuile[] = [
     </section>
 
     {/* ═══════════ 03 · The proof ═══════════ */}
-    <section class="pan" id="pan-proof" aria-labelledby="carte-proof">
+    <section class="pan" id="pan-proof" aria-labelledby="titre-proof">
+      <h2 class="sr-only" id="titre-proof">03 &middot; The proof</h2>
 
       <div class="subsec">
         <p class="eb">The results</p>

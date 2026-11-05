@@ -42,6 +42,8 @@ Adopted without being enforced.
 
 2,500 people shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com.
 
+## 01 &middot; The problem
+
 IT wasn't a support function. It was a *business driver* - and nobody outside IT could see it.
 
 That was the brief, and it wasn't a branding one. Sanofi needed its IT to weigh more across the value chain, and the obstacle was perception: everyone treated as a service desk what was actually driving business value. Its role went unexplained, its image was dated, and its communication was scattered across the whole function, every team improvising the brand.
@@ -51,6 +53,8 @@ And illegibility has a price every multinational knows by name. Teams that can't
 A logo doesn't move that. Perception doesn't shift because the assets got prettier - it shifts when the function becomes legible, and when everyone inside it can say the same thing about what it does. **That's two problems, and solving one without the other solves nothing.** Understand first, systematize second. The move started here.
 
 Next: the approach →
+
+## 02 &middot; The approach
 
 The solution
 
@@ -171,6 +175,8 @@ Fragmentation lives in both, so I fixed both. The **why** is simpler. A digital 
 A shared identity makes a function legible to the outside. **A shared practice makes it a community to itself.**
 
 Next: the proof →
+
+## 03 &middot; The proof
 
 The results
 

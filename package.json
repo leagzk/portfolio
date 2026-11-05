@@ -7,7 +7,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "content": "astro build && node scripts/export-content.mjs",
-    "identite": "node scripts/identite.mjs"
+    "identite": "node scripts/identite.mjs",
+    "audit": "astro build && node scripts/audit.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
@@ -16,6 +17,7 @@
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "fontkit": "^2.0.2",
+    "parse5": "^7.1.2",
     "wawoff2": "^2.0.1"
   }
 }
