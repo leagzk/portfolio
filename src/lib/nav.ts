@@ -6,18 +6,29 @@
   six liens ferres a droite, sans groupe (§2.1). Les deux tableaux n'ont plus
   de raison d'etre separes.
 
-  LES LIBELLES RACCOURCISSENT, PAS LES ROUTES. « Operating System » devient
-  « Operations », « Systematize a Practice » devient « System », et ainsi de
-  suite : c'est ce que demande le brief, et c'est ce qui permet de tenir six
-  entrees sur une ligne. Les URL, elles, ne bougent pas - les changer casserait
-  les liens existants, le sitemap et les positions acquises.
+  LES LIBELLES NOMMENT L'OBJET, PAS LA PAGE. Ils ont d'abord ete raccourcis au
+  maximum - « System », « Brand », « Event » - pour tenir six entrees sur une
+  ligne. Lea les a repris : « Experience System », « Brand Platform »,
+  « Event System », « Operating Model ». C'est plus long, et c'est le but - un
+  recruteur qui survole la barre doit lire CE QUI A ETE CONSTRUIT, pas un mot
+  de code interne. « Brand » ne dit rien ; « Brand Platform » est un livrable.
+
+  Ils ne reprennent donc PAS les noms de la composition d'accueil - Governance,
+  Language, Surfaces - ni les titres des pages. C'est volontaire : la tuile et
+  le titre nomment le recit, la nav nomme l'objet. Les deux se rejoignent sur
+  la page, ou le surtitre du hero donne les deux.
+
+  Les URL, elles, ne bougent pas - les changer casserait les liens existants,
+  le sitemap et les positions acquises.
 
   `cle` est la valeur que chaque page passe en `courant` : elle sert a poser
   aria-current, donc le soulignement jaune de la page ouverte.
 
-  L'ordre est celui du brief. Il n'est pas chronologique : il va du point de
-  vue (Philosophy, Operations) aux preuves (System, Brand, Event), et finit par
-  la prise de contact.
+  L'ORDRE EST INVERSE PAR RAPPORT AU BRIEF, a la demande de Lea : les trois
+  preuves d'abord, le point de vue ensuite. La barre ouvre donc sur ce qui a
+  ete construit - un systeme d'experience, une plateforme de marque, un systeme
+  evenementiel - et garde le modele de travail et les convictions pour qui veut
+  aller plus loin. Elle finit toujours par la prise de contact.
 */
 export interface EntreeNav {
   cle: string;
@@ -35,10 +46,10 @@ export interface EntreeNav {
 }
 
 export const entrees: EntreeNav[] = [
+  { cle: 'system-practice-elements', href: '/system-practice-elements', libelle: 'Experience System', groupe: 'travaux' },
+  { cle: 'system-brand', href: '/system-brand', libelle: 'Brand Platform', groupe: 'travaux' },
+  { cle: 'system-event', href: '/system-event', libelle: 'Event System', groupe: 'travaux' },
+  { cle: 'operating-system', href: '/operating-system', libelle: 'Operating Model', groupe: 'principal' },
   { cle: 'philosophy', href: '/philosophy', libelle: 'Philosophy', groupe: 'principal' },
-  { cle: 'operating-system', href: '/operating-system', libelle: 'Operations', groupe: 'principal' },
-  { cle: 'system-practice-elements', href: '/system-practice-elements', libelle: 'System', groupe: 'travaux' },
-  { cle: 'system-brand', href: '/system-brand', libelle: 'Brand', groupe: 'travaux' },
-  { cle: 'system-event', href: '/system-event', libelle: 'Event', groupe: 'travaux' },
   { cle: 'connect', href: '#connect', libelle: 'Connect', groupe: 'contact' },
 ];

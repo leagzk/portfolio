@@ -161,14 +161,15 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
 <nav class="mobmenu" id="mobmenu" aria-hidden="true" aria-label="Menu">
   <button class="mobmenu__close" id="mobclose" aria-label="Close menu">&#10005;</button>
   <a href="/" aria-current={accueil ? 'page' : undefined}>Home</a>
-  {entrees.filter((e) => e.groupe === 'principal').map((e) => (
-    <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
-  ))}
 
   {/*
-    Les trois recits sont annonces par leur surtitre et tenus sous un filet,
-    exactement comme les trois moyens de contact plus bas : c'est la meme
-    lecture, et elle dit que ces trois-la forment une serie.
+    LES TROIS RECITS D'ABORD, comme dans la barre de bureau depuis que l'ordre
+    s'est inverse (voir src/lib/nav.ts) : le menu ouvrait sur le modele de
+    travail et les convictions alors que la nav ouvrait sur les preuves, et
+    les deux se contredisaient d'un palier a l'autre.
+    Ils sont annonces par leur surtitre et tenus sous un filet, exactement
+    comme les trois moyens de contact plus bas : c'est la meme lecture, et elle
+    dit que ces trois-la forment une serie.
   */}
   <div class="mobmenu__groupe">
     <p class="mobmenu__eyebrow">Selected work</p>
@@ -177,6 +178,10 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
     ))}
   </div>
+
+  {entrees.filter((e) => e.groupe === 'principal').map((e) => (
+    <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
+  ))}
 
   <div class="mobmenu__groupe">
     <p class="mobmenu__eyebrow">Let's talk</p>
@@ -246,7 +251,16 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     margin-left:-11px;color:var(--white);opacity:.92;transition:opacity .2s}
   .hero__accueil a:hover{opacity:1}
   .hero__liens{display:flex;flex-wrap:wrap;justify-content:flex-end;
-    gap:clamp(16px,2.4vw,32px);list-style:none;margin:0;padding:0}
+    /*
+      DEUX ECARTS, ET PAS UN SEUL. Les libelles ont rallonge - « Experience
+      System », « Brand Platform », « Operating Model » : les six liens font
+      622px de texte contre 380 avant. Mesure : la barre tient sur une ligne
+      jusqu'a 900px et passe a deux entre 840 et 721, ou le menu mobile prend
+      le relais. Cette bande-la est etroite, et le repli y est propre.
+      Mais a 32px d'ecart vertical les deux rangees se lisaient comme deux
+      barres : l'ecart de colonne reste fluide, celui de ligne tombe a 10.
+    */
+    gap:10px clamp(16px,2.4vw,32px);list-style:none;margin:0;padding:0}
   .hero__liens a{position:relative;display:inline-block;padding-bottom:6px;
     color:var(--white);text-decoration:none;font-weight:500;font-size:var(--fs-body);
     white-space:nowrap;transition:color .22s ease}
@@ -344,9 +358,27 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   /* trois barres a angles droits (BRIEF §11) */
   .hamb span{display:block;width:24px;height:2.5px;background:var(--text);border-radius:0}
 
-  @media(max-width:720px){
-    .hero{min-height:0;margin-bottom:0;--chrome-h:64px}
-    .hero__defiler{padding-bottom:var(--sp-12)}
+  /*
+    ═══ LA NAV BASCULE A 860px, PAS A 720 ═══
+
+    Elle a son propre palier depuis que les libelles nomment l'objet -
+    « Experience System », « Brand Platform », « Operating Model » : les six
+    liens font 622px de texte contre 380 avant, et la barre passait a deux
+    lignes entre 830 et 721px. Une nav de bureau sur deux lignes n'est pas une
+    nav de bureau ; a la demande de Lea, elle cede la place au hamburger des
+    qu'elle ne tient plus.
+
+    860 ET NON 830 : le repli mesure se situe entre 825 et 845px, et la mesure
+    depend du rendu de la police. Trente pixels de marge couvrent l'ecart d'un
+    navigateur a l'autre, ou la barre basculerait sinon juste apres avoir
+    commence a se replier.
+
+    CE PALIER NE PORTE QUE LE CHROME. Tout le reste de la forme mobile - le
+    titre a 36px, l'avatar, la composition en colonne - garde son palier a
+    720px : ce qui change ici, c'est la navigation, pas la mise en page.
+  */
+  @media(max-width:860px){
+    .hero{--chrome-h:64px}
     .hero__nav{display:none}
     /* La barre touche le haut de l'ecran et le hero ; le filet de 2px court
        sous toute sa largeur, et un second separe le bloc jaune. */
@@ -357,6 +389,11 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       border-left:var(--rule) solid var(--text);
       font-family:var(--display);font-weight:700;font-size:var(--fs-body-s)}
     .hero__cv:active{opacity:.85}
+  }
+
+  @media(max-width:720px){
+    .hero{min-height:0;margin-bottom:0}
+    .hero__defiler{padding-bottom:var(--sp-12)}
     .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-18)}
     .hero__corps--portrait{display:block}
     .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
