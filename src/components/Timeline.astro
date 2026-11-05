@@ -101,9 +101,9 @@ const decoupe = (intitule: string, pivot?: string) => {
   .tl--light .tl__node::after{background:#fff}
   /* Mondrian met le jaune la ou les autres themes mettent du blanc, comme
      .ls-eyebrow--light sur ce meme bloc. #F7D000 sur #070304 : 13,7:1. */
-  [data-theme="contrast"] .tl--light .tl__n,
-  [data-theme="contrast"] .tl--light .tl__pivot{color:var(--highlight)}
-  [data-theme="contrast"] .tl--light .tl__node::after{background:var(--highlight)}
+  .tl--light .tl__n,
+  .tl--light .tl__pivot{color:var(--highlight)}
+  .tl--light .tl__node::after{background:var(--highlight)}
 
   /*
     Au-dela de 900px la chaine ne defile plus : ni snap, ni pastilles, ni bord

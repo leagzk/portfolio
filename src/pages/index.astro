@@ -10,8 +10,16 @@ import Banner from '../components/Banner.astro';
 import Dots from '../components/Dots.astro';
 ---
 <Base title="Léa Giezek - Experience systems that grow culture"
-  description="Design and experience systems lead. Fifteen years across brand, retail, agency and product - I don't systematize what I haven't practiced."
-  loader>
+  description="Design and experience systems lead. Fifteen years across brand, retail, agency and product - I don't systematize what I haven't practiced.">
+{/*
+  LE LOADER EST DEBRANCHE le temps du redesign (la prop `loader` est retiree
+  ci-dessus). Il faisait voler un piment vers la pastille de theme, qui n'existe
+  plus depuis le retrait du selecteur : il tombait donc sur un panneau noir et
+  une cible absente. Son markup, son CSS et initLoader() sont intacts dans
+  Base.astro et src/scripts/loader.ts - l'etape 3 les reprend pour le loader
+  decrit au BRIEF §3.1 (la photo apparait au centre, puis se pose dans le cercle
+  du hero).
+*/}
 
 <!-- CARD 1 : banner + intro -->
   <div class="card">
@@ -108,12 +116,11 @@ import Dots from '../components/Dots.astro';
   .intro__lead{font-size:clamp(16px,1.7vw,20px);color:var(--ink-soft);margin-top:12px;max-width:52ch}
   /* .intro__cta vit dans shared.css : /404 le porte aussi */
   .drag{position:relative;height:clamp(390px,42vw,450px);margin:clamp(60px,6vw,84px) 0 var(--sp-03);touch-action:none}
-  .dcard{position:absolute;width:clamp(230px,27vw,290px);padding:var(--sp-08);border-radius:36px;border:5px solid #fff;background:var(--card);box-shadow:0 22px 44px -20px rgba(120,30,10,.30);cursor:grab;transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;user-select:none;z-index:1}
+  .dcard{position:absolute;width:clamp(230px,27vw,290px);padding:var(--sp-08);border-radius:0;border:var(--edge-w) solid var(--edge);background:var(--card);box-shadow:0 22px 44px -20px rgba(120,30,10,.30);cursor:grab;transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;user-select:none;z-index:1}
   .dcard:hover{transform:rotate(0deg) translateY(-8px) scale(1.02);box-shadow:0 34px 60px -24px rgba(120,30,10,.42);z-index:20}
   .dcard.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);box-shadow:0 34px 64px -24px rgba(120,30,10,.5);z-index:30}
-  [data-theme="contrast"] .dcard{border:var(--edge-w) solid var(--edge);box-shadow:none}
-  [data-theme="contrast"] .dcard--flip{border:none}
-  [data-theme="contrast"] .dcard--flip .dcard__face{border:var(--edge-w) solid var(--edge);box-shadow:none}
+  .dcard{border:var(--edge-w) solid var(--edge);box-shadow:none}
+  .dcard--flip{border:none}
   .dcard__t{font-family:var(--display);font-weight:400;font-size:clamp(20px,2vw,24px);color:var(--ink);letter-spacing:-.01em;line-height:1.12}
   /* 16px fixe, comme .case__hook plus bas : les deux familles de cartes
      racontent la meme chose a deux endroits, elles se lisent au meme corps.
@@ -141,7 +148,7 @@ import Dots from '../components/Dots.astro';
   .dcard--flip .dcard__inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1)}
   .dcard--flip:hover .dcard__inner,.dcard--flip:focus-visible .dcard__inner,.dcard--flip.flipped .dcard__inner{transform:rotateY(180deg)}
   .dcard--flip:hover,.dcard--flip:focus-visible{transform:rotate(var(--rot));box-shadow:none}
-  .dcard--flip .dcard__face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:36px;border:5px solid #fff;box-shadow:0 22px 44px -20px rgba(120,30,10,.3);padding:24px;display:flex;flex-direction:column;justify-content:center}
+  .dcard--flip .dcard__face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:0;border:var(--edge-w) solid var(--edge);box-shadow:none;padding:24px;display:flex;flex-direction:column;justify-content:center}
   .dcard--flip .dcard__front{background:var(--card)}
   .dcard--flip .dcard__t{line-height:1.2;color:var(--ink)}
   .dcard--flip .dcard__back{background:var(--card);transform:rotateY(180deg)}
@@ -157,7 +164,7 @@ import Dots from '../components/Dots.astro';
   */
   .dc1--grid{--grid-paper:linear-gradient(180deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px),linear-gradient(90deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px)}
   .dc1--grid .dcard__front{background:var(--tile-red);overflow:hidden}
-  .dc1--grid .dcard__front::before{content:"";position:absolute;inset:var(--sp-12);border-radius:16px;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
+  .dc1--grid .dcard__front::before{content:"";position:absolute;inset:var(--sp-12);border-radius:0;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
   .dc1--grid .dcard__front .dcard__t{position:relative;z-index:1}
   .dc1--grid .dcard__back{background:var(--tile-red)}
   .dc1--grid .dcard__t,.dc1--grid .dcard__b{color:var(--tile-red-ink)}
@@ -226,7 +233,7 @@ import Dots from '../components/Dots.astro';
   .dc-hand svg{width:100%;height:100%}
   .dc2--flip .dcard__front,.dc2--flip .dcard__back{background:var(--ink)}
   .dc2--flip .dcard__front .dcard__t,.dc2--flip .dcard__back .dcard__b{color:#fff}
-  .dc2__kbd{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:16px;padding:8px 12px;border:1.5px solid rgba(255,255,255,.4);border-radius:12px;font-family:var(--display);font-weight:400;font-size:12px;color:#fff}
+  .dc2__kbd{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:16px;padding:8px 12px;border:1.5px solid rgba(255,255,255,.4);border-radius:0;font-family:var(--display);font-weight:400;font-size:12px;color:#fff}
   .dc2__kbd svg{width:20px;height:20px}
   .dcard--photo:hover{transform:rotate(var(--rot));z-index:3;box-shadow:0 22px 44px -20px rgba(120,30,10,.3)}
   .osbridge{display:grid;grid-template-columns:2fr 1fr;gap:var(--sp-14);align-items:center;margin:var(--sp-22) 0 clamp(56px,6vw,72px)}
@@ -280,10 +287,10 @@ import Dots from '../components/Dots.astro';
   .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-02);margin-bottom:clamp(40px,4vw,44px)}
   .case{position:relative;background:#fff;border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 16px 34px -20px rgba(120,30,10,.25);cursor:pointer;transition:box-shadow .25s ease,transform .25s ease;border:var(--edge-w) solid var(--edge)}
   .case:hover{box-shadow:0 26px 50px -22px rgba(120,30,10,.42);transform:translateY(-4px)}
-  [data-theme="contrast"] .case:first-child .case__top{background:var(--accent-alt)}
-  [data-theme="contrast"] .case:nth-child(2) .case__top{background:var(--highlight)}
-  [data-theme="contrast"] .case:nth-child(2) .case__idx,[data-theme="contrast"] .case:nth-child(2) .case__name{color:var(--on-highlight)}
-  [data-theme="contrast"] .case:nth-child(2) .case__when{color:color-mix(in srgb, var(--on-highlight) 60%, transparent)}
+  .case:first-child .case__top{background:var(--accent-alt)}
+  .case:nth-child(2) .case__top{background:var(--highlight)}
+  .case:nth-child(2) .case__idx,.case:nth-child(2) .case__name{color:var(--on-highlight)}
+  .case:nth-child(2) .case__when{color:color-mix(in srgb, var(--on-highlight) 60%, transparent)}
   .case__top{background:var(--hero-grad);padding:var(--sp-12);color:#fff}
   .case__idx{font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff}
   .case__when{display:block;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:4px}
@@ -308,19 +315,19 @@ import Dots from '../components/Dots.astro';
   .drag{height:auto;display:flex;overflow-x:auto;gap:16px;scroll-snap-type:x mandatory;padding:var(--sp-10) 0 var(--sp-13);-webkit-overflow-scrolling:touch;align-items:stretch;scroll-padding-left:0;touch-action:auto}
   .dcard--photo{display:none}
   .dcard{position:relative!important;left:auto!important;top:auto!important;flex:0 0 clamp(440px,80%,640px);scroll-snap-align:center;transform:none}
-  .dcard--flip{height:auto;border:5px solid #fff;border-radius:36px;overflow:hidden;box-shadow:0 24px 44px -26px rgba(40,20,12,.28);transform-origin:50% 58%;transition:transform .08s linear;will-change:transform}
+  .dcard--flip{height:auto;border:var(--edge-w) solid var(--edge);border-radius:0;overflow:hidden;box-shadow:0 24px 44px -26px rgba(40,20,12,.28);transform-origin:50% 58%;transition:transform .08s linear;will-change:transform}
   .dcard--flip:hover{transform:none;box-shadow:0 24px 44px -26px rgba(40,20,12,.28)}
   .dcard--flip .dcard__inner{transform:none!important;display:flex;flex-direction:row;height:100%;align-items:stretch}
   .dcard--flip .dcard__face{position:relative;inset:auto;transform:none!important;-webkit-backface-visibility:visible;backface-visibility:visible;border:none;border-radius:0;box-shadow:none;text-align:left;justify-content:flex-start;padding:var(--sp-04)}
   .dcard--flip .dcard__front{flex:0 0 42%;padding-right:var(--sp-02)}
   .dcard--flip .dcard__back{flex:1 1 auto;padding-left:var(--sp-02)}
-  [data-theme="contrast"] .dcard--flip{border-color:var(--edge);border-width:var(--edge-w)}
-  [data-theme="contrast"] .dcard--flip .dcard__face{border:none}
+  .dcard--flip{border-color:var(--edge);border-width:var(--edge-w)}
+  .dcard--flip .dcard__face{border:none}
   .dc1--grid .dcard__front::before{display:none}
   .dc1--grid .dcard__inner{background:var(--tile-red);isolation:isolate}
   /* le motif lui-meme vient de --grid-paper, pose sur .dc1--grid : seuls le
      porteur (l'enveloppe, non plus la face) et l'inset changent ici */
-  .dc1--grid .dcard__inner::before{content:"";position:absolute;inset:var(--sp-07);border-radius:16px;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
+  .dc1--grid .dcard__inner::before{content:"";position:absolute;inset:var(--sp-07);border-radius:0;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
   .dc1--grid .dcard__front,.dc1--grid .dcard__back{background:transparent;z-index:1}
 }
   @media(max-width:720px){
@@ -414,7 +421,7 @@ import Dots from '../components/Dots.astro';
   import { revealAll } from '../scripts/reveal';
   import { rendreDeplacable } from '../scripts/drag';
   import { carrousel } from '../scripts/carousel';
-  import { initLoader } from '../scripts/loader';
+  // import { initLoader } from '../scripts/loader'; // debranche, voir la note du <Base>
   import { mouvementReduit } from '../scripts/motion';
 
   /* les cartes photo et les cartes retournables ne se deplacent pas */
@@ -458,5 +465,6 @@ import Dots from '../components/Dots.astro';
     });
   }
 
-  initLoader();
+  /* debranche : voir la note au-dessus du <Base> */
+  // initLoader();
 </script>

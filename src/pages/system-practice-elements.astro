@@ -555,9 +555,9 @@ const preuves: Carte[] = [
     juste a cote porte le sens. Choix assume, comme les bandeaux de .el-axis :
     ne pas "corriger" en aplat lisible sans le redemander a Lea.
   */
-  [data-theme="contrast"] .el-creed .tenet:nth-of-type(1) .tenet__num{color:var(--accent)}
-  [data-theme="contrast"] .el-creed .tenet:nth-of-type(2) .tenet__num{color:var(--accent-alt)}
-  [data-theme="contrast"] .el-creed .tenet:nth-of-type(3) .tenet__num{color:var(--highlight)}
+  .el-creed .tenet:nth-of-type(1) .tenet__num{color:var(--accent)}
+  .el-creed .tenet:nth-of-type(2) .tenet__num{color:var(--accent-alt)}
+  .el-creed .tenet:nth-of-type(3) .tenet__num{color:var(--highlight)}
 
   /* titre de mouvement, a l interieur d un chapitre */
   .el-movement{margin-top:var(--sp-20)}
@@ -660,11 +660,11 @@ const preuves: Carte[] = [
     le blanc, mesures a 5,7:1 et 7,2:1. Contrairement au « 03 » de .el-creed,
     ce texte-la porte le sens de la carte : il n'y a rien a assumer ici.
   */
-  [data-theme="contrast"] .el-axis:nth-child(3n+1) .el-axis__top{background:var(--accent)}
-  [data-theme="contrast"] .el-axis:nth-child(3n+2) .el-axis__top{background:var(--accent-alt)}
-  [data-theme="contrast"] .el-axis:nth-child(3n+3) .el-axis__top{background:var(--highlight)}
-  [data-theme="contrast"] .el-axis:nth-child(3n+3) .el-axis__eyebrow,
-  [data-theme="contrast"] .el-axis:nth-child(3n+3) .el-axis__name{color:var(--on-highlight)}
+  .el-axis:nth-child(3n+1) .el-axis__top{background:var(--accent)}
+  .el-axis:nth-child(3n+2) .el-axis__top{background:var(--accent-alt)}
+  .el-axis:nth-child(3n+3) .el-axis__top{background:var(--highlight)}
+  .el-axis:nth-child(3n+3) .el-axis__eyebrow,
+  .el-axis:nth-child(3n+3) .el-axis__name{color:var(--on-highlight)}
 
   .el-axis__body{padding:var(--sp-12);display:flex;flex-direction:column;flex:1}
   .el-axis__desc{font-size:15px;line-height:1.55;color:var(--ink-soft);flex:1}
@@ -707,7 +707,7 @@ const preuves: Carte[] = [
   */
   .el-trio__photo img{width:100%;height:100%;object-fit:cover;object-position:center 10%;
     transform:scale(1.9);display:block}
-  [data-theme="contrast"] .el-trio__photo{border:var(--edge-w) solid var(--edge);box-shadow:none}
+  .el-trio__photo{border:var(--edge-w) solid var(--edge);box-shadow:none}
   /*
     L'anneau au survol. Il ne peut pas vivre sur .el-trio__photo lui-meme :
     overflow:hidden le rognerait, alors qu'il doit deborder de 3px. D'ou le

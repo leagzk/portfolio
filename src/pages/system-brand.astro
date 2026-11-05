@@ -1506,8 +1506,8 @@ const artefacts = [
   .js .sb-piece__cadre.defile img{
     animation:sbDefile calc(var(--vitesse) * (var(--k) - 1))
       cubic-bezier(.5,0,.5,1) infinite alternate}
-  [data-theme="contrast"] .sb-piece__cadre{box-shadow:none}
-  [data-theme="contrast"] .sb-piece__cadre::after{box-shadow:inset 0 0 0 var(--edge-w) var(--edge)}
+  .sb-piece__cadre{box-shadow:none}
+  .sb-piece__cadre::after{box-shadow:inset 0 0 0 var(--edge-w) var(--edge)}
   .sb-piece:hover{transform:rotate(0deg) translateY(-6px) scale(1.02);z-index:20}
   .sb-piece.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);z-index:30}
   .sb-piece img{display:block;width:100%;height:auto;border-radius:var(--r-md);
@@ -1516,7 +1516,7 @@ const artefacts = [
     /* le glisser part du pointerdown : sans ca le navigateur lance son propre
        glisser d'image et la carte reste sur place */
     -webkit-user-drag:none;pointer-events:none}
-  [data-theme="contrast"] .sb-piece img{box-shadow:none}
+  .sb-piece img{box-shadow:none}
   /*
     APRES .sb-piece img, ET C'EST TOUT L'ENJEU. A specificite egale c'est l'ordre
     qui tranche : ecrite avant, cette regle laissait passer la bordure des cartes,

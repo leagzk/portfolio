@@ -1,71 +1,136 @@
-/* Design tokens : socle de :root et les trois themes.
-   Seul fichier ou l'on declare des custom properties. */
+/*
+  Design tokens : socle unique du site.
+  Seul fichier ou l'on declare des custom properties.
 
-:root{--display:"Momo Trust Display",system-ui,sans-serif;
-    --body:"Maven Pro",system-ui,sans-serif;
-    --portrait:url("/Lea-Giezek-portrait.webp");
-    --r-xl:20px; --r-lg:16px; --r-pill:1000px;
-    --mobbar-h:clamp(72px,20vw,88px);
-    /*
-      Largeur de la colonne de contenu. Elle est POSEE ici et consommee par
-      .shell (reset.css) et par --bleed-pad ci-dessous : la demi-largeur etait
-      auparavant recopiee en dur - « 540px » - dans les trois blocs pleine
-      largeur du site, chacun documente d'un « 540 etant la demi-largeur du
-      .shell ». Trois copies d'une valeur qu'un seul fichier decidait.
-    */
-    --shell-w:1080px;
-    /*
-      Gouttiere d'un bloc qui saigne d'un bord a l'autre (marge negative +
-      100vw) mais dont le CONTENU doit rester cale sur la colonne de texte.
-      En dessous de --shell-w la formule retombe d'elle-meme sur --sp-03.
-      Consommee par .ls-carousel__track, .eq-band et .el-axes.
-    */
-    --bleed-pad:max(var(--sp-03),calc(50vw - var(--shell-w) / 2 + var(--sp-03)));}
-[data-theme="spicy"]{--canvas:#F6F6F4; --card:#FFFFFF; --line:#EBD9CD;
-    --ink:#070304; --ink-soft:#070304;
-    --accent:#E84140; --tile-red:#FFE1C5; --tile-red-ink:#070304; --btn3:#D83C3B; --grid-line:rgba(216,50,31,.11);
-    --hero-grad:linear-gradient(81deg,#E84140 0%,#E84140 27%,#FFE1C5 100%);
-    --hero-ink:#FFFFFF;
-    /*
-      Filigrane clair, comme en mono et en contrast. Il a ete rouge sombre tant
-      qu'il portait le dernier mot de la phrase et devait donc se lire ; depuis
-      qu'il est sorti du titre (voir .banner__culture dans shared.css) il n'a
-      plus a etre lisible, il a a ne pas gener.
-      Blanc decroissant vers la droite, dans le sens du degrade : le mot se pose
-      en pale sur le rouge sature puis se dissout dans le creme (#FFE1C5) au
-      lieu d'y faire une tache. Mesure du cote gauche : 1,47:1 - volontairement
-      bas, c'est un filigrane et il n'est plus porteur de sens.
-    */
-    --culture-grad:linear-gradient(81deg,rgba(255,255,255,.34) 0%,rgba(255,255,255,.16) 100%);
-    --on-accent:#FFFFFF; --focus:#7A1B0A;
-    --ink-muted:#5A5453; --ring:rgba(255,255,255,.8);
-    /* accent secondaire et emphase : confondus avec l accent principal ici,
-       distincts en Mondrian. --edge/--edge-w : contour systeme, nul par defaut */
-    --accent-alt:var(--accent); --highlight:var(--ink); --on-highlight:#FFFFFF;
-    --edge:transparent; --edge-w:0px;}
-[data-theme="mono"]{--canvas:#EBEAE6; --card:#FBFBF9; --line:#DDDCD7;
-    --ink:#1A1A18; --ink-soft:#47463F;
-    --accent:#232320; --tile-red:#E7E6E2; --tile-red-ink:#1A1A18; --btn3:#232320; --grid-line:rgba(26,26,24,.09);
-    --hero-grad:linear-gradient(103deg,#232320 0%,#3D3D37 46%,#605F58 76%,#83827A 100%);
-    --hero-ink:#FFFFFF;
-    --culture-grad:linear-gradient(103deg,rgba(255,255,255,.16) 0%,rgba(255,255,255,.10) 100%);
-    --on-accent:#FFFFFF; --focus:#000;
-    --ink-muted:#565349; --ring:rgba(255,255,255,.8);
-    --accent-alt:var(--accent); --highlight:var(--ink); --on-highlight:#FFFFFF;
-    --edge:transparent; --edge-w:0px;}
-[data-theme="contrast"]{--canvas:#F4F1E9; --card:#FFFFFF; --line:#111111;
-    --ink:#111111; --ink-soft:#111111;
-    --accent:#D0021B; --tile-red:#F7D000; --tile-red-ink:#111111; --btn3:#D0021B; --grid-line:rgba(255,255,255,.44);
-    --hero-grad:linear-gradient(90deg,#D0021B,#D0021B);
-    --hero-ink:#FFFFFF;
-    --culture-grad:linear-gradient(90deg,rgba(255,255,255,.22),rgba(255,255,255,.16));
-    --on-accent:#FFFFFF; --focus:var(--accent-alt);
-    --ink-muted:#4A4A4A; --ring:#111111;
-    /* Mondrian : le bleu porte l accent secondaire, le jaune l emphase,
-       et tout objet recoit un contour noir de 2px */
-    --accent-alt:#0B57A4; --highlight:#F7D000; --on-highlight:#111111;
-    --edge:var(--line); --edge-w:2px;}
-[data-theme="contrast"] :focus-visible{outline-width:4px}
+  ═══ Ce qui a change au redesign Bauhaus (etape 1) ═══
+
+  IL N'Y A PLUS DE THEMES. Le site a porte trois jeux de valeurs - `spicy`
+  (creme/rouge), `mono` (gris) et `contrast` (deja mondrianesque) - commutes par
+  un attribut data-theme sur <html> et un selecteur dans le dock. Le brief
+  supprime le creme et pose une identite unique sur fond blanc : les trois jeux
+  n'avaient plus qu'un seul survivant, et le maintenir sous forme d'attribut
+  aurait laisse tout le CSS du site ecrit en paires base/override pour une
+  bascule qui n'existe plus. Un seul jeu, donc, declare ici sans selecteur.
+
+  Consequence a connaitre : `scopedStyleStrategy: 'where'` dans astro.config.mjs
+  avait ete pose POUR ces paires (voir son commentaire). Il ne sert plus a les
+  departager, mais il reste la bonne valeur - il evite que descendre une regle
+  globale dans un <style> scope lui donne +1 de specificite.
+
+  Valeurs : docs/redesign/BRIEF.md §1. Les maquettes .dc.html en sont la source
+  visuelle ; en cas d'ecart, le brief gagne.
+*/
+
+:root{
+  /* ═══ Polices ═══
+     Hanken Grotesk remplace Momo Trust Display, qui n'existait qu'en graisse
+     400 : l'echelle du brief demande du 900 sur tous les titres, et un
+     navigateur a qui on reclame une graisse absente fabrique un faux gras.
+     Hanken couvre 100 a 900 dans un seul fichier variable, et c'est la police
+     des maquettes - donc zero ecart avec ce qui a ete valide. */
+  --display:"Hanken Grotesk",system-ui,sans-serif;
+  --body:"Maven Pro",system-ui,sans-serif;
+
+  /* ═══ Couleurs ═══ */
+  --ink:#0A0708;            /* heros, footer, blocs et carres noirs */
+  --text:#111111;           /* texte courant ET filets de grille */
+  --red:#D0021B;
+  --blue:#0B57A4;
+  --yellow:#F5CD00;
+  --white:#FFFFFF;          /* fond de page - le creme est supprime */
+  --grey-mondrian:#E4E4E1;  /* composition Language uniquement */
+  --placeholder:#F3F3F3;    /* emplacements visuels, en attente des vraies images */
+  /* Textes sur fond noir. Trois valeurs et non une opacite : le gris doit etre
+     mesurable au contraste, ce qu'une opacite sur un fond variable n'est pas. */
+  --on-ink:#E6E2E3;         /* intro de hero */
+  --on-ink-eyebrow:#CFCACB; /* eyebrow - le plus bas des trois, a verifier en AA */
+  --on-ink-muted:#A9A4A5;   /* copyright */
+
+  /* ═══ Filets, radius, espacements ═══ */
+  --rule:2px;               /* grille de la landing */
+  --rule-fine:1.5px;        /* composition Language */
+  --r-footer:6px;           /* les DEUX COINS BAS du footer, seul radius du site */
+  --r-media:4px;            /* placeholders visuels */
+  --r-pill:999px;           /* pastilles Retained / Not retained */
+  --shell-w:1120px;
+  --gutter:24px;
+  --pad-square:48px;        /* marge interieure des carres de couleur, 4 cotes */
+
+  /* ═══ Echelle typo ═══
+     Corps fixes et non clamps : la composition Mondrian repose sur des cellules
+     de grille dont la hauteur est posee, et un titre fluide y ferait varier le
+     nombre de lignes d'une largeur a l'autre. Le passage au mobile est un
+     basculement, pas une interpolation. */
+  --fs-eyebrow:11px;
+  --fs-h1:68px;
+  --fs-h1-mob:44px;
+  --fs-section:30px;        /* titres de section, Operating System, citation */
+  --fs-lead:34px;           /* phrase forte des sections Language */
+  --fs-tile:17px;           /* titres des carres - identique sur les trois */
+  --fs-intro:18px;
+  --fs-body:16px;
+  --fs-body-s:15px;
+  --fs-caption:13px;
+
+  --portrait:url("/Lea-Giezek-portrait.webp");
+  --mobbar-h:clamp(72px,20vw,88px);
+  /*
+    Gouttiere d'un bloc qui saigne d'un bord a l'autre (marge negative + 100vw)
+    mais dont le CONTENU doit rester cale sur la colonne de texte. En dessous de
+    --shell-w la formule retombe d'elle-meme sur --sp-03.
+    Consommee par .ls-carousel__track, .eq-band et .el-axes.
+  */
+  --bleed-pad:max(var(--sp-03),calc(50vw - var(--shell-w) / 2 + var(--sp-03)));
+}
+
+/*
+  ═══ Alias de migration - TEMPORAIRE ═══
+
+  Les sept pages existantes consomment encore le vocabulaire d'avant
+  (--canvas, --card, --accent, --hero-grad...). Elles sont re-habillees aux
+  etapes 2 a 4 du redesign ; d'ici la, ces alias les branchent sur la palette
+  ci-dessus pour qu'aucune page ne reste cassee entre deux etapes.
+
+  Les valeurs reprennent celles de l'ancien theme `contrast`, le seul des trois
+  qui etait deja mondrianesque - a deux corrections pres : le jaune passe de
+  #F7D000 a #F5CD00 (valeur du brief) et le fond passe du creme au blanc.
+
+  A SUPPRIMER quand plus aucun fichier ne les lit. Le controle se fait au grep,
+  pas a l'oeil : `grep -rn "var(--canvas)\|var(--card)\|var(--accent)" src/`.
+*/
+:root{
+  --canvas:var(--white);
+  --card:var(--white);
+  --line:var(--text);
+  --ink-soft:var(--text);
+  --ink-muted:#4A4A4A;        /* 9,0:1 sur blanc */
+  --accent:var(--red);
+  --accent-alt:var(--blue);
+  --highlight:var(--yellow);
+  --on-highlight:var(--text);
+  --on-accent:var(--white);
+  --btn3:var(--red);
+  --tile-red:var(--yellow);
+  --tile-red-ink:var(--text);
+  --grid-line:rgba(255,255,255,.44);
+  /* Le hero n'est plus un degrade mais une bande noire pleine largeur (BRIEF
+     §2.2). Le token garde son nom tant que .banner, .mobbar et .loader__panel
+     l'ecrivent ; il disparait avec eux a l'etape 2. */
+  --hero-grad:var(--ink);
+  --hero-ink:var(--white);
+  /* Filigrane : rgba(255,255,255,.07) du brief, ecrit en degrade parce que
+     .banner__culture le passe a background-clip:text. */
+  --culture-grad:linear-gradient(90deg,rgba(255,255,255,.07),rgba(255,255,255,.07));
+  --focus:var(--blue);
+  --ring:var(--text);
+  --edge:var(--text);
+  --edge-w:var(--rule);
+  /* Plus aucun arrondi : ni cartes, ni boutons, ni pilules (BRIEF §1). Les deux
+     tokens restent declares le temps que leurs ~40 points d'usage soient
+     reecrits, et valent 0. */
+  --r-xl:0px;
+  --r-lg:0px;
+}
 
 /*
   Espacements. Ce n'est PAS une progression geometrique : ce sont les paliers

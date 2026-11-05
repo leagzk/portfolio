@@ -89,35 +89,26 @@ const work = [
 const workCourant = work.some((i) => i.key === current);
 ---
 <!DOCTYPE html>
-<html lang="en" data-theme="spicy">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!--
-  Seul script qui doit rester inline ET dans le <head>. Deux raisons :
+  Seul script qui doit rester inline ET dans le <head>. Il pose la classe .js,
+  dont dependent .js .drag .dcard, .js .tenet et .js .ls-reveal (opacity:0 en
+  attente de leur animation d'entree). Posee trop tard, le contenu apparait
+  puis disparait pour se re-animer.
 
-  1. Il restaure le theme choisi avant le premier rendu. Place plus bas, le
-     visiteur verrait le theme par defaut clignoter avant le sien.
-  2. Il pose la classe .js, dont dependent .js .drag .dcard, .js .tenet et
-     .js .ls-reveal (opacity:0 en attente de leur animation d'entree). Pose
-     trop tard, le contenu apparait puis disparait pour se re-animer.
+  Un <script> bundle par Astro serait type="module", donc differe : trop tard.
+  Garder ce bloc court et sans import.
 
-  Un <script> bundle par Astro serait type="module", donc differe : trop tard
-  dans les deux cas. Garder ce bloc court et sans import.
+  Il restaurait aussi le theme choisi depuis localStorage avant le premier
+  rendu. Le redesign n'a plus qu'un seul jeu de valeurs (voir tokens.css) : la
+  lecture du stockage est tombee avec le selecteur.
 -->
 <script is:inline>
 (function () {
-  var root = document.documentElement;
-  root.classList.add('js');
-  try {
-    var saved = localStorage.getItem('theme');
-    // liste blanche : ne jamais ecrire dans le DOM une valeur brute du stockage
-    if (saved === 'spicy' || saved === 'contrast' || saved === 'mono') {
-      root.setAttribute('data-theme', saved);
-    }
-  } catch (e) {
-    /* navigation privee ou stockage refuse : on garde le theme par defaut */
-  }
+  document.documentElement.classList.add('js');
 })();
 </script>
 <title>{title}</title>
@@ -142,7 +133,7 @@ const workCourant = work.some((i) => i.key === current);
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<meta name="theme-color" content="#E84140" />
+<meta name="theme-color" content="#0A0708" />
 
 <!--
   Les deux polices du site sont servies par notre domaine (src/styles/fonts.css).
@@ -152,7 +143,7 @@ const workCourant = work.some((i) => i.key === current);
   system-ui. Ne pas y ajouter latin-ext, que la plupart des pages ne touchent
   jamais - ce serait 40 Ko preleves sur le chemin critique pour rien.
 -->
-<link rel="preload" href="/fonts/MomoTrustDisplay-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/MavenPro-latin.woff2" as="font" type="font/woff2" crossorigin />
 
 {/*
@@ -187,14 +178,6 @@ const workCourant = work.some((i) => i.key === current);
 <header class="topdock">
   <div class="topdock__inner">
     <button class="hamb" id="hamb" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    <div class="pepperegg" id="pepperegg">
-      <div class="pepperegg__sw" id="themesw" role="group" aria-label="Colour theme">
-        <button class="swatch sw-spicy" data-set="spicy" aria-pressed="true" aria-label="Spicy theme"></button>
-        <button class="swatch sw-contrast" data-set="contrast" aria-pressed="false" aria-label="Mondrian theme"></button>
-        <button class="swatch sw-mono" data-set="mono" aria-pressed="false" aria-label="Mono theme"></button>
-      </div>
-      <button class="banner__pepper" id="pepperbtn" aria-label="Colour theme" aria-controls="themesw" aria-expanded="false">🌶️</button>
-    </div>
   </div>
 </header>
 <div class="shell">
@@ -276,19 +259,15 @@ const workCourant = work.some((i) => i.key === current);
 </div>
 
 <style is:global>
-  /* surcharges de theme du chrome - vivaient dans tokens.css, qui ne doit
-     contenir que des declarations de custom properties */
-  [data-theme="contrast"] .topnav.stuck{border:var(--edge-w) solid var(--edge);border-top:none}
-  [data-theme="contrast"] .navgroup__menu a:hover{background:var(--highlight);color:var(--on-highlight)}
-  [data-theme="mono"] .navgroup__menu a:hover{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px #070304}
-  [data-theme="contrast"] .navgroup__menu{border:var(--edge-w) solid var(--edge);border-top:none;left:-2px;right:-2px}
-  [data-theme="contrast"] .topnav.menuopen{border:var(--edge-w) solid var(--edge);border-top:none;border-bottom:none}
-  [data-theme="contrast"] .topnav a[aria-current="page"]::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
-  [data-theme="contrast"] .navgroup__trigger[data-current] .navgroup__label::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
-  [data-theme="contrast"] .mobmenu > a[aria-current="page"],[data-theme="contrast"] .mobmenu__group > a[aria-current="page"]{color:var(--highlight)}
-  @media(max-width:720px){
-  [data-theme="contrast"] .mobbar{border:var(--edge-w) solid var(--edge);border-top:none}
-}
+  /*
+    LES SURCHARGES DE THEME ONT DISPARU D'ICI. Dix regles y commutaient le
+    chrome entre `spicy`, `mono` et `contrast`. Le site n'a plus qu'un jeu de
+    valeurs : celles de `contrast` sont repliees dans les regles de base
+    ci-dessous, celles de `mono` sont tombees.
+    Ce chrome - nav deroulante, dock, barre mobile - est entierement refait a
+    l'etape 2 du redesign (nav a six liens ferree a droite dans le hero noir).
+    Ce qui suit le tient debout d'ici la, il n'est pas la forme visee.
+  */
   /*
     Chrome rendu par ce layout : nav, dock, menu mobile, loader, pied de page.
     Le CSS propre a une page vit desormais dans cette page ; les regles
@@ -296,7 +275,7 @@ const workCourant = work.some((i) => i.key === current);
     pour la raison pour laquelle elles ne peuvent pas etre scopees ici.
   */
   .topnav{position:sticky;top:0;z-index:50;display:flex;justify-content:center;flex-wrap:wrap;align-items:center;gap:clamp(16px,3vw,40px);min-height:var(--mobbar-h);padding:0;border-radius:0 0 var(--r-xl) var(--r-xl);transition:background .28s ease,box-shadow .28s ease}
-  .topnav.stuck{background:var(--canvas);box-shadow:0 4px 16px rgba(7,3,4,.08)}
+  .topnav.stuck{background:var(--canvas);box-shadow:0 4px 16px rgba(7,3,4,.08);border:var(--edge-w) solid var(--edge);border-top:none}
   .topnav a{position:relative;text-decoration:none;font-weight:500;font-size:16px;color:var(--ink);white-space:nowrap;transition:color .28s ease}
   .topnav a::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
   .topnav a:hover{font-weight:700}
@@ -316,21 +295,24 @@ const workCourant = work.some((i) => i.key === current);
   .navgroup__trigger:hover .navgroup__label,.navgroup.open .navgroup__label{font-weight:700}
   .navgroup__chev{width:16px;height:16px;flex:none;transition:transform .22s ease}
   .navgroup.open .navgroup__chev{transform:rotate(180deg);color:var(--accent)}
-  .navgroup__menu{position:absolute;left:0;right:0;top:calc(100% - 16px);z-index:2;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 8px 16px;background:var(--canvas);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 20px 16px -4px rgba(7,3,4,.10);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .22s ease,transform .26s cubic-bezier(.22,1,.36,1),visibility .26s}
+  .navgroup__menu{position:absolute;left:-2px;right:-2px;border:var(--edge-w) solid var(--edge);border-top:none;top:calc(100% - 16px);z-index:2;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 8px 16px;background:var(--canvas);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 20px 16px -4px rgba(7,3,4,.10);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .22s ease,transform .26s cubic-bezier(.22,1,.36,1),visibility .26s}
   .navgroup:hover .navgroup__menu,.navgroup:focus-within .navgroup__menu,.navgroup.open .navgroup__menu{opacity:1;visibility:visible;transform:none}
   .navgroup__menu a{padding:12px 20px;border-radius:var(--r-pill);font-size:16px;font-weight:500;color:var(--ink);text-decoration:none;white-space:nowrap;transition:background .18s ease,color .18s ease,box-shadow .18s ease}
-  .navgroup__menu a:hover{background:var(--ink);color:#fff;font-weight:500}
-  .topnav.menuopen{background:var(--canvas);border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
+  .navgroup__menu a:hover{background:var(--highlight);color:var(--on-highlight);font-weight:500}
+  .topnav.menuopen{background:var(--canvas);border:var(--edge-w) solid var(--edge);border-top:none;border-bottom:none;border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
   .topnav.menuopen:not(.stuck){z-index:52}
   .topnav.menuopen > a{color:var(--ink-muted)}
   .topnav.menuopen > a[aria-current="page"]{font-weight:500}
   .topnav.menuopen > a[aria-current="page"]::before{opacity:0}
   .hamb{display:none;flex-direction:column;justify-content:center;gap:4px;width:40px;height:32px;padding:8px 4px;background:transparent;border:none;cursor:pointer}
-  .hamb span{display:block;width:24px;height:2.5px;background:#fff;border-radius:2px}
+  .hamb span{display:block;width:24px;height:2.5px;background:#fff;border-radius:0}
   .mobmenu{display:none}
   .mobbar{display:none}
   .topdock{position:fixed;top:0;left:0;right:0;z-index:51;pointer-events:none}
-  .topdock__inner{max-width:1080px;margin:0 auto;height:var(--mobbar-h);display:flex;align-items:center;padding-left:calc(var(--sp-03) + var(--sp-09));padding-right:calc(var(--sp-03) + var(--sp-05))}
+  /* Ne porte plus que le hamburger, lui-meme masque au-dela de 720px : au
+     bureau ce dock est une barre fixe et vide. Il tombe a l'etape 2 avec la
+     nouvelle nav. */
+  .topdock__inner{max-width:var(--shell-w);margin:0 auto;height:var(--mobbar-h);display:flex;align-items:center;padding-left:calc(var(--sp-03) + var(--sp-09))}
   .topdock__inner > *{pointer-events:auto}
   /*
     overflow-y:auto : le menu porte desormais neuf entrees, deux filets et trois
@@ -380,14 +362,6 @@ const workCourant = work.some((i) => i.key === current);
   .loader__circle{width:100%;height:100%;border-radius:50%;background:#FFFDFB;display:grid;place-items:center;transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards;box-shadow:0 14px 44px rgba(120,20,5,.32)}
   .loader__pepper{font-size:clamp(44px,6vw,64px);line-height:1;transform:scale(0) rotate(-28deg);animation:pepperIn .62s cubic-bezier(.34,1.56,.64,1) .42s forwards}
   .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
-  .pepperegg{position:relative;margin-left:auto;display:flex;align-items:center;gap:12px;transform-origin:right center;transform:translateY(calc(var(--mobbar-h)/2 + var(--sp-03) + var(--sp-21)/2));transition:transform .38s cubic-bezier(.22,1,.36,1)}
-  .topdock.stuck .pepperegg{transform:scale(.78)}
-  .pepperegg__sw{position:absolute;right:100%;padding-right:12px;top:50%;display:flex;gap:8px;align-items:center;opacity:0;pointer-events:none;transform:translate(8px,-50%);transition:transform .32s cubic-bezier(.22,1,.36,1),opacity .28s}
-  .pepperegg:hover .pepperegg__sw,.pepperegg:focus-within .pepperegg__sw,.pepperegg.open .pepperegg__sw{opacity:1;pointer-events:auto;transform:translate(0,-50%)}
-  .pepperegg.picked .pepperegg__sw{opacity:0;pointer-events:none;transform:translate(8px,-50%)}
-  .banner__pepper{position:relative;flex:none;width:var(--sp-21);height:var(--sp-21);border-radius:50%;background:#FFFDFB;border:none;cursor:pointer;display:grid;place-items:center;font-size:clamp(24px,3vw,32px);box-shadow:0 6px 20px rgba(120,20,5,.25)}
-  .banner__pepper::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--ring);opacity:0;pointer-events:none}
-  .banner__pepper:hover::after{animation:tilePulse .9s ease-out}
   .talk__legal{margin-top:var(--sp-17);padding-top:var(--sp-03);border-top:1px solid rgba(255,255,255,.16);font-size:12px;line-height:1.7;letter-spacing:.02em;color:rgba(255,255,255,.62)}
   .talk__legal b{font-weight:600;color:rgba(255,255,255,.82)}
   .talk{padding:clamp(32px,4vw,52px)}
@@ -399,14 +373,8 @@ const workCourant = work.some((i) => i.key === current);
   .talk-card.in .talk__head{font-size:clamp(48px,12vw,148px);line-height:.92;letter-spacing:-.03em}
   .talk-card .talk__body{color:rgba(255,255,255,.94)}
   .talk-card .talk__body b{color:#fff}
-  .swatch{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);cursor:pointer;padding:0;transition:transform .15s}
-  .swatch:hover{transform:scale(1.14)}
-  .swatch[aria-pressed="true"]{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ink)}
-  .sw-spicy{background:linear-gradient(135deg,#E84140,#FFE1C5)}
-  .sw-mono{background:linear-gradient(135deg,#232320,#83827A)}
-  .sw-contrast{background:linear-gradient(#111,#111) 58% 0/2.5px 100% no-repeat,linear-gradient(#111,#111) 0 55%/100% 2.5px no-repeat,conic-gradient(from 90deg at 58% 55%,#0B57A4 0 25%,#fff 25% 50%,#D0021B 50% 75%,#F7D000 75% 100%)}
   .topnav a[aria-current="page"]{font-weight:700}
-  .topnav a[aria-current="page"]::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;background:var(--accent);transition:opacity .28s ease}
+  .topnav a[aria-current="page"]::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:6px;border:var(--edge-w) solid var(--edge);border-radius:0;background:var(--highlight);transition:opacity .28s ease}
   /*
     Le declencheur « Selected work » n'est pas un <a> : la regle ci-dessus ne
     l'atteint pas, d'ou ce jumeau. Le trait est pose sur le LABEL et non sur le
@@ -414,7 +382,7 @@ const workCourant = work.some((i) => i.key === current);
     soulignent leur texte, pas leur boite.
   */
   .navgroup__trigger[data-current] .navgroup__label{font-weight:700;position:relative}
-  .navgroup__trigger[data-current] .navgroup__label::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;background:var(--accent);transition:opacity .28s ease}
+  .navgroup__trigger[data-current] .navgroup__label::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:6px;border:var(--edge-w) solid var(--edge);border-radius:0;background:var(--highlight);transition:opacity .28s ease}
   /*
     Les entrees du menu deroulant, elles, n'ont plus de trait. Ce sont des
     pastilles arrondies : un soulignement pose 8px sous elles est le vocabulaire
@@ -423,35 +391,20 @@ const workCourant = work.some((i) => i.key === current);
     suffit a marquer la page courante une fois le menu ouvert.
   */
   .navgroup__menu a[aria-current="page"]::before{content:none}
-  .mobmenu > a[aria-current="page"],.mobmenu__group > a[aria-current="page"]{color:var(--accent)}
-  /*
-    EN MONO LA COULEUR NE PEUT PAS PORTER LA MARQUE DE POSITION. --accent y vaut
-    #232320 : sur le #070304 du panneau, 1,3:1 - du noir sur du noir. La page
-    courante etait donc signalee dans deux themes sur trois et pas dans le
-    troisieme, sans que rien ne le montre tant qu'on ne bascule pas.
-
-    Le soulignement plutot que la graisse : la fonte display du menu n'a qu'une
-    seule graisse, et lui en demander une deuxieme ferait fabriquer un faux gras
-    par le navigateur. C'est la meme raison qui interdit <b> dans les titres du
-    site.
-  */
-  [data-theme="mono"] .mobmenu > a[aria-current="page"],[data-theme="mono"] .mobmenu__group > a[aria-current="page"]{color:#fff;
-    text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
+  .mobmenu > a[aria-current="page"],.mobmenu__group > a[aria-current="page"]{color:var(--highlight)}
   @media(max-width:720px){
   .topnav{display:none}
   .hamb{display:flex}
-  .pepperegg,.topdock.stuck .pepperegg{transform:none}
-  .mobbar{display:block;position:fixed;top:0;left:var(--sp-03);right:var(--sp-03);z-index:49;height:var(--mobbar-h);background:var(--hero-grad);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 6px 20px rgba(120,30,10,.18);opacity:0;pointer-events:none;transition:opacity .28s ease}
+  .mobbar{display:block;position:fixed;top:0;left:var(--sp-03);right:var(--sp-03);z-index:49;height:var(--mobbar-h);background:var(--hero-grad);border:var(--edge-w) solid var(--edge);border-top:none;border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 6px 20px rgba(120,30,10,.18);opacity:0;pointer-events:none;transition:opacity .28s ease}
   .mobbar.show{opacity:1;pointer-events:auto}
   .talk-card.in .talk__head{font-size:clamp(32px,10vw,56px)}
   .talk__links{flex-direction:column;align-items:flex-start;gap:8px}
 }
   @media(prefers-reduced-motion:reduce){
-  .mobbar,.topnav,.topnav a,.pepperegg,.navgroup__menu,.navgroup__chev{transition:none}
+  .mobbar,.topnav,.topnav a,.navgroup__menu,.navgroup__chev{transition:none}
   .loader{display:none}
   .app--reveal{opacity:1;animation:none}
   .talk-card .talk__head{transition:none}
-  .banner__pepper::after{animation:none}
 }
 </style>
 

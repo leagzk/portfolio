@@ -1,11 +1,10 @@
 /*
-  Chrome du site : menu mobile, menu deroulant "Selected work", choix de theme,
-  barres collees au defilement. Rendu par Base.astro, donc present sur toutes
-  les pages.
+  Chrome du site : menu mobile, menu deroulant "Selected work", barres collees
+  au defilement. Rendu par Base.astro, donc present sur toutes les pages.
 
-  Ce qui n'est PAS ici : la pose de la classe .js et la restauration du theme.
-  Ces deux-la doivent s'executer avant le premier rendu et vivent dans le
-  <script is:inline> du <head>. Un module bundle est type="module", donc differe.
+  Ce qui n'est PAS ici : la pose de la classe .js, qui doit s'executer avant le
+  premier rendu et vit dans le <script is:inline> du <head>. Un module bundle
+  est type="module", donc differe.
 */
 export function initChrome(): void {
   const root = document.documentElement;
@@ -80,57 +79,19 @@ export function initChrome(): void {
     }
   });
 
-  /* --------------------------------------- easter-egg piment + themes */
-  const pepperbtn = document.getElementById('pepperbtn');
-  const pepperegg = document.getElementById('pepperegg');
-
-  pepperegg?.addEventListener('mouseenter', () => {
-    pepperegg.classList.remove('picked');
-    pepperbtn?.setAttribute('aria-expanded', 'true');
-  });
-  pepperegg?.addEventListener('mouseleave', () => {
-    pepperegg.classList.remove('picked', 'open');
-    pepperbtn?.setAttribute('aria-expanded', 'false');
-  });
-  pepperbtn?.addEventListener('click', () => {
-    pepperegg?.classList.remove('picked');
-    const o = pepperegg?.classList.toggle('open');
-    pepperbtn.setAttribute('aria-expanded', o ? 'true' : 'false');
-  });
-
   /*
-    Choix de theme : ecrit sur <html data-theme> ET persiste.
-    Les themes "contrast" et "mono" sont le dispositif d'accessibilite du site
-    (le rouge de "spicy" est un parti pris graphique assume, a 4,0:1). Un choix
-    d'accessibilite qui ne survit pas a un clic sur un lien n'en est pas un.
-    La restauration se fait dans le script inline du <head>.
-  */
-  const btns = [...document.querySelectorAll<HTMLElement>('.swatch')];
-  const syncPressed = (theme: string | null) => {
-    btns.forEach((x) =>
-      x.setAttribute('aria-pressed', x.getAttribute('data-set') === theme ? 'true' : 'false'),
-    );
-  };
-  /* l'etat ecrit dans le HTML suppose "spicy" : le realigner sur le theme restaure */
-  syncPressed(root.getAttribute('data-theme'));
+    LE PIMENT ET LE CHOIX DE THEME ONT ETE RETIRES ICI.
 
-  btns.forEach((b) => {
-    b.addEventListener('click', () => {
-      const theme = b.getAttribute('data-set');
-      if (!theme) return;
-      root.setAttribute('data-theme', theme);
-      syncPressed(theme);
-      try {
-        localStorage.setItem('theme', theme);
-      } catch {
-        /* stockage refuse : le theme tient pour la page courante */
-      }
-      pepperegg?.classList.add('picked');
-      pepperegg?.classList.remove('open');
-      pepperbtn?.setAttribute('aria-expanded', 'false');
-      b.blur();
-    });
-  });
+    Le site portait trois jeux de valeurs commutes par un selecteur, ecrits sur
+    <html data-theme> et persistes en localStorage. `contrast` et `mono` y
+    etaient documentes comme le dispositif d'accessibilite, parce que le rouge
+    de `spicy` plafonnait a 4,0:1.
+
+    Le redesign supprime `spicy` : le jeu unique qui reste EST l'ancien
+    `contrast` - noir #111 sur blanc, soit 16,9:1, et blanc sur le noir du hero
+    a 19,6:1. Le dispositif n'a pas disparu, il est devenu le defaut, et il n'y
+    a plus rien a commuter ni a persister.
+  */
 
   /* ------------------- barres collees : fond des le premier defilement */
   let ticking = false;

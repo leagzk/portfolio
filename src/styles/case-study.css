@@ -109,7 +109,7 @@
 .ls-carousel__dots{display:flex;justify-content:center;gap:8px;margin-top:4px}
 .ls-dot{width:7px;height:7px;padding:0;border:none;border-radius:50%;background:var(--line);cursor:pointer;transition:background .2s ease,transform .2s ease}
 .ls-dot[aria-current="true"]{background:var(--accent);transform:scale(1.35)}
-[data-theme="contrast"] .ls-dot[aria-current="true"]{background:var(--highlight)}
+.ls-dot[aria-current="true"]{background:var(--highlight)}
 .ls-steps{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-02);margin:var(--sp-20) 0 0;padding:0}
 .ls-step .ls-fig{aspect-ratio:4/5}
 .ls-step__t{display:flex;align-items:baseline;gap:12px;margin-top:16px;font-family:var(--display);font-weight:400;font-size:clamp(17px,1.9vw,22px);line-height:1.2;color:var(--ink)}
@@ -132,9 +132,9 @@
 */
 .ls-dark__rule{padding-bottom:var(--sp-08);border-bottom:1px solid rgba(255,255,255,.14)}
 .ls-note--light{color:rgba(255,255,255,.7);border-left-color:#fff;max-width:56ch;margin-top:var(--sp-12)}
-[data-theme="contrast"] .ls-eyebrow--light{color:var(--highlight)}
-[data-theme="contrast"] .ls-eyebrow--light::after{background:color-mix(in srgb, var(--highlight) 32%, transparent)}
-[data-theme="contrast"] .ls-note--light{border-left-color:var(--highlight)}
+.ls-eyebrow--light{color:var(--highlight)}
+.ls-eyebrow--light::after{background:color-mix(in srgb, var(--highlight) 32%, transparent)}
+.ls-note--light{border-left-color:var(--highlight)}
 .ls-closing{margin:clamp(72px,9vw,120px) 0 clamp(56px,7vw,96px);text-align:center}
 /*
   Chute ferree a gauche. Deux des trois pages a chute la veulent ainsi - celles

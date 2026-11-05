@@ -115,7 +115,7 @@ const { id, cartes, label, itemLabel, depart = 0 } = Astro.props;
   /* le placement (left/top/--rot) vient du champ `pose` de chaque entree, pose
      en style inline */
   .proof-card{position:absolute;width:clamp(210px,24vw,264px);
-    padding:var(--sp-12);border-radius:28px;background:var(--card);
+    padding:var(--sp-12);border-radius:0;background:var(--card);
     border:1px solid var(--line);border-width:max(1px,var(--edge-w));border-color:var(--line);
     box-shadow:0 18px 38px -22px rgba(120,30,10,.28);cursor:grab;user-select:none;
     transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;z-index:1}
