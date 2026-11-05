@@ -125,15 +125,6 @@ function construire(comp: HTMLElement): void {
       return;
     }
 
-    /*
-      L'AMORCE EST LE PREMIER FILET. Elle vit hors de la composition - dans la
-      marge qui la separe du hero - parce qu'elle doit traverser une frontiere
-      que .compo ne franchit pas. Elle est tracee ici, a l'instant ou le reste
-      s'amorce : c'est elle qui amene le trait du hero jusqu'au coin haut
-      gauche d'ou part la diagonale.
-    */
-    comp.parentElement?.querySelector('[data-amorce]')?.classList.add('tracee');
-
     const calque = document.createElement('div');
     calque.className = 'segs';
     calque.setAttribute('aria-hidden', 'true');

@@ -87,22 +87,6 @@ const principes = [
 
 <div class="comp-zone">
   {/*
-    L'AMORCE : le trait du hero continue ici, en noir.
-    Le hero est en overflow:hidden pour contenir son filigrane, donc rien ne
-    peut en sortir - le trait est forcement en deux morceaux. Chacun porte la
-    couleur qui contraste avec SON fond, et la jointure tombe exactement sur
-    la frontiere des deux : a l'oeil, c'est une seule ligne qui change de
-    couleur en changeant de page.
-    Elle occupe les 72px de margin-bottom du hero, et se cale a zero de la
-    colonne - donc sur la meme gauche que le titre, l'intro et le bouton.
-    C'est grille.ts qui la trace, au moment ou il attaque le premier filet.
-  */}
-  <span class="comp-amorce" data-amorce aria-hidden="true">
-    <span class="comp-amorce__descente"></span>
-    <span class="comp-amorce__traverse"></span>
-    <span class="comp-amorce__plongeon"></span>
-  </span>
-  {/*
     data-grille : crochet du trace anime des filets (src/scripts/grille.ts).
     La classe `pre` est posee par le script AVANT la mesure et retiree apres :
     sans elle, la grille noire s'afficherait une fraction de seconde en entier
@@ -201,43 +185,6 @@ const principes = [
      hero et au footer. Verification a la mesure : .hero__titre et .comp
      doivent avoir le meme `left`. */
   .comp-zone{position:relative;display:flow-root}
-  /*
-    ─── LE COUDE NOIR ───
-    Le trait blanc tombe du CENTRE du portrait ; la grille, elle, commence au
-    bord gauche de la colonne. Entre les deux il faut une jointure, et c'est
-    elle : on descend dans l'axe de la photo, on traverse vers la gauche, on
-    replonge sur le coin de la composition. Trois traits tires l'un apres
-    l'autre - c'est le meme geste que les filets de la grille, en trois
-    mouvements.
-
-    --portrait-w est un token (tokens.css) parce que Hero.astro s'en sert pour
-    la meme mesure : ecrite deux fois, elle derive et le trait cesse d'etre
-    droit.
-  */
-  .comp-amorce{position:absolute;left:0;top:calc(-1 * var(--saut-hero, 72px));
-    width:100%;height:var(--saut-hero, 72px);pointer-events:none}
-  .comp-amorce > span{position:absolute;background:var(--text)}
-  .comp-amorce__descente{left:calc(var(--portrait-w) / 2);top:0;
-    width:var(--rule);height:50%;transform:scaleY(0);transform-origin:top}
-  .comp-amorce__traverse{left:0;top:50%;height:var(--rule);
-    width:calc(var(--portrait-w) / 2 + var(--rule));
-    transform:scaleX(0);transform-origin:right}
-  .comp-amorce__plongeon{left:0;top:50%;width:var(--rule);height:50%;
-    transform:scaleY(0);transform-origin:top}
-  .comp-amorce.tracee .comp-amorce__descente{animation:tirerV .34s cubic-bezier(.4,0,.2,1) both}
-  .comp-amorce.tracee .comp-amorce__traverse{animation:tirerH .34s cubic-bezier(.4,0,.2,1) .3s both}
-  .comp-amorce.tracee .comp-amorce__plongeon{animation:tirerV .34s cubic-bezier(.4,0,.2,1) .58s both}
-  @keyframes tirerV{to{transform:scaleY(1)}}
-  @keyframes tirerH{to{transform:scaleX(1)}}
-  @media(prefers-reduced-motion:reduce){
-    .comp-amorce > span{transform:none}
-    .comp-amorce.tracee > span{animation:none}
-  }
-  /* Sous 720px le hero n'a plus de margin-bottom : il n'y a plus de gouffre a
-     franchir, et plus de trait non plus. */
-  @media(max-width:720px){
-    .comp-amorce{display:none}
-  }
 
   /*
     LES FILETS SONT LE FOND, PAS DES BORDURES. La grille porte le noir et un

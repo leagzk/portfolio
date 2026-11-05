@@ -144,13 +144,22 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
           )}
         </span>
         {/*
-          LE TRAIT DESCEND DU CENTRE DE LA PHOTO, pas de son bord : la colonne
-          centre ses enfants, donc il tombe sous le point le plus bas du
-          cercle. Il n'est pas un lien - une invitation n'a pas besoin d'etre
-          cliquable, et la composition reste atteignable au defilement comme
-          par la nav.
+          TROIS CARRES PLUTOT QU'UN TRAIT. Le trait descendait jusqu'au bas de
+          la bande, puis un coude noir allait chercher le coin de la grille :
+          la jointure faisait un escalier, et un escalier n'est pas un geste.
+          Les carres disent la meme chose sans rien dessiner de tordu - ils
+          arrivent l'un apres l'autre, de plus en plus petits en descendant, et
+          c'est cette decroissance qui pointe vers le bas. Trois tailles, trois
+          primaires : c'est le vocabulaire de la composition, annonce avant
+          elle.
         */}
-        {defiler && <span class="hero__fil" aria-hidden="true"></span>}
+        {defiler && (
+          <span class="hero__cailloux" aria-hidden="true">
+            <span class="hero__caillou hero__caillou--rouge"></span>
+            <span class="hero__caillou hero__caillou--jaune"></span>
+            <span class="hero__caillou hero__caillou--bleu"></span>
+          </span>
+        )}
       </div>
     )}
   </div>
@@ -235,7 +244,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     `svh` et non `vh` : sur telephone, `vh` compte la barre d'adresse comme si
     elle etait toujours retractee, et la fleche se retrouve dessous.
   */
-  .hero:has(.hero__fil){min-height:calc(100svh - var(--chrome-h))}
+  .hero:has(.hero__cailloux){min-height:calc(100svh - var(--chrome-h))}
   .hero__corps{flex:1}
 
   /* ═══ Bandeau collant ═══ */
@@ -371,7 +380,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hero__intro b{font-weight:700;color:var(--white)}
   .hero__corps .sb{margin-top:32px}
 
-  /* ═══ Le trait qui descend de la photo vers la composition ═══ */
+  /* ═══ Les trois carres qui descendent de la photo ═══ */
   /*
     IL REMPLACE LE « + », et ce n'est pas un echange de pictogramme. Le « + »
     disait « il y a quelque chose dessous » ; le trait le MONTRE - il descend,
@@ -394,21 +403,39 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     l'amorce.
   */
   /*
-    IL TOMBE DU POINT LE PLUS BAS DU CERCLE. La colonne centre ses enfants et
-    l'anneau deborde de 10px : le trait reprend a 10px sous lui, exactement
-    dans son axe, et le geste se lit comme un seul - l'anneau se ferme, le
-    trait part.
-
-    IL VA JUSQU'AU BORD DE LA BANDE. flex:1 lui donne tout ce qui reste de la
-    colonne, et la marge basse negative annule le padding de .hero__corps -
-    sans elle il s'arreterait 96px trop haut et la jointure avec l'amorce
-    noire se verrait comme une coupure.
+    ILS TOMBENT DANS L'AXE DU PORTRAIT, centres sous lui, et ils DECROISSENT -
+    22, 14, 8. C'est l'echelle qui fait la descente : trois carres de meme
+    taille formeraient une colonne, trois tailles qui diminuent donnent une
+    direction. Ils arrivent apres l'anneau, l'un apres l'autre, chacun poussant
+    depuis son centre comme les aplats de la composition.
   */
-  .hero__fil{display:block;flex:1;width:var(--rule);min-height:60px;
-    margin-top:10px;margin-bottom:-96px;background:var(--white);
-    transform:scaleY(0);transform-origin:top;
-    animation:tirerFil .55s cubic-bezier(.4,0,.2,1) 2.75s both}
-  @keyframes tirerFil{to{transform:scaleY(1)}}
+  /*
+    ILS SE GROUPENT EN BAS DE LA BANDE, la ou le « + » se tenait : c'est le
+    bord de l'ecran qui porte l'invitation, pas le milieu.
+
+    DEUX ESSAIS AVANT CELUI-LA. Sous la photo, ils tombaient au tiers de la
+    bande et laissaient 328px de noir sans rien a suivre. Repartis sur toute la
+    colonne, les ecarts montaient a 200px et les trois carres se lisaient comme
+    trois points isoles, plus comme une chute. Groupes, avec un ecart qui
+    s'ouvre de 28 a 44, ils forment un geste court : le rythme ralentit a
+    mesure que la taille diminue, et c'est ca qui tire l'oeil vers le bas.
+
+    margin-top:auto les pousse au pied de la colonne ; la marge basse negative
+    mange une partie du padding de .hero__corps pour qu'ils s'arretent 40px
+    au-dessus du bord, et non dessus.
+  */
+  .hero__cailloux{display:flex;flex-direction:column;align-items:center;
+    gap:28px;margin-top:auto;margin-bottom:-56px}
+  .hero__caillou--bleu{margin-top:16px}
+  .hero__caillou{display:block;transform:scale(0);
+    animation:pousseCaillou .4s cubic-bezier(.34,1.56,.64,1) both}
+  .hero__caillou--rouge{width:22px;height:22px;background:var(--red);
+    animation-delay:2.8s}
+  .hero__caillou--jaune{width:14px;height:14px;background:var(--yellow);
+    animation-delay:2.98s}
+  .hero__caillou--bleu{width:8px;height:8px;background:var(--blue);
+    animation-delay:3.16s}
+  @keyframes pousseCaillou{to{transform:scale(1)}}
 
   /* ═══ Filigrane ═══ */
   /* height:auto + viewBox mesure = mise a l'echelle uniforme pleine largeur.
@@ -460,9 +487,9 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
 
   @media(max-width:720px){
     .hero{min-height:0;margin-bottom:0}
-    /* Sous 720px la bande n'a plus de hauteur imposee ni de marge basse : le
-       trait n'a plus de gouffre a franchir et ne sert plus a rien. */
-    .hero__fil{display:none}
+    /* Sous 720px la bande n'a plus de hauteur imposee : la composition suit
+       immediatement, et l'invitation n'a plus d'objet. */
+    .hero__cailloux{display:none}
     .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-18)}
     .hero__corps--portrait{display:block}
     .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
@@ -534,7 +561,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     .hero__liens a{transition:none}
     /* Sans mouvement, le « + » est simplement la - il ne doit pas rester
        invisible parce que son animation d'apparition ne tourne pas. */
-    /* Sous mouvement reduit le trait est la, entier, sans se tracer. */
-    .hero__fil{animation:none;transform:none}
+    /* Sous mouvement reduit les carres sont la, sans pousser. */
+    .hero__caillou{animation:none;transform:none}
   }
 </style>
