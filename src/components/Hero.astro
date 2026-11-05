@@ -487,6 +487,33 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       border-left:var(--rule) solid var(--text);
       font-family:var(--display);font-weight:700;font-size:var(--fs-body-s)}
     .hero__cv:active{opacity:.85}
+
+    /*
+      LA PHOTO PASSE EN AVATAR ICI, ET PLUS A 720px. Entre les deux paliers
+      elle tenait encore une colonne : la grille se resserrait, la colonne du
+      titre tombait sous 400px et « Design systems ship standards. » stackait
+      sur cinq lignes contre un portrait de 190px. Le palier du chrome est le
+      bon - des que la nav se replie, la bande n'a plus la largeur de deux
+      colonnes. L'avatar remonte alors dans la signature, contre le nom, et
+      l'eyebrow se cale sous lui.
+
+      LE DOUBLON DE « DOWNLOAD CV » TOMBE AVEC. Le bloc jaune de la barre
+      apparait a ce palier-ci, pas a 720 : entre les deux, l'accueil affichait
+      le meme bouton deux fois, a 150px d'ecart. Les pages interieures gardent
+      le leur, elles n'ont pas ce bloc jaune.
+
+      Le reste de la forme mobile - le titre a 36px, la composition en colonne,
+      le filigrane dans le flux - garde son palier a 720px : ce qui change ici,
+      c'est la navigation et le portrait, pas la mise en page.
+    */
+    .hero__corps--portrait{display:block}
+    .hero__corps--portrait .hero__media,.hero__media{display:none}
+    .hero__avatar{display:block;width:56px;height:56px;flex:none;border-radius:50%;
+      background:var(--portrait) center/cover no-repeat}
+    .hero__nom{display:block;font-family:var(--display);font-weight:900;
+      font-size:22px;line-height:1.1;color:var(--white)}
+    .hero__signature{margin:0 0 var(--sp-04)}
+    .hero--accueil .hero__texte > .sb{display:none}
   }
 
   @media(max-width:720px){
@@ -505,7 +532,6 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     .hero__primaires{gap:8px;margin-bottom:24px}
     .hero__primaire{width:30px;height:30px}
     .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-06)}
-    .hero__corps--portrait{display:block}
     .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
     .hero__intro{font-size:var(--fs-body);max-width:none}
     /*
@@ -525,21 +551,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       Un seul noeud, deux places - c'est tout l'interet de l'avoir ecrit une
       fois : ici « order » ne bouge plus, seule la forme change.
     */
-    .hero__signature{order:-1;margin:0 0 var(--sp-04)}
-    /*
-      L'accueil n'a pas de CTA dans le hero sous 720px : le bloc jaune
-      « Download CV » de la barre le porte deja, et le brief (§11) range la
-      signature juste apres l'intro. Deux fois le meme bouton a 150px d'ecart
-      ne serait pas une insistance, ce serait un doublon.
-      Les pages interieures gardent le leur : elles n'ont pas ce bloc jaune.
-    */
-    .hero--accueil .hero__texte > .sb{display:none}
-    .hero__avatar{display:block;width:56px;height:56px;flex:none;border-radius:50%;
-      background:var(--portrait) center/cover no-repeat}
-    .hero__nom{display:block;font-family:var(--display);font-weight:900;
-      font-size:22px;line-height:1.1;color:var(--white)}
     .hero__eyebrow{font-size:10px}
-    .hero__corps--portrait .hero__media,.hero__media{display:none}
     /*
       LE FILIGRANE REVIENT, ET IL PASSE DANS LE FLUX. Le brief (§11) le retire
       du telephone ; Lea le veut, place juste sous l'intro. En absolu il se
@@ -555,11 +567,6 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       desormais rendu au chargement sur telephone.
     */
     .hero__filigrane{display:block;position:static;flex:none}
-    .hero__portrait{width:56px;height:56px;border-radius:50%;
-      background:var(--portrait) center/cover no-repeat;margin-bottom:var(--sp-03)}
-  }
-  @media(min-width:721px){
-    .hero__portrait{display:none}
   }
 
   /* ═══ Menu mobile plein ecran ═══ */
