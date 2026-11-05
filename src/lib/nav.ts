@@ -37,10 +37,12 @@ export interface EntreeNav {
   /*
     Le groupe ne sert QU'AU MENU MOBILE. La nav de bureau est une ligne plate
     de six liens (§2.1) et ignore ce champ ; le panneau mobile, lui, a la place
-    de respirer et annonce « Selected work » au-dessus des trois etudes de cas,
-    comme il annonce « Let's talk » au-dessus des trois moyens de contact. Les
-    trois recits se lisent alors comme une serie, et pas comme trois entrees
-    tombees au milieu des autres.
+    de respirer et range ses liens en TROIS sections surtitrees : « Selected
+    work » pour les trois etudes de cas, « Leading People » pour le modele de
+    travail et les convictions, « Let's talk » pour les trois moyens de
+    contact. Les trois du haut disent ce qui a ete construit, les deux du
+    milieu la maniere de diriger. Aucune entree ne tombe plus au milieu des
+    autres sans etre annoncee.
   */
   groupe: 'principal' | 'travaux' | 'contact';
 }

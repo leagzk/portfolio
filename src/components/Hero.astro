@@ -202,9 +202,21 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     ))}
   </div>
 
-  {entrees.filter((e) => e.groupe === 'principal').map((e) => (
-    <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
-  ))}
+  {/*
+    TROIS SECTIONS, PAS DEUX ET DEMIE. « Operating Model » et « Philosophy »
+    tombaient entre les deux groupes surtitres, sans surtitre a eux : la
+    lecture passait d'une serie annoncee a deux liens orphelins, puis a une
+    autre serie annoncee. « Leading People » les reunit - le modele de travail
+    et les convictions parlent tous deux de la maniere de diriger, la ou les
+    trois du dessus parlent de ce qui a ete construit.
+  */}
+  <div class="mobmenu__groupe">
+    <p class="mobmenu__eyebrow">Leading People</p>
+    <hr class="mobmenu__rule" />
+    {entrees.filter((e) => e.groupe === 'principal').map((e) => (
+      <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
+    ))}
+  </div>
 
   <div class="mobmenu__groupe">
     <p class="mobmenu__eyebrow">Let's talk</p>
@@ -564,8 +576,17 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     font-family:var(--display);font-weight:900;font-size:clamp(18px,5vw,26px);
     letter-spacing:-.02em;padding:6px 0}
   .mobmenu > a[aria-current="page"],.mobmenu__groupe > a[aria-current="page"]{color:var(--yellow)}
-  .mobmenu__groupe{display:flex;flex-direction:column;width:max-content;max-width:100%}
-  .mobmenu__eyebrow{margin:18px 0 0;font-size:var(--fs-eyebrow);font-weight:700;
+  /*
+    L'AIR EST PORTE PAR LE GROUPE, PLUS PAR LE SURTITRE. Les 18px de marge
+    haute du surtitre separaient le titre de ses liens, pas une section de la
+    suivante : entre « Event System » et le surtitre d'apres il n'y avait que
+    le `gap` de 4px du panneau, et les trois sections se lisaient comme une
+    seule liste. La marge monte donc d'un cran, sur .mobmenu__groupe, ou elle
+    separe ce qu'elle doit separer - et elle sert aussi apres « Home ».
+  */
+  .mobmenu__groupe{display:flex;flex-direction:column;width:max-content;max-width:100%;
+    margin-top:26px}
+  .mobmenu__eyebrow{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
     letter-spacing:.2em;text-transform:uppercase;color:var(--on-ink-eyebrow)}
   .mobmenu__rule{width:100%;height:var(--rule);margin:8px 0 10px;border:0;background:rgba(255,255,255,.18)}
   .mobmenu__liens{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
