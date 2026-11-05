@@ -53,6 +53,14 @@
   /* ═══ Filets, radius, espacements ═══ */
   --rule:2px;               /* grille de la landing */
   --rule-fine:1.5px;        /* composition Language */
+  /*
+    Largeur du portrait du hero, donc de la colonne qui le porte. C'est un
+    token et non une valeur locale parce que DEUX fichiers en dependent :
+    Hero.astro pour la colonne et le trait qui descend du centre du cercle,
+    index.astro pour le coude noir qui le prolonge jusqu'a la grille. Ecrite
+    deux fois, elle derive, et le trait cesse d'etre droit.
+  */
+  --portrait-w:clamp(168px,22vw,300px);
   --r-footer:6px;           /* les DEUX COINS BAS du footer, seul radius du site */
   --r-media:4px;            /* placeholders visuels */
   --r-pill:999px;           /* pastilles Retained / Not retained */
