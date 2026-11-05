@@ -9,8 +9,8 @@
   cache. La barre de chapitres, elle, flotte en bas : elle ne rogne rien ici.
   Le selecteur attaque le prefixe et non une classe parce que la cible est
   tantot un <h2> de chapitre, tantot une <section>, tantot un <h2> de principe
-  sur /operating-system. Il vit ici et non dans case-study.css parce que trois
-  pages utilisent desormais le sommaire, dont une qui n'est pas un case study.
+  sur /operating-system. Il vit ici, charge partout, parce que trois pages
+  utilisent le sommaire, dont une qui n'est pas un case study.
 */
 [id^="ch-"]{scroll-margin-top:calc(var(--mobbar-h) + var(--sp-03))}
 
@@ -50,13 +50,13 @@
 
   Deux surfaces noires portent ce bouton : le pied de page (.talk-card, rendu
   par le layout, donc sur les 7 pages) et le bloc sombre des recits longs
-  (.ls-dark, dans case-study.css). Cette matrice vivait EN DOUBLE - une copie
+  (.ls-dark, de l'ancien gabarit). Cette matrice vivait EN DOUBLE - une copie
   ici, une copie dans case-study.css - sous un commentaire qui demandait de
   repercuter a la main toute retouche de l'une sur l'autre. C'est exactement la
-  regle qu'on finit par oublier de repercuter : elle est ecrite une fois.
+  regle qu'on finit par oublier de repercuter : elle est ecrite une fois, et
+  c'est cette copie-ci qui a survecu au depart de l'ancien gabarit.
 
-  Elle vit dans shared.css, charge partout, et non dans case-study.css, qui ne
-  l'est que par les recits longs. Le menu mobile s'y ajoute : c'est le meme noir
+  Elle vit dans shared.css, charge partout. Le menu mobile s'y ajoute : c'est le meme noir
   #070304, donc le meme probleme de contraste, et l'ajouter aux selecteurs
   existants evite d'en recopier les trois lignes de reglage par theme. Le selecteur .ls-dark ne matche simplement
   rien sur les pages qui n'en ont pas.

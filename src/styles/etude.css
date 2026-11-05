@@ -7,10 +7,10 @@
   servent : c'est le meme gabarit, seule la composition de cartes differe d'une
   page a l'autre (elle est declaree dans la page).
 
-  CE FICHIER REMPLACE case-study.css, qui habille encore system-event et
-  system-practice-elements. Les deux cohabitent le temps de la migration ; les
-  noms de classes ne se croisent pas (prefixes `cles`, `compo`, `dcarte`, `pan`,
-  et le reste porte dans `.pan`).
+  CE FICHIER A REMPLACE case-study.css, parti une fois les sept pages passees
+  au gabarit Bauhaus. Les cinq pages chapitrees l'importent ; ses noms de
+  classes portent les prefixes `cles`, `compo`, `dcarte`, `pan`, et le reste
+  est porte dans `.pan`.
 
   Une seule chose n'est pas dans la maquette : le filet du contenu deplie
   s'arrete AVANT le footer au lieu d'y arriver (BRIEF §5.3, « sans le toucher »).

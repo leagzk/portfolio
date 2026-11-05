@@ -19,7 +19,7 @@
 
 /** Le minimum qu'une entree doit porter pour etre numerotee et intitulee. */
 export interface EntreeSommaire {
-  /** id de l'ancre, cible des liens de <ChapterTabs> */
+  /** id de l'ancre, cible des liens du sommaire */
   id: string;
   /** intitule long, celui du surtitre de section */
   titre: string;
