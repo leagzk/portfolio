@@ -155,9 +155,12 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
         */}
         {defiler && (
           <span class="hero__cailloux" aria-hidden="true">
-            <span class="hero__caillou hero__caillou--rouge"></span>
-            <span class="hero__caillou hero__caillou--jaune"></span>
-            <span class="hero__caillou hero__caillou--bleu"></span>
+            {/* data-couleur : c'est par lui que semis.ts retrouve la case a
+                viser, sur l'accueil. Ailleurs il ne sert a rien et ne coute
+                rien. */}
+            <span class="hero__caillou hero__caillou--rouge" data-couleur="rouge"></span>
+            <span class="hero__caillou hero__caillou--jaune" data-couleur="jaune"></span>
+            <span class="hero__caillou hero__caillou--bleu" data-couleur="bleu"></span>
           </span>
         )}
       </div>
@@ -358,9 +361,17 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   */
   .hero__anneau{position:absolute;inset:-10px;overflow:visible;
     transform:rotate(-90deg);pointer-events:none}
+  /*
+    IL SE FERME, PUIS IL S'EFFACE. Il a dit ce qu'il avait a dire - la photo du
+    loader s'est posee, le hero la reprend - et s'il restait, il ferait un
+    cadre permanent autour du portrait, ce qui n'est pas le propos. Les carres
+    naissent dans la seconde ou il part.
+  */
+  .hero__anneau{animation:effacerAnneau .4s ease-out 2.9s both}
   .hero__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
     vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;
     animation:tracerAnneau .85s cubic-bezier(.4,0,.2,1) 1.9s forwards}
+  @keyframes effacerAnneau{to{opacity:0}}
   .hero__texte{display:flex;flex-direction:column;min-width:0}
   .hero__cercle{display:block;width:100%;aspect-ratio:1;height:auto;
     border-radius:50%;background:var(--portrait) center/cover no-repeat}
@@ -429,12 +440,18 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hero__caillou--bleu{margin-top:16px}
   .hero__caillou{display:block;transform:scale(0);
     animation:pousseCaillou .4s cubic-bezier(.34,1.56,.64,1) both}
+  /*
+    TROIS TAILLES, ET L'EMPHASE EST DANS LA COURBE : (.34,1.56,.64,1) depasse
+    la cible avant d'y revenir, donc chaque carre arrive en poussant. Ils
+    naissent apres l'anneau - 3,1s, soit l'instant ou il acheve de s'effacer -
+    et dans l'ordre des tailles, du plus gros au plus petit.
+  */
   .hero__caillou--rouge{width:22px;height:22px;background:var(--red);
-    animation-delay:2.8s}
+    animation-delay:3.1s}
   .hero__caillou--jaune{width:14px;height:14px;background:var(--yellow);
-    animation-delay:2.98s}
+    animation-delay:3.28s}
   .hero__caillou--bleu{width:8px;height:8px;background:var(--blue);
-    animation-delay:3.16s}
+    animation-delay:3.46s}
   @keyframes pousseCaillou{to{transform:scale(1)}}
 
   /* ═══ Filigrane ═══ */

@@ -99,7 +99,9 @@ const principes = [
         <a class:list={['wt', t.clair && 'wt--clair']} href={t.href}>
           <span class="wt__filet" aria-hidden="true"></span>
           {t.aire === 'w2' && <span class="wt__filet wt__filet--bas" aria-hidden="true"></span>}
-          <span class="wt__fragment" aria-hidden="true"></span>
+          {/* data-cible : l'emplacement que vise le carre de meme couleur,
+              lache depuis le hero. Voir src/scripts/semis.ts. */}
+          <span class="wt__fragment" data-cible={t.fragment} aria-hidden="true"></span>
           <span class="wt__eyebrow">
             <span>{t.eyebrow}</span>
             <Icone nom="fleche" taille={20} class="wt__fleche" />
@@ -185,6 +187,18 @@ const principes = [
      hero et au footer. Verification a la mesure : .hero__titre et .comp
      doivent avoir le meme `left`. */
   .comp-zone{position:relative;display:flow-root}
+
+  /*
+    ─── LE CALQUE DU VOL ───
+    Les carres du hero y sont recopies le temps de descendre. Il est FIXE et
+    pose sur le corps : le hero est en overflow:hidden, donc un vol qui part de
+    lui serait coupe des la premiere ligne. pointer-events:none pour qu'il ne
+    vole rien au clic pendant la seconde ou il existe.
+  */
+  .semis{position:fixed;inset:0;z-index:40;pointer-events:none}
+  .semis__carre{position:fixed;
+    transition-property:transform,opacity;
+    transition-timing-function:cubic-bezier(.5,0,.2,1)}
 
   /*
     LES FILETS SONT LE FOND, PAS DES BORDURES. La grille porte le noir et un
@@ -569,8 +583,16 @@ const principes = [
 
 <script>
   import { initLoader } from '../scripts/loader';
+  import { initSemis } from '../scripts/semis';
 
   initLoader();
+  /*
+    AVANT QUE LA GRILLE NE PUISSE PARTIR. initSemis() pose data-semis sur la
+    composition ; grille.ts le lit dans son observateur, qui ne se declenche
+    au plus tot qu'a la frame suivante - donc apres les deux modules, quel que
+    soit l'ordre dans lequel ils s'executent.
+  */
+  initSemis();
   /* tracerGrille() est appele par Base.astro : il sert toutes les compositions
      de la page en une passe, et il y en a une par etude de cas aussi. */
 
