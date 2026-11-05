@@ -24,7 +24,7 @@ All of them ran on the system. The default way things shipped.
 
 6,000
 participants reached
-Sanofi's first internal hackathons, run on the platform.
+Sanofi's first hackathons, run on the platform. One idea shipped: Theia®, an app for patients living with sight loss.
 
 1
 standard, one pilot
@@ -193,11 +193,11 @@ Adopted without being enforced - and re-adopted when the identity underneath it 
 A reorg is a breaking change.
 *I shipped a major of the brand platform.*
 
-In 2020, IT moved from service provider to enabler, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. **I didn't defend mine. I versioned it.**
+In 2020, IT moved from service provider to enabler - one notch up, inside a digital transformation running across the whole company. New digital leadership came with it, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. **I didn't defend mine. I versioned it.**
 
 - **A refinement, not a rebuild**: a leaner structure, organized around products and service lines. The machine held: calendar, contact points, sessions, webinars - and went to work on the migration.
 
-- Campaigns became the migration path. **Communication wasn't announcing the system. It was deploying it.** No deprecation warning in PowerPoint: a major, shipped before I knew what to call it.
+- Campaigns became the migration path. **Communication wasn't announcing the system. It was deploying it.** There's no deprecation warning in PowerPoint: **you can't break the previous version - you can only make the next one worth the switch.**
 
 The two concepts, surface by surface
 
