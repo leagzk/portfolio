@@ -28,7 +28,8 @@ export function initLoader(): void {
   }
 
   const fly = document.getElementById('fly');
-  const halo = document.getElementById('halo');
+  const anneau = document.getElementById('anneau');
+  const trait = document.getElementById('trait');
   const panel = loaderEl.querySelector<HTMLElement>('.loader__panel');
   /* visible = boite non nulle. `offsetParent` ne suffirait pas : il vaut null
      sur un element en position:fixed, ce que la banniere pourrait devenir. */
@@ -52,17 +53,21 @@ export function initLoader(): void {
   };
 
   /*
-    LE HALO S'EFFACE AU DEPART DU VOL, et c'est le script qui le fait.
-    Les trois anneaux vivent dans .loader__fly : ils suivraient la photo et se
-    mettraient a l'echelle de la cible, donc une onde de 2,1 fois un portrait
-    de 360px balaierait la moitie de l'ecran. Appele dans les trois sorties -
-    y compris celles ou le vol n'a pas lieu - pour qu'aucun chemin ne laisse
-    les anneaux pulser sur un panneau qui disparait.
+    LE DECOR S'EFFACE AU DEPART DU VOL, et c'est le script qui le fait.
+    L'anneau vit dans .loader__fly : il suivrait la photo et se mettrait a
+    l'echelle de la cible, donc un cercle se redessinerait autour du portrait
+    au moment ou il se pose. Le trait, lui, n'a plus rien a annoncer une fois
+    le vol parti. Appele dans les trois sorties - y compris celles ou le vol
+    n'a pas lieu - pour qu'aucun chemin ne laisse le decor sur un panneau qui
+    disparait.
   */
-  const eteindreHalo = () => { if (halo) halo.style.opacity = '0'; };
+  const eteindreDecor = () => {
+    if (anneau) anneau.style.opacity = '0';
+    if (trait) trait.style.opacity = '0';
+  };
 
   setTimeout(() => {
-    eteindreHalo();
+    eteindreDecor();
     if (!cible || !fly || !panel) {
       if (panel) panel.style.opacity = '0';
       setTimeout(finir, 600);
@@ -90,12 +95,12 @@ export function initLoader(): void {
     panel.style.opacity = '0';
     fly.style.transform =
       `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(${t.width / f.width})`;
-  }, 1450);
+  }, 1600);
 
   fly?.addEventListener('transitionend', (e) => {
     if ((e as TransitionEvent).propertyName === 'transform') finir();
   });
-  /* Filet de securite, releve avec le depart du vol : 1 450 + 850 de vol =
-     2 300, il faut lui laisser de la marge. */
-  setTimeout(finir, 2900);
+  /* Filet de securite, cale sur le depart du vol : 1 600 + 850 de vol = 2 450,
+     il faut lui laisser de la marge. */
+  setTimeout(finir, 3100);
 }

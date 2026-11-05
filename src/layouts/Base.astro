@@ -171,14 +171,30 @@ const personSchema = {
 {loader && (
   <div class="loader" id="loader" aria-hidden="true">
     <div class="loader__panel"></div>
+    {/*
+      LE TRAIT VIT HORS DE .loader__fly, et il le faut : il traverse l'ecran
+      entier, alors que .loader__fly se met a l'echelle du portrait au moment
+      du vol. Dedans, il aurait retreci avec la photo.
+      Les trois carres sont poses DESSUS, aux endroits que le trait atteint en
+      s'ouvrant - jamais au centre, ou la photo les couvrirait.
+    */}
+    <div class="loader__trait" id="trait" aria-hidden="true">
+      <span class="loader__carre loader__carre--rouge"></span>
+      <span class="loader__carre loader__carre--bleu"></span>
+      <span class="loader__carre loader__carre--jaune"></span>
+    </div>
     <div class="loader__fly" id="fly">
-      {/* Le halo est un conteneur a part, et pas trois freres de la photo : le
-          script l'efface d'un seul geste quand le vol commence. */}
-      <span class="loader__halo" id="halo">
-        <span class="loader__anneau loader__anneau--rouge"></span>
-        <span class="loader__anneau loader__anneau--bleu"></span>
-        <span class="loader__anneau loader__anneau--jaune"></span>
-      </span>
+      {/*
+        L'ANNEAU EST UN TRACE, PAS UNE PULSATION. Un <svg> et non une bordure :
+        seul un trace peut se dessiner, et c'est le geste de tout le site - les
+        filets de la composition se tracent, ils n'apparaissent pas.
+        pathLength="1" normalise la longueur du cercle a 1, ce qui rend le
+        dasharray independant du rayon : si le portrait change de taille, le
+        trace reste juste.
+      */}
+      <svg class="loader__anneau" id="anneau" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="49" pathLength="1" />
+      </svg>
       <span class="loader__circle"></span>
     </div>
   </div>
@@ -246,33 +262,62 @@ const personSchema = {
     transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards}
 
   /*
-    ═══ LE HALO : TROIS ANNEAUX QUI PARTENT DE LA PHOTO ═══
+    ═══ UN TRAIT QUI FAIT LE TOUR, PUIS FILE DROIT ═══
 
-    L'anneau blanc qui pulsait autour du piment etait tombe avec lui. Il
-    revient a trois, et en couleurs : rouge, bleu, jaune, les trois primaires
-    du site. Ce n'est pas une decoration de plus - c'est la seule chose qui
-    BOUGE pendant le chargement. Un disque qui apparait et s'arrete ne dit pas
-    qu'on attend ; trois ondes qui se suivent, si.
+    Trois anneaux qui pulsaient en boucle donnaient un effet stroboscopique -
+    trois ondes qui se chassent, et rien qui aille quelque part. Le geste est
+    refait dans la langue du site : UN trait blanc, propre, qui se trace.
 
-    LES TROIS DELAIS NE SONT PAS REGULIERS PAR HASARD : espaces de 350ms sur un
-    cycle de 1,2s, ils donnent trois anneaux a trois rayons differents a
-    l'instant ou le vol commence - une cascade en cours, et non trois cercles
-    figes. « infinite » les fait repartir si la page met plus longtemps a se
-    poser que prevu.
+    Trois temps, dans cet ordre :
+      1. l'anneau se TRACE autour de la photo, une fois, sans repetition
+         (0,15 → 1,0s) ;
+      2. le trait s'OUVRE depuis le centre de l'ecran, a gauche et a droite,
+         sur la ligne de la photo (0,95 → 1,45s) ;
+      3. trois carres de 12px - rouge, bleu, jaune - POUSSENT sur ce trait aux
+         endroits qu'il vient d'atteindre (1,15 / 1,28 / 1,38s).
 
-    Le halo est EFFACE PAR LE SCRIPT au depart du vol, pas par le CSS : les
-    anneaux sont dans .loader__fly, donc ils suivraient la photo et se
-    mettraient a l'echelle de la cible - une onde de 2,1 fois un portrait de
-    360px balaierait la moitie de l'ecran.
+    C'est la grammaire de la composition : les filets se tracent, les aplats
+    poussent depuis un coin. Le loader la dit en petit avant que la page ne la
+    dise en grand.
+
+    Le decor est EFFACE PAR LE SCRIPT au depart du vol - l'anneau parce qu'il
+    suivrait la photo et se mettrait a l'echelle de la cible, le trait parce
+    qu'il n'a plus rien a annoncer.
   */
-  .loader__halo{position:absolute;inset:0;z-index:0;transition:opacity .3s ease}
-  .loader__anneau{position:absolute;inset:0;border-radius:50%;
-    border:2px solid currentColor;transform:scale(.72);opacity:0;
-    animation:anneauPulse 1.2s cubic-bezier(.2,.6,.3,1) infinite}
-  .loader__anneau--rouge{color:var(--red);animation-delay:.35s}
-  .loader__anneau--bleu{color:var(--blue);animation-delay:.7s}
-  .loader__anneau--jaune{color:var(--yellow);animation-delay:1.05s}
-  @keyframes anneauPulse{0%{transform:scale(.72);opacity:.9}100%{transform:scale(2.1);opacity:0}}
+  .loader__anneau{position:absolute;inset:-9px;z-index:0;overflow:visible;
+    transform:rotate(-90deg);transition:opacity .3s ease}
+  /* vector-effect : l'epaisseur reste a 1,5px quelle que soit la taille rendue,
+     au lieu d'etre multipliee par l'echelle du viewBox. */
+  .loader__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
+    vector-effect:non-scaling-stroke;
+    stroke-dasharray:1;stroke-dashoffset:1;
+    animation:tracerAnneau .85s cubic-bezier(.65,0,.35,1) .15s forwards}
+  @keyframes tracerAnneau{to{stroke-dashoffset:0}}
+
+  /*
+    LE CONTENEUR NE S'ETIRE PAS, SON ::before SI. Le trait etait le conteneur
+    lui-meme, et les trois carres etaient donc etires avec lui : entre 1,15 et
+    1,45s ils se seraient affiches en lamelles verticales, puis seraient
+    revenus carres d'un coup. Le ::before porte seul le scaleX ; les carres,
+    poses dans un conteneur qui ne bouge pas, gardent leur forme.
+  */
+  .loader__trait{position:fixed;left:0;right:0;top:50%;z-index:1;height:12px;
+    margin-top:-6px;transition:opacity .3s ease}
+  .loader__trait::before{content:"";position:absolute;left:0;right:0;top:50%;
+    height:1.5px;margin-top:-.75px;background:var(--white);
+    transform:scaleX(0);transform-origin:center;
+    animation:filerTrait .5s cubic-bezier(.16,1,.3,1) .95s forwards}
+  @keyframes filerTrait{to{transform:scaleX(1)}}
+
+  /* Les carres ne sont PAS au centre : la photo les couvrirait. Ils tombent la
+     ou le trait arrive quand ils poussent. */
+  .loader__carre{position:absolute;top:50%;width:12px;height:12px;
+    margin-top:-6px;transform:scale(0);transform-origin:center;
+    animation:pousseCarre .32s cubic-bezier(.34,1.56,.64,1) forwards}
+  .loader__carre--rouge{left:19%;background:var(--red);animation-delay:1.15s}
+  .loader__carre--bleu{left:74%;background:var(--blue);animation-delay:1.28s}
+  .loader__carre--jaune{left:88%;background:var(--yellow);animation-delay:1.38s}
+  @keyframes pousseCarre{to{transform:scale(1)}}
   .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
   /* Colle au contenu : l'ecart ne venait pas du footer - qui est deja a
      margin-bottom:0 - mais de la marge basse du dernier bloc du <main>. */
