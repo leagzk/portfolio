@@ -21,11 +21,26 @@
   maquette (4/3, 16/9, 16/10, carre) sont tenus par le CADRE et non par
   l'image - voir Figure.astro.
 
-  CE QUI N'EST PLUS MONTRE, et attend un arbitrage : la maquette ne garde que
-  deux planches pour comparer les concepts de 2020 (la couverture de deck de
-  chacun), la ou l'ancienne page en alignait sept par concept - deck, email,
-  social, surface par surface. Les douze autres fichiers sont toujours sur le
-  disque, rien n'est supprime.
+  TOUTES LES ILLUSTRATIONS DE L'ANCIENNE PAGE SONT LA, ET LEURS DISPOSITIFS
+  AVEC. La maquette ne gardait qu'une planche par concept pour 2020, huit
+  couleurs de capabilities sur dix, huit personnages sur treize et cinq extraits
+  de discovery sur sept. Les quatorze planches, les dix couleurs, les treize
+  personnages et les sept extraits sont de retour - et avec eux les trois
+  dispositifs qui leur appartenaient :
+
+    · LA PILE QUI TOURNE (<Pile>) pour les sept surfaces d'un concept. La
+      comparaison ne tient que si les deux colonnes montrent la MEME surface au
+      MEME moment, ce qu'une suite qu'on fait defiler ne garantit pas.
+    · LE CADRE QUI DEFILE (<CadreDefilant>) pour les pages entieres : la
+      newsletter fait 7,5 fois sa largeur, l'article de sanofi.com 5 fois. En
+      `contain` dans un cadre de 16/10 elles se reduisaient a une bande de 10 a
+      12% - c'est ce que cette page faisait avant ce correctif.
+    · LA LOUPE (<Loupe>) pour les planches de travail et les pages entieres :
+      une mosaique de discovery ne se lit pas a 150px.
+
+  Et les deux dessins au trait - brand-communication, brand-variation-visual -
+  sont INLINES et non poses en <img>, contrairement aux personnages : eux seuls
+  suivent --accent par currentColor, qui ne descend pas dans un <img>.
 
   LES SVG DES PERSONNAGES SONT CHARGES EN URL (`?url`) ET POSES EN <img>, PAS
   INLINES. Inliner ne servirait qu'a laisser currentColor descendre, et ces
@@ -44,12 +59,20 @@ import CarteDossier from '../components/CarteDossier.astro';
 import Carrousel from '../components/Carrousel.astro';
 import type { Vignette } from '../components/Carrousel.astro';
 import Figure from '../components/Figure.astro';
+import CadreDefilant from '../components/CadreDefilant.astro';
+import Pile from '../components/Pile.astro';
+import Loupe from '../components/Loupe.astro';
+import Icone from '../components/Icone.astro';
 import Tuiles from '../components/Tuiles.astro';
 import type { Tuile } from '../components/Tuiles.astro';
 import Bouton from '../components/Bouton.astro';
 import { chercheurImages } from '../lib/images';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+/* INLINES, contrairement aux personnages : ces deux dessins-la suivent le theme
+   par currentColor, ce qu'un <img> ne permet pas. */
+import BrandCommunication from '../assets/brand-system/brand-communication.svg';
+import BrandVariation from '../assets/brand-system/brand-variation-visual.svg';
 
 /* Resolus a la compilation : un nom errone casse le build, la ou un chemin en
    chaine aurait produit un 404 silencieux en production. */
@@ -80,12 +103,13 @@ const chiffres: Chiffre[] = [
 ];
 
 /*
-  ─── Les huit couleurs de capabilities ───
-  Le repo en porte dix et treize personnages : les deux dernieres couleurs (IT,
-  Business Areas) et les cinq derniers personnages (IT, Business Areas,
-  Patients, Physicians, Health Authorities) ne sont pas des capabilities
-  metier - ce sont la fonction elle-meme et ses interlocuteurs. La maquette
-  tient les huit capabilities, et le nuancier est ecrit sur huit colonnes.
+  ─── Dix capabilities, dix couleurs - et treize personnages ───
+
+  Les trois derniers personnages (patients, physicians, health authorities) sont
+  les INTERLOCUTEURS de la fonction, pas des capabilities : ils ont un visage,
+  pas une couleur. C'est pour cela que les deux listes n'ont pas la meme
+  longueur, et c'est le propos du nuancier - la couleur dit ce que la fonction
+  COUVRE, le personnage dit a qui elle PARLE.
 */
 const capacites = [
   { nom: 'R&D', hex: '#456730', fichier: 'research' },
@@ -96,13 +120,28 @@ const capacites = [
   { nom: 'Sales & Marketing', hex: '#EBDC2E', fichier: 'salesmarketing' },
   { nom: 'Compliance', hex: '#7A5FA1', fichier: 'compliance' },
   { nom: 'Support Functions', hex: '#0594D0', fichier: 'supportfunction' },
+  { nom: 'IT', hex: '#2F4F9D', fichier: 'IT' },
+  { nom: 'Business Areas', hex: '#CCA878', fichier: 'businessareas' },
 ];
 
-const personnages: Vignette[] = capacites.map((c) => ({
-  url: dessin(c.fichier),
-  alt: `Flat design character illustrating the ${c.nom} capability`,
-  legende: c.nom,
-}));
+const interlocuteurs = [
+  { nom: 'Patients', fichier: 'patients' },
+  { nom: 'Physicians', fichier: 'physicians' },
+  { nom: 'Health Authorities', fichier: 'healthauthorirties' },
+];
+
+const personnages: Vignette[] = [
+  ...capacites.map((c) => ({
+    url: dessin(c.fichier),
+    alt: `Flat design character illustrating the ${c.nom} capability`,
+    legende: c.nom,
+  })),
+  ...interlocuteurs.map((p) => ({
+    url: dessin(p.fichier),
+    alt: `Flat design character illustrating ${p.nom}, an interlocutor of the function`,
+    legende: p.nom,
+  })),
+];
 
 /* ─── La carte des capacites et les trois jeux d'iconographie qui en decoulent ─── */
 const appariements = [
@@ -116,29 +155,65 @@ const appariements = [
     alt: 'Iconography set built for the Business Units capability' },
 ];
 
-/* ─── Ce que les equipes ont fait avec la plateforme ─── */
+/*
+  ─── Ce que les equipes ont fait avec la plateforme ───
+  Trois livrables qu'on a eus entre les mains : la couverture du rapport
+  trimestriel, sa page de synthese, et la newsletter du departement.
+
+  LE RAPPORT EST UN DOCUMENT, LA NEWSLETTER EST UNE PAGE, et les deux ne tiennent
+  pas dans le meme cadre. Les deux vues du rapport font 1,41 de rapport - un
+  portrait, d'ou un cadre de 3/4 ou elles se logent a 94%. La newsletter fait
+  1 800 de large pour 13 582 de haut : dans le meme cadre elle ne ferait que 10%
+  de la largeur, donc elle passe dans un cadre qui defile.
+*/
 const adoption = [
   { nom: 'rd-report-cover-q4-2020', legende: 'ITS R&amp;D quarterly report',
-    alt: 'Cover of the ITS R&D quarterly report for Q4 2020' },
-  { nom: 'digital-rd-newsletter', legende: 'ITS R&amp;D newsletter',
-    alt: 'The ITS R&D newsletter sent to the department' },
+    alt: 'Cover of the ITS R&D quarterly report carrying the platform' },
+  { nom: 'rd-report-summary-view', legende: 'ITS R&amp;D report, summary spread',
+    alt: 'Summary spread of the ITS R&D quarterly report carrying the platform' },
 ];
+const newsletter = {
+  src: img('digital-rd-newsletter'),
+  legende: 'ITS R&amp;D newsletter',
+  alt: 'The ITS R&D newsletter sent to the department',
+};
 
 /*
-  ─── Les deux concepts de 2020 ───
-  Une planche par concept, et c'est la COUVERTURE DE DECK : des sept surfaces
-  produites pour chacun, c'est la seule qui soit nativement au format de la
-  rangee, et la plus institutionnelle des sept. Le statut est dans la legende -
-  c'est l'arbitrage qui porte le propos, pas la planche.
+  ─── Les deux concepts de 2020, surface par surface ───
+
+  Sept surfaces produites pour chacun, et L'ORDRE N'EST PAS INDIFFERENT : le
+  deck d'abord (couverture, section, contenu), puis l'email et sa variation de
+  service, puis le social. On descend du support le plus institutionnel au plus
+  quotidien - et a chaque palier les deux colonnes montrent la MEME surface,
+  sans quoi la comparaison ne tiendrait pas. C'est elle qui porte le propos, pas
+  une planche prise seule.
+
+  D'ou une pile qui tourne de part et d'autre plutot que quatorze vignettes :
+  voir l'en-tete de src/components/Pile.astro.
 */
-const versions = [
-  { nom: 'concept01-slide-cover', titre: 'Evolution', retenu: true,
-    propos: 'Same equity, less weight.',
-    alt: 'Cover slide of concept 01, Evolution: the existing identity made simpler' },
-  { nom: 'concept02-slide-cover', titre: 'Reinterpreted', retenu: false,
-    propos: 'Bold, screen-first.',
-    alt: 'Cover slide of concept 02, Reinterpreted: a bolder screen-first identity' },
+const surfaces = [
+  { nom: 'slide-cover',             legende: 'Cover slide' },
+  { nom: 'slide-section',           legende: 'Section slide' },
+  { nom: 'slide',                   legende: 'Content slide' },
+  { nom: 'email',                   legende: 'Email' },
+  { nom: 'email-service-variation', legende: 'Email, service variation' },
+  { nom: 'socialnetwork-picture',   legende: 'Social post' },
+  { nom: 'socialnetwork-icon',      legende: 'Social post variation' },
 ];
+
+const versions = [
+  { rang: '01', titre: 'Evolution', retenu: true, base: -1 as -1,
+    propos: 'The existing, made simple and fresh. Same equity, less weight - nothing to relearn, and a migration path already half-built.' },
+  { rang: '02', titre: 'Reinterpreted', retenu: false, base: 1 as 1,
+    propos: 'Bold, screen-first, and the one I argued for: a function shipping products should look like one.' },
+].map((v) => ({
+  ...v,
+  planches: surfaces.map((sf) => ({
+    src: img(`concept${v.rang}-${sf.nom}`),
+    legende: sf.legende,
+    alt: `${sf.legende} in the ${v.titre} concept`,
+  })),
+}));
 
 /* ─── Ce que la marque corporate imposait ─── */
 const contraintes = [
@@ -151,26 +226,48 @@ const contraintes = [
 ];
 
 /*
-  ─── La mosaique de la discovery ───
-  Cinq extraits de tailles inegales, poses a la main : c'est une PLANCHE, pas
+  ─── La mosaique de la discovery : les sept extraits ───
+
+  Sept extraits de tailles inegales, poses a la main : c'est une PLANCHE, pas
   une serie. Les surfaces disent lesquels portent le plus - le moodboard occupe
-  quatre cases, le prisme « people matter » une rangee entiere - ce qu'une
-  grille reguliere effacerait. `aire` est le `grid-area` de la case.
+  quatre cases, la synthese concurrentielle et le prisme « people matter » une
+  demi-rangee chacun - ce qu'une grille reguliere effacerait.
+
+  LES CASES SONT ROGNEES, ET CHACUNE S'AGRANDIT. En `cover` les planches
+  servent de matiere et non de document ; ce sont des pages de travail qu'on ne
+  lit pas a 150px, donc chaque case est un bouton qui l'ouvre en entier dans la
+  loupe. C'est ce que l'ancienne page faisait de ces memes sept planches.
+
+  `aire` PASSE PAR --aire ET NON PAR `grid-area`, et ce n'est pas un detail :
+  en style inline, le placement battrait la requete media qui remet la mosaique
+  sur deux colonnes sous 860px, et les cases placees en colonnes 3 et 4 feraient
+  naitre des colonnes implicites. Le `grid-area` n'est donc applique qu'au-dela
+  du palier - voir etude.css.
 */
 const extraits = [
-  { nom: 'moodboard-notes-summary', aire: '1 / 1 / 3 / 3',
-    alt: 'Moodboard notes gathered during the product design discovery' },
-  { nom: 'competitors-findings-synthesis', aire: '1 / 3 / 2 / 4',
-    alt: 'Synthesis of the competitors findings' },
-  { nom: 'color-system-references', aire: '2 / 3 / 3 / 4',
-    alt: 'Colour scale references explored for the system' },
-  { nom: 'prism-art-deco-revival', aire: '3 / 1 / 4 / 2',
+  { nom: 'moodboard-notes-summary', aire: '1 / 1 / 3 / 3', legende: 'Moodboard notes',
+    alt: 'Summary board of the notes gathered during the product design discovery' },
+  { nom: 'competitors-findings-synthesis', aire: '1 / 3 / 2 / 5', legende: 'Competitors findings',
+    alt: 'Synthesis of the competitor findings gathered during the product design discovery' },
+  { nom: 'color-system-references', aire: '2 / 3 / 3 / 4', legende: 'Colour scale',
+    alt: 'Colour scale references gathered during the product design discovery' },
+  { nom: 'prism-art-deco-revival', aire: '2 / 4 / 3 / 5', legende: 'Art deco revival',
     alt: 'Art deco revival prism explored during the discovery' },
-  { nom: 'prism-people-matter', aire: '3 / 2 / 4 / 4',
+  { nom: 'prism-people-matter', aire: '3 / 1 / 4 / 3', legende: 'People matter',
     alt: 'People matter prism explored during the discovery' },
+  { nom: 'prism-perspective', aire: '3 / 3 / 4 / 4', legende: 'Perspective',
+    alt: 'Perspective prism explored during the discovery' },
+  { nom: 'prism-scientific', aire: '3 / 4 / 4 / 5', legende: 'Scientific',
+    alt: 'Scientific prism explored during the discovery' },
 ];
 
-/* ─── Les trois pistes de 2023 ─── */
+/*
+  ─── Les trois pistes de 2023 ───
+  CE SONT DES PAGES ENTIERES, comme les ecrans du pilote : 1 688 de large pour
+  3 101 a 5 624 de haut. Elles reprennent donc le meme cadre, le meme --r et la
+  meme vitesse - un troisieme dispositif pour le meme genre d'objet aurait fait
+  lire trois series sans rapport la ou il n'y en a qu'une.
+*/
 const concepts = [
   { nom: 'visual-design-concept-1', titre: 'Clinical Revival',
     propos: 'Reinventing conventional Pharma standards through flexible but structured layouts to inspire trust, simplicity and focus, avoiding the unnecessary.',
@@ -183,19 +280,27 @@ const concepts = [
     alt: 'Connecting the Dot concept applied to a Sanofi page' },
 ];
 
-/* ─── Les ecrans du pilote ─── */
+/*
+  ─── Les ecrans du pilote ───
+  QUATRE PAGES ENTIERES ET UN SCHEMA, et les deux ne se montrent pas pareil. Les
+  quatre captures font 3 000 de large pour 5 200 a 15 186 de haut - l'article
+  fait cinq fois sa largeur. Dans un cadre de 16/10 en `contain` il se reduisait
+  a 12% de la largeur du cadre : `defile` les fait passer dans un cadre qui
+  parcourt la page, et la loupe les ouvre en grand. Le schema des tokens, lui,
+  fait 0,67 - il se loge entier dans le cadre, et n'a rien a parcourir.
+*/
 const pilote: Vignette[] = [
-  { nom: 'elements-article', legende: 'sanofi.com &middot; Article page',
-    alt: 'An article page of sanofi.com built on the standard' },
-  { nom: 'elements-events', legende: 'sanofi.com &middot; Event page',
-    alt: 'An events listing of sanofi.com built on the standard' },
-  { nom: 'elements-search', legende: 'sanofi.com &middot; Search results',
-    alt: 'A search results page of sanofi.com built on the standard' },
-  { nom: 'elements-videogrid', legende: 'sanofi.com &middot; Video grid',
-    alt: 'A video grid of sanofi.com built on the standard' },
+  { nom: 'elements-article', legende: 'sanofi.com &middot; Article page', defile: true,
+    titre: 'Article page', alt: 'An article page of sanofi.com built on the standard' },
+  { nom: 'elements-events', legende: 'sanofi.com &middot; Event page', defile: true,
+    titre: 'Event page', alt: 'An events listing of sanofi.com built on the standard' },
+  { nom: 'elements-search', legende: 'sanofi.com &middot; Search results', defile: true,
+    titre: 'Search results', alt: 'A search results page of sanofi.com built on the standard' },
+  { nom: 'elements-videogrid', legende: 'sanofi.com &middot; Video grid', defile: true,
+    titre: 'Video grid', alt: 'A video grid of sanofi.com built on the standard' },
   { nom: 'tokens', legende: 'Where Elements Design System begins &middot; Tokens origin',
     alt: 'Token architecture linking colour modes, foundations and components' },
-].map((e) => ({ src: img(e.nom), alt: e.alt, legende: e.legende }));
+].map((e) => ({ src: img(e.nom), alt: e.alt, legende: e.legende, defile: e.defile, titre: e.titre }));
 
 /*
   ─── La frise 2018 → 2023, en tuiles qui se retournent ───
@@ -361,8 +466,12 @@ const pratiques: Tuile[] = [
       <div class="subsec">
         <h3 class="h3">The Sanofi brand was the constraint. <em class="em-rouge">The IT world was the playground.</em></h3>
 
+        {/*
+          --swc:5 : dix couleurs sur deux rangees de cinq. A huit colonnes, les
+          deux dernieres seraient tombees seules sur une seconde rangee.
+        */}
         <p class="eb">One colour per business capability</p>
-        <ul class="sw">
+        <ul class="sw" style="--swc:5">
           {capacites.map((c) => (
             <li class="swi">
               <div class="swc" style={`background:${c.hex}`}></div>
@@ -373,8 +482,10 @@ const pratiques: Tuile[] = [
         </ul>
 
         {/*
-          Les personnages : huit vignettes CARREES dont trois et demie se voient
-          a la fois - la demie est ce qui dit qu'on peut defiler.
+          Les personnages : treize vignettes CARREES dont trois et demie se
+          voient a la fois - la demie est ce qui dit qu'on peut defiler. Les dix
+          capabilities d'abord, dans l'ordre du nuancier, puis les trois
+          interlocuteurs : la serie se lit comme le nuancier, prolonge.
         */}
         <Carrousel
           label="Characters"
@@ -409,20 +520,38 @@ const pratiques: Tuile[] = [
       <div class="subsec">
         <p class="eb">The adoption</p>
         <div class="split">
-          <div class="pile">
-            <p class="lead">Nobody asks for <em class="em-rouge">an umbrella.</em> They ask for their own logo.</p>
-            <div class="two two--serre">
-              {adoption.map((a) => (
-                <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="4 / 3"
-                  sizes="(min-width: 900px) 210px, 45vw" />
-              ))}
-            </div>
-          </div>
+          <p class="lead">Nobody asks for <em class="em-rouge">an umbrella.</em> They ask for their own logo.</p>
           <div class="body">
             <p>Until then, everyone had done what they wanted. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like. <strong>Consolidation reads as a loss long before it reads as a gain.</strong> That was the real obstacle, and it wasn't a design problem.</p>
             <p>So I started where the decisions were made. Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.</p>
             <p>And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. <strong>Change management doesn't run beside the strategy. It rides it.</strong></p>
           </div>
+        </div>
+
+        {/*
+          Les trois livrables en PLEINE COLONNE et non dans la moitie du .split :
+          ce sont des documents portrait, et trois cadres de 3/4 dans une colonne
+          de 440px auraient fait 135px de large. Le cadre tient le format, voir
+          l'en-tete de la liste `adoption`.
+        */}
+        <p class="eb">What the teams made with it</p>
+        <div class="three">
+          {adoption.map((a) => (
+            <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="3 / 4"
+              sizes="(min-width: 900px) 340px, 45vw" />
+          ))}
+          <CadreDefilant
+            src={newsletter.src}
+            alt={newsletter.alt}
+            legende={newsletter.legende}
+            titre="ITS R&D newsletter"
+            ratio="3 / 4"
+            fr={0.75}
+            sizes="(min-width: 900px) 340px, 45vw"
+            widths={[400, 800, 1200]}
+            declencheur="survol"
+            zoom
+          />
         </div>
       </div>
 
@@ -431,20 +560,38 @@ const pratiques: Tuile[] = [
           <p class="lead">Selling it was the start. Making it <em class="em-bleu">a language people use</em> - not a charter they obey - was the job.</p>
           <ul class="pts">
             <li><strong>One contact point per department</strong> - mine were Vaccines, R&amp;D and Medical: a catalyst, not a gate.</li>
-            <li>Leadership's messages and the front-line's assets pulled from <strong>the same platform</strong>.</li>
-            <li>A brand this size has to be taught, not announced - so the training ran <strong>at three speeds</strong>: intranet guides, short videos, live sessions and leadership webinars.</li>
-            <li><strong>Same content, three ways in.</strong> Nobody guesses how to use it, nobody waits for an invite.</li>
-            <li>Contribution was the only way a shared identity <strong>survives contact with fifteen roadmaps.</strong></li>
+            <li>Leadership's messages and the front-line's assets pulled from <strong>the same platform</strong>, instead of two versions of the same story.</li>
+            <li>Contribution and continuous improvement weren't policies. <strong>They were the only way a shared identity survives contact with fifteen roadmaps.</strong></li>
           </ul>
+        </div>
+
+        {/*
+          LE DESSIN ET SON PROPOS. Le paragraphe des trois vitesses revient avec
+          l'illustration qui l'accompagnait : les deux disaient la meme chose,
+          separes l'un etait un item de liste et l'autre une decoration.
+          L'encre suit --accent - c'est la seule raison pour laquelle ce SVG est
+          inline et non pose en <img>. Voir .taught dans etude.css.
+        */}
+        <div class="taught">
+          <div class="taught__viz" aria-hidden="true"><BrandCommunication /></div>
+          <div class="body">
+            <p>And a brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. <strong>Guides on the intranet</strong>, for the person who needs it at 9pm. <strong>Short videos</strong>, for what you'd rather be shown than read. And the live formats for what needs a room: <strong>sharing sessions</strong> where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.</p>
+            <p>Same content, three ways in. <strong>Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.</strong></p>
+          </div>
         </div>
       </div>
 
       <div class="subsec">
         <p class="eb">The operations</p>
-        <div class="split">
-          <p class="lead">I didn't just standardize the assets. I standardized <em class="em-rouge">the practice.</em></p>
-          <div class="body">
-            <p>The tools made people autonomous. But autonomy without a shared practice just scatters faster - so I standardized how the communication team itself worked. Four things, one way of running each - and each one feeds the next.</p>
+        {/* le second dessin au trait, a la place qu'il occupait : contre les
+            quatre pratiques, dont il est le filigrane. */}
+        <div class="taught">
+          <div class="taught__viz" aria-hidden="true"><BrandVariation /></div>
+          <div class="pile">
+            <p class="lead">I didn't just standardize the assets. I standardized <em class="em-rouge">the practice.</em></p>
+            <div class="body">
+              <p>The tools made people autonomous. But autonomy without a shared practice just scatters faster - so I standardized how the communication team itself worked. Four things, one way of running each - and each one feeds the next.</p>
+            </div>
           </div>
         </div>
         <Tuiles tuiles={pratiques} label="The four standardized practices" hauteur={340} />
@@ -490,30 +637,54 @@ const pratiques: Tuile[] = [
 
       <div class="subsec">
         <p class="eb">2020 - The system outlived its own identity</p>
-        <div class="vc">
-          <div class="vcl">
-            <p class="lead">A reorg is a breaking change.<br /><em class="em-bleu">I shipped a major of the brand platform.</em></p>
+        <div class="split">
+          <p class="lead">A reorg is a breaking change.<br /><em class="em-bleu">I shipped a major of the brand platform.</em></p>
+          <div class="pile">
             <div class="body">
               <p>In 2020, IT moved from service provider to enabler, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. <strong>I didn't defend mine. I versioned it.</strong></p>
             </div>
             <ul class="pts">
-              <li>Two concepts on the table: I argued for the bold one, leadership picked the shorter migration. <strong>Taste on one side, adoption on the other.</strong> I shipped 01 like it had been my idea.</li>
               <li><strong>A refinement, not a rebuild</strong>: a leaner structure, organized around products and service lines. The machine held: calendar, contact points, sessions, webinars - and went to work on the migration.</li>
               <li>Campaigns became the migration path. <strong>Communication wasn't announcing the system. It was deploying it.</strong> No deprecation warning in PowerPoint: a major, shipped before I knew what to call it.</li>
             </ul>
           </div>
-          <div class="vcr">
-            {versions.map((v) => (
-              <Figure
-                src={img(v.nom)}
-                alt={v.alt}
-                legende={`<strong>${v.titre}</strong> <span class="tag${v.retenu ? ' tag--on' : ''}">${v.retenu ? 'Retained' : 'Not retained'}</span> ${v.propos}`}
-                ratio="16 / 9"
-                sizes="(min-width: 900px) 420px, 90vw"
-              />
-            ))}
-          </div>
         </div>
+
+        {/*
+          LES DEUX CONCEPTS EN PLEINE COLONNE, pas dans la moitie d'un .vc. Sept
+          surfaces de part et d'autre ne se comparent qu'a largeur egale : dans
+          une colonne de 440px partagee en deux, chaque pile aurait fait 210px.
+        */}
+        <p class="eb">The two concepts, surface by surface</p>
+        <div class="versus">
+          {versions.map((v) => (
+            <section class="vers" aria-label={`Concept ${v.rang}, ${v.titre}`}>
+              <p class="eb">Concept {v.rang}</p>
+              <p class="vers__nom">
+                {v.titre}
+                {/* le statut n'est pas une decoration : c'est lui qui dit lequel
+                    des deux a ete retenu, et le propos du chapitre tient a ce que
+                    ce ne soit pas celui que je defendais */}
+                <span class:list={['tag', v.retenu && 'tag--on']}>{v.retenu ? 'Retained' : 'Not retained'}</span>
+              </p>
+              <p class="vers__propos">{v.propos}</p>
+              <Pile
+                label={`${v.titre} concept, seven surfaces`}
+                planches={v.planches}
+                base={v.base}
+                ratio="4 / 3"
+                sizes="(min-width: 900px) 480px, 92vw"
+              />
+            </section>
+          ))}
+        </div>
+
+        {/*
+          L'arbitrage, juste SOUS les deux piles. Il ne peut pas venir avant : on
+          doit avoir vu les deux concepts pour que « j'ai defendu le 02 » veuille
+          dire quelque chose.
+        */}
+        <p class="qt">Leadership picked 01. I'd argued for 02 - but 01 was the shorter migration, and the shortest path for the people moving is the one I've defended everywhere else. Taste on one side, adoption on the other. <strong>I arbitrated, and I shipped 01 like it had been my idea.</strong></p>
       </div>
 
       {/*
@@ -543,8 +714,13 @@ const pratiques: Tuile[] = [
             <p class="eb">Product design discovery extract</p>
             <div class="mosaic" role="group" aria-label="Product design discovery extract">
               {extraits.map((e) => (
-                <Image src={img(e.nom)} alt={e.alt} style={`grid-area:${e.aire}`}
-                  sizes="(min-width: 900px) 220px, 45vw" loading="lazy" decoding="async" />
+                <button type="button" class="zoom" data-loupe="image"
+                  style={`--aire:${e.aire}`} data-legende={e.legende}
+                  aria-label={`Enlarge ${e.legende}`}>
+                  <Image src={img(e.nom)} alt={e.alt}
+                    sizes="(min-width: 900px) 300px, 45vw" loading="lazy" decoding="async" />
+                  <span class="zoom__badge" aria-hidden="true"><Icone nom="plus" taille={13} /></span>
+                </button>
               ))}
             </div>
           </div>
@@ -567,12 +743,17 @@ const pratiques: Tuile[] = [
         </div>
         <div class="three">
           {concepts.map((c) => (
-            <Figure
+            <CadreDefilant
               src={img(c.nom)}
               alt={c.alt}
               legende={`<strong>${c.titre}</strong> - ${c.propos}`}
+              titre={c.titre}
               ratio="4 / 3"
+              fr={1.3333}
               sizes="(min-width: 900px) 340px, 45vw"
+              widths={[640, 1080, 1400]}
+              declencheur="survol"
+              zoom
             />
           ))}
         </div>
@@ -590,6 +771,9 @@ const pratiques: Tuile[] = [
     </section>
 
   </div>
+
+  {/* une seule loupe pour toutes les series agrandissables de la page */}
+  <Loupe />
 
 </Base>
 
@@ -629,6 +813,15 @@ const pratiques: Tuile[] = [
     .compo{grid-template-columns:20fr 9fr 20fr 24fr 25fr 4fr 16fr;
       grid-template-rows:minmax(170px,auto) minmax(75px,auto) 30px
         minmax(245px,auto) minmax(60px,auto)}
+    /*
+      LA MOSAIQUE DE LA DISCOVERY : quatre colonnes, et les sept extraits poses
+      a la main. Comme la composition ci-dessus, la valeur est posee ICI et non
+      en style inline sur l'element : inline, elle battrait la requete media qui
+      remet la mosaique sur deux colonnes sous 860px, et les cases placees en
+      colonnes 3 et 4 feraient naitre des colonnes implicites. Mesure du
+      symptome a 390px : les quatre colonnes tenaient, 79px de large chacune.
+    */
+    .mosaic{--cols:4}
   }
 
   /*
@@ -659,5 +852,13 @@ const pratiques: Tuile[] = [
 
 <script>
   import { initDossier } from '../scripts/dossier';
+  import { initLoupe } from '../scripts/loupe';
+  import { initPiles } from '../scripts/pile';
+  import { suivreCadres } from '../scripts/vues';
+
   initDossier();
+  initLoupe();
+  initPiles();
+  /* hors champ, les cadres cessent de defiler : voir src/scripts/vues.ts */
+  suivreCadres();
 </script>

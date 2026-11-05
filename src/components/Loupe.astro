@@ -1,0 +1,105 @@
+---
+/*
+  LA LOUPE : un seul <dialog> pour toutes les series agrandissables de la page.
+
+  <dialog> ET NON UN CALQUE MAISON. Il apporte gratuitement ce qu'une div plein
+  ecran demanderait cent lignes a refaire, et mal : le fond assombri
+  (::backdrop), la fermeture a Echap, le focus enferme dans la boite, le reste
+  de la page rendu inerte pour les lecteurs d'ecran, et le focus rendu au bouton
+  d'origine a la fermeture. Refaire tout cela a la main, c'est exactement la ou
+  les modales deviennent inutilisables au clavier.
+
+  DEUX MODES, UNE SEULE BOITE. Une planche de discovery est une image fixe qu'on
+  veut voir en grand ; une page entiere doit continuer a defiler. Deux <dialog>
+  auraient duplique le fond, la fermeture et le bouton pour une seule difference
+  - ce qu'il y a dedans.
+
+  LE DIALOG NE PREND PAS PLUS DE PLACE QUE SON CONTENU, et c'est ce qui donne le
+  « clic en dehors ferme » : le fond assombri n'est pas un element, les
+  evenements qu'il recoit sont attribues au dialog lui-meme. Si .loupe__boite
+  occupait tout l'ecran, il n'y aurait pas de dehors a cliquer.
+*/
+---
+<dialog class="loupe" id="loupe" aria-label="Enlarged view">
+  <div class="loupe__boite">
+    <button type="button" class="loupe__fermer" data-fermer aria-label="Close">
+      <svg viewBox="0 0 16 16" width="16" height="16" fill="none" stroke="currentColor"
+        stroke-width="1.8" stroke-linecap="round" aria-hidden="true"
+      ><path d="M3 3l10 10M13 3L3 13" /></svg>
+    </button>
+    <img class="loupe__img" alt="" hidden />
+    <div class="loupe__cadre cadref" hidden><img alt="" /></div>
+    <p class="cap loupe__legende"></p>
+  </div>
+</dialog>
+
+<style is:global>
+  /*
+    Le <dialog> n'est qu'un conteneur transparent centre ; tout le dessin est sur
+    .loupe__boite. Aucun arrondi, un filet de 1,5px : meme habillage que les
+    cadres de la page (BRIEF §1).
+  */
+  .loupe{--vitesse:2.6s;
+    border:0;padding:0;background:none;color:var(--text);
+    max-width:100vw;max-height:100dvh;width:100%;height:100%;
+    display:none;place-items:center}
+  .loupe[open]{display:grid}
+  .loupe::backdrop{background:rgba(10,7,8,.82)}
+  .js .loupe[open]{animation:loupeFond .24s cubic-bezier(.22,1,.36,1)}
+  @keyframes loupeFond{from{opacity:0}}
+
+  .loupe__boite{position:relative;display:grid;gap:10px;justify-items:start;
+    width:max-content;max-width:96vw}
+  .js .loupe[open] .loupe__boite{animation:loupeBoite .3s cubic-bezier(.22,1,.36,1)}
+  @keyframes loupeBoite{from{transform:scale(.96)}}
+  .loupe__legende{color:rgba(255,255,255,.76)}
+
+  /* pose SUR le coin du contenu et non au-dessus : sur un telephone en hauteur,
+     une barre separee mangerait la place qu'on vient de gagner */
+  .loupe__fermer{position:absolute;top:10px;right:10px;z-index:3;
+    width:38px;height:38px;display:grid;place-items:center;padding:0;
+    border:var(--rule-fine) solid var(--text);background:var(--white);
+    color:var(--text);cursor:pointer}
+  .loupe__fermer:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+
+  /* mode planche : une image fixe, bornee par la fenetre */
+  .loupe__img{display:block;max-width:96vw;max-height:82dvh;
+    width:auto;height:auto;background:var(--white);
+    border:var(--rule-fine) solid var(--text)}
+
+  /*
+    Mode page : le meme cadre que dans la grille, en grand, et qui defile
+    toujours. Il REDECLARE --fr a cote de son aspect-ratio, et la course se
+    recalcule seule a partir du --r que le script recopie depuis le bouton - voir
+    CadreDefilant.astro pour la formule.
+
+    Le cadre est dimensionne PAR SA LARGEUR ou PAR SA HAUTEUR selon la place, et
+    jamais borne par un max-height : une hauteur maximale changerait le rapport
+    reel du cadre sans changer --fr, et l'image s'arreterait avant le bas de la
+    page. Chaque regle fixe donc les deux ensemble.
+  */
+  .loupe__cadre{--fr:1.6;width:min(92vw,1200px);aspect-ratio:16 / 10}
+  /* en portrait, un cadre 16/10 rendrait la loupe plus basse que la vignette
+     qu'on vient de quitter : on prend la hauteur disponible */
+  @media(max-width:720px){
+    .loupe__cadre{--fr:.75;width:96vw;aspect-ratio:3 / 4}
+  }
+  /* ecran bas - telephone couche, petit portable : c'est la HAUTEUR qui borne,
+     donc c'est elle qui dimensionne, et le rapport reste celui de --fr */
+  @media(max-height:620px){
+    .loupe__cadre{--fr:1.6;width:auto;height:74dvh;aspect-ratio:16 / 10}
+  }
+
+  /* dans la loupe le cadre defile sans attendre ni survol ni observateur :
+     c'est tout ce qu'il y a a l'ecran. */
+  @media(prefers-reduced-motion:no-preference){
+    .loupe__cadre img{
+      animation:defileCadre calc(var(--vitesse) * (var(--k) - 1))
+        cubic-bezier(.5,0,.5,1) infinite alternate}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .js .loupe[open],.js .loupe[open] .loupe__boite{animation:none}
+    /* sans defilement, la page entiere doit rester atteignable a la main */
+    .loupe__cadre{overflow-y:auto}
+  }
+</style>

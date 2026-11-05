@@ -46,6 +46,157 @@
 .cles__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.4}
 .cles__ctx{font-size:var(--fs-caption);line-height:1.5;color:var(--ink-muted)}
 
+/* ─── Cadre defilant : une page entiere dans un cadre au format fixe ─── */
+/*
+  La formule et le pourquoi sont dans src/components/CadreDefilant.astro. Ici
+  les regles seulement : --r vient du fichier, --fr du cadre, --k est leur
+  produit, et la duree se deduit de --k pour que tous les cadres de la page
+  defilent a la MEME vitesse.
+
+  Ces regles vivent dans la feuille du gabarit et non dans le composant parce
+  que la loupe les reutilise avec un cadre tout autre : elle redeclare --fr, et
+  la course se recalcule seule.
+*/
+.pan{--vitesse:2.6s}
+.cadref{--fr:1.6;--k:calc(var(--r) * var(--fr));
+  position:relative;display:block;overflow:hidden;line-height:0;
+  aspect-ratio:16 / 10;background:var(--white);
+  border:var(--rule-fine) solid var(--text)}
+/* l'image deborde le cadre par le bas : hauteur libre, ancree en haut */
+.cadref :is(img,picture,picture img){position:absolute;top:0;left:0;
+  width:100%;height:auto;display:block}
+@keyframes defileCadre{from{top:0}to{top:calc((1 - var(--k)) * 100%)}}
+
+/*
+  Les declarations d'animation sont ENFERMEES dans no-preference, et ce n'est pas
+  une coquetterie : une annulation posee plus loin dans la feuille devrait
+  reecrire les trois selecteurs pour les battre a specificite egale, et le jour
+  ou l'un change, l'oubli ne se verrait pas.
+
+  LE DEFILEMENT PART AU SURVOL pour les series qu'on peut ouvrir : quatre pages
+  qui defilent en permanence se disputent le regard et ne disent pas qu'on peut
+  les agrandir ; declenche a l'approche, le mouvement devient une reponse.
+  :focus-visible a cote de :hover - au clavier le cadre doit se comporter comme
+  sous la souris.
+
+  SANS SURVOL, RIEN NE DOIT DEPENDRE DU SURVOL. Sur un appareil tactile la regle
+  ci-dessus ne se declenche jamais, et les cadres resteraient des captures
+  immobiles : rien ne dirait que ce sont des pages entieres. Ils defilent donc
+  d'eux-memes, et l'appui garde son role - agrandir.
+*/
+@media(prefers-reduced-motion:no-preference){
+  .js .zoom:hover .cadref img,
+  .js .zoom:focus-visible .cadref img,
+  .js .cadref--vue.defile img{
+    animation:defileCadre calc(var(--vitesse) * (var(--k) - 1))
+      cubic-bezier(.5,0,.5,1) infinite alternate}
+  @media(hover:none){
+    .js .cadref.defile img{
+      animation:defileCadre calc(var(--vitesse) * (var(--k) - 1))
+        cubic-bezier(.5,0,.5,1) infinite alternate}
+  }
+}
+
+/* ─── Bouton d'agrandissement ─── */
+/*
+  UN <button> ET NON UN <div> AVEC UN onclick : c'est ce qui donne gratuitement
+  le focus au clavier, l'activation a Entree et Espace, et l'annonce aux
+  lecteurs d'ecran. `all:unset` efface le chrome natif ; le focus visible est
+  repose juste apres, sans quoi on l'aurait efface aussi.
+
+  RIEN A PRECHARGER POUR LA LOUPE : le srcset de la vignette monte deja jusqu'au
+  plus grand variant. La loupe le recopie et remplace `sizes` - le navigateur
+  choisit alors la grande de lui-meme. Voir src/scripts/loupe.ts.
+*/
+.zoom{all:unset;box-sizing:border-box;display:block;width:100%;height:100%;
+  position:relative;cursor:zoom-in;line-height:0}
+.zoom:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.zoom__badge{position:absolute;right:10px;bottom:10px;z-index:2;
+  width:30px;height:30px;display:grid;place-items:center;
+  background:var(--white);color:var(--text);
+  border:var(--rule-fine) solid var(--text);
+  transition:background .2s,color .2s}
+.zoom:hover .zoom__badge,.zoom:focus-visible .zoom__badge{
+  background:var(--text);color:var(--white)}
+
+/* ─── Pile de planches ─── */
+/*
+  Le dispositif et ses deux etages sont expliques dans src/components/Pile.astro.
+  Le cadre CLIPPE : la planche en attente est rangee hors champ sur le cote, et
+  une planche a mi-vol descend de 64px. Les 56px du bas couvrent cette chute,
+  les 24 du haut la tranche des cartes du dessous.
+*/
+.pile-cadre{overflow:hidden;padding:24px 0 56px}
+.pilep{--sens:var(--base,-1);
+  position:relative;list-style:none;margin:0;padding:0}
+/*
+  LE CADRE VISUEL EST SUR L'ETAGE QUI BOUGE EN VERTICAL, pas sur celui-ci. Pose
+  ici, le contenu descendrait de 64px a l'interieur d'une carte blanche immobile
+  et la legende sortirait par le bas. Cet element ne fait que placer et deplacer
+  lateralement.
+*/
+.pilep__carte{position:absolute;inset:0;
+  transform:translateX(calc(var(--x,0) * var(--sens,-1) * 118%))
+    translateY(calc(var(--d,0) * -12px)) scale(calc(1 - var(--d,0) * .04));
+  /* la transform est plus lente que l'opacite : la carte finit d'arriver apres
+     etre devenue opaque, donc on la voit se poser au lieu d'apparaitre */
+  transition:transform .78s cubic-bezier(.22,1,.36,1),opacity .42s ease}
+.pilep__carte--loin{opacity:0}
+.pilep__pose{height:100%;background:var(--white);
+  border:var(--rule-fine) solid var(--text);
+  transform:translateY(calc(var(--x,0) * 64px))
+    rotate(calc(var(--x,0) * var(--sens,-1) * 11deg))
+    scale(calc(1 - var(--x,0) * .1));
+  transition:transform .78s cubic-bezier(.72,0,.3,1)}
+/* le fond de .pilep__pose est OPAQUE et ce n'est pas un detail : une planche
+   translucide laisserait voir celle qu'elle recouvre, et la pile serait
+   illisible des la troisieme. */
+.pilep__fig{margin:0;height:100%;display:flex;flex-direction:column;gap:8px;
+  padding:16px}
+/* contain et non cover : ce sont des maquettes, un recadrage couperait la
+   surface qu'elles montrent. Les trois rapports coexistent donc dans une boite
+   commune, chacun a sa taille. */
+.pilep__fig img{flex:1;min-height:0;width:100%;object-fit:contain}
+.pilep__fig figcaption{flex:none}
+
+/* ─── Les deux concepts de 2020, cote a cote ─── */
+/*
+  LES DEUX COLONNES PARTAGENT LEURS RANGEES, en subgrid : surtitre, nom, propos,
+  pile. Sans cela, un propos de trois lignes d'un cote et de deux de l'autre
+  decale les deux piles de 24px - mesure - et la comparaison surface par
+  surface, qui est tout le propos du bloc, se lit de travers.
+
+  @supports : la ou subgrid manque, chaque colonne redevient une simple pile
+  verticale. Les planches ne sont plus alignees au pixel, mais rien n'est perdu.
+*/
+.pan .versus{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;
+  grid-template-rows:auto auto auto auto}
+.pan .vers{display:grid;grid-row:span 4;grid-template-rows:subgrid;gap:10px;
+  min-width:0}
+@supports not (grid-template-rows:subgrid){
+  .pan .vers{display:flex;flex-direction:column}
+}
+.pan .vers__nom{margin:0;font-family:var(--display);font-size:24px;
+  line-height:1.1;font-weight:900;display:flex;align-items:center;gap:10px;
+  flex-wrap:wrap}
+.pan .vers__propos{margin:0;font-size:var(--fs-body);line-height:1.7;
+  color:var(--text-body)}
+
+/* ─── Le dessin au trait et son propos ─── */
+/*
+  L'ENCRE SUIT --accent, et c'est pour cela que le SVG est inline et non pose en
+  <img> : currentColor ne descend pas dans un document separe. C'est aussi la
+  seule raison de l'inliner - les autres illustrations de la page gardent leurs
+  propres aplats et partent donc en <img>, ou leurs classes .cls-N sorties
+  d'Illustrator ne peuvent pas se marcher dessus.
+*/
+.pan .taught{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);
+  gap:40px;align-items:start}
+.pan .taught__viz{aspect-ratio:1;display:grid;place-items:center;padding:22px;
+  background:var(--white);border:var(--rule-fine) solid var(--text);
+  color:var(--accent)}
+.pan .taught__viz svg{width:100%;height:auto;display:block}
+
 @media(max-width:860px){
   .cles{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:48px;row-gap:24px}
   .cles__col{padding:0 16px 24px}
@@ -258,8 +409,10 @@
 .pan .tag--on{background:var(--text);color:var(--white)}
 
 /* ─── Nuancier des capabilities ─── */
-.pan .sw{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;
-  margin:0;padding:0;list-style:none}
+/* Le nombre de colonnes est pose par la page : huit capabilities metier sur la
+   maquette, dix avec la fonction elle-meme et ses interlocuteurs. */
+.pan .sw{display:grid;grid-template-columns:repeat(var(--swc,8),minmax(0,1fr));
+  gap:10px;margin:0;padding:0;list-style:none}
 .pan .swi{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-eyebrow);
   font-weight:700;line-height:1.3}
 .pan .swc{aspect-ratio:1;border-radius:var(--r-media)}
@@ -271,10 +424,25 @@
   une serie. Les surfaces disent lesquels portent le plus, ce qu'une grille
   reguliere effacerait. Les positions sont dans la page, avec les visuels.
 */
-.pan .mosaic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+.pan .mosaic{display:grid;grid-template-columns:repeat(var(--cols,3),minmax(0,1fr));
   grid-auto-rows:120px;gap:8px}
 .pan .mosaic :is(img,picture){width:100%;height:100%;object-fit:cover;
   border-radius:var(--r-media);background:var(--placeholder)}
+/* Chaque extrait s'agrandit : ce sont des documents de travail qu'on ne lit pas
+   a 220px. La pastille est reduite - a 30px elle couvrirait un quart de la plus
+   petite case. */
+.pan .mosaic > *{min-width:0}
+.pan .mosaic .zoom__badge{width:24px;height:24px;right:6px;bottom:6px}
+/*
+  LE PLACEMENT A LA MAIN NE VAUT QU'AU-DELA DU PALIER, et il passe par --aire
+  justement pour cela : pose en style inline, il battrait la requete media qui
+  remet la mosaique sur deux colonnes, et les cases placees en colonnes 3 et 4
+  feraient naitre des colonnes implicites. Sous 860px, les sept extraits se
+  rangent d'eux-memes.
+*/
+@media(min-width:861px){
+  .pan .mosaic > *{grid-area:var(--aire)}
+}
 
 /* ─── Bloc de fin de section ─── */
 .pan .closing{display:flex;flex-direction:column;gap:24px;padding-top:24px}
@@ -291,15 +459,45 @@
   .pan{padding:48px 0 64px 20px;gap:56px}
   .pan::before{bottom:64px}
   .pan .split,.pan .two,.pan .vc{grid-template-columns:1fr;gap:24px}
+  /* une colonne : plus de rangees a partager, chaque concept redevient une pile */
+  .pan .versus{grid-template-columns:1fr;grid-template-rows:none;gap:40px}
+  .pan .vers{grid-row:auto;display:flex;flex-direction:column}
   .pan .three,.pan .four{grid-template-columns:repeat(2,minmax(0,1fr))}
   .pan .sw{grid-template-columns:repeat(4,minmax(0,1fr))}
   .pan .lead{font-size:28px}
   .pan .dark{padding:28px}
-  .pan .mosaic{grid-auto-rows:90px}
+  .pan .mosaic{--cols:2;grid-auto-rows:110px}
+  .pan .taught{grid-template-columns:1fr;gap:20px}
+  .pan .taught__viz{max-width:200px}
+  /*
+    LA PILE SE DEPLIE EN COLONNE. Sept planches empilees dans un cadre de 4/3
+    ne tiennent que parce qu'une rotation les distingue ; sur une colonne de
+    telephone la rotation mord sur les bords et le cadre clippe. On les remet
+    donc a plat, les unes sous les autres - et le script ne tourne pas sous ce
+    palier, sans quoi quatre d'entre elles resteraient retirees.
+  */
+  .pile-cadre{overflow:visible;padding:0}
+  .pilep{aspect-ratio:auto !important;display:grid;gap:16px}
+  .pilep__carte{position:static;transform:none;z-index:auto}
+  .pilep__carte--loin{opacity:1}
+  .pilep__pose{transform:none;transition:none}
+  .pilep__fig{height:auto}
+  .pilep__fig img{flex:none;height:auto}
   .pan .closing h2{font-size:30px}
 }
 
 @media(prefers-reduced-motion:reduce){
   .dcarte__plat,.dcarte__plus,.dcarte__txt{transition:none}
+  /* sans defilement, la page entiere doit rester atteignable a la main */
+  .cadref{overflow-y:auto}
+  /* la pile ne tourne pas (voir src/scripts/pile.ts) : elle se deplie, comme
+     sous le palier mobile */
+  .pile-cadre{overflow:visible;padding:0}
+  .pilep{aspect-ratio:auto !important;display:grid;gap:16px}
+  .pilep__carte{position:static;transform:none;z-index:auto}
+  .pilep__carte--loin{opacity:1}
+  .pilep__pose{transform:none;transition:none}
+  .pilep__fig{height:auto}
+  .pilep__fig img{flex:none;height:auto}
   .pan--ouvre{animation:none}
 }

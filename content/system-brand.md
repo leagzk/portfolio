@@ -86,6 +86,16 @@ Lively flat design characters
 
 > Support Functions
 
+> IT
+
+> Business Areas
+
+> Patients
+
+> Physicians
+
+> Health Authorities
+
 Sample of visual strategy pairing
 
 > Capability map
@@ -108,27 +118,31 @@ The adoption
 
 Nobody asks for *an umbrella.* They ask for their own logo.
 
-> ITS R&D quarterly report
-
-> ITS R&D newsletter
-
 Until then, everyone had done what they wanted. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like. **Consolidation reads as a loss long before it reads as a gain.** That was the real obstacle, and it wasn't a design problem.
 
 So I started where the decisions were made. Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.
 
 And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. **Change management doesn't run beside the strategy. It rides it.**
 
+What the teams made with it
+
+> ITS R&D quarterly report
+
+> ITS R&D report, summary spread
+
+> ITS R&D newsletter
+
 Selling it was the start. Making it *a language people use* - not a charter they obey - was the job.
 
 - **One contact point per department** - mine were Vaccines, R&D and Medical: a catalyst, not a gate.
 
-- Leadership's messages and the front-line's assets pulled from **the same platform**.
+- Leadership's messages and the front-line's assets pulled from **the same platform**, instead of two versions of the same story.
 
-- A brand this size has to be taught, not announced - so the training ran **at three speeds**: intranet guides, short videos, live sessions and leadership webinars.
+- Contribution and continuous improvement weren't policies. **They were the only way a shared identity survives contact with fifteen roadmaps.**
 
-- **Same content, three ways in.** Nobody guesses how to use it, nobody waits for an invite.
+And a brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. **Guides on the intranet**, for the person who needs it at 9pm. **Short videos**, for what you'd rather be shown than read. And the live formats for what needs a room: **sharing sessions** where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.
 
-- Contribution was the only way a shared identity **survives contact with fifteen roadmaps.**
+Same content, three ways in. **Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.**
 
 The operations
 
@@ -181,15 +195,53 @@ A reorg is a breaking change.
 
 In 2020, IT moved from service provider to enabler, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. **I didn't defend mine. I versioned it.**
 
-- Two concepts on the table: I argued for the bold one, leadership picked the shorter migration. **Taste on one side, adoption on the other.** I shipped 01 like it had been my idea.
-
 - **A refinement, not a rebuild**: a leaner structure, organized around products and service lines. The machine held: calendar, contact points, sessions, webinars - and went to work on the migration.
 
 - Campaigns became the migration path. **Communication wasn't announcing the system. It was deploying it.** No deprecation warning in PowerPoint: a major, shipped before I knew what to call it.
 
-> **Evolution** Retained Same equity, less weight.
+The two concepts, surface by surface
 
-> **Reinterpreted** Not retained Bold, screen-first.
+Concept 01
+
+EvolutionRetained
+
+The existing, made simple and fresh. Same equity, less weight - nothing to relearn, and a migration path already half-built.
+
+> Cover slide
+
+> Section slide
+
+> Content slide
+
+> Email
+
+> Email, service variation
+
+> Social post
+
+> Social post variation
+
+Concept 02
+
+ReinterpretedNot retained
+
+Bold, screen-first, and the one I argued for: a function shipping products should look like one.
+
+> Cover slide
+
+> Section slide
+
+> Content slide
+
+> Email
+
+> Email, service variation
+
+> Social post
+
+> Social post variation
+
+Leadership picked 01. I'd argued for 02 - but 01 was the shorter migration, and the shortest path for the people moving is the one I've defended everywhere else. Taste on one side, adoption on the other. **I arbitrated, and I shipped 01 like it had been my idea.**
 
 The turning point
 
@@ -255,19 +307,39 @@ Discover what came next →
 - Flat design character illustrating the Sales & Marketing capability
 - Flat design character illustrating the Compliance capability
 - Flat design character illustrating the Support Functions capability
+- Flat design character illustrating the IT capability
+- Flat design character illustrating the Business Areas capability
+- Flat design character illustrating Patients, an interlocutor of the function
+- Flat design character illustrating Physicians, an interlocutor of the function
+- Flat design character illustrating Health Authorities, an interlocutor of the function
 - Map of the IT business capabilities and the colour assigned to each
 - Iconography set built for the Research and Development capability
 - Iconography set built for the Medical and Regulatory capability
 - Iconography set built for the Business Units capability
-- Cover of the ITS R&D quarterly report for Q4 2020
+- Cover of the ITS R&D quarterly report carrying the platform
+- Summary spread of the ITS R&D quarterly report carrying the platform
 - The ITS R&D newsletter sent to the department
-- Cover slide of concept 01, Evolution: the existing identity made simpler
-- Cover slide of concept 02, Reinterpreted: a bolder screen-first identity
-- Moodboard notes gathered during the product design discovery
-- Synthesis of the competitors findings
-- Colour scale references explored for the system
+- Cover slide in the Evolution concept
+- Section slide in the Evolution concept
+- Content slide in the Evolution concept
+- Email in the Evolution concept
+- Email, service variation in the Evolution concept
+- Social post in the Evolution concept
+- Social post variation in the Evolution concept
+- Cover slide in the Reinterpreted concept
+- Section slide in the Reinterpreted concept
+- Content slide in the Reinterpreted concept
+- Email in the Reinterpreted concept
+- Email, service variation in the Reinterpreted concept
+- Social post in the Reinterpreted concept
+- Social post variation in the Reinterpreted concept
+- Summary board of the notes gathered during the product design discovery
+- Synthesis of the competitor findings gathered during the product design discovery
+- Colour scale references gathered during the product design discovery
 - Art deco revival prism explored during the discovery
 - People matter prism explored during the discovery
+- Perspective prism explored during the discovery
+- Scientific prism explored during the discovery
 - The corporate brand book page defining the colour palette
 - The corporate brand book page defining the logotype
 - The corporate brand book page defining photography

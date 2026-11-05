@@ -1,0 +1,103 @@
+---
+/*
+  UN CADRE AU FORMAT FIXE DANS LEQUEL UNE PAGE ENTIERE DEFILE.
+
+  Plusieurs visuels de ce repo ne sont pas des captures d'ecran mais des PAGES
+  ENTIERES : la newsletter ITS R&D fait 1 800 de large pour 13 582 de haut,
+  l'article de sanofi.com 3 000 pour 15 186 - 7,5 et 5 fois leur largeur. Posees
+  dans un cadre au format d'une fenetre, en `contain`, elles se reduisent a une
+  bande de 10 a 12% de la largeur du cadre ; en `cover`, on n'en voit que
+  l'en-tete. Le cadre qui defile est le seul dispositif qui rende ce qu'elles
+  sont : des pages qu'on parcourt.
+
+  LA COURSE ET LA DUREE SE DEDUISENT DE DEUX NOMBRES, jamais ecrits en dur.
+
+    --r   rapport du FICHIER (hauteur / largeur), lu a la compilation
+    --fr  rapport du CADRE (largeur / hauteur), pose avec le `ratio` dont il est
+          la traduction en nombre
+    --k   hauteur de l'image en hauteurs de cadre : r x fr
+
+  L'image descend de (1 - k) hauteurs de cadre et met (k - 1) x --vitesse a le
+  faire. Cette derniere multiplication est ce qui donne LA MEME VITESSE a tous
+  les cadres de la page : sans elle, l'article - huit hauteurs de cadre -
+  filerait trois fois plus vite que le search, qui n'en fait que deux et demie,
+  et on lirait des animations sans rapport les unes avec les autres.
+
+  C'est aussi ce qui permet a la loupe de reutiliser les memes regles avec un
+  cadre tout autre : elle redeclare --fr, et la course se recalcule seule. SI
+  `ratio` CHANGE, `fr` DOIT CHANGER AVEC - c'est la seule paire a tenir
+  synchronisee, et le seul endroit ou une erreur ne se verrait pas.
+
+  Voir .cadref dans src/styles/etude.css pour les regles, et src/scripts/vues.ts
+  pour l'observateur qui pose `defile` : hors champ, l'animation s'arrete.
+*/
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icone from './Icone.astro';
+
+export interface Props {
+  src: ImageMetadata;
+  alt: string;
+  /** legende visible, qui peut porter du HTML (gras, pastilles) */
+  legende?: string;
+  /** rapport du cadre, en notation CSS */
+  ratio?: string;
+  /** LE MEME rapport en nombre (largeur / hauteur) */
+  fr?: number;
+  sizes?: string;
+  /**
+    Les fichiers font jusqu'a 3 000px de large et la vignette n'en affiche que
+    quelques centaines : sans borne, Astro fabrique toute l'echelle jusqu'au
+    3000w, qu'aucun `sizes` ne demandera jamais.
+  */
+  widths?: number[];
+  /**
+    'survol' : le defilement part au survol et au focus - pour les series qu'on
+    peut ouvrir, ou le mouvement dit que la carte repond. Sur un appareil sans
+    survol, le CSS retombe de lui-meme sur 'vue'.
+    'vue' : des que le cadre entre dans le champ - pour un cadre isole, ou rien
+    d'autre ne dirait que c'est une page.
+  */
+  declencheur?: 'survol' | 'vue';
+  /** rend le cadre cliquable : il s'ouvre en grand dans la loupe */
+  zoom?: boolean;
+  /** intitule en texte simple, pour la loupe et l'etiquette du bouton */
+  titre?: string;
+  class?: string;
+}
+const {
+  src, alt, legende, ratio = '16 / 10', fr = 1.6,
+  sizes = '(min-width: 900px) 420px, 90vw', widths,
+  declencheur = 'vue', zoom = false, titre, class: classe,
+} = Astro.props;
+
+/* lu dans le fichier a la compilation : un re-export d'un autre format se
+   recale tout seul, et la course avec lui */
+const r = +(src.height / src.width).toFixed(4);
+const nom = titre ?? alt;
+const styleCadre = `--r:${r};--fr:${fr};aspect-ratio:${ratio}`;
+---
+<figure class:list={['fig', classe]}>
+  {zoom ? (
+    <button
+      type="button"
+      class="zoom"
+      data-loupe="cadre"
+      style={`--r:${r}`}
+      data-legende={nom}
+      aria-label={`Enlarge ${nom}`}
+    >
+      <span class:list={['cadref', declencheur === 'vue' && 'cadref--vue']} style={styleCadre}>
+        <Image src={src} alt={alt} sizes={sizes} widths={widths}
+          loading="lazy" decoding="async" />
+      </span>
+      <span class="zoom__badge" aria-hidden="true"><Icone nom="plus" taille={16} /></span>
+    </button>
+  ) : (
+    <span class:list={['cadref', declencheur === 'vue' && 'cadref--vue']} style={styleCadre}>
+      <Image src={src} alt={alt} sizes={sizes} widths={widths}
+        loading="lazy" decoding="async" />
+    </span>
+  )}
+  {legende && <figcaption class="cap" set:html={legende} />}
+</figure>

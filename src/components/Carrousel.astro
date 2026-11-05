@@ -21,6 +21,7 @@
 */
 import Icone from './Icone.astro';
 import Figure from './Figure.astro';
+import CadreDefilant from './CadreDefilant.astro';
 import type { ImageMetadata } from 'astro';
 
 export interface Vignette {
@@ -29,6 +30,17 @@ export interface Vignette {
   url?: string;
   alt: string;
   legende: string;
+  /*
+    UNE PAGE ENTIERE ET NON UNE VIGNETTE. Les captures de sanofi.com font deux a
+    cinq fois leur largeur en hauteur : dans un cadre de 16/10 en `contain`,
+    l'article se reduit a 12% de la largeur du cadre. Ces vignettes-la passent
+    donc dans un cadre qui defile, et s'ouvrent dans la loupe.
+    Voir src/components/CadreDefilant.astro.
+  */
+  defile?: boolean;
+  /** intitule court, en texte simple : pour la loupe et l'etiquette du bouton.
+      Omis, c'est l'alt qui sert - et il fait une phrase entiere. */
+  titre?: string;
 }
 
 export interface Props {
@@ -39,6 +51,9 @@ export interface Props {
   vignettes: Vignette[];
   /** rapport des vignettes : « 1 / 1 » pour les personnages, « 16 / 10 » pour le pilote */
   ratio?: string;
+  /** LE MEME rapport en nombre (largeur / hauteur) : les cadres defilants en
+      deduisent leur course. A tenir synchronise avec `ratio`. */
+  fr?: number;
   /** largeur d'une vignette au bureau, en CSS */
   largeur?: string;
   /** et sous 860px, ou il n'en tient qu'une */
@@ -48,6 +63,7 @@ export interface Props {
 const {
   label, eyebrow, vignettes,
   ratio = '16 / 10',
+  fr = 1.6,
   largeur = '72%',
   largeurMobile = '88%',
   sizes = '(min-width: 900px) 760px, 90vw',
@@ -67,15 +83,31 @@ const {
   </div>
   <div class="carrousel__piste" tabindex="0" role="group" aria-label={label}>
     {vignettes.map((v) => (
-      <Figure
-        class="carrousel__slide"
-        src={v.src}
-        url={v.url}
-        alt={v.alt}
-        legende={v.legende}
-        ratio={ratio}
-        sizes={sizes}
-      />
+      v.defile && v.src ? (
+        <CadreDefilant
+          class="carrousel__slide"
+          src={v.src}
+          alt={v.alt}
+          legende={v.legende}
+          titre={v.titre ?? v.alt}
+          ratio={ratio}
+          fr={fr}
+          sizes={sizes}
+          widths={[640, 1080, 1400]}
+          declencheur="survol"
+          zoom
+        />
+      ) : (
+        <Figure
+          class="carrousel__slide"
+          src={v.src}
+          url={v.url}
+          alt={v.alt}
+          legende={v.legende}
+          ratio={ratio}
+          sizes={sizes}
+        />
+      )
     ))}
   </div>
 </div>
