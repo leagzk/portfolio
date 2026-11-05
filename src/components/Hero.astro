@@ -479,11 +479,20 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
 
   @media(max-width:720px){
     .hero{min-height:0;margin-bottom:0}
+    /*
+      PAS DE HERO PLEIN ECRAN SUR TELEPHONE. La regle du dessus pose min-height
+      a 0, mais `.hero:has(.hero__primaires)` la bat d'une classe : la bande
+      gardait 100svh et finissait sur un demi-ecran de noir vide sous l'intro.
+      On reprend la meme specificite. Sur un grand ecran la hauteur pleine met
+      le hero en scene ; sur un telephone elle coute un ecran de defilement
+      avant la composition, et l'espace y est plus cher que la mise en scene.
+    */
+    .hero:has(.hero__primaires){min-height:0}
     /* Plus petits sur telephone : a 42px ils prendraient le tiers de la
        largeur du titre. */
     .hero__primaires{gap:8px;margin-bottom:24px}
     .hero__primaire{width:30px;height:30px}
-    .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-18)}
+    .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-06)}
     .hero__corps--portrait{display:block}
     .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
     .hero__intro{font-size:var(--fs-body);max-width:none}
@@ -519,8 +528,21 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       font-size:22px;line-height:1.1;color:var(--white)}
     .hero__eyebrow{font-size:10px}
     .hero__corps--portrait .hero__media,.hero__media{display:none}
-    /* Pas de filigrane sur mobile (BRIEF §11) */
-    .hero__filigrane{display:none}
+    /*
+      LE FILIGRANE REVIENT, ET IL PASSE DANS LE FLUX. Le brief (§11) le retire
+      du telephone ; Lea le veut, place juste sous l'intro. En absolu il se
+      serait superpose au texte des que la bande cesse d'etre plein ecran -
+      c'est la hauteur libre qui lui servait de place. `position:static` en
+      fait le dernier enfant de la colonne flex : il se pose sous le corps,
+      bord a bord, et c'est lui qui ferme la bande. `flex:none` l'empeche
+      d'etre comprime par le conteneur, sa hauteur venant du rapport du
+      viewBox.
+
+      Le viewBox mesure se fait bien : getBBox() ne rendait rien tant que
+      l'element etait en display:none (voir src/scripts/filigrane.ts), il est
+      desormais rendu au chargement sur telephone.
+    */
+    .hero__filigrane{display:block;position:static;flex:none}
     .hero__portrait{width:56px;height:56px;border-radius:50%;
       background:var(--portrait) center/cover no-repeat;margin-bottom:var(--sp-03)}
   }
