@@ -37,10 +37,21 @@ export interface Props {
   filigrane: string;
   /** accueil : la cellule de gauche de la nav reste vide, sinon icone maison */
   accueil?: boolean;
-  /** portrait rond, visible sous 720px : reserve a l'accueil */
+  /*
+    Portrait rond. Il a DEUX formes selon la largeur, et c'est le meme noeud
+    logique : cercle de 360px pose a droite du texte au bureau (BRIEF §3.1),
+    avatar de 56px dans la signature sous l'intro en dessous de 720px (§11).
+    Reserve a l'accueil.
+  */
   portrait?: boolean;
+  /*
+    Ancre de la fleche de defilement. Renseignee, la bande occupe toute la
+    hauteur de la fenetre et une fleche animee invite a descendre. Reserve a
+    l'accueil : ailleurs le contenu commence assez haut pour se voir.
+  */
+  defiler?: string;
 }
-const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro.props;
+const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler } = Astro.props;
 ---
 {/*
   LE BANDEAU EST COLLANT, ET IL EST FRERE DU HERO - PAS SON ENFANT.
@@ -89,13 +100,36 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
   </nav>
 </div>
 
-<header class="hero">
-  <div class="hero__corps shell">
-    {portrait && <div class="hero__portrait" data-portrait role="img" aria-label="Portrait of Léa Giezek"></div>}
-    {eyebrow && <p class="hero__eyebrow">{eyebrow}</p>}
-    <h1 class="hero__titre"><slot /></h1>
-    <div class="hero__intro"><slot name="intro" /></div>
-    <slot name="cta" />
+<header class:list={['hero', accueil && 'hero--accueil']}>
+  <div class:list={['hero__corps', 'shell', portrait && 'hero__corps--portrait']}>
+    <div class="hero__texte">
+      {/*
+        L'EYEBROW VIT DANS LA SIGNATURE, et ce n'est pas un detour. Sous 720px
+        le brief veut l'avatar, puis « Léa Giezek », puis l'eyebrow sous le nom
+        (§11) : l'eyebrow doit donc etre dans le meme bloc que le nom pour se
+        caler sous lui, et pas sous l'avatar. Au bureau, ce meme bloc remonte
+        au-dessus du titre par `order` et ne montre que l'eyebrow.
+        Un seul noeud, deux places - plutot que le meme texte ecrit deux fois,
+        qu'un lecteur d'ecran lirait deux fois.
+      */}
+      {(eyebrow || portrait) && (
+        <div class="hero__signature">
+          {portrait && <span class="hero__avatar" data-portrait role="img" aria-label="Portrait of Léa Giezek"></span>}
+          <span class="hero__id">
+            {portrait && <span class="hero__nom">Léa Giezek</span>}
+            {eyebrow && <span class="hero__eyebrow">{eyebrow}</span>}
+          </span>
+        </div>
+      )}
+      <h1 class="hero__titre"><slot /></h1>
+      <div class="hero__intro"><slot name="intro" /></div>
+      <slot name="cta" />
+    </div>
+    {portrait && (
+      <div class="hero__media">
+        <span class="hero__cercle" data-portrait role="img" aria-label="Portrait of Léa Giezek"></span>
+      </div>
+    )}
   </div>
 
   {/*
@@ -106,6 +140,23 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
   <svg class="hero__filigrane" data-filigrane viewBox="0 0 1000 240" aria-hidden="true" focusable="false">
     <text x="0" y="200" font-size="240">{filigrane}</text>
   </svg>
+
+  {/*
+    UN <a> ET PAS UN BOUTON. Elle mene quelque part - le haut de la
+    composition - donc elle doit etre un lien : atteignable au clavier,
+    ouvrable dans un onglet, et annoncee comme une destination. Le defilement
+    doux vient de `scroll-behavior` sur html, qui se desactive tout seul sous
+    mouvement reduit.
+  */}
+  {defiler && (
+    <a class="hero__defiler" href={`#${defiler}`}>
+      <span class="sr-only">Scroll to the work</span>
+      <span class="hero__defiler-fleche" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      </span>
+    </a>
+  )}
 </header>
 
 {/* ─── Menu mobile plein ecran, ouvert par le hamburger ci-dessus ─── */}
@@ -156,7 +207,16 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
   */
   .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-bottom:72px;
     background:var(--ink);color:var(--white);overflow:hidden;
-    min-height:min(80vh,720px)}
+    min-height:min(80vh,720px);display:flex;flex-direction:column}
+  /*
+    HERO PLEIN ECRAN quand il porte la fleche de defilement. On retire la
+    hauteur du bandeau collant, sinon la bande depasse d'autant et la fleche
+    tombe sous la ligne de flottaison - ce qui lui fait perdre sa raison d'etre.
+    `svh` et non `vh` : sur telephone, `vh` compte la barre d'adresse comme si
+    elle etait toujours retractee, et la fleche se retrouve dessous.
+  */
+  .hero:has(.hero__defiler){min-height:calc(100svh - var(--chrome-h))}
+  .hero__corps{flex:1}
 
   /* ═══ Bandeau collant ═══ */
   /* Pleine largeur par la marge negative habituelle du projet, comme .hero. */
@@ -166,6 +226,13 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
   /* ═══ Nav bureau ═══ */
   .hero__nav{display:grid;grid-template-columns:48px 1fr;align-items:center;
     gap:var(--gutter);padding-top:var(--sp-03);padding-bottom:var(--sp-03)}
+  /*
+    width:100% sur les enfants en .shell. .hero est redevenu un flex colonne
+    pour pousser la fleche en bas ; or un enfant qui porte `margin:0 auto` n'y
+    est plus etire et se dimensionne sur son contenu - le piege deja rencontre
+    sur le bandeau. On rend l'etirement explicite.
+  */
+  .hero > .shell,.hero__corps{width:100%}
   /* L'icone maison, seule et sans rond : c'est le lien de retour des pages
      interieures. Sur l'accueil la cellule reste vide - elle tient la colonne,
      pour que les liens tombent au meme endroit d'une page a l'autre. */
@@ -191,16 +258,41 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
   /* 112px sous la nav (BRIEF §2.2). La nav vivant maintenant dans le bandeau
      au-dessus, c'est le padding haut du hero qui porte seul cet ecart. */
   .hero__corps{position:relative;z-index:1;padding-top:112px;padding-bottom:96px}
+  /*
+    Accueil : le texte et la photo en deux colonnes, 112px d'ecart, cales en
+    HAUT l'un de l'autre - le cercle s'aligne sur la ligne de l'eyebrow, pas
+    sur le milieu du bloc (BRIEF §3.1).
+  */
+  .hero__corps--portrait{display:grid;grid-template-columns:minmax(0,1fr) 360px;
+    gap:112px;align-items:start}
+  .hero__texte{display:flex;flex-direction:column;min-width:0}
+  .hero__cercle{display:block;width:360px;height:360px;border-radius:50%;
+    background:var(--portrait) center/cover no-repeat}
+
+  /* La signature remonte au-dessus du titre au bureau et n'y montre que
+     l'eyebrow ; l'avatar et le nom sont la forme mobile (BRIEF §11). */
+  .hero__signature{order:-1;display:flex;align-items:center;gap:12px}
+  .hero__id{display:flex;flex-direction:column;gap:2px;min-width:0}
+  .hero__avatar,.hero__nom{display:none}
   .hero__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
     text-transform:uppercase;color:var(--on-ink-eyebrow)}
   .hero__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-h1);
     line-height:1;letter-spacing:-.03em;color:var(--white);max-width:760px;margin-top:24px}
-  .hero__eyebrow + .hero__titre{margin-top:24px}
   .hero__intro:empty{display:none}
   .hero__intro{font-size:var(--fs-intro);line-height:1.65;color:var(--on-ink);
     max-width:560px;margin-top:28px}
   .hero__intro b{font-weight:700;color:var(--white)}
   .hero__corps .sb{margin-top:32px}
+
+  /* ═══ Fleche de defilement ═══ */
+  .hero__defiler{position:relative;z-index:1;display:flex;justify-content:center;
+    padding-bottom:var(--sp-09);color:var(--on-ink-eyebrow);
+    transition:color .25s ease}
+  .hero__defiler:hover{color:var(--yellow)}
+  .hero__defiler:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+  /* Le mouvement est court et lent : c'est une invitation, pas un clignotant. */
+  .hero__defiler-fleche{display:block;animation:invite 2.4s ease-in-out infinite}
+  @keyframes invite{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
 
   /* ═══ Filigrane ═══ */
   /* height:auto + viewBox mesure = mise a l'echelle uniforme pleine largeur.
@@ -218,7 +310,8 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
   .hamb span{display:block;width:24px;height:2.5px;background:var(--text);border-radius:0}
 
   @media(max-width:720px){
-    .hero{min-height:0;margin-bottom:0}
+    .hero{min-height:0;margin-bottom:0;--chrome-h:64px}
+    .hero__defiler{padding-bottom:var(--sp-12)}
     .hero__nav{display:none}
     /* La barre touche le haut de l'ecran et le hero ; le filet de 2px court
        sous toute sa largeur, et un second separe le bloc jaune. */
@@ -230,8 +323,32 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
       font-family:var(--display);font-weight:700;font-size:var(--fs-body-s)}
     .hero__cv:active{opacity:.85}
     .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-18)}
-    .hero__titre{font-size:var(--fs-h1-mob);max-width:none}
+    .hero__corps--portrait{display:block}
+    .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
     .hero__intro{font-size:var(--fs-body);max-width:none}
+    /*
+      L'accueil descend a 36px la ou les pages interieures tiennent a 44px :
+      son titre fait deux phrases quand les autres en font une. Valeur de
+      MainMobile.dc.html, qui prime sur le 44px du tableau du §1.
+    */
+    .hero--accueil .hero__titre{font-size:36px;line-height:1.02}
+    /* La signature reprend sa place : sous l'intro, avatar a gauche, nom et
+       eyebrow empiles a droite (BRIEF §11). */
+    .hero__signature{order:3;margin-top:var(--sp-03)}
+    /*
+      L'accueil n'a pas de CTA dans le hero sous 720px : le bloc jaune
+      « Download CV » de la barre le porte deja, et le brief (§11) range la
+      signature juste apres l'intro. Deux fois le meme bouton a 150px d'ecart
+      ne serait pas une insistance, ce serait un doublon.
+      Les pages interieures gardent le leur : elles n'ont pas ce bloc jaune.
+    */
+    .hero--accueil .hero__texte > .sb{display:none}
+    .hero__avatar{display:block;width:56px;height:56px;flex:none;border-radius:50%;
+      background:var(--portrait) center/cover no-repeat}
+    .hero__nom{display:block;font-family:var(--display);font-weight:900;
+      font-size:22px;line-height:1.1;color:var(--white)}
+    .hero__eyebrow{font-size:10px}
+    .hero__media{display:none}
     /* Pas de filigrane sur mobile (BRIEF §11) */
     .hero__filigrane{display:none}
     .hero__portrait{width:56px;height:56px;border-radius:50%;
@@ -265,5 +382,6 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
 
   @media(prefers-reduced-motion:reduce){
     .hero__liens a{transition:none}
+    .hero__defiler-fleche{animation:none}
   }
 </style>

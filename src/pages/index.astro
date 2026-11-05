@@ -1,442 +1,534 @@
 ---
 import Base from '../layouts/Base.astro';
-import CaseCard from '../components/CaseCard.astro';
-/* Astro 5.7+ : un .svg importe devient un composant, inline dans le HTML.
-   C'est ce qui permet a currentColor de descendre du conteneur - un
-   background-image ou un <img> seraient opaques a la couleur du theme. */
-import GovernanceVisual from '../assets/index/governance-visual.svg';
-import DesignVisual from '../assets/index/design-visual.svg';
 import Hero from '../components/Hero.astro';
-import Dots from '../components/Dots.astro';
+import Bouton from '../components/Bouton.astro';
+import Icone from '../components/Icone.astro';
+
+/*
+  LES TROIS ETUDES DE CAS. Les eyebrows n'ont plus de date (BRIEF §6) : elles
+  disaient « 2023 - now », « 2018 - 2022 », « a year in the making » - trois
+  formats pour une information que la page de chaque recit porte deja.
+
+  `fragment` nomme l'aplat de couleur qui vit dans la case et qui la remplit au
+  survol. Il n'est pas decoratif : c'est lui qui distingue les trois cases d'une
+  rangee par ailleurs identique, et il annonce la couleur du recit.
+  `clair` dit que le texte passe au blanc quand l'aplat remplit la case - vrai
+  sur le bleu et le rouge, faux sur le jaune.
+*/
+/*
+  LA LONGUEUR DES ACCROCHES SUIT LA LARGEUR DE LA CASE. Governance occupe 6
+  colonnes (511px a 1440) et garde la version longue du site, qui y tient avec
+  75px de marge. Language et Surfaces n'en font que 3 (255px) : la version
+  longue y debordait de 93px et 27px, et l'overflow de la case la coupait net -
+  quatre lignes perdues sur Language, sans que rien ne le signale.
+  Leur texte complet vit de toute facon sur leur propre page.
+*/
+const travaux = [
+  {
+    aire: 'w1', href: '/system-practice-elements', fragment: 'bleu', clair: true,
+    eyebrow: 'Systematize a practice', nom: 'Governance',
+    accroche: '<b>The product failed. The platform scaled.</b> Same system, rebuilt from zero - into the standard a strategic digital portfolio depends on, and the community that makes it last.',
+  },
+  {
+    aire: 'w2', href: '/system-brand', fragment: 'jaune', clair: false,
+    eyebrow: 'Systematize a brand', nom: 'Language',
+    accroche: '2,500 people, one language - then a rebrand, translated for screens. <b>Anything can be systematized.</b>',
+  },
+  {
+    aire: 'w3', href: '/system-event', fragment: 'rouge', clair: true,
+    eyebrow: 'Systematize a moment', nom: 'Surfaces',
+    accroche: 'One live experience, orchestrated end to end. <b>Proof it travels anywhere.</b>',
+  },
+];
+
+/*
+  LES TROIS PRINCIPES, declares une fois et rendus une fois.
+
+  Au bureau ils occupent deux cases distinctes de la grille - le duo rouge/jaune
+  sur une rangee, le carre noir sous le rouge. Sous 720px ils deviennent un rail
+  horizontal a trois cartes (§11). C'est le MEME markup dans les deux cas :
+  .principes passe de `display:contents` - ou ses enfants remontent dans la
+  grille comme s'il n'existait pas - a un rail en flex. Rendre les trois
+  principes deux fois aurait double leur texte dans le DOM, donc dans l'export
+  de contenu et a l'oreille d'un lecteur d'ecran.
+
+  Les descriptions sont differenciees a dessein (§3.2) : le rouge dit comment je
+  dirige les gens, le jaune comment je prends les decisions.
+*/
+const principes = [
+  {
+    cle: 'a', couleur: 'rouge', titre: 'I lead the way I learned: hands dirty first.',
+    detail: "It's how I lead people: I know <b>when to step in and when to stay out</b> - close enough to help when it counts, <b>never close enough to hover.</b>",
+  },
+  {
+    cle: 'b', couleur: 'jaune', titre: 'Direction earned, not assigned.',
+    detail: "It's how I make the calls: I've designed <b>the brand, the product and the system</b>, so my direction comes from the work, not the org chart - <b>I know what it costs to execute.</b>",
+  },
+  {
+    cle: 'c', couleur: 'noir', titre: 'Enough engineering to earn the room.',
+    detail: '<b>I read the code and ran component QA myself</b> - to back my team up, and to understand the work well enough <b>never to decide against it.</b>',
+  },
+];
 ---
 <Base title="Léa Giezek - Experience systems that grow culture"
-  description="Design and experience systems lead. Fifteen years across brand, retail, agency and product - I don't systematize what I haven't practiced."
+  description="Moving design practice forward. Fifteen years across brand, retail, agency and product - I nurture the practice and the people, not just the system."
   loader>
 
-<!-- CARD 1 : banner + intro -->
-  <Hero filigrane="System" accueil portrait>Design systems ship standards,<br />Experience systems grow culture.</Hero>
+<Hero accueil portrait eyebrow="Moving design practice forward" filigrane="Léa Giezek" defiler="composition">
+  Design systems <br />ship standards. Experience systems grow culture.
+  <Fragment slot="intro">
+    Fifteen years across brand, retail, agency and product - every rung of the craft before the direction. I nurture the practice and the people, not just the system. <b>That's my leadership bet.</b>
+  </Fragment>
+  <Fragment slot="cta">
+    <Bouton href="/Lea-Giezek-CV.pdf" variante="jaune" icone="telecharger" telechargement="PDF, 3.6 Mo">Download CV</Bouton>
+  </Fragment>
+</Hero>
 
-  <div class="card">
-    <div class="intro" id="intro">
-      <div class="intro__id">
-        <div class="intro__photo" role="img" aria-label="Portrait of Léa Giezek"></div>
-        <div class="intro__text">
-          <h1 class="intro__name">Léa Giezek</h1>
-          <p class="intro__lead">Fifteen years across brand, retail, agency and product - every rung of the craft before the direction. I don't systematize what I haven't practiced - and I nurture the practice and the people, not just the system.</p>
-          <div class="intro__cta"><a class="btn btn--primary" href="/philosophy">Philosophy →</a></div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- CRAFT TILES on the grey canvas -->
-  <div class="drag" id="drag" aria-label="Craft and portrait">
-        <div class="dcard dcard--photo" data-portrait style="left:0%;top:108px;--rot:-3deg" role="img" aria-label="Portrait of Léa Giezek"></div>
-        {/*
-          Ordre du DOM : dc3, dc2, dc1. Il ne decide de rien au bureau - les
-          cartes sont en position:absolute avec un left/top et un z-index
-          explicites - mais il EST l'ordre du rail sous 1024px, ou .dcard--photo
-          est masquee et ou les trois cartes defilent. D'ou la lecture voulue :
-          « hands dirty first », puis l'ingenierie, puis la direction.
-        */}
-        <div class="dcard dc3 dcard--flip" style="left:23%;top:0px;--rot:-5deg" tabindex="0">
-          <div class="dcard__inner">
-            <div class="dcard__face dcard__front"><p class="dcard__t">I lead the way I learned: hands dirty first.</p><span class="dc-hand" aria-hidden="true"><DesignVisual /></span></div>
-            <div class="dcard__face dcard__back"><p class="dcard__b">Having done the work myself is what tells me <b>when to step in and when to stay out</b> - close enough to help when it counts, <b>never close enough to hover.</b></p></div>
-          </div>
-        </div>
-        <div class="dcard dc2 dcard--flip dc2--flip" style="left:46%;top:116px;--rot:3.5deg" tabindex="0">
-          <div class="dcard__inner">
-            <div class="dcard__face dcard__front"><p class="dcard__t">Enough engineering to earn the room.</p><span class="dc2__kbd"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="18" rx="6"/><path d="M12 7v3"/></svg>Ctrl + Cmd + C</span></div>
-            <div class="dcard__face dcard__back"><p class="dcard__b"><b>I read the code and ran component QA myself</b> - to back my team up when they needed it, and to understand the work well enough <b>never to decide against it.</b></p></div>
-          </div>
-        </div>
-        <div class="dcard dc1 dcard--flip dc1--grid" style="left:70%;top:12px;--rot:3deg" tabindex="0">
-          <div class="dcard__inner">
-            <div class="dcard__face dcard__front"><p class="dcard__t">Direction earned, not assigned.</p></div>
-            <div class="dcard__face dcard__back"><p class="dcard__b">I've designed <b>the brand, the product, the system</b>. So when I set direction, it's grounded in the work - <b>I know what it costs to execute.</b></p></div>
-          </div>
-        </div>
-      </div>
-  {/* trois pastilles pour les trois cartes retournables - .dcard--photo n'en a
-      pas, elle est masquee des que le bloc devient un rail */}
-  <Dots id="dots" count={3} label="Tiles" itemLabel="Tile" />
-
-  <!-- OPERATING SYSTEM bridge -->
-  <section class="osbridge" aria-labelledby="os-title">
-    <div class="osbridge__body">
-      <h2 class="osbridge__title" id="os-title">The best governance is the kind you don't have to police.</h2>
-      <p class="osbridge__text">Rigor and care aren't opposites - they're the same discipline. Every principle here trades the easy version for the one that lasts: discovery before code, ethics before AI, wellbeing before delivery. <b>Distribute the ownership, or become the bottleneck.</b></p>
-      <a class="btn btn--ghost" href="/operating-system">Operating System →</a>
-    </div>
-    <div class="osbridge__viz">
-      <div class="osbridge__visual" aria-hidden="true"><GovernanceVisual /></div>
-    </div>
-  </section>
-
-  <!-- I don't build design systems -->
+<div class="comp-zone">
   {/*
-    Une <section> ne devient une region annoncable que si elle porte un nom
-    accessible ; sans lui elle est un conteneur generique et disparait du rotor.
-    On pointe le titre visible plutot que d'inventer un aria-label : le nom
-    annonce est alors exactement celui qui est lu a l'ecran.
+    data-grille : crochet du trace anime des filets (src/scripts/grille.ts).
+    La classe `pre` est posee par le script AVANT la mesure et retiree apres :
+    sans elle, la grille noire s'afficherait une fraction de seconde en entier
+    avant que les segments ne commencent a se tracer.
   */}
-  <section class="betlede" aria-labelledby="betlede-t">
-    <h2 class="osbridge__title" id="betlede-t">I don't build design systems. I build experience systems.</h2>
-    <p class="osbridge__text">Fifty would be padding. Three prove it - a platform, a brand, and a space you could immerse yourself in. <b>Same thinking, three worlds - no craft left in a silo.</b></p>
-  </section>
-  <div class="cases">
-    <CaseCard idx="Systematize a practice" when="2023 - now" name="Governance" href="/system-practice-elements"><b>The product failed. The platform scaled.</b> Same system, rebuilt from zero - into the standard a strategic digital portfolio depends on, and the community that makes it last.</CaseCard>
-    <CaseCard idx="Systematize a brand" when="2018 - 2022" name="Language" href="/system-brand">2,500 people, one language - before I'd have called it a design system. Then a corporate rebrand, translated for screens, and every siloed UI kit in the portfolio put on one standard. <b>Anything can be systematized</b> once you understand each craft. This is where Elements starts.</CaseCard>
-    <CaseCard idx="Systematize a moment" when="a year in the making" name="Surfaces" href="/system-event">A full identity, a staged space, and an escape game - one live experience, orchestrated end to end. The same thinking, off the screen entirely. <b>Proof it travels anywhere.</b></CaseCard>
-  </div>
+  <div class="comp" id="composition" data-grille>
 
-  <!-- CARD 3 : let's talk -->
+    {travaux.map((t) => (
+      <div class:list={['cell', `cell--${t.aire}`]}>
+        <a class:list={['wt', t.clair && 'wt--clair']} href={t.href}>
+          <span class="wt__filet" aria-hidden="true"></span>
+          {t.aire === 'w2' && <span class="wt__filet wt__filet--bas" aria-hidden="true"></span>}
+          <span class="wt__fragment" aria-hidden="true"></span>
+          <span class="wt__eyebrow">
+            <span>{t.eyebrow}</span>
+            <Icone nom="fleche" taille={20} class="wt__fleche" />
+          </span>
+          <span class="wt__nom">{t.nom}</span>
+          <span class="wt__accroche" set:html={t.accroche}></span>
+        </a>
+      </div>
+    ))}
+
+    <figure class="citation">
+      <blockquote>Cultivating practice, not just systems, through Design Leadership and Community Building.</blockquote>
+      <Bouton href="/philosophy" variante="bleu" icone="fleche">Philosophy</Bouton>
+    </figure>
+
+    <div class="principes">
+      <div class="duo">
+        {/* Les trois filets du duo restent visibles quelle que soit la carte
+            ouverte : c'est la ligne noire que le brief veut toujours la (§3.2). */}
+        <span class="duo__filet duo__filet--1" aria-hidden="true"></span>
+        <span class="duo__filet duo__filet--2" aria-hidden="true"></span>
+        <span class="duo__filet duo__filet--3" aria-hidden="true"></span>
+        {principes.filter((p) => p.cle !== 'c').map((p) => (
+          <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
+            <span class="pr__dedans">
+              <Icone nom="plus" taille={18} class="pr__plus" />
+              <span class="pr__titre">{p.titre}</span>
+              <span class="pr__detail" set:html={p.detail}></span>
+            </span>
+          </button>
+        ))}
+      </div>
+      {principes.filter((p) => p.cle === 'c').map((p) => (
+        <div class="cell cell--p2">
+          <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
+            <span class="pr__dedans">
+              <Icone nom="plus" taille={18} class="pr__plus" />
+              <span class="pr__titre">{p.titre}</span>
+              <span class="pr__detail" set:html={p.detail}></span>
+            </span>
+          </button>
+        </div>
+      ))}
+    </div>
+
+    {/*
+      Pagination du rail, SOEUR de la piste et non son enfant : dans un flex
+      horizontal elle en deviendrait un item et filerait sur la droite, hors
+      champ. Masquee au bureau, ou il n'y a rien a paginer - les trois
+      principes y sont visibles d'un coup.
+    */}
+    <div class="principes__pagination" aria-hidden="true">
+      <span class="principes__points"><i></i><i></i><i></i></span>
+      <span class="principes__swipe">Swipe →</span>
+    </div>
+
+    <section class="os" aria-labelledby="os-titre">
+      <span class="os__filet" aria-hidden="true"></span>
+      <span class="os__bande" aria-hidden="true"></span>
+      <p class="os__eyebrow">Operating system</p>
+      <h2 class="os__titre" id="os-titre">The best rules are the ones you don't have to police.</h2>
+      <p class="os__texte">Rigor and care aren't opposites - they're the same discipline: discovery before code, ethics before AI, wellbeing before delivery. <b>Distribute the ownership, or become the bottleneck.</b></p>
+      <Bouton href="/operating-system" variante="rouge" icone="fleche" class="os__cta">Operating System</Bouton>
+    </section>
+
+    {/* Rangee basse : trois cases vides de 56px. Elles ne portent pas de
+        contenu - ce sont les filets qui les separent qu'on voit, et c'est le
+        « rail » du BRIEF §3.2, dont l'utilite reste a trancher. */}
+    <div class="rail rail--b1" aria-hidden="true"></div>
+    <div class="rail rail--b2" aria-hidden="true"></div>
+    <div class="rail rail--b3" aria-hidden="true"></div>
+  </div>
+</div>
 
 </Base>
 
 <style is:global>
-  /* CSS propre a cette page, descendu depuis Base.astro :
-     les autres pages ne le telechargent plus. */
-  .intro{padding:var(--sp-16)}
-  .intro__photo{display:none}
-  .intro__name{font-family:var(--display);font-weight:400;font-size:clamp(32px,4.2vw,52px);line-height:1;letter-spacing:-.02em}
-  .intro__lead{font-size:clamp(16px,1.7vw,20px);color:var(--ink-soft);margin-top:12px;max-width:52ch}
-  /* .intro__cta vit dans shared.css : /404 le porte aussi */
-  .drag{position:relative;height:clamp(390px,42vw,450px);margin:clamp(60px,6vw,84px) 0 var(--sp-03);touch-action:none}
-  .dcard{position:absolute;width:clamp(230px,27vw,290px);padding:var(--sp-08);border-radius:0;border:var(--edge-w) solid var(--edge);background:var(--card);box-shadow:0 22px 44px -20px rgba(120,30,10,.30);cursor:grab;transform:rotate(var(--rot));transition:transform .22s cubic-bezier(.22,1,.36,1),box-shadow .22s ease;user-select:none;z-index:1}
-  .dcard:hover{transform:rotate(0deg) translateY(-8px) scale(1.02);box-shadow:0 34px 60px -24px rgba(120,30,10,.42);z-index:20}
-  .dcard.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.03);box-shadow:0 34px 64px -24px rgba(120,30,10,.5);z-index:30}
-  .dcard{border:var(--edge-w) solid var(--edge);box-shadow:none}
-  .dcard--flip{border:none}
-  .dcard__t{font-family:var(--display);font-weight:400;font-size:clamp(20px,2vw,24px);color:var(--ink);letter-spacing:-.01em;line-height:1.12}
-  /* 16px fixe, comme .case__hook plus bas : les deux familles de cartes
-     racontent la meme chose a deux endroits, elles se lisent au meme corps.
-     C'etait un clamp montant a 20px, donc plus gros que les cards de cas. */
-  .dcard__b{font-size:16px;color:var(--ink-soft);margin-top:12px}
-  .dcard--photo{padding:0;aspect-ratio:1;border-radius:50%;background:var(--portrait) center/cover no-repeat;z-index:3;border:none;cursor:default}
-  .dcard--photo::after{content:"";position:absolute;inset:-3px;border-radius:50%;border:2px solid var(--ring);opacity:0;pointer-events:none}
-  .dcard--photo:hover::after{animation:tilePulse .9s ease-out}
-  .js .drag .dcard{opacity:0;transform:rotate(var(--rot)) scale(.4)}
-  .js .drag.in .dcard{animation:stickIn .55s cubic-bezier(.34,1.56,.64,1) forwards}
-  .js .drag.in .dcard:nth-child(2){animation-delay:.09s}
-  .js .drag.in .dcard:nth-child(3){animation-delay:.18s}
-  .js .drag.in .dcard:nth-child(4){animation-delay:.27s}
-  .dc1{z-index:5}
-  .dc2{z-index:7;background:var(--ink)}
-  /* Ordre d'empilement, eclate sur cinq regles et donc ecrit ici une fois :
-     .dcard 1 → .dcard--photo 3 → .dc1 5 → .dc3 6 → .dc2 7, puis 20 au survol
-     et 30 pendant un glisser (drag.ts recompte a partir de 10, donc toute carte
-     saisie passe devant). .dc2 occupe la position centrale et passe au premier
-     plan ; elle recouvre donc le coin bas-droit de .dc3, ou vit la vignette. */
-  .dc3{z-index:6;background:var(--tile-red)}
-  .dc2 .dcard__t,.dc2 .dcard__b{color:#fff}
-  .dc3 .dcard__t,.dc3 .dcard__b{color:var(--tile-red-ink)}
-  .dcard--flip{background:transparent;border:none;box-shadow:none;padding:0;cursor:pointer;perspective:1100px;height:clamp(224px,25vw,264px)}
-  .dcard--flip .dcard__inner{position:relative;width:100%;height:100%;transform-style:preserve-3d;transition:transform .7s cubic-bezier(.4,0,.2,1)}
-  .dcard--flip:hover .dcard__inner,.dcard--flip:focus-visible .dcard__inner,.dcard--flip.flipped .dcard__inner{transform:rotateY(180deg)}
-  .dcard--flip:hover,.dcard--flip:focus-visible{transform:rotate(var(--rot));box-shadow:none}
-  .dcard--flip .dcard__face{position:absolute;inset:0;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:0;border:var(--edge-w) solid var(--edge);box-shadow:none;padding:24px;display:flex;flex-direction:column;justify-content:center}
-  .dcard--flip .dcard__front{background:var(--card)}
-  .dcard--flip .dcard__t{line-height:1.2;color:var(--ink)}
-  .dcard--flip .dcard__back{background:var(--card);transform:rotateY(180deg)}
-  .dcard--flip .dcard__back .dcard__b{color:var(--ink);margin-top:0}
-  /*
-    Le papier quadrille de la carte « Direction earned ». Les deux tracés et leur
-    pas de 36px etaient ecrits en entier a DEUX endroits - une fois sur la face
-    avant au bureau, une fois sur l'enveloppe sous 1024px, ou la carte s'ouvre a
-    plat. Deux copies de 300 caracteres pour un motif dont seul l'`inset` change.
-    Le motif est pose ici une fois ; les deux regles n'ecrivent plus que ce qui
-    leur est propre. `var(--grid-line)` reste resolu au point d'usage, donc le
-    trait suit toujours le theme.
-  */
-  .dc1--grid{--grid-paper:linear-gradient(180deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px),linear-gradient(90deg,transparent 0 17px,var(--grid-line) 17px 19px,transparent 19px)}
-  .dc1--grid .dcard__front{background:var(--tile-red);overflow:hidden}
-  .dc1--grid .dcard__front::before{content:"";position:absolute;inset:var(--sp-12);border-radius:0;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
-  .dc1--grid .dcard__front .dcard__t{position:relative;z-index:1}
-  .dc1--grid .dcard__back{background:var(--tile-red)}
-  .dc1--grid .dcard__t,.dc1--grid .dcard__b{color:var(--tile-red-ink)}
-  /*
-    Vignette sans disque, posee sur le bord bas de la carte.
+  /* ═══════════ La composition Mondrian (BRIEF §3.2) ═══════════ */
 
-    margin-top:auto la pousse en bas : la face est une colonne flex en
-    justify-content:center, et une marge auto sur le dernier enfant absorbe tout
-    l'espace restant. Le margin-bottom negatif compense le padding de 24px de la
-    face, pour que le dessin vienne effectivement TOUCHER le bord au lieu de
-    flotter au-dessus.
+  .comp-zone{max-width:var(--shell-w);margin:0 auto;padding:0 var(--gutter)}
 
-    100% et non 137% : le 137% servait a faire coincider le disque implicite du
-    fichier avec un disque CSS. Sans disque, cette correspondance n'a plus
-    d'objet et le dessin occupe simplement sa boite.
-  */
   /*
-    Ferree a droite, donc l'agrandir gagne deux fois : le dessin s'etend vers la
-    GAUCHE, c'est-a-dire dans la bande que .dc2 ne recouvre pas. Mesures a
-    1440px : .dc2 coupe a 205px du bord de la carte, la vignette est calee a
-    288px - a 152px de large il n'en ressortait que 82, a 224 il en ressort 141.
-    Le debord bas passe a --sp-14 pour compenser : sans lui, une vignette de
-    224px de haut viendrait manger le titre, qui descend a 136px.
-  */
-  /*
-    margin-top et non auto : `auto` ne pousse en bas que s'il reste de la place,
-    or la vignette remplit la face - l'espace libre tombe a zero et l'ecart au
-    titre disparaissait. C'est justify-content:flex-start sur la face qui epingle
-    le titre en haut, et le debord bas qui place la vignette.
+    LES FILETS SONT LE FOND, PAS DES BORDURES. La grille porte le noir et un
+    `gap` de 2px ; chaque case repose un fond blanc par-dessus. Avec des
+    bordures on aurait 4px entre deux cases voisines et 2px aux extremites.
 
-    La valeur est NEGATIVE et ce n'est pas une erreur. Le dessin ne remplit pas
-    sa boite : son encre ne commence qu'a 8,3% du viewBox, soit 20px de vide en
-    haut. A margin-top:16px l'ecart VISUEL au titre valait donc 36px, et la
-    vignette paraissait flotter trop bas. A -2px elle remonte de 18px et il reste
-    18px de respiration reelle jusqu'au trait. Toucher a l'un sans l'autre casse
-    le calcul : si le dessin est re-exporte avec un cadrage plus serre, cette
-    valeur doit remonter vers 16.
+    clip-path:inset(0 1px 1px 1px) rogne un pixel sur trois cotes. C'est le
+    correctif du BRIEF §4.3 : le fond noir transparait par l'arrondi de
+    sub-pixel sur les bords exterieurs et dessine un filet parasite tout autour
+    - la grille doit avoir ses bords OUVERTS, pas un cadre.
   */
-  /* overflow:hidden - la vignette deborde de ~86px sous la carte, et c'est la
-     carte qui la coupe, sur son rayon de 36px. Le meme procede que
-     .dc1--grid .dcard__front, donc sans risque pour le retournement 3D. */
-  .dc3 .dcard__front{justify-content:flex-start;overflow:hidden}
+  .comp{display:grid;position:relative;gap:var(--rule);background:var(--text);
+    clip-path:inset(0 1px 1px 1px);
+    grid-template-columns:repeat(12,minmax(0,1fr));
+    grid-template-rows:300px 240px 342px 56px;
+    grid-template-areas:
+      "w1 w1 w1 w1 w1 w1 w2 w2 w2 w3 w3 w3"
+      "duo duo duo duo duo duo duo os os os os os"
+      "p2 p2 p2 q q q q os os os os os"
+      "b1 b1 b1 b2 b2 b2 b2 b3 b3 b3 b3 b3"}
   /*
-    Meme traitement pour la carte jaune, et pas pour la meme raison : son titre
-    etait centre verticalement, donc pose a 98px dans une face de 264. Il
-    plongeait au milieu de la carte, la ou la carte noire - plus haute et
-    voisine - le recouvrait. L'epingler en haut le remonte de ~70px sans deplacer
-    la carte, ce qu'aucune remontee raisonnable n'aurait obtenu : il aurait fallu
-    84px, soit sortir la carte par le haut du conteneur.
+    `.principes > *` autant que `.comp > *` : .principes est en display:contents,
+    donc ses enfants sont des cases de la grille sans en etre les enfants directs.
   */
-  /*
-    padding-right en POURCENTAGE, pour retrecir la colonne de texte sans toucher
-    au bord gauche : le titre reste ferre a gauche et passe sur trois lignes.
-    Mesures a 1440px : « Direction earned, » fait 209px pour une colonne de 232,
-    d'ou deux lignes. A 30% de padding a droite la colonne tombe vers 175px -
-    sous les 209 qui forcent la coupe, et au-dessus des 138 de « earned, not »
-    qui la feraient partir a quatre lignes.
-    En pourcentage et non en px parce que la carte est fluide (27vw) : une valeur
-    fixe donnerait quatre lignes sur les ecrans de bureau les plus etroits.
-  */
-  .dc1 .dcard__front{justify-content:flex-start;padding-right:30%}
-  .dc-hand{width:clamp(96px,17vw,224px);height:clamp(96px,17vw,224px);
-    color:var(--accent);display:grid;place-items:center;line-height:1;flex:none;
-    margin:-2px 0 calc(var(--sp-14) * -1) auto;
-    align-self:flex-end}
-  .dc-hand svg{width:100%;height:100%}
-  .dc2--flip .dcard__front,.dc2--flip .dcard__back{background:var(--ink)}
-  .dc2--flip .dcard__front .dcard__t,.dc2--flip .dcard__back .dcard__b{color:#fff}
-  .dc2__kbd{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:16px;padding:8px 12px;border:1.5px solid rgba(255,255,255,.4);border-radius:0;font-family:var(--display);font-weight:400;font-size:12px;color:#fff}
-  .dc2__kbd svg{width:20px;height:20px}
-  .dcard--photo:hover{transform:rotate(var(--rot));z-index:3;box-shadow:0 22px 44px -20px rgba(120,30,10,.3)}
-  .osbridge{display:grid;grid-template-columns:2fr 1fr;gap:var(--sp-14);align-items:center;margin:var(--sp-22) 0 clamp(56px,6vw,72px)}
-  .osbridge__viz{position:relative;width:100%;max-width:340px;aspect-ratio:1;justify-self:center}
-  /*
-    Aplat blanc, trait en --accent : c'est le TRAIT qui porte le theme ici.
-    Passer par --ink n'aurait rien change a l'oeil - --ink et --tile-red-ink ont
-    la meme valeur dans les trois themes - alors que --accent donne le rouge de
-    marque en spicy, le quasi-noir en mono et le rouge Mondrian en contrast.
-  */
-  .osbridge__visual{position:absolute;inset:0;border-radius:50%;background:#fff;color:var(--accent);display:grid;place-items:center;line-height:1}
-  /*
-    137% et non 100% : le disque occupait 73% du viewBox du fichier d'origine.
-    En rendant la vignette a 100/73, son disque implicite retombe exactement sur
-    celui du conteneur, et le dessin deborde comme il le doit. Toucher a l'un
-    sans l'autre desaligne le trait et l'aplat.
-  */
-  /* translateY(2%) : le dessin a son centre optique a y=48 pour un viewBox de
-     centre 50 - mesure au getBBox(). Deux unites, soit 2% de la hauteur du svg. */
-  .osbridge__visual svg{width:137%;height:137%;overflow:visible;transform:translateY(2%)}
-  /*
-    Survol : la main pousse un fader vers le haut, et redescend en sortant.
+  .comp > *,.principes > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
+  .principes{display:contents}
+  /* Enfant direct de .comp : sans display:none elle deviendrait une case. */
+  .principes__pagination{display:none}
 
-    Le dessin est un pupitre - trois faders verticaux, une main qui en tient un.
-    Une transition et non une keyframe : l'etat de repos et l'etat survole sont
-    deux poses, pas un cycle, et le retour doit s'animer aussi bien que l'aller.
+  .cell--w1{grid-area:w1}
+  .cell--w2{grid-area:w2}
+  .cell--w3{grid-area:w3}
+  .duo{grid-area:duo}
+  .cell--p2{grid-area:p2}
+  .citation{grid-area:q}
+  .os{grid-area:os}
+  .rail--b1{grid-area:b1}
+  .rail--b2{grid-area:b2}
+  .rail--b3{grid-area:b3}
 
-    --course pilote les quatre elements a la fois. Les deux lignes ne se
-    deplacent pas, elles RACCOURCISSENT - une ligne qu'on translate laisserait
-    un trou a son sommet. D'ou un scaleY calcule sur leur longueur reelle :
-    22 unites pour le fader de droite (12,5 → 34,5), 20 pour la centrale basse
-    (30,5 → 50,5). Ces deux nombres viennent du fichier ; les changer sans
-    changer ceux-ci decalerait le trait de la poignee.
-
-    transform-origin en unites de viewBox, sans toucher a transform-box : c'est
-    deja son defaut pour un element SVG. Le point choisi est le SOMMET de chaque
-    ligne, pour qu'elle se retracte par le bas, du cote de la main.
-  */
-  .osbridge__visual .hand,.osbridge__visual .grip,.osbridge__visual .track{
-    --course:7px;transition:transform .5s cubic-bezier(.22,1,.36,1)}
-  .osbridge__visual .track--grip{transform-origin:70.5px 12.5px}
-  .osbridge__visual .track--mid{transform-origin:50.5px 30.5px}
-  .osbridge__visual:hover .hand,.osbridge__visual:hover .grip{transform:translateY(calc(var(--course) * -1))}
-  /* (22 - 7) / 22 et (20 - 7) / 20 */
-  .osbridge__visual:hover .track--grip{transform:scaleY(.682)}
-  .osbridge__visual:hover .track--mid{transform:scaleY(.65)}
-  .osbridge__title{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);line-height:1.25;letter-spacing:-.02em;color:var(--ink);margin-bottom:16px}
-  .osbridge__text{font-size:clamp(16px,1.6vw,20px);color:var(--ink-soft);max-width:54ch;margin-bottom:24px}
-  .osbridge__text b{color:var(--ink)}
-  .betlede{max-width:66%;margin:var(--sp-22) 0 var(--sp-22)}
-  .cases{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--sp-02);margin-bottom:clamp(40px,4vw,44px)}
-  .case{position:relative;background:#fff;border-radius:var(--r-lg);overflow:hidden;display:flex;flex-direction:column;box-shadow:0 16px 34px -20px rgba(120,30,10,.25);cursor:pointer;transition:box-shadow .25s ease,transform .25s ease;border:var(--edge-w) solid var(--edge)}
-  .case:hover{box-shadow:0 26px 50px -22px rgba(120,30,10,.42);transform:translateY(-4px)}
-  .case:first-child .case__top{background:var(--accent-alt)}
-  .case:nth-child(2) .case__top{background:var(--highlight)}
-  .case:nth-child(2) .case__idx,.case:nth-child(2) .case__name{color:var(--on-highlight)}
-  .case:nth-child(2) .case__when{color:color-mix(in srgb, var(--on-highlight) 60%, transparent)}
-  .case__top{background:var(--hero-grad);padding:var(--sp-12);color:#fff}
-  .case__idx{font-weight:700;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#fff}
-  .case__when{display:block;font-weight:600;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:4px}
-  .case__name{display:block;font-family:var(--display);font-weight:400;font-size:clamp(20px,2.4vw,28px);line-height:1;letter-spacing:-.01em;color:#fff;margin-top:.4em}
-  .case__body{padding:var(--sp-12);display:flex;flex-direction:column;flex:1}
-  .case__hook{font-size:16px;color:var(--ink-soft);flex:1}
-  .btn3__i{transition:color .2s}
-  @media(max-width:1024px){
-    /* les pastilles n apparaissent qu en mode carrousel */
-    .dots{display:flex}
-  .intro__id{display:flex;gap:16px;align-items:center}
-  .intro__photo{display:block;flex:none;width:clamp(88px,18vw,132px);height:clamp(88px,18vw,132px);border-radius:50%;overflow:hidden;border:3px solid var(--card);box-shadow:0 12px 26px -14px rgba(120,30,10,.4);background:var(--portrait) center/cover no-repeat}
-  .intro__text{min-width:0}
+  /* ═══ Rangee 1 : les trois etudes de cas ═══ */
   /*
-    touch-action:auto annule le `none` de la regle racine. Ce `none` sert au
-    glisser-deposer des tuiles au bureau : il empeche le navigateur de prendre
-    le geste a la place du pointerdown. Mais ici le drag est desactive et .drag
-    est devenu un rail defilant - laisser `none` revient a dire au navigateur de
-    ne traiter aucun geste tactile dessus, donc le balayage ne fait rien du tout.
-    Invisible au test programmatique : scrollLeft et les clics ignorent touch-action.
+    Le texte demarre a 88px du haut : l'horizontale qui traverse les trois
+    cases est a 56px, et il faut la laisser respirer. C'est la meme valeur dans
+    les trois, c'est elle qui fait lire la rangee comme une seule bande.
   */
-  .drag{height:auto;display:flex;overflow-x:auto;gap:16px;scroll-snap-type:x mandatory;padding:var(--sp-10) 0 var(--sp-13);-webkit-overflow-scrolling:touch;align-items:stretch;scroll-padding-left:0;touch-action:auto}
-  .dcard--photo{display:none}
-  .dcard{position:relative!important;left:auto!important;top:auto!important;flex:0 0 clamp(440px,80%,640px);scroll-snap-align:center;transform:none}
-  .dcard--flip{height:auto;border:var(--edge-w) solid var(--edge);border-radius:0;overflow:hidden;box-shadow:0 24px 44px -26px rgba(40,20,12,.28);transform-origin:50% 58%;transition:transform .08s linear;will-change:transform}
-  .dcard--flip:hover{transform:none;box-shadow:0 24px 44px -26px rgba(40,20,12,.28)}
-  .dcard--flip .dcard__inner{transform:none!important;display:flex;flex-direction:row;height:100%;align-items:stretch}
-  .dcard--flip .dcard__face{position:relative;inset:auto;transform:none!important;-webkit-backface-visibility:visible;backface-visibility:visible;border:none;border-radius:0;box-shadow:none;text-align:left;justify-content:flex-start;padding:var(--sp-04)}
-  .dcard--flip .dcard__front{flex:0 0 42%;padding-right:var(--sp-02)}
-  .dcard--flip .dcard__back{flex:1 1 auto;padding-left:var(--sp-02)}
-  .dcard--flip{border-color:var(--edge);border-width:var(--edge-w)}
-  .dcard--flip .dcard__face{border:none}
-  .dc1--grid .dcard__front::before{display:none}
-  .dc1--grid .dcard__inner{background:var(--tile-red);isolation:isolate}
-  /* le motif lui-meme vient de --grid-paper, pose sur .dc1--grid : seuls le
-     porteur (l'enveloppe, non plus la face) et l'inset changent ici */
-  .dc1--grid .dcard__inner::before{content:"";position:absolute;inset:var(--sp-07);border-radius:0;background-image:var(--grid-paper);background-size:100% 36px,36px 100%;background-position:center;background-repeat:repeat;pointer-events:none;z-index:0}
-  .dc1--grid .dcard__front,.dc1--grid .dcard__back{background:transparent;z-index:1}
-}
+  .wt{position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:flex-start;gap:8px;padding:88px 32px 28px;
+    text-decoration:none;color:var(--text);overflow:hidden}
+  /* Colonne de gauche de la grille : le texte s'y cale a 48px (BRIEF §1). */
+  .cell--w1 .wt{padding-left:var(--pad-square)}
+  .cell--w2 .wt{padding-bottom:60px}
+
+  .wt__filet{position:absolute;z-index:0;left:0;right:0;top:56px;height:var(--rule);background:var(--text)}
+  /* L'aplat part de son coin d'ancrage et remplit la case au survol. */
+  .wt__fragment{position:absolute;z-index:1;
+    transition:height .5s cubic-bezier(.2,.7,.2,1),width .5s cubic-bezier(.2,.7,.2,1)}
+  .cell--w1 .wt__fragment{left:0;right:0;top:0;height:56px;background:var(--blue);transform-origin:left top}
+  .cell--w2 .wt__fragment{left:0;right:0;bottom:0;height:32px;background:var(--yellow);transform-origin:left bottom}
+  .cell--w3 .wt__fragment{top:0;right:0;width:96px;height:56px;background:var(--red);transform-origin:right top}
+  /* Le filet bas de Language borde sa bande jaune par le haut. */
+  .wt__filet--bas{top:auto;bottom:32px}
+  /*
+    ::after porte LA VERTICALE, et seulement elle - au bureau comme sur mobile.
+    Au bureau une seule case en a une : celle qui borde le rectangle rouge de
+    Surfaces. Sous 720px les trois en portent une, et c'est la meme regle qui
+    change de valeurs.
+  */
+  .cell--w3 .wt::after{content:"";position:absolute;z-index:0;right:96px;top:0;width:var(--rule);height:56px;background:var(--text)}
+
+  .wt__eyebrow,.wt__nom,.wt__accroche{position:relative;z-index:2;transition:color .3s}
+  .wt__eyebrow{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  .wt__fleche{flex:none;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
+  .wt__nom{font-family:var(--display);font-size:var(--fs-section);font-weight:900;line-height:1}
+  .wt__accroche{font-size:14px;line-height:1.55}
+  .cell--w1 .wt__accroche{max-width:400px}
+
+  .wt:hover .wt__fragment,.wt:focus-visible .wt__fragment{height:100%;width:100%}
+  .wt:hover .wt__fleche,.wt:focus-visible .wt__fleche{transform:translateX(6px)}
+  /* Le texte passe au blanc sur le bleu et le rouge, jamais sur le jaune. */
+  .wt--clair:hover :is(.wt__eyebrow,.wt__nom,.wt__accroche),
+  .wt--clair:focus-visible :is(.wt__eyebrow,.wt__nom,.wt__accroche){color:var(--white)}
+  .wt:focus-visible{outline:3px solid var(--blue);outline-offset:-6px}
+
+  /* ═══ Les trois principes ═══ */
+  .duo{overflow:hidden}
+  /*
+    z-index 0 : SOUS les cartes, pas au-dessus. Ces trois verticales decorent le
+    blanc de la case ; quand une carte s'etend par-dessus, elles doivent
+    disparaitre avec lui. A z-index 4 elles barraient l'aplat deplie.
+    La ligne que le brief veut « toujours visible » (§3.2) n'est pas l'une de
+    celles-ci : c'est la separation entre les deux cartes, portee par le
+    box-shadow interieur du bandeau reduit.
+  */
+  .duo__filet{position:absolute;top:0;bottom:0;width:var(--rule);background:var(--text);z-index:0}
+  /* Les trois verticales du duo. La premiere borde le carre rouge au repos,
+     les deux autres prolongent les colonnes de la grille au travers de la case. */
+  .duo__filet--1{left:232px}
+  .duo__filet--2{left:calc((100% - 12px) * 3 / 7 + 4px)}
+  .duo__filet--3{left:calc((100% - 12px) * 6 / 7 + 10px)}
+
+  .pr{all:unset;box-sizing:border-box;position:relative;display:block;cursor:pointer;overflow:hidden}
+  .pr__dedans{position:absolute;inset:0;display:flex;flex-direction:column;
+    justify-content:space-between;gap:10px;padding:var(--pad-square);overflow:hidden;
+    transition:padding .5s}
+  .pr__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-tile);line-height:1.12}
+  /* La description n'existe qu'ouverte. max-height anime le depliage ; le
+     delai sur l'opacite evite qu'elle apparaisse avant d'avoir la place. */
+  .pr__detail{font-size:14px;line-height:1.55;opacity:0;max-height:0;overflow:hidden;
+    transition:opacity .2s,max-height 0s .2s}
+  .pr__plus{position:absolute;top:16px;right:16px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  .pr--rouge{background:var(--red);color:var(--white)}
+  .pr--jaune{background:var(--yellow);color:var(--text)}
+  .pr--noir{background:var(--ink);color:var(--white)}
+  .pr:focus-visible{outline:3px solid var(--blue);outline-offset:-6px}
+
+  /* Le duo : deux boutons poses en absolu dans la meme case, qui se partagent
+     la largeur. Au survol de l'un, il s'etend et l'autre se reduit a un bandeau
+     vertical de 28px - mais la ligne noire qui les separe reste toujours
+     visible (BRIEF §3.2), portee par le box-shadow interieur du reduit. */
+  .duo .pr{position:absolute;top:0;height:100%;z-index:2;
+    transition:left .5s cubic-bezier(.2,.7,.2,1),width .5s cubic-bezier(.2,.7,.2,1)}
+  .pr--a{left:0;width:232px}
+  .pr--b{left:calc((100% - 12px) * 3 / 7 + 6px);width:calc((100% - 12px) * 3 / 7 + 4px)}
+  /*
+    TOUT PASSE PAR :has() SUR LE DUO, y compris l'ouverture au clic. Le survol
+    et le focus agissent sur les DEUX boutons - l'un s'etend, l'autre se reduit
+    - donc la regle doit partir du parent. L'etat clique est lu au meme endroit,
+    sur aria-expanded, plutot que par une classe posee en plus : l'attribut
+    porte deja l'etat pour les lecteurs d'ecran, et en faire aussi le crochet de
+    style empeche l'affichage et l'annonce de diverger.
+  */
+  .duo:has(.pr--a:hover) .pr--a,.duo:has(.pr--a:focus-visible) .pr--a,
+  .duo:has(.pr--a[aria-expanded="true"]) .pr--a{width:calc(100% - 28px);z-index:3}
+  .duo:has(.pr--a:hover) .pr--b,.duo:has(.pr--a:focus-visible) .pr--b,
+  .duo:has(.pr--a[aria-expanded="true"]) .pr--b{left:calc(100% - 28px);width:28px;box-shadow:inset 2px 0 0 var(--text)}
+  .duo:has(.pr--b:hover) .pr--b,.duo:has(.pr--b:focus-visible) .pr--b,
+  .duo:has(.pr--b[aria-expanded="true"]) .pr--b{left:28px;width:calc(100% - 28px);z-index:3}
+  .duo:has(.pr--b:hover) .pr--a,.duo:has(.pr--b:focus-visible) .pr--a,
+  .duo:has(.pr--b[aria-expanded="true"]) .pr--a{width:28px;box-shadow:inset -2px 0 0 var(--text)}
+  /* Le contenu du bandeau reduit s'efface : 28px ne tiennent pas un titre. */
+  .duo:has(.pr--a:hover) .pr--b .pr__dedans,.duo:has(.pr--b:hover) .pr--a .pr__dedans,
+  .duo:has(.pr--a:focus-visible) .pr--b .pr__dedans,.duo:has(.pr--b:focus-visible) .pr--a .pr__dedans,
+  .duo:has(.pr--a[aria-expanded="true"]) .pr--b .pr__dedans,
+  .duo:has(.pr--b[aria-expanded="true"]) .pr--a .pr__dedans{opacity:0}
+
+  /* Le carre noir occupe le haut de sa case, et s'etend vers le bas a l'ouverture. */
+  .cell--p2 .pr{position:absolute;left:0;top:0;width:100%;height:254px;
+    transition:height .5s cubic-bezier(.2,.7,.2,1)}
+  .cell--p2 .pr:hover,.cell--p2 .pr:focus-visible,.cell--p2 .pr[aria-expanded="true"]{height:100%}
+
+  .pr:hover .pr__detail,.pr:focus-visible .pr__detail,.pr[aria-expanded="true"] .pr__detail{
+    opacity:1;max-height:200px;transition:opacity .3s .3s,max-height 0s}
+  .pr:hover .pr__plus,.pr:focus-visible .pr__plus,.pr[aria-expanded="true"] .pr__plus{transform:rotate(45deg)}
+
+  /* ═══ Citation ═══ */
+  /* -3px de marge basse : la case fusionne visuellement avec le blanc du
+     dessous, et sans ce chevauchement un filet d'un pixel reapparait sous elle
+     (BRIEF §4.3). */
+  .citation{margin:0 0 -3px;z-index:2;padding:32px 32px 40px;
+    display:flex;flex-direction:column;justify-content:flex-end;gap:24px}
+  .citation blockquote{margin:0;font-family:var(--display);font-size:var(--fs-section);
+    font-weight:900;line-height:1.1;letter-spacing:-.015em}
+
+  /* ═══ Operating system ═══ */
+  .os{padding:var(--pad-square) var(--pad-square) 132px;display:flex;flex-direction:column;gap:16px}
+  .os__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+  .os__titre{margin:0;font-family:var(--display);font-size:var(--fs-section);font-weight:900;
+    line-height:1.1;letter-spacing:-.015em}
+  .os__texte{font-size:14px;line-height:1.55}
+  .os__cta{margin-top:auto}
+  /* La bande bleue du bas et son filet, cales sur la hauteur du CTA Philosophy
+     de la case voisine : les deux s'alignent d'une colonne a l'autre. */
+  .os__filet{position:absolute;left:0;right:0;bottom:84px;height:var(--rule);background:var(--text)}
+  .os__bande{position:absolute;left:0;right:0;bottom:0;height:84px;background:var(--blue);transform-origin:left bottom}
+
+  .rail{min-height:56px}
+
+  /* ═══════════ Apparition au defilement ═══════════ */
+  /*
+    Toutes ces classes sont posees par src/scripts/grille.ts, jamais au build :
+    sans script, aucune ne s'applique et la composition est simplement la.
+    `attend` est l'etat de depart d'une case, `vu` celui qu'elle prend en
+    entrant dans le champ.
+  */
+  .comp.pre{background:var(--white)}
+  .segs{position:absolute;inset:0;z-index:6;pointer-events:none}
+  .seg{position:absolute;background:var(--text)}
+  .seg--v{transform-origin:top;animation:traitV .7s cubic-bezier(.2,.7,.2,1) both}
+  .seg--h{transform-origin:left;animation:traitH .7s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes traitV{from{transform:scaleY(0)}}
+  @keyframes traitH{from{transform:scaleX(0)}}
+
+  /* En attente : les aplats sont a zero, les textes absents. */
+  .attend :is(.wt__fragment,.pr,.os__bande){transform:scale(0)}
+  .attend :is(.wt__eyebrow,.wt__nom,.wt__accroche,.pr__titre,.os__eyebrow,.os__titre,.os__texte,.sb) ,
+  .attend blockquote{opacity:0}
+
+  /* L'aplat pousse depuis le coin que son transform-origin designe deja pour
+     le survol : les deux gestes partent du meme point d'ancrage. */
+  .vu :is(.wt__fragment,.pr,.os__bande){animation:pousse .7s cubic-bezier(.2,.7,.2,1) both}
+  @keyframes pousse{from{transform:scale(0)}}
+  .vu :is(.wt__eyebrow,.wt__nom,.wt__accroche,.pr__titre,.os__eyebrow,.os__titre,.os__texte,.sb),
+  .vu blockquote{animation:monte .8s ease-out .1s both}
+  @keyframes monte{from{opacity:0;transform:translateY(6px)}}
+  /* Les cartes du duo poussent depuis leur coin haut gauche, comme les aplats
+     des cases - sinon elles grandiraient depuis leur centre. */
+  .pr--a,.pr--b,.cell--p2 .pr{transform-origin:left top}
+
+  /* ═══════════ Mobile : la grille s'empile (BRIEF §11) ═══════════ */
+  /*
+    CE N'EST PAS LA GRILLE QUI RETOMBE EN UNE COLONNE, c'est une autre
+    composition. Les aplats changent de forme - le rectangle rouge de Surfaces
+    devient un carre de 56, Language gagne un carre noir qu'elle n'a pas au
+    bureau - et chaque case porte un divider vertical a 56px du bord. Le MEME
+    markup les porte : ce sont des pseudo-elements et des fragments qu'on
+    redimensionne, pas des blocs ajoutes.
+  */
   @media(max-width:720px){
-  .betlede{max-width:100%}
-  .intro__photo{display:none}
-  .intro__id{display:block}
-}
-  /* palier harmonise : etait 880px, aligne sur le 900px de system-event */
-  @media(max-width:900px){
-  .cases{grid-template-columns:1fr 1fr;gap:var(--sp-02)}
-  .case:first-child{grid-column:1 / -1;flex-direction:row}
-  .case:first-child .case__top{flex:0 0 clamp(150px,38%,264px);display:flex;flex-direction:column;justify-content:center}
-  .case:first-child .case__body{flex:1}
-}
-  @media(max-width:640px){
-  .dcard{flex:0 0 clamp(260px,86%,400px)}
-  .dcard--flip .dcard__inner{flex-direction:column}
-  .dcard--flip .dcard__face{padding:var(--sp-11)}
-  .dcard--flip .dcard__front{flex:0 0 auto;padding-right:var(--sp-11);padding-bottom:8px}
-  .dcard--flip .dcard__back{flex:1 1 auto;padding-left:var(--sp-11);padding-top:8px}
-  /*
-    La face reste une colonne, comme au bureau : la vignette va en bas a droite.
-    Elle doit tenir dans .dcard__front, qui ne fait que 42% de la carte - soit
-    environ 78px utiles a 375px une fois les 24px de padding retires. D'ou une
-    echelle propre au mobile, bien plus petite que le clamp du bureau.
-  */
-  /*
-    Sous 640px .dcard__inner est une colonne : la face avant, donc la vignette,
-    passe AVANT la description. Pour la poser sous elle, on la sort du flux.
+    .comp-zone{padding:0 16px}
+    /* border-top/bottom : la pile est fermee en haut et en bas, alors que la
+       grille du bureau a ses bords ouverts. Valeur de la maquette mobile. */
+    .comp{display:flex;flex-direction:column;clip-path:none;
+      border-top:var(--rule) solid var(--text);border-bottom:var(--rule) solid var(--text);
+      grid-template-columns:none;grid-template-rows:none;grid-template-areas:none}
+    /* La rangee basse n'a pas de sens empilee : trois cases vides a la suite. */
+    .rail{display:none}
 
-    position:static sur la face est la cle : en relative elle etait le bloc
-    conteneur de la vignette, qui se serait ancree sur elle et non sur la carte.
-    Neutralisee, l'ancrage remonte a .dcard, qui est en position:relative depuis
-    le palier 1024px.
-    Le padding bas de la face arriere reserve la place : sans lui le texte
-    passerait sous la vignette des qu'une carte serait courte.
-  */
-  .dc3 .dcard__front{position:static;overflow:visible}
-  .dc3 .dcard__back{padding-bottom:calc(clamp(52px,19vw,78px) + var(--sp-11))}
-  /*
-    z-index indispensable : .dcard__back est en position:relative avec un fond
-    opaque et vient APRES la vignette dans le DOM. Sans cote d'empilement, elle
-    peignait par-dessus et la vignette disparaissait - presente, mesurable,
-    invisible.
-  */
-  .dc3 .dc-hand{position:absolute;right:var(--sp-11);bottom:var(--sp-11);z-index:2;
-    width:clamp(52px,19vw,78px);height:clamp(52px,19vw,78px);margin:0}
-  .osbridge{grid-template-columns:1fr;position:relative}
-  .osbridge__body{position:relative;z-index:1}
-  .osbridge__viz{position:absolute;inset:0;max-width:none;width:auto;margin:0;justify-self:auto;aspect-ratio:auto;z-index:-1;pointer-events:none}
-  /*
-    Sous 640px, plus de disque du tout : le trait seul, en filigrane derriere le
-    texte (.osbridge__viz est en z-index:-1). C'est le meme procede que le mot
-    geant des bannieres - un dessin qu'on devine plutot qu'on ne lit.
-    Il occupe donc toute la colonne au lieu d'un rond de 210px.
-  */
-  .osbridge__visual{inset:auto;left:auto;right:-14%;top:38%;transform:translateY(-50%);width:clamp(240px,72vw,340px);height:clamp(240px,72vw,340px);background:none;color:#fff}
-}
-  /* palier harmonise : etait 520px, aligne sur le 560px de system-event */
-  @media(max-width:560px){
-  .cases{grid-template-columns:1fr}
-  .case:first-child{grid-column:auto;flex-direction:column}
-  .case:first-child .case__top{flex:none;display:block}
-}
+    /*
+      LE PADDING DEGAGE LE DIVIDER. 80px du cote ou il passe : sans ca le texte
+      lui court dessous et la ligne traverse les mots. C'est ce qui manquait.
+      Valeurs de MainMobile.dc.html.
+    */
+    /*
+      LE CONTENU REVIENT DANS LE FLUX. Au bureau .wt est en position:absolute
+      sur toute la case, et c'est la rangee de la grille qui fixe la hauteur.
+      Empilees, les cases n'ont plus de rangee pour les porter : elles tombaient
+      a zero et la composition se reduisait a ses filets. En position:relative,
+      c'est le texte qui donne la hauteur - ce que fait la maquette mobile.
+    */
+    .wt{position:relative;inset:auto;padding:80px 24px 28px;gap:10px}
+    .cell--w1 .wt{padding-right:80px;padding-left:24px}
+    .cell--w2 .wt{padding-left:80px;padding-bottom:60px}
+    .cell--w3 .wt{padding-right:80px}
+    .wt__nom{font-size:28px;letter-spacing:-.02em}
+
+    /* Governance : bande bleue de 56px, divider a droite qui part SOUS
+       l'horizontale - il ne traverse pas la bande. */
+    .cell--w1 .wt::after{content:"";position:absolute;z-index:0;
+      right:56px;top:56px;bottom:0;width:var(--rule);background:var(--text)}
+    /* Language : carre noir en haut a gauche, divider a gauche de l'horizontale
+       jusqu'a la bande jaune, qui descend a 28px. */
+    .cell--w2 .wt::before{content:"";position:absolute;z-index:0;left:0;top:0;
+      width:56px;height:56px;background:var(--ink)}
+    .cell--w2 .wt::after{content:"";position:absolute;z-index:0;
+      left:56px;top:56px;bottom:28px;width:var(--rule);background:var(--text)}
+    .cell--w2 .wt__fragment{height:28px}
+    .wt__filet--bas{bottom:28px}
+    /* Surfaces : carre rouge en haut a droite, divider sur toute la hauteur. */
+    .cell--w3 .wt__fragment{width:56px;height:56px}
+    .cell--w3 .wt::after{right:56px;top:0;bottom:0;height:auto;width:var(--rule)}
+
+    /* ─── Le rail des trois principes ─── */
+    /*
+      .principes passe de display:contents a une piste a defilement, et .duo
+      comme .cell--p2 passent a contents a leur tour : les trois boutons
+      deviennent les items du rail. Un seul markup, deux dispositifs.
+    */
+    .principes{display:flex;gap:var(--rule);overflow-x:auto;scroll-snap-type:x mandatory;
+      scrollbar-width:none;background:var(--text);padding:0}
+    .principes::-webkit-scrollbar{display:none}
+    .duo,.cell--p2{display:contents}
+    .duo__filet{display:none}
+    /* 290px : on voit le bord de la carte suivante, ce qui dit qu'il y en a
+       une. Hauteur libre - c'est le contenu qui la fixe (§11). */
+    .duo .pr,.cell--p2 .pr{position:static;flex:0 0 290px;width:290px;height:auto;
+      scroll-snap-align:start;transition:none}
+    .pr__dedans{position:static;padding:24px 24px 32px;gap:14px;transition:none}
+    .pr__plus{top:24px;right:24px}
+    /* Le « + » est DANS la carte sur mobile (au bureau il vit dans la marge de
+       48px). Sans ce degagement, le titre passe dessous a la premiere ligne. */
+    .pr__titre{padding-right:32px;font-size:21px}
+    .cell--p2 .pr:hover,.cell--p2 .pr:focus-visible,.cell--p2 .pr[aria-expanded="true"]{height:auto}
+    /* Au doigt il n'y a ni survol ni focus-visible : seul le clic ouvre. */
+    .pr:hover .pr__detail,.pr:focus-visible .pr__detail{opacity:0;max-height:0}
+    .pr[aria-expanded="true"] .pr__detail{opacity:1;max-height:400px}
+    .pr:hover .pr__plus,.pr:focus-visible .pr__plus{transform:none}
+    .pr[aria-expanded="true"] .pr__plus{transform:rotate(45deg)}
+
+    .principes__pagination{display:flex;align-items:center;justify-content:space-between;
+      gap:12px;padding:12px 0 0;background:var(--white)}
+    .principes__points{display:flex;gap:6px}
+    .principes__points i{width:10px;height:10px;background:var(--grey-mondrian)}
+    .principes__points i.est-actif{background:var(--ink)}
+    .principes__swipe{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--ink-muted)}
+
+    /* ─── Citation et Operating System ─── */
+    .citation{margin:0;padding:32px 24px}
+    .citation blockquote{font-size:26px;line-height:1.12}
+    .os{padding:32px 24px 80px}
+    .os__filet{bottom:56px}
+    .os__bande{height:56px}
+  }
+
   @media(prefers-reduced-motion:reduce){
-  .case,.dcard,.dcard--flip .dcard__inner{transition:none}
-  .dcard--photo::after{animation:none}
-  .osbridge__visual .hand,.osbridge__visual .grip,.osbridge__visual .track{transition:none}
-    .osbridge__visual:hover .hand,.osbridge__visual:hover .grip,.osbridge__visual:hover .track{transform:none}
-  .js .drag .dcard{opacity:1;animation:none;transform:rotate(var(--rot))}
-}
-
+    .wt__fragment,.pr,.pr__dedans,.pr__detail,.pr__plus,.wt__fleche{transition:none}
+  }
 </style>
 
 <script>
-  import { revealAll } from '../scripts/reveal';
-  import { rendreDeplacable } from '../scripts/drag';
-  import { carrousel } from '../scripts/carousel';
   import { initLoader } from '../scripts/loader';
-  import { mouvementReduit } from '../scripts/motion';
+  import { tracerGrille } from '../scripts/grille';
 
-  /* les cartes photo et les cartes retournables ne se deplacent pas */
-  rendreDeplacable('.dcard:not(.dcard--photo):not(.dcard--flip)', '(max-width:720px)');
+  initLoader();
+  tracerGrille();
 
-  /* retournement : le focus seul suffit (CSS), Entree et Espace epinglent */
-  document.querySelectorAll<HTMLElement>('.dcard--flip').forEach((c) => {
-    c.addEventListener('click', () => c.classList.toggle('flipped'));
-    c.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        c.classList.toggle('flipped');
-      }
+  /*
+    Les trois principes s'ouvrent au clic, en plus du survol et du focus.
+    Indispensable sur telephone, ou aucun des deux autres n'existe (BRIEF §2.7).
+    Un seul ouvert a la fois dans le duo : les deux s'y partagent la largeur,
+    et les laisser ouverts ensemble ne voudrait rien dire.
+  */
+  const principes = [...document.querySelectorAll<HTMLButtonElement>('.pr')];
+  principes.forEach((b) => {
+    b.addEventListener('click', () => {
+      const ouvert = b.getAttribute('aria-expanded') === 'true';
+      const duo = b.closest('.duo');
+      if (duo) duo.querySelectorAll('.pr').forEach((a) => a.setAttribute('aria-expanded', 'false'));
+      b.setAttribute('aria-expanded', ouvert ? 'false' : 'true');
     });
   });
 
   /*
-    Entree en scene des tuiles. Le filet a 2200 ms couvre le cas ou le bloc est
-    deja dans le viewport au chargement, sous le loader : l'observateur ne
-    declencherait alors jamais.
+    Pagination du rail mobile. Elle n'existe qu'en dessous de 720px, ou
+    .principes devient une piste a defilement ; au-dessus, les trois principes
+    sont visibles d'un coup et il n'y a rien a paginer - d'ou la garde sur la
+    hauteur de piste plutot qu'un matchMedia qui redirait le point de rupture
+    deja ecrit dans le CSS.
   */
-  const dragEl = document.getElementById('drag');
-  if (dragEl) {
-    if (mouvementReduit()) dragEl.classList.add('in');
-    else {
-      revealAll('#drag', { threshold: 0, rootMargin: '0px 0px -60px 0px' });
-      setTimeout(() => dragEl.classList.add('in'), 2200);
-    }
+  const rail = document.querySelector<HTMLElement>('.principes');
+  const points = [...document.querySelectorAll<HTMLElement>('.principes__points i')];
+  if (rail && points.length) {
+    const suivre = () => {
+      if (rail.scrollWidth <= rail.clientWidth) return;
+      const i = Math.round((rail.scrollLeft / (rail.scrollWidth - rail.clientWidth)) * (points.length - 1));
+      points.forEach((p, n) => p.classList.toggle('est-actif', n === i));
+    };
+    rail.addEventListener('scroll', suivre, { passive: true });
+    suivre();
   }
-
-  /* .talk-card est revele par le layout, qui rend le pied de page */
-
-  if (dragEl) {
-    carrousel(dragEl, {
-      slides: '.dcard--flip',
-      dots: [...document.querySelectorAll<HTMLElement>('#dots .dot')],
-      arc: { y: 22, deg: 6.5, scale: 0.055 },
-      actifSi: '(max-width:1024px)',
-      classeDotActive: 'is-active',
-      depart: 1,
-    });
-  }
-
-  initLoader();
 </script>

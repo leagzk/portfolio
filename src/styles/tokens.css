@@ -74,6 +74,8 @@
 
   --portrait:url("/Lea-Giezek-portrait.webp");
   --mobbar-h:clamp(72px,20vw,88px);
+  /* Hauteur du bandeau collant. Le hero plein ecran la soustrait de 100svh. */
+  --chrome-h:80px;
   /*
     Gouttiere d'un bloc qui saigne d'un bord a l'autre (marge negative + 100vw)
     mais dont le CONTENU doit rester cale sur la colonne de texte. En dessous de
