@@ -1,0 +1,305 @@
+/*
+  ═══ Gabarit commun des etudes de cas (BRIEF §5) ═══
+
+  Les valeurs viennent de docs/redesign/design-reference/Language.dc.html, ou
+  elles sont ecrites en styles inline. Elles sont ici UNE FOIS, en classes, et
+  les trois etudes de cas - Language, puis Governance et Surfaces - s'en
+  servent : c'est le meme gabarit, seule la composition de cartes differe d'une
+  page a l'autre (elle est declaree dans la page).
+
+  CE FICHIER REMPLACE case-study.css, qui habille encore system-event et
+  system-practice-elements. Les deux cohabitent le temps de la migration ; les
+  noms de classes ne se croisent pas (prefixes `cles`, `compo`, `dcarte`, `pan`,
+  et le reste porte dans `.pan`).
+
+  Une seule chose n'est pas dans la maquette : le filet du contenu deplie
+  s'arrete AVANT le footer au lieu d'y arriver (BRIEF §5.3, « sans le toucher »).
+  Le brief gagne sur la maquette.
+*/
+
+/*
+  LA COLONNE EST DEJA CELLE DU LAYOUT. Base.astro pose <main> dans un .shell -
+  max-width 1120px, padding 24px - donc re-declarer ici une largeur et une
+  gouttiere les AJOUTE : la composition se retrouvait rentree de 24px par
+  rapport au titre du hero et au footer, qui sont cales sur .shell. Le reperage
+  se fait a la mesure, pas a l'oeil : .hero__titre et .compo doivent avoir le
+  meme `left`.
+  La classe reste - c'est le crochet des regles de section - mais elle ne touche
+  plus a la largeur.
+*/
+.etude{display:flex;flex-direction:column}
+
+/* ═══════════ Chiffres cles (BRIEF §5.2) ═══════════ */
+/*
+  72px sous le hero (BRIEF §2.2), quatre colonnes separees par des filets
+  VERTICAUX qui ne touchent pas le hero et descendent jusqu'a la composition :
+  d'ou `border-left` sur les colonnes - pas de filet au-dessus, pas de filet en
+  dessous - et un padding bas de 48px qui fait descendre le filet sous le texte
+  jusqu'au cadre de la composition.
+*/
+.cles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px}
+.cles__col{display:flex;flex-direction:column;gap:8px;
+  padding:0 var(--gutter) var(--pad-square)}
+.cles__col + .cles__col{border-left:var(--rule-fine) solid var(--text)}
+.cles__nb{font-family:var(--display);font-size:56px;font-weight:900;line-height:1;
+  letter-spacing:-.02em}
+.cles__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.4}
+.cles__ctx{font-size:var(--fs-caption);line-height:1.5;color:var(--ink-muted)}
+
+@media(max-width:860px){
+  .cles{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:48px;row-gap:24px}
+  .cles__col{padding:0 16px 24px}
+  /* La troisieme ouvre la deuxieme rangee : elle n'a plus de voisine a gauche. */
+  .cles__col:nth-child(3){border-left:0}
+}
+
+/* ═══════════ Composition des 3 cartes (BRIEF §5.3) ═══════════ */
+/*
+  LES FILETS SONT LE FOND, PAS DES BORDURES - meme principe que l'accueil : la
+  grille porte le noir, un `gap` de 1,5px le laisse voir, et chaque case repose
+  un fond blanc par-dessus. Avec des bordures on aurait 3px entre deux cases.
+
+  LE CADRE, LUI, EST UNE VRAIE BORDURE. C'est la difference avec l'accueil, dont
+  les bords sont ouverts (et rognes au clip-path, BRIEF §4.3) : ici le brief
+  demande un cadre, donc le filet exterieur est dessine et non subi.
+
+  `grid-template-columns` et `-rows` sont declares PAR LA PAGE : chaque etude de
+  cas a sa composition. ELLE DOIT LES POSER DANS UN `@media(min-width:861px)` :
+  le <style> d'une page arrive apres cette feuille dans le bundle, donc a
+  specificite egale sa declaration battrait la remise en une colonne ci-dessous,
+  media query comprise.
+*/
+.compo{display:grid;position:relative;gap:var(--rule-fine);background:var(--text);
+  border:var(--rule-fine) solid var(--text);
+  scroll-margin-top:calc(var(--chrome-h) + var(--sp-03))}
+.compo > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
+
+/*
+  L'aplat de couleur est un enfant de la case, pas son fond.
+
+  Une case dont le fond porte la couleur ne peut pas POUSSER a la construction
+  (BRIEF §4.1) : la mettre a `scale(0)` decouvrirait le fond noir de la grille,
+  pas du blanc. L'enfant, lui, s'anime sur un fond blanc qui reste en place.
+*/
+.compo__plat{position:absolute;inset:0;transform-origin:left top}
+.compo__plat--gris{background:var(--grey-mondrian)}
+.compo__plat--bleu{background:var(--blue)}
+.compo__plat--rouge{background:var(--red)}
+.compo__plat--jaune{background:var(--yellow)}
+.compo__plat--noir{background:var(--ink)}
+
+/* ─── La carte depliable ─── */
+/*
+  C'EST UN BOUTON DE DIVULGATION, PAS UN ONGLET. La maquette ecrit
+  role="tablist" / role="tab", mais le dispositif n'en est pas un : aucune carte
+  n'est ouverte au chargement, et re-cliquer sur la carte ouverte la referme -
+  deux choses qu'un jeu d'onglets ne fait pas, et qu'un lecteur d'ecran
+  annoncerait de travers. `aria-expanded` + `aria-controls` disent exactement ce
+  qui se passe, et le bouton repond a Entree comme a Espace sans rien ajouter.
+*/
+.dcarte{all:unset;box-sizing:border-box;cursor:pointer;position:relative;
+  overflow:hidden;background:var(--white);display:flex;flex-direction:column;
+  justify-content:flex-start;gap:18px;padding:28px}
+.dcarte:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
+
+/*
+  L'aplat se remplit DEPUIS LE COIN HAUT GAUCHE, en largeur et en hauteur a la
+  fois : 0×0 ferme, 100%×100% ouvert. C'est le meme geste que les aplats de
+  l'accueil au survol, et la meme duree.
+*/
+.dcarte__plat{position:absolute;left:0;top:0;width:0;height:0;
+  transition:width .4s cubic-bezier(.2,.7,.2,1),height .4s cubic-bezier(.2,.7,.2,1)}
+.dcarte[aria-expanded="true"] .dcarte__plat{width:100%;height:100%}
+.dcarte--rouge .dcarte__plat{background:var(--red)}
+.dcarte--bleu .dcarte__plat{background:var(--blue)}
+.dcarte--jaune .dcarte__plat{background:var(--yellow)}
+
+.dcarte__txt{position:relative;z-index:1;transition:color .3s}
+.dcarte__eyebrow{display:flex;justify-content:space-between;align-items:center;
+  gap:12px;font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.18em;
+  text-transform:uppercase}
+.dcarte__corps{display:flex;flex-direction:column;gap:12px}
+.dcarte__titre{font-family:var(--display);font-size:24px;line-height:1.1;
+  font-weight:900;max-width:420px}
+/* La carte 01 est la plus grande des trois : son titre porte un cran de plus. */
+.dcarte--large .dcarte__titre{font-size:28px}
+.dcarte__synthese{font-size:var(--fs-body-s);line-height:1.55;font-weight:500;
+  opacity:.85;max-width:420px}
+/* Le « + » devient × quand la carte est ouverte (BRIEF §2.7), au meme endroit
+   que dans les tuiles et sur l'accueil. */
+.dcarte__plus{flex:none;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.dcarte[aria-expanded="true"] .dcarte__plus{transform:rotate(45deg)}
+/* Texte blanc sur le rouge et le bleu, noir sur le jaune. */
+.dcarte--rouge[aria-expanded="true"] .dcarte__txt,
+.dcarte--bleu[aria-expanded="true"] .dcarte__txt{color:var(--white)}
+
+/* ─── Construction : l'etat d'attente et l'etat vu (BRIEF §4.1) ─── */
+/*
+  Posees par src/scripts/grille.ts, jamais au build : sans script la composition
+  est simplement la. Les keyframes sont dans motion.css, communes a toutes les
+  compositions ; ce qui est nomme ici, ce sont les elements de celle-ci.
+*/
+.compo.pre{background:var(--white)}
+.attend .compo__plat{transform:scale(0)}
+.attend .dcarte__txt{opacity:0}
+.vu .compo__plat{animation:pousse .95s cubic-bezier(.16,1,.3,1) var(--retard,0s) both}
+.vu .dcarte__txt{animation:monte .85s cubic-bezier(.16,1,.3,1)
+  calc(var(--retard,0s) + .22s) both}
+
+@media(max-width:860px){
+  /*
+    Les blocs decoratifs disparaissent et les trois cartes s'empilent dans
+    l'ordre 01 → 02 → 03 (BRIEF §5.3). L'ordre du DOM suit la composition du
+    bureau, ou 02 est en haut ; `order` le remet d'aplomb sans dupliquer le
+    markup, et l'ordre de tabulation suit l'ordre visuel.
+  */
+  .compo{grid-template-columns:1fr;grid-template-rows:none}
+  .compo > *{grid-column:auto !important;grid-row:auto !important;min-height:170px}
+  .compo__decor{display:none}
+}
+
+/* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
+/*
+  Grammaire commune a toutes les sections : eyebrow → phrase forte a gauche →
+  texte ou puces a droite → visuels.
+
+  LE FILET VERTICAL S'ARRETE AVANT LE FOOTER. Il est dessine par ::before et non
+  par `border-left` : une bordure court sur toute la hauteur de la boite, padding
+  compris, et viendrait buter contre le noir du footer. Le pseudo-element
+  s'arrete ou s'arrete le contenu.
+*/
+.pan{position:relative;padding:80px 0 96px 48px;display:flex;flex-direction:column;
+  gap:88px}
+.pan::before{content:"";position:absolute;left:0;top:0;bottom:96px;
+  width:var(--rule-fine);background:var(--text)}
+/* Une section fermee ne laisse rien derriere elle - ni filet, ni espace. */
+.pan[hidden]{display:none}
+/*
+  Le depliage, une seule fois a l'ouverture : la section arrive de quelques
+  pixels au-dessus en se revelant. C'est le pendant du remplissage de la carte,
+  et ca dit d'ou le contenu sort.
+*/
+.pan--ouvre{animation:deplie .4s ease-out}
+@keyframes deplie{from{opacity:0;transform:translateY(-10px)}}
+
+.pan .subsec{display:flex;flex-direction:column;gap:32px}
+
+/* ─── Typographie du contenu ─── */
+.pan .eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--text)}
+.pan .lead{margin:0;font-family:var(--display);font-size:var(--fs-lead);
+  line-height:1.1;font-weight:900;letter-spacing:-.015em}
+.pan .h3{margin:0;font-family:var(--display);font-size:var(--fs-section);
+  line-height:1.1;font-weight:900;letter-spacing:-.015em;max-width:760px}
+.pan .body{display:flex;flex-direction:column;gap:16px;font-size:var(--fs-body);
+  line-height:1.7;color:var(--text-body)}
+.pan .body p{margin:0}
+.pan .body strong,.pan .body b{color:var(--text)}
+/* Citation : filet bleu a gauche, italique. */
+.pan .qt{margin:0;padding-left:20px;border-left:3px solid var(--blue);
+  font-size:17px;line-height:1.65;font-style:italic;color:var(--text-body);
+  max-width:720px}
+/*
+  Les puces n'ont pas de glyphe mais un TIRET dessine - 14px sur 2px, la meme
+  epaisseur que les filets de l'accueil. `list-style:none` + ::before : un
+  marqueur natif n'aurait ni cette longueur ni cet alignement.
+*/
+.pan .pts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;
+  gap:12px}
+.pan .pts li{position:relative;padding-left:28px;font-size:var(--fs-body);
+  line-height:1.6;color:var(--text-body)}
+.pan .pts li::before{content:"";position:absolute;left:0;top:.8em;width:14px;
+  height:2px;background:var(--text)}
+.pan .pts strong,.pan .pts b{color:var(--text)}
+
+/* ─── Bloc noir ─── */
+.pan .dark{background:var(--ink);color:var(--on-ink);border-radius:var(--r-footer);
+  padding:var(--pad-square);display:flex;flex-direction:column;gap:18px;
+  font-size:var(--fs-body);line-height:1.7}
+.pan .dark p:not(.eb){margin:0;max-width:760px}
+.pan .dark strong,.pan .dark b{color:var(--white)}
+.pan .dark .eb{color:var(--yellow)}
+.pan .dark .h3{color:var(--white)}
+
+/* ─── Grilles de contenu ─── */
+.pan .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px}
+.pan .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.pan .three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.pan .four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+/* Les deux colonnes du changement de version : texte a gauche, concepts empiles
+   a droite, alignes en haut (BRIEF §5.4). */
+.pan .vc{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:48px;
+  align-items:start}
+.pan .vcl,.pan .vcr{display:flex;flex-direction:column;gap:24px}
+
+/* ─── Visuels ─── */
+/*
+  Le CADRE porte le rapport de la serie, l'image s'y loge entiere. Voir
+  l'en-tete de src/components/Figure.astro : les planches de ces series ne sont
+  pas au format de la maquette, et les rogner couterait vingt pour cent de
+  chacune. --fit est pose par le composant.
+*/
+.fig{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
+.fig__cadre{position:relative;overflow:hidden;border-radius:var(--r-media);
+  background:var(--placeholder)}
+.fig__cadre :is(img,picture,picture img){display:block;width:100%;height:100%;
+  object-fit:var(--fit,contain)}
+/* Emplacement en attente d'image : il DOIT se voir comme tel. */
+.fig__attente{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;text-align:center;padding:12px;
+  font-size:var(--fs-eyebrow);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-muted)}
+.cap{font-size:var(--fs-caption);line-height:1.55;color:var(--ink-muted)}
+.cap strong{color:var(--text)}
+/* Pastille Retained / Not retained - le seul arrondi du site avec le footer. */
+.pan .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.12em;
+  text-transform:uppercase;padding:2px 9px;border-radius:var(--r-pill);
+  border:var(--rule-fine) solid var(--text);color:var(--text);font-style:normal}
+.pan .tag--on{background:var(--text);color:var(--white)}
+
+/* ─── Nuancier des capabilities ─── */
+.pan .sw{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px;
+  margin:0;padding:0;list-style:none}
+.pan .swi{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-eyebrow);
+  font-weight:700;line-height:1.3}
+.pan .swc{aspect-ratio:1;border-radius:var(--r-media)}
+.pan .swi code{font-size:10px;font-weight:400;color:var(--ink-muted)}
+
+/* ─── Mosaique de la discovery ─── */
+/*
+  Cinq extraits de tailles inegales, poses a la main : c'est une PLANCHE, pas
+  une serie. Les surfaces disent lesquels portent le plus, ce qu'une grille
+  reguliere effacerait. Les positions sont dans la page, avec les visuels.
+*/
+.pan .mosaic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  grid-auto-rows:120px;gap:8px}
+.pan .mosaic :is(img,picture){width:100%;height:100%;object-fit:cover;
+  border-radius:var(--r-media);background:var(--placeholder)}
+
+/* ─── Bloc de fin de section ─── */
+.pan .closing{display:flex;flex-direction:column;gap:24px;padding-top:24px}
+.pan .closing h2{margin:0;font-family:var(--display);font-size:40px;line-height:1.05;
+  font-weight:900;letter-spacing:-.02em;max-width:640px}
+.pan .cbody{margin:0;font-size:17px;line-height:1.7;color:var(--text-body);
+  max-width:640px}
+.pan .cbody strong{color:var(--text)}
+/* Le bouton de fin de partie est ferre a droite, a la meme place dans les trois
+   sections (BRIEF §5.4). */
+.pan .suite{align-self:flex-end}
+
+@media(max-width:860px){
+  .pan{padding:48px 0 64px 20px;gap:56px}
+  .pan::before{bottom:64px}
+  .pan .split,.pan .two,.pan .vc{grid-template-columns:1fr;gap:24px}
+  .pan .three,.pan .four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .pan .sw{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .pan .lead{font-size:28px}
+  .pan .dark{padding:28px}
+  .pan .mosaic{grid-auto-rows:90px}
+  .pan .closing h2{font-size:30px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .dcarte__plat,.dcarte__plus,.dcarte__txt{transition:none}
+  .pan--ouvre{animation:none}
+}

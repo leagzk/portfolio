@@ -241,6 +241,7 @@ const personSchema = {
   import { initChrome } from '../scripts/chrome';
   import { revealAll } from '../scripts/reveal';
   import { ajusterFiligranes } from '../scripts/filigrane';
+  import { tracerGrille } from '../scripts/grille';
 
   initChrome();
   /* Le hero est rendu par les sept pages : la mise a l'echelle du mot en
@@ -259,6 +260,16 @@ const personSchema = {
     (voir la clause prefers-reduced-motion plus haut).
   */
   revealAll('.talk-card', { threshold: 0.2 });
+
+  /*
+    La construction des compositions Mondrian (BRIEF §4.1). Appelee ici et non
+    dans les pages : il y en a desormais DEUX - l'accueil et chaque etude de
+    cas - et le script les sert toutes en une passe (il boucle sur
+    [data-grille]). Appele depuis les pages, il l'etait dans l'une et oublie
+    dans l'autre : la composition de Language s'affichait d'un coup, sans que
+    rien ne le signale. Meme raison que ajusterFiligranes ci-dessus.
+  */
+  tracerGrille();
 </script>
 </body>
 </html>

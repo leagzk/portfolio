@@ -27,7 +27,15 @@ import Icone from './Icone.astro';
 import type { NomIcone } from './Icone.astro';
 
 export interface Props {
-  href: string;
+  /*
+    Omis, le composant rend un <button type="button"> au lieu d'un <a>.
+    Les boutons de fin de section d'une etude de cas - « Next: the approach » -
+    ne menent nulle part : ils ouvrent une section de la meme page. Un <a href="#">
+    ajouterait une entree a l'historique et un saut d'ancre a annuler ; un
+    <button> dit ce qu'il est, et le clavier le declenche a Entree comme a Espace.
+    L'apparence est identique : tout le style porte sur `.sb`.
+  */
+  href?: string;
   /** la couleur du carre. Le libelle passe au blanc, sauf sur jaune. */
   variante?: 'jaune' | 'bleu' | 'rouge' | 'noir';
   icone?: NomIcone;
@@ -35,24 +43,33 @@ export interface Props {
   telechargement?: string;
   /** ouvre ailleurs : pose target/rel et la mention pour les lecteurs d'ecran */
   externe?: boolean;
+  /** sans href : identifiant de la carte a ouvrir, lu par src/scripts/dossier.ts */
+  commande?: string;
   class?: string;
 }
 const {
-  href, variante = 'bleu', icone, telechargement, externe = false, class: classe,
+  href, variante = 'bleu', icone, telechargement, externe = false,
+  commande, class: classe,
 } = Astro.props;
+const Balise = href ? 'a' : 'button';
 ---
-<a
+<Balise
   class:list={['sb', `sb--${variante}`, classe]}
   href={href}
+  type={href ? undefined : 'button'}
+  data-suite={commande}
   download={telechargement ? true : undefined}
   target={externe ? '_blank' : undefined}
   rel={externe ? 'noopener noreferrer' : undefined}
 >
   <span class="sb__carre" aria-hidden="true"></span>
-  <span class="sb__texte"><slot />{icone && <Icone nom={icone} />}</span>
+  {/* data-copy : le libelle est de la copy, et il n'a pas de bloc parent -
+      ni dans un <button>, ou <p> est interdit, ni quand le bouton est seul
+      dans une section. Voir scripts/export-content.mjs. */}
+  <span class="sb__texte" data-copy><slot />{icone && <Icone nom={icone} />}</span>
   {externe && <span class="sr-only"> (opens in a new tab)</span>}
   {telechargement && <span class="sr-only"> ({telechargement})</span>}
-</a>
+</Balise>
 
 <style is:global>
   /*
@@ -60,8 +77,12 @@ const {
     porte le hash de la PAGE et non celui de ce composant. Une regle scopee
     ne traverserait pas cette frontiere - meme raison que shared.css.
   */
+  /* border/background/cursor : le composant rend aussi un <button>, qui part
+     avec un cadre et un fond gris du navigateur. Les quatre lignes neutralisent
+     l'habillage natif sans toucher a l'apparence du <a>. */
   .sb{position:relative;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
     min-height:44px;padding:0 20px 0 30px;overflow:hidden;
+    border:0;background:none;cursor:pointer;text-align:left;
     font-family:var(--display);font-weight:700;font-size:var(--fs-body-s);
     color:inherit;text-decoration:none}
   /* 15px : (44 - 14) / 2, le carre centre sur la hauteur du bouton au repos */

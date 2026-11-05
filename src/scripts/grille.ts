@@ -46,18 +46,29 @@ const RETRAIT = 0.45; // ce que la couleur attend apres les filets qui la borden
 const RETARD_TARDIF = 0.08;
 
 export function tracerGrille(): void {
-  const comp = document.querySelector<HTMLElement>('[data-grille]');
-  if (!comp) return;
   if (mouvementReduit() || !('IntersectionObserver' in window)) return;
+  document.querySelectorAll<HTMLElement>('[data-grille]').forEach(construire);
+}
 
+/*
+  UNE COMPOSITION, PAS LA COMPOSITION. L'accueil en porte une, chaque etude de
+  cas la sienne ; le trace est le meme geste et n'a pas a etre reecrit. Seules
+  les regles .attend / .vu changent d'une page a l'autre, et elles sont dans le
+  CSS de la page, pas ici.
+*/
+function construire(comp: HTMLElement): void {
   /*
-    `.principes` est en display:contents : ses enfants sont des cases de la
-    grille sans etre enfants directs de .comp, d'ou les deux sources.
+    LES CASES NE SONT PAS TOUJOURS LES ENFANTS DIRECTS. Un conteneur en
+    `display:contents` - le rail des principes de l'accueil - disparait de la
+    mise en page et ce sont SES enfants qui sont les cases de la grille. On le
+    detecte au calcul plutot qu'au nom de classe : la regle vaut pour toute
+    composition, presente ou a venir.
   */
-  const cases = [
-    ...Array.from(comp.children).filter((el) => !el.classList.contains('principes')),
-    ...Array.from(comp.querySelector('.principes')?.children ?? []),
-  ] as HTMLElement[];
+  const cases = Array.from(comp.children).flatMap((el) =>
+    getComputedStyle(el).display === 'contents'
+      ? (Array.from(el.children) as HTMLElement[])
+      : [el as HTMLElement],
+  );
 
   /* Etat d'attente pose tout de suite : sans lui le contenu s'affiche puis
      disparait pour se re-animer quand l'observateur se declenche. */

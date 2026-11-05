@@ -35,6 +35,19 @@ const sortie = join(racine, 'content');
 */
 const BLOCS = ['h1', 'h2', 'h3', 'p', 'li', 'dt', 'dd', 'figcaption', 'div'];
 
+/*
+  Un <span> ne peut pas etre un bloc : il y en a dans chaque phrase - le mot en
+  couleur des accroches, le gras des puces - et les compter comme tels
+  decouperait les phrases en morceaux et perdrait les mots autour.
+
+  Mais un <button> ne peut contenir que du phrasing content : ni <p>, ni <div>.
+  La copy des trois cartes depliables de l'etude Language - titre et synthese -
+  vit donc forcement dans des <span>, et n'avait aucun bloc parent pour la faire
+  sortir. `data-copy` est le contrat explicite : ce span-la porte de la copy, pas
+  une emphase. Il se pose a la main, la ou on sait que c'est le cas.
+*/
+const SPAN_COPY = /<span\b[^>]*\bdata-copy\b[^>]*>([\s\S]*?)<\/span>/g;
+
 const entites = (s) =>
   s
     .replace(/&nbsp;/g, ' ')
@@ -95,15 +108,22 @@ function inline(html) {
    les planches cliquables de /system-brand sont enveloppees d'un <button>,
    les supprimer emportait ONZE textes alternatifs avec elles : l'export est
    tombe de 29 alt a 18 sans qu'aucune ligne de contenu ne change, donc sans
-   que le compte de blocs - le garde-fou habituel - ne bronche. Un bouton qui
-   contient une image contient de la copy ; on ne jette que sa coquille. */
+   que le compte de blocs - le garde-fou habituel - ne bronche.
+
+   LA CONDITION « s'il contient une image » EST TOMBEE A SON TOUR, et pour la
+   meme raison, un cran plus loin. Le gabarit Bauhaus met de la copy dans des
+   boutons SANS image : les trois cartes depliables de l'etude Language portent
+   leur titre et leur synthese, et les huit tuiles qui se retournent portent
+   tout leur verso - mille neuf cents mots qui sortaient de l'export sans que
+   rien ne le dise. On ne jette donc que la coquille, toujours.
+   Ce qui reste dehors ne manque pas : les fleches de carrousel et le hamburger
+   n'ont pour texte qu'un aria-label, et leur <svg> est deja retire au-dessus. */
 function nettoyer(html) {
   return html
     .replace(/<svg[\s\S]*?<\/svg>/g, '')
     .replace(/<(script|style)[\s\S]*?<\/\1>/g, '')
     .replace(/<nav\b[^>]*>[\s\S]*?<\/nav>/g, '')
-    .replace(/<button\b[^>]*>([\s\S]*?)<\/button>/g, (_, dedans) =>
-      /<img\b/.test(dedans) ? dedans : '');
+    .replace(/<\/?button\b[^>]*>/g, '');
 }
 
 /*
@@ -122,6 +142,11 @@ function blocs(html) {
     while ((m = re.exec(html))) {
       trouves.push({ tag, debut: m.index, fin: m.index + m[0].length, inner: m[1] });
     }
+  }
+  SPAN_COPY.lastIndex = 0;
+  let sm;
+  while ((sm = SPAN_COPY.exec(html))) {
+    trouves.push({ tag: 'span', debut: sm.index, fin: sm.index + sm[0].length, inner: sm[1] });
   }
   return trouves
     .filter((b) => !trouves.some((a) => a !== b && a.debut > b.debut && a.fin <= b.fin))

@@ -1,0 +1,127 @@
+---
+/*
+  Carrousel du gabarit Bauhaus (BRIEF §2.6).
+
+  Piste en `overflow-x:auto` + scroll-snap, la vignette suivante qui DEPASSE -
+  c'est elle qui dit qu'on peut defiler, pas une pastille. En-tete : eyebrow a
+  gauche, deux fleches carrees a droite, qui defilent de 75% de la largeur
+  visible. Pas de 100% : en laissant depasser un quart on garde le fil de la
+  serie.
+
+  IL NE REMPLACE PAS <Carousel> TOUT DE SUITE. L'ancien habille encore
+  system-event et system-practice-elements, dont la mise en page tient a ses
+  vignettes a hauteur fixe et a ses pastilles ; il tombera quand ces deux pages
+  passeront au gabarit. Ici, c'est la largeur des vignettes qui est posee et la
+  hauteur qui suit - l'inverse - parce que les series de cette page sont des
+  carres et des formats paysage, pas des portraits.
+
+  LA PISTE EST FOCALISABLE. `tabindex="0"` sur un conteneur defilant, c'est ce
+  qui donne les fleches du clavier : sans lui la serie est inaccessible a qui
+  n'a pas de souris, les deux boutons ne permettant que des sauts de 75%.
+*/
+import Icone from './Icone.astro';
+import Figure from './Figure.astro';
+import type { ImageMetadata } from 'astro';
+
+export interface Vignette {
+  src?: ImageMetadata;
+  /** SVG charge en `?url` */
+  url?: string;
+  alt: string;
+  legende: string;
+}
+
+export interface Props {
+  /** intitule de la serie, pour les lecteurs d'ecran et les fleches */
+  label: string;
+  /** surtitre a gauche de l'en-tete. Omis, l'en-tete se reduit aux fleches. */
+  eyebrow?: string;
+  vignettes: Vignette[];
+  /** rapport des vignettes : « 1 / 1 » pour les personnages, « 16 / 10 » pour le pilote */
+  ratio?: string;
+  /** largeur d'une vignette au bureau, en CSS */
+  largeur?: string;
+  /** et sous 860px, ou il n'en tient qu'une */
+  largeurMobile?: string;
+  sizes?: string;
+}
+const {
+  label, eyebrow, vignettes,
+  ratio = '16 / 10',
+  largeur = '72%',
+  largeurMobile = '88%',
+  sizes = '(min-width: 900px) 760px, 90vw',
+} = Astro.props;
+---
+<div class="carrousel" style={`--slide-w:${largeur};--slide-w-mob:${largeurMobile}`}>
+  <div class="carrousel__tete">
+    {eyebrow && <p class="eb">{eyebrow}</p>}
+    <div class="carrousel__fleches">
+      <button class="carrousel__btn" type="button" data-sens="-1" aria-label={`Previous ${label}`}>
+        <Icone nom="fleche-gauche" taille={18} />
+      </button>
+      <button class="carrousel__btn" type="button" data-sens="1" aria-label={`Next ${label}`}>
+        <Icone nom="fleche-droite" taille={18} />
+      </button>
+    </div>
+  </div>
+  <div class="carrousel__piste" tabindex="0" role="group" aria-label={label}>
+    {vignettes.map((v) => (
+      <Figure
+        class="carrousel__slide"
+        src={v.src}
+        url={v.url}
+        alt={v.alt}
+        legende={v.legende}
+        ratio={ratio}
+        sizes={sizes}
+      />
+    ))}
+  </div>
+</div>
+
+<style is:global>
+  .carrousel{display:flex;flex-direction:column;gap:20px}
+  .carrousel__tete{display:flex;justify-content:space-between;align-items:center;gap:16px}
+  .carrousel__fleches{display:flex;gap:8px;margin-left:auto}
+  /* Carre, bordure 1,5px, rempli de noir au survol - comme les boutons du
+     gabarit, aucun arrondi (BRIEF §1). 44px : la cible tactile minimale. */
+  .carrousel__btn{display:grid;place-items:center;width:44px;height:44px;padding:0;
+    border:var(--rule-fine) solid var(--text);background:none;color:var(--text);
+    cursor:pointer;transition:background .2s,color .2s}
+  .carrousel__btn:hover,.carrousel__btn:focus-visible{background:var(--text);color:var(--white)}
+  .carrousel__btn:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+
+  .carrousel__piste{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;
+    scroll-behavior:smooth;padding-bottom:8px;scrollbar-width:thin}
+  .carrousel__piste:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+  .carrousel__slide{flex:0 0 var(--slide-w,72%);scroll-snap-align:start}
+
+  @media(max-width:860px){
+    .carrousel__slide{flex:0 0 var(--slide-w-mob,88%)}
+  }
+  /* `scroll-behavior:smooth` est ignore par le navigateur lui-meme sous
+     prefers-reduced-motion ; on le retire quand meme pour les navigateurs qui
+     ne font le lien que sur la propriete CSS. */
+  @media(prefers-reduced-motion:reduce){
+    .carrousel__piste{scroll-behavior:auto}
+  }
+</style>
+
+<script>
+  /*
+    Astro n'emet ce script qu'une fois par page, quel que soit le nombre
+    d'instances : d'ou la boucle sur toutes les pistes. Chaque paire de fleches
+    est cherchee a partir de SA piste, jamais dans le document - deux carrousels
+    sur la meme page se commanderaient l'un l'autre.
+  */
+  document.querySelectorAll<HTMLElement>('.carrousel').forEach((car) => {
+    const piste = car.querySelector<HTMLElement>('.carrousel__piste');
+    if (!piste) return;
+    car.querySelectorAll<HTMLElement>('.carrousel__btn').forEach((b) => {
+      b.addEventListener('click', () => {
+        piste.scrollBy({ left: piste.clientWidth * 0.75 * Number(b.dataset.sens) });
+      });
+    });
+  });
+</script>

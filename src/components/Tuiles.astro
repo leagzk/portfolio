@@ -23,12 +23,25 @@
 import Icone from './Icone.astro';
 
 export interface Tuile {
+  /**
+   * Le titre du recto. Il peut porter du HTML : la frise 2018→2023 met en
+   * italique le verbe qui pivote d'un palier au suivant - « communication
+   * <em>was</em> the system » -, et c'est LUI le propos. Ecrit en texte, il
+   * faudrait soit renoncer a l'italique, soit decouper le titre en trois props.
+   * Le contenu vient de la page, jamais d'une saisie : rien a assainir.
+   */
   titre: string;
-  /** le texte du verso */
+  /** le texte du verso. HTML autorise, meme raison que `titre`. */
   texte: string;
   couleur: 'rouge' | 'bleu' | 'jaune' | 'noir';
-  /** surtitre du recto. Le verso n'en porte jamais (BRIEF §5.4, Approach). */
+  /** surtitre du recto - l'annee pour la frise, le nom de la pratique sinon */
   eyebrow?: string;
+  /**
+   * Repeter le surtitre au verso. La frise le fait - l'annee est le repere, on
+   * doit savoir de quel palier on lit le detail - les quatre pratiques non
+   * (BRIEF §5.4 : « verso sans eyebrow »).
+   */
+  rappel?: boolean;
 }
 
 export interface Props {
@@ -37,41 +50,70 @@ export interface Props {
   colonnes?: number;
   /** nom du groupe pour les lecteurs d'ecran */
   label: string;
+  /**
+   * Hauteur d'une tuile. Posee et non deduite d'un rapport : les series n'ont
+   * pas le meme contenu au verso - la frise tient en trois lignes, les quatre
+   * pratiques en dix - et c'est le VERSO qui decide de la hauteur. A rapport
+   * fixe, la serie la plus bavarde deborderait ou il faudrait rapetisser son
+   * texte.
+   */
+  hauteur?: number;
 }
-const { tuiles, colonnes = 4, label } = Astro.props;
+const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
 ---
-<ul class="tuiles" style={`--tuiles-cols:${colonnes}`} aria-label={label}>
+<ul class="tuiles" style={`--tuiles-cols:${colonnes};--tuile-h:${hauteur}px`} aria-label={label}>
   {tuiles.map((t) => (
     <li class="tuile">
       <button class="tuile__pivot" type="button" aria-expanded="false">
         <span class:list={['tuile__face', 'tuile__recto', `tuile--${t.couleur}`]}>
           {t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
-          <span class="tuile__titre">{t.titre}</span>
+          <span class="tuile__titre" set:html={t.titre} />
           <Icone nom="plus" taille={18} class="tuile__plus" />
         </span>
-        <span class="tuile__face tuile__verso">{t.texte}</span>
+        <span class="tuile__face tuile__verso">
+          {t.rappel && t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
+          <span class="tuile__texte" set:html={t.texte} />
+        </span>
       </button>
     </li>
   ))}
 </ul>
 
 <style is:global>
+  /* Le cadre est une vraie bordure, le reste du noir est le FOND que le `gap`
+     laisse voir : les filets interieurs doivent faire 1,5px et pas 3. */
   .tuiles{display:grid;grid-template-columns:repeat(var(--tuiles-cols,4),minmax(0,1fr));
-    gap:var(--rule-fine);background:var(--text);list-style:none;margin:0;padding:0}
-  .tuile{min-width:0}
+    gap:var(--rule-fine);background:var(--text);
+    border:var(--rule-fine) solid var(--text);list-style:none;margin:0;padding:0}
+  .tuile{display:grid;min-width:0}
   /* La perspective vit sur le bouton ; chaque face est son enfant direct et
      tourne pour son propre compte - l'une vers 180deg, l'autre de 180 vers 360.
      backface-visibility fait le reste : a tout instant une seule est face a
-     nous. Pas de conteneur intermediaire, donc pas de transform-style a poser. */
-  .tuile__pivot{position:relative;display:block;width:100%;aspect-ratio:1;
+     nous. Pas de conteneur intermediaire, donc pas de transform-style a poser.
+
+     LES DEUX FACES SONT SUPERPOSEES EN GRILLE, PAS EN ABSOLU, et `--tuile-h`
+     est un PLANCHER. En absolu, les faces ne comptaient pas dans la hauteur du
+     bouton : celle-ci etait posee, et le verso le plus bavard - « Rituals »,
+     dix lignes - la depassait de 7px a 1024px de colonne, et de plus de cent a
+     866px. Un debord de texte, pas une coupe : les faces n'ont pas d'overflow,
+     le texte sortait sur la tuile voisine. Dans la meme cellule de grille, la
+     rangee prend la hauteur de la face la plus haute, les quatre tuiles la
+     partagent, et rien ne deborde a aucune largeur. */
+  .tuile__pivot{position:relative;display:grid;width:100%;min-height:var(--tuile-h,240px);
     padding:0;border:none;background:none;cursor:pointer;perspective:1200px;
     font:inherit;color:inherit;text-align:left}
-  .tuile__face{position:absolute;inset:0;display:flex;flex-direction:column;
-    padding:var(--pad-square);backface-visibility:hidden;
+  .tuile__face{grid-area:1 / 1;display:flex;flex-direction:column;
+    padding:28px;backface-visibility:hidden;
     transition:transform .7s cubic-bezier(.4,0,.2,1)}
-  .tuile__recto{justify-content:flex-end}
-  .tuile__verso{background:var(--white);color:var(--text);transform:rotateY(180deg);
-    justify-content:center;font-size:var(--fs-body-s);line-height:1.55}
+  /* Surtitre en haut, titre en bas : le recto se lit du repere vers le propos. */
+  .tuile__recto{justify-content:space-between}
+  /* Le verso cale son texte EN HAUT et non au centre : les quatre pratiques en
+     ont dix lignes, et un bloc centre puis un bloc cale en haut dans la meme
+     rangee ne se liraient pas comme une serie. */
+  .tuile__verso{background:var(--white);color:var(--text-body);
+    transform:rotateY(180deg);justify-content:flex-start;gap:10px;
+    font-size:14px;line-height:1.6}
+  .tuile__verso strong,.tuile__verso b{color:var(--text)}
   .tuile__pivot:hover .tuile__face,
   .tuile__pivot:focus-visible .tuile__face,
   .tuile__pivot[aria-expanded="true"] .tuile__face{transform:rotateY(180deg)}
@@ -79,10 +121,13 @@ const { tuiles, colonnes = 4, label } = Astro.props;
   .tuile__pivot:focus-visible .tuile__verso,
   .tuile__pivot[aria-expanded="true"] .tuile__verso{transform:rotateY(360deg)}
 
-  .tuile__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
-    text-transform:uppercase;opacity:.75;margin-bottom:12px}
-  .tuile__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-tile);
-    line-height:1.12}
+  /* Monospace et non capitales espacees : c'est un REPERE - une annee, le nom
+     d'une pratique -, pas un surtitre de section. La maquette l'ecrit en <code>
+     et la distinction se voit : on ne confond pas « 2018 » avec « THE RESULTS ». */
+  .tuile__eyebrow{font-family:ui-monospace,monospace;font-size:13px;opacity:.8}
+  .tuile__titre{font-family:var(--display);font-weight:900;font-size:22px;
+    line-height:1.15}
+  .tuile__titre em{font-style:italic}
   /* Toujours au meme endroit dans l'encadre (BRIEF §2.7), et il pivote en x
      quand le verso est montre. 16px du coin, comme les carres de la landing. */
   .tuile__plus{position:absolute;top:16px;right:16px;transition:transform .4s ease}
@@ -98,8 +143,7 @@ const { tuiles, colonnes = 4, label } = Astro.props;
 
   @media(max-width:720px){
     .tuiles{grid-template-columns:1fr}
-    .tuile__pivot{aspect-ratio:3/2}
-    .tuile__face{padding:var(--sp-12)}
+    .tuile__face{padding:24px}
   }
   @media(prefers-reduced-motion:reduce){
     .tuile__face,.tuile__plus{transition:none}

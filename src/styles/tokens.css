@@ -33,7 +33,11 @@
 
   /* ═══ Couleurs ═══ */
   --ink:#0A0708;            /* heros, footer, blocs et carres noirs */
-  --text:#111111;           /* texte courant ET filets de grille */
+  --text:#111111;           /* titres, filets de grille */
+  /* Le corps de texte est un cran plus clair que les titres : c'est la seule
+     hierarchie de gris du site, et elle ne joue que sur la prose longue des
+     etudes de cas. 15,9:1 sur blanc. */
+  --text-body:#222222;
   --red:#D0021B;
   --blue:#0B57A4;
   --yellow:#F5CD00;
