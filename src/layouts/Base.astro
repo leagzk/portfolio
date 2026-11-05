@@ -172,7 +172,7 @@ const workCourant = work.some((i) => i.key === current);
   ce qui annulait sa raison d'etre.
 -->
 <a class="sr-only" href="#main">Skip to content</a>
-{loader && <div class="loader" id="loader" aria-hidden="true"><div class="loader__panel"></div><div class="loader__fly" id="fly"><span class="loader__ring"></span><span class="loader__circle"><span class="loader__pepper">&#127798;</span></span></div></div>}
+{loader && <div class="loader" id="loader" aria-hidden="true"><div class="loader__panel"></div><div class="loader__fly" id="fly"><span class="loader__circle"></span></div></div>}
 <div class:list={['app', loader && 'app--reveal']}>
 <div class="mobbar" id="mobbar" aria-hidden="true"></div>
 <header class="topdock">
@@ -357,10 +357,14 @@ const workCourant = work.some((i) => i.key === current);
   .mobmenu__close{position:absolute;top:16px;left:16px;background:transparent;border:none;color:#fff;font-size:32px;line-height:1;cursor:pointer}
   .loader{position:fixed;inset:0;z-index:100;pointer-events:none}
   .loader__panel{position:absolute;inset:0;background:var(--hero-grad);z-index:1;transition:opacity .55s ease}
-  .loader__fly{position:fixed;left:50%;top:50%;z-index:2;width:clamp(100px,13vw,140px);height:clamp(100px,13vw,140px);transform:translate(-50%,-50%);transition:transform .85s cubic-bezier(.62,0,.2,1);will-change:transform}
-  .loader__ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.65);transform:scale(.72);opacity:0;animation:ringPulse 1.15s ease-out .55s}
-  .loader__circle{width:100%;height:100%;border-radius:50%;background:#FFFDFB;display:grid;place-items:center;transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards;box-shadow:0 14px 44px rgba(120,20,5,.32)}
-  .loader__pepper{font-size:clamp(44px,6vw,64px);line-height:1;transform:scale(0) rotate(-28deg);animation:pepperIn .62s cubic-bezier(.34,1.56,.64,1) .42s forwards}
+  .loader__fly{position:fixed;left:50%;top:50%;z-index:2;width:clamp(100px,13vw,140px);height:clamp(100px,13vw,140px);transform:translate(-50%,-50%);transition:transform .85s cubic-bezier(.62,0,.2,1),opacity .5s ease;will-change:transform}
+  /*
+    La photo, seule au centre du panneau noir (BRIEF §3.1). Elle remplace le
+    piment, et avec lui l'anneau qui pulsait autour et l'ombre cremeuse : sur un
+    fond noir il n'y a plus rien a decoller, et « seule » veut dire seule.
+    Le disque ne porte plus d'enfant, il EST la photo.
+  */
+  .loader__circle{display:block;width:100%;height:100%;border-radius:50%;background:var(--portrait) center/cover no-repeat;transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards}
   .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
   .talk__legal{margin-top:var(--sp-17);padding-top:var(--sp-03);border-top:1px solid rgba(255,255,255,.16);font-size:12px;line-height:1.7;letter-spacing:.02em;color:rgba(255,255,255,.62)}
   .talk__legal b{font-weight:600;color:rgba(255,255,255,.82)}

@@ -10,16 +10,8 @@ import Banner from '../components/Banner.astro';
 import Dots from '../components/Dots.astro';
 ---
 <Base title="Léa Giezek - Experience systems that grow culture"
-  description="Design and experience systems lead. Fifteen years across brand, retail, agency and product - I don't systematize what I haven't practiced.">
-{/*
-  LE LOADER EST DEBRANCHE le temps du redesign (la prop `loader` est retiree
-  ci-dessus). Il faisait voler un piment vers la pastille de theme, qui n'existe
-  plus depuis le retrait du selecteur : il tombait donc sur un panneau noir et
-  une cible absente. Son markup, son CSS et initLoader() sont intacts dans
-  Base.astro et src/scripts/loader.ts - l'etape 3 les reprend pour le loader
-  decrit au BRIEF §3.1 (la photo apparait au centre, puis se pose dans le cercle
-  du hero).
-*/}
+  description="Design and experience systems lead. Fifteen years across brand, retail, agency and product - I don't systematize what I haven't practiced."
+  loader>
 
 <!-- CARD 1 : banner + intro -->
   <div class="card">
@@ -43,7 +35,7 @@ import Dots from '../components/Dots.astro';
 
   <!-- CRAFT TILES on the grey canvas -->
   <div class="drag" id="drag" aria-label="Craft and portrait">
-        <div class="dcard dcard--photo" style="left:0%;top:108px;--rot:-3deg" role="img" aria-label="Portrait of Léa Giezek"></div>
+        <div class="dcard dcard--photo" data-portrait style="left:0%;top:108px;--rot:-3deg" role="img" aria-label="Portrait of Léa Giezek"></div>
         {/*
           Ordre du DOM : dc3, dc2, dc1. Il ne decide de rien au bureau - les
           cartes sont en position:absolute avec un left/top et un z-index
@@ -421,7 +413,7 @@ import Dots from '../components/Dots.astro';
   import { revealAll } from '../scripts/reveal';
   import { rendreDeplacable } from '../scripts/drag';
   import { carrousel } from '../scripts/carousel';
-  // import { initLoader } from '../scripts/loader'; // debranche, voir la note du <Base>
+  import { initLoader } from '../scripts/loader';
   import { mouvementReduit } from '../scripts/motion';
 
   /* les cartes photo et les cartes retournables ne se deplacent pas */
@@ -465,6 +457,5 @@ import Dots from '../components/Dots.astro';
     });
   }
 
-  /* debranche : voir la note au-dessus du <Base> */
-  // initLoader();
+  initLoader();
 </script>
