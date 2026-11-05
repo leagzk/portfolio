@@ -199,7 +199,22 @@ const principes = [
     scroll-margin-top:calc(var(--chrome-h) + var(--sp-03));
     clip-path:inset(0 1px 1px 1px);
     grid-template-columns:repeat(12,minmax(0,1fr));
-    grid-template-rows:300px 240px 342px 56px;
+    /*
+      LA PREMIERE RANGEE EST UN PLANCHER, PAS UNE HAUTEUR. La maquette la pose
+      a 300px pour une colonne de 1120 ; en dessous, les trois cases
+      retrecissent pendant que la rangee, elle, ne bouge pas, et l'accroche de
+      Language - la plus longue des trois, dans la case la plus etroite (3
+      colonnes sur 12 contre 6 pour Governance) - gagne des lignes.
+
+      Mesure du symptome : elle depassait de 1px a 1120, de 16px a 1000 et de
+      38px a 880, ou elle passe a cinq lignes. Le texte traversait le filet bas
+      et courait sur la bande jaune, qui lui prend 32px de plus qu'aux deux
+      autres cases.
+
+      « minmax(300px,auto) » garde la valeur de la maquette comme minimum. Encore
+      faut-il que le contenu puisse POUSSER la rangee : voir .wt juste apres.
+    */
+    grid-template-rows:minmax(300px,auto) 240px 342px 56px;
     grid-template-areas:
       "w1 w1 w1 w1 w1 w1 w2 w2 w2 w3 w3 w3"
       "duo duo duo duo duo duo duo os os os os os"
@@ -231,7 +246,19 @@ const principes = [
     cases est a 56px, et il faut la laisser respirer. C'est la meme valeur dans
     les trois, c'est elle qui fait lire la rangee comme une seule bande.
   */
-  .wt{position:absolute;inset:0;display:flex;flex-direction:column;
+  /*
+    LA TUILE EST DANS LE FLUX, et c'est ce qui donne son plancher a la rangee.
+    En position:absolute elle ne comptait pour rien dans le calcul de la
+    hauteur : « auto » sur la rangee n'aurait rien change, et le texte sortait
+    par le bas d'une case qui ne pouvait pas grandir. C'est deja ce que fait le
+    palier mobile, pour la meme raison exactement.
+
+    LES TROIS CASES PASSENT EN GRILLE pour que la tuile s'etire a la hauteur de
+    la rangee meme quand c'est une autre qui la fixe : sans cela, le lien - donc
+    la cible du clic et l'aplat du survol - s'arreterait a son propre texte.
+  */
+  .cell--w1,.cell--w2,.cell--w3{display:grid}
+  .wt{position:relative;display:flex;flex-direction:column;
     justify-content:flex-start;gap:8px;padding:88px 32px 28px;
     text-decoration:none;color:var(--text);overflow:hidden}
   /* Colonne de gauche de la grille : le texte s'y cale a 48px (BRIEF §1). */
