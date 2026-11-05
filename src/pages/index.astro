@@ -214,7 +214,7 @@ const principes = [
       « minmax(300px,auto) » garde la valeur de la maquette comme minimum. Encore
       faut-il que le contenu puisse POUSSER la rangee : voir .wt juste apres.
     */
-    grid-template-rows:minmax(300px,auto) 240px 342px 56px;
+    grid-template-rows:minmax(300px,auto) 240px minmax(342px,auto) 56px;
     grid-template-areas:
       "w1 w1 w1 w1 w1 w1 w2 w2 w2 w3 w3 w3"
       "duo duo duo duo duo duo duo os os os os os"
@@ -372,8 +372,29 @@ const principes = [
   /* -3px de marge basse : la case fusionne visuellement avec le blanc du
      dessous, et sans ce chevauchement un filet d'un pixel reapparait sous elle
      (BRIEF §4.3). */
+  /*
+    LA CITATION PART DU HAUT, LE BOUTON RESTE EN BAS.
+
+    Elle etait en justify-content:flex-end, donc TOUT le jeu de la rangee
+    tombait au-dessus du texte : le haut valait ce qui restait, jamais une
+    valeur voulue. Mesure, a rangee fixe de 342px : 105px de blanc au-dessus de
+    la citation a 1200 (quatre lignes), 72 a 1120 (cinq), 39 a 960 (six), 6 a
+    860 (sept) - et a 800, ou elle passe a neuf lignes, les deux premieres
+    sortaient par le HAUT et l'overflow:hidden de la case les mangeait. C'est le
+    propre de flex-end : le debordement sort du cote du depart.
+
+    Le texte se cale donc sur son padding de 32px, et le bouton descend avec
+    « margin-top:auto » - le meme procede que .os__cta juste a cote, et il faut
+    qu'il soit le meme : le CTA Philosophy et la bande bleue de la case voisine
+    sont alignes d'une colonne a l'autre. Le jeu passe entre les deux, la ou il
+    ne se voit pas.
+
+    Et la rangee devient un plancher (voir .comp) : a neuf lignes il n'y a plus
+    de jeu a distribuer, il faut de la place en plus.
+  */
   .citation{margin:0 0 -3px;z-index:2;padding:32px 32px 40px;
-    display:flex;flex-direction:column;justify-content:flex-end;gap:24px}
+    display:flex;flex-direction:column;justify-content:flex-start;gap:24px}
+  .citation .sb{margin-top:auto}
   .citation blockquote{margin:0;font-family:var(--display);font-size:var(--fs-section);
     font-weight:900;line-height:1.1;letter-spacing:-.015em}
 
