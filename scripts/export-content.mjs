@@ -76,10 +76,18 @@ function inline(html) {
 }
 
 /* Retire ce qui n'est pas du contenu redactionnel avant le decoupage en blocs.
-   Le <nav id="chaptabs"> est le fil d'Ariane lateral des case studies : ses
-   libelles sont deja dans les surtitres de section qu'il pointe, donc les
-   garder ferait apparaitre chaque chapitre deux fois dans l'export. Meme
-   raison que l'exclusion de la nav principale et du pied de page.
+
+   TOUS LES <nav> SORTENT, ET PLUS SEULEMENT LE FIL D'ARIANE. La nav principale
+   etait exclue par construction : elle vivait dans le layout, hors du <main>
+   que ce script extrait. Le redesign la pose DANS le hero (BRIEF §2.1), donc
+   dans le <main> - et l'export s'est mis a repeter les six liens et le menu
+   mobile en tete de chacune des sept pages. La regle visait `id="chaptabs"` ;
+   elle vise desormais la balise, ce qui redonne a l'export ce que son README
+   promet : la copy de la page, sans ce qui est identique partout.
+
+   Le <nav id="chaptabs"> reste couvert pour sa raison propre : ses libelles
+   sont deja dans les surtitres de section qu'il pointe, et les garder ferait
+   apparaitre chaque chapitre deux fois.
 
    LES <button> SONT VIDES DE LEUR ENVELOPPE, PAS DE LEUR CONTENU. La regle
    d'origine les supprimait entiers, ce qui etait juste tant qu'ils n'etaient
@@ -93,7 +101,7 @@ function nettoyer(html) {
   return html
     .replace(/<svg[\s\S]*?<\/svg>/g, '')
     .replace(/<(script|style)[\s\S]*?<\/\1>/g, '')
-    .replace(/<nav\b[^>]*id="chaptabs"[\s\S]*?<\/nav>/g, '')
+    .replace(/<nav\b[^>]*>[\s\S]*?<\/nav>/g, '')
     .replace(/<button\b[^>]*>([\s\S]*?)<\/button>/g, (_, dedans) =>
       /<img\b/.test(dedans) ? dedans : '');
 }

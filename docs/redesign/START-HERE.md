@@ -9,7 +9,7 @@ docs/redesign/
 ├── design-reference/      ← maquettes validées (.dc.html) + README de lecture
 └── assets/favicon.svg     ← favicon final (avec variante mode sombre)
 ```
-À fournir en plus : **la photo de profil originale** (haute définition) → `public/` ou `src/assets/`.
+Photo de profil : déjà dans le repo → `public/Lea-Giezek-portrait.webp` (à utiliser partout où les maquettes référencent `/_blob/…`).
 
 ## 2. Prompt de démarrage à coller dans Claude Code
 
@@ -19,6 +19,8 @@ Je refonds l'identité visuelle de mon portfolio (ce repo Astro, leagiezek.desig
 Lis d'abord, dans cet ordre :
 1. docs/redesign/BRIEF.md (intention, tokens, composants, specs page par page, to-do)
 2. docs/redesign/design-reference/README.md puis les fichiers .dc.html (valeurs exactes)
+
+Correspondances avec les pages existantes : Language = src/pages/system-brand.astro, Surfaces = system-event.astro, Governance = system-practice-elements.astro ; Philosophy et Operating System = philosophy.astro et operating-system.astro. Photo de profil = public/Lea-Giezek-portrait.webp.
 
 Règles :
 - Travaille sur une branche `redesign/bauhaus`, un commit par étape, et montre-moi l'aperçu local à la fin de chaque étape avant de passer à la suivante.

@@ -1,0 +1,231 @@
+---
+/*
+  Le hero : bande noire pleine largeur, identique sur les sept pages (BRIEF §2.2).
+
+  IL REMPLACE <Banner> ET TOUTE LA NAV. Le brief pose la navigation DANS le hero
+  (§2.1) : il n'y a donc plus de barre collante au-dessus du contenu, plus de
+  dock fixe, plus de menu deroulant « Selected work ». Les trois vivaient dans
+  Base.astro et se coordonnaient a trois endroits (CSS du layout, chrome.ts,
+  surcharges par page). Tout est ici.
+
+  Le menu mobile plein ecran est ici AUSSI, bien qu'il soit un calque et non une
+  partie de la bande : c'est le hamburger de ce composant qui l'ouvre, et les
+  separer remettrait une coordination par identifiants entre deux fichiers -
+  exactement ce qu'on vient de retirer.
+
+  PLEINE LARGEUR DEPUIS L'INTERIEUR DE .shell. Le hero est rendu dans le <main>,
+  lui-meme dans la colonne de 1120px ; il en sort par la marge negative
+  habituelle du projet (100vw + calc(50% - 50vw)). C'est deja ce que font
+  .ls-carousel__track et .eq-band, et c'est l'overflow-x:hidden de reset.css qui
+  absorbe le debord de la barre de defilement.
+
+  LE TITRE EST LE <h1>. Il etait un <p class="banner__standards">, et le <h1>
+  vivait dans <PageIntro>, sur l'eyebrow - un h1 de 12px en capitales pendant
+  que le titre de 68px n'etait pas un titre. Le hero reprend donc le h1, et
+  PageIntro rend desormais son eyebrow en <p>. Aucun texte ne disparait, la
+  hierarchie change de porteur.
+*/
+import Icone from './Icone.astro';
+import { entrees } from '../lib/nav';
+
+export interface Props {
+  /** cle de l'entree de nav active - voir src/lib/nav.ts */
+  courant?: string;
+  /** surtitre au-dessus du titre. Omis, rien n'est rendu (pas de bloc vide). */
+  eyebrow?: string;
+  /** le mot en filigrane, bord a bord en bas de la bande */
+  filigrane: string;
+  /** accueil : la cellule de gauche de la nav reste vide, sinon icone maison */
+  accueil?: boolean;
+  /** portrait rond, visible sous 720px : reserve a l'accueil */
+  portrait?: boolean;
+}
+const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro.props;
+---
+<header class="hero">
+  {/*
+    ─── Barre mobile : zone blanche + hamburger, bloc jaune CV (BRIEF §11) ───
+    <nav> et non <div> : elle porte le declencheur du menu et le raccourci CV,
+    donc c'est du chrome, identique sur les sept pages. La balise le dit, et
+    scripts/export-content.mjs l'ecarte par la meme regle que les autres <nav>.
+  */}
+  <nav class="hero__barre" aria-label="Mobile">
+    <button class="hamb" id="hamb" aria-label="Open menu" aria-expanded="false" aria-controls="mobmenu">
+      <span></span><span></span><span></span>
+    </button>
+    <a class="hero__cv" href="/Lea-Giezek-CV.pdf" download>
+      Download CV<Icone nom="telecharger" />
+      <span class="sr-only"> (PDF, 3.6 Mo)</span>
+    </a>
+  </nav>
+
+  {/* ─── Nav bureau : grille 48px 1fr, liens ferres a droite (BRIEF §2.1) ─── */}
+  <nav class="hero__nav shell" aria-label="Primary">
+    <div class="hero__accueil">
+      {!accueil && <a href="/" aria-label="Home"><Icone nom="maison" taille={22} /></a>}
+    </div>
+    <ul class="hero__liens">
+      {entrees.map((e) => (
+        <li>
+          <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+
+  <div class="hero__corps shell">
+    {portrait && <div class="hero__portrait" data-portrait role="img" aria-label="Portrait of Léa Giezek"></div>}
+    {eyebrow && <p class="hero__eyebrow">{eyebrow}</p>}
+    <h1 class="hero__titre"><slot /></h1>
+    <div class="hero__intro"><slot name="intro" /></div>
+    <slot name="cta" />
+  </div>
+
+  {/*
+    Le viewBox ecrit ici est un SECOURS, pas une mesure : il sert tant que le
+    script n'a pas tourne, et si jamais il ne tourne pas. Il est volontairement
+    large - un mot trop petit se remarque moins qu'un mot tronque.
+  */}
+  <svg class="hero__filigrane" data-filigrane viewBox="0 0 1000 240" aria-hidden="true" focusable="false">
+    <text x="0" y="200" font-size="240">{filigrane}</text>
+  </svg>
+</header>
+
+{/* ─── Menu mobile plein ecran, ouvert par le hamburger ci-dessus ─── */}
+<nav class="mobmenu" id="mobmenu" aria-hidden="true" aria-label="Menu">
+  <button class="mobmenu__close" id="mobclose" aria-label="Close menu">&#10005;</button>
+  <a href="/" aria-current={accueil ? 'page' : undefined}>Home</a>
+  {entrees.filter((e) => e.cle !== 'connect').map((e) => (
+    <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
+  ))}
+  <div class="mobmenu__groupe">
+    <p class="mobmenu__eyebrow">Let's talk</p>
+    <hr class="mobmenu__rule" />
+    <div class="mobmenu__liens">
+      <a class="btn3" href="mailto:giezek.lea@gmail.com"><Icone nom="mail" taille={20} />Email</a>
+      <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><Icone nom="linkedin" taille={20} />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+      <a class="btn3" href="/Lea-Giezek-CV.pdf" download><Icone nom="telecharger" taille={20} />Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
+    </div>
+  </div>
+</nav>
+
+<style is:global>
+  /*
+    En global : le titre et l'intro arrivent par <slot>, donc avec le hash de la
+    PAGE. Une regle scopee ne franchirait pas cette frontiere.
+  */
+
+  /* ═══ La bande ═══ */
+  /*
+    PAS DE display:flex ICI, ET C'EST UNE CORRECTION. En flex colonne, un enfant
+    qui porte `margin:0 auto` - ce que fait .shell pour se centrer - cesse d'etre
+    etire par le conteneur et se dimensionne sur son contenu : la colonne tombait
+    a 856px au lieu de 1120, et les liens de nav n'atteignaient plus le bord
+    droit. En flux normal, max-width + marges auto centrent sans rien reduire.
+  */
+  .hero{position:relative;width:100vw;margin-left:calc(50% - 50vw);margin-bottom:72px;
+    background:var(--ink);color:var(--white);overflow:hidden;
+    min-height:min(80vh,720px)}
+
+  /* ═══ Nav bureau ═══ */
+  .hero__nav{display:grid;grid-template-columns:48px 1fr;align-items:center;
+    gap:var(--gutter);padding-top:var(--sp-03);position:relative;z-index:2}
+  /* L'icone maison, seule et sans rond : c'est le lien de retour des pages
+     interieures. Sur l'accueil la cellule reste vide - elle tient la colonne,
+     pour que les liens tombent au meme endroit d'une page a l'autre. */
+  .hero__accueil a{display:inline-flex;color:var(--white);opacity:.92;transition:opacity .2s}
+  .hero__accueil a:hover{opacity:1}
+  .hero__liens{display:flex;flex-wrap:wrap;justify-content:flex-end;
+    gap:clamp(16px,2.4vw,32px);list-style:none;margin:0;padding:0}
+  .hero__liens a{position:relative;display:inline-block;padding-bottom:6px;
+    color:var(--white);text-decoration:none;font-weight:500;font-size:var(--fs-body);
+    white-space:nowrap;transition:color .22s ease}
+  .hero__liens a:hover{color:var(--yellow)}
+  /* Soulignement jaune 3px sur la page ouverte (BRIEF §2.1) */
+  .hero__liens a[aria-current="page"]{color:var(--yellow)}
+  .hero__liens a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:0;
+    height:3px;background:var(--yellow)}
+  .hero .sb:focus-visible,.hero__liens a:focus-visible,.hero__accueil a:focus-visible{
+    outline:3px solid var(--yellow);outline-offset:4px}
+
+  /* ═══ Contenu ═══ */
+  /* 112px sous la nav, 96px avant le bas : le texte est cale en HAUT de la
+     bande et non centre verticalement (BRIEF §2.2). D'ou flex-start plutot
+     qu'un justify-content:center. */
+  .hero__corps{position:relative;z-index:1;padding-top:112px;padding-bottom:96px}
+  .hero__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--on-ink-eyebrow)}
+  .hero__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-h1);
+    line-height:1;letter-spacing:-.03em;color:var(--white);max-width:760px;margin-top:24px}
+  .hero__eyebrow + .hero__titre{margin-top:24px}
+  .hero__intro:empty{display:none}
+  .hero__intro{font-size:var(--fs-intro);line-height:1.65;color:var(--on-ink);
+    max-width:560px;margin-top:28px}
+  .hero__intro b{font-weight:700;color:var(--white)}
+  .hero__corps .sb{margin-top:32px}
+
+  /* ═══ Filigrane ═══ */
+  /* height:auto + viewBox mesure = mise a l'echelle uniforme pleine largeur.
+     Voir src/scripts/filigrane.ts pour le pourquoi de la mesure. */
+  .hero__filigrane{position:absolute;left:0;bottom:0;z-index:0;
+    display:block;width:100%;height:auto;pointer-events:none;user-select:none}
+  .hero__filigrane text{font-family:var(--display);font-weight:900;
+    letter-spacing:-.045em;fill:rgba(255,255,255,.07)}
+
+  /* ═══ Barre mobile ═══ */
+  .hero__barre{display:none}
+  .hamb{display:flex;flex-direction:column;justify-content:center;gap:5px;
+    width:64px;height:100%;padding:0 20px;background:none;border:none;cursor:pointer}
+  /* trois barres a angles droits (BRIEF §11) */
+  .hamb span{display:block;width:24px;height:2.5px;background:var(--text);border-radius:0}
+
+  @media(max-width:720px){
+    .hero{min-height:0;margin-bottom:0}
+    .hero__nav{display:none}
+    /* La barre touche le haut de l'ecran et le hero ; le filet de 2px court
+       sous toute sa largeur, et un second separe le bloc jaune. */
+    .hero__barre{display:grid;grid-template-columns:1fr auto;align-items:stretch;
+      height:64px;background:var(--white);border-bottom:var(--rule) solid var(--text)}
+    .hero__cv{display:inline-flex;align-items:center;gap:8px;height:100%;padding:0 16px;
+      background:var(--yellow);color:var(--text);text-decoration:none;
+      border-left:var(--rule) solid var(--text);
+      font-family:var(--display);font-weight:700;font-size:var(--fs-body-s)}
+    .hero__cv:active{opacity:.85}
+    .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-18)}
+    .hero__titre{font-size:var(--fs-h1-mob);max-width:none}
+    .hero__intro{font-size:var(--fs-body);max-width:none}
+    /* Pas de filigrane sur mobile (BRIEF §11) */
+    .hero__filigrane{display:none}
+    .hero__portrait{width:56px;height:56px;border-radius:50%;
+      background:var(--portrait) center/cover no-repeat;margin-bottom:var(--sp-03)}
+  }
+  @media(min-width:721px){
+    .hero__portrait{display:none}
+  }
+
+  /* ═══ Menu mobile plein ecran ═══ */
+  /*
+    overflow-y:auto : sur un telephone bas, ou avec une taille de police systeme
+    agrandie, les huit entrees et les trois boutons peuvent depasser - et un
+    panneau plein ecran qui deborde sans defiler rend ses derniers liens
+    inatteignables.
+  */
+  .mobmenu{display:none}
+  .mobmenu.open{display:flex;position:fixed;inset:0;z-index:60;background:var(--ink);
+    flex-direction:column;justify-content:center;gap:4px;padding:28px;overflow-y:auto}
+  .mobmenu > a,.mobmenu__groupe > a{color:var(--white);text-decoration:none;
+    font-family:var(--display);font-weight:900;font-size:clamp(18px,5vw,26px);
+    letter-spacing:-.02em;padding:6px 0}
+  .mobmenu > a[aria-current="page"],.mobmenu__groupe > a[aria-current="page"]{color:var(--yellow)}
+  .mobmenu__groupe{display:flex;flex-direction:column;width:max-content;max-width:100%}
+  .mobmenu__eyebrow{margin:18px 0 0;font-size:var(--fs-eyebrow);font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--on-ink-eyebrow)}
+  .mobmenu__rule{width:100%;height:var(--rule);margin:8px 0 10px;border:0;background:rgba(255,255,255,.18)}
+  .mobmenu__liens{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+  .mobmenu__close{position:absolute;top:16px;left:16px;background:transparent;border:none;
+    color:var(--white);font-size:32px;line-height:1;cursor:pointer}
+
+  @media(prefers-reduced-motion:reduce){
+    .hero__liens a{transition:none}
+  }
+</style>

@@ -8,9 +8,9 @@ indexable: true
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-Same systems thinking, same care - just off the screen.
+# Same systems thinking, same care - just off the screen.
 
-# Living System
+Living System
 
 Over more than a year, I designed and orchestrated a live event from end to end - one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.
 

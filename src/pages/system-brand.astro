@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import '../styles/case-study.css';
-import Banner from '../components/Banner.astro';
+import Hero from '../components/Hero.astro';
 import PageIntro from '../components/PageIntro.astro';
 import ChapterTabs from '../components/ChapterTabs.astro';
 import Equations from '../components/Equations.astro';
@@ -427,32 +427,12 @@ const artefacts = [
 ];
 ---
 <Base title="Foundations - Léa Giezek"
-  description="At 2,500 people a brand isn't a charter, it's a language. Building Sanofi IT's brand platform, then the digital standard its rebrand landed on - where Elements starts."
-  current="system-brand" noindex>
+  description="At 2,500 people a brand isn't a charter, it's a language. Building Sanofi IT's brand platform, then the digital standard its rebrand landed on - where Elements starts." noindex>
 
 <!-- ═══ 00 · HOOK ═══ -->
+  <Hero courant="system-brand" filigrane="Language">At 2,500 people, a brand isn't a charter, it's a language.</Hero>
+
   <div class="card">
-    <Banner home>
-      <p class="banner__standards">At 2,500 people, a brand isn't a charter, it's a language.</p>
-      {/*
-        L'echelle se REGLE, elle ne se recopie pas : les six bannieres du site
-        visent la meme largeur rendue - le mot occupe presque tout le cadre sans
-        l'atteindre - et chacune y arrive avec sa propre valeur, parce que huit
-        signes ne font pas la meme largeur selon lesquels. « Surfaces » tient a
-        23,7cqw la ou « Language », a signes egaux, en demande 21,3.
-        Mesure a 1030px de banniere : 1017px, dans la plage des cinq autres
-        (1012 a 1025).
-
-        POUR REMESURER, NE PAS SE FIER A scrollWidth. Le filigrane est ferre a
-        droite dans une boite pleine largeur : il deborde donc vers la GAUCHE, et
-        scrollWidth ne compte que le debordement vers la droite - il rend la
-        largeur de la boite, pas celle du mot, quelle que soit l'echelle. Passer
-        par une sonde sans ferrage (position:absolute, white-space:nowrap) posee
-        DANS .banner, pour que les cqw se resolvent sur le bon conteneur.
-      */}
-      <span class="banner__culture" style="--culture-size:21.3cqw" aria-hidden="true">Language</span>
-    </Banner>
-
     <PageIntro eyebrow="Sanofi IT brand platform & Product Design Foundations">
       {/*
         « its people » et non « 2,500 people ». Le chiffre est ecrit DEUX fois

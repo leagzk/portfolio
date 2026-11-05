@@ -6,7 +6,7 @@ import CaseCard from '../components/CaseCard.astro';
    background-image ou un <img> seraient opaques a la couleur du theme. */
 import GovernanceVisual from '../assets/index/governance-visual.svg';
 import DesignVisual from '../assets/index/design-visual.svg';
-import Banner from '../components/Banner.astro';
+import Hero from '../components/Hero.astro';
 import Dots from '../components/Dots.astro';
 ---
 <Base title="Léa Giezek - Experience systems that grow culture"
@@ -14,13 +14,9 @@ import Dots from '../components/Dots.astro';
   loader>
 
 <!-- CARD 1 : banner + intro -->
-  <div class="card">
-    <Banner photo>
-        <p class="banner__standards">Design systems ship standards,</p>
-        <p class="banner__grow">Experience systems grow culture.</p>
-        <span class="banner__culture" style="--culture-size:27.6cqw" aria-hidden="true">System</span>
-    </Banner>
+  <Hero filigrane="System" accueil portrait>Design systems ship standards,<br />Experience systems grow culture.</Hero>
 
+  <div class="card">
     <div class="intro" id="intro">
       <div class="intro__id">
         <div class="intro__photo" role="img" aria-label="Portrait of Léa Giezek"></div>
@@ -386,27 +382,12 @@ import Dots from '../components/Dots.astro';
 }
   @media(prefers-reduced-motion:reduce){
   .case,.dcard,.dcard--flip .dcard__inner{transition:none}
-  /* .banner__pepper::after est deja neutralise par Base.astro, qui le rend */
   .dcard--photo::after{animation:none}
   .osbridge__visual .hand,.osbridge__visual .grip,.osbridge__visual .track{transition:none}
     .osbridge__visual:hover .hand,.osbridge__visual:hover .grip,.osbridge__visual:hover .track{transform:none}
   .js .drag .dcard{opacity:1;animation:none;transform:rotate(var(--rot))}
 }
 
-  /* l'accueil porte deux lignes de titre : echelle plus petite que shared.css */
-  .banner__standards{font-family:var(--display);font-weight:400;font-size:clamp(24px,3vw,40px);line-height:1.04;letter-spacing:-.01em}
-  /*
-    Surcharge du repli mobile. Seules les deux valeurs qui CHANGENT sont
-    reecrites : la gouttiere laterale (--sp-10 au lieu de --sp-04, l'accueil
-    portant un titre sur deux lignes) et l'ecart au-dessus. Le reste du repli -
-    flex-direction, alignement, min-height - vient de shared.css et etait recopie
-    ici a l'identique, ce qui donnait a lire quatre declarations sans effet pour
-    en trouver deux qui en avaient un.
-  */
-  @media(max-width:720px){
-    .banner{padding:calc(var(--mobbar-h) + 16px) var(--sp-10) var(--sp-18)}
-    .banner__inner{margin-top:clamp(16px,4vw,24px)}
-  }
 </style>
 
 <script>

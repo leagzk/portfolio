@@ -1,7 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import '../styles/case-study.css';
-import Banner from '../components/Banner.astro';
+import Hero from '../components/Hero.astro';
 import PageIntro from '../components/PageIntro.astro';
 import Tenet from '../components/Tenet.astro';
 import Carousel from '../components/Carousel.astro';
@@ -179,16 +179,12 @@ const preuves: Carte[] = [
 ];
 ---
 <Base title="Elements - Léa Giezek"
-  description="At global scale, a system isn't managed - it's governed. Building Sanofi's experience system: 45+ products, a €1M budget, 0 to 35+ contributors, and a Design System Awards governance finalist."
-  current="system-practice-elements" noindex>
+  description="At global scale, a system isn't managed - it's governed. Building Sanofi's experience system: 45+ products, a €1M budget, 0 to 35+ contributors, and a Design System Awards governance finalist." noindex>
 
 <!-- ═══ 00 · HOOK ═══ -->
-  <div class="card">
-    <Banner home>
-      <p class="banner__standards">At global scale a system isn't managed, it's governed.</p>
-      <span class="banner__culture" style="--culture-size:17.7cqw" aria-hidden="true">Governance</span>
-    </Banner>
+  <Hero courant="system-practice-elements" filigrane="Governance">At global scale a system isn't managed, it's governed.</Hero>
 
+  <div class="card">
     <PageIntro eyebrow="Elements - Sanofi global experience system">
       <p class="p-intro__lead">At Sanofi, I built Elements to remove the frictions between experts, reduce time to launch and enhance product experience at scale. Moving then from a design system as a product to one platform, one pipeline, brand and product and engineering pouring into the same chain.</p>
 

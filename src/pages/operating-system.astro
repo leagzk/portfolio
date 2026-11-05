@@ -8,7 +8,7 @@ import Base from '../layouts/Base.astro';
   les recopier.
 */
 import '../styles/case-study.css';
-import Banner from '../components/Banner.astro';
+import Hero from '../components/Hero.astro';
 import PageIntro from '../components/PageIntro.astro';
 import Tenet from '../components/Tenet.astro';
 import ChapterTabs from '../components/ChapterTabs.astro';
@@ -81,21 +81,12 @@ const sobriete = [
 ];
 ---
 <Base title="Operating System - Léa Giezek"
-  description="How my team ships: discovery as a gate, one source of truth, accessibility as the floor, ethics before AI - and distributed ownership holding all of it together."
-  current="operating-system" noindex>
+  description="How my team ships: discovery as a gate, one source of truth, accessibility as the floor, ethics before AI - and distributed ownership holding all of it together." noindex>
 
 <!-- ═══ 00 · HOOK ═══ -->
-  <div class="card">
-    <Banner home>
-      <p class="banner__standards">Designed to be handed over - seven principles, each with a practice behind it.</p>
-      {/*
-        Le filigrane reprend le mot qui traverse la page entiere : les sept
-        principes se resument a distribuer la propriete. Meme dispositif que
-        Governance sur Elements ou Philosophy sur le manifeste.
-      */}
-      <span class="banner__culture" style="--culture-size:19.8cqw" aria-hidden="true">Ownership</span>
-    </Banner>
+  <Hero courant="operating-system" filigrane="Ownership">Designed to be handed over - seven principles, each with a practice behind it.</Hero>
 
+  <div class="card">
     <PageIntro eyebrow="Operating System">
       <p class="p-intro__lead"><b>I didn't want a team that executes. I wanted a team of owners.</b> Recognized, accountable, proactive - experts with a name, a face, not just a pair of hands.</p>
 

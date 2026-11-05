@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import '../styles/case-study.css';
 import PageIntro from '../components/PageIntro.astro';
-import Banner from '../components/Banner.astro';
+import Hero from '../components/Hero.astro';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Carousel from '../components/Carousel.astro';
@@ -108,16 +108,12 @@ const { surtitre: chap } = sommaire(chapitres);
 ---
 <Base title="Living System - Léa Giezek"
   description="A case study: one live event treated as a design system. Identity, staging, a six-puzzle centrepiece and the production guide that let others run it."
-  current="system-event"
   brandFonts><!-- specimen .ls-type : fino-sans + serenity, via le kit Adobe Fonts -->
 
 <!-- CARD 1 : banner + intro -->
-  <div class="card">
-    <Banner home>
-        <p class="banner__standards">Same systems thinking, same care - just off the screen.</p>
-        <span class="banner__culture" style="--culture-size:23.7cqw" aria-hidden="true">Surfaces</span>
-    </Banner>
+  <Hero courant="system-event" filigrane="Surfaces">Same systems thinking, same care - just off the screen.</Hero>
 
+  <div class="card">
     <PageIntro eyebrow="Living System">
       <p class="p-intro__lead">Over more than a year, I designed and orchestrated a live event from end to end - one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.</p>
       <p class="p-intro__lead">It's the proof I keep coming back to: <b>my way of working doesn't depend on the medium.</b> Systems thinking, brand coherence, experience design - they hold whether the output ships to production or lives in a garden for one day.</p>

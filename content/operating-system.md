@@ -8,9 +8,9 @@ indexable: false
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-Designed to be handed over - seven principles, each with a practice behind it.
+# Designed to be handed over - seven principles, each with a practice behind it.
 
-# Operating System
+Operating System
 
 **I didn't want a team that executes. I wanted a team of owners.** Recognized, accountable, proactive - experts with a name, a face, not just a pair of hands.
 

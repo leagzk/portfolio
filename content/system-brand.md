@@ -8,9 +8,9 @@ indexable: false
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-At 2,500 people, a brand isn't a charter, it's a language.
+# At 2,500 people, a brand isn't a charter, it's a language.
 
-# Sanofi IT brand platform & Product Design Foundations
+Sanofi IT brand platform & Product Design Foundations
 
 At Sanofi, I built **IT's brand platform** to make an invisible function legible - then handed its people the language to talk about it themselves. Positioning, territory, personality, tone of voice, and the **production system** that carried all four into the hands of people who had never opened a design tool.
 

@@ -17,7 +17,7 @@
 */
 
 .p-intro__lead + .p-intro__lead{margin-top:1em}
-.ls-fig{margin:0;overflow:hidden;border-radius:var(--r-lg);background:var(--tile-red);line-height:0;border:var(--edge-w) solid var(--edge)}
+.ls-fig{margin:0;overflow:hidden;border-radius:var(--r-lg);background:var(--placeholder);line-height:0;border:var(--edge-w) solid var(--edge)}
 .ls-fig img{display:block;width:100%;height:100%;object-fit:cover}
 .ls-fig--wide{margin-top:var(--sp-16);aspect-ratio:3/2}
 .ls-cap{line-height:1.6;margin-top:10px;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
@@ -190,3 +190,22 @@
 @media(prefers-reduced-motion:reduce){
   .js .ls-reveal,.js .ls-reveal.in{opacity:1;transform:none;transition:none}
 }
+
+/*
+  En-tete de carrousel : surtitre a gauche, deux fleches carrees a droite
+  (BRIEF §2.6). Les fleches remplacent le survol comme moyen de defiler - un
+  carrousel qui ne se pilote qu'au glisser n'est pas utilisable au clavier, et
+  les pastilles seules ne disent pas qu'on peut avancer.
+*/
+.ls-carousel__tete{display:flex;align-items:center;justify-content:space-between;
+  gap:var(--sp-03);margin-bottom:var(--sp-03);padding:0 var(--bleed-pad)}
+.ls-carousel--col .ls-carousel__tete{padding:0}
+.ls-carousel__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink-muted)}
+.ls-carousel__fleches{display:flex;gap:8px;margin-left:auto}
+/* Carrees, bordure fine, remplies de noir au survol - jamais de pastille. */
+.ls-fleche{display:grid;place-items:center;width:40px;height:40px;padding:0;
+  background:none;border:var(--rule-fine) solid var(--text);border-radius:0;
+  color:var(--text);cursor:pointer;transition:background .2s ease,color .2s ease}
+.ls-fleche:hover,.ls-fleche:focus-visible{background:var(--ink);color:var(--white)}
+@media(prefers-reduced-motion:reduce){.ls-fleche{transition:none}}

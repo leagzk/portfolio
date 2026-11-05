@@ -1,0 +1,121 @@
+---
+/*
+  Tuiles qui se retournent (BRIEF §2.5).
+
+  Une grille d'aplats primaires separes par des filets noirs. Recto : la
+  couleur, le titre, et le « + » en haut a droite. Verso : le texte, sur blanc.
+
+  LES FILETS SONT LE FOND, PAS DES BORDURES. La grille porte le noir et un
+  `gap` de 1.5px ; chaque tuile pose son propre fond par-dessus. Des bordures
+  donneraient 3px entre deux tuiles voisines et 1.5px aux extremites - la
+  grille mondrianesque veut un trait d'epaisseur constante.
+
+  LE RETOURNEMENT REPOND A TROIS GESTES, et il en faut trois. Le survol pour la
+  souris ; `:focus-visible` pour le clavier, sans quoi la tuile est une impasse
+  pour qui n'a pas de souris ; et le clic, qui pose une classe - parce qu'un
+  appui tactile ne declenche NI survol ni focus-visible, et que le brief exige
+  le tap mobile. Les trois mènent au meme etat.
+
+  C'EST UN <button> et pas une <div> cliquable : il entre dans l'ordre de
+  tabulation tout seul, il repond a Entree et Espace tout seul, et il s'annonce
+  comme actionnable. `aria-expanded` dit lequel des deux cotes est montre.
+*/
+import Icone from './Icone.astro';
+
+export interface Tuile {
+  titre: string;
+  /** le texte du verso */
+  texte: string;
+  couleur: 'rouge' | 'bleu' | 'jaune' | 'noir';
+  /** surtitre du recto. Le verso n'en porte jamais (BRIEF §5.4, Approach). */
+  eyebrow?: string;
+}
+
+export interface Props {
+  tuiles: Tuile[];
+  /** nombre de colonnes au bureau ; en dessous de 720px la grille passe a 1 */
+  colonnes?: number;
+  /** nom du groupe pour les lecteurs d'ecran */
+  label: string;
+}
+const { tuiles, colonnes = 4, label } = Astro.props;
+---
+<ul class="tuiles" style={`--tuiles-cols:${colonnes}`} aria-label={label}>
+  {tuiles.map((t) => (
+    <li class="tuile">
+      <button class="tuile__pivot" type="button" aria-expanded="false">
+        <span class:list={['tuile__face', 'tuile__recto', `tuile--${t.couleur}`]}>
+          {t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
+          <span class="tuile__titre">{t.titre}</span>
+          <Icone nom="plus" taille={18} class="tuile__plus" />
+        </span>
+        <span class="tuile__face tuile__verso">{t.texte}</span>
+      </button>
+    </li>
+  ))}
+</ul>
+
+<style is:global>
+  .tuiles{display:grid;grid-template-columns:repeat(var(--tuiles-cols,4),minmax(0,1fr));
+    gap:var(--rule-fine);background:var(--text);list-style:none;margin:0;padding:0}
+  .tuile{min-width:0}
+  /* La perspective vit sur le bouton ; chaque face est son enfant direct et
+     tourne pour son propre compte - l'une vers 180deg, l'autre de 180 vers 360.
+     backface-visibility fait le reste : a tout instant une seule est face a
+     nous. Pas de conteneur intermediaire, donc pas de transform-style a poser. */
+  .tuile__pivot{position:relative;display:block;width:100%;aspect-ratio:1;
+    padding:0;border:none;background:none;cursor:pointer;perspective:1200px;
+    font:inherit;color:inherit;text-align:left}
+  .tuile__face{position:absolute;inset:0;display:flex;flex-direction:column;
+    padding:var(--pad-square);backface-visibility:hidden;
+    transition:transform .7s cubic-bezier(.4,0,.2,1)}
+  .tuile__recto{justify-content:flex-end}
+  .tuile__verso{background:var(--white);color:var(--text);transform:rotateY(180deg);
+    justify-content:center;font-size:var(--fs-body-s);line-height:1.55}
+  .tuile__pivot:hover .tuile__face,
+  .tuile__pivot:focus-visible .tuile__face,
+  .tuile__pivot[aria-expanded="true"] .tuile__face{transform:rotateY(180deg)}
+  .tuile__pivot:hover .tuile__verso,
+  .tuile__pivot:focus-visible .tuile__verso,
+  .tuile__pivot[aria-expanded="true"] .tuile__verso{transform:rotateY(360deg)}
+
+  .tuile__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
+    text-transform:uppercase;opacity:.75;margin-bottom:12px}
+  .tuile__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-tile);
+    line-height:1.12}
+  /* Toujours au meme endroit dans l'encadre (BRIEF §2.7), et il pivote en x
+     quand le verso est montre. 16px du coin, comme les carres de la landing. */
+  .tuile__plus{position:absolute;top:16px;right:16px;transition:transform .4s ease}
+  .tuile__pivot:hover .tuile__plus,
+  .tuile__pivot:focus-visible .tuile__plus,
+  .tuile__pivot[aria-expanded="true"] .tuile__plus{transform:rotate(45deg)}
+
+  .tuile--rouge{background:var(--red);color:var(--white)}
+  .tuile--bleu{background:var(--blue);color:var(--white)}
+  .tuile--jaune{background:var(--yellow);color:var(--text)}
+  .tuile--noir{background:var(--ink);color:var(--white)}
+  .tuile__pivot:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
+
+  @media(max-width:720px){
+    .tuiles{grid-template-columns:1fr}
+    .tuile__pivot{aspect-ratio:3/2}
+    .tuile__face{padding:var(--sp-12)}
+  }
+  @media(prefers-reduced-motion:reduce){
+    .tuile__face,.tuile__plus{transition:none}
+  }
+</style>
+
+<script>
+  /*
+    Le clic pose aria-expanded, que le CSS lit pour tenir le retournement. On
+    n'ajoute pas de classe en plus : l'attribut porte DEJA l'etat pour les
+    lecteurs d'ecran, et en faire aussi le crochet de style garantit que
+    l'affichage et l'annonce ne peuvent pas diverger.
+  */
+  document.querySelectorAll<HTMLButtonElement>('.tuile__pivot').forEach((b) => {
+    b.addEventListener('click', () => {
+      b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+    });
+  });
+</script>

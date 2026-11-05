@@ -8,9 +8,9 @@ indexable: true
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-Six convictions behind the systems, and the care that keeps them alive.
+# Six convictions behind the systems, and the care that keeps them alive.
 
-# Philosophy
+Philosophy
 
 Anything can be systematized, once you truly understand each craft. I believe people move systems forward - not the other way around. Built on trust over control, and humility. Not a system someone maintains, but one a whole community owns, defends, and grows. **Never alone. Conviction over caution, always.**
 

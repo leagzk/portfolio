@@ -1,0 +1,101 @@
+---
+/*
+  L'appel a l'action du site : un libelle, et un petit carre a sa gauche qui
+  s'etend pour remplir tout le bouton au survol (BRIEF §2.3).
+
+  IL REMPLACE .btn, .btn--primary et .btn--ghost, qui etaient des pilules. Le
+  brief les supprime toutes : « plus aucun bouton arrondi / pilule ». Les trois
+  anciennes classes vivent encore dans shared.css le temps que les pages les
+  lachent ; celle-ci est la forme visee.
+
+  LE CARRE EST LE FOND, pas un ornement. C'est le meme element qui fait les
+  14x14 au repos et l'aplat plein au survol - il grandit, il n'apparait pas.
+  D'ou `overflow:hidden` sur le bouton et le libelle en z-index au-dessus :
+  sans eux, le carre deborderait pendant la croissance et passerait devant le
+  texte a mi-chemin.
+
+  SUR TACTILE, L'ETAT PLEIN EST L'ETAT PAR DEFAUT (BRIEF §11). Un bouton dont
+  la couleur ne se revele qu'au survol est invisible sur telephone. La bascule
+  se fait sur `(hover: none)` et non sur une largeur : c'est l'absence de
+  survol qui pose le probleme, pas la taille de l'ecran.
+
+  Le focus clavier declenche exactement la meme croissance que le survol :
+  `:focus-visible` est partout a cote de `:hover` dans la matrice. Un bouton
+  dont l'etat ne se voit qu'a la souris n'est pas navigable au clavier.
+*/
+import Icone from './Icone.astro';
+import type { NomIcone } from './Icone.astro';
+
+export interface Props {
+  href: string;
+  /** la couleur du carre. Le libelle passe au blanc, sauf sur jaune. */
+  variante?: 'jaune' | 'bleu' | 'rouge' | 'noir';
+  icone?: NomIcone;
+  /** lien de telechargement : ajoute `download` et la mention de poids */
+  telechargement?: string;
+  /** ouvre ailleurs : pose target/rel et la mention pour les lecteurs d'ecran */
+  externe?: boolean;
+  class?: string;
+}
+const {
+  href, variante = 'bleu', icone, telechargement, externe = false, class: classe,
+} = Astro.props;
+---
+<a
+  class:list={['sb', `sb--${variante}`, classe]}
+  href={href}
+  download={telechargement ? true : undefined}
+  target={externe ? '_blank' : undefined}
+  rel={externe ? 'noopener noreferrer' : undefined}
+>
+  <span class="sb__carre" aria-hidden="true"></span>
+  <span class="sb__texte"><slot />{icone && <Icone nom={icone} />}</span>
+  {externe && <span class="sr-only"> (opens in a new tab)</span>}
+  {telechargement && <span class="sr-only"> ({telechargement})</span>}
+</a>
+
+<style is:global>
+  /*
+    Emises en global et non scopees : le libelle arrive par <slot>, donc il
+    porte le hash de la PAGE et non celui de ce composant. Une regle scopee
+    ne traverserait pas cette frontiere - meme raison que shared.css.
+  */
+  .sb{position:relative;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;
+    min-height:44px;padding:0 20px 0 30px;overflow:hidden;
+    font-family:var(--display);font-weight:700;font-size:var(--fs-body-s);
+    color:inherit;text-decoration:none}
+  /* 15px : (44 - 14) / 2, le carre centre sur la hauteur du bouton au repos */
+  .sb__carre{position:absolute;left:0;top:15px;width:14px;height:14px;
+    transition:width .4s cubic-bezier(.2,.7,.2,1),height .4s cubic-bezier(.2,.7,.2,1),top .4s cubic-bezier(.2,.7,.2,1)}
+  .sb__texte{position:relative;z-index:1;display:inline-flex;align-items:center;gap:8px;transition:color .3s}
+  .sb__texte svg{flex:none}
+  .sb:hover .sb__carre,.sb:focus-visible .sb__carre{width:100%;height:100%;top:0}
+
+  .sb--jaune .sb__carre{background:var(--yellow)}
+  .sb--bleu  .sb__carre{background:var(--blue)}
+  .sb--rouge .sb__carre{background:var(--red)}
+  .sb--noir  .sb__carre{background:var(--ink)}
+  .sb--jaune:hover .sb__texte,.sb--jaune:focus-visible .sb__texte{color:var(--text)}
+  .sb--bleu:hover  .sb__texte,.sb--bleu:focus-visible  .sb__texte,
+  .sb--rouge:hover .sb__texte,.sb--rouge:focus-visible .sb__texte,
+  .sb--noir:hover  .sb__texte,.sb--noir:focus-visible  .sb__texte{color:var(--white)}
+
+  .sb:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+  /* Sur la bande noire du hero, le bleu du focus ne se detache pas : le jaune
+     y monte a 12,6:1 la ou --blue tombe a 2,3:1. */
+  .hero .sb:focus-visible{outline-color:var(--yellow)}
+
+  /*
+    Tactile : l'aplat est pose d'emblee. `top:0` et les 100% sont l'etat de
+    repos, et il n'y a plus de transition a jouer - seul `:active` repond.
+  */
+  @media (hover: none){
+    .sb__carre{width:100%;height:100%;top:0;transition:none}
+    .sb--jaune .sb__texte{color:var(--text)}
+    .sb--bleu .sb__texte,.sb--rouge .sb__texte,.sb--noir .sb__texte{color:var(--white)}
+    .sb:active{opacity:.85}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .sb__carre,.sb__texte{transition:none}
+  }
+</style>

@@ -4,13 +4,12 @@ import '../styles/tokens.css';
 import '../styles/reset.css';
 import '../styles/motion.css';
 import '../styles/shared.css';
+import Icone from '../components/Icone.astro';
 
 export interface Props {
   title: string;
   /** resume de la page : meta description + Open Graph. ~155 caracteres. */
   description: string;
-  /** cle de l'entree de nav active : philosophy | operating-system | system-practice-elements | system-brand | system-event */
-  current?: string;
   /** ecran de chargement, reserve a la page d'accueil */
   loader?: boolean;
   /** page tenue hors des moteurs de recherche (brouillons) */
@@ -27,7 +26,6 @@ export interface Props {
 const {
   title,
   description,
-  current,
   loader = false,
   noindex = false,
   ogImage = '/og-default.png',
@@ -52,41 +50,20 @@ const personSchema = {
 };
 
 /*
-  Toutes les pages redigees figurent desormais dans la nav : il n'y a plus de
-  brouillon tenu hors du menu.
+  LA NAVIGATION A DEMENAGE DANS <Hero>. Le brief la pose dans la bande noire
+  (§2.1) : il n'y a plus de barre collante, plus de dock fixe, plus de menu
+  deroulant. Les entrees sont declarees dans src/lib/nav.ts, et chaque page
+  passe sa cle `courant` au Hero plutot qu'a ce layout.
 
-  Trois d'entre elles gardent leur `noindex` et restent filtrees du sitemap dans
+  Ce qui reste ici : le <head>, le lien d'evitement, le loader, le <main> et le
+  pied de page - ce qui est vraiment commun aux sept pages.
+
+  Trois pages gardent leur `noindex` et restent filtrees du sitemap dans
   astro.config.mjs - operating-system, system-practice-elements et system-brand.
   Elles sont donc visibles pour qui parcourt le site, invisibles pour les
-  moteurs. Le lien permet de les faire lire ; le noindex evite qu'elles soient
-  indexees dans leur etat actuel : le texte est complet, les visuels non.
-  Les deux se retirent EN MEME TEMPS le jour ou une page est jugee publiable -
-  l'attribut dans la page, et l'entree dans le filtre du sitemap. Lever l'un
-  sans l'autre remet les deux reglages en contradiction.
-
-  L'ordre de « Selected work » est chronologique a l'envers : la pratique
-  d'abord, la marque ensuite, le moment pour finir. Il suit celui des cartes de
-  l'accueil, et les deux doivent le rester - c'est la meme serie, lue deux fois.
+  moteurs. Les deux se retirent EN MEME TEMPS le jour ou une page est jugee
+  publiable : l'attribut dans la page, et l'entree dans le filtre du sitemap.
 */
-const main = [
-  { key: 'philosophy', href: '/philosophy', label: 'Philosophy' },
-  { key: 'operating-system', href: '/operating-system', label: 'Operating System' },
-];
-const work = [
-  { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematize a Practice' },
-  { key: 'system-brand', href: '/system-brand', label: 'Systematize a Brand' },
-  { key: 'system-event', href: '/system-event', label: 'Systematize a Moment' },
-];
-/*
-  La page courante est-elle une des entrees de « Selected work » ? Sur une page
-  de case study, la marque de position vivait dans le menu deroulant - donc
-  invisible tant qu'on ne l'ouvrait pas, et la nav fermee ne disait plus ou on
-  se trouvait. Le declencheur la porte desormais.
-  Un drapeau et pas un aria-current : le bouton n'ouvre pas une page, c'est le
-  lien du menu qui est la page courante et qui garde la semantique. Deux marques
-  « courant » dans le meme groupe se liraient deux fois a l'oreille.
-*/
-const workCourant = work.some((i) => i.key === current);
 ---
 <!DOCTYPE html>
 <html lang="en">
@@ -174,66 +151,7 @@ const workCourant = work.some((i) => i.key === current);
 <a class="sr-only" href="#main">Skip to content</a>
 {loader && <div class="loader" id="loader" aria-hidden="true"><div class="loader__panel"></div><div class="loader__fly" id="fly"><span class="loader__circle"></span></div></div>}
 <div class:list={['app', loader && 'app--reveal']}>
-<div class="mobbar" id="mobbar" aria-hidden="true"></div>
-<header class="topdock">
-  <div class="topdock__inner">
-    <button class="hamb" id="hamb" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-  </div>
-</header>
 <div class="shell">
-
-  <nav class="topnav" aria-label="Primary">
-    {main.map(i => <a href={i.href} data-label={i.label} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-    <div class="navgroup">
-      <button class="navgroup__trigger" id="worktrigger" data-current={workCourant ? 'true' : undefined} aria-expanded="false" aria-controls="workmenu"><span class="navgroup__label" data-label="Selected work">Selected work</span><svg class="navgroup__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-      <div class="navgroup__menu" id="workmenu" role="group" aria-labelledby="worktrigger">
-        {work.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-      </div>
-    </div>
-    <a href="#connect" data-label="Connect">Connect</a>
-  </nav>
-
-  {/*
-    Le menu mobile reprend la structure de la nav de bureau plutot que d'aplatir
-    ses six liens en une seule liste : « Selected work » y est un groupe, il doit
-    le rester ici. Les trois recits sont donc annonces par leur surtitre et
-    tenus entre deux filets - la meme lecture que sous le menu deroulant, sans
-    avoir a deplier quoi que ce soit.
-
-    « Let's talk » plutot que « Connect », et suivi des trois memes boutons que
-    le pied de page : depuis un telephone, la moitie des visites s'arrete a
-    « comment vous joindre » - autant y repondre dans le menu plutot que de
-    renvoyer vers un ancrage en bas de page.
-  */}
-  <nav class="mobmenu" id="mobmenu" aria-hidden="true" aria-label="Menu">
-    <button class="mobmenu__close" id="mobclose" aria-label="Close menu">&#10005;</button>
-    {/* Sous 720px, .banner__home est masque et la nav n'avait aucun lien vers
-        l'accueil : depuis une sous-page, le retour etait impossible. */}
-    <a href="/" aria-current={current === undefined ? 'page' : undefined}>Home</a>
-    {main.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-
-    <div class="mobmenu__group">
-      <p class="mobmenu__eyebrow" id="mobwork">Selected work</p>
-      <hr class="mobmenu__rule">
-      {work.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-    </div>
-
-    {/*
-      « Let's talk » est un surtitre de section et non un lien, comme « Selected
-      work » : ce qui suit EST la destination - les trois boutons - et un lien
-      de plus vers l'ancrage du pied de page aurait fait deux chemins pour la
-      meme intention, dont un plus long.
-    */}
-    <div class="mobmenu__group">
-      <p class="mobmenu__eyebrow">Let's talk</p>
-      <hr class="mobmenu__rule">
-      <div class="mobmenu__links">
-        <a class="btn3" href="mailto:giezek.lea@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
-        <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9z"/></svg>LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-        <a class="btn3" href="/Lea-Giezek-CV.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
-      </div>
-    </div>
-  </nav>
 
   {/* tabindex="-1" : sans lui, le lien d'evitement fait defiler la page mais ne
       deplace pas reellement le focus dans plusieurs navigateurs. */}
@@ -247,9 +165,9 @@ const workCourant = work.some((i) => i.key === current);
       <h2 class="talk__head">Let's talk.</h2>
       <p class="talk__body">Conviction, delivery, and care - I hold all three at the same heat. A team that isn't well can't shine, and can't ship. <b>That's not the soft part of the job. It's the foundation.</b></p>
       <div class="talk__links">
-        <a class="btn3" href="mailto:giezek.lea@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
-        <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9z"/></svg>LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-        <a class="btn3" href="/Lea-Giezek-CV.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
+        <a class="btn3" href="mailto:giezek.lea@gmail.com"><Icone nom="mail" taille={20} />Email</a>
+        <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><Icone nom="linkedin" taille={20} />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="btn3" href="/Lea-Giezek-CV.pdf" download><Icone nom="telecharger" taille={20} />Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
       </div>
       <p class="talk__legal">&copy; <b>L&eacute;a GIEZEK</b> - 2026<br>Designed by a human, developed with Claude, deployed with Vercel, iterated with peers. <b>Never alone.</b></p>
     </div>
@@ -274,87 +192,15 @@ const workCourant = work.some((i) => i.key === current);
     partagees vivent dans src/styles/. Voir le commentaire de shared.css
     pour la raison pour laquelle elles ne peuvent pas etre scopees ici.
   */
-  .topnav{position:sticky;top:0;z-index:50;display:flex;justify-content:center;flex-wrap:wrap;align-items:center;gap:clamp(16px,3vw,40px);min-height:var(--mobbar-h);padding:0;border-radius:0 0 var(--r-xl) var(--r-xl);transition:background .28s ease,box-shadow .28s ease}
-  .topnav.stuck{background:var(--canvas);box-shadow:0 4px 16px rgba(7,3,4,.08);border:var(--edge-w) solid var(--edge);border-top:none}
-  .topnav a{position:relative;text-decoration:none;font-weight:500;font-size:16px;color:var(--ink);white-space:nowrap;transition:color .28s ease}
-  .topnav a::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
-  .topnav a:hover{font-weight:700}
-  .navgroup{position:static;display:flex;align-items:center}
   /*
-    line-height:inherit est ce qui aligne le trait de « Selected work » sur
-    celui des autres entrees. Un <button> ne suit pas la ligne du document : les
-    navigateurs lui imposent `line-height:normal`, soit ~1.2 la ou les liens
-    heritent du 1.62 du corps. Sa boite faisait donc 19px contre 26, et le trait
-    - accroche au bas de cette boite par `bottom:-8px` - remontait de 4px.
-    Corriger la hauteur de ligne plutot que compenser le `bottom` : les deux
-    reglages restent alors une seule valeur, et un changement de graisse ou de
-    corps ne les desolidarise pas.
+    LE CSS DU CHROME A SUIVI SON MARKUP DANS <Hero>. Vivaient ici : la nav
+    collante et son menu deroulant, le dock fixe, la barre mobile fantome, le
+    hamburger et le panneau plein ecran - environ 80 regles qui se repondaient
+    entre ce fichier, chrome.ts et les surcharges de page.
+
+    Ce qui reste : le loader et le pied de page, les deux seules choses que ce
+    layout rend encore.
   */
-  .navgroup__trigger{position:relative;display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:500;font-size:16px;line-height:inherit;color:var(--ink);background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;transition:color .28s ease}
-  .navgroup__label::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
-  .navgroup__trigger:hover .navgroup__label,.navgroup.open .navgroup__label{font-weight:700}
-  .navgroup__chev{width:16px;height:16px;flex:none;transition:transform .22s ease}
-  .navgroup.open .navgroup__chev{transform:rotate(180deg);color:var(--accent)}
-  .navgroup__menu{position:absolute;left:-2px;right:-2px;border:var(--edge-w) solid var(--edge);border-top:none;top:calc(100% - 16px);z-index:2;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 8px 16px;background:var(--canvas);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 20px 16px -4px rgba(7,3,4,.10);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .22s ease,transform .26s cubic-bezier(.22,1,.36,1),visibility .26s}
-  .navgroup:hover .navgroup__menu,.navgroup:focus-within .navgroup__menu,.navgroup.open .navgroup__menu{opacity:1;visibility:visible;transform:none}
-  .navgroup__menu a{padding:12px 20px;border-radius:var(--r-pill);font-size:16px;font-weight:500;color:var(--ink);text-decoration:none;white-space:nowrap;transition:background .18s ease,color .18s ease,box-shadow .18s ease}
-  .navgroup__menu a:hover{background:var(--highlight);color:var(--on-highlight);font-weight:500}
-  .topnav.menuopen{background:var(--canvas);border:var(--edge-w) solid var(--edge);border-top:none;border-bottom:none;border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
-  .topnav.menuopen:not(.stuck){z-index:52}
-  .topnav.menuopen > a{color:var(--ink-muted)}
-  .topnav.menuopen > a[aria-current="page"]{font-weight:500}
-  .topnav.menuopen > a[aria-current="page"]::before{opacity:0}
-  .hamb{display:none;flex-direction:column;justify-content:center;gap:4px;width:40px;height:32px;padding:8px 4px;background:transparent;border:none;cursor:pointer}
-  .hamb span{display:block;width:24px;height:2.5px;background:#fff;border-radius:0}
-  .mobmenu{display:none}
-  .mobbar{display:none}
-  .topdock{position:fixed;top:0;left:0;right:0;z-index:51;pointer-events:none}
-  /* Ne porte plus que le hamburger, lui-meme masque au-dela de 720px : au
-     bureau ce dock est une barre fixe et vide. Il tombe a l'etape 2 avec la
-     nouvelle nav. */
-  .topdock__inner{max-width:var(--shell-w);margin:0 auto;height:var(--mobbar-h);display:flex;align-items:center;padding-left:calc(var(--sp-03) + var(--sp-09))}
-  .topdock__inner > *{pointer-events:auto}
-  /*
-    overflow-y:auto : le menu porte desormais neuf entrees, deux filets et trois
-    boutons. Sur un telephone bas - ou avec une taille de police systeme
-    agrandie - le contenu peut depasser, et un panneau plein ecran qui deborde
-    sans defiler rend ses derniers liens inatteignables.
-  */
-  .mobmenu.open{display:flex;position:fixed;inset:0;z-index:60;background:#070304;flex-direction:column;justify-content:center;gap:4px;padding:28px;overflow-y:auto}
-  /*
-    `> a` et non `a` : les trois boutons de contact sont eux aussi des liens, et
-    la matrice display de la navigation n'a rien a leur faire. Ils gardent celle
-    de .btn3, comme dans le pied de page.
-  */
-  /*
-    .mobmenu__group > a AUSSI, ET C'EST LE COEUR DU CORRECTIF. Les trois liens
-    "Systematize a..." vivent depuis peu dans un .mobmenu__group (pour que le
-    filet se dimensionne sur eux) : ce sont donc des PETITS-ENFANTS de .mobmenu,
-    plus des enfants directs, et le combinateur `>` ne les atteint plus. Ils
-    retombaient sur `a{color:inherit}` du reset et le soulignement par defaut du
-    navigateur - visible dans le theme Mondrian, ou --ink est assez sombre pour
-    que la difference saute aux yeux, mais le defaut existait dans les trois.
-  */
-  .mobmenu > a,.mobmenu__group > a{color:#fff;text-decoration:none;font-family:var(--display);font-weight:400;font-size:clamp(14px,4vw,22px);letter-spacing:-.01em;padding:6px 0}
-  /* surtitre du groupe : meme matrice que les intitules de figures du site */
-  /*
-    Le filet doit s'arreter au bord de la plus longue ligne qu'il separe, pas
-    courir sur toute la largeur du panneau. `.mobmenu` etire ses enfants en
-    largeur par defaut (flex column, align-items normal = stretch) - c'est ce
-    qui donnait au filet les 100% du panneau. Le groupe casse cet etirement :
-    `width:max-content` le fait retomber sur la largeur intrinseque de son
-    enfant le plus large, calculee AVANT tout etirement. A l'interieur, un
-    nouveau contexte flex column restaure le stretch : chaque ligne, y compris
-    le filet en `width:100%`, s'aligne alors sur cette largeur - celle du plus
-    long intitule, pas celle de l'ecran.
-  */
-  .mobmenu__group{display:flex;flex-direction:column;width:max-content;max-width:100%}
-  .mobmenu__eyebrow{margin:18px 0 0;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-  .mobmenu__rule{width:100%;height:1px;margin:8px 0 10px;border:0;background:rgba(255,255,255,.18)}
-  /* empiles et non en ligne : a trois boutons dont un « Download CV », le
-     retour a la ligne tombait apres le deuxieme et laissait un rang orphelin */
-  .mobmenu__links{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
-  .mobmenu__close{position:absolute;top:16px;left:16px;background:transparent;border:none;color:#fff;font-size:32px;line-height:1;cursor:pointer}
   .loader{position:fixed;inset:0;z-index:100;pointer-events:none}
   .loader__panel{position:absolute;inset:0;background:var(--hero-grad);z-index:1;transition:opacity .55s ease}
   .loader__fly{position:fixed;left:50%;top:50%;z-index:2;width:clamp(100px,13vw,140px);height:clamp(100px,13vw,140px);transform:translate(-50%,-50%);transition:transform .85s cubic-bezier(.62,0,.2,1),opacity .5s ease;will-change:transform}
@@ -366,6 +212,9 @@ const workCourant = work.some((i) => i.key === current);
   */
   .loader__circle{display:block;width:100%;height:100%;border-radius:50%;background:var(--portrait) center/cover no-repeat;transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards}
   .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
+  /* Colle au contenu : l'ecart ne venait pas du footer - qui est deja a
+     margin-bottom:0 - mais de la marge basse du dernier bloc du <main>. */
+  main > :last-child{margin-bottom:0}
   .talk__legal{margin-top:var(--sp-17);padding-top:var(--sp-03);border-top:1px solid rgba(255,255,255,.16);font-size:12px;line-height:1.7;letter-spacing:.02em;color:rgba(255,255,255,.62)}
   .talk__legal b{font-weight:600;color:rgba(255,255,255,.82)}
   .talk{padding:clamp(32px,4vw,52px)}
@@ -377,35 +226,11 @@ const workCourant = work.some((i) => i.key === current);
   .talk-card.in .talk__head{font-size:clamp(48px,12vw,148px);line-height:.92;letter-spacing:-.03em}
   .talk-card .talk__body{color:rgba(255,255,255,.94)}
   .talk-card .talk__body b{color:#fff}
-  .topnav a[aria-current="page"]{font-weight:700}
-  .topnav a[aria-current="page"]::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:6px;border:var(--edge-w) solid var(--edge);border-radius:0;background:var(--highlight);transition:opacity .28s ease}
-  /*
-    Le declencheur « Selected work » n'est pas un <a> : la regle ci-dessus ne
-    l'atteint pas, d'ou ce jumeau. Le trait est pose sur le LABEL et non sur le
-    bouton, sinon il aurait aussi souligne le chevron - les autres entrees
-    soulignent leur texte, pas leur boite.
-  */
-  .navgroup__trigger[data-current] .navgroup__label{font-weight:700;position:relative}
-  .navgroup__trigger[data-current] .navgroup__label::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:6px;border:var(--edge-w) solid var(--edge);border-radius:0;background:var(--highlight);transition:opacity .28s ease}
-  /*
-    Les entrees du menu deroulant, elles, n'ont plus de trait. Ce sont des
-    pastilles arrondies : un soulignement pose 8px sous elles est le vocabulaire
-    de la nav principale applique la ou il ne veut rien dire - et en Mondrian
-    c'etait une barre jaune de 6px cerclee de noir sous une pilule. La graisse
-    suffit a marquer la page courante une fois le menu ouvert.
-  */
-  .navgroup__menu a[aria-current="page"]::before{content:none}
-  .mobmenu > a[aria-current="page"],.mobmenu__group > a[aria-current="page"]{color:var(--highlight)}
   @media(max-width:720px){
-  .topnav{display:none}
-  .hamb{display:flex}
-  .mobbar{display:block;position:fixed;top:0;left:var(--sp-03);right:var(--sp-03);z-index:49;height:var(--mobbar-h);background:var(--hero-grad);border:var(--edge-w) solid var(--edge);border-top:none;border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 6px 20px rgba(120,30,10,.18);opacity:0;pointer-events:none;transition:opacity .28s ease}
-  .mobbar.show{opacity:1;pointer-events:auto}
   .talk-card.in .talk__head{font-size:clamp(32px,10vw,56px)}
   .talk__links{flex-direction:column;align-items:flex-start;gap:8px}
 }
   @media(prefers-reduced-motion:reduce){
-  .mobbar,.topnav,.topnav a,.navgroup__menu,.navgroup__chev{transition:none}
   .loader{display:none}
   .app--reveal{opacity:1;animation:none}
   .talk-card .talk__head{transition:none}
@@ -415,8 +240,12 @@ const workCourant = work.some((i) => i.key === current);
 <script>
   import { initChrome } from '../scripts/chrome';
   import { revealAll } from '../scripts/reveal';
+  import { ajusterFiligranes } from '../scripts/filigrane';
 
   initChrome();
+  /* Le hero est rendu par les sept pages : la mise a l'echelle du mot en
+     filigrane est donc la responsabilite du layout, comme le pied de page. */
+  ajusterFiligranes();
 
   /*
     Le pied de page est rendu ICI, sur les 7 pages : son entree en scene est donc
