@@ -1,7 +1,7 @@
 ---
 page: /system-practice-elements
-title: "Elements - Léa Giezek"
-description: "At global scale, a system isn't managed - it's governed. Building Sanofi's experience system: 45+ products, a €1M budget, 0 to 35+ contributors, and a Design System Awards governance finalist."
+title: "Governance - Systematize a practice - Léa Giezek"
+description: "At global scale a system isn't managed, it's governed. Sanofi's experience system: 45+ products, €1M a year, 35+ contributors, Design System Awards finalist."
 indexable: false
 ---
 

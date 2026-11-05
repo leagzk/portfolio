@@ -1,7 +1,7 @@
 ---
 page: /system-brand
 title: "Language - Systematize a brand - Léa Giezek"
-description: "At 2,500 people a brand isn't a charter, it's a shared language. Building Sanofi IT's brand platform, then the digital standard its rebrand landed on - where Elements starts."
+description: "At 2,500 people a brand isn't a charter, it's a shared language. Sanofi IT's brand platform, then the digital standard its rebrand landed on."
 indexable: false
 ---
 

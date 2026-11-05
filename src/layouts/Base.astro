@@ -5,6 +5,7 @@ import '../styles/reset.css';
 import '../styles/motion.css';
 import '../styles/shared.css';
 import Icone from '../components/Icone.astro';
+import { CV_HREF, CV_POIDS } from '../lib/cv';
 
 export interface Props {
   title: string;
@@ -101,13 +102,31 @@ const personSchema = {
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImageUrl} />
 <meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+{/* 627 et non 630 : c'est la hauteur reelle du fichier (BRIEF §9). Une hauteur
+    declaree fausse fait recadrer la vignette par certains clients. */}
+<meta property="og:image:height" content="627" />
+<meta property="og:image:alt" content="Design systems ship standards. Experience systems grow culture. - Léa Giezek" />
 <meta property="og:locale" content="en_GB" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />
 
+<!--
+  TROIS DECLARATIONS, ET CHACUNE SERT A QUELQU'UN. Le SVG est le favicon reel -
+  net a toutes les tailles, et il porte sa variante pour les onglets sombres
+  (BRIEF §10). Le .ico est le repli des navigateurs qui ignorent le SVG, et le
+  seul format que Windows accepte pour un raccourci ; il contient le 16 et le
+  32. Le PNG de 32 sert aux agregateurs et aux applications qui refusent l'ico.
+
+  L'ORDRE COMPTE : un navigateur qui comprend le SVG prend la derniere
+  declaration qu'il sait lire, donc le SVG vient APRES l'ico.
+
+  Les cinq fichiers sont fabriques par « npm run identite » - voir
+  scripts/identite.mjs. Ne pas les retoucher a la main : ils se refont.
+-->
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#0A0708" />
@@ -167,7 +186,7 @@ const personSchema = {
       <div class="talk__links">
         <a class="btn3" href="mailto:giezek.lea@gmail.com"><Icone nom="mail" taille={20} />Email</a>
         <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><Icone nom="linkedin" taille={20} />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-        <a class="btn3" href="/Lea-Giezek-CV.pdf" download><Icone nom="telecharger" taille={20} />Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
+        <a class="btn3" href={CV_HREF} download><Icone nom="telecharger" taille={20} />Download CV<span class="sr-only"> ({CV_POIDS})</span></a>
       </div>
       <p class="talk__legal">&copy; <b>L&eacute;a GIEZEK</b> - 2026<br>Designed by a human, developed with Claude, deployed with Vercel, iterated with peers. <b>Never alone.</b></p>
     </div>

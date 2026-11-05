@@ -1,7 +1,7 @@
 ---
 page: /operating-system
 title: "Operating System - Léa Giezek"
-description: "How my team ships: discovery as a gate, one source of truth, accessibility as the floor, ethics before AI - and distributed ownership holding all of it together."
+description: "How my team ships: discovery as a gate, one source of truth, accessibility as the floor, ethics before AI, and distributed ownership holding it together."
 indexable: false
 ---
 

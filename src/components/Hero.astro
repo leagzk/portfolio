@@ -26,6 +26,7 @@
   hierarchie change de porteur.
 */
 import Icone from './Icone.astro';
+import { CV_HREF, CV_POIDS } from '../lib/cv';
 import { entrees } from '../lib/nav';
 
 export interface Props {
@@ -79,9 +80,9 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     <button class="hamb" id="hamb" aria-label="Open menu" aria-expanded="false" aria-controls="mobmenu">
       <span></span><span></span><span></span>
     </button>
-    <a class="hero__cv" href="/Lea-Giezek-CV.pdf" download>
+    <a class="hero__cv" href={CV_HREF} download>
       Download CV<Icone nom="telecharger" />
-      <span class="sr-only"> (PDF, 3.6 Mo)</span>
+      <span class="sr-only"> ({CV_POIDS})</span>
     </a>
   </nav>
 
@@ -183,7 +184,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     <div class="mobmenu__liens">
       <a class="btn3" href="mailto:giezek.lea@gmail.com"><Icone nom="mail" taille={20} />Email</a>
       <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><Icone nom="linkedin" taille={20} />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-      <a class="btn3" href="/Lea-Giezek-CV.pdf" download><Icone nom="telecharger" taille={20} />Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
+      <a class="btn3" href={CV_HREF} download><Icone nom="telecharger" taille={20} />Download CV<span class="sr-only"> ({CV_POIDS})</span></a>
     </div>
   </div>
 </nav>

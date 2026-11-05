@@ -1,7 +1,7 @@
 ---
 page: /system-event
-title: "Living System - Léa Giezek"
-description: "A case study: one live event treated as a design system. Identity, staging, a six-puzzle centrepiece and the production guide that let others run it."
+title: "Surfaces - Systematize a moment - Léa Giezek"
+description: "One live experience treated as a design system: identity, staging, a six-puzzle centrepiece and the production guide that let others run it without me."
 indexable: true
 ---
 

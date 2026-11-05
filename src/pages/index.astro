@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import Bouton from '../components/Bouton.astro';
+import { CV_HREF, CV_POIDS } from '../lib/cv';
 import Icone from '../components/Icone.astro';
 
 /*
@@ -80,7 +81,7 @@ const principes = [
     Fifteen years across brand, retail, agency and product - every rung of the craft before the direction. I nurture the practice and the people, not just the system. <b>That's my leadership bet.</b>
   </Fragment>
   <Fragment slot="cta">
-    <Bouton href="/Lea-Giezek-CV.pdf" variante="jaune" icone="telecharger" telechargement="PDF, 3.6 Mo">Download CV</Bouton>
+    <Bouton href={CV_HREF} variante="jaune" icone="telecharger" telechargement={CV_POIDS}>Download CV</Bouton>
   </Fragment>
 </Hero>
 
