@@ -309,9 +309,24 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     la fenetre, et c'est le titre qui garde sa mesure. Les 360px et les 112px
     du brief (§3.1) restent la valeur haute - a pleine largeur rien ne change.
   */
+  /*
+    LA PHOTO EST LA COLONNE DE GAUCHE. Elle etait a droite, le texte a gauche ;
+    c'est l'inverse depuis que Lea a tranche. Consequence a connaitre : le
+    bloc de texte - eyebrow, titre, intro, bouton - partage desormais SA propre
+    gauche, decalee de la largeur de la photo, et c'est la photo qui tient la
+    gauche de la colonne. Le trait qui descend vers la composition part donc de
+    sous le portrait, et non de sous le bouton : c'est le seul endroit qui
+    s'aligne sur le bord gauche de la grille en dessous.
+
+    L'ORDRE DU DOM NE BOUGE PAS. Le texte reste ecrit en premier - c'est le
+    titre de la page, un lecteur d'ecran doit le rencontrer avant le portrait -
+    et c'est « order » qui met le visuel a gauche. Deplacer le markup aurait
+    echange la lecture en meme temps que la vue.
+  */
   .hero__corps--portrait{display:grid;
-    grid-template-columns:minmax(0,1fr) clamp(168px,22vw,300px);
+    grid-template-columns:clamp(168px,22vw,300px) minmax(0,1fr);
     gap:clamp(32px,5vw,72px);align-items:start}
+  .hero__corps--portrait .hero__media{order:-1}
   .hero__texte{display:flex;flex-direction:column;min-width:0}
   .hero__cercle{display:block;width:100%;aspect-ratio:1;height:auto;
     border-radius:50%;background:var(--portrait) center/cover no-repeat}
