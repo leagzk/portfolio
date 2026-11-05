@@ -113,6 +113,20 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
         Un seul noeud, deux places - plutot que le meme texte ecrit deux fois,
         qu'un lecteur d'ecran lirait deux fois.
       */}
+      {/*
+        LES TROIS PRIMAIRES EN TETE, au-dessus de l'eyebrow et cales sur la
+        meme gauche que lui. Ce ne sont plus des cailloux qui descendent vers
+        la grille - c'est une signature : les trois couleurs de la composition,
+        posees avant qu'on ait lu une ligne. Elles arrivent apres le loader,
+        l'une apres l'autre.
+      */}
+      {defiler && (
+        <span class="hero__primaires" aria-hidden="true">
+          <span class="hero__primaire hero__primaire--rouge"></span>
+          <span class="hero__primaire hero__primaire--jaune"></span>
+          <span class="hero__primaire hero__primaire--bleu"></span>
+        </span>
+      )}
       {(eyebrow || portrait) && (
         <div class="hero__signature">
           {portrait && <span class="hero__avatar" data-portrait role="img" aria-label="Portrait of Léa Giezek"></span>}
@@ -143,26 +157,6 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
             </svg>
           )}
         </span>
-        {/*
-          TROIS CARRES PLUTOT QU'UN TRAIT. Le trait descendait jusqu'au bas de
-          la bande, puis un coude noir allait chercher le coin de la grille :
-          la jointure faisait un escalier, et un escalier n'est pas un geste.
-          Les carres disent la meme chose sans rien dessiner de tordu - ils
-          arrivent l'un apres l'autre, de plus en plus petits en descendant, et
-          c'est cette decroissance qui pointe vers le bas. Trois tailles, trois
-          primaires : c'est le vocabulaire de la composition, annonce avant
-          elle.
-        */}
-        {defiler && (
-          <span class="hero__cailloux" aria-hidden="true">
-            {/* data-couleur : c'est par lui que semis.ts retrouve la case a
-                viser, sur l'accueil. Ailleurs il ne sert a rien et ne coute
-                rien. */}
-            <span class="hero__caillou hero__caillou--rouge" data-couleur="rouge"></span>
-            <span class="hero__caillou hero__caillou--jaune" data-couleur="jaune"></span>
-            <span class="hero__caillou hero__caillou--bleu" data-couleur="bleu"></span>
-          </span>
-        )}
       </div>
     )}
   </div>
@@ -247,7 +241,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     `svh` et non `vh` : sur telephone, `vh` compte la barre d'adresse comme si
     elle etait toujours retractee, et la fleche se retrouve dessous.
   */
-  .hero:has(.hero__cailloux){min-height:calc(100svh - var(--chrome-h))}
+  .hero:has(.hero__primaires){min-height:calc(100svh - var(--chrome-h))}
   .hero__corps{flex:1}
 
   /* ═══ Bandeau collant ═══ */
@@ -327,28 +321,25 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     du brief (§3.1) restent la valeur haute - a pleine largeur rien ne change.
   */
   /*
-    LA PHOTO EST LA COLONNE DE GAUCHE. Elle etait a droite, le texte a gauche ;
-    c'est l'inverse depuis que Lea a tranche. Consequence a connaitre : le
-    bloc de texte - eyebrow, titre, intro, bouton - partage desormais SA propre
-    gauche, decalee de la largeur de la photo, et c'est la photo qui tient la
-    gauche de la colonne. Le trait qui descend vers la composition part donc de
-    sous le portrait, et non de sous le bouton : c'est le seul endroit qui
-    s'aligne sur le bord gauche de la grille en dessous.
+    LA PHOTO EST LA COLONNE DE DROITE. Elle est passee a gauche le temps d'un
+    essai, Lea est revenue a la droite : le texte tient le bord gauche de la
+    colonne - le meme que la composition en dessous - et le portrait ferme la
+    bande. Les trois carres primaires ouvrent la colonne de texte, au-dessus de
+    l'eyebrow, et partagent donc cette gauche-la.
 
-    L'ORDRE DU DOM NE BOUGE PAS. Le texte reste ecrit en premier - c'est le
-    titre de la page, un lecteur d'ecran doit le rencontrer avant le portrait -
-    et c'est « order » qui met le visuel a gauche. Deplacer le markup aurait
-    echange la lecture en meme temps que la vue.
+    L'ORDRE DU DOM SUIT LA VUE. Le texte est ecrit en premier et s'affiche en
+    premier : aucun « order » n'est necessaire a ce point de rupture, et la
+    lecture d'un lecteur d'ecran est celle de l'ecran.
   */
   .hero__corps--portrait{display:grid;
-    grid-template-columns:var(--portrait-w) minmax(0,1fr);
+    grid-template-columns:minmax(0,1fr) var(--portrait-w);
     gap:clamp(32px,5vw,72px);align-items:stretch}
   /*
     align-items:stretch et non start : la colonne du visuel doit descendre
     jusqu'au bas de la bande pour que le trait ait de la place a prendre. Le
     cercle, lui, garde sa taille - c'est flex:none qui l'y tient.
   */
-  .hero__corps--portrait .hero__media{order:-1;display:flex;
+  .hero__corps--portrait .hero__media{display:flex;
     flex-direction:column;align-items:center;min-width:0}
   .hero__portrait-boite{position:relative;display:block;width:100%;flex:none}
   .hero__corps--portrait .hero__cercle{flex:none}
@@ -391,7 +382,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hero__intro b{font-weight:700;color:var(--white)}
   .hero__corps .sb{margin-top:32px}
 
-  /* ═══ Les trois carres qui descendent de la photo ═══ */
+  /* ═══ Les trois primaires, en tete du bloc ═══ */
   /*
     IL REMPLACE LE « + », et ce n'est pas un echange de pictogramme. Le « + »
     disait « il y a quelque chose dessous » ; le trait le MONTRE - il descend,
@@ -421,38 +412,22 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     depuis son centre comme les aplats de la composition.
   */
   /*
-    ILS SE GROUPENT EN BAS DE LA BANDE, la ou le « + » se tenait : c'est le
-    bord de l'ecran qui porte l'invitation, pas le milieu.
+    order:-2 : la signature qui porte l'eyebrow est deja remontee au-dessus du
+    titre par order:-1, et ces trois-la doivent passer devant elle. L'ordre du
+    DOM, lui, reste celui de la lecture.
 
-    DEUX ESSAIS AVANT CELUI-LA. Sous la photo, ils tombaient au tiers de la
-    bande et laissaient 328px de noir sans rien a suivre. Repartis sur toute la
-    colonne, les ecarts montaient a 200px et les trois carres se lisaient comme
-    trois points isoles, plus comme une chute. Groupes, avec un ecart qui
-    s'ouvre de 28 a 44, ils forment un geste court : le rythme ralentit a
-    mesure que la taille diminue, et c'est ca qui tire l'oeil vers le bas.
-
-    margin-top:auto les pousse au pied de la colonne ; la marge basse negative
-    mange une partie du padding de .hero__corps pour qu'ils s'arretent 40px
-    au-dessus du bord, et non dessus.
+    L'EMPHASE EST DANS LA COURBE : (.34,1.56,.64,1) depasse la cible avant d'y
+    revenir, donc chaque carre arrive en poussant. Ils apparaissent apres le
+    loader - 2,6s, soit l'instant ou la photo vient de se poser - l'un apres
+    l'autre, de gauche a droite.
   */
-  .hero__cailloux{display:flex;flex-direction:column;align-items:center;
-    gap:28px;margin-top:auto;margin-bottom:-56px}
-  .hero__caillou--bleu{margin-top:16px}
-  .hero__caillou{display:block;transform:scale(0);
-    animation:pousseCaillou .4s cubic-bezier(.34,1.56,.64,1) both}
-  /*
-    TROIS TAILLES, ET L'EMPHASE EST DANS LA COURBE : (.34,1.56,.64,1) depasse
-    la cible avant d'y revenir, donc chaque carre arrive en poussant. Ils
-    naissent apres l'anneau - 3,1s, soit l'instant ou il acheve de s'effacer -
-    et dans l'ordre des tailles, du plus gros au plus petit.
-  */
-  .hero__caillou--rouge{width:22px;height:22px;background:var(--red);
-    animation-delay:3.1s}
-  .hero__caillou--jaune{width:14px;height:14px;background:var(--yellow);
-    animation-delay:3.28s}
-  .hero__caillou--bleu{width:8px;height:8px;background:var(--blue);
-    animation-delay:3.46s}
-  @keyframes pousseCaillou{to{transform:scale(1)}}
+  .hero__primaires{order:-2;display:flex;gap:10px;margin-bottom:34px}
+  .hero__primaire{display:block;width:42px;height:42px;transform:scale(0);
+    animation:pousseCarre .4s cubic-bezier(.34,1.56,.64,1) both}
+  .hero__primaire--rouge{background:var(--red);animation-delay:2.6s}
+  .hero__primaire--jaune{background:var(--yellow);animation-delay:2.78s}
+  .hero__primaire--bleu{background:var(--blue);animation-delay:2.96s}
+  @keyframes pousseCarre{to{transform:scale(1)}}
 
   /* ═══ Filigrane ═══ */
   /* height:auto + viewBox mesure = mise a l'echelle uniforme pleine largeur.
@@ -504,9 +479,10 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
 
   @media(max-width:720px){
     .hero{min-height:0;margin-bottom:0}
-    /* Sous 720px la bande n'a plus de hauteur imposee : la composition suit
-       immediatement, et l'invitation n'a plus d'objet. */
-    .hero__cailloux{display:none}
+    /* Plus petits sur telephone : a 42px ils prendraient le tiers de la
+       largeur du titre. */
+    .hero__primaires{gap:8px;margin-bottom:24px}
+    .hero__primaire{width:30px;height:30px}
     .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-18)}
     .hero__corps--portrait{display:block}
     .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
@@ -542,7 +518,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     .hero__nom{display:block;font-family:var(--display);font-weight:900;
       font-size:22px;line-height:1.1;color:var(--white)}
     .hero__eyebrow{font-size:10px}
-    .hero__media{display:none}
+    .hero__corps--portrait .hero__media,.hero__media{display:none}
     /* Pas de filigrane sur mobile (BRIEF §11) */
     .hero__filigrane{display:none}
     .hero__portrait{width:56px;height:56px;border-radius:50%;
@@ -579,6 +555,6 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     /* Sans mouvement, le « + » est simplement la - il ne doit pas rester
        invisible parce que son animation d'apparition ne tourne pas. */
     /* Sous mouvement reduit les carres sont la, sans pousser. */
-    .hero__caillou{animation:none;transform:none}
+    .hero__primaire{animation:none;transform:none}
   }
 </style>

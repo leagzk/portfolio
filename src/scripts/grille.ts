@@ -174,19 +174,9 @@ function construire(comp: HTMLElement): void {
     declencherait d'un coup sur un grand ecran ou la composition tient presque
     entiere.
   */
-  /*
-    QUAND DES CARRES DOIVENT SE POSER DESSUS, C'EST EUX QUI DONNENT LE DEPART.
-    semis.ts pose data-semis="attente" avant que cet observateur ne puisse
-    partir, puis emet l'evenement au moment du vol : le trace commence pendant
-    que les carres descendent, et la grille est prete a les recevoir. Sans
-    carres - les six autres compositions du site, le mouvement reduit, une
-    cible manquante - rien ne change et l'observateur fait son travail.
-  */
-  comp.addEventListener('semis', tracerFilets, { once: true });
   new IntersectionObserver((entrees, obs) => {
     entrees.forEach((e) => {
       if (!e.isIntersecting) return;
-      if (comp.dataset.semis === 'attente') return;
       tracerFilets();
       obs.disconnect();
     });
