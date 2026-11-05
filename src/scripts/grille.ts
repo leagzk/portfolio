@@ -20,9 +20,17 @@ import { mouvementReduit } from './motion';
   trace. A la fin on rend la main au vrai fond noir et on retire les segments :
   le resultat est identique au pixel, et plus rien ne tourne.
 
-  LE DELAI VIENT DE LA POSITION, pas d'un index. `(gauche + haut) / (largeur +
-  hauteur)` donne une diagonale depuis le coin haut gauche : les filets se
-  rejoignent en T au lieu d'arriver en ordre disperse.
+  LE DELAI VIENT DE LA POSITION, pas d'un index, et la position se mesure
+  DEPUIS LE COIN HAUT GAUCHE - le point exact ou le trait du hero vient
+  toucher la composition. Le trace part de la et se propage en diagonale : la
+  ligne descend du bouton, change de couleur en entrant dans la page, et c'est
+  elle qui amorce le premier filet. Tout le reste suit.
+
+  LE FRONT EST FIN. Un filet mettait 1,1s a se tracer pendant que les suivants
+  partaient dans les 1,8s : tous se chevauchaient, et l'ensemble se lisait
+  comme une apparition groupee. A 0,5s de trace etalee sur 2,4s, il n'y a
+  jamais que quelques filets en train de se faire - et c'est ce qui donne un
+  TRACE qui avance, au lieu d'une grille qui apparait.
 
   SANS SCRIPT, LA COMPOSITION EST SIMPLEMENT LA. Toutes les classes d'animation
   sont posees ici ; le CSS n'en declare que les regles. Si ce fichier ne tourne
@@ -38,9 +46,9 @@ import { mouvementReduit } from './motion';
   plusieurs cases se remplissent en meme temps a des endroits differents.
 */
 const TRACE_DEBUT = 0.1; // retard du premier filet
-const TRACE_ETALEMENT = 1.8; // ecart entre le premier filet et le dernier
-const TRACE_DUREE = 1.1; // duree d'un filet
-const RETRAIT = 0.45; // ce que la couleur attend apres les filets qui la bordent
+const TRACE_ETALEMENT = 2.4; // ecart entre le premier filet et le dernier
+const TRACE_DUREE = 0.5; // duree d'un filet
+const RETRAIT = 0.3; // ce que la couleur attend apres les filets qui la bordent
 /* Une case qui arrive bien apres la construction - on a defile jusqu'a elle -
    ne doit pas heriter d'un retard calcule pour l'ouverture. */
 const RETARD_TARDIF = 0.08;
@@ -81,17 +89,25 @@ function construire(comp: HTMLElement): void {
     coin haut gauche de la case, avec la formule des filets - la couleur arrive
     donc juste apres les deux traits qui la bordent.
   */
+  /*
+    L'AVANCE D'UN POINT : sa distance au coin haut gauche, ramenee entre 0 et
+    1. C'est de la que le trait du hero arrive, et le trace se propage en
+    diagonale depuis ce point.
+  */
+  const avanceDe = (x: number, y: number, cr: DOMRect) => {
+    const portee = cr.width + cr.height;
+    if (!portee) return 0;
+    return Math.max(0, Math.min(1, (x + y) / portee));
+  };
+
   const placerRetards = () => {
     const cr = comp.getBoundingClientRect();
-    const S = cr.width + cr.height;
-    if (!S) return;
+    if (!cr.width || !cr.height) return;
     cases.forEach((el) => {
       const r = el.getBoundingClientRect();
       /* Une case masquee au point de rupture courant - la pagination du rail
-         n'existe que sous 720px - rend une boite nulle, donc une avance
-         negative, donc un animation-delay negatif : l'animation demarrerait
-         deja entamee. On borne a zero. */
-      const avance = Math.max(0, (r.left - cr.left + (r.top - cr.top)) / S);
+         n'existe que sous 720px - rend une boite nulle. avanceDe la borne. */
+      const avance = avanceDe(r.left - cr.left, r.top - cr.top, cr);
       el.style.setProperty('--retard', `${(TRACE_DEBUT + avance * TRACE_ETALEMENT + RETRAIT).toFixed(2)}s`);
     });
   };
@@ -109,6 +125,15 @@ function construire(comp: HTMLElement): void {
       return;
     }
 
+    /*
+      L'AMORCE EST LE PREMIER FILET. Elle vit hors de la composition - dans la
+      marge qui la separe du hero - parce qu'elle doit traverser une frontiere
+      que .compo ne franchit pas. Elle est tracee ici, a l'instant ou le reste
+      s'amorce : c'est elle qui amene le trait du hero jusqu'au coin haut
+      gauche d'ou part la diagonale.
+    */
+    comp.parentElement?.querySelector('[data-amorce]')?.classList.add('tracee');
+
     const calque = document.createElement('div');
     calque.className = 'segs';
     calque.setAttribute('aria-hidden', 'true');
@@ -124,7 +149,9 @@ function construire(comp: HTMLElement): void {
       const seg = document.createElement('span');
       seg.className = `seg seg--${sens}`;
       seg.style.cssText = `left:${l}px;top:${t}px;width:${w}px;height:${h}px`;
-      seg.style.animationDelay = `${(TRACE_DEBUT + ((l + t) / (W + H)) * TRACE_ETALEMENT).toFixed(2)}s`;
+      /* L'avance se mesure au point ou le filet COMMENCE a se tracer : son
+         coin haut gauche, qui est aussi son transform-origin. */
+      seg.style.animationDelay = `${(TRACE_DEBUT + avanceDe(l, t, cr) * TRACE_ETALEMENT).toFixed(2)}s`;
       calque.appendChild(seg);
     };
 

@@ -149,10 +149,22 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     doux vient de `scroll-behavior` sur html, qui se desactive tout seul sous
     mouvement reduit.
   */}
+  {/*
+    LE TRAIT REMPLACE LE « + ». Il descend du bloc de texte - donc du bouton -
+    vers le bas du hero, et il est cale sur la MEME gauche que le titre et
+    l'intro : .shell lui donne la gouttiere, le trait se pose a zero de la
+    boite de contenu. Sous la bande noire il continue en noir dans la page et
+    rejoint le premier filet de la composition (voir .comp-amorce sur
+    l'accueil) : une seule ligne qui change de couleur en changeant de fond.
+
+    IL RESTE UN LIEN. Un trait de 2px ne se clique pas : l'<a> fait 44px de
+    large, le trait est dessine a son bord gauche. L'etiquette est lue par les
+    lecteurs d'ecran, le trait leur est cache.
+  */}
   {defiler && (
-    <a class="hero__defiler" href={`#${defiler}`}>
+    <a class="hero__fil shell" href={`#${defiler}`}>
       <span class="sr-only">Reveal the work</span>
-      <span class="hero__defiler-icone" aria-hidden="true"><Icone nom="plus" taille={28} /></span>
+      <span class="hero__fil__trait" aria-hidden="true"></span>
     </a>
   )}
 </header>
@@ -218,7 +230,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     `svh` et non `vh` : sur telephone, `vh` compte la barre d'adresse comme si
     elle etait toujours retractee, et la fleche se retrouve dessous.
   */
-  .hero:has(.hero__defiler){min-height:calc(100svh - var(--chrome-h))}
+  .hero:has(.hero__fil){min-height:calc(100svh - var(--chrome-h))}
   .hero__corps{flex:1}
 
   /* ═══ Bandeau collant ═══ */
@@ -319,29 +331,38 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hero__intro b{font-weight:700;color:var(--white)}
   .hero__corps .sb{margin-top:32px}
 
-  /* ═══ Le « + » qui ouvre la composition ═══ */
+  /* ═══ Le trait qui descend vers la composition ═══ */
   /*
-    UN « + » ET PAS UNE FLECHE. C'est le signe de revelation du site - il ouvre
-    les tuiles, les principes, les cartes de Language. L'employer ici dit la
-    meme chose : il y a quelque chose dessous, et c'est toi qui l'ouvres.
+    IL REMPLACE LE « + », et ce n'est pas un echange de pictogramme. Le « + »
+    disait « il y a quelque chose dessous » ; le trait le MONTRE - il descend,
+    change de couleur en entrant dans la page, et c'est lui qui amorce le
+    premier filet de la grille. L'invitation et la construction deviennent le
+    meme geste.
 
-    IL ARRIVE APRES COUP, a 2,4s. Pose d'emblee il entrerait en concurrence
-    avec le titre ; arrive une fois la page lue, il se remarque. L'apparition
-    est un fondu, pas un rebond : le rebond reclame l'attention en continu, et
-    ce n'est pas ce qu'on demande a une invitation.
+    IL SE TRACE A 2,2s, apres le titre et l'intro. Pose d'emblee il entrerait
+    en concurrence avec eux ; tire une fois la page lue, il se remarque.
+    Et il se TRACE - scaleY depuis le haut - au lieu d'apparaitre : c'est la
+    grammaire du site, celle des filets de la composition et de l'anneau du
+    loader.
   */
-  .hero__defiler{position:relative;z-index:1;display:flex;justify-content:center;
-    padding-bottom:var(--sp-09);color:var(--on-ink-eyebrow);transition:color .25s ease}
-  .hero__defiler:hover{color:var(--yellow)}
-  .hero__defiler:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
-  .hero__defiler-icone{display:block;opacity:0;
-    animation:parait .9s cubic-bezier(.16,1,.3,1) 2.4s both;
-    transition:transform .45s cubic-bezier(.2,.7,.2,1)}
-  @keyframes parait{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
-  /* Pivote en x comme partout ailleurs : le contenu est revele. */
-  .hero__defiler:hover .hero__defiler-icone,
-  .hero__defiler:focus-visible .hero__defiler-icone,
-  .hero__defiler.ouvert .hero__defiler-icone{transform:rotate(45deg)}
+  /*
+    LE TRAIT EST ANCRE AU BAS DU HERO, pas pose a la suite du contenu. La bande
+    fait 100svh et son contenu est cale en haut : dans le flux, le trait se
+    serait arrete la ou le texte finit - mesure, 32px au-dessus du bord - et la
+    jointure avec l'amorce noire se serait vue comme une coupure. En absolu a
+    bottom:0, son pied EST le bord de la bande, donc exactement le haut de
+    l'amorce.
+  */
+  .hero__fil{position:absolute;left:0;right:0;bottom:0;z-index:1;display:block}
+  .hero__fil:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
+  .hero__fil__trait{display:block;width:var(--rule);
+    height:clamp(48px,7vh,84px);background:var(--white);
+    transform:scaleY(0);transform-origin:top;
+    animation:tirerFil .55s cubic-bezier(.4,0,.2,1) 2.2s both;
+    transition:background .25s ease}
+  .hero__fil:hover .hero__fil__trait,
+  .hero__fil:focus-visible .hero__fil__trait{background:var(--yellow)}
+  @keyframes tirerFil{to{transform:scaleY(1)}}
 
   /* ═══ Filigrane ═══ */
   /* height:auto + viewBox mesure = mise a l'echelle uniforme pleine largeur.
@@ -393,7 +414,9 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
 
   @media(max-width:720px){
     .hero{min-height:0;margin-bottom:0}
-    .hero__defiler{padding-bottom:var(--sp-12)}
+    /* Sous 720px la bande n'a plus de hauteur imposee ni de marge basse : le
+       trait n'a plus de gouffre a franchir et ne sert plus a rien. */
+    .hero__fil{display:none}
     .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-18)}
     .hero__corps--portrait{display:block}
     .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
@@ -465,6 +488,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     .hero__liens a{transition:none}
     /* Sans mouvement, le « + » est simplement la - il ne doit pas rester
        invisible parce que son animation d'apparition ne tourne pas. */
-    .hero__defiler-icone{animation:none;opacity:1;transition:none}
+    /* Sous mouvement reduit le trait est la, entier, sans se tracer. */
+    .hero__fil__trait{animation:none;transform:none;transition:none}
   }
 </style>

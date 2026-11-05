@@ -87,6 +87,18 @@ const principes = [
 
 <div class="comp-zone">
   {/*
+    L'AMORCE : le trait du hero continue ici, en noir.
+    Le hero est en overflow:hidden pour contenir son filigrane, donc rien ne
+    peut en sortir - le trait est forcement en deux morceaux. Chacun porte la
+    couleur qui contraste avec SON fond, et la jointure tombe exactement sur
+    la frontiere des deux : a l'oeil, c'est une seule ligne qui change de
+    couleur en changeant de page.
+    Elle occupe les 72px de margin-bottom du hero, et se cale a zero de la
+    colonne - donc sur la meme gauche que le titre, l'intro et le bouton.
+    C'est grille.ts qui la trace, au moment ou il attaque le premier filet.
+  */}
+  <span class="comp-amorce" data-amorce aria-hidden="true"></span>
+  {/*
     data-grille : crochet du trace anime des filets (src/scripts/grille.ts).
     La classe `pre` est posee par le script AVANT la mesure et retiree apres :
     sans elle, la grille noire s'afficherait une fraction de seconde en entier
@@ -184,7 +196,21 @@ const principes = [
      ajoutait : la composition etait rentree de 24px par rapport au titre du
      hero et au footer. Verification a la mesure : .hero__titre et .comp
      doivent avoir le meme `left`. */
-  .comp-zone{display:flow-root}
+  .comp-zone{position:relative;display:flow-root}
+  .comp-amorce{position:absolute;left:0;top:calc(-1 * var(--saut-hero, 72px));
+    width:var(--rule);height:var(--saut-hero, 72px);background:var(--text);
+    transform:scaleY(0);transform-origin:top}
+  .comp-amorce.tracee{animation:tirerAmorce .5s cubic-bezier(.4,0,.2,1) both}
+  @keyframes tirerAmorce{to{transform:scaleY(1)}}
+  @media(prefers-reduced-motion:reduce){
+    .comp-amorce{transform:none}
+    .comp-amorce.tracee{animation:none}
+  }
+  /* Sous 720px le hero n'a plus de margin-bottom : il n'y a plus de gouffre a
+     franchir, et plus de trait non plus. */
+  @media(max-width:720px){
+    .comp-amorce{display:none}
+  }
 
   /*
     LES FILETS SONT LE FOND, PAS DES BORDURES. La grille porte le noir et un
@@ -447,10 +473,10 @@ const principes = [
     le trace, et non tous ensemble. Le texte suit sa propre couleur de 0,22s.
   */
   .vu :is(.wt__fragment,.pr,.os__bande){
-    animation:pousse .95s cubic-bezier(.16,1,.3,1) var(--retard,0s) both}
+    animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
   .vu :is(.wt__eyebrow,.wt__nom,.wt__accroche,.pr__titre,.os__eyebrow,.os__titre,.os__texte,.sb),
   .vu blockquote{
-    animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
+    animation:monte .7s ease-out calc(var(--retard,0s) + .18s) both}
   /* Les cartes du duo poussent depuis leur coin haut gauche, comme les aplats
      des cases - sinon elles grandiraient depuis leur centre. */
   .pr--a,.pr--b,.cell--p2 .pr{transform-origin:left top}

@@ -26,11 +26,31 @@
 */
 .segs{position:absolute;inset:0;z-index:6;pointer-events:none}
 .seg{position:absolute;background:var(--text)}
-.seg--v{transform-origin:top;animation:traitV 1.1s cubic-bezier(.16,1,.3,1) both}
-.seg--h{transform-origin:left;animation:traitH 1.1s cubic-bezier(.16,1,.3,1) both}
+/*
+  UNE COURBE DE TRACE, PAS UN RESSORT. cubic-bezier(.16,1,.3,1) arrive a 90% de
+  sa course dans le premier tiers : le filet claquait en place. Un trait qu'on
+  tire part doucement, tient sa vitesse, et s'arrete net - c'est ce que decrit
+  (.4,0,.2,1), et c'est ce qui le fait lire comme un TRACE.
+
+  0,5s et non 1,1 : avec un etalement de 2,4s, une duree longue faisait se
+  chevaucher tous les filets et l'ensemble apparaissait d'un bloc. Court, le
+  front reste fin - quelques filets en train de se faire, et le reste qui
+  attend son tour. Voir les constantes de src/scripts/grille.ts.
+*/
+.seg--v{transform-origin:top;animation:traitV .5s cubic-bezier(.4,0,.2,1) both}
+.seg--h{transform-origin:left;animation:traitH .5s cubic-bezier(.4,0,.2,1) both}
 @keyframes traitV{from{transform:scaleY(0)}}
 @keyframes traitH{from{transform:scaleX(0)}}
-/* L'aplat pousse depuis le coin que son transform-origin designe ; le texte
-   monte en fondu juste apres. --retard est pose par le script, case par case. */
+/*
+  L'APLAT POUSSE depuis le coin que son transform-origin designe - c'est la
+  couleur qui ENTRE dans la case, pas la case qui s'allume. Le texte, lui,
+  apparait en fondu : --retard est pose par le script, case par case, donc les
+  deux suivent le trace au lieu d'arriver ensemble.
+
+  Le fondu ne monte plus que de 4px. A 8 il se lisait comme un deplacement, et
+  trois mouvements differents se superposaient dans la meme case - le filet qui
+  se trace, la couleur qui pousse, le texte qui monte. Le texte se contente
+  desormais d'apparaitre.
+*/
 @keyframes pousse{from{transform:scale(0)}}
-@keyframes monte{from{opacity:0;transform:translateY(8px)}}
+@keyframes monte{from{opacity:0;transform:translateY(4px)}}
