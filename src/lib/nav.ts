@@ -23,13 +23,22 @@ export interface EntreeNav {
   cle: string;
   href: string;
   libelle: string;
+  /*
+    Le groupe ne sert QU'AU MENU MOBILE. La nav de bureau est une ligne plate
+    de six liens (§2.1) et ignore ce champ ; le panneau mobile, lui, a la place
+    de respirer et annonce « Selected work » au-dessus des trois etudes de cas,
+    comme il annonce « Let's talk » au-dessus des trois moyens de contact. Les
+    trois recits se lisent alors comme une serie, et pas comme trois entrees
+    tombees au milieu des autres.
+  */
+  groupe: 'principal' | 'travaux' | 'contact';
 }
 
 export const entrees: EntreeNav[] = [
-  { cle: 'philosophy', href: '/philosophy', libelle: 'Philosophy' },
-  { cle: 'operating-system', href: '/operating-system', libelle: 'Operations' },
-  { cle: 'system-practice-elements', href: '/system-practice-elements', libelle: 'System' },
-  { cle: 'system-brand', href: '/system-brand', libelle: 'Brand' },
-  { cle: 'system-event', href: '/system-event', libelle: 'Event' },
-  { cle: 'connect', href: '#connect', libelle: 'Connect' },
+  { cle: 'philosophy', href: '/philosophy', libelle: 'Philosophy', groupe: 'principal' },
+  { cle: 'operating-system', href: '/operating-system', libelle: 'Operations', groupe: 'principal' },
+  { cle: 'system-practice-elements', href: '/system-practice-elements', libelle: 'System', groupe: 'travaux' },
+  { cle: 'system-brand', href: '/system-brand', libelle: 'Brand', groupe: 'travaux' },
+  { cle: 'system-event', href: '/system-event', libelle: 'Event', groupe: 'travaux' },
+  { cle: 'connect', href: '#connect', libelle: 'Connect', groupe: 'contact' },
 ];

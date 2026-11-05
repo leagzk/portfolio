@@ -42,7 +42,22 @@ export interface Props {
 }
 const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro.props;
 ---
-<header class="hero">
+{/*
+  LE BANDEAU EST COLLANT, ET IL EST FRERE DU HERO - PAS SON ENFANT.
+
+  Le brief dessine la nav dans la bande noire, ce qui invite a la poser dans
+  <header class="hero">. Mais .hero porte overflow:hidden pour contenir le
+  filigrane, et un overflow cree un conteneur de defilement : un position:sticky
+  pose dedans ne colle qu'au bas de CETTE boite, puis s'arrete avec elle. La nav
+  se serait decrochee des la fin du hero.
+
+  Le bandeau est donc sorti et pose juste au-dessus, sur le meme noir. Visuellement
+  c'est la meme bande continue ; techniquement il colle a la fenetre, sur toute la
+  longueur de la page. Son fond est opaque en permanence et non pose au defilement :
+  au-dela du hero il passe sur du blanc, et des liens blancs sur blanc ne se lisent
+  pas.
+*/}
+<div class="chrome">
   {/*
     ─── Barre mobile : zone blanche + hamburger, bloc jaune CV (BRIEF §11) ───
     <nav> et non <div> : elle porte le declencheur du menu et le raccourci CV,
@@ -72,7 +87,9 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
       ))}
     </ul>
   </nav>
+</div>
 
+<header class="hero">
   <div class="hero__corps shell">
     {portrait && <div class="hero__portrait" data-portrait role="img" aria-label="Portrait of Léa Giezek"></div>}
     {eyebrow && <p class="hero__eyebrow">{eyebrow}</p>}
@@ -95,9 +112,23 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
 <nav class="mobmenu" id="mobmenu" aria-hidden="true" aria-label="Menu">
   <button class="mobmenu__close" id="mobclose" aria-label="Close menu">&#10005;</button>
   <a href="/" aria-current={accueil ? 'page' : undefined}>Home</a>
-  {entrees.filter((e) => e.cle !== 'connect').map((e) => (
+  {entrees.filter((e) => e.groupe === 'principal').map((e) => (
     <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
   ))}
+
+  {/*
+    Les trois recits sont annonces par leur surtitre et tenus sous un filet,
+    exactement comme les trois moyens de contact plus bas : c'est la meme
+    lecture, et elle dit que ces trois-la forment une serie.
+  */}
+  <div class="mobmenu__groupe">
+    <p class="mobmenu__eyebrow">Selected work</p>
+    <hr class="mobmenu__rule" />
+    {entrees.filter((e) => e.groupe === 'travaux').map((e) => (
+      <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
+    ))}
+  </div>
+
   <div class="mobmenu__groupe">
     <p class="mobmenu__eyebrow">Let's talk</p>
     <hr class="mobmenu__rule" />
@@ -127,9 +158,14 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
     background:var(--ink);color:var(--white);overflow:hidden;
     min-height:min(80vh,720px)}
 
+  /* ═══ Bandeau collant ═══ */
+  /* Pleine largeur par la marge negative habituelle du projet, comme .hero. */
+  .chrome{position:sticky;top:0;z-index:50;width:100vw;margin-left:calc(50% - 50vw);
+    background:var(--ink)}
+
   /* ═══ Nav bureau ═══ */
   .hero__nav{display:grid;grid-template-columns:48px 1fr;align-items:center;
-    gap:var(--gutter);padding-top:var(--sp-03);position:relative;z-index:2}
+    gap:var(--gutter);padding-top:var(--sp-03);padding-bottom:var(--sp-03)}
   /* L'icone maison, seule et sans rond : c'est le lien de retour des pages
      interieures. Sur l'accueil la cellule reste vide - elle tient la colonne,
      pour que les liens tombent au meme endroit d'une page a l'autre. */
@@ -152,6 +188,8 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false } = Astro
   /* 112px sous la nav, 96px avant le bas : le texte est cale en HAUT de la
      bande et non centre verticalement (BRIEF §2.2). D'ou flex-start plutot
      qu'un justify-content:center. */
+  /* 112px sous la nav (BRIEF §2.2). La nav vivant maintenant dans le bandeau
+     au-dessus, c'est le padding haut du hero qui porte seul cet ecart. */
   .hero__corps{position:relative;z-index:1;padding-top:112px;padding-bottom:96px}
   .hero__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
     text-transform:uppercase;color:var(--on-ink-eyebrow)}
