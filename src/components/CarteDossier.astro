@@ -36,8 +36,18 @@ export interface Props {
   /** l'intitule du surtitre, sans le rang : « The problem » */
   intitule: string;
   titre: string;
-  /** la synthese de 2-3 lignes, pour la lecture en survol */
-  synthese: string;
+  /**
+   * La synthese de 2-3 lignes, pour la lecture en survol.
+   *
+   * FACULTATIVE, et ce n'est pas une commodite. Sur une etude de cas le titre
+   * nomme un temps du recit - « The problem » - et la synthese dit ce qu'il
+   * contient : les deux sont necessaires. Sur une page de convictions, le
+   * titre EST la conviction, complete en elle-meme ; lui ajouter un resume
+   * reviendrait a la redire en moins bien. La carte s'y reduit alors a son
+   * surtitre et a sa phrase, et la composition peut porter des rangees plus
+   * basses.
+   */
+  synthese?: string;
   couleur: 'rouge' | 'bleu' | 'jaune';
   /** id de la <section> depliee que cette carte commande */
   commande: string;
@@ -68,6 +78,6 @@ const {
     {/* data-copy : un <button> ne peut pas contenir de <p>, donc rien ici ne
         serait sorti dans l'export de contenu. Voir scripts/export-content.mjs. */}
     <span class="dcarte__titre" data-copy>{titre}</span>
-    <span class="dcarte__synthese" data-copy>{synthese}</span>
+    {synthese && <span class="dcarte__synthese" data-copy>{synthese}</span>}
   </span>
 </button>
