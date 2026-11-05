@@ -836,30 +836,8 @@ const pratiques: Tuile[] = [
     .mosaic{--cols:4}
   }
 
-  /*
-    Le mot en couleur des phrases fortes. En <em> et non en <span> : c'est bien
-    une emphase, et le mot garde son sens souligne quand le CSS ne charge pas.
-    L'italique est retire - la couleur suffit, et l'italique d'un 900 a 34px
-    passe pour un defaut de rendu.
-  */
-  .pan .em-rouge,.pan .em-bleu,.pan .closing em{font-style:normal}
-  .pan .em-rouge{color:var(--red)}
-  .pan .em-bleu{color:var(--blue)}
-  .pan .dark .em-rouge{color:var(--yellow)}
-
-  /* Deux blocs empiles dans une colonne du .split - le lead et ses visuels, le
-     surtitre et sa mosaique. */
-  .pan .pile{display:flex;flex-direction:column;gap:28px;min-width:0}
-  .pan .pile--serre{gap:12px}
-  .pan .two--serre{gap:12px}
-  .pan .split--haut{align-items:start}
-  /* Le titre de 2023 est une phrase forte deguisee en titre de section : il
-     porte le corps du lead, pas celui d'un h3. */
-  .pan .h3--lead{font-size:var(--fs-lead)}
-
-  @media(max-width:860px){
-    .pan .h3--lead{font-size:28px}
-  }
+  /* Les couleurs d'emphase, les piles et .h3--lead ont rejoint etude.css : une
+     deuxieme etude s'en sert (Governance), ils appartiennent donc au gabarit. */
 </style>
 
 <script>

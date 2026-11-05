@@ -371,6 +371,12 @@
 .pan .dark strong,.pan .dark b{color:var(--white)}
 .pan .dark .eb{color:var(--yellow)}
 .pan .dark .h3{color:var(--white)}
+/* La chute d'un bloc sombre : plus grande que le corps, plus petite qu'un
+   titre, et detachee par un filet jaune - le seul endroit de la page ou le
+   jaune porte du sens plutot que de la surface. */
+.pan .dark__chute{margin:0;padding-top:20px;border-top:var(--rule-fine) solid var(--yellow);
+  font-family:var(--display);font-size:22px;line-height:1.25;font-weight:900;
+  color:var(--white);max-width:640px}
 
 /* ─── Grilles de contenu ─── */
 .pan .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px}
@@ -444,6 +450,27 @@
   .pan .mosaic > *{grid-area:var(--aire)}
 }
 
+/* ─── Le mot en couleur des phrases fortes ─── */
+/*
+  En <em> et non en <span> : c'est bien une emphase, et le mot garde son sens
+  souligne quand le CSS ne charge pas. L'italique est retire - la couleur
+  suffit, et l'italique d'un 900 a 34px passe pour un defaut de rendu.
+  Sur le bloc sombre le rouge passe au jaune : a 5,67:1 sur blanc il tombe a
+  1,9 sur le noir d'encre.
+*/
+.pan .em-rouge,.pan .em-bleu,.pan .closing em{font-style:normal}
+.pan .em-rouge{color:var(--red)}
+.pan .em-bleu{color:var(--blue)}
+.pan .dark .em-rouge{color:var(--yellow)}
+
+/* Deux blocs empiles dans une colonne du .split. */
+.pan .pile{display:flex;flex-direction:column;gap:28px;min-width:0}
+.pan .pile--serre{gap:12px}
+.pan .two--serre{gap:12px}
+.pan .split--haut{align-items:start}
+/* Un titre de section qui porte en realite le corps d'une phrase forte. */
+.pan .h3--lead{font-size:var(--fs-lead)}
+
 /* ─── Bloc de fin de section ─── */
 .pan .closing{display:flex;flex-direction:column;gap:24px;padding-top:24px}
 .pan .closing h2{margin:0;font-family:var(--display);font-size:40px;line-height:1.05;
@@ -484,6 +511,7 @@
   .pilep__fig{height:auto}
   .pilep__fig img{flex:none;height:auto}
   .pan .closing h2{font-size:30px}
+  .pan .h3--lead{font-size:28px}
 }
 
 @media(prefers-reduced-motion:reduce){
