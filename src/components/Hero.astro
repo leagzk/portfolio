@@ -270,11 +270,25 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     HAUT l'un de l'autre - le cercle s'aligne sur la ligne de l'eyebrow, pas
     sur le milieu du bloc (BRIEF §3.1).
   */
-  .hero__corps--portrait{display:grid;grid-template-columns:minmax(0,1fr) 360px;
-    gap:112px;align-items:start}
+  /*
+    LA PHOTO ET L'ECART SONT FLUIDES, LE TITRE NE L'EST PAS.
+
+    En 360px fixes + 112px d'ecart, 472px partaient du haut quelle que soit la
+    largeur, et tout ce qui manquait etait pris sur le texte. Mesure avant
+    correctif, sur l'accueil : le titre tenait 600px et quatre lignes a 1120,
+    puis 460px et cinq lignes a 980, 400px et SEPT lignes a 920, et 210px et
+    huit lignes a 730. La photo, elle, n'avait pas bouge d'un pixel.
+
+    Le rapport s'inverse : la colonne de droite et l'ecart se contractent avec
+    la fenetre, et c'est le titre qui garde sa mesure. Les 360px et les 112px
+    du brief (§3.1) restent la valeur haute - a pleine largeur rien ne change.
+  */
+  .hero__corps--portrait{display:grid;
+    grid-template-columns:minmax(0,1fr) clamp(168px,22vw,300px);
+    gap:clamp(32px,5vw,72px);align-items:start}
   .hero__texte{display:flex;flex-direction:column;min-width:0}
-  .hero__cercle{display:block;width:360px;height:360px;border-radius:50%;
-    background:var(--portrait) center/cover no-repeat}
+  .hero__cercle{display:block;width:100%;aspect-ratio:1;height:auto;
+    border-radius:50%;background:var(--portrait) center/cover no-repeat}
 
   /* La signature remonte au-dessus du titre au bureau et n'y montre que
      l'eyebrow ; l'avatar et le nom sont la forme mobile (BRIEF §11). */
@@ -353,9 +367,18 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       MainMobile.dc.html, qui prime sur le 44px du tableau du §1.
     */
     .hero--accueil .hero__titre{font-size:36px;line-height:1.02}
-    /* La signature reprend sa place : sous l'intro, avatar a gauche, nom et
-       eyebrow empiles a droite (BRIEF §11). */
-    .hero__signature{order:3;margin-top:var(--sp-03)}
+    /*
+      LA SIGNATURE RESTE AU-DESSUS DU TITRE, avatar compris.
+
+      ECART ASSUME AU BRIEF §11, demande par Lea : il range la signature APRES
+      l'intro (titre → intro → avatar + nom + eyebrow). Des que la photo se
+      reduit a un avatar, elle fait corps avec l'eyebrow et les deux forment
+      une en-tete ; renvoyes en bas de la bande ils se lisaient comme une
+      signature de fin, et le titre ouvrait la page sans rien devant lui.
+      Un seul noeud, deux places - c'est tout l'interet de l'avoir ecrit une
+      fois : ici « order » ne bouge plus, seule la forme change.
+    */
+    .hero__signature{order:-1;margin:0 0 var(--sp-04)}
     /*
       L'accueil n'a pas de CTA dans le hero sous 720px : le bloc jaune
       « Download CV » de la barre le porte deja, et le brief (§11) range la
