@@ -191,6 +191,7 @@ const principes = [
     - la grille doit avoir ses bords OUVERTS, pas un cadre.
   */
   .comp{display:grid;position:relative;gap:var(--rule);background:var(--text);
+    scroll-margin-top:calc(var(--chrome-h) + var(--sp-03));
     clip-path:inset(0 1px 1px 1px);
     grid-template-columns:repeat(12,minmax(0,1fr));
     grid-template-rows:300px 240px 342px 56px;
@@ -368,8 +369,14 @@ const principes = [
   .comp.pre{background:var(--white)}
   .segs{position:absolute;inset:0;z-index:6;pointer-events:none}
   .seg{position:absolute;background:var(--text)}
-  .seg--v{transform-origin:top;animation:traitV .7s cubic-bezier(.2,.7,.2,1) both}
-  .seg--h{transform-origin:left;animation:traitH .7s cubic-bezier(.2,.7,.2,1) both}
+  /*
+    1,1s et une courbe tres sortante (.16,1,.3,1) : le trait part vite puis se
+    pose, comme une regle qu'on tire. A .7s en ease classique il claquait.
+    Le retard, lui, vient du script - il est calcule sur la position, pour que
+    les filets se rejoignent en diagonale depuis le coin haut gauche.
+  */
+  .seg--v{transform-origin:top;animation:traitV 1.1s cubic-bezier(.16,1,.3,1) both}
+  .seg--h{transform-origin:left;animation:traitH 1.1s cubic-bezier(.16,1,.3,1) both}
   @keyframes traitV{from{transform:scaleY(0)}}
   @keyframes traitH{from{transform:scaleX(0)}}
 
@@ -378,13 +385,22 @@ const principes = [
   .attend :is(.wt__eyebrow,.wt__nom,.wt__accroche,.pr__titre,.os__eyebrow,.os__titre,.os__texte,.sb) ,
   .attend blockquote{opacity:0}
 
-  /* L'aplat pousse depuis le coin que son transform-origin designe deja pour
-     le survol : les deux gestes partent du meme point d'ancrage. */
-  .vu :is(.wt__fragment,.pr,.os__bande){animation:pousse .7s cubic-bezier(.2,.7,.2,1) both}
+  /*
+    L'aplat pousse depuis le coin que son transform-origin designe deja pour le
+    survol : les deux gestes partent du meme point d'ancrage.
+
+    --retard est pose PAR CASE, par le script, a partir de sa position dans la
+    composition : la couleur arrive juste apres les deux filets qui la bordent.
+    C'est ce qui fait que les blocs se remplissent chacun leur tour en suivant
+    le trace, et non tous ensemble. Le texte suit sa propre couleur de 0,22s.
+  */
+  .vu :is(.wt__fragment,.pr,.os__bande){
+    animation:pousse .95s cubic-bezier(.16,1,.3,1) var(--retard,0s) both}
   @keyframes pousse{from{transform:scale(0)}}
   .vu :is(.wt__eyebrow,.wt__nom,.wt__accroche,.pr__titre,.os__eyebrow,.os__titre,.os__texte,.sb),
-  .vu blockquote{animation:monte .8s ease-out .1s both}
-  @keyframes monte{from{opacity:0;transform:translateY(6px)}}
+  .vu blockquote{
+    animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
+  @keyframes monte{from{opacity:0;transform:translateY(8px)}}
   /* Les cartes du duo poussent depuis leur coin haut gauche, comme les aplats
      des cases - sinon elles grandiraient depuis leur centre. */
   .pr--a,.pr--b,.cell--p2 .pr{transform-origin:left top}

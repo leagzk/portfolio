@@ -29,14 +29,21 @@ import { mouvementReduit } from './motion';
   pas - erreur, JS coupe, mouvement reduit - tout s'affiche d'un coup.
 */
 
-/* Les aplats, avec le retard qu'ils prennent sur l'entree de LEUR case. Ce
-   n'est plus un calendrier absolu : chaque case a le sien, puisqu'elles
-   n'arrivent plus toutes en meme temps. */
-const APLATS: Record<string, number> = {
-  '.wt__fragment': 0.15,
-  '.pr': 0.2,
-  '.os__bande': 0.35,
-};
+/*
+  LE RYTHME. Tout est etale sur ~3s au lieu de 1,5 : la construction doit se
+  regarder, pas se subir. Les filets se tracent en diagonale depuis le coin
+  haut gauche, et CHAQUE CASE SE REMPLIT QUAND LE FRONT DU TRACE LA DEPASSE -
+  son retard se calcule avec la meme formule que les filets, plus un temps de
+  retrait. Les couleurs suivent donc les lignes au lieu d'arriver ensemble, et
+  plusieurs cases se remplissent en meme temps a des endroits differents.
+*/
+const TRACE_DEBUT = 0.1; // retard du premier filet
+const TRACE_ETALEMENT = 1.8; // ecart entre le premier filet et le dernier
+const TRACE_DUREE = 1.1; // duree d'un filet
+const RETRAIT = 0.45; // ce que la couleur attend apres les filets qui la bordent
+/* Une case qui arrive bien apres la construction - on a defile jusqu'a elle -
+   ne doit pas heriter d'un retard calcule pour l'ouverture. */
+const RETARD_TARDIF = 0.08;
 
 export function tracerGrille(): void {
   const comp = document.querySelector<HTMLElement>('[data-grille]');
@@ -56,6 +63,28 @@ export function tracerGrille(): void {
      disparait pour se re-animer quand l'observateur se declenche. */
   comp.classList.add('pre');
   cases.forEach((el) => el.classList.add('attend'));
+
+  /*
+    Le retard propre a chaque case, pose en variable CSS et lu par les regles
+    `.vu` : le script decide QUAND, la feuille decide QUOI. Il se calcule sur le
+    coin haut gauche de la case, avec la formule des filets - la couleur arrive
+    donc juste apres les deux traits qui la bordent.
+  */
+  const placerRetards = () => {
+    const cr = comp.getBoundingClientRect();
+    const S = cr.width + cr.height;
+    if (!S) return;
+    cases.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      /* Une case masquee au point de rupture courant - la pagination du rail
+         n'existe que sous 720px - rend une boite nulle, donc une avance
+         negative, donc un animation-delay negatif : l'animation demarrerait
+         deja entamee. On borne a zero. */
+      const avance = Math.max(0, (r.left - cr.left + (r.top - cr.top)) / S);
+      el.style.setProperty('--retard', `${(TRACE_DEBUT + avance * TRACE_ETALEMENT + RETRAIT).toFixed(2)}s`);
+    });
+  };
+  placerRetards();
 
   let traceeFait = false;
   const tracerFilets = () => {
@@ -84,7 +113,7 @@ export function tracerGrille(): void {
       const seg = document.createElement('span');
       seg.className = `seg seg--${sens}`;
       seg.style.cssText = `left:${l}px;top:${t}px;width:${w}px;height:${h}px`;
-      seg.style.animationDelay = `${(0.05 + ((l + t) / (W + H)) * 0.8).toFixed(2)}s`;
+      seg.style.animationDelay = `${(TRACE_DEBUT + ((l + t) / (W + H)) * TRACE_ETALEMENT).toFixed(2)}s`;
       calque.appendChild(seg);
     };
 
@@ -100,10 +129,13 @@ export function tracerGrille(): void {
     });
 
     comp.appendChild(calque);
+    /* On rend la main au vrai fond noir quand le dernier filet a fini. Avant,
+       il manquerait des lignes ; apres, les segments feraient doublon. */
     window.setTimeout(() => {
       comp.classList.remove('pre');
       calque.remove();
-    }, 1700);
+      comp.dataset.phase = 'fini';
+    }, (TRACE_DEBUT + TRACE_ETALEMENT + TRACE_DUREE) * 1000);
   };
 
   /*
@@ -122,16 +154,27 @@ export function tracerGrille(): void {
   }, { threshold: 0.1 }).observe(comp);
 
   const ioCases = new IntersectionObserver((entrees, obs) => {
-    entrees.forEach((e) => {
-      if (!e.isIntersecting) return;
-      const cellule = e.target as HTMLElement;
+    /* Les cases qui entrent ensemble sont servies dans l'ordre de lecture, pas
+       dans celui - arbitraire - ou l'observateur les rend. */
+    const arrivees = entrees
+      .filter((e) => e.isIntersecting)
+      .map((e) => e.target as HTMLElement)
+      .sort((a, b) => {
+        const ra = a.getBoundingClientRect();
+        const rb = b.getBoundingClientRect();
+        return ra.top - rb.top || ra.left - rb.left;
+      });
+
+    arrivees.forEach((cellule, i) => {
+      /* Pendant la construction, la case garde le retard calcule sur sa
+         position - c'est lui qui fait suivre les couleurs au trace. Une fois la
+         grille posee, on a defile jusqu'a elle : un long retard ne serait plus
+         une mise en scene, juste une latence. */
+      if (comp.dataset.phase === 'fini') {
+        cellule.style.setProperty('--retard', `${(i * RETARD_TARDIF).toFixed(2)}s`);
+      }
       cellule.classList.remove('attend');
       cellule.classList.add('vu');
-      Object.entries(APLATS).forEach(([sel, retard]) => {
-        cellule.querySelectorAll<HTMLElement>(sel).forEach((el) => {
-          el.style.animationDelay = `${retard}s`;
-        });
-      });
       obs.unobserve(cellule);
     });
   }, { threshold: 0.25 });

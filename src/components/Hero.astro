@@ -150,11 +150,8 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   */}
   {defiler && (
     <a class="hero__defiler" href={`#${defiler}`}>
-      <span class="sr-only">Scroll to the work</span>
-      <span class="hero__defiler-fleche" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-             stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
-      </span>
+      <span class="sr-only">Reveal the work</span>
+      <span class="hero__defiler-icone" aria-hidden="true"><Icone nom="plus" taille={28} /></span>
     </a>
   )}
 </header>
@@ -284,15 +281,29 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hero__intro b{font-weight:700;color:var(--white)}
   .hero__corps .sb{margin-top:32px}
 
-  /* ═══ Fleche de defilement ═══ */
+  /* ═══ Le « + » qui ouvre la composition ═══ */
+  /*
+    UN « + » ET PAS UNE FLECHE. C'est le signe de revelation du site - il ouvre
+    les tuiles, les principes, les cartes de Language. L'employer ici dit la
+    meme chose : il y a quelque chose dessous, et c'est toi qui l'ouvres.
+
+    IL ARRIVE APRES COUP, a 2,4s. Pose d'emblee il entrerait en concurrence
+    avec le titre ; arrive une fois la page lue, il se remarque. L'apparition
+    est un fondu, pas un rebond : le rebond reclame l'attention en continu, et
+    ce n'est pas ce qu'on demande a une invitation.
+  */
   .hero__defiler{position:relative;z-index:1;display:flex;justify-content:center;
-    padding-bottom:var(--sp-09);color:var(--on-ink-eyebrow);
-    transition:color .25s ease}
+    padding-bottom:var(--sp-09);color:var(--on-ink-eyebrow);transition:color .25s ease}
   .hero__defiler:hover{color:var(--yellow)}
   .hero__defiler:focus-visible{outline:3px solid var(--yellow);outline-offset:4px}
-  /* Le mouvement est court et lent : c'est une invitation, pas un clignotant. */
-  .hero__defiler-fleche{display:block;animation:invite 2.4s ease-in-out infinite}
-  @keyframes invite{0%,100%{transform:translateY(0)}50%{transform:translateY(8px)}}
+  .hero__defiler-icone{display:block;opacity:0;
+    animation:parait .9s cubic-bezier(.16,1,.3,1) 2.4s both;
+    transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+  @keyframes parait{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+  /* Pivote en x comme partout ailleurs : le contenu est revele. */
+  .hero__defiler:hover .hero__defiler-icone,
+  .hero__defiler:focus-visible .hero__defiler-icone,
+  .hero__defiler.ouvert .hero__defiler-icone{transform:rotate(45deg)}
 
   /* ═══ Filigrane ═══ */
   /* height:auto + viewBox mesure = mise a l'echelle uniforme pleine largeur.
@@ -382,6 +393,8 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
 
   @media(prefers-reduced-motion:reduce){
     .hero__liens a{transition:none}
-    .hero__defiler-fleche{animation:none}
+    /* Sans mouvement, le « + » est simplement la - il ne doit pas rester
+       invisible parce que son animation d'apparition ne tourne pas. */
+    .hero__defiler-icone{animation:none;opacity:1;transition:none}
   }
 </style>

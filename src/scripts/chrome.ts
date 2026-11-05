@@ -44,6 +44,15 @@ export function initChrome(): void {
   });
   mob.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => ouvrir(false)));
 
+  /*
+    Le « + » du hero pivote en x quand on l'active, comme toutes les autres
+    revelations du site. Le defilement lui-meme est celui du navigateur - c'est
+    un <a href="#...">, et `scroll-behavior` sur html le rend doux et le coupe
+    tout seul sous mouvement reduit.
+  */
+  const defiler = document.querySelector('.hero__defiler');
+  defiler?.addEventListener('click', () => defiler.classList.add('ouvert'));
+
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mob.classList.contains('open')) {
       ouvrir(false);
