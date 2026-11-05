@@ -8,31 +8,63 @@ indexable: true
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-# Same systems thinking, same care - just off the screen.
+Systematize a moment · Living System · 3rd edition
 
-Living System
+# Same systems thinking, same care - just off the screen.
 
 Over more than a year, I designed and orchestrated a live event from end to end - one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.
 
+1 an+
+from first object to last jar
+Designed and orchestrated end to end, alongside the day job.
+
+50+
+surfaces, one identity
+Paper, fabric, metal, wood - and a pre-event WhatsApp community.
+
+9
+suppliers directed from one guide
+One page per zone, one owner per page. Executed without me in the room.
+
+3rd
+edition, each bigger than the last
+A full identity every time, an escape game every time. I don't repeat a system - I version it.
+
+It started with two rented objects.
+
+Not a moodboard: a plate and an armchair we could actually put in the space. One gave the pattern language, the other gave the posture - and five words came out of them before anything was drawn.
+
+One identity, fifty-plus surfaces, zero inconsistency.
+
+Declined on paper, fabric, metal and wood - then staged in the space, and closed by an escape game built from zero. The test was the boring surfaces.
+
+Precise enough to be run without me in the room.
+
+One page per zone, one owner per page. I briefed nine suppliers from it, handed the day to a coordinator - and got to be in the experience instead of running it.
+
+## 01 &middot; The constraint
+
+A living system isn't one you finish. It's one that takes its real shape *in the hands of the people who use it.*
+
+Here, off the screen, exactly as it does on it. Not product. Not digital. Not communication. A living one - and it held together just the same.
+
 It's the proof I keep coming back to: **my way of working doesn't depend on the medium.** Systems thinking, brand coherence, experience design - they hold whether the output ships to production or lives in a garden for one day.
 
-A living system isn't one you finish. It's one that takes its real shape *in the hands of the people who use it* - here, off the screen, exactly as it does on it.
+> The system, in the world
 
-Not product. Not digital. Not communication. A living one - and it held together just the same.
+Where it came from
 
-01 - Identity
+Starting from a constraint *you don't own.*
 
-## One identity, everywhere.
-
-Starting from a constraint you don't own, then making every other decision agree with it. That's most of the job on the platform too.
-
-**The whole thing started with two objects.** Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The **Popolo** plate: scalloped rim, hand-painted florals, cobalt and ochre. The **Roly Poly** armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture.
+**The whole thing started with two objects.** Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The **Popolo** plate: scalloped rim, hand-painted florals, cobalt and ochre. The **Roly Poly** armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.
 
 Five words came out of them, written down before anything was drawn: **shapes, type, colors, conviviality and playfulness.** Then systematised end to end across the whole experience, from the first envelope to the last jar label.
 
 The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - **are the reason the day ended up with an escape game in it.**
 
-A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. **Dozens of touchpoints, one language** - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.
+Those five words were the brief - mine, and everyone else's. **Every supplier was briefed from them, and every arbitration came back to them.** That is the whole of the creative direction: not a mood, a short list you can hold someone to.
+
+The system itself
 
 Shapes
 
@@ -46,15 +78,9 @@ Three cut-outs, taken off the plate's rim and the chair's silhouette. Every badg
 
 Colors
 
-- **Vert**`#008C68`
+- Vert`#008C68`
 
-- **Bleu**`#455192`
-
-- **Rouge**`#F05863`
-
-- **Jaune**`#F7A800`
-
-- **Rose**`#FDC1BD`
+Taken straight off the glaze of the Popolo plate.
 
 Type
 
@@ -70,7 +96,15 @@ Serenity
 
 Text - rules, timings, instructions. Plain enough to disappear behind the display face.
 
-### Nothing was left to chance, and nothing drifted. **One identity, fifty-plus surfaces, zero inconsistency.**
+Next: the system →
+
+## 02 &middot; The system
+
+Nothing was left to chance, *and nothing drifted.*
+
+A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. **Dozens of touchpoints, one language** - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.
+
+One identity, fifty-plus surfaces
 
 > Signage
 
@@ -90,7 +124,9 @@ Text - rules, timings, instructions. Plain enough to disappear behind the displa
 
 > Collaborative game
 
-The test was the boring surfaces.
+The test
+
+The test was *the boring surfaces.*
 
 Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, welcome signage to your room to share care. Same display face, same stripes, same jokes.
 
@@ -100,11 +136,15 @@ That's where **conviviality and playfulness** stopped being words on a moodboard
 
 > Glass rules - 100 × 150 mm
 
-> Printed, in the hand
+Printed, in the hand
 
-02 - Staging
+> The invitation, printed
 
-## Space, staged.
+> The suite, unfolding
+
+Staging
+
+Space, *staged.*
 
 An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.
 
@@ -124,30 +164,25 @@ Built
 
 > Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later.
 
-03 - The centrepiece
+The centrepiece
 
-## A game, by design.
+A game, *by design.*
 
 An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to *feel* effortless while being tightly engineered underneath.
 
 **Six riddles, six different mechanics for six essential clues to unlock one final chest, all together.** Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.
 
-01The constraint
+> The game, set up in the courtyard
 
-A locked trunk, a combination, and clues scattered across the day.
+> **01 &middot; The constraint** A locked trunk, a combination, and clues scattered across the day.
 
-02The crack
+> **02 &middot; The crack** Progression built so the last step feels earned, not handed over.
 
-Progression built so the last step feels earned, not handed over.
-
-03The payoff
-
-The reward carries the identity too. The system runs to the last object.
+> **03 &middot; The payoff** The reward carries the identity too. The system runs to the last object.
 
 But here's what I love most about it: **it only became itself once people played it.** I designed the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, evolving as they moved through it, in ways no plan could fully script.
 
-Shipped empty.
-**Finished by the people who played it.**
+Shipped empty. **Finished by the people who played it.**
 
 Specified
 
@@ -163,31 +198,29 @@ Played
 
 That's the whole truth about the systems I build: **you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.** An escape game, a design system, a platform: same principle.
 
-The frame is mine.
-**The life is theirs.**
+The frame is mine. **The life is theirs.**
 
-04 - Coordination
+Next: the handover →
 
-## The part nobody sees.
+## 03 &middot; The handover
+
+The part nobody sees
+
+### One page per zone, one owner per page.
 
 Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.
 
-I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to [Hera & Harmonia](https://hera-et-harmonia.com/), who ran it from the brief. **One page per zone, one owner per page. That's the whole method.**
+I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief. **That's the whole method.**
 
 Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be *in* the experience instead of running it.
 
-> Inside it, not behind it.
-
 The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. It works in a repo. It works in a garden.
 
-I don't just repeat a system.
-I *version* it.
+> Inside it, not behind it.
 
-This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. The pattern doesn't stop at the screen - and it doesn't stop at work either.
+Credits
 
-## Credits
-
-Vision and execution directed by me, but everything else was operated by people far better than me at their own craft.
+Vision and execution directed by me - *everything else by people far better than me at their own craft.*
 
 **Artwork & event design**
 
@@ -224,6 +257,12 @@ Léa Giezek
 **Cocktail bar**
 
 [Le Horse Bar](https://sobarsodrink.squarespace.com/)
+
+## I don't just repeat a system. *I version it.*
+
+This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. **The pattern doesn't stop at the screen - and it doesn't stop at work either.**
+
+See it at global scale →
 
 ---
 
