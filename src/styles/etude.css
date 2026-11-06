@@ -37,7 +37,31 @@
   dessous - et un padding bas de 48px qui fait descendre le filet sous le texte
   jusqu'au cadre de la composition.
 */
-.cles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px}
+/*
+  LE FILET SOUS LES CHIFFRES LES ANCRE, et il leur appartient.
+
+  Il existait, mais par accident : c'etait le `border-top` de la composition
+  qui suit - les deux blocs se touchent exactement, l'ecart mesure entre eux
+  est de zero. En retirant le cadre de .compo (grille a bords ouverts), le
+  filet est parti avec, et les chiffres se sont retrouves a flotter.
+
+  Il est donc repose ici, ou il a toujours du etre : un bloc de chiffres se
+  ferme par un trait, c'est ce trait qui en fait une mesure et pas une liste.
+  Pose sur .cles, il ne depend plus de ce qui vient apres - et la composition
+  garde ses bords ouverts. Les 48px d'air sous les nombres viennent du padding
+  de .cles__col ; le filet tombe donc au pixel ou il tombait avant.
+*/
+.cles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px;
+  border-bottom:var(--rule-fine) solid var(--text);position:relative}
+/*
+  PENDANT LE TRACE, LES VRAIES BORDURES S'EFFACENT. Le script pose par-dessus
+  un calque de segments qui, eux, se dessinent ; si les bordures restaient
+  visibles dessous, il n'y aurait rien a tracer. Elles passent en transparent
+  - et non en `none`, qui changerait la mise en page de 1,5px - le temps du
+  trace, exactement comme la composition blanchit son fond noir.
+*/
+.cles.pre{border-bottom-color:transparent}
+.cles.pre .cles__col + .cles__col{border-left-color:transparent}
 .cles__col{display:flex;flex-direction:column;gap:8px;
   padding:0 var(--gutter) var(--pad-square)}
 .cles__col + .cles__col{border-left:var(--rule-fine) solid var(--text)}
@@ -45,6 +69,30 @@
   letter-spacing:-.02em}
 .cles__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.4}
 .cles__ctx{font-size:var(--fs-caption);line-height:1.5;color:var(--ink-muted)}
+/*
+  ═══ LES CHIFFRES MONTENT UN A UN, DERRIERE LE FRONT ═══
+
+  Ils etaient la d'emblee et seuls leurs filets se tracaient : le bandeau
+  restait un bloc pose pendant que tout bougeait autour. Chaque colonne porte
+  deja son `--retard`, calcule par le front comme pour une case de
+  composition - il n'etait simplement consomme par aucune regle.
+
+  Une colonne monte donc quand le front a fini de la TRAVERSER, soit juste
+  apres le filet qui la ferme a droite. A 480px/s sur quatre colonnes de 268px,
+  cela fait un chiffre toutes les 0,56s : assez pour qu'on les compte un par
+  un, ce qui est tout l'interet - un chiffre cle qu'on decouvre seul pese plus
+  que quatre qu'on survole.
+
+  LE NOMBRE OUVRE, SON LIBELLE SUIT A 0,14s. Le meme decalage que l'aplat et
+  son texte dans la composition : la valeur d'abord, ce qu'elle mesure ensuite.
+
+  Sans script, la composition est simplement la : `.attend` n'est jamais pose,
+  et ces regles ne s'appliquent pas.
+*/
+.attend :is(.cles__nb,.cles__quoi,.cles__ctx){opacity:0}
+.vu .cles__nb{animation:monte .85s cubic-bezier(.16,1,.3,1) var(--retard,0s) both}
+.vu :is(.cles__quoi,.cles__ctx){
+  animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .14s) both}
 
 /* ─── Cadre defilant : une page entiere dans un cadre au format fixe ─── */
 /*
@@ -220,8 +268,19 @@
   specificite egale sa declaration battrait la remise en une colonne ci-dessous,
   media query comprise.
 */
+/*
+  PAS DE BORDURE EXTERIEURE - LA GRILLE A SES BORDS OUVERTS (BRIEF §3.2).
+  La composition portait `border:var(--rule-fine) solid var(--text)`, qui
+  fermait le dessin d'un cadre sur ses quatre cotes. L'accueil, lui, n'en a
+  jamais eu : son fond noir ne transparait que par les `gap`, et un
+  `clip-path` rogne le pixel de debord que l'arrondi sous-pixel laisse sur les
+  bords. C'est lui la reference - les cinq autres compositions s'alignent.
+
+  Le clip-path rogne droite, bas et gauche, pas le haut : en haut le fond noir
+  s'arrete net sur la premiere case, il n'y a rien a reprendre.
+*/
 .compo{display:grid;position:relative;gap:var(--rule-fine);background:var(--text);
-  border:var(--rule-fine) solid var(--text);
+  clip-path:inset(0 1px 1px 1px);
   scroll-margin-top:calc(var(--chrome-h) + var(--sp-03))}
 .compo > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
 

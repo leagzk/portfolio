@@ -60,7 +60,9 @@ export interface Props {
 const { id, rang, intitule, titre, couleur, aire, pliante = false, large = false } = Astro.props;
 const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--ouverte', large && 'conv--large'];
 ---
-<div class:list={classes} style={`grid-area:${aire}`}>
+{/* data-rang : le trace anime sert les convictions dans l'ordre de leur rang
+    et non dans celui du front - voir src/scripts/grille.ts. */}
+<div class:list={classes} style={`grid-area:${aire}`} data-rang={rang}>
   {/* L'aplat est un enfant et non un `background` : c'est lui que le trace de
       la grille fait pousser depuis son coin (.vu .conv__plat dans etude.css),
       et un fond ne se met pas a l'echelle. */}

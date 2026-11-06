@@ -34,7 +34,14 @@ if (chiffres.length !== 4) {
   throw new Error(`<ChiffresCles> attend exactement 4 chiffres, reçu ${chiffres.length}`);
 }
 ---
-<section class="cles" aria-label={label}>
+{/*
+  data-filets : crochet du trace anime (src/scripts/grille.ts). Les filets de
+  ce bandeau sont de vraies bordures CSS et non des `gap` ; le script les
+  releve comme il releve ceux d'une composition, et le MEME front les traverse
+  - le bandeau et la composition qui le suit se touchent, ils ne font qu'un
+  bloc.
+*/}
+<section class="cles" data-filets aria-label={label}>
   {chiffres.map((c) => (
     <div class="cles__col">
       <span class="cles__nb">{c.nombre}</span>

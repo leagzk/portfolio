@@ -97,8 +97,11 @@ const principes = [
     {travaux.map((t) => (
       <div class:list={['cell', `cell--${t.aire}`]}>
         <a class:list={['wt', t.clair && 'wt--clair']} href={t.href}>
-          <span class="wt__filet" aria-hidden="true"></span>
-          {t.aire === 'w2' && <span class="wt__filet wt__filet--bas" aria-hidden="true"></span>}
+          {/* data-trait : ce filet fait partie du dessin. Les trois de la
+              rangee se touchent a travers les gouttieres et forment UNE ligne,
+              que le trace dessine d'un bout a l'autre - voir grille.ts. */}
+          <span class="wt__filet" data-trait aria-hidden="true"></span>
+          {t.aire === 'w2' && <span class="wt__filet wt__filet--bas" data-trait aria-hidden="true"></span>}
           <span class="wt__fragment" aria-hidden="true"></span>
           <span class="wt__eyebrow">
             <span>{t.eyebrow}</span>
@@ -110,13 +113,24 @@ const principes = [
       </div>
     ))}
 
-    <figure class="citation">
+    {/*
+      LA CITATION OUVRE LE BLOC DES PRINCIPES, et data-rang le dit au trace
+      anime. « Cultivating practice, not just systems » annonce les trois
+      principes qui la suivent : c'est un seul bloc de sens, et le front, qui
+      ne va que de gauche a droite, servait les principes AVANT elle. Les
+      rangs 1-2-3 interdisent l'inversion sans toucher a l'heure que donne le
+      front - voir src/scripts/grille.ts.
+    */}
+    {/* data-rang-texte : cette case n'a pas d'aplat, elle n'est visible que
+        par son texte - 0,22s apres son retard. Le trace en tient compte pour
+        que son rang lui donne une avance REELLE sur les principes. */}
+    <figure class="citation" data-rang="1" data-rang-texte>
       <blockquote>Cultivating practice, not just systems, through Design Leadership and Community Building.</blockquote>
       <Bouton href="/philosophy" variante="bleu" icone="fleche">Philosophy</Bouton>
     </figure>
 
     <div class="principes">
-      <div class="duo">
+      <div class="duo" data-rang="2">
         {/* Les trois filets du duo restent visibles quelle que soit la carte
             ouverte : c'est la ligne noire que le brief veut toujours la (§3.2). */}
         <span class="duo__filet duo__filet--1" aria-hidden="true"></span>
@@ -133,7 +147,7 @@ const principes = [
         ))}
       </div>
       {principes.filter((p) => p.cle === 'c').map((p) => (
-        <div class="cell cell--p2">
+        <div class="cell cell--p2" data-rang="3">
           <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
             <span class="pr__dedans">
               <Icone nom="plus" taille={18} class="pr__plus" />
@@ -347,8 +361,27 @@ const principes = [
     En proportion, la rouge s'arrete toujours 2px avant la jaune : le filet
     noir du brief §3.2, et rien de plus.
   */
+  /*
+    LES DEUX CARTES SE TOUCHENT DANS TOUS LES ETATS, et c'est ce qui supprime
+    le filet blanc au repli.
+
+    LE DEFAUT : la jaune commencait 2px APRES la fin de la rouge, et le trait
+    noir de ces 2px venait du fond. Deplie, en revanche, les deux sont
+    contigues - le trait est porte par un `box-shadow` interieur. Les deux
+    geometries ne se correspondaient donc pas, et pendant la transition les
+    deux bords, partis du meme point, s'ecartaient progressivement jusqu'a
+    2px : un interstice MOBILE, alors que le filet noir reste gare a sa
+    position finale. C'est le fond blanc du duo qui passait dedans.
+
+    La jaune commence donc exactement ou la rouge finit, dans tous les etats,
+    et porte son trait en `box-shadow` comme elle le fait deja une fois
+    dépliée. Les deux bords interpolent alors depuis la meme valeur vers la
+    meme valeur : aucun interstice ne peut s'ouvrir. Sa largeur gagne les 2px
+    qu'elle perd a gauche, donc son bord droit ne bouge pas.
+  */
   .pr--a{left:0;width:calc((100% - 12px) * 3 / 7 + 4px)}
-  .pr--b{left:calc((100% - 12px) * 3 / 7 + 6px);width:calc((100% - 12px) * 3 / 7 + 4px)}
+  .pr--b{left:calc((100% - 12px) * 3 / 7 + 4px);width:calc((100% - 12px) * 3 / 7 + 6px);
+    box-shadow:inset 2px 0 0 var(--text)}
   /*
     TOUT PASSE PAR :has() SUR LE DUO, y compris l'ouverture au clic. Le survol
     et le focus agissent sur les DEUX boutons - l'un s'etend, l'autre se reduit
@@ -361,8 +394,12 @@ const principes = [
   .duo:has(.pr--a[aria-expanded="true"]) .pr--a{width:calc(100% - 28px);z-index:3}
   .duo:has(.pr--a:hover) .pr--b,.duo:has(.pr--a:focus-visible) .pr--b,
   .duo:has(.pr--a[aria-expanded="true"]) .pr--b{left:calc(100% - 28px);width:28px;box-shadow:inset 2px 0 0 var(--text)}
+  /* `box-shadow:none` : depliee, c'est la ROUGE reduite qui porte le trait, sur
+     son bord droit. Sans cette remise a zero, le trait par defaut de la jaune
+     s'y ajouterait et la ligne ferait 4px. */
   .duo:has(.pr--b:hover) .pr--b,.duo:has(.pr--b:focus-visible) .pr--b,
-  .duo:has(.pr--b[aria-expanded="true"]) .pr--b{left:28px;width:calc(100% - 28px);z-index:3}
+  .duo:has(.pr--b[aria-expanded="true"]) .pr--b{left:28px;width:calc(100% - 28px);z-index:3;
+    box-shadow:none}
   .duo:has(.pr--b:hover) .pr--a,.duo:has(.pr--b:focus-visible) .pr--a,
   .duo:has(.pr--b[aria-expanded="true"]) .pr--a{width:28px;box-shadow:inset -2px 0 0 var(--text)}
   /*
