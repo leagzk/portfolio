@@ -373,9 +373,34 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   /* La signature ouvre la colonne, au-dessus du titre : avatar, nom, eyebrow.
      ECART ASSUME AU BRIEF §11, qui la range apres l'intro - demande par Lea,
      et c'est la meme forme a toutes les largeurs depuis qu'elle a tranche. */
+  /*
+    LE GAP TIENT COMPTE DE L'ANNEAU, pas seulement du rond. L'anneau deborde
+    de 10px tout autour de la boite (inset:-10px) : avec les 12 a 18px d'ecart
+    d'avant, il ne restait que 7px de degagement a 1440 et 2px a 390 - le
+    trace passait au ras du nom. 18 a 26px laissent 8 a 16px de vrai air.
+  */
   .hero__signature{order:-1;display:flex;align-items:center;
-    gap:clamp(12px,1.2vw,18px);margin-bottom:var(--sp-04)}
+    gap:clamp(18px,1.6vw,26px);margin-bottom:var(--sp-04)}
   .hero__id{display:flex;flex-direction:column;gap:2px;min-width:0}
+
+  /*
+    LE NOM ET L'EYEBROW ATTENDENT QUE L'ANNEAU AIT FINI. Ils etaient la des le
+    premier rendu, et le trace leur passait dessus : l'anneau se dessine a
+    1,9s, soit bien apres que le texte est pose. Un trait qui traverse un mot
+    deja lu n'est pas une arrivee, c'est une rature.
+
+    Ils entrent donc a 2,75s - l'instant ou le cercle se referme - dans la
+    langue du site : `monte`, le fondu montant des textes de la composition.
+    L'avatar, lui, n'attend pas : c'est sur lui que la photo du loader se
+    pose, il doit etre la pour la recevoir.
+
+    `:has(.hero__anneau)` et non une classe de plus : l'anneau n'existe que
+    sur l'accueil, la ou le loader tourne. Les pages interieures n'ont ni
+    anneau ni attente - leur eyebrow est la tout de suite, et la regle ne les
+    atteint pas.
+  */
+  .hero__signature:has(.hero__anneau) .hero__id{
+    animation:monte .5s ease-out 2.75s both}
   .hero__avatar{display:block;width:100%;height:100%;border-radius:50%;
     background:var(--portrait) center/cover no-repeat}
   .hero__nom{display:block;font-family:var(--display);font-weight:900;
@@ -628,5 +653,8 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
        invisible parce que son animation d'apparition ne tourne pas. */
     /* Sous mouvement reduit les carres sont la, sans pousser. */
     .hero__primaire{animation:none;transform:none}
+    /* Et la signature n'attend rien : sans anneau a regarder se tracer,
+       l'attente ne serait qu'un retard. */
+    .hero__signature:has(.hero__anneau) .hero__id{animation:none}
   }
 </style>
