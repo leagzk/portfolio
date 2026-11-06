@@ -86,15 +86,49 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     </a>
   </nav>
 
-  {/* ─── Nav bureau : grille 48px 1fr, liens ferres a droite (BRIEF §2.1) ─── */}
+  {/*
+    ─── Nav bureau : les liens a gauche, la prise de contact a droite ───
+
+    ELLE ETAIT FERREE A DROITE, en entier (BRIEF §2.1). Sur la grille, au
+    pixel : le dernier lien tombait exactement sur le bord droit du bloc
+    titre. Mais ce bord-la, rien ne le dessine - le TEXTE du titre s'arrete
+    90px avant, l'intro 500px avant, et la nav s'alignait donc sur une arete
+    que l'oeil ne voit nulle part ailleurs. Elle se lisait de travers : ni a
+    droite de quelque chose, ni centree.
+
+    Les liens partent maintenant du bord gauche de la colonne - le meme x que
+    « Design systems », que l'avatar et que les trois carres. Un seul axe pour
+    toute la page, et il est visible.
+
+    LA PRISE DE CONTACT RESTE A DROITE, SEULE. C'est la seule entree qui ne
+    mene pas a une preuve mais a une action, et la mettre en file avec les
+    cinq autres la noyait. Detachee au bord droit avec son icone, elle
+    redevient ce qu'elle est : le bouton de la barre. Elle reste dans la MEME <ul> - c'est un lien
+    de navigation, et le sortir de la liste l'aurait retire du decompte
+    qu'annonce un lecteur d'ecran. `margin-left:auto` suffit a l'ecarter.
+  */}
   <nav class="hero__nav shell" aria-label="Primary">
-    <div class="hero__accueil">
-      {!accueil && <a href="/" aria-label="Home"><Icone nom="maison" taille={22} /></a>}
-    </div>
+    {/*
+      LA CELLULE VIDE DE L'ACCUEIL EST TOMBEE. Elle tenait la colonne de
+      48px sur les sept pages pour que les liens tombent au meme endroit -
+      ce qui se defendait tant qu'ils etaient ferres a droite et que cette
+      colonne ne faisait que pousser. Ferres a gauche, elle les decalerait
+      de 72px de l'axe du titre sur la page d'accueil, exactement ce qu'on
+      vient de corriger. L'icone maison n'est donc rendue que la ou elle
+      existe, et c'est elle qui tient le bord gauche sur ces pages-la.
+    */}
+    {!accueil && (
+      <div class="hero__accueil">
+        <a href="/" aria-label="Home"><Icone nom="maison" taille={22} /></a>
+      </div>
+    )}
     <ul class="hero__liens">
       {entrees.map((e) => (
-        <li>
-          <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>{e.libelle}</a>
+        <li class:list={[e.groupe === 'contact' && 'hero__liens-fin']}>
+          <a href={e.href} aria-current={courant === e.cle ? 'page' : undefined}>
+            {e.libelle}
+            {e.groupe === 'contact' && <Icone nom="bulle" taille={18} />}
+          </a>
         </li>
       ))}
     </ul>
@@ -258,7 +292,15 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     background:var(--ink)}
 
   /* ═══ Nav bureau ═══ */
-  .hero__nav{display:grid;grid-template-columns:48px 1fr;align-items:center;
+  /*
+    EN FLEX ET PLUS EN GRILLE. La grille posait une premiere colonne de 48px
+    sur les sept pages, vide sur l'accueil : avec des liens ferres a gauche
+    elle les aurait decales de 72px de l'axe du titre. En flex, la cellule
+    n'existe que la ou l'icone existe, et la rangee commence toujours au bord
+    gauche de la colonne - l'icone maison sur les pages interieures, le
+    premier lien sur l'accueil.
+  */
+  .hero__nav{display:flex;align-items:center;
     gap:var(--gutter);padding-top:var(--sp-03);padding-bottom:var(--sp-03)}
   /*
     width:100% sur les enfants en .shell. .hero est redevenu un flex colonne
@@ -278,10 +320,27 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     nav fait 48px, l'icone restait calee a gauche, et sans cette compensation
     elle se serait recentree 11px plus loin.
   */
+  /*
+    ═══ LE RETOUR A L'ACCUEIL EST UN CARRE ROUGE ═══
+
+    C'etait une icone nue, blanche sur noir, a cote de six liens blancs sur
+    noir : rien ne disait que celle-la n'etait pas un septieme lien, et c'est
+    la seule de la barre qui ramene au point de depart. L'aplat rouge la sort
+    de la ligne - c'est le premier des trois primaires, celui qui ouvre la
+    composition de l'accueil, et la barre renvoie donc a l'accueil dans sa
+    propre couleur.
+
+    LE CARRE EST LA CIBLE, ET LA CIBLE FAIT 44px - le confort tactile de la
+    WCAG 2.5.8, deja la avant que l'aplat soit visible. Elle n'avait pas de
+    forme, donc elle etait decalee de -11px pour que l'ICONE tombe sur le bord
+    gauche de la colonne ; maintenant qu'on la voit, c'est le CARRE qui doit
+    s'y caler, et la compensation tombe avec.
+  */
+  .hero__accueil{flex:none;width:44px}
   .hero__accueil a{display:grid;place-items:center;width:44px;height:44px;
-    margin-left:-11px;color:var(--white);opacity:.92;transition:opacity .2s}
-  .hero__accueil a:hover{opacity:1}
-  .hero__liens{display:flex;flex-wrap:wrap;justify-content:flex-end;
+    background:var(--red);color:var(--white);transition:opacity .2s}
+  .hero__accueil a:hover{opacity:.85}
+  .hero__liens{flex:1;display:flex;flex-wrap:wrap;justify-content:flex-start;
     /*
       DEUX ECARTS, ET PAS UN SEUL. Les libelles ont rallonge - « Experience
       System », « Brand Platform », « Operating Model » : les six liens font
@@ -295,9 +354,99 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hero__liens a{position:relative;display:inline-block;padding-bottom:6px;
     color:var(--white);text-decoration:none;font-weight:500;font-size:var(--fs-body);
     white-space:nowrap;transition:color .22s ease}
-  .hero__liens a:hover{color:var(--yellow)}
-  /* Soulignement jaune 3px sur la page ouverte (BRIEF §2.1) */
-  .hero__liens a[aria-current="page"]{color:var(--yellow)}
+  /*
+    L'ENTREE DE CONTACT SE DETACHE AU BORD DROIT. `margin-left:auto` mange
+    tout l'espace libre entre les cinq liens et elle ; sur une rangee qui se replie, elle
+    reste a droite de sa propre ligne, ce qui est encore le bon endroit.
+
+    L'ICONE NE DOIT PAS DEPASSER DU BORD DROIT - c'est lui qu'on vient de
+    rendre lisible. Elle est DANS le lien, donc dans la mesure : le bord du
+    <a> reste cale sur la colonne, icone comprise.
+  */
+  .hero__liens-fin{margin-left:auto}
+  /*
+    ═══ « LET'S TALK » EST UN BLOC, PAS UN LIEN ═══
+
+    C'est la forme du bloc « Download CV » de la barre mobile - aplat de
+    couleur, texte en Hanken 700, icone a 8px -, reprise ici. Elle existait
+    deja dans le projet, sur l'autre palier, pour exactement le meme role :
+    l'action de la barre, par opposition aux liens qui menent a une page.
+    Deux paliers, une seule forme pour une seule fonction.
+
+    BLANC, ET PAS UNE COULEUR. Les trois primaires sont la langue de la
+    composition : le rouge du carre d'accueil est le premier des trois carres
+    de la page, et le jaune porte le CV sur la barre mobile et le filet de la
+    page ouverte. Les donner a une quatrieme chose aurait fait de la barre un
+    nuancier - trois aplats de trois couleurs sur une ligne, dont deux disent
+    « va-t'en d'ici » et un dit « tu es ici ».
+
+    Le blanc n'est pas une quatrieme couleur, c'est l'inverse de la bande.
+    Dans une barre blanche sur noir, c'est le renversement qui porte le plus
+    loin, et il ne coute aucun signal : l'aplat se voit de l'autre bout de la
+    ligne sans prendre la place du rouge ni celle du jaune.
+
+    Texte et icone en --text et non en --ink : le meme noir que le bloc CV de
+    la barre mobile, qui est la meme forme.
+
+    44px DE HAUT, comme le carre rouge : les deux extremites de la ligne font
+    la meme hauteur, et les six liens courent entre elles.
+
+    LE PADDING-BOTTOM DE 6px TOMBE. Il reservait la place du filet jaune de la
+    page ouverte sous le texte ; dans un aplat il decentrerait le libelle.
+    L'entree de contact ne porte jamais ce filet - elle mene a une ancre, pas
+    a une page.
+  */
+  .hero__liens-fin a{display:inline-flex;align-items:center;gap:8px;
+    height:44px;padding:0 16px;background:var(--white);color:var(--text);
+    font-family:var(--display);font-weight:700;font-size:var(--fs-body-s);
+    /* Les liens tiennent leur couleur en .22s ; l'aplat prend le meme temps,
+       sans quoi le bloc claquerait au jaune pendant qu'ils fondent. */
+    transition:background-color .22s ease,color .22s ease}
+  /*
+    LE SURVOL NE PEUT PAS ETRE CELUI DES LIENS. Le jaune du survol sur un
+    aplat blanc, c'est 1,5:1 - le libelle disparaitrait. C'est donc l'APLAT
+    qui passe au jaune : le survol garde la couleur qui, partout ailleurs
+    dans cette barre, dit « ceci repond au clic », et le noir du libelle y
+    reste lisible a 12,2:1.
+
+    Pas l'opacite du bloc mobile non plus : du blanc a 85% sur du noir donne
+    un gris, et un bloc qui GRISE au survol se lit comme un bouton desactive
+    plutot que comme un bouton vivant.
+  */
+  .hero__liens-fin a:hover{color:var(--text);background:var(--yellow)}
+  .hero__liens-fin svg{flex:none}
+  /* Les liens se centrent sur la hauteur des deux blocs qui tiennent la ligne. */
+  .hero__liens{align-items:center}
+  /*
+    LE SURVOL JAUNE EST CELUI DES LIENS, PAS CELUI DU BLOC. `:not()` et pas
+    une simple regle plus bas : `.hero__liens-fin a:hover` a exactement la
+    meme specificite que `.hero__liens a:hover`, et comme cette derniere est
+    ecrite APRES, elle gagnait - le libelle du bloc passait au jaune sur un
+    aplat jaune, donc disparaissait au survol. Exclure le bloc ici le regle a
+    la source, plutot que de faire dependre la lisibilite de l'ordre des
+    lignes dans le fichier.
+  */
+  .hero__liens li:not(.hero__liens-fin) a:hover{color:var(--yellow)}
+  /*
+    ═══ LA PAGE OUVERTE : BLANC GRAS, FILET JAUNE ═══
+
+    Elle etait jaune ET soulignee de jaune (BRIEF §2.1). Deux fois le meme
+    signal, et le jaune portait le mauvais : un libelle qui change de couleur
+    se lit comme un lien d'un autre genre - celui qu'il faut suivre - alors
+    qu'il designe la page ou l'on est deja, la seule de la barre ou il n'y a
+    rien a aller chercher. Le filet dit « ici » ; la couleur disait « par la ».
+
+    LE POIDS REMPLACE LA COULEUR. 700 contre 500 : l'entree ouverte reste la
+    plus dense de la ligne, sans sortir du blanc. Le jaune ne sert plus qu'au
+    filet, qui est le repere, et au survol, qui est l'invitation - une couleur,
+    un role.
+
+    LE SURVOL NE LA REPREND PAS. Sans cette regle, passer la souris sur la
+    page ouverte la repeignait en jaune et ramenait exactement ce qu'on vient
+    de retirer.
+  */
+  .hero__liens a[aria-current="page"],
+  .hero__liens a[aria-current="page"]:hover{color:var(--white);font-weight:700}
   .hero__liens a[aria-current="page"]::after{content:"";position:absolute;left:0;right:0;bottom:0;
     height:3px;background:var(--yellow)}
   .hero .sb:focus-visible,.hero__liens a:focus-visible,.hero__accueil a:focus-visible{
@@ -372,7 +521,13 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     vector-effect:non-scaling-stroke;stroke-dasharray:307.88;stroke-dashoffset:307.88;
     animation:tracerAnneau .85s cubic-bezier(.4,0,.2,1) 1.9s forwards}
   @keyframes effacerAnneau{to{opacity:0}}
-  .hero__texte{display:flex;flex-direction:column;min-width:0}
+  /*
+    `container-type` ouvre un conteneur de requete sur la colonne de texte :
+    c'est lui qui donne l'unite `cqw` au titre de l'accueil juste en dessous.
+    Posee ici et pas sur .hero__corps, la mesure est deja nette de la
+    gouttiere du shell - donc exactement la largeur dont le titre dispose.
+  */
+  .hero__texte{display:flex;flex-direction:column;min-width:0;container-type:inline-size}
 
   /* La signature ouvre la colonne, au-dessus du titre : avatar, nom, eyebrow.
      ECART ASSUME AU BRIEF §11, qui la range apres l'intro - demande par Lea,
@@ -413,6 +568,49 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     text-transform:uppercase;color:var(--on-ink-eyebrow)}
   .hero__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-h1);
     line-height:1;letter-spacing:-.03em;color:var(--white);max-width:760px;margin-top:24px}
+  /*
+    ═══ L'ACCUEIL TIENT SES DEUX LIGNES ═══
+
+    Son titre fait deux phrases la ou les autres pages en font une, et les
+    deux <span> d'index.astro en posent une par ligne. Encore faut-il que
+    chacune TIENNE sur la sienne : a 68px fixes, « Experience systems grow
+    culture. »
+    mesure 982px, et la colonne ne les a qu'au-dela de 1031px de fenetre.
+    Entre 1031 et 720 le titre repartait donc sur trois ou quatre lignes,
+    avec une coupure au milieu d'une phrase - exactement ce qu'on vient de
+    retirer du markup.
+
+    LE CORPS SUIT DONC LA COLONNE. `min()` garde 68px tant que la place est
+    la, et sinon prend la taille a laquelle la phrase longue tient encore
+    tout juste. Deux lignes de 720px a 1440 et au-dela, sans palier.
+
+    14.5, D'OU IL SORT. « Experience systems grow culture. » mesure 14.44em
+    dans Hanken Grotesk 900 a -.03em d'approche (mesure faite dans le
+    navigateur sur le build, pas estimee). 14.5 laisse un demi-pour-cent pour
+    l'arrondi sous-pixel et les ecarts de rendu d'un moteur a l'autre.
+
+    CQW ET PAS VW, et c'est la raison d'etre du conteneur ci-dessus : `100vw`
+    compte la barre de defilement la ou elle prend de la place (Windows,
+    Linux), soit une quinzaine de pixels de largeur annoncee qui n'existent
+    pas - de quoi faire deborder la phrase juste au seuil. `cqw` mesure la
+    colonne telle qu'elle est.
+
+    CECI N'INFIRME PAS L'ECHELLE FIXE de tokens.css. Elle refuse les corps
+    fluides parce qu'ils feraient VARIER le nombre de lignes des cellules de
+    la composition ; ici le corps varie precisement pour qu'il ne varie pas.
+
+    max-width:none : les 760px des pages interieures tiennent la mesure d'un
+    titre d'une phrase. Ici ils couperaient la phrase longue quoi qu'il
+    arrive, puisqu'elle en demande 982.
+  */
+  .hero--accueil .hero__titre{max-width:none;
+    font-size:min(var(--fs-h1), calc(100cqw / 14.5))}
+  /*
+    UNE PHRASE PAR LIGNE, TANT QU'UNE PHRASE TIENT SUR UNE LIGNE. Les deux
+    <span> d'index.astro deviennent des blocs : meme resultat qu'un <br>, a
+    ceci pres qu'un bloc se defait. Voir le palier de 580px plus bas.
+  */
+  .hero--accueil .hero__phrase{display:block}
   .hero__intro:empty{display:none}
   .hero__intro{font-size:var(--fs-intro);line-height:1.65;color:var(--on-ink);
     max-width:560px;margin-top:28px}
@@ -491,7 +689,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hamb span{display:block;width:24px;height:2.5px;background:var(--text);border-radius:0}
 
   /*
-    ═══ LA NAV BASCULE A 860px, PAS A 720 ═══
+    ═══ LA NAV BASCULE A 940px, PAS A 720 ═══
 
     Elle a son propre palier depuis que les libelles nomment l'objet -
     « Experience System », « Brand Platform », « Operating Model » : les six
@@ -500,16 +698,32 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     nav de bureau ; a la demande de Lea, elle cede la place au hamburger des
     qu'elle ne tient plus.
 
-    860 ET NON 830 : le repli mesure se situe entre 825 et 845px, et la mesure
-    depend du rendu de la police. Trente pixels de marge couvrent l'ecart d'un
-    navigateur a l'autre, ou la barre basculerait sinon juste apres avoir
-    commence a se replier.
+    LE PALIER SUIT LA MESURE, ET LA MESURE A BOUGE DEUX FOIS. Il etait a 860
+    quand le repli se situait entre 825 et 845px. L'icone de l'entree de
+    contact a ajoute 26px, puis son passage en bloc une cinquantaine de plus
+    - aplat de 16px de chaque cote, Hanken 700 a la place du texte courant,
+    et « Let's talk » a la place de « Connect ». Le repli se
+    mesure maintenant entre 902 et 910px, sur une page interieure (celles qui
+    portent en plus le carre rouge et sa gouttiere, donc le cas le plus
+    large).
+
+    940 ET NON 910 : la mesure depend du rendu de la police, et trente pixels
+    de marge couvrent l'ecart d'un navigateur a l'autre - la meme marge qu'a
+    l'origine, pour la meme raison. A chaque fois qu'un element entre dans
+    cette barre, ce palier se remesure : c'est le prix d'une nav qui bascule
+    sur SA largeur et pas sur une valeur ronde.
+
+    IL NE COINCIDE PLUS AVEC LE 860 DU RESTE DU SITE (etude.css,
+    Carrousel, CarteDossier, ChiffresCles, Pile). La coincidence etait
+    fortuite : ce palier-ci est celui de la largeur des six libelles, les
+    autres celui de leurs grilles. Les lier reviendrait a faire dependre la
+    composition des etudes de cas de la longueur d'un mot de la nav.
 
     CE PALIER NE PORTE QUE LE CHROME. Tout le reste de la forme mobile - le
     titre a 36px, l'avatar, la composition en colonne - garde son palier a
     720px : ce qui change ici, c'est la navigation, pas la mise en page.
   */
-  @media(max-width:860px){
+  @media(max-width:940px){
     .hero{--chrome-h:64px}
     .hero__nav{display:none}
     /* La barre touche le haut de l'ecran et le hero ; le filet de 2px court
@@ -541,6 +755,30 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       c'est la navigation et le portrait, pas la mise en page.
     */
     .hero--accueil .hero__texte > .sb{display:none}
+  }
+
+  /*
+    ═══ SOUS 580px, LE TITRE REDEVIENT UN SEUL BLOC DE TEXTE ═══
+
+    Le corps est fige a 36px depuis le palier telephone, et « Experience
+    systems grow culture. » y mesure 520px. En dessous de 553px de fenetre la
+    colonne ne les a plus : chaque phrase se coupe a son tour, et les deux
+    blocs ajoutaient leur propre coupure a celles du navigateur - « Design
+    systems ship / standards. » puis « Experience systems / grow culture. »,
+    quatre lignes dont la deuxieme a moitie vide.
+
+    Les spans redeviennent inline : l'espace qui les separe dans le markup
+    reprend son role d'espace entre deux phrases, et le texte se recompose en
+    trois lignes pleines. C'est la regle que Lea a posee - des que le titre
+    doit empiler, le retour impose disparait.
+
+    580 ET NON 553 : le repli mesure se situe a 553px, et la mesure depend du
+    rendu de la police. La meme marge que le palier de la nav, pour la meme
+    raison - un moteur qui compose deux pixels plus large basculerait sinon
+    une ligne trop tard, sur une phrase qui deborde.
+  */
+  @media(max-width:580px){
+    .hero--accueil .hero__phrase{display:inline}
   }
 
   @media(max-width:720px){

@@ -3,8 +3,12 @@
 
   Elles vivaient dans Base.astro, en deux tableaux - `main` et `work` - parce
   que la nav avait un menu deroulant « Selected work ». Le brief l'aplatit :
-  six liens ferres a droite, sans groupe (§2.1). Les deux tableaux n'ont plus
+  six liens sur une ligne, sans groupe (§2.1). Les deux tableaux n'ont plus
   de raison d'etre separes.
+
+  Le brief les ferrait a DROITE ; ils partent desormais du bord gauche de la
+  colonne, l'entree de contact mise a part - voir l'en-tete de .hero__nav
+  dans Hero.astro.
 
   LES LIBELLES NOMMENT L'OBJET, PAS LA PAGE. Ils ont d'abord ete raccourcis au
   maximum - « System », « Brand », « Event » - pour tenir six entrees sur une
@@ -35,7 +39,13 @@ export interface EntreeNav {
   href: string;
   libelle: string;
   /*
-    Le groupe ne sert QU'AU MENU MOBILE. La nav de bureau est une ligne plate
+    Le groupe sert AU MENU MOBILE, ET A UNE SEULE CHOSE AU BUREAU : `contact`
+    y designe l'entree qui se detache au bord droit avec son icone. C'est la
+    nav de bureau qui lit ce champ pour savoir laquelle, plutot qu'une cle
+    ecrite en dur dans Hero.astro - si une deuxieme prise de contact entrait
+    un jour dans la barre, elle suivrait d'elle-meme.
+
+    Pour le reste, la nav de bureau est une ligne plate
     de six liens (§2.1) et ignore ce champ ; le panneau mobile, lui, a la place
     de respirer et range ses liens en TROIS sections surtitrees : « Selected
     work » pour les trois etudes de cas, « Leading People » pour le modele de
@@ -53,5 +63,13 @@ export const entrees: EntreeNav[] = [
   { cle: 'system-event', href: '/system-event', libelle: 'Event System', groupe: 'travaux' },
   { cle: 'operating-system', href: '/operating-system', libelle: 'Operating Model', groupe: 'principal' },
   { cle: 'philosophy', href: '/philosophy', libelle: 'Philosophy', groupe: 'principal' },
-  { cle: 'connect', href: '#connect', libelle: 'Connect', groupe: 'contact' },
+  /*
+    « LET'S TALK » ET PAS « CONNECT ». L'entree mene a l'ancre #connect, dont
+    le titre est « Let's talk. » (Base.astro) et que le menu mobile annonce
+    sous le surtitre « Let's talk ». La barre de bureau etait la seule des
+    trois a l'appeler autrement : trois noms pour une destination, dont deux
+    se voient a la fois sur telephone. Le `cle` et l'URL ne bougent pas - ils
+    nomment l'ancre, pas le libelle.
+  */
+  { cle: 'connect', href: '#connect', libelle: "Let's talk", groupe: 'contact' },
 ];
