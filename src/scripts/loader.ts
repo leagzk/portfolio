@@ -18,14 +18,56 @@ import { mouvementReduit } from './motion';
   Un loader qui ne se retire pas rend le site inutilisable - mieux vaut trois
   chemins qu'un seul elegant.
 */
+/*
+  UNE SEULE FOIS PAR VISITE. Le loader presente le site ; revenir sur
+  l'accueil depuis une autre page n'est pas une arrivee, et le rejouer a
+  chaque retour le transforme en peage. `sessionStorage` et non
+  `localStorage` : la memoire dure le temps de l'onglet, donc une vraie
+  nouvelle visite - demain, ou dans une autre fenetre - le revoit.
+
+  LE try/catch N'EST PAS DE LA PRUDENCE DECORATIVE : en navigation privee,
+  `sessionStorage` peut lever a la simple lecture. Sans lui, le loader
+  resterait en place pour toujours sur ces navigateurs.
+*/
+const DEJA_VU = 'loader-vu';
+
+function dejaVu(): boolean {
+  try {
+    return sessionStorage.getItem(DEJA_VU) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function marquerVu(): void {
+  try {
+    sessionStorage.setItem(DEJA_VU, '1');
+  } catch {
+    /* navigation privee : le loader rejouera, c'est le moindre mal */
+  }
+}
+
 export function initLoader(): void {
   const loaderEl = document.getElementById('loader');
   if (!loaderEl) return;
 
-  if (mouvementReduit()) {
+  /*
+    RETIRER `app--reveal` EST OBLIGATOIRE QUAND ON SAUTE LE LOADER. Cette
+    classe met la page a `opacity:0` et la fait entrer a 1,0s : la laisser en
+    place sans loader laisserait l'accueil blanc une seconde entiere. Sous
+    mouvement reduit, c'est le CSS qui la neutralise - ici, il n'y a pas de
+    media query pour le faire, donc on la retire a la main.
+  */
+  const passer = () => {
     loaderEl.style.display = 'none';
+    document.querySelector('.app')?.classList.remove('app--reveal');
+  };
+
+  if (mouvementReduit() || dejaVu()) {
+    passer();
     return;
   }
+  marquerVu();
 
   const fly = document.getElementById('fly');
   const anneau = document.getElementById('anneau');
