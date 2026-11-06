@@ -1012,18 +1012,27 @@
    sections (BRIEF §5.4). */
 /*
   LE PIED DE CHAPITRE. Le retour au sommaire et le chapitre suivant tiennent
-  la meme ligne, ferres a droite : ce sont deux sorties, elles se prennent au
-  meme endroit. Le bouton de retour a la forme des fleches du carrousel -
-  carre, cerne, rempli au survol - parce que c'est la meme nature : un
-  deplacement, pas une action sur le contenu.
+  la meme ligne, mais pas le meme bord. Le bouton de retour a la forme des
+  fleches du carrousel - carre, cerne, rempli au survol - parce que c'est la
+  meme nature : un deplacement, pas une action sur le contenu.
+
+  LE RETOUR SE RANGE A GAUCHE, SUR L'AXE DES TITRES. Les deux ferres a droite,
+  ils se lisaient comme une paire - deux fois la meme proposition, dont l'une
+  ramene en arriere. Or ils ne vont pas au meme endroit : l'un continue, et sa
+  place est au bout de la ligne, la ou le regard termine ; l'autre revient, et
+  sa place est au debut. Pose sur le padding gauche du chapitre, il tombe sur
+  l'axe de tous les surtitres et de toutes les phrases d'attaque, a 48px du
+  filet vertical - et precisement la ou ce filet s'arrete (.pan::before, qui
+  descend jusqu'au bas du contenu). Le trait qui a accompagne la lecture finit
+  sur le bouton qui la rembobine.
 */
-.pan__pied{display:flex;align-items:center;justify-content:flex-end;gap:16px}
+.pan__pied{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .pan__haut{all:unset;box-sizing:border-box;display:grid;place-items:center;
   width:44px;height:44px;border:var(--rule-fine) solid var(--text);
   color:var(--text);cursor:pointer;transition:background .2s,color .2s}
 .pan__haut:hover,.pan__haut:focus-visible{background:var(--text);color:var(--white)}
 .pan__haut:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-.pan .suite{align-self:flex-end}
+.pan > .suite{align-self:flex-end}
 
 @media(max-width:860px){
   .pan{padding:48px 0 64px 20px;gap:56px}
