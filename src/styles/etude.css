@@ -103,11 +103,11 @@
 
   LES HAUTEURS SONT FIXES, ET C'EST VOULU. Une case qui grandit au survol ferait
   bouger toute la rangee sous le curseur. Le contexte se deplie DANS la case,
-  qui a ete dimensionnee pour le contenir ouvert : 220px tiennent le nombre a 48,
+  qui a ete dimensionnee pour le contenir ouvert : 240px tiennent le nombre a 48,
   intitule sur deux lignes et quatre lignes de contexte.
 */
 .cles--mondrian{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
-  grid-template-rows:repeat(2,220px);gap:var(--rule-fine);background:var(--text);
+  grid-template-rows:repeat(2,240px);gap:var(--rule-fine);background:var(--text);
   clip-path:inset(0 1px 0 1px);margin-top:72px;position:relative;
   border-bottom:var(--rule-fine) solid var(--text)}
 .cles--mondrian.pre{background:var(--white);border-bottom-color:transparent}
@@ -115,34 +115,60 @@
 
 /* ─── L'aplat depliable ─── */
 /*
-  C'EST LE MONTAGE DES PRINCIPES DE L'ACCUEIL, REPRIS TEL QUEL. La case blanche
-  tient la grille ; le bouton colore est pose EN ABSOLU dedans, ne couvre au
-  repos qu'une partie de sa hauteur, et GRANDIT jusqu'a la remplir au survol,
-  au focus ou au clic. C'est ce mouvement-la qui ouvre la place au contexte -
-  et non un bloc fixe dont le texte se deplierait en dedans.
+  LA COULEUR EST RARE, ET C'EST CE QUI REND L'ACCUEIL GRAPHIQUE. Cinq aplats
+  pleins cote a cote font une palette, pas une composition. Trois cases portent
+  donc la couleur en plein ; les deux autres restent BLANCHES et la couleur n'y
+  tient qu'un fragment - une bande en bas, un carre dans le coin - exactement
+  comme `.wt__fragment` sur l'accueil.
 
-  160 AU REPOS POUR 220 OUVERT : le nombre et son intitule tiennent dans les
-  160 ; les 60 qui s'ajoutent sont exactement ce que les quatre lignes de
-  contexte demandent. La case, elle, ne bouge jamais - rien ne pousse sous le
-  curseur.
+  LA CASE EST PLEINE, TOUJOURS. C'est ce que font les deux aplats du duo de
+  l'accueil : ils occupent leur cellule, et c'est le CONTENU qui se deplie
+  dedans. L'aplat qui ne couvrait que 160 de ses 220px laissait sous chaque
+  tuile un blanc residuel qui cassait la grille - cinq rectangles flottants au
+  lieu d'une composition.
 
-  LE PANNEAU ENTIER POUSSE A LA CONSTRUCTION, texte compris, comme `.pr` sur
-  l'accueil : c'est le bouton qui porte la couleur, il n'y a pas d'aplat
-  separe a animer. L'intitule monte ensuite, comme partout ailleurs.
+  LE PANNEAU ENTIER POUSSE A LA CONSTRUCTION, texte compris, comme `.pr` ; sur
+  une case blanche, c'est son fragment qui pousse, comme `.wt__fragment`.
 */
 .clef-case{overflow:hidden}
-.clef{all:unset;box-sizing:border-box;position:absolute;left:0;top:0;
-  width:100%;height:160px;cursor:pointer;overflow:hidden;
-  transform-origin:left top;
-  transition:height .5s cubic-bezier(.2,.7,.2,1)}
-.clef:hover,.clef:focus-visible,.clef[aria-expanded="true"]{height:100%}
+.clef{all:unset;box-sizing:border-box;position:absolute;inset:0;
+  cursor:pointer;overflow:hidden;transform-origin:left top}
 .clef:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
-.clef--rouge{background:var(--red);color:var(--white)}
-.clef--bleu{background:var(--blue);color:var(--white)}
-.clef--jaune{background:var(--yellow);color:var(--text)}
-.clef--gris{background:var(--grey-mondrian);color:var(--text)}
-.clef--noir{background:var(--ink);color:var(--white)}
-.clef--blanc{background:var(--white);color:var(--text)}
+
+/* ─── Les trois cases pleines ─── */
+.clef--plein.clef--rouge{background:var(--red);color:var(--white)}
+.clef--plein.clef--bleu{background:var(--blue);color:var(--white)}
+.clef--plein.clef--jaune{background:var(--yellow);color:var(--text)}
+.clef--plein.clef--gris{background:var(--grey-mondrian);color:var(--text)}
+.clef--plein.clef--noir{background:var(--ink);color:var(--white)}
+
+/* ─── Les cases blanches, et le fragment qui les signe ─── */
+/*
+  Le fragment est DERRIERE le texte (z-index implicite : il vient avant dans le
+  DOM et le contenu est en z-index 1), donc le chiffre peut mordre dessus sans
+  que la couleur le mange.
+*/
+.clef--bande,.clef--carre{background:var(--white);color:var(--text)}
+.clef__frag{position:absolute;transform-origin:left bottom}
+/*
+  LE TEXTE DEGAGE LE FRAGMENT, il ne passe pas dessus. C'est ce que fait
+  `.cell--w2` sur l'accueil : 32px de bande en bas, et 60px de marge basse sur
+  le contenu. Sans ce degagement, l'intitule - qui est cale en bas - tombait
+  sur la bande et perdait son contraste.
+*/
+.clef--bande .clef__frag{left:0;right:0;bottom:0;height:30px}
+.clef--bande .clef__dedans{padding-bottom:44px}
+.clef--carre .clef__frag{right:0;top:0;width:84px;height:48px;
+  transform-origin:right top}
+/* Le carre occupe le coin du dessin : celui-ci descend, et l'intitule lui
+   laisse sa place au lieu de passer dessous. */
+.clef--carre .clef__ico{top:auto;bottom:16px}
+.clef--carre .clef__bas{padding-right:44px}
+.clef--rouge .clef__frag{background:var(--red)}
+.clef--bleu .clef__frag{background:var(--blue)}
+.clef--jaune .clef__frag{background:var(--yellow)}
+.clef--gris .clef__frag{background:var(--grey-mondrian)}
+.clef--noir .clef__frag{background:var(--ink)}
 
 /*
   24px ET NON `--pad-square`, QUI EN VAUT 48. Les aplats de l'accueil sont des
@@ -150,15 +176,16 @@
   partis en marge - « 87% » y mesure 115px a 52 de corps, et debordait. C'est
   la marge des autres cases de composition de cette page.
 */
-.clef__dedans{position:absolute;inset:0;display:flex;flex-direction:column;
-  justify-content:space-between;gap:12px;padding:24px;overflow:hidden}
+.clef__dedans{position:absolute;inset:0;z-index:1;display:flex;
+  flex-direction:column;justify-content:space-between;gap:12px;
+  padding:24px;overflow:hidden}
 .clef__nb{font-family:var(--display);font-size:48px;font-weight:900;line-height:1;
   letter-spacing:-.02em}
 .clef__bas{display:flex;flex-direction:column;gap:8px}
 .clef__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.35}
 /*
   Le contexte n'existe qu'ouvert. `max-height` anime le depliage, et le delai
-  sur l'opacite evite qu'il apparaisse avant que le panneau ait grandi.
+  sur l'opacite evite qu'il apparaisse avant d'avoir la place.
 */
 .clef__detail{font-size:13px;line-height:1.5;opacity:0;max-height:0;overflow:hidden;
   transition:opacity .2s,max-height 0s .2s}
@@ -184,7 +211,18 @@
 .clef[aria-expanded="true"] .clef__ico--f{opacity:1}
 
 /* ─── La grande case : ce qu'est le systeme, et ou lire la suite ─── */
-.clef-def{display:flex;flex-direction:column;gap:20px;padding:32px}
+/*
+  ELLE SE REFERME SUR UNE BANDE, comme le bloc Operating System de l'accueil.
+  Sans elle, la case gardait 190px de blanc sous sa derniere ligne et la
+  composition s'arretait sur un vide. Le filet au-dessus de la bande est celui
+  de l'accueil aussi : c'est la grille qui continue, pas une bordure.
+*/
+.clef-def{position:relative;display:flex;flex-direction:column;gap:20px;
+  padding:32px 32px calc(84px + 32px)}
+.clef-def__filet{position:absolute;left:0;right:0;bottom:84px;
+  height:var(--rule-fine);background:var(--text)}
+.clef-def__bande{position:absolute;left:0;right:0;bottom:0;height:84px;
+  background:var(--blue);transform-origin:left bottom}
 .clef-def__eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
   letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
 .clef-def__phrase{margin:0;font-family:var(--display);font-size:22px;
@@ -192,11 +230,13 @@
 .clef-def__phrase strong{color:var(--red)}
 
 /* La construction sert ces cases comme celles de la composition. */
-.attend :is(.clef){transform:scale(0)}
-.attend :is(.clef__nb,.clef__bas,.clef-def > *){opacity:0}
-.vu :is(.clef){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
-.vu :is(.clef__nb,.clef__bas,.clef-def > *){animation:monte .85s cubic-bezier(.16,1,.3,1)
-  calc(var(--retard,0s) + .22s) both}
+.attend :is(.clef--plein,.clef__frag,.clef-def__bande){transform:scale(0)}
+.attend :is(.clef--bande,.clef--carre) :is(.clef__nb,.clef__bas),
+.attend :is(.clef__nb,.clef__bas,.clef-def__eb,.clef-def__phrase){opacity:0}
+.vu :is(.clef--plein,.clef__frag,.clef-def__bande){
+  animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
+.vu :is(.clef__nb,.clef__bas,.clef-def__eb,.clef-def__phrase){
+  animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
 
 @media(max-width:860px){
   /*
@@ -206,8 +246,7 @@
   */
   .cles--mondrian{grid-template-columns:1fr;grid-template-rows:none;margin-top:48px}
   .cles--mondrian > *{grid-area:auto !important;min-height:170px}
-  .clef{position:relative;height:auto;min-height:170px;transition:none}
-  .clef:hover,.clef:focus-visible{height:auto}
+  .clef{position:relative;inset:auto;min-height:170px}
   .clef__dedans{position:relative;inset:auto;gap:16px;padding:24px 16px}
   .clef:hover .clef__detail,.clef:focus-visible .clef__detail{opacity:0;max-height:0}
   .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:400px}

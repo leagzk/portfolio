@@ -43,8 +43,21 @@ export interface Chiffre {
   quoi: string;
   /** la ligne de contexte, qui dit ce que le chiffre vaut */
   contexte: string;
-  /** forme mondrian seulement : la couleur de l'aplat */
-  couleur?: 'rouge' | 'bleu' | 'jaune' | 'gris' | 'noir' | 'blanc';
+  /** forme mondrian seulement : la couleur de la case ou de son fragment */
+  couleur?: 'rouge' | 'bleu' | 'jaune' | 'gris' | 'noir';
+  /**
+   * COMMENT LA COULEUR SE POSE, et c'est la recette de l'accueil.
+   *
+   * `plein` - toute la case est de couleur. `bande` et `carre` - la case
+   * reste BLANCHE et la couleur n'y tient qu'un fragment : une bande en bas,
+   * un carre dans le coin, comme `.wt__fragment` sur l'accueil.
+   *
+   * CINQ APLATS PLEINS COTE A COTE, C'EST UNE PALETTE, PAS UNE COMPOSITION.
+   * Ce qui rend l'accueil graphique n'est pas la quantite de couleur, c'est sa
+   * RARETE : trois aplats pleins au milieu de cases blanches que la couleur ne
+   * fait qu'effleurer. On reprend ce dosage.
+   */
+  motif?: 'plein' | 'bande' | 'carre';
 }
 
 export interface Props {
@@ -106,10 +119,17 @@ const AIRE_DEF = '1 / 8 / 3 / 13';
     {chiffres.map((c, i) => (
       <div class="clef-case" style={`grid-area:${AIRES[i]}`}>
         <button
-          class:list={['clef', `clef--${c.couleur ?? 'blanc'}`]}
+          class:list={[
+            'clef',
+            `clef--${c.motif ?? 'plein'}`,
+            c.couleur && `clef--${c.couleur}`,
+          ]}
           type="button"
           aria-expanded="false"
         >
+          {c.motif && c.motif !== 'plein' && (
+            <span class="clef__frag" aria-hidden="true"></span>
+          )}
           <span class="clef__dedans">
             {/* data-copy : un <button> ne peut pas porter de <p>, donc rien ici
                 ne sortirait dans l'export de contenu sans ce crochet. Voir
@@ -132,6 +152,10 @@ const AIRE_DEF = '1 / 8 / 3 / 13';
     ))}
     <div class="clef-def" style={`grid-area:${AIRE_DEF}`}>
       <slot name="definition" />
+      {/* Le filet et la bande ferment la case, comme sur le bloc Operating
+          System de l'accueil - voir .clef-def dans etude.css. */}
+      <span class="clef-def__filet" aria-hidden="true"></span>
+      <span class="clef-def__bande" aria-hidden="true"></span>
     </div>
   </section>
 ) : (
