@@ -60,7 +60,7 @@ And it wasn't one handoff. The *what* was fragmented: products and touchpoints t
 
 The stakes
 
-A system this size is *two bets in one.* Both only pay if it's adopted.
+A system this size is *two bets in one.* It only pays if it's adopted.
 
 **Cost rationalization** first, so forty-five product teams stop rebuilding the same thing. Then **experience at scale**: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
 
