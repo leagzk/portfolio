@@ -69,6 +69,30 @@
   letter-spacing:-.02em}
 .cles__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.4}
 .cles__ctx{font-size:var(--fs-caption);line-height:1.5;color:var(--ink-muted)}
+/*
+  ═══ LES CHIFFRES MONTENT UN A UN, DERRIERE LE FRONT ═══
+
+  Ils etaient la d'emblee et seuls leurs filets se tracaient : le bandeau
+  restait un bloc pose pendant que tout bougeait autour. Chaque colonne porte
+  deja son `--retard`, calcule par le front comme pour une case de
+  composition - il n'etait simplement consomme par aucune regle.
+
+  Une colonne monte donc quand le front a fini de la TRAVERSER, soit juste
+  apres le filet qui la ferme a droite. A 480px/s sur quatre colonnes de 268px,
+  cela fait un chiffre toutes les 0,56s : assez pour qu'on les compte un par
+  un, ce qui est tout l'interet - un chiffre cle qu'on decouvre seul pese plus
+  que quatre qu'on survole.
+
+  LE NOMBRE OUVRE, SON LIBELLE SUIT A 0,14s. Le meme decalage que l'aplat et
+  son texte dans la composition : la valeur d'abord, ce qu'elle mesure ensuite.
+
+  Sans script, la composition est simplement la : `.attend` n'est jamais pose,
+  et ces regles ne s'appliquent pas.
+*/
+.attend :is(.cles__nb,.cles__quoi,.cles__ctx){opacity:0}
+.vu .cles__nb{animation:monte .85s cubic-bezier(.16,1,.3,1) var(--retard,0s) both}
+.vu :is(.cles__quoi,.cles__ctx){
+  animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .14s) both}
 
 /* ─── Cadre defilant : une page entiere dans un cadre au format fixe ─── */
 /*
