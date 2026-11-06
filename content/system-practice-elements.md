@@ -76,7 +76,7 @@ A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs
 
 And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
 
-The stakes
+Investment case
 
 A system this size is *two bets in one.* It only pays if it's adopted.
 
@@ -86,7 +86,7 @@ A system nobody trusts is the worst of both worlds: you fund the platform *and* 
 
 Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **Systematize at the source, and you reach every one of them at once.**
 
-The failure, and the decision
+Executive partnership
 
 ### You can't outsource the thing your whole system depends on.
 
@@ -104,7 +104,7 @@ Next: the approach →
 
 ## 02 &middot; The approach
 
-What I owned
+Organisation & people
 
 The decision was the easy part. *Owning it wasn't.*
 
@@ -116,7 +116,7 @@ I set the direction, carried it to leadership, then handed my team the operation
 
 This is the layer no contributor can claim. **Not the components - the conditions.**
 
-The architecture
+Vision & strategy
 
 You maintain a design system. *You run a platform.*
 
@@ -134,7 +134,7 @@ Elements isn't a single product anymore. It's several products under one governa
 
 - People Community of Practice People The governance and culture that turn contribution into practice: inner source model, contribution pathways, shared rituals, practice leadership. **The humans who grow it.**
 
-Seven products, one pipeline from design to dev
+Build
 
 - 01 Token architecture multi-brand, multi-theme, multi-surface
 
@@ -166,7 +166,7 @@ Next: the proof →
 
 ## 03 &middot; The proof
 
-The results
+Business impact
 
 A structure only counts *if it holds.*
 
@@ -192,7 +192,7 @@ You may think it is a Figma library
 
 Multi-brand &middot; multi-theme &middot; B2B / B2C / internal &middot; from employee to patient &middot; worldwide
 
-The community
+Influence & community
 
 A design system you install. *A community you have to earn.*
 
@@ -228,7 +228,7 @@ I didn't build a system I hold together. *I built the conditions where it holds 
 
 - When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
 
-The team that runs it
+People
 
 Zero resignations *in three years.*
 
@@ -241,6 +241,8 @@ My job wasn't to hold it up. **It was to build a structure that outlasts any of 
 > **Design System Awards 2025** Governance finalist alongside HP and Tesco. The recognition that means the most to me is the *category* - because this was never only a craft story. It was a leadership one.
 
 [Nicolas Chatelain](https://nicolaschatelain.com) led the People axis, from Experience Operations enablement to the Community of Practice engagement plan. [Rodolphe Peruzza](https://rodolphe.design/chat) led the System axis, from craft to experience-pattern industrialization.
+
+Innovation
 
 The Elements MCP didn't come from my roadmap. **It came from a contributor.** And it's where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.
 
