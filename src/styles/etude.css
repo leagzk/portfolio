@@ -525,7 +525,20 @@
    et elle prend la couleur de la carte ouverte. */
 .compo__sommaire li::before{content:"";position:absolute;left:0;top:.3em;
   width:12px;height:12px;background:var(--puce,var(--text))}
-.compo__sommaire li em{font-style:normal}
+/*
+  LE SOMMAIRE EST EN NOIR GRAS, D'UN BOUT A L'AUTRE. Les phrases arrivent du
+  panneau avec leurs `em-rouge` et `em-bleu`, qui colorent un membre pour le
+  detacher dans un long texte. En puce, cette couleur n'a plus rien a detacher
+  et vient concurrencer le carre, qui est deja la couleur du chapitre : on
+  ramene tout a la casse du sommaire.
+
+  CLASSE DOUBLEE pour passer devant `:is(.pan,.etude) .em-rouge`, qui compte
+  deux classes et vit plus loin dans ce fichier. `*` plutot que la liste des
+  balises : ce qui arrive ici est du contenu clone, et il n'a pas a tenir une
+  liste a jour pour rester lisible.
+*/
+.compo__sommaire.compo__sommaire li *{color:inherit;font-style:normal;
+  font-weight:inherit}
 .compo__sommaire--rouge{--puce:var(--red)}
 .compo__sommaire--bleu{--puce:var(--blue)}
 .compo__sommaire--jaune{--puce:var(--yellow)}
