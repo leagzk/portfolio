@@ -76,7 +76,26 @@ const principes = [
   loader>
 
 <Hero accueil portrait eyebrow="Moving design practice forward" filigrane="Léa Giezek" defiler="composition">
-  Design systems <br />ship standards. Experience systems grow culture.
+  {/*
+    UNE PHRASE PAR <span>, ET PAS UN <br>. Le retour etait pose apres « Design
+    systems », au milieu de la premiere phrase : la bande lisait « Design
+    systems / ship standards. Experience systems / grow culture. » - un titre
+    coupe a contretemps de sa syntaxe.
+
+    Le <br> corrige le point de coupe mais il est inconditionnel, et sous
+    553px aucune des deux phrases ne tient plus sur sa ligne : il n'imposait
+    plus un rythme, il ajoutait une coupure de plus a celles du navigateur -
+    « Design systems ship / standards. » puis « Experience systems / grow
+    culture. », quatre lignes dont une a moitie vide. Deux spans se montent et
+    se demontent (voir .hero__phrase dans Hero.astro) : blocs tant que les
+    lignes tiennent, inline ensuite, et l'espace qui les separe ICI redevient
+    l'espace entre les deux phrases. Un <br> n'aurait pas su se retirer sans
+    souder « standards.Experience ».
+
+    L'ESPACE ENTRE LES DEUX BALISES EST SIGNIFIANT. Ne pas passer a la ligne
+    entre elles sans le garder.
+  */}
+  <span class="hero__phrase">Design systems ship standards.</span> <span class="hero__phrase">Experience systems grow culture.</span>
   <Fragment slot="intro">
     Fifteen years across brand, retail, agency and product - every rung of the craft before the direction. I nurture the practice and the people, not just the system. <b>That's my leadership bet.</b>
   </Fragment>

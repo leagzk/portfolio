@@ -23,7 +23,7 @@
   ferait decrire le dessin a la place du libelle.
 */
 export type NomIcone =
-  | 'telecharger' | 'mail' | 'linkedin' | 'maison' | 'plus'
+  | 'telecharger' | 'mail' | 'bulle' | 'linkedin' | 'maison' | 'plus'
   | 'fleche' | 'fleche-gauche' | 'fleche-droite' | 'chevron' | 'retour';
 
 export interface Props {
@@ -39,6 +39,14 @@ const { nom, taille = 16, class: classe } = Astro.props;
 const traces: Record<NomIcone, string> = {
   telecharger: 'M12 4v11M7 10l5 5 5-5M5 20h14',
   mail: 'M3 6h18v12H3zM3 7l9 6 9-6',
+  /*
+    LA BULLE EST ANGULAIRE, comme la maison et l'enveloppe : un rectangle et
+    une queue, pas d'arrondi. Les icones du site sont toutes tracees a la
+    regle - une bulle aux coins ronds serait la seule forme molle de la
+    planche. La queue descend A GAUCHE, vers le libelle qu'elle suit : posee
+    au bord droit de la barre, une queue a droite pointerait hors page.
+  */
+  bulle: 'M3 5h18v12h-9l-5 4v-4H3z',
   maison: 'M4 11 12 4l8 7M6 10v10h12V10',
   plus: 'M12 5v14M5 12h14',
   fleche: 'M5 12h13M12 6l6 6-6 6',
