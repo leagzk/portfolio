@@ -54,13 +54,18 @@
   --rule:2px;               /* grille de la landing */
   --rule-fine:1.5px;        /* composition Language */
   /*
-    Largeur du portrait du hero, donc de la colonne qui le porte. C'est un
-    token et non une valeur locale parce que DEUX fichiers en dependent :
-    Hero.astro pour la colonne et le trait qui descend du centre du cercle,
-    index.astro pour le coude noir qui le prolonge jusqu'a la grille. Ecrite
-    deux fois, elle derive, et le trait cesse d'etre droit.
+    Diametre de l'avatar du hero. Il a remplace --portrait-w, qui donnait la
+    largeur d'une COLONNE de portrait : cette colonne n'existe plus, la photo
+    est un rond dans la signature a toutes les largeurs.
+
+    Il reste un token et non une valeur locale parce que la boite qui le porte
+    et le rond qu'elle contient doivent faire exactement la meme taille - sans
+    quoi l'anneau, pose en absolu sur la boite, cesse d'etre concentrique.
+
+    56px est la valeur mobile d'origine, 76 la haute : contre les 68px du
+    titre au bureau, un rond de 56 se serait perdu.
   */
-  --portrait-w:clamp(168px,22vw,300px);
+  --avatar-w:clamp(56px,5vw,76px);
   --r-footer:6px;           /* les DEUX COINS BAS du footer, seul radius du site */
   --r-media:4px;            /* placeholders visuels */
   --r-pill:999px;           /* pastilles Retained / Not retained */

@@ -102,7 +102,7 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
 </div>
 
 <header class:list={['hero', accueil && 'hero--accueil']}>
-  <div class:list={['hero__corps', 'shell', portrait && 'hero__corps--portrait']}>
+  <div class="hero__corps shell">
     <div class="hero__texte">
       {/*
         L'EYEBROW VIT DANS LA SIGNATURE, et ce n'est pas un detour. Sous 720px
@@ -129,7 +129,22 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       )}
       {(eyebrow || portrait) && (
         <div class="hero__signature">
-          {portrait && <span class="hero__avatar" data-portrait role="img" aria-label="Portrait of Léa Giezek"></span>}
+          {/*
+            L'AVATAR ET SON ANNEAU, dans la meme boite : l'anneau est pose
+            par-dessus en absolu, donc il ne change ni la taille ni la place
+            du rond. C'est le meme trace que sur le loader, et c'est voulu -
+            le loader quitte la photo en la cerclant, le hero la reprend.
+          */}
+          {portrait && (
+            <span class="hero__portrait-boite">
+              <span class="hero__avatar" data-portrait role="img" aria-label="Portrait of Léa Giezek"></span>
+              {defiler && (
+                <svg class="hero__anneau" viewBox="0 0 100 100" aria-hidden="true">
+                  <circle cx="50" cy="50" r="49" />
+                </svg>
+              )}
+            </span>
+          )}
           <span class="hero__id">
             {portrait && <span class="hero__nom">Léa Giezek</span>}
             {eyebrow && <span class="hero__eyebrow">{eyebrow}</span>}
@@ -140,25 +155,6 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       <div class="hero__intro"><slot name="intro" /></div>
       <slot name="cta" />
     </div>
-    {portrait && (
-      <div class="hero__media">
-        {/*
-          LE PORTRAIT ET SON ANNEAU, dans la meme boite : l'anneau est pose
-          par-dessus en absolu, donc il ne change ni la taille ni la place du
-          cercle. C'est le meme trace que sur le loader - un <svg> dont le
-          cercle se dessine - et c'est voulu : le loader quitte la photo en la
-          cerclant, le hero la reprend de la meme facon.
-        */}
-        <span class="hero__portrait-boite">
-          <span class="hero__cercle" data-portrait role="img" aria-label="Portrait of Léa Giezek"></span>
-          {defiler && (
-            <svg class="hero__anneau" viewBox="0 0 100 100" aria-hidden="true">
-              <circle cx="50" cy="50" r="49" pathLength="1" />
-            </svg>
-          )}
-        </span>
-      </div>
-    )}
   </div>
 
   {/*
@@ -333,34 +329,31 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     du brief (§3.1) restent la valeur haute - a pleine largeur rien ne change.
   */
   /*
-    LA PHOTO EST LA COLONNE DE DROITE. Elle est passee a gauche le temps d'un
-    essai, Lea est revenue a la droite : le texte tient le bord gauche de la
-    colonne - le meme que la composition en dessous - et le portrait ferme la
-    bande. Les trois carres primaires ouvrent la colonne de texte, au-dessus de
-    l'eyebrow, et partagent donc cette gauche-la.
+    LA PHOTO EST UN AVATAR, A TOUTES LES LARGEURS. Elle a tenu une colonne de
+    300px a droite du titre, puis a gauche, puis a droite ; sous 860px elle se
+    reduisait deja a un rond de 56px contre le nom, et c'est cette hierarchie-la
+    que Lea a retenue. Le hero n'a donc plus qu'une colonne : trois carres, la
+    signature - avatar, nom, eyebrow -, le titre, l'intro, le bouton.
 
-    L'ORDRE DU DOM SUIT LA VUE. Le texte est ecrit en premier et s'affiche en
-    premier : aucun « order » n'est necessaire a ce point de rupture, et la
-    lecture d'un lecteur d'ecran est celle de l'ecran.
+    CE QU'ON Y GAGNE, ET C'EST LA RAISON : le titre reprend toute la largeur.
+    Il partageait la bande avec 300px de photo plus 72px de gouttiere, et
+    « Design systems ship standards. » stackait sur quatre a cinq lignes. La
+    photo ne disparait pas, elle cesse d'etre un bloc concurrent du titre pour
+    devenir ce qu'elle est : la signature de qui parle.
+
+    L'AVATAR GRANDIT AVEC L'ECRAN. 56px tenaient contre un titre de 36px sur
+    telephone ; contre les 68px du bureau ils se seraient perdus. clamp le
+    porte a 76px au plus large, et le nom suit de 22 a 28px.
   */
-  .hero__corps--portrait{display:grid;
-    grid-template-columns:minmax(0,1fr) var(--portrait-w);
-    gap:clamp(32px,5vw,72px);align-items:stretch}
-  /*
-    align-items:stretch et non start : la colonne du visuel doit descendre
-    jusqu'au bas de la bande pour que le trait ait de la place a prendre. Le
-    cercle, lui, garde sa taille - c'est flex:none qui l'y tient.
-  */
-  .hero__corps--portrait .hero__media{display:flex;
-    flex-direction:column;align-items:center;min-width:0}
-  .hero__portrait-boite{position:relative;display:block;width:100%;flex:none}
-  .hero__corps--portrait .hero__cercle{flex:none}
+  .hero__portrait-boite{position:relative;display:block;flex:none;
+    width:var(--avatar-w);height:var(--avatar-w)}
   /*
     L'ANNEAU SE TRACE AUTOUR DU PORTRAIT, comme sur le loader. inset:-10px le
-    pose en dehors du cercle, sans le toucher. pathLength="1" normalise la
-    longueur, donc le trace ne depend pas du rayon - le portrait peut changer
-    de taille, le dessin reste juste. Il part a 1,9s : la photo du loader
-    vient de se poser, et l'anneau la reprend.
+    pose en dehors du cercle, sans le toucher. Son dasharray est la vraie
+    circonference du viewBox et non pathLength="1" - voir l'en-tete de
+    l'anneau du loader dans Base.astro : WebKit n'honore pas pathLength sur un
+    <circle>. Il part a 1,9s : la photo du loader vient de se poser, et
+    l'anneau la reprend.
   */
   .hero__anneau{position:absolute;inset:-10px;overflow:visible;
     transform:rotate(-90deg);pointer-events:none}
@@ -372,18 +365,46 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   */
   .hero__anneau{animation:effacerAnneau .4s ease-out 2.9s both}
   .hero__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
-    vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;
+    vector-effect:non-scaling-stroke;stroke-dasharray:307.88;stroke-dashoffset:307.88;
     animation:tracerAnneau .85s cubic-bezier(.4,0,.2,1) 1.9s forwards}
   @keyframes effacerAnneau{to{opacity:0}}
   .hero__texte{display:flex;flex-direction:column;min-width:0}
-  .hero__cercle{display:block;width:100%;aspect-ratio:1;height:auto;
-    border-radius:50%;background:var(--portrait) center/cover no-repeat}
 
-  /* La signature remonte au-dessus du titre au bureau et n'y montre que
-     l'eyebrow ; l'avatar et le nom sont la forme mobile (BRIEF §11). */
-  .hero__signature{order:-1;display:flex;align-items:center;gap:12px}
+  /* La signature ouvre la colonne, au-dessus du titre : avatar, nom, eyebrow.
+     ECART ASSUME AU BRIEF §11, qui la range apres l'intro - demande par Lea,
+     et c'est la meme forme a toutes les largeurs depuis qu'elle a tranche. */
+  /*
+    LE GAP TIENT COMPTE DE L'ANNEAU, pas seulement du rond. L'anneau deborde
+    de 10px tout autour de la boite (inset:-10px) : avec les 12 a 18px d'ecart
+    d'avant, il ne restait que 7px de degagement a 1440 et 2px a 390 - le
+    trace passait au ras du nom. 18 a 26px laissent 8 a 16px de vrai air.
+  */
+  .hero__signature{order:-1;display:flex;align-items:center;
+    gap:clamp(18px,1.6vw,26px);margin-bottom:var(--sp-04)}
   .hero__id{display:flex;flex-direction:column;gap:2px;min-width:0}
-  .hero__avatar,.hero__nom{display:none}
+
+  /*
+    LE NOM ET L'EYEBROW ATTENDENT QUE L'ANNEAU AIT FINI. Ils etaient la des le
+    premier rendu, et le trace leur passait dessus : l'anneau se dessine a
+    1,9s, soit bien apres que le texte est pose. Un trait qui traverse un mot
+    deja lu n'est pas une arrivee, c'est une rature.
+
+    Ils entrent donc a 2,75s - l'instant ou le cercle se referme - dans la
+    langue du site : `monte`, le fondu montant des textes de la composition.
+    L'avatar, lui, n'attend pas : c'est sur lui que la photo du loader se
+    pose, il doit etre la pour la recevoir.
+
+    `:has(.hero__anneau)` et non une classe de plus : l'anneau n'existe que
+    sur l'accueil, la ou le loader tourne. Les pages interieures n'ont ni
+    anneau ni attente - leur eyebrow est la tout de suite, et la regle ne les
+    atteint pas.
+  */
+  .hero__signature:has(.hero__anneau) .hero__id{
+    animation:monte .5s ease-out 2.75s both}
+  .hero__avatar{display:block;width:100%;height:100%;border-radius:50%;
+    background:var(--portrait) center/cover no-repeat}
+  .hero__nom{display:block;font-family:var(--display);font-weight:900;
+    font-size:clamp(22px,2vw,28px);line-height:1.1;color:var(--white)}
   .hero__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
     text-transform:uppercase;color:var(--on-ink-eyebrow)}
   .hero__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-h1);
@@ -515,13 +536,6 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
       le filigrane dans le flux - garde son palier a 720px : ce qui change ici,
       c'est la navigation et le portrait, pas la mise en page.
     */
-    .hero__corps--portrait{display:block}
-    .hero__corps--portrait .hero__media,.hero__media{display:none}
-    .hero__avatar{display:block;width:56px;height:56px;flex:none;border-radius:50%;
-      background:var(--portrait) center/cover no-repeat}
-    .hero__nom{display:block;font-family:var(--display);font-weight:900;
-      font-size:22px;line-height:1.1;color:var(--white)}
-    .hero__signature{margin:0 0 var(--sp-04)}
     .hero--accueil .hero__texte > .sb{display:none}
   }
 
@@ -639,5 +653,8 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
        invisible parce que son animation d'apparition ne tourne pas. */
     /* Sous mouvement reduit les carres sont la, sans pousser. */
     .hero__primaire{animation:none;transform:none}
+    /* Et la signature n'attend rien : sans anneau a regarder se tracer,
+       l'attente ne serait qu'un retard. */
+    .hero__signature:has(.hero__anneau) .hero__id{animation:none}
   }
 </style>
