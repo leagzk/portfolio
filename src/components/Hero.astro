@@ -508,7 +508,21 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
      en-tete dans Base.astro. L'avatar n'est pas dans une couche composee,
      mais les deux anneaux partagent le meme dispositif et le meme risque ;
      les tenir identiques evite qu'un seul des deux derive un jour. */
-  .hero__anneau{position:absolute;inset:-10px;overflow:visible;
+  /*
+    SON ECART A L'AVATAR EST PROPORTIONNEL, PAS FIXE - meme correctif que
+    l'anneau du loader, et meme cause.
+
+    Il valait -10px sur un avatar qui va de 56 a 76px : mesure, 27,8% du rayon
+    a 1440 et 35,7% a 390. L'anneau ne cerclait plus le portrait, il tournait
+    autour a distance - et sur telephone il montait assez haut pour aller
+    chercher la rangee du dessus. Celui du loader se tient a 10% du rayon ;
+    comme c'est lui qui vient se poser ici, les deux doivent s'accorder, sans
+    quoi l'anneau saute au changement de main.
+
+    5% du diametre font 10% du rayon, a toutes les largeurs.
+  */
+  .hero__anneau{position:absolute;inset:calc(var(--avatar-w) * -0.05);
+    overflow:visible;
     transform:rotate(-90deg);will-change:transform;pointer-events:none}
   /*
     IL SE FERME, PUIS IL S'EFFACE. Il a dit ce qu'il avait a dire - la photo du
