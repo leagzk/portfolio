@@ -365,11 +365,29 @@ const principes = [
   .duo:has(.pr--b[aria-expanded="true"]) .pr--b{left:28px;width:calc(100% - 28px);z-index:3}
   .duo:has(.pr--b:hover) .pr--a,.duo:has(.pr--b:focus-visible) .pr--a,
   .duo:has(.pr--b[aria-expanded="true"]) .pr--a{width:28px;box-shadow:inset -2px 0 0 var(--text)}
-  /* Le contenu du bandeau reduit s'efface : 28px ne tiennent pas un titre. */
-  .duo:has(.pr--a:hover) .pr--b .pr__dedans,.duo:has(.pr--b:hover) .pr--a .pr__dedans,
-  .duo:has(.pr--a:focus-visible) .pr--b .pr__dedans,.duo:has(.pr--b:focus-visible) .pr--a .pr__dedans,
-  .duo:has(.pr--a[aria-expanded="true"]) .pr--b .pr__dedans,
-  .duo:has(.pr--b[aria-expanded="true"]) .pr--a .pr__dedans{opacity:0}
+  /*
+    Le contenu du bandeau reduit s'efface : 28px ne tiennent pas un titre.
+
+    SOUS 721px, CETTE REGLE N'A PLUS D'OBJET ET FAISAIT DU DEGAT. Le duo y est
+    en display:contents et les trois cartes deviennent des elements d'une
+    piste a defilement : aucune ne se reduit a un bandeau, il n'y a donc rien
+    a effacer. Mais la regle, elle, s'appliquait encore - et sur un ecran
+    tactile `:hover` colle au doigt. Un simple swipe posait le survol sur une
+    carte et effacait le contenu de sa voisine, titre compris. Les titres
+    disparaissaient au defilement.
+
+    Le palier est pose ici plutot qu'annule plus bas : la regle decrit un
+    partage de largeur qui n'existe qu'au-dessus de 720px, elle appartient a
+    ce palier. L'annuler dans le bloc mobile aurait demande de repeter les six
+    selecteurs pour les remettre a opacity:1, et aurait laisse la regle
+    s'appliquer une fraction de seconde avant d'etre defaite.
+  */
+  @media(min-width:721px){
+    .duo:has(.pr--a:hover) .pr--b .pr__dedans,.duo:has(.pr--b:hover) .pr--a .pr__dedans,
+    .duo:has(.pr--a:focus-visible) .pr--b .pr__dedans,.duo:has(.pr--b:focus-visible) .pr--a .pr__dedans,
+    .duo:has(.pr--a[aria-expanded="true"]) .pr--b .pr__dedans,
+    .duo:has(.pr--b[aria-expanded="true"]) .pr--a .pr__dedans{opacity:0}
+  }
 
   /* Le carre noir occupe le haut de sa case, et s'etend vers le bas a l'ouverture. */
   .cell--p2 .pr{position:absolute;left:0;top:0;width:100%;height:254px;

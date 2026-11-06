@@ -190,12 +190,17 @@ const personSchema = {
         L'ANNEAU EST UN TRACE, PAS UNE PULSATION. Un <svg> et non une bordure :
         seul un trace peut se dessiner, et c'est le geste de tout le site - les
         filets de la composition se tracent, ils n'apparaissent pas.
-        pathLength="1" normalise la longueur du cercle a 1, ce qui rend le
-        dasharray independant du rayon : si le portrait change de taille, le
-        trace reste juste.
+        LE DASHARRAY EST LA VRAIE CIRCONFERENCE, PLUS pathLength. Il valait
+        pathLength="1", qui normalise la longueur du trace a 1 et rend le
+        dasharray independant du rayon. C'est elegant, et WebKit ne l'honore
+        pas sur un <circle> : sur iPhone le trace se dessinait de travers
+        pendant que le reste du loader restait en place. Le viewBox ne bouge
+        jamais - 100 unites, r=49 - donc la circonference vaut toujours
+        2*PI*49 = 307,88 unites, et un nombre ecrit est aussi stable qu'une
+        normalisation. Seul un changement de `r` demanderait de le recalculer.
       */}
       <svg class="loader__anneau" id="anneau" viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="49" pathLength="1" />
+        <circle cx="50" cy="50" r="49" />
       </svg>
       <span class="loader__circle"></span>
     </div>
@@ -292,7 +297,7 @@ const personSchema = {
      au lieu d'etre multipliee par l'echelle du viewBox. */
   .loader__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
     vector-effect:non-scaling-stroke;
-    stroke-dasharray:1;stroke-dashoffset:1;
+    stroke-dasharray:307.88;stroke-dashoffset:307.88;
     animation:tracerAnneau .85s cubic-bezier(.65,0,.35,1) .15s forwards}
   @keyframes tracerAnneau{to{stroke-dashoffset:0}}
 
