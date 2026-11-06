@@ -241,11 +241,28 @@ const mecanismes: Tuile[] = [
       />
 
       <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 5 / 5 / 6"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 6 / 5 / 7"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 7 / 5 / 8"><span class="compo__plat compo__plat--gris"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 5 / 6 / 6"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 6 / 6 / 7"><span class="compo__plat compo__plat--bleu"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 7 / 6 / 8"></div>
+
+      {/*
+        CE QUE LE SYSTEME EST, DANS LA GRILLE ET PAS DANS UN CHAPITRE. La phrase
+        definissait Elements au milieu de « The stakes » : on ne disait donc ce
+        qu'est le systeme qu'APRES avoir demande au lecteur de choisir un
+        chapitre. Elle prend sa case dans la composition, a la forme du bloc
+        Operating System de l'accueil - surtitre, texte court, bande de couleur
+        en bas. Elle occupe les quatre cases du bas a droite ; la bande bleue
+        reprend celle que l'aplat de 5/6 portait.
+
+        CE N'EST PAS UNE CARTE : on ne l'ouvre pas, elle ne commande rien. Elle
+        disparait avec le reste quand un chapitre s'ouvre, ce qui est juste -
+        c'est au sommaire qu'elle appartient.
+      */}
+      <div class="quoi" style="grid-area:4 / 6 / 6 / 8">
+        <span class="quoi__plat" aria-hidden="true"></span>
+        <div class="quoi__txt">
+          <p class="quoi__eb">The system</p>
+          <p class="quoi__texte">Elements is Sanofi&apos;s unified experience system - <strong>one design language</strong> serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.</p>
+        </div>
+      </div>
     </div>
 
     {/* ═══════════ 01 · The problem ═══════════ */}
@@ -270,12 +287,11 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">A system this size is <em class="em-bleu">two bets in one.</em></p>
           <div class="body">
-            <p>Elements is Sanofi's unified experience system - <strong>one design language</strong> serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.</p>
             <p><strong>Cost rationalization</strong> first, by mutualizing practice so every product team doesn't rebuild the same thing 45 times. Second, <strong>experience at scale</strong>: one coherent journey across every touchpoint. Service design for an entire organization, from employee to patient.</p>
             <p>Both bets only pay if the system is adopted. A system nobody trusts is the worst of both worlds: you fund the platform <em>and</em> the fragmentation it was meant to erase - while the experience stays broken touchpoint by touchpoint. At this scale, every lost hour of velocity is lost across all of them at once.</p>
             <p class="qt">{/* data-sommaire : cette phrase monte aussi dans le sommaire
                 du chapitre, dans la moitie blanche de la bande ouverte. Elle
-                n'y est pas recopiee - voir src/scripts/dossier.ts. */}<span data-sommaire>Some of those platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide.</span> <strong>Systematize at the source, and you reach every one of them at once.</strong></p>
+                n'y est pas recopiee - voir src/scripts/dossier.ts. */}<span data-sommaire>Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide.</span> <strong>Systematize at the source, and you reach every one of them at once.</strong></p>
           </div>
         </div>
       </div>
