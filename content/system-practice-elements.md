@@ -72,9 +72,9 @@ Autonomy, a capability each person owns, and one question every week: is the wor
 
 Root cause
 
-Nobody meets. Everybody rebuilds. *In silos, again and again.*
+Not incompetence. *Distance.*
 
-A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. **Not incompetence - distance.** Three crafts, three silos, each solving in private what the others had already solved.
+**Nobody meets. Everybody rebuilds. In silos, again and again.** A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. Three crafts, three silos, each solving in private what the others had already solved.
 
 And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team. Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
 
