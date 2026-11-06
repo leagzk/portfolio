@@ -97,8 +97,11 @@ const principes = [
     {travaux.map((t) => (
       <div class:list={['cell', `cell--${t.aire}`]}>
         <a class:list={['wt', t.clair && 'wt--clair']} href={t.href}>
-          <span class="wt__filet" aria-hidden="true"></span>
-          {t.aire === 'w2' && <span class="wt__filet wt__filet--bas" aria-hidden="true"></span>}
+          {/* data-trait : ce filet fait partie du dessin. Les trois de la
+              rangee se touchent a travers les gouttieres et forment UNE ligne,
+              que le trace dessine d'un bout a l'autre - voir grille.ts. */}
+          <span class="wt__filet" data-trait aria-hidden="true"></span>
+          {t.aire === 'w2' && <span class="wt__filet wt__filet--bas" data-trait aria-hidden="true"></span>}
           <span class="wt__fragment" aria-hidden="true"></span>
           <span class="wt__eyebrow">
             <span>{t.eyebrow}</span>
@@ -118,7 +121,10 @@ const principes = [
       rangs 1-2-3 interdisent l'inversion sans toucher a l'heure que donne le
       front - voir src/scripts/grille.ts.
     */}
-    <figure class="citation" data-rang="1">
+    {/* data-rang-texte : cette case n'a pas d'aplat, elle n'est visible que
+        par son texte - 0,22s apres son retard. Le trace en tient compte pour
+        que son rang lui donne une avance REELLE sur les principes. */}
+    <figure class="citation" data-rang="1" data-rang-texte>
       <blockquote>Cultivating practice, not just systems, through Design Leadership and Community Building.</blockquote>
       <Bouton href="/philosophy" variante="bleu" icone="fleche">Philosophy</Bouton>
     </figure>

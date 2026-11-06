@@ -80,10 +80,28 @@ const ECART_CASE = 0.08;
   case qui n'a QUE du texte - la citation de l'accueil - se faisait donc
   doubler par les aplats du rang suivant, alors que le calcul, lui, la servait
   bien en premier : citation a 1,95s, duo a 2,11s, et le duo visible avant
-  elle. 0,3s depasse le decalage du texte, donc l'ordre tient quoi que porte
-  la case.
+  elle.
+
+  0,3s EST UNE AVANCE REELLE, ET PLUS UNE MARGE. Un premier correctif avait
+  simplement pris un ecart plus grand que le decalage du texte : l'ordre
+  tenait, mais il ne restait que 0,08s d'avance a la citation - cinq images.
+  L'ecart se mesure desormais entre les instants ou les cases deviennent
+  VISIBLES et non entre leurs retards bruts, donc les 0,3s sont bel et bien ce
+  qu'on voit. Augmenter l'ecart aurait aussi allonge philosophy, qui tient six
+  rangs ; cette version ne lui coute rien.
 */
 const ECART_RANG = 0.3;
+/*
+  CE QUE COUTE UN TEXTE. Les regles `.vu` des pages lancent un aplat a
+  `--retard` pile et un texte a `--retard + 0,22s` : la valeur d'abord, ce
+  qu'elle dit ensuite. Une case qui n'a PAS d'aplat - la citation de
+  l'accueil - devient donc visible 0,22s apres son retard, et c'est ce
+  decalage qu'il faut compter pour que son rang veuille dire quelque chose.
+  Le markup le signale par `data-rang-texte` : le script n'a pas a connaitre
+  les classes des pages, c'est la regle de ce fichier - il decide QUAND, la
+  feuille decide QUOI.
+*/
+const RETARD_TEXTE = 0.22;
 /*
   UNE VITESSE, PAS UNE DUREE. Tous les traits mettaient 0,5s, quelle que soit
   leur longueur : un trait de 625px filait a 1250px/s pendant qu'un de 56px
@@ -272,6 +290,35 @@ function construire(comp: HTMLElement, bordBas = false): void {
       PROXIMITE, a la tolerance pres, et la ligne est posee sur le bord le
       plus a gauche (ou le plus haut) du groupe : c'est lui qui ouvre l'ecart.
     */
+    /*
+      LES FILETS DECLARES REJOIGNENT LE TRACE. Une composition ne porte pas que
+      les traits de sa grille : les cartes de l'accueil ont un filet interne a
+      56px de leur haut, et les trois mis bout a bout se lisent comme UNE ligne
+      qui court de Governance a Surfaces - parce que, dans l'etat final, les
+      gouttieres entre les cartes sont noires.
+
+      Pendant la construction elles sont blanches (`pre` blanchit le fond), et
+      cette ligne apparaissait donc coupee en trois, avec deux ecarts blancs.
+      Les filets portant `data-trait` sont releves comme des bords de case :
+      meme abscisse ou meme ordonnee, intervalles qui se touchent, une seule
+      ligne. Les trois filets de la rangee fusionnent, et c'est un trait plein
+      qui se trace.
+
+      Ils sont CACHES le temps du trace (voir `.pre [data-trait]` dans
+      motion.css) : sans cela ils seraient visibles sous le segment qui est
+      cense les dessiner.
+    */
+    comp.querySelectorAll<HTMLElement>('[data-trait]').forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const l = r.left - cr.left;
+      const t = r.top - cr.top;
+      /* Un filet est fin dans un sens et long dans l'autre ; c'est ce qui
+         distingue une horizontale d'une verticale, sans avoir a le declarer. */
+      if (r.height <= TOL * 2) brutes.h.push({ pos: t, a: l, b: l + r.width });
+      else if (r.width <= TOL * 2) brutes.v.push({ pos: l, a: t, b: t + r.height });
+    });
+
     const fusionner = (aretes: Arete[]): Arete[] => {
       if (!aretes.length) return [];
       const parPos: Arete[][] = [];
@@ -398,7 +445,9 @@ function construire(comp: HTMLElement, bordBas = false): void {
         && (sens === 'v' ? l.y : l.x) <= a + TOL
         && (sens === 'v' ? l.y + l.long : l.x + l.long) >= b - TOL);
 
-    const remplissages: { el: HTMLElement; quand: number; y: number; x: number; rang?: number }[] = [];
+    const remplissages: {
+      el: HTMLElement; quand: number; y: number; x: number; rang?: number; texte: boolean;
+    }[] = [];
     cases.forEach((el) => {
       const r = el.getBoundingClientRect();
       /* Une case masquee au point de rupture courant - la pagination du rail
@@ -415,15 +464,28 @@ function construire(comp: HTMLElement, bordBas = false): void {
       ].filter(Boolean) as Ligne[];
       const ferme = bords.length ? Math.max(...bords.map((b) => b.depart)) : 0;
       const rang = el.dataset.rang ? parseInt(el.dataset.rang, 10) : undefined;
+      const texte = el.dataset.rangTexte !== undefined;
       remplissages.push({
         el,
         quand: Math.max(TRACE_DEBUT + avanceFront(l + r.width), ferme) + RETARD_COULEUR,
         y: t,
         x: l,
         rang: Number.isNaN(rang) ? undefined : rang,
+        texte,
       });
     });
 
+    /*
+      DEUX CASES NON PLUS. Une meme verticale ferme souvent plusieurs cases a
+      la fois ; sans ce pas elles se coloreraient au meme centieme. Elles sont
+      servies dans l'ordre de lecture, ECART_CASE l'une apres l'autre.
+    */
+    remplissages.sort((a, b) => a.quand - b.quand || a.y - b.y || a.x - b.x);
+    let precedenteCase = -Infinity;
+    remplissages.forEach((f) => {
+      f.quand = Math.max(f.quand, precedenteCase + ECART_CASE);
+      precedenteCase = f.quand;
+    });
     /*
       ═══ UN RECIT NUMEROTE SE LIT DANS SON ORDRE, PAS DANS CELUI DU FRONT ═══
 
@@ -442,28 +504,34 @@ function construire(comp: HTMLElement, bordBas = false): void {
 
       LES CASES SANS RANG NE SONT PAS TOUCHEES : elles arrivent au passage du
       front, comme avant.
+
+          ELLE PASSE EN DERNIER, ET C'EST LA DEUXIEME FOIS QUE JE M'Y REPRENDS :
+      placee avant l'ecartement des ex aequo, cette derniere repoussait ensuite
+      la citation de 0,08s sans toucher au duo, et l'avance retombait a 0,22s.
+      Mesure. Les deux passes ne font que POUSSER, donc la derniere a le dernier
+      mot : c'est celle qui porte la contrainte la plus forte qui doit finir.
     */
     const suite = remplissages
       .filter((f) => f.rang !== undefined)
       .sort((a, b) => (a.rang as number) - (b.rang as number));
-    let precedentRang = -Infinity;
+    let precedentVu = -Infinity;
     suite.forEach((f) => {
-      f.quand = Math.max(f.quand, precedentRang + ECART_RANG);
-      precedentRang = f.quand;
+      const decalage = f.texte ? RETARD_TEXTE : 0;
+      const vu = Math.max(f.quand + decalage, precedentVu + ECART_RANG);
+      f.quand = vu - decalage;
+      precedentVu = vu;
     });
 
     /*
-      DEUX CASES NON PLUS. Une meme verticale ferme souvent plusieurs cases a
-      la fois ; sans ce pas elles se coloreraient au meme centieme. Elles sont
-      servies dans l'ordre de lecture, ECART_CASE l'une apres l'autre.
+      LE CALCUL EST FINI, ON ECRIT. Les deux passes ci-dessus ne font que
+      pousser des nombres ; tant que l'une d'elles ecrivait dans le DOM, la
+      suivante n'avait plus de prise - c'est ce qui a fait disparaitre le rang
+      quand je l'ai passee en dernier. Une seule ecriture, apres tout le monde.
     */
-    remplissages.sort((a, b) => a.quand - b.quand || a.y - b.y || a.x - b.x);
-    let precedenteCase = -Infinity;
     remplissages.forEach((f) => {
-      const quand = Math.max(f.quand, precedenteCase + ECART_CASE);
-      precedenteCase = quand;
-      f.el.style.setProperty('--retard', `${quand.toFixed(2)}s`);
+      f.el.style.setProperty('--retard', `${f.quand.toFixed(2)}s`);
     });
+
 
     const calque = document.createElement('div');
     calque.className = 'segs';

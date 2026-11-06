@@ -72,6 +72,14 @@
   calque qui n'etait pas la ou je croyais.
 */
 .segs.segs{position:absolute;inset:0;background:none;overflow:visible}
+/*
+  UN FILET DECLARE S'EFFACE LE TEMPS QU'ON LE TRACE. `data-trait` designe un
+  filet qui fait partie du dessin sans etre un bord de case - celui des cartes
+  de l'accueil, par exemple. Le script le releve et en trace un segment ; si
+  l'original restait visible dessous, il n'y aurait rien a tracer.
+  `visibility` et non `display` : la mise en page ne doit pas bouger.
+*/
+.pre [data-trait]{visibility:hidden}
 .seg{position:absolute;background:var(--text)}
 /*
   UNE COURBE DE TRACE, PAS UN RESSORT. cubic-bezier(.16,1,.3,1) arrive a 90% de
