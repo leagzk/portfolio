@@ -338,13 +338,27 @@ const mecanismes: Tuile[] = [
         analyses ; lui donner tout le chapitre, comme avant, en faisait six
         paragraphes au noir ou l'accent n'accentuait plus rien.
       */}
-      <div class="dark">
+      {/*
+        LE BLOC SOMBRE REPASSE EN SOUS-PARTIE. Il isolait l'aveu sur fond noir,
+        et c'etait defendable tant que le chapitre n'avait pas de grammaire :
+        maintenant que les trois blocs partagent surtitre, phrase forte a
+        gauche et texte a droite, celui-la rompait la colonne sans que le
+        contenu le demande - l'aveu tient dans la phrase, pas dans le fond.
+
+        La chute garde son role de chute, en exergue : c'est le seul endroit du
+        chapitre ou une phrase conclut au lieu d'avancer.
+      */}
+      <div class="subsec">
         <p class="eb">Executive partnership</p>
-        <h3 class="h3">You can't outsource the thing your whole system depends on.</h3>
-        <p>The engineering was externalized before my time - not my call. But <strong>the bet I shared, and got wrong, was priority.</strong> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.</p>
-        <p>So the system was coherent, and barely adopted. <strong>A design system nobody adopts is the oldest failure in the field</strong>, and we'd walked straight into it.</p>
-        <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg: <strong>a €1M bet on a model, not a line item.</strong> I drove it, and I carried it through.</p>
-        <p class="dark__chute">The best architecture I built started as the one I got backwards.</p>
+        <div class="split">
+          <p class="lead">You can't outsource the thing <em class="em-rouge">your whole system depends on.</em></p>
+          <div class="body">
+            <p>The engineering was externalized before my time - not my call. But <strong>the bet I shared, and got wrong, was priority.</strong> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.</p>
+            <p>So the system was coherent, and barely adopted. <strong>A design system nobody adopts is the oldest failure in the field</strong>, and we'd walked straight into it.</p>
+            <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg: <strong>a €1M bet on a model, not a line item.</strong> I drove it, and I carried it through.</p>
+            <p class="qt"><strong>The best architecture I built started as the one I got backwards.</strong></p>
+          </div>
+        </div>
         <Bouton variante="bleu" href="/system-brand">Deep dive in the origin story →</Bouton>
       </div>
 

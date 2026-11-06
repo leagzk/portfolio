@@ -88,7 +88,7 @@ A system nobody trusts is the worst of both worlds: you fund the platform *and* 
 
 Executive partnership
 
-### You can't outsource the thing your whole system depends on.
+You can't outsource the thing *your whole system depends on.*
 
 The engineering was externalized before my time - not my call. But **the bet I shared, and got wrong, was priority.** Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.
 
@@ -96,7 +96,7 @@ So the system was coherent, and barely adopted. **A design system nobody adopts 
 
 So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg: **a €1M bet on a model, not a line item.** I drove it, and I carried it through.
 
-The best architecture I built started as the one I got backwards.
+**The best architecture I built started as the one I got backwards.**
 
 Deep dive in the origin story →
 
