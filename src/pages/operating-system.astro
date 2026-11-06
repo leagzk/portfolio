@@ -6,60 +6,68 @@
   etude de cas. Pas de chiffres cles, pas de trois temps - sept principes, qui
   se tiennent ensemble plutot que de se raconter l'un apres l'autre.
 
-  LA COMPOSITION PORTE LES SEPT, et le septieme la ferme sur toute la largeur :
-  c'est le seul qui parle de l'equipe elle-meme, et c'est la que la page va.
-  Les cinq premiers sont techniques - decouverte, source de verite, inclusion,
-  ethique, releases - les deux derniers sont humains, et la charniere qui les
-  relie est posee entre la composition et les sections : elle annonce la
-  seconde moitie au lieu de resumer la premiere, exactement comme avant.
+  LA COMPOSITION PORTE TOUT, Y COMPRIS LE TEXTE. Elle etait un sommaire : sept
+  cases commandaient sept <section> posees dessous. Les sections sont parties,
+  le texte est remonte DANS les cases, et la page ne sort plus de sa grille -
+  le meme geste que Philosophy.
 
-  LES CARTES N'ONT PAS DE SYNTHESE : le titre EST le principe. Voir la prop
-  `synthese` de CarteDossier.
+  LES SEPT SE REPLIENT, ET C'EST LA REGLE QUI LE DIT. Si la description tient
+  dans la case elle se lit sous le titre, sinon la case se replie sur son titre
+  et s'ouvre au clic. Ici aucune ne tient : les sept descriptions font 550,
+  550, 599, 614, 714, 939 et 1 154 signes, quand les trois que Philosophy
+  montre d'emblee font 228, 310 et 317. La plus courte d'Operating System est
+  encore 70 % plus longue que la plus longue de Philosophy - une case qui la
+  porterait ne serait plus une case, ce serait une colonne de texte. Cette
+  page-ci est la plus dense des deux ; le pli y est la regle, pas l'exception.
 
-  TOUT LE TEXTE EST CONSERVE, y compris le bandeau de sobriete - qui devient
-  trois tuiles, le dispositif du gabarit pour un terme et sa definition.
+  CE QUI CHANGE QUAND MEME AU REPOS, et c'est l'essentiel : les aplats sont
+  poses des le trace au lieu d'etre gagnes au clic. La grille se lit comme un
+  Mondrian tout de suite - rouge, blanc, jaune, bleu - au lieu de sept cartes
+  blanches a devoiler.
+
+  LA CHARNIERE A DISPARU, et son propos est remonte dans l'intro du hero. Elle
+  etait un bandeau noir entre la composition et les sections, avec le disque
+  des mains : « Same principle, top to bottom: everyone gets to own their
+  part. » Les sections parties, elle n'avait plus rien a charnieres - et Lea a
+  reecrit l'intro pour qu'elle porte elle-meme cette phrase, en chute de son
+  troisieme paragraphe. Le visuel collective-ownership-visual.svg n'a donc plus
+  d'utilisateur ; il reste dans src/assets, a supprimer sur accord.
+
+  LA CLOTURE ENTRE DANS LA GRILLE. Elle prend la place que la citation
+  « Cultivating practice… » occupe sur la landing : une case blanche, sa phrase
+  en gros, son bouton cale en bas.
+
+  TOUT LE TEXTE DES SEPT PRINCIPES EST CONSERVE, y compris le bandeau de
+  sobriete - trois tuiles, le dispositif du gabarit pour un terme et sa
+  definition. Elles passent a UNE colonne : dans une case de 515px, trois
+  colonnes en feraient 135 chacune. Seuls les <em> de couleur des phrases
+  d'attaque tombent sur les cases de couleur, ou un mot rouge sur un aplat
+  rouge ne se verrait pas.
+
+  LES SEPT CASES SONT ECRITES, PAS DERIVEES D'UN TABLEAU. Elles l'etaient, et
+  c'etait possible tant que les cases ne contenaient rien. Maintenant que
+  chacune porte sa description - avec ses <p>, ses <strong>, sa citation et ses
+  tuiles - ce contenu est du markup : il ne rentre pas dans une chaine. On perd
+  la renumerotation automatique ; c'est sept valeurs sur une page qui ne bouge
+  plus souvent.
+
+  L'ORDRE DU DOM EST 01 → 07 puis la cloture : c'est l'ordre de lecture.
+  `grid-area` fait le placement au-dessus de 861px, le flux fait l'empilement
+  en dessous.
 */
 import Base from '../layouts/Base.astro';
 import '../styles/etude.css';
 import Hero from '../components/Hero.astro';
-import CarteDossier from '../components/CarteDossier.astro';
+import Conviction from '../components/Conviction.astro';
 import Tuiles from '../components/Tuiles.astro';
 import type { Tuile } from '../components/Tuiles.astro';
 import Bouton from '../components/Bouton.astro';
-/* INLINE : le dessin suit --accent par currentColor, ce qu'un <img> ne
-   permettrait pas. */
-import CollectiveOwnership from '../assets/operating-system/collective-ownership-visual.svg';
-
-/*
-  Les sept principes. Le rang vient du tableau, donc reordonner renumerote.
-  `aire` est le grid-area de la case ; les couleurs suivent le rythme de la
-  composition et non le rang.
-*/
-const principes = [
-  { cle: 'discovery', intitule: 'Discovery', couleur: 'rouge' as const,
-    titre: 'Nothing ships without discovery.', aire: '1 / 1 / 3 / 3', large: true },
-  { cle: 'truth', intitule: 'Source of truth', couleur: 'bleu' as const,
-    titre: 'One source of truth - trusted by humans, verified by machines.',
-    aire: '1 / 4 / 2 / 6' },
-  { cle: 'inclusion', intitule: 'Inclusion', couleur: 'jaune' as const,
-    titre: 'Accessibility is the floor. Responsibility is the reach.',
-    aire: '2 / 4 / 4 / 6' },
-  { cle: 'ethics', intitule: 'Ethics', couleur: 'bleu' as const,
-    titre: 'AI should earn trust, not exploit it.', aire: '3 / 1 / 4 / 3' },
-  { cle: 'releases', intitule: 'Releases', couleur: 'jaune' as const,
-    titre: 'We break nothing without a bridge.', aire: '4 / 1 / 5 / 4' },
-  { cle: 'support', intitule: 'Support', couleur: 'rouge' as const,
-    titre: 'Support on their terms, not mine.', aire: '4 / 4 / 5 / 7' },
-  { cle: 'owners', intitule: 'Ownership', couleur: 'bleu' as const,
-    titre: 'A team of owners, not a team of hands.', aire: '5 / 1 / 6 / 7' },
-].map((p, i) => ({ ...p, rang: String(i + 1).padStart(2, '0') }));
 
 /*
   Les trois formes de la sobriete. Le decoupage terme / chute n'est pas force :
   le document source ecrivait deja ces trois points en deux temps. Elles
-  sortent du corps du principe 03 - dans une colonne de 60ch, trois colonnes en
-  feraient vingt chacune - et deviennent trois tuiles, le dispositif du gabarit
-  pour un terme et sa definition.
+  sortent du corps du principe 03 et deviennent trois tuiles, le dispositif du
+  gabarit pour un terme et sa definition.
 */
 const sobriete: Tuile[] = [
   { eyebrow: 'Light', couleur: 'rouge', titre: 'By default.',
@@ -81,14 +89,17 @@ const sobriete: Tuile[] = [
     eyebrow="Operating System · How my team ships"
     filigrane="Ownership"
   >
-    Designed to be handed over - seven principles, each with a practice behind it.
+    Seven principles designed to be handed over, each with a practice behind it.
     <Fragment slot="intro">
-      <b>I didn't want a team that executes. I wanted a team of owners.</b>
-      Recognized, accountable, proactive - experts with a name, a face, not just
-      a pair of hands. Everything below is how I built that, and it runs on one
-      conviction: the technical system and the human system obey the same rule.
-      Design tokens make products autonomous, distributed ownership makes people
-      autonomous. <b>One variable in common: trust.</b>
+      <p><b>I didn't want a team that executes. I wanted a team of owners.</b>
+      Recognized, proactive - experts with a name, a face, not just a pair of
+      hands.</p>
+      <p>Everything below is how I built that, and it runs on one conviction:
+      the technical system and the human system obey the same rule. Design
+      tokens make products autonomous, distributed ownership makes people
+      autonomous.</p>
+      <p><b>One variable in common: trust. One prerequisite: top to frontline,
+      everyone gets to own their part.</b></p>
     </Fragment>
   </Hero>
 
@@ -96,169 +107,114 @@ const sobriete: Tuile[] = [
 
     {/*
       ─── La composition des sept principes ───
-      Six colonnes, cinq rangees. Les colonnes 3 et 6 sont fines et ne portent
-      que du decor. Le septieme principe occupe toute la derniere rangee : les
-      six premiers decrivent comment le systeme tient, le septieme comment
-      l'equipe tient - et c'est la que la page va.
+      Six colonnes, six rangees, deux colonnes fines (la 3 et la 6) qui ne
+      portent que du decor : ce sont elles qui empechent les cases de se lire
+      comme un tableau. Les rangees sont des planchers et non des hauteurs -
+      une case qui s'ouvre fait grandir sa rangee au lieu d'etre rognee.
     */}
-    <div class="compo" id="composition" data-grille>
-      {principes.map((p, i) => (
-        <>
-          <CarteDossier
-            id={`carte-${p.cle}`}
-            rang={p.rang}
-            intitule={p.intitule}
-            titre={p.titre}
-            couleur={p.couleur}
-            commande={`pan-${p.cle}`}
-            large={p.large}
-            aire={p.aire}
-          />
-          {i === 0 && (
-            <>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 3 / 2 / 4"><span class="compo__plat compo__plat--noir"></span></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--gris"></span></div>
-            </>
-          )}
-          {i === 1 && (
-            <>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 6 / 2 / 7"><span class="compo__plat compo__plat--gris"></span></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 6 / 3 / 7"></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 6 / 4 / 7"><span class="compo__plat compo__plat--rouge"></span></div>
-            </>
-          )}
-        </>
-      ))}
-    </div>
+    <div class="compo compo--principes" id="composition" data-grille>
 
-    {/*
-      LA CHARNIERE, entre la composition et les sections. Les cinq premiers
-      principes sont techniques, les deux derniers humains : la phrase qui les
-      relie se lit donc avant qu'on ouvre quoi que ce soit, pas en conclusion.
-      Bloc noir, comme le coeur emotionnel des etudes : c'est la seule rupture
-      de fond de la page, elle doit se voir.
-    */}
-    <div class="charniere">
-      <p class="charniere__t">Same principle, top to bottom: everyone - leaders, practitioner, teammate - <em class="em-rouge">gets to own their part.</em></p>
-      <div class="charniere__disque" aria-hidden="true"><CollectiveOwnership /></div>
-    </div>
+      <Conviction
+        id="pr-discovery" rang="01" intitule="Discovery" couleur="rouge"
+        titre="Nothing ships without discovery."
+        aire="1 / 1 / 3 / 3" pliante large
+      >
+        <p>No component, no line of the roadmap ever shipped on a hunch. Every one started with the same work: what does the product ecosystem actually need, and what already exists that we can build on? <strong>Need first, existing second, decision third.</strong></p>
+        <p>It's how we knew what to build versus what to buy - and it's the discipline I put in place after learning, the hard way, what it costs to build for the brand instead of the people who adopt it. <strong>Discovery isn't a phase. It's the gate.</strong> And it doesn't stop at launch: we kept interviewing, testing our own ways of working, and reprioritizing against what we heard.</p>
+      </Conviction>
 
-    {/* ═══════════ 01 · Discovery ═══════════ */}
-    <section class="pan" id="pan-discovery" aria-labelledby="titre-discovery">
-      <h2 class="sr-only" id="titre-discovery">01 &middot; Discovery</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Nothing ships <em class="em-rouge">without discovery.</em></p>
-          <div class="body">
-            <p>No component, no line of the roadmap ever shipped on a hunch. Every one started with the same work: what does the product ecosystem actually need, and what already exists that we can build on? <strong>Need first, existing second, decision third.</strong></p>
-            <p>It's how we knew what to build versus what to buy - and it's the discipline I put in place after learning, the hard way, what it costs to build for the brand instead of the people who adopt it. <strong>Discovery isn't a phase. It's the gate.</strong> And it doesn't stop at launch: we kept interviewing, testing our own ways of working, and reprioritizing against what we heard.</p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-truth">Next: source of truth →</Bouton>
-    </section>
+      {/* Les deux colonnes fines. Posees apres la premiere case pour que
+          l'ordre du DOM reste celui de la lecture. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 3 / 2 / 4"><span class="compo__plat compo__plat--noir"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"></div>
 
-    {/* ═══════════ 02 · Source of truth ═══════════ */}
-    <section class="pan" id="pan-truth" aria-labelledby="titre-truth">
-      <h2 class="sr-only" id="titre-truth">02 &middot; Source of truth</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Trusted by humans, <em class="em-bleu">verified by machines.</em></p>
-          <div class="body">
-            <p>One language, not four. <strong>Multi-surface design tokens</strong> carry brand and behavior across web, native and content; <strong>Figma variables</strong> hold the component architecture on the design side; <strong>Storybook</strong> is the engineering source of truth on the code side.</p>
-            <p>And trust doesn't mean unchecked: every pull request runs <strong>automated conformity checks before a double human validation</strong>, and <strong>Chromatic</strong> catches visual regressions before they ship. I ran the team on live signal too - <strong>DORA metrics every sprint</strong>, satisfaction surveys, ritual feedback - read as decisions, not dashboards for show. Automate the repeatable, measure what matters, keep the human judgment where it counts. <strong>That's governance you can't skip and don't have to police.</strong></p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-inclusion">Next: inclusion →</Bouton>
-    </section>
+      <Conviction
+        id="pr-truth" rang="02" intitule="Source of truth" couleur="clair"
+        titre="One source of truth - trusted by humans, verified by machines."
+        aire="1 / 4 / 2 / 7" pliante
+      >
+        <p>One language, not four. <strong>Multi-surface design tokens</strong> carry brand and behavior across web, native and content; <strong>Figma variables</strong> hold the component architecture on the design side; <strong>Storybook</strong> is the engineering source of truth on the code side.</p>
+        <p>And trust doesn't mean unchecked: every pull request runs <strong>automated conformity checks before a double human validation</strong>, and <strong>Chromatic</strong> catches visual regressions before they ship. I ran the team on live signal too - <strong>DORA metrics every sprint</strong>, satisfaction surveys, ritual feedback - read as decisions, not dashboards for show. Automate the repeatable, measure what matters, keep the human judgment where it counts. <strong>That's governance you can't skip and don't have to police.</strong></p>
+      </Conviction>
 
-    {/* ═══════════ 03 · Inclusion ═══════════ */}
-    <section class="pan" id="pan-inclusion" aria-labelledby="titre-inclusion">
-      <h2 class="sr-only" id="titre-inclusion">03 &middot; Inclusion</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Accessibility is the floor. <em class="em-rouge">Responsibility is the reach.</em></p>
-          <div class="body">
-            <p><strong>WCAG AA</strong> wasn't our bar - I positioned it as the Sanofi digital standard, the minimum for every product, not just the library. We audited the full library to <strong>100% compliance before our first major</strong>, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - so no product team paid the accessibility cost downstream.</p>
-            <p>But inclusion doesn't stop at who can <em>use</em> the product. A system touching 45+ products has a footprint - societal and environmental - and it isn't small. So responsibility was designed in, not bolted on, and it looked like <strong>sobriety</strong> at every level.</p>
-          </div>
-        </div>
+      <Conviction
+        id="pr-inclusion" rang="03" intitule="Inclusion" couleur="jaune"
+        titre="Accessibility is the floor. Responsibility is the reach."
+        aire="2 / 4 / 4 / 6" pliante
+      >
+        <p><strong>WCAG AA</strong> wasn't our bar - I positioned it as the Sanofi digital standard, the minimum for every product, not just the library. We audited the full library to <strong>100% compliance before our first major</strong>, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - so no product team paid the accessibility cost downstream.</p>
+        <p>But inclusion doesn't stop at who can <em>use</em> the product. A system touching 45+ products has a footprint - societal and environmental - and it isn't small. So responsibility was designed in, not bolted on, and it looked like <strong>sobriety</strong> at every level.</p>
         <p class="qt">Accessibility protects the user. Responsibility protects everything around them. <strong>Same driver - inclusion - different reach.</strong></p>
         <p class="eb">Sobriety, at every level</p>
-        <Tuiles tuiles={sobriete} colonnes={3} label="The three forms of sobriety" hauteur={300} />
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-ethics">Next: ethics →</Bouton>
-    </section>
+        <Tuiles tuiles={sobriete} colonnes={1} label="The three forms of sobriety" hauteur={280} />
+      </Conviction>
 
-    {/* ═══════════ 04 · Ethics ═══════════ */}
-    <section class="pan" id="pan-ethics" aria-labelledby="titre-ethics">
-      <h2 class="sr-only" id="titre-ethics">04 &middot; Ethics</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">AI should earn trust, <em class="em-bleu">not exploit it.</em></p>
-          <div class="body">
-            <p>When AI entered the digital roadmap, most teams asked what it could <em>do</em>. I asked what it should <em>never</em> do - and put that on the table first.</p>
-            <p>Before shipping AI-assisted features, I've asked the team to investigate, test prior to rolling anything at scale - to keep consistency, value and on-brand positioning across every product. AI wasn't just a new technology to embrace, but more a tool to add to our stack with responsible usage. And so got the community of practice sensitized too.</p>
-            <p>An AI that nudges, manipulates, anchors on dark patterns or manufactures urgency isn't a feature, it's a breach of trust - and in healthcare, that trust isn't abstract. <strong>It starts with an employee and it finishes with a patient.</strong></p>
-            <p>Not everyone shares this as a priority. I do. A system that shapes how people interact with their health has no business optimizing for engagement over honesty. Coherent and on-brand is the baseline. <strong>Ethical is the standard.</strong></p>
-          </div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 6 / 3 / 7"><span class="compo__plat compo__plat--gris"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 6 / 4 / 7"><span class="compo__plat compo__plat--rouge"></span></div>
+
+      <Conviction
+        id="pr-ethics" rang="04" intitule="Ethics" couleur="bleu"
+        titre="AI should earn trust, not exploit it."
+        aire="3 / 1 / 4 / 3" pliante
+      >
+        <p>When AI entered the digital roadmap, most teams asked what it could <em>do</em>. I asked what it should <em>never</em> do - and put that on the table first.</p>
+        <p>Before shipping AI-assisted features, I've asked the team to investigate, test prior to rolling anything at scale - to keep consistency, value and on-brand positioning across every product. AI wasn't just a new technology to embrace, but more a tool to add to our stack with responsible usage. And so got the community of practice sensitized too.</p>
+        <p>An AI that nudges, manipulates, anchors on dark patterns or manufactures urgency isn't a feature, it's a breach of trust - and in healthcare, that trust isn't abstract. <strong>It starts with an employee and it finishes with a patient.</strong></p>
+        <p>Not everyone shares this as a priority. I do. A system that shapes how people interact with their health has no business optimizing for engagement over honesty. Coherent and on-brand is the baseline. <strong>Ethical is the standard.</strong></p>
+      </Conviction>
+
+      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--gris"></span></div>
+
+      <Conviction
+        id="pr-releases" rang="05" intitule="Releases" couleur="clair"
+        titre="We break nothing without a bridge."
+        aire="4 / 1 / 5 / 4" pliante
+      >
+        <p>With that many products depending on us, a careless breaking change is a tax paid 45 times over. So: <strong>one major release a year, maximum</strong> - protected, deliberate - and a steady cadence of improvements and fixes, roughly <strong>one release per two-week sprint</strong>.</p>
+        <p>When a breaking change was unavoidable, we shipped a <strong>patch path</strong> alongside it and left product teams a real buffer to upgrade on their own schedule. The documentation was industrialized to match - at the component and the library level - structured to keep side effects from ever surprising a consumer.</p>
+      </Conviction>
+
+      <Conviction
+        id="pr-support" rang="06" intitule="Support" couleur="rouge"
+        titre="Support on their terms, not mine."
+        aire="4 / 4 / 5 / 7" pliante
+      >
+        <p>The system serves the people building on it, so support flexed to them, not the other way around. <strong>Office hours</strong> for whoever wanted synchronous help; <strong>asynchronous support</strong> for whoever needed to move on their own clock - product teams kept full control over the urgency of their own problems.</p>
+        <p>And communication was built to outgrow me. I kept it proactive and regular, but the point was always for the community to take the mic: <strong>members carrying the messages, answering each other directly</strong>, becoming the channel instead of routing everything through me.</p>
+      </Conviction>
+
+      {/* Le septieme occupe toute sa rangee : les six premiers disent comment
+          le systeme tient, celui-ci comment l'equipe tient - et c'est la que
+          la page va. */}
+      <Conviction
+        id="pr-owners" rang="07" intitule="Ownership" couleur="bleu"
+        titre="A team of owners, not a team of hands."
+        aire="5 / 1 / 6 / 7" pliante
+      >
+        <p>Inside the team, ownership was structural, not a pep talk. The <strong>support lead rotated every sprint</strong> - a model we didn't guess at but iterated into, reading the support and satisfaction data until the rotation was what the signal asked for - so responsibility, and recognition as the identified point of contact, moved around and no one got stuck in execution. Roles rotated. <strong>Sprint planning was collective</strong>, <strong>retros ran every sprint</strong>, and I sat in on the <strong>dailies</strong> as often as I could - mostly to absorb the hot updates coming down, so the team could stay in the work instead of the noise.</p>
+        <p>All of it lived on <strong>Confluence</strong>, documented like a team mantra - so a new joiner became an owner fast, and the rest of Sanofi could see exactly how we worked. <strong>Transparency wasn't a value on a wall. It was the onboarding.</strong></p>
+        <p>And growth didn't run top-down. It ran through the community: people levelled up by contributing, teaching, carrying the message - and I grew as much through them. <strong>Reverse mentoring by practice</strong> isn't a nice idea to me, it's how a system stays honest: the day you think you're the one who knows, you've stopped listening. <em>I lead, and I stay a student.</em></p>
+      </Conviction>
+
+      {/*
+        LA CLOTURE, case blanche de la grille. Meme forme que sur Philosophy et
+        que la citation de la landing : la phrase part du haut, le bouton
+        descend en bas. Elle n'a pas de rang - c'est la sortie.
+      */}
+      <section class="conv conv--clair cloture" aria-labelledby="cloture-titre" style="grid-area:6 / 1 / 7 / 5">
+        <span class="conv__plat" aria-hidden="true"></span>
+        <div class="conv__txt cloture__dedans">
+          <h2 id="cloture-titre">That's not the soft version of leadership. <em class="em-bleu">It's the operating system.</em></h2>
+          <p class="cloture__corps">Seven principles, each with a practice behind it - and each one designed to keep working the day I stop running it. That's the whole test.</p>
+          <Bouton variante="bleu" href="/philosophy">The convictions underneath →</Bouton>
         </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-releases">Next: releases →</Bouton>
-    </section>
+      </section>
 
-    {/* ═══════════ 05 · Releases ═══════════ */}
-    <section class="pan" id="pan-releases" aria-labelledby="titre-releases">
-      <h2 class="sr-only" id="titre-releases">05 &middot; Releases</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">We break nothing <em class="em-rouge">without a bridge.</em></p>
-          <div class="body">
-            <p>With that many products depending on us, a careless breaking change is a tax paid 45 times over. So: <strong>one major release a year, maximum</strong> - protected, deliberate - and a steady cadence of improvements and fixes, roughly <strong>one release per two-week sprint</strong>.</p>
-            <p>When a breaking change was unavoidable, we shipped a <strong>patch path</strong> alongside it and left product teams a real buffer to upgrade on their own schedule. The documentation was industrialized to match - at the component and the library level - structured to keep side effects from ever surprising a consumer.</p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-support">Next: support →</Bouton>
-    </section>
+      {/* Le carre jaune qui ferme la composition : la derniere rangee ne peut
+          pas etre une bande de texte seule, ou elle cesse d'etre un Mondrian. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:6 / 5 / 7 / 7"><span class="compo__plat compo__plat--jaune"></span></div>
 
-    {/* ═══════════ 06 · Support ═══════════ */}
-    <section class="pan" id="pan-support" aria-labelledby="titre-support">
-      <h2 class="sr-only" id="titre-support">06 &middot; Support</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Support on their terms, <em class="em-bleu">not mine.</em></p>
-          <div class="body">
-            <p>The system serves the people building on it, so support flexed to them, not the other way around. <strong>Office hours</strong> for whoever wanted synchronous help; <strong>asynchronous support</strong> for whoever needed to move on their own clock - product teams kept full control over the urgency of their own problems.</p>
-            <p>And communication was built to outgrow me. I kept it proactive and regular, but the point was always for the community to take the mic: <strong>members carrying the messages, answering each other directly</strong>, becoming the channel instead of routing everything through me.</p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-owners">Next: ownership →</Bouton>
-    </section>
-
-    {/* ═══════════ 07 · Ownership ═══════════ */}
-    <section class="pan" id="pan-owners" aria-labelledby="titre-owners">
-      <h2 class="sr-only" id="titre-owners">07 &middot; Ownership</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">A team of owners, <em class="em-rouge">not a team of hands.</em></p>
-          <div class="body">
-            <p>Inside the team, ownership was structural, not a pep talk. The <strong>support lead rotated every sprint</strong> - a model we didn't guess at but iterated into, reading the support and satisfaction data until the rotation was what the signal asked for - so responsibility, and recognition as the identified point of contact, moved around and no one got stuck in execution. Roles rotated. <strong>Sprint planning was collective</strong>, <strong>retros ran every sprint</strong>, and I sat in on the <strong>dailies</strong> as often as I could - mostly to absorb the hot updates coming down, so the team could stay in the work instead of the noise.</p>
-            <p>All of it lived on <strong>Confluence</strong>, documented like a team mantra - so a new joiner became an owner fast, and the rest of Sanofi could see exactly how we worked. <strong>Transparency wasn't a value on a wall. It was the onboarding.</strong></p>
-            <p>And growth didn't run top-down. It ran through the community: people levelled up by contributing, teaching, carrying the message - and I grew as much through them. <strong>Reverse mentoring by practice</strong> isn't a nice idea to me, it's how a system stays honest: the day you think you're the one who knows, you've stopped listening. <em>I lead, and I stay a student.</em></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="closing">
-        <h2>That's not the soft version of leadership. <em class="em-bleu">It's the operating system.</em></h2>
-        <p class="cbody">Seven principles, each with a practice behind it - and each one designed to keep working the day I stop running it. That's the whole test.</p>
-        <Bouton variante="bleu" href="/philosophy">The convictions underneath →</Bouton>
-      </div>
-    </section>
+    </div>
 
   </div>
 
@@ -268,52 +224,66 @@ const sobriete: Tuile[] = [
   /* ═══ Ce qui est propre a Operating System ═══ */
 
   /*
-    LA COMPOSITION DES SEPT PRINCIPES. Six colonnes, cinq rangees ; les
-    colonnes 3 et 6 sont fines et ne portent que du decor. Le septieme principe
-    occupe toute la derniere rangee - c'est le seul qui parle de l'equipe, et
-    c'est la que la page va.
+    LES BORDS GAUCHE ET DROIT SONT OUVERTS (BRIEF §3.2), comme sur Philosophy.
+    .compo cerne la composition d'un filet de 1,5px qui ne se voit QUE contre
+    une case blanche ; il barrait le flanc des cases claires et faisait lire la
+    grille comme un tableau encadre. clip-path rogne un pixel de chaque cote,
+    sans quoi le fond noir de la grille reapparait en un cheveu au sous-pixel.
+    Le haut et le bas restent : ce sont eux qui detachent la composition du
+    blanc de la page.
+  */
+  .compo--principes{border-left:0;border-right:0;clip-path:inset(0 1px 0 1px)}
 
-    Rangees en minmax, pour la raison mesuree a l'etape 4 : en pixels fixes, un
-    principe qui gagne une ligne entre 861 et 1120 est AVALE par la carte, qui
-    est en overflow:hidden.
+  /*
+    LA COMPOSITION DES SEPT PRINCIPES. Six colonnes, six rangees ; les colonnes
+    3 et 6 sont fines et ne portent que du decor.
+
+    Rangees en minmax : un titre qui gagne une ligne entre 861 et 1120 serait
+    AVALE par la case, qui est en overflow:hidden, et une case qui s'ouvre doit
+    pouvoir pousser sa rangee.
+
+    Au-dessus du point de rupture seulement : etude.css remet la composition
+    sur une colonne sous 860px, et cette declaration vit plus loin dans le
+    bundle - a specificite egale elle gagnerait, media query comprise.
   */
   @media(min-width:861px){
-    .compo{grid-template-columns:24fr 18fr 6fr 22fr 24fr 6fr;
-      grid-template-rows:minmax(170px,auto) minmax(120px,auto)
-        minmax(140px,auto) minmax(150px,auto) minmax(110px,auto)}
+    .compo--principes{grid-template-columns:24fr 18fr 6fr 22fr 24fr 6fr;
+      grid-template-rows:minmax(190px,auto) minmax(140px,auto)
+        minmax(170px,auto) minmax(190px,auto) minmax(170px,auto)
+        minmax(260px,auto)}
   }
 
   /*
-    ─── La charniere ───
-    Le disque tient dans une colonne `auto` : le texte prend ce qui reste, et
-    c'est le dessin qui commande sa propre taille. Sur le noir du bloc, le
-    disque blanc est le seul endroit ou le trait d'accent se lit sans effort.
+    ─── La cloture ───
+    La phrase part du HAUT de la case et le bouton descend en bas avec
+    margin-top:auto. Caler la phrase en bas renverrait tout le jeu de la rangee
+    au-dessus d'elle, et le haut de la case vaudrait ce qui reste au lieu d'une
+    valeur voulue - c'est la mesure faite sur la landing, et elle vaut ici.
   */
-  .etude .charniere{display:grid;grid-template-columns:minmax(0,1fr) auto;
-    gap:48px;align-items:center;background:var(--ink);color:var(--on-ink);
-    padding:48px}
-  .etude .charniere__t{margin:0;font-family:var(--display);font-size:var(--fs-lead);
-    line-height:1.1;font-weight:900;letter-spacing:-.02em;color:var(--white);
-    max-width:22ch}
-  /* Sur le noir, le rouge de marque tombe a 1,9:1 : la charniere prend le
-     jaune, comme les blocs sombres des etudes. */
-  .etude .charniere .em-rouge{font-style:normal;color:var(--yellow)}
-  .etude .charniere__disque{flex:none;width:220px;height:220px;border-radius:50%;
-    background:var(--white);color:var(--accent);display:grid;place-items:center;
-    line-height:1}
-  /* 137% : le disque de l'export occupait 73% du viewBox, donc rendre le SVG a
-     cette taille lui rend le debordement que l'artiste avait prevu. */
-  .etude .charniere__disque svg{width:137%;height:137%;overflow:visible}
+  .cloture{display:grid}
+  .cloture__dedans{display:flex;flex-direction:column;justify-content:flex-start;
+    gap:24px;padding:var(--pad-square)}
+  .cloture__dedans .sb{margin-top:auto;align-self:flex-start}
+  .cloture h2{margin:0;font-family:var(--display);font-size:var(--fs-section);
+    font-weight:900;line-height:1.1;letter-spacing:-.015em}
+  .cloture__corps{margin:0;font-size:var(--fs-body-s);line-height:1.7;
+    color:var(--text-body);max-width:46ch}
 
-  @media(max-width:860px){
-    .etude .charniere{grid-template-columns:1fr;gap:28px;padding:28px;
-      justify-items:start}
-    .etude .charniere__t{max-width:none}
-    .etude .charniere__disque{width:168px;height:168px}
-  }
+  /*
+    ─── Ce que le principe 03 emporte avec lui ───
+    La citation et le surtitre de la sobriete etaient styles sous `.pan`. Les
+    panneaux partis, ils vivent dans une case : les deux regles suivent, sans
+    changer de valeurs. Le filet de la citation passe au noir - sur l'aplat
+    jaune, le bleu de marque tombe a 4,67:1 contre 12,2 pour l'encre, et un
+    filet decoratif se juge sur le meme pied qu'un indicateur.
+  */
+  .conv__detail .qt{margin:0;padding-left:20px;border-left:3px solid var(--text);
+    font-size:var(--fs-body-s);line-height:1.65;font-style:italic}
+  .conv__detail .eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase}
 </style>
 
 <script>
-  import { initDossier } from '../scripts/dossier';
-  initDossier();
+  import { initConvictions } from '../scripts/convictions';
+  initConvictions();
 </script>

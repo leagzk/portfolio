@@ -392,6 +392,15 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
   .hero__intro{font-size:var(--fs-intro);line-height:1.65;color:var(--on-ink);
     max-width:560px;margin-top:28px}
   .hero__intro b{font-weight:700;color:var(--white)}
+  /*
+    L'INTRO PEUT ETRE EN PLUSIEURS PARAGRAPHES. Elle etait partout un seul
+    bloc de texte ; Operating System en demande trois, et ses <p> arrivaient
+    avec la marge du navigateur - 1em en haut ET en bas, donc un trou double
+    entre deux paragraphes et un decalage du premier par rapport au titre.
+    La marge est portee une fois, en bas, et le dernier n'en a pas.
+  */
+  .hero__intro p{margin:0 0 14px}
+  .hero__intro p:last-child{margin-bottom:0}
   .hero__corps .sb{margin-top:32px}
 
   /* ═══ Les trois primaires, en tete du bloc ═══ */

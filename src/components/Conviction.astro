@@ -46,7 +46,7 @@ export interface Props {
    * qui montre son texte. Les trois autres sont les aplats pleins des cases
    * repliees - le meme rythme que les principes de la landing.
    */
-  couleur: 'rouge' | 'bleu' | 'jaune' | 'clair';
+  couleur: 'rouge' | 'bleu' | 'jaune' | 'clair' | 'noir';
   /** position dans la grille, en `grid-area` */
   aire: string;
   /**
@@ -135,6 +135,7 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   .conv--bleu{background:var(--blue)}
   .conv--jaune{background:var(--yellow)}
   .conv--clair{background:var(--white)}
+  .conv--noir{background:var(--ink)}
   .conv.attend{background:none}
 
   .conv__plat{position:absolute;inset:0;transform-origin:left top}
@@ -142,6 +143,7 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   .conv--bleu  .conv__plat{background:var(--blue)}
   .conv--jaune .conv__plat{background:var(--yellow)}
   .conv--clair .conv__plat{background:var(--white)}
+  .conv--noir  .conv__plat{background:var(--ink)}
 
   /*
     LES APLATS SONT POSES AU REPOS, et c'est la difference avec <CarteDossier>.
@@ -151,7 +153,7 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
     une fois qu'on a clique partout. C'est ce que fait la landing avec ses
     principes rouge, jaune et noir.
   */
-  .conv--rouge,.conv--bleu{color:var(--white)}
+  .conv--rouge,.conv--bleu,.conv--noir{color:var(--white)}
   .conv--jaune,.conv--clair{color:var(--text)}
 
   /* ═══ Le contenu ═══ */
@@ -179,6 +181,8 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   */
   .conv--rouge .conv__tete:focus-visible{outline-color:var(--white)}
   .conv--bleu .conv__tete:focus-visible{outline-color:var(--yellow)}
+  /* Sur le noir d'encre le bleu tombe a 1,8:1 ; le jaune y monte a 15,3:1. */
+  .conv--noir .conv__tete:focus-visible{outline-color:var(--yellow)}
 
   .conv__txt{position:relative;z-index:1}
   .conv__eyebrow{display:flex;justify-content:space-between;align-items:center;gap:12px;
@@ -202,6 +206,7 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   /* Sur un aplat de couleur, le gras ne peut pas etre un changement de teinte :
      il n'y a pas de teinte plus foncee disponible. Il reste une graisse. */
   .conv--clair .conv__detail strong,.conv--clair .conv__detail b{color:var(--text);font-weight:700}
+  .conv--jaune .conv__detail strong,.conv--jaune .conv__detail b{color:var(--text);font-weight:700}
   .conv__detail em{font-style:italic}
 
   /* Le « Next: … » de fin de description, ferre a gauche sous le dernier

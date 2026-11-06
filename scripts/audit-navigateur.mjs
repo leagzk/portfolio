@@ -31,7 +31,16 @@ const fusion = (av,ar) => av.c.map((v,i)=>Math.round(av.a*v+(1-av.a)*ar[i]));
   ne remontant que la chaine des parents, on lisait le blanc de la page sous un
   texte blanc : 1:1, et un faux positif a chaque bouton.
 */
-const couvreur = (el, rect) => {
+/*
+  `limite` EST L'ANCETRE QUI PORTE DEJA UN FOND OPAQUE. Au-dela de lui, tout
+  est derriere ce fond : un frere trouve plus haut ne peut pas etre l'aplat du
+  texte, il est cache par l'ancetre. Sans cette borne, le texte blanc d'une
+  tuile rouge posee dans une case jaune etait juge sur le jaune de la case -
+  1,54:1 annonce pour un 5,67 reel. On examine donc les freres jusqu'a cet
+  ancetre INCLUS - ceux de son niveau sont peints par-dessus son fond - et on
+  s'arrete la.
+*/
+const couvreur = (el, rect, limite) => {
   let n = el.parentElement, trouve = null;
   while (n && n.nodeType === 1 && n !== document.body) {
     for (const f of n.children) {
@@ -44,16 +53,17 @@ const couvreur = (el, rect) => {
       if (r.left <= rect.left + 1 && r.right >= rect.right - 1 && r.top <= rect.top + 1 && r.bottom >= rect.bottom - 1) trouve = c.c;
     }
     if (trouve) return trouve;
+    if (n === limite) return null;
     n = n.parentElement;
   }
   return null;
 };
-const fond = (el) => { const pile=[]; let n=el;
+const fond = (el) => { const pile=[]; let n=el; let opaque=null;
   while (n && n.nodeType===1) { const cs=getComputedStyle(n);
     if (cs.backgroundImage!=='none') return {image:true};
-    const c=rgb(cs.backgroundColor); if (c&&c.a>0){pile.push(c); if(c.a===1) break;}
+    const c=rgb(cs.backgroundColor); if (c&&c.a>0){pile.push(c); if(c.a===1){opaque=n; break;}}
     n=n.parentElement; }
-  const dessous = couvreur(el, el.getBoundingClientRect());
+  const dessous = couvreur(el, el.getBoundingClientRect(), opaque);
   if (dessous) {
     /*
       LE FOND OPAQUE TROUVE PLUS HAUT EST DERRIERE LE FRERE, PAS DEVANT.
