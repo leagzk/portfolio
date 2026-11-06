@@ -41,6 +41,7 @@ Philosophy
 
 I lead the way I learned: hands dirty first.
 It's how I lead people: I know **when to step in and when to stay out** - close enough to help when it counts, **never close enough to hover.**
+
 Direction earned, not assigned.
 It's how I make the calls: I've designed **the brand, the product and the system**, so my direction comes from the work, not the org chart - **I know what it costs to execute.**
 

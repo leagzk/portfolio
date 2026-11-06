@@ -158,7 +158,13 @@ const principes = [
         {principes.filter((p) => p.cle !== 'c').map((p) => (
           <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
             <span class="pr__dedans">
-              <Icone nom="plus" taille={18} class="pr__plus" />
+              {/* Deux dessins, un seul visible : le detail se deplie SUR PLACE.
+                  Le « + » reste aux cartes qui commandent une section ailleurs -
+                  voir agrandir/reduire dans Icone.astro. */}
+              <span class="pr__ico" aria-hidden="true">
+                <Icone nom="agrandir" taille={18} class="pr__ico--o" />
+                <Icone nom="reduire" taille={18} class="pr__ico--f" />
+              </span>
               <span class="pr__titre">{p.titre}</span>
               <span class="pr__detail" set:html={p.detail}></span>
             </span>
@@ -169,7 +175,13 @@ const principes = [
         <div class="cell cell--p2" data-rang="3">
           <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
             <span class="pr__dedans">
-              <Icone nom="plus" taille={18} class="pr__plus" />
+              {/* Deux dessins, un seul visible : le detail se deplie SUR PLACE.
+                  Le « + » reste aux cartes qui commandent une section ailleurs -
+                  voir agrandir/reduire dans Icone.astro. */}
+              <span class="pr__ico" aria-hidden="true">
+                <Icone nom="agrandir" taille={18} class="pr__ico--o" />
+                <Icone nom="reduire" taille={18} class="pr__ico--f" />
+              </span>
               <span class="pr__titre">{p.titre}</span>
               <span class="pr__detail" set:html={p.detail}></span>
             </span>
@@ -358,7 +370,14 @@ const principes = [
      delai sur l'opacite evite qu'elle apparaisse avant d'avoir la place. */
   .pr__detail{font-size:14px;line-height:1.55;opacity:0;max-height:0;overflow:hidden;
     transition:opacity .2s,max-height 0s .2s}
-  .pr__plus{position:absolute;top:16px;right:16px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  /*
+    LES DEUX DESSINS SE CROISENT SUR PLACE. Poses l'un sur l'autre dans la meme
+    boite de 18px, c'est l'opacite qui bascule : la fleche d'agrandissement est
+    symetrique par le centre, une rotation l'aurait ramenee sur elle-meme.
+  */
+  .pr__ico{position:absolute;top:16px;right:16px;width:18px;height:18px;display:block}
+  .pr__ico svg{position:absolute;inset:0;transition:opacity .25s}
+  .pr__ico--f{opacity:0}
   .pr--rouge{background:var(--red);color:var(--white)}
   .pr--jaune{background:var(--yellow);color:var(--text)}
   .pr--noir{background:var(--ink);color:var(--white)}
@@ -452,7 +471,8 @@ const principes = [
 
   .pr:hover .pr__detail,.pr:focus-visible .pr__detail,.pr[aria-expanded="true"] .pr__detail{
     opacity:1;max-height:200px;transition:opacity .3s .3s,max-height 0s}
-  .pr:hover .pr__plus,.pr:focus-visible .pr__plus,.pr[aria-expanded="true"] .pr__plus{transform:rotate(45deg)}
+  .pr:hover .pr__ico--o,.pr:focus-visible .pr__ico--o,.pr[aria-expanded="true"] .pr__ico--o{opacity:0}
+  .pr:hover .pr__ico--f,.pr:focus-visible .pr__ico--f,.pr[aria-expanded="true"] .pr__ico--f{opacity:1}
 
   /* ═══ Citation ═══ */
   /* -3px de marge basse : la case fusionne visuellement avec le blanc du
@@ -618,8 +638,10 @@ const principes = [
     /* Au doigt il n'y a ni survol ni focus-visible : seul le clic ouvre. */
     .pr:hover .pr__detail,.pr:focus-visible .pr__detail{opacity:0;max-height:0}
     .pr[aria-expanded="true"] .pr__detail{opacity:1;max-height:400px}
-    .pr:hover .pr__plus,.pr:focus-visible .pr__plus{transform:none}
-    .pr[aria-expanded="true"] .pr__plus{transform:rotate(45deg)}
+    .pr:hover .pr__ico--o,.pr:focus-visible .pr__ico--o{opacity:1}
+    .pr:hover .pr__ico--f,.pr:focus-visible .pr__ico--f{opacity:0}
+    .pr[aria-expanded="true"] .pr__ico--o{opacity:0}
+    .pr[aria-expanded="true"] .pr__ico--f{opacity:1}
 
     .principes__pagination{display:flex;align-items:center;justify-content:space-between;
       gap:12px;padding:12px 0 0;background:var(--white)}
@@ -638,7 +660,7 @@ const principes = [
   }
 
   @media(prefers-reduced-motion:reduce){
-    .wt__fragment,.pr,.pr__dedans,.pr__detail,.pr__plus,.wt__fleche{transition:none}
+    .wt__fragment,.pr,.pr__dedans,.pr__detail,.pr__ico svg,.wt__fleche{transition:none}
   }
 </style>
 
