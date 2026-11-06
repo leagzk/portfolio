@@ -70,7 +70,7 @@ Autonomy, a capability each person owns, and one question every week: is the wor
 
 ## 01 &middot; The problem
 
-Bottleneck
+Root cause
 
 Nobody meets. Everybody rebuilds. *In silos, again and again.*
 
