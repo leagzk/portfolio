@@ -208,6 +208,26 @@ import Bouton from '../components/Bouton.astro';
     sur une colonne sous 860px, et cette declaration vit plus loin dans le
     bundle - a specificite egale elle gagnerait, media query comprise.
   */
+  /*
+    LES BORDS GAUCHE ET DROIT SONT OUVERTS (BRIEF §3.2). .compo cerne la
+    composition d'un filet de 1,5px, et ce filet ne se voit QUE la ou il
+    touche une case blanche : contre le rouge, le jaune ou le bleu il
+    disparait. Il barrait donc le flanc gauche de « 04 · The point » et de la
+    cloture, et le flanc droit de « 02 · The method » et de « 06 · The
+    current » - quatre traits sans raison d'etre, qui faisaient lire la grille
+    comme un tableau encadre. La landing n'en a pas : ses cases filent
+    jusqu'au bord.
+
+    clip-path rogne un pixel a gauche et a droite : sans lui le fond noir de
+    la grille reapparait en un cheveu au sous-pixel. Meme procede que .comp
+    sur la landing.
+
+    LE HAUT ET LE BAS RESTENT. Ce sont eux qui detachent la composition du
+    blanc de la page au-dessus et au-dessous ; les ouvrir aussi la ferait
+    flotter.
+  */
+  .compo--convictions{border-left:0;border-right:0;clip-path:inset(0 1px 0 1px)}
+
   @media(min-width:861px){
     .compo--convictions{grid-template-columns:26fr 20fr 6fr 24fr 18fr 6fr;
       grid-template-rows:minmax(190px,auto) minmax(150px,auto)
