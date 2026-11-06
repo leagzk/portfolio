@@ -36,28 +36,57 @@ import { mouvementReduit } from './motion';
 */
 type Trait = { sens: 'v' | 'h'; p: number; a: number; b: number };
 const TRAITS: Trait[] = [
-  { sens: 'v', p: 0.28, a: 0, b: 0.66 },
-  { sens: 'v', p: 0.62, a: 0.30, b: 1 },
-  { sens: 'v', p: 0.84, a: 0, b: 0.30 },
-  { sens: 'h', p: 0.30, a: 0, b: 0.84 },
-  { sens: 'h', p: 0.66, a: 0.28, b: 1 },
+  { sens: 'v', p: 0.30, a: 0, b: 1 },
+  { sens: 'v', p: 0.58, a: 0.26, b: 1 },
+  { sens: 'v', p: 0.78, a: 0, b: 0.62 },
+  { sens: 'h', p: 0.26, a: 0, b: 1 },
+  { sens: 'h', p: 0.62, a: 0.30, b: 1 },
 ];
-/* Le centre de la case qui accueille chaque forme, dans l'ordre du markup. */
-const PLACES: [number, number][] = [[0.14, 0.15], [0.73, 0.15], [0.81, 0.83], [0.45, 0.48]];
+
+/*
+  LES ZONES, ET NON DES PLACES. Un aplat de composition ne se pose pas DANS
+  une case, il EST la case : il la remplit bord a bord. Les trois primaires du
+  loader faisaient 42px chacune, posees au milieu de leur zone - trois
+  pastilles sur un quadrillage, pas une composition.
+
+  Elles remplissent desormais leur zone, et les zones sont de tailles et de
+  proportions differentes : a 1440x900, le rouge fait 432x234, le jaune
+  317x324, le bleu 403x342. C'est ce qui fait la difference entre un
+  quadrillage et un dessin.
+
+  Dans l'ordre du markup : rouge, jaune, bleu, puis la case de la photo.
+*/
+type Zone = { x0: number; y0: number; x1: number; y1: number };
+const ZONES: Zone[] = [
+  { x0: 0, y0: 0, x1: 0.30, y1: 0.26 },
+  { x0: 0.78, y0: 0.26, x1: 1, y1: 0.62 },
+  { x0: 0.30, y0: 0.62, x1: 0.58, y1: 1 },
+  { x0: 0.30, y0: 0.26, x1: 0.58, y1: 0.62 },
+];
+/* La photo n'emplit pas sa case : elle s'y POSE. Un disque bord a bord dans un
+   carre ne serait plus une photo dans une grille, mais une bulle. */
+const PART_PHOTO = 0.62;
 
 /*
   LE FRONT NE PEUT PAS GARDER LA VITESSE DES COMPOSITIONS. A 480px/s, traverser
   1440px demanderait trois secondes - pour une composition qu'on regarde se
   construire, c'est juste ; pour un ecran qui retient l'entree sur le site,
   c'est une rancon. La vitesse s'adapte donc a la largeur pour que la
-  construction tienne en 1,6s, avec un plancher a 900px/s pour qu'un telephone
-  ne la voie pas passer en un clin d'oeil.
+  construction tienne en 1,6s, avec un plancher pour qu'un telephone ne la voie
+  pas passer en un clin d'oeil.
+
+  LE PLANCHER EST A 520px/s ET NON 900. A 900, traverser les 390px d'un
+  telephone prenait 0,43s : la grille etait complete avant qu'on ait eu le
+  temps de la lire, et la pause de 0,35s qui suit ne laissait qu'un
+  demi-instant pour la voir entiere. A 520 elle met 0,75s a se construire, et
+  le bureau n'est pas touche - a 1440px c'est la largeur qui commande
+  (1440/1,6 = 900).
 
   C'est le seul endroit du site ou la vitesse du front n'est pas constante, et
   c'est assume : un loader a un budget de temps, une page non.
 */
 const CONSTRUCTION = 1.6;
-const FRONT_MIN = 900;
+const FRONT_MIN = 520;
 const TRAIT_RAPIDITE = 1.8; // un trait se tire plus vite que le front n'avance
 const TRAIT_MIN = 0.22;
 const TRAIT_MAX = 0.8;
@@ -186,15 +215,33 @@ export function initLoader(): void {
     });
   });
 
-  /* Chaque forme au centre de sa case, et son retard pris sur le front. */
+  /*
+    CHAQUE FORME PREND SA ZONE, et son retard est pris sur le front - a son
+    bord GAUCHE, puisque c'est la que le front l'atteint.
+
+    LA PHOTO EST LA SEULE A NE PAS REMPLIR : elle se pose au centre de la case
+    centrale, a 62% de son plus petit cote. Un disque bord a bord dans un
+    carre ne serait plus une photo dans une grille.
+  */
   formes.forEach((f, i) => {
-    const [fx, fy] = PLACES[i] ?? [0.5, 0.5];
-    const r = f.getBoundingClientRect();
-    const l = fx * W - r.width / 2;
-    const t = fy * H - r.height / 2;
-    f.style.left = `${l.toFixed(1)}px`;
-    f.style.top = `${t.toFixed(1)}px`;
-    const retard = (fx * W) / front + RETARD_FORME;
+    const z = ZONES[i] ?? { x0: 0.4, y0: 0.4, x1: 0.6, y1: 0.6 };
+    const x = z.x0 * W;
+    const y = z.y0 * H;
+    const larg = (z.x1 - z.x0) * W;
+    const haut = (z.y1 - z.y0) * H;
+    if (f.id === 'fly') {
+      const d = Math.min(larg, haut) * PART_PHOTO;
+      f.style.left = `${(x + (larg - d) / 2).toFixed(1)}px`;
+      f.style.top = `${(y + (haut - d) / 2).toFixed(1)}px`;
+      f.style.width = `${d.toFixed(1)}px`;
+      f.style.height = `${d.toFixed(1)}px`;
+    } else {
+      f.style.left = `${x.toFixed(1)}px`;
+      f.style.top = `${y.toFixed(1)}px`;
+      f.style.width = `${larg.toFixed(1)}px`;
+      f.style.height = `${haut.toFixed(1)}px`;
+    }
+    const retard = x / front + RETARD_FORME;
     f.style.setProperty('--retard', `${retard.toFixed(2)}s`);
     /* L'anneau se trace quand la photo vient de se poser. */
     if (f.id === 'fly') f.style.setProperty('--retard-anneau', `${(retard + 0.35).toFixed(2)}s`);
@@ -249,10 +296,26 @@ export function initLoader(): void {
       if (!cible) { f.style.opacity = '0'; return; }
       const c = cible.getBoundingClientRect();
       if (!c.width || c.bottom < 0 || c.top > window.innerHeight) { f.style.opacity = '0'; return; }
-      const dx = c.left + c.width / 2 - (r.left + r.width / 2);
-      const dy = c.top + c.height / 2 - (r.top + r.height / 2);
       cible.style.opacity = '0';
-      f.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${(c.width / r.width).toFixed(3)})`;
+      /*
+        DEUX GEOMETRIES, DEUX ORIGINES. Les aplats remplissent une zone qui
+        n'a ni la taille ni les proportions de leur primaire d'arrivee : ils
+        se replient dessus par un `scale` NON UNIFORME, pris sur le coin haut
+        gauche - c'est la seule facon qu'une zone de 432x234 devienne
+        exactement un carre de 42. La photo, elle, est ronde et carree : elle
+        garde son centre et une echelle uniforme, sans quoi elle s'ovaliserait
+        en chemin.
+      */
+      if (f.id === 'fly') {
+        const dx = c.left + c.width / 2 - (r.left + r.width / 2);
+        const dy = c.top + c.height / 2 - (r.top + r.height / 2);
+        f.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${(c.width / r.width).toFixed(3)})`;
+      } else {
+        const dx = c.left - r.left;
+        const dy = c.top - r.top;
+        f.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px)`
+          + ` scale(${(c.width / r.width).toFixed(3)}, ${(c.height / r.height).toFixed(3)})`;
+      }
     });
   }, defaite * 1000);
 

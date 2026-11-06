@@ -285,12 +285,19 @@ const personSchema = {
     vol a la place. Avec un repos a scale(0), couper l'animation l'aurait fait
     disparaitre net.
 
-    42px : la taille exacte des primaires du hero. Le vol est alors une
-    translation pure, sans mise a l'echelle - c'est ce qui le fait lire comme
-    le MEME objet qui se deplace, et non comme un objet qui en remplace un
-    autre.
+    L'APLAT REMPLIT SA ZONE, IL NE SE POSE PAS DEDANS. C'est ce qui distingue
+    une composition d'un quadrillage decore : la couleur EST la case. Taille
+    et position viennent donc du script, qui les tient des fractions de la
+    grille - et les trois zones n'ont ni la meme taille ni les memes
+    proportions.
+
+    IL POUSSE DEPUIS SON COIN HAUT GAUCHE, comme les aplats des compositions
+    (voir `pousse` dans motion.css), et c'est ce meme coin qui sert d'origine
+    au vol : une zone de 432x234 ne peut devenir un carre de 42 que par un
+    `scale` non uniforme, et un scale non uniforme n'a de sens que depuis un
+    coin.
   */
-  .loader__plat{position:absolute;width:42px;height:42px;transform:scale(1);
+  .loader__plat{position:absolute;transform:scale(1);transform-origin:top left;
     animation:platEntre .5s cubic-bezier(.4,0,.2,1) var(--retard,0s) both;
     transition:transform .8s cubic-bezier(.62,0,.2,1),opacity .4s ease;
     will-change:transform}
@@ -301,14 +308,15 @@ const personSchema = {
     to{transform:scale(1);opacity:1}}
 
   /*
-    SA TAILLE EST ECRITE ICI, ET C'EST OBLIGATOIRE. Elle n'a pas de contenu :
-    sans largeur ni hauteur elle se reduit a zero, et on ne voit plus que son
-    anneau - qui, lui, deborde de 9px. Le script mesure sa boite pour la
-    centrer dans sa case et pour calculer l'echelle du vol ; une boite nulle
-    donnerait une division par zero.
+    SA TAILLE VIENT DE SA CASE, pas d'un clamp : elle se pose au centre de la
+    case centrale de la grille, a 62% de son plus petit cote. Un disque bord a
+    bord dans un carre ne serait plus une photo dans une grille, mais une
+    bulle. Les 100px ecrits ici sont un plancher de secours - si le script ne
+    tourne pas, elle ne doit pas se reduire a zero et ne laisser que son
+    anneau.
   */
   .loader__photo{position:absolute;display:block;border-radius:50%;
-    width:clamp(100px,13vw,140px);height:clamp(100px,13vw,140px);
+    width:100px;height:100px;
     background:var(--portrait) center/cover no-repeat;transform:scale(1);
     animation:photoEntre .7s cubic-bezier(.34,1.56,.64,1) var(--retard,0s) both;
     transition:transform .8s cubic-bezier(.62,0,.2,1),opacity .4s ease;
