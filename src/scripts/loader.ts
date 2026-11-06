@@ -1,23 +1,70 @@
 import { mouvementReduit } from './motion';
 
 /*
-  Ecran de chargement de l'accueil : la photo apparait seule au centre d'un
-  panneau noir, puis glisse et se pose sur le portrait rond de la page
-  (BRIEF §3.1). Elle y remplace le piment, qui rejoignait la pastille de choix
-  de theme - pastille supprimee avec le selecteur.
+  ═══ L'ECRAN D'ARRIVEE : UNE GRILLE QUI SE CONSTRUIT, PUIS SE DEFAIT ═══
 
-  LA CIBLE EST DESIGNEE PAR ATTRIBUT, `[data-portrait]`, et non par une classe.
-  Deux elements le portent aujourd'hui et un seul est visible a la fois : le
-  portrait de la banniere sous 720px, la carte ronde de l'accueil au-dessus.
-  On prend le premier qui a une boite non nulle. L'etape 3 remplacera cette
-  carte par le cercle de 360px du hero : il suffira qu'il porte le meme
-  attribut pour que le loader le vise, sans retoucher ce fichier.
+  Il montrait une photo seule au centre d'un panneau noir, un trait qui
+  s'ouvrait et trois carres qui poussaient dessus. C'etait deja la grammaire
+  du site, mais dite a cote : rien ne reliait ce qu'on voyait la a ce qui
+  arrivait ensuite.
 
-  Trois sorties possibles, volontairement redondantes : la fin de la transition,
-  un filet de securite a 2600 ms, et le cas ou aucune cible n'est visible.
-  Un loader qui ne se retire pas rend le site inutilisable - mieux vaut trois
-  chemins qu'un seul elegant.
+  Il dit maintenant la MEME chose que la page : un front traverse l'ecran, les
+  filets se tracent sous lui, les aplats prennent derriere - memes classes
+  `.seg`, meme masque a pointe fondue, meme alternance de sens que
+  src/scripts/grille.ts. Puis la grille SE DEFAIT, et les quatre formes
+  qu'elle a en commun avec le hero - les trois primaires et le portrait - ne
+  s'effacent pas : elles vont se poser a leur place.
+
+  REFERENCE POSEE PAR LEA, relevee image par image : des formes qui
+  apparaissent sur une grille, la grille qui se defait, et ce qui reste qui
+  va trouver sa place.
+
+  NOIR A FILETS BLANCS, la ou les compositions sont blanches a filets noirs.
+  C'est ce qui permet au hero - noir lui aussi - d'apparaitre derriere sans
+  rupture : la grille se defait, le fond ne change pas.
+
+  TROIS SORTIES, VOLONTAIREMENT REDONDANTES : la fin du vol, un filet de
+  securite, et le cas ou rien n'est mesurable. Un loader qui ne se retire pas
+  rend le site inutilisable - mieux vaut trois chemins qu'un seul elegant.
 */
+
+/*
+  LA GRILLE, EN FRACTIONS DE LA FENETRE. Elle n'est pas reguliere : des traits
+  qui s'arretent en chemin, des cases de tailles differentes - c'est une
+  composition, pas un quadrillage. Les quatre formes tombent chacune au centre
+  d'une case.
+*/
+type Trait = { sens: 'v' | 'h'; p: number; a: number; b: number };
+const TRAITS: Trait[] = [
+  { sens: 'v', p: 0.28, a: 0, b: 0.66 },
+  { sens: 'v', p: 0.62, a: 0.30, b: 1 },
+  { sens: 'v', p: 0.84, a: 0, b: 0.30 },
+  { sens: 'h', p: 0.30, a: 0, b: 0.84 },
+  { sens: 'h', p: 0.66, a: 0.28, b: 1 },
+];
+/* Le centre de la case qui accueille chaque forme, dans l'ordre du markup. */
+const PLACES: [number, number][] = [[0.14, 0.15], [0.73, 0.15], [0.81, 0.83], [0.45, 0.48]];
+
+/*
+  LE FRONT NE PEUT PAS GARDER LA VITESSE DES COMPOSITIONS. A 480px/s, traverser
+  1440px demanderait trois secondes - pour une composition qu'on regarde se
+  construire, c'est juste ; pour un ecran qui retient l'entree sur le site,
+  c'est une rancon. La vitesse s'adapte donc a la largeur pour que la
+  construction tienne en 1,6s, avec un plancher a 900px/s pour qu'un telephone
+  ne la voie pas passer en un clin d'oeil.
+
+  C'est le seul endroit du site ou la vitesse du front n'est pas constante, et
+  c'est assume : un loader a un budget de temps, une page non.
+*/
+const CONSTRUCTION = 1.6;
+const FRONT_MIN = 900;
+const TRAIT_RAPIDITE = 1.8; // un trait se tire plus vite que le front n'avance
+const TRAIT_MIN = 0.22;
+const TRAIT_MAX = 0.8;
+const RETARD_FORME = 0.45; // ce que la couleur attend derriere le front
+const PAUSE = 0.35; // le temps de voir la grille entiere avant qu'elle se defaise
+const VOL = 0.8; // duree du vol des formes communes
+
 /*
   UNE SEULE FOIS PAR VISITE. Le loader presente le site ; revenir sur
   l'accueil depuis une autre page n'est pas une arrivee, et le rejouer a
@@ -69,80 +116,146 @@ export function initLoader(): void {
   }
   marquerVu();
 
-  const fly = document.getElementById('fly');
+  const grille = document.getElementById('grille');
+  const panneau = document.getElementById('panneau');
   const anneau = document.getElementById('anneau');
-  const trait = document.getElementById('trait');
-  const panel = loaderEl.querySelector<HTMLElement>('.loader__panel');
-  /* visible = boite non nulle. `offsetParent` ne suffirait pas : il vaut null
-     sur un element en position:fixed, ce que la banniere pourrait devenir. */
-  const cible = [...document.querySelectorAll<HTMLElement>('[data-portrait]')].find(
-    (el) => el.getBoundingClientRect().width > 0,
-  );
-  let done = false;
+  const app = document.querySelector<HTMLElement>('.app');
+  const formes = grille
+    ? [...grille.querySelectorAll<HTMLElement>('[data-vole]')]
+    : [];
 
+  let fini = false;
   const finir = () => {
-    if (done) return;
-    done = true;
+    if (fini) return;
+    fini = true;
     /*
-      On RETIRE la propriete au lieu de la remettre a 1. La cible de l'accueil
-      est une carte qui attend sa propre animation d'entree (.js .drag .dcard
-      est a opacity:0) : lui ecrire `opacity:1` en ligne gagnerait contre cette
-      animation et la carte arriverait sans elle. Retirer rend la main au CSS,
-      quel que soit l'etat qu'il decrit.
+      ON RETIRE LA PROPRIETE AU LIEU DE LA REMETTRE A 1. Les cibles du hero
+      attendent leur propre animation d'entree ; leur ecrire `opacity:1` en
+      ligne gagnerait contre elle et elles arriveraient sans. Retirer rend la
+      main au CSS, quel que soit l'etat qu'il decrit.
     */
-    cible?.style.removeProperty('opacity');
+    formes.forEach((f) => {
+      const cible = document.querySelector<HTMLElement>(f.dataset.vole ?? '');
+      cible?.style.removeProperty('opacity');
+    });
     loaderEl.style.display = 'none';
   };
 
+  const W = window.innerWidth;
+  const H = window.innerHeight;
+  if (!grille || !panneau || !W || !H) {
+    passer();
+    return;
+  }
+
+  const front = Math.max(FRONT_MIN, W / CONSTRUCTION);
+  const EP = 2;
+
   /*
-    LE DECOR S'EFFACE AU DEPART DU VOL, et c'est le script qui le fait.
-    L'anneau vit dans .loader__fly : il suivrait la photo et se mettrait a
-    l'echelle de la cible, donc un cercle se redessinerait autour du portrait
-    au moment ou il se pose. Le trait, lui, n'a plus rien a annoncer une fois
-    le vol parti. Appele dans les trois sorties - y compris celles ou le vol
-    n'a pas lieu - pour qu'aucun chemin ne laisse le decor sur un panneau qui
-    disparait.
+    LES TRAITS SONT CREES ICI, PAS DANS LE MARKUP : leur longueur depend de la
+    fenetre, et un trait qui se trace doit connaitre sa longueur pour tenir sa
+    vitesse. Les classes sont celles des compositions - c'est le masque de
+    motion.css qui fait tout le travail.
   */
-  const eteindreDecor = () => {
-    if (anneau) anneau.style.opacity = '0';
-    if (trait) trait.style.opacity = '0';
-  };
+  type Pose = { el: HTMLElement; nom: string; inverse: string; depart: number; duree: number };
+  const poses: Pose[] = [];
 
-  setTimeout(() => {
-    eteindreDecor();
-    if (!cible || !fly || !panel) {
-      if (panel) panel.style.opacity = '0';
-      setTimeout(finir, 600);
-      return;
-    }
-    const t = cible.getBoundingClientRect();
-    const f = fly.getBoundingClientRect();
-    /*
-      LA CIBLE DOIT ETRE A L'ECRAN, sinon la photo s'envole vers du vide.
-      Au bureau le seul portrait rond de l'accueil vit aujourd'hui dans la zone
-      des cartes, 1100px sous la ligne de flottaison : le vol sortirait du
-      cadre par le bas. Tant que le hero n'a pas son cercle de 360px (BRIEF
-      §3.1, etape 3), on degrade - la photo s'efface sur place avec le panneau.
-      Le garde-fou reste utile apres : il protege de toute cible hors champ.
-    */
-    if (t.bottom < 0 || t.top > window.innerHeight) {
-      fly.style.opacity = '0';
-      panel.style.opacity = '0';
-      setTimeout(finir, 600);
-      return;
-    }
-    const dx = t.left + t.width / 2 - (f.left + f.width / 2);
-    const dy = t.top + t.height / 2 - (f.top + f.height / 2);
-    cible.style.opacity = '0';
-    panel.style.opacity = '0';
-    fly.style.transform =
-      `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(${t.width / f.width})`;
-  }, 1600);
-
-  fly?.addEventListener('transitionend', (e) => {
-    if ((e as TransitionEvent).propertyName === 'transform') finir();
+  TRAITS.forEach((t, i) => {
+    const el = document.createElement('span');
+    const vertical = t.sens === 'v';
+    const long = vertical ? (t.b - t.a) * H : (t.b - t.a) * W;
+    const x = vertical ? t.p * W : t.a * W;
+    const y = vertical ? t.a * H : t.p * H;
+    /* Le sens alterne, comme sur les compositions : une main qui trace une
+       grille ne repart pas toujours du meme bord. */
+    const inv = i % 2 === 1;
+    el.className = `seg seg--${t.sens}${inv ? ' seg--inv' : ''}`;
+    el.style.cssText = `left:${x}px;top:${y}px;`
+      + `width:${vertical ? EP : long}px;height:${vertical ? long : EP}px`;
+    const depart = x / front;
+    const duree = Math.min(TRAIT_MAX, Math.max(TRAIT_MIN, long / (front * TRAIT_RAPIDITE)));
+    el.style.animationDelay = `${depart.toFixed(2)}s`;
+    el.style.animationDuration = `${duree.toFixed(2)}s`;
+    grille.appendChild(el);
+    poses.push({
+      el,
+      nom: vertical ? (inv ? 'traitVinv' : 'traitV') : (inv ? 'traitHinv' : 'traitH'),
+      inverse: vertical ? (inv ? 'traitV' : 'traitVinv') : (inv ? 'traitH' : 'traitHinv'),
+      depart,
+      duree,
+    });
   });
-  /* Filet de securite, cale sur le depart du vol : 1 600 + 850 de vol = 2 450,
-     il faut lui laisser de la marge. */
-  setTimeout(finir, 3100);
+
+  /* Chaque forme au centre de sa case, et son retard pris sur le front. */
+  formes.forEach((f, i) => {
+    const [fx, fy] = PLACES[i] ?? [0.5, 0.5];
+    const r = f.getBoundingClientRect();
+    const l = fx * W - r.width / 2;
+    const t = fy * H - r.height / 2;
+    f.style.left = `${l.toFixed(1)}px`;
+    f.style.top = `${t.toFixed(1)}px`;
+    const retard = (fx * W) / front + RETARD_FORME;
+    f.style.setProperty('--retard', `${retard.toFixed(2)}s`);
+    /* L'anneau se trace quand la photo vient de se poser. */
+    if (f.id === 'fly') f.style.setProperty('--retard-anneau', `${(retard + 0.35).toFixed(2)}s`);
+  });
+
+  const finConstruction = Math.max(
+    ...poses.map((p) => p.depart + p.duree),
+    ...formes.map((f) => parseFloat(f.style.getPropertyValue('--retard')) + 0.5),
+  );
+  const defaite = finConstruction + PAUSE;
+
+  /*
+    LA PAGE ENTRE QUAND LA GRILLE SE DEFAIT, pas a une heure fixe. Le CSS pose
+    un retard de secours ; le script le recale sur le moment reel, qui depend
+    de la largeur de la fenetre. Sans ca, le hero apparaitrait au milieu de la
+    construction sur un grand ecran, et bien apres la fin sur un petit.
+  */
+  if (app) app.style.animationDelay = `${defaite.toFixed(2)}s`;
+
+  window.setTimeout(() => {
+    /*
+      ═══ LA GRILLE SE DEFAIT ═══
+
+      Le meme masque, joue avec les images-cles INVERSES : le trait s'efface
+      dans le sens ou il a ete tire. Les departs repartent de gauche a droite,
+      un peu plus vite que la construction - on defait plus vite qu'on ne
+      construit, sans quoi la sortie traine.
+    */
+    poses.forEach((p) => {
+      p.el.style.animationName = p.inverse;
+      p.el.style.animationDelay = `${((p.depart / 1.6)).toFixed(2)}s`;
+      p.el.style.animationDuration = `${p.duree.toFixed(2)}s`;
+    });
+    if (anneau) anneau.style.opacity = '0';
+    panneau.style.opacity = '0';
+
+    /*
+      ═══ LES FORMES COMMUNES VONT SE POSER ═══
+
+      On COUPE leur animation d'entree avant de poser le transform du vol :
+      une animation en cours gagne contre une propriete en ligne. Leur etat de
+      repos etant scale(1), la coupure ne les fait pas sauter.
+
+      Une cible absente ou hors champ - ce que le hero peut tres bien produire
+      a certaines largeurs - n'est pas une erreur : la forme s'efface sur
+      place, et le reste continue.
+    */
+    formes.forEach((f) => {
+      const cible = document.querySelector<HTMLElement>(f.dataset.vole ?? '');
+      const r = f.getBoundingClientRect();
+      f.style.animation = 'none';
+      if (!cible) { f.style.opacity = '0'; return; }
+      const c = cible.getBoundingClientRect();
+      if (!c.width || c.bottom < 0 || c.top > window.innerHeight) { f.style.opacity = '0'; return; }
+      const dx = c.left + c.width / 2 - (r.left + r.width / 2);
+      const dy = c.top + c.height / 2 - (r.top + r.height / 2);
+      cible.style.opacity = '0';
+      f.style.transform = `translate(${dx.toFixed(1)}px, ${dy.toFixed(1)}px) scale(${(c.width / r.width).toFixed(3)})`;
+    });
+  }, defaite * 1000);
+
+  /* Filet de securite : la defaite plus le vol, large. */
+  window.setTimeout(finir, (defaite + VOL + 0.3) * 1000);
 }
