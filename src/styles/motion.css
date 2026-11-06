@@ -37,10 +37,27 @@
   front reste fin - quelques filets en train de se faire, et le reste qui
   attend son tour. Voir les constantes de src/scripts/grille.ts.
 */
+/*
+  LA DUREE EST POSEE PAR LE SCRIPT, filet par filet : elle suit la longueur,
+  pour que tous se tracent a la meme vitesse (voir TRACE_VITESSE dans
+  src/scripts/grille.ts). Le .5s ecrit ici n'est qu'un plancher de secours -
+  une valeur doit figurer dans le raccourci, sans quoi la regle est invalide.
+*/
 .seg--v{transform-origin:top;animation:traitV .5s cubic-bezier(.4,0,.2,1) both}
 .seg--h{transform-origin:left;animation:traitH .5s cubic-bezier(.4,0,.2,1) both}
-@keyframes traitV{from{transform:scaleY(0)}}
-@keyframes traitH{from{transform:scaleX(0)}}
+/*
+  LA POINTE SE POSE AVANT QUE LE TRAIT PARTE. Le filet n'animait que son
+  echelle : il naissait a pleine opacite, donc il etait imprime d'un coup puis
+  etire - deux lectures contradictoires dans le meme geste. L'opacite monte sur
+  le premier tiers de la course, et le trait se met a exister en meme temps
+  qu'il avance.
+
+  Elle monte sur le SEGMENT ENTIER et non sur sa seule tete : c'est l'encre qui
+  prend, pas un degrade qui court devant la pointe. Un degrade aurait demande
+  un masque par filet, pour un effet que personne ne nomme a 0,3s.
+*/
+@keyframes traitV{from{transform:scaleY(0);opacity:0}30%{opacity:1}to{transform:scaleY(1);opacity:1}}
+@keyframes traitH{from{transform:scaleX(0);opacity:0}30%{opacity:1}to{transform:scaleX(1);opacity:1}}
 /*
   L'APLAT POUSSE depuis le coin que son transform-origin designe - c'est la
   couleur qui ENTRE dans la case, pas la case qui s'allume. Le texte, lui,
