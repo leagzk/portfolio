@@ -45,15 +45,33 @@
   croisements etaient justes - c'est la PEINTURE qui etait fausse. Trois
   passes a regler une choregraphie que personne ne voyait.
 */
-.segs{position:absolute;inset:0;z-index:6;pointer-events:none}
+.segs{z-index:6;pointer-events:none}
 /*
   `.segs.segs` ET PAS `.segs`. La regle des cases - `.compo > *`, `.comp > *` -
   a exactement la meme specificite qu'une classe seule, et elle est ecrite
-  plus bas dans la cascade : elle gagnait. Mesure apres un premier correctif
-  naif : fond du calque toujours `rgb(255,255,255)` sur les six compositions.
-  Doubler la classe suffit a passer devant sans recourir a `!important`.
+  plus bas dans la cascade : elle gagnait. Doubler la classe passe devant sans
+  recourir a `!important`.
+
+  ELLE N'ECRASAIT PAS QUE LE FOND. Elle posait aussi `position:relative` et
+  `overflow:hidden`, et c'est la que tout se jouait : le calque cessait d'etre
+  absolu, redevenait un ELEMENT DE GRILLE pose apres les cases, et se
+  retrouvait tout en bas de la composition dans une boite de 88x0 px. Les
+  traits, absolus par rapport a lui, etaient donc rendus 947px trop bas - la
+  hauteur exacte de la composition - et `overflow:hidden` les ecretait. Mesure
+  sur l'accueil, position ECRITE contre position RENDUE : (267,545) rendu
+  (267,1492), (535,0) rendu (535,947), (0,887) rendu (0,1834). Aucun trait n'a
+  jamais ete peint a l'interieur de la composition.
+
+  C'est pour ca que Lea ne voyait que les couleurs arriver : il n'y avait
+  litteralement rien d'autre a voir. Les « lignes » qu'elle voyait apparaitre
+  ensuite, c'etait le fond noir de la vraie grille au moment ou `pre` tombe.
+
+  LA LECON, ET ELLE EST CHERE : toutes mes mesures lisaient des valeurs que le
+  script venait d'ecrire - retards, durees, longueurs, croisements. Aucune ne
+  comparait l'ECRIT au RENDU. Quatre passes a regler la choregraphie d'un
+  calque qui n'etait pas la ou je croyais.
 */
-.segs.segs{background:none;overflow:visible}
+.segs.segs{position:absolute;inset:0;background:none;overflow:visible}
 .seg{position:absolute;background:var(--text)}
 /*
   UNE COURBE DE TRACE, PAS UN RESSORT. cubic-bezier(.16,1,.3,1) arrive a 90% de
