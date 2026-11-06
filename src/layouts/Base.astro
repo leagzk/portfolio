@@ -292,10 +292,9 @@ const personSchema = {
     proportions.
 
     IL POUSSE DEPUIS SON COIN HAUT GAUCHE, comme les aplats des compositions
-    (voir `pousse` dans motion.css), et c'est ce meme coin qui sert d'origine
-    au vol : une zone de 432x234 ne peut devenir un carre de 42 que par un
-    `scale` non uniforme, et un scale non uniforme n'a de sens que depuis un
-    coin.
+    (voir `pousse` dans motion.css). Le VOL, lui, part du centre - le script
+    bascule l'origine au moment ou il commence : replie depuis le coin, le
+    bloc se lisait comme un pliage et non comme un deplacement.
   */
   .loader__plat{position:absolute;transform:scale(1);transform-origin:top left;
     animation:platEntre .5s cubic-bezier(.4,0,.2,1) var(--retard,0s) both;
