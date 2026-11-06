@@ -70,7 +70,7 @@ Autonomy, a capability each person owns, and one question every week: is the wor
 
 ## 01 &middot; The problem
 
-Nobody meets. *That's the tax.*
+Nobody meets. *Everybody rebuilds.*
 
 A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. **Not incompetence - distance.** Three crafts, three silos, each solving in private what the others had already solved.
 
