@@ -387,7 +387,7 @@ function construire(comp: HTMLElement, bordBas = false): void {
         && (sens === 'v' ? l.y : l.x) <= a + TOL
         && (sens === 'v' ? l.y + l.long : l.x + l.long) >= b - TOL);
 
-    const remplissages: { el: HTMLElement; quand: number; y: number; x: number }[] = [];
+    const remplissages: { el: HTMLElement; quand: number; y: number; x: number; rang?: number }[] = [];
     cases.forEach((el) => {
       const r = el.getBoundingClientRect();
       /* Une case masquee au point de rupture courant - la pagination du rail
@@ -403,12 +403,42 @@ function construire(comp: HTMLElement, bordBas = false): void {
         borde('h', t + r.height, l, l + r.width),
       ].filter(Boolean) as Ligne[];
       const ferme = bords.length ? Math.max(...bords.map((b) => b.depart)) : 0;
+      const rang = el.dataset.rang ? parseInt(el.dataset.rang, 10) : undefined;
       remplissages.push({
         el,
         quand: Math.max(TRACE_DEBUT + avanceFront(l + r.width), ferme) + RETARD_COULEUR,
         y: t,
         x: l,
+        rang: Number.isNaN(rang) ? undefined : rang,
       });
+    });
+
+    /*
+      ═══ UN RECIT NUMEROTE SE LIT DANS SON ORDRE, PAS DANS CELUI DU FRONT ═══
+
+      « 01 The constraint », « 02 The system », « 03 The handover » : ces cases
+      portent une chronologie, et le front ne la connait pas - il va de gauche
+      a droite, et la carte 02 peut tres bien se trouver a gauche de la 01.
+      Une case qui porte `data-rang` est donc retenue jusqu'a ce que la
+      precedente soit servie. Le front continue de donner l'HEURE, le rang ne
+      fait qu'interdire les inversions.
+
+      SUR L'ACCUEIL, le meme mecanisme sert un regroupement et non une
+      chronologie : « Cultivating practice, not just systems » annonce les
+      trois principes qui la suivent - c'est un seul bloc de sens, et la
+      citation doit ouvrir. Elle porte donc le rang 1, le duo le 2, le dernier
+      principe le 3.
+
+      LES CASES SANS RANG NE SONT PAS TOUCHEES : elles arrivent au passage du
+      front, comme avant.
+    */
+    const suite = remplissages
+      .filter((f) => f.rang !== undefined)
+      .sort((a, b) => (a.rang as number) - (b.rang as number));
+    let precedentRang = -Infinity;
+    suite.forEach((f) => {
+      f.quand = Math.max(f.quand, precedentRang + ECART_CASE);
+      precedentRang = f.quand;
     });
 
     /*

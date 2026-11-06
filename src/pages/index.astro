@@ -110,13 +110,21 @@ const principes = [
       </div>
     ))}
 
-    <figure class="citation">
+    {/*
+      LA CITATION OUVRE LE BLOC DES PRINCIPES, et data-rang le dit au trace
+      anime. « Cultivating practice, not just systems » annonce les trois
+      principes qui la suivent : c'est un seul bloc de sens, et le front, qui
+      ne va que de gauche a droite, servait les principes AVANT elle. Les
+      rangs 1-2-3 interdisent l'inversion sans toucher a l'heure que donne le
+      front - voir src/scripts/grille.ts.
+    */}
+    <figure class="citation" data-rang="1">
       <blockquote>Cultivating practice, not just systems, through Design Leadership and Community Building.</blockquote>
       <Bouton href="/philosophy" variante="bleu" icone="fleche">Philosophy</Bouton>
     </figure>
 
     <div class="principes">
-      <div class="duo">
+      <div class="duo" data-rang="2">
         {/* Les trois filets du duo restent visibles quelle que soit la carte
             ouverte : c'est la ligne noire que le brief veut toujours la (§3.2). */}
         <span class="duo__filet duo__filet--1" aria-hidden="true"></span>
@@ -133,7 +141,7 @@ const principes = [
         ))}
       </div>
       {principes.filter((p) => p.cle === 'c').map((p) => (
-        <div class="cell cell--p2">
+        <div class="cell cell--p2" data-rang="3">
           <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
             <span class="pr__dedans">
               <Icone nom="plus" taille={18} class="pr__plus" />

@@ -64,6 +64,9 @@ const {
 <button
   id={id}
   class:list={['dcarte', `dcarte--${couleur}`, large && 'dcarte--large']}
+  {/* data-rang : le trace anime sert ces cartes dans l'ordre de leur rang et
+      non dans celui du front - voir src/scripts/grille.ts. */}
+  data-rang={rang}
   type="button"
   aria-expanded="false"
   aria-controls={commande}
