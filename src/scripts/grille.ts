@@ -96,9 +96,29 @@ const TRACE_DUREE_MAX = 1.25;
    ne doit pas heriter d'un retard calcule pour l'ouverture. */
 const RETARD_TARDIF = 0.08;
 
+/*
+  DEUX CROCHETS, UN SEUL GESTE.
+
+  `data-grille` nomme une composition Mondrian. `data-filets` nomme un bloc
+  dont les filets sont de VRAIES bordures CSS et non des `gap` - le bandeau de
+  chiffres cles, qui porte trois traits verticaux entre ses colonnes et un
+  trait sous l'ensemble.
+
+  Ils sont traces par le meme code et a la meme vitesse de front, parce qu'ils
+  ne font qu'un bloc : le bandeau de chiffres touche la composition qui le
+  suit, l'ecart mesure entre les deux est de ZERO. Vus ensemble a l'ecran, les
+  deux fronts partent au meme instant et c'est une seule onde qui traverse le
+  tout de gauche a droite.
+
+  `bordBas` est la seule difference : une composition a ses bords ouverts
+  (BRIEF §3.2) et ne trace donc aucun bord exterieur, alors que le bandeau de
+  chiffres se FERME par le sien - c'est ce trait qui en fait une mesure et pas
+  une liste.
+*/
 export function tracerGrille(): void {
   if (mouvementReduit() || !('IntersectionObserver' in window)) return;
-  document.querySelectorAll<HTMLElement>('[data-grille]').forEach(construire);
+  document.querySelectorAll<HTMLElement>('[data-grille]').forEach((e) => construire(e));
+  document.querySelectorAll<HTMLElement>('[data-filets]').forEach((e) => construire(e, true));
 }
 
 /*
@@ -107,7 +127,7 @@ export function tracerGrille(): void {
   les regles .attend / .vu changent d'une page a l'autre, et elles sont dans le
   CSS de la page, pas ici.
 */
-function construire(comp: HTMLElement): void {
+function construire(comp: HTMLElement, bordBas = false): void {
   /*
     LES CASES NE SONT PAS TOUJOURS LES ENFANTS DIRECTS. Un conteneur en
     `display:contents` - le rail des principes de l'accueil - disparait de la
@@ -226,7 +246,9 @@ function construire(comp: HTMLElement): void {
       if (l > TOL) brutes.v.push({ pos: l, a: t, b });
       if (d < W - TOL) brutes.v.push({ pos: d, a: t, b });
       if (t > TOL) brutes.h.push({ pos: t, a: l, b: d });
-      if (b < H - TOL) brutes.h.push({ pos: b, a: l, b: d });
+      /* Le bord bas n'est trace que si le bloc se ferme dessus - voir
+         `bordBas` dans l'en-tete de tracerGrille. */
+      if (b < H - TOL || bordBas) brutes.h.push({ pos: b, a: l, b: d });
     });
 
     /*

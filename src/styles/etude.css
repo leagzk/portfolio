@@ -52,7 +52,16 @@
   de .cles__col ; le filet tombe donc au pixel ou il tombait avant.
 */
 .cles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px;
-  border-bottom:var(--rule-fine) solid var(--text)}
+  border-bottom:var(--rule-fine) solid var(--text);position:relative}
+/*
+  PENDANT LE TRACE, LES VRAIES BORDURES S'EFFACENT. Le script pose par-dessus
+  un calque de segments qui, eux, se dessinent ; si les bordures restaient
+  visibles dessous, il n'y aurait rien a tracer. Elles passent en transparent
+  - et non en `none`, qui changerait la mise en page de 1,5px - le temps du
+  trace, exactement comme la composition blanchit son fond noir.
+*/
+.cles.pre{border-bottom-color:transparent}
+.cles.pre .cles__col + .cles__col{border-left-color:transparent}
 .cles__col{display:flex;flex-direction:column;gap:8px;
   padding:0 var(--gutter) var(--pad-square)}
 .cles__col + .cles__col{border-left:var(--rule-fine) solid var(--text)}
