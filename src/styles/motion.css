@@ -43,30 +43,83 @@
   src/scripts/grille.ts). Le .5s ecrit ici n'est qu'un plancher de secours -
   une valeur doit figurer dans le raccourci, sans quoi la regle est invalide.
 */
-.seg--v{transform-origin:top;animation:traitV .5s cubic-bezier(.4,0,.2,1) both}
-.seg--h{transform-origin:left;animation:traitH .5s cubic-bezier(.4,0,.2,1) both}
 /*
-  LE SENS DU TRACE. `transform-origin` designe le bout par lequel la ligne
-  COMMENCE : une verticale part du haut, une horizontale de la gauche. Une
-  ligne sur deux porte `--inv` et part de l'autre bout - voir l'alternance
-  dans src/scripts/grille.ts. Une main qui trace une grille ne repart pas
-  toujours du meme bord.
-*/
-.seg--v.seg--inv{transform-origin:bottom}
-.seg--h.seg--inv{transform-origin:right}
-/*
-  LA POINTE SE POSE AVANT QUE LE TRAIT PARTE. Le filet n'animait que son
-  echelle : il naissait a pleine opacite, donc il etait imprime d'un coup puis
-  etire - deux lectures contradictoires dans le meme geste. L'opacite monte sur
-  le premier tiers de la course, et le trait se met a exister en meme temps
-  qu'il avance.
+  ═══ LE TRAIT EST REVELE PAR UN MASQUE QUI BALAIE, PAS PAR UNE ECHELLE ═══
 
-  Elle monte sur le SEGMENT ENTIER et non sur sa seule tete : c'est l'encre qui
-  prend, pas un degrade qui court devant la pointe. Un degrade aurait demande
-  un masque par filet, pour un effet que personne ne nomme a 0,3s.
+  Il grandissait en `scaleY` / `scaleX` depuis son origine, avec une opacite
+  qui montait sur le premier tiers. Mesure en pleine course : 15%, 27%, 94% -
+  il se tracait donc VRAIMENT. Mais on ne le voyait pas, pour deux raisons qui
+  s'additionnaient :
+
+  1. `cubic-bezier(.4,0,.2,1)` abat 80% de la longueur dans la PREMIERE MOITIE
+     du temps. Le trait jaillissait puis rampait sur ses derniers pour cent -
+     a l'oeil, il apparaissait d'un coup et se posait ensuite.
+  2. Le fondu etait GLOBAL : tout le segment montait en opacite ensemble. Un
+     trait qu'on tire ne pali pas en entier, il nait a sa pointe.
+
+  Un degre de gris qui court devant la pointe demande un masque par filet -
+  je l'avais ecarte en le jugeant invisible a 0,3s. C'etait faux : c'est
+  exactement ce qui manquait, et Lea l'a demande deux fois.
+
+  COMMENT. Le segment est pose a sa taille definitive et ne bouge plus ; c'est
+  un masque de 250% de long, opaque sur ses 40 premiers pour cent et
+  transparent apres 46%, qui glisse d'un bout a l'autre. Le segment ne voit
+  donc d'abord que la partie transparente du masque, puis la frontiere le
+  traverse - une pointe floue de 15% de sa longueur - puis la partie opaque.
+  Aux deux extremites de l'animation il est entierement cache ou entierement
+  visible, sans reste.
+
+  EN LINEAIRE. Une main tient sa vitesse ; la duree suit deja la longueur
+  (TRACE_VITESSE), il ne manquait que de ne pas accelerer dedans. C'est le
+  point 1 ci-dessus, et c'est lui qui faisait le plus de mal.
+
+  LA DUREE EST POSEE PAR LE SCRIPT, filet par filet. Le .5s ecrit ici n'est
+  qu'un plancher de secours - une valeur doit figurer dans le raccourci, sans
+  quoi la regle est invalide.
+
+  LES PREFIXES -webkit- SONT NECESSAIRES : Safari ne sert `mask-image` sans
+  prefixe que depuis la 15.4, et le site tourne sur des WebKit plus anciens
+  (voir l'anneau du loader, corrige pour le meme moteur).
 */
-@keyframes traitV{from{transform:scaleY(0);opacity:0}30%{opacity:1}to{transform:scaleY(1);opacity:1}}
-@keyframes traitH{from{transform:scaleX(0);opacity:0}30%{opacity:1}to{transform:scaleX(1);opacity:1}}
+.seg--v,.seg--h{
+  -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.seg--v{
+  -webkit-mask-size:100% 250%;mask-size:100% 250%;
+  -webkit-mask-image:linear-gradient(to bottom,#000 40%,transparent 46%);
+  mask-image:linear-gradient(to bottom,#000 40%,transparent 46%);
+  animation:traitV .5s linear both}
+.seg--h{
+  -webkit-mask-size:250% 100%;mask-size:250% 100%;
+  -webkit-mask-image:linear-gradient(to right,#000 40%,transparent 46%);
+  mask-image:linear-gradient(to right,#000 40%,transparent 46%);
+  animation:traitH .5s linear both}
+/*
+  LE SENS DU TRACE. Le degrade designe le bout par lequel le trait commence :
+  une verticale part du haut, une horizontale de la gauche. Une ligne sur deux
+  porte `--inv`, retourne son degrade et balaie dans l'autre sens - voir
+  l'alternance dans src/scripts/grille.ts. Une main qui trace une grille ne
+  repart pas toujours du meme bord.
+*/
+.seg--v.seg--inv{
+  -webkit-mask-image:linear-gradient(to top,#000 40%,transparent 46%);
+  mask-image:linear-gradient(to top,#000 40%,transparent 46%);
+  animation-name:traitVinv}
+.seg--h.seg--inv{
+  -webkit-mask-image:linear-gradient(to left,#000 40%,transparent 46%);
+  mask-image:linear-gradient(to left,#000 40%,transparent 46%);
+  animation-name:traitHinv}
+@keyframes traitV{
+  from{-webkit-mask-position:0 100%;mask-position:0 100%}
+  to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes traitVinv{
+  from{-webkit-mask-position:0 0;mask-position:0 0}
+  to{-webkit-mask-position:0 100%;mask-position:0 100%}}
+@keyframes traitH{
+  from{-webkit-mask-position:100% 0;mask-position:100% 0}
+  to{-webkit-mask-position:0 0;mask-position:0 0}}
+@keyframes traitHinv{
+  from{-webkit-mask-position:0 0;mask-position:0 0}
+  to{-webkit-mask-position:100% 0;mask-position:100% 0}}
 /*
   L'APLAT POUSSE depuis le coin que son transform-origin designe - c'est la
   couleur qui ENTRE dans la case, pas la case qui s'allume. Le texte, lui,

@@ -97,10 +97,17 @@ const ETALE_BANDE = 0.08;
   c'est la duree qui suit la longueur, pas l'inverse. Les bornes evitent les
   deux extremes - un tiret de 50px qui clignerait, une ligne pleine qui
   s'eterniserait.
+
+  850px/s, ET PLUS 1100. Le trace n'est devenu lisible que le jour ou la
+  courbe est passee en LINEAIRE : `cubic-bezier(.4,0,.2,1)` abattait 80% de la
+  longueur dans la premiere moitie du temps, et le trait semblait jaillir puis
+  se poser. Une fois la vitesse vraiment constante, il restait a lui laisser le
+  temps d'etre lue - a 1100px/s, une verticale de 300px etait tiree en un quart
+  de seconde. Voir l'en-tete de .seg--v dans src/styles/motion.css.
 */
-const TRACE_VITESSE = 1100; // px/s
-const TRACE_DUREE_MIN = 0.22;
-const TRACE_DUREE_MAX = 1;
+const TRACE_VITESSE = 850; // px/s
+const TRACE_DUREE_MIN = 0.3;
+const TRACE_DUREE_MAX = 1.25;
 /* Une case qui arrive bien apres la construction - on a defile jusqu'a elle -
    ne doit pas heriter d'un retard calcule pour l'ouverture. */
 const RETARD_TARDIF = 0.08;
