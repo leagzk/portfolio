@@ -454,7 +454,15 @@ const pratiques: Tuile[] = [
           </div>
         </div>
       </div>
-      <Bouton variante="bleu" class="suite" commande="carte-approach">Next: the approach →</Bouton>
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-approach">Next: the approach →</Bouton>
+      </div>
     </section>
 
     {/* ═══════════ 02 · The approach ═══════════ */}
@@ -627,7 +635,15 @@ const pratiques: Tuile[] = [
         </div>
       </div>
 
-      <Bouton variante="bleu" class="suite" commande="carte-proof">Next: the proof →</Bouton>
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-proof">Next: the proof →</Bouton>
+      </div>
     </section>
 
     {/* ═══════════ 03 · The proof ═══════════ */}
@@ -780,10 +796,18 @@ const pratiques: Tuile[] = [
         <Bouton variante="bleu" href="/system-practice-elements">Discover what came next →</Bouton>
       </div>
 
-      {/* Fin du dernier chapitre : il n'y a pas de tuile 04, et le sommaire des
-          trois cartes est reduit a celle-ci. Ce bouton le rouvre - voir
-          dossier.ts. Il est a la place des deux « Next: ... », ferre a droite. */}
-      <Bouton variante="noir" class="suite" ferme>Back to the three chapters ↑</Bouton>
+      {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
+          qu'ailleurs : il remonte sans rien refermer. A droite, pas de
+          « Next: ... » - il n'y a pas de tuile 04, et le sommaire des
+          trois cartes est reduit a celle-ci ; ce bouton-la le rouvre. Les deux
+          remontent, l'un garde le chapitre ouvert, l'autre referme tout.
+          Voir .pan__pied dans etude.css et dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="noir" class="suite" ferme>Back to the three chapters ↑</Bouton>
+      </div>
     </section>
 
   </div>
