@@ -8,8 +8,8 @@
 
   C'est la meme regle que la landing applique deja a ses deux familles de
   tuiles - la tuile « Governance », qui montre son accroche, et les principes
-  « I lead the way… » / « Enough engineering… », qui la cachent derriere un
-  « + ». Ici les deux vivent dans un seul composant parce qu'elles sont deux
+  « I lead the way… » / « Enough engineering… », qui la cachent derriere une
+  fleche d'agrandissement. Ici les deux vivent dans un seul composant parce qu'elles sont deux
   etats du meme objet, et que c'est la LONGUEUR du texte qui decide, pas le
   role de la case.
 
@@ -35,8 +35,15 @@ import Icone from './Icone.astro';
 export interface Props {
   /** identifiant de la case - cible des « Next: … » */
   id: string;
-  /** le rang, tel qu'il s'affiche : « 01 » */
-  rang: string;
+  /**
+   * Le rang, tel qu'il s'affiche : « 01 ». Facultatif : les cases qui
+   * detaillent un principe - les trois sobrietes autour d'« Inclusion » -
+   * n'en ont pas. Elles ne sont pas un huitieme principe, elles sont ce que
+   * le troisieme emporte avec lui, et un rang les ferait compter dans une
+   * serie a laquelle elles n'appartiennent pas. Sans rang, le surtitre est
+   * l'intitule seul.
+   */
+  rang?: string;
   /** l'intitule du surtitre, sans le rang : « The premise » */
   intitule: string;
   /** la conviction elle-meme, qui est le titre de la case */
@@ -56,8 +63,21 @@ export interface Props {
   pliante?: boolean;
   /** la plus grande case de la composition porte un titre d'un cran de plus */
   large?: boolean;
+  /**
+   * Niveau du titre. 2 par defaut - une case de la composition est une
+   * section de la page. 3 pour une case qui DETAILLE une autre case : les
+   * trois sobrietes sont sous le principe 03, et le plan du document doit le
+   * dire, meme si la grille les pose a cote de lui.
+   */
+  niveau?: 2 | 3;
 }
-const { id, rang, intitule, titre, couleur, aire, pliante = false, large = false } = Astro.props;
+const { id, rang, intitule, titre, couleur, aire, pliante = false, large = false, niveau = 2 } = Astro.props;
+/* Le titre est un h2 ou un h3 selon `niveau` : balise calculee, pas deux
+   branches de markup a tenir en double. */
+const Titre = niveau === 3 ? 'h3' : 'h2';
+/* Le surtitre : « 01 · The premise », ou « Light » quand la case n'a pas de
+   rang. Le point median ne separe plus rien s'il n'y a qu'un mot. */
+const surtitre = rang ? `${rang} \u00b7 ${intitule}` : intitule;
 const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--ouverte', large && 'conv--large'];
 ---
 {/* data-rang : le trace anime sert les convictions dans l'ordre de leur rang
@@ -77,17 +97,31 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
         dans le plan du document - et le bouton doit etre le seul element
         actionnable. Un <h2> DANS un bouton ferait un titre non annonce.
       */}
-      <h2 class="conv__h">
+      <Titre class="conv__h">
         <button id={id} class="conv__tete" type="button" aria-expanded="false" aria-controls={`${id}-txt`}>
           <span class="conv__txt conv__eyebrow">
-            <span>{rang} &middot; {intitule}</span>
-            <Icone nom="plus" taille={20} class="conv__plus" />
+            <span>{surtitre}</span>
+            {/*
+              DEUX DESSINS, UN SEUL VISIBLE - le meme couple que les trois
+              principes de la landing. Le « + » qui etait la est un reste du
+              temps ou ces six cases etaient un sommaire : elles commandaient
+              six <section> posees dessous, et le « + » disait « ceci s'ouvre
+              ailleurs ». Le texte est remonte DANS les cases, la conviction
+              se deplie sur place - c'est ce que disent les deux fleches en
+              diagonale, « il y a plus a lire ici ». La regle est ecrite au
+              dessin lui-meme, voir agrandir/reduire dans Icone.astro : le
+              « + » reste aux cartes qui commandent une section (BRIEF §2.7).
+            */}
+            <span class="conv__ico" aria-hidden="true">
+              <Icone nom="agrandir" taille={20} class="conv__ico--o" />
+              <Icone nom="reduire" taille={20} class="conv__ico--f" />
+            </span>
           </span>
           {/* data-copy : un <button> ne peut pas contenir de <p>, donc rien ici
               ne serait sorti dans l'export de contenu. */}
           <span class="conv__txt conv__titre" data-copy>{titre}</span>
         </button>
-      </h2>
+      </Titre>
       <div class="conv__txt conv__detail" id={`${id}-txt`} hidden>
         <slot />
       </div>
@@ -100,10 +134,10 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
         bouton. Les six titres se lisent donc pareil dans le plan du
         document : « 02 · The method, Communication at the core… ».
       */}
-      <h2 class="conv__h">
-        <span class="conv__txt conv__eyebrow"><span>{rang} &middot; {intitule}</span></span>
+      <Titre class="conv__h">
+        <span class="conv__txt conv__eyebrow"><span>{surtitre}</span></span>
         <span class="conv__txt conv__titre" data-copy>{titre}</span>
-      </h2>
+      </Titre>
       <div class="conv__txt conv__detail"><slot /></div>
     </div>
   )}
@@ -189,11 +223,81 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   .conv__txt{position:relative;z-index:1}
   .conv__eyebrow{display:flex;justify-content:space-between;align-items:center;gap:12px;
     font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;text-transform:uppercase}
-  .conv__plus{flex:none;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
-  .conv__tete[aria-expanded="true"] .conv__plus{transform:rotate(45deg)}
+  /*
+    LES DEUX DESSINS SE CROISENT SUR PLACE, poses l'un sur l'autre dans la
+    meme boite de 20px : c'est l'opacite qui bascule. La fleche
+    d'agrandissement est symetrique par le centre - une rotation l'aurait
+    ramenee sur elle-meme, ce que le « + » pouvait se permettre et pas elle.
+    Meme construction que .pr__ico sur la landing.
+  */
+  .conv__ico{position:relative;flex:none;display:block;width:20px;height:20px}
+  .conv__ico svg{position:absolute;inset:0;transition:opacity .25s}
+  .conv__ico--f{opacity:0}
+  .conv__tete[aria-expanded="true"] .conv__ico--o{opacity:0}
+  .conv__tete[aria-expanded="true"] .conv__ico--f{opacity:1}
   .conv__titre{display:block;margin:0;font-family:var(--display);font-weight:900;
     font-size:var(--fs-tile);line-height:1.12;letter-spacing:-.01em}
   .conv--large .conv__titre{font-size:calc(var(--fs-tile) * 1.18)}
+
+  /*
+    ═══ LA CASE REPLIEE SE LIT COMME UNE AFFICHE ═══
+
+    Une case repliee ne porte que deux lignes - son rang et sa conviction -
+    dans une case dimensionnee pour en porter cinq : le texte se tassait en
+    haut et laissait dessous un tiers de hauteur vide, que l'aplat plein rend
+    d'autant plus visible. Ce vide n'etait pas compose, il restait.
+
+    Les deux lignes prennent donc les deux bords : le rang en haut avec son
+    « + », la conviction calee EN BAS. C'est la forme que les trois principes
+    de la landing ont deja - .pr__dedans y est un space-between entre l'icone
+    et son titre - et le vide devient la respiration entre les deux lignes au
+    lieu d'une chute sous le texte.
+
+    LA CHAINE DOIT ETRE ETIREE JUSQU'AU BOUTON pour que space-between ait une
+    hauteur a partager : la case est en flex, le <h2> grandit dedans, le
+    bouton grandit dans le <h2>. Un maillon qui manque et la tete ne mesure
+    que son texte - le calage en bas ne se verrait nulle part.
+
+    La case OUVERTE n'en veut pas : son titre est suivi d'un paragraphe, et
+    pousser le couple titre + texte en bas ouvrirait un trou sous le rang.
+  */
+  .conv--pliante{display:flex;flex-direction:column}
+  .conv--pliante > .conv__h{flex:1;min-height:0}
+  .conv--pliante .conv__tete{flex:1;justify-content:space-between}
+  /*
+    DEPLIEE, LA REPARTITION NE CHANGE PAS - et c'est elle qui fait le geste.
+    Le rang reste colle en haut, le couple titre + texte reste colle en bas :
+    le titre monte juste ce qu'il faut pour laisser passer sa description, et
+    le bas du texte retombe la ou le titre etait. C'est exactement ce que fait
+    .pr__dedans sur la landing, ou le meme space-between tient l'icone en haut
+    pendant que le titre remonte devant son detail.
+
+    Rien a declarer ici, donc : la tete garde son flex:1 dans les deux etats.
+    Une regle avait fait l'inverse - titre remis en haut a l'ouverture - pour
+    eviter le vide qui s'ouvre entre le rang et le titre quand la rangee est
+    plus haute que la case, parce qu'une voisine la tire. Mesure sur The
+    frame : 42px au lieu de 12. Mais ce vide-la EST la case repliee - le rang
+    en haut, la conviction en bas -, et le defaire a l'ouverture faisait
+    sauter le titre d'un bord a l'autre de la case.
+  */
+
+  /*
+    L'EMPHASE REMPLACE LE TEXTE QUI N'EST PAS LA. Le titre d'une case ouverte
+    est un chapeau : il annonce le paragraphe qui se lit juste dessous, et
+    --fs-tile le tient a sa place - le meme corps que les tuiles de la
+    landing. Le titre d'une case repliee n'annonce rien : il EST la
+    conviction, seul dans sa case, et au corps d'un chapeau il se lisait
+    comme un chapeau dont le texte manque.
+
+    Il prend donc un cran et demi, avec l'interligne et l'approche resserres
+    qu'un grand corps demande. La plus grande case - The premise, deux
+    rangees sur deux colonnes - en prend un de plus : elle le faisait deja a
+    l'ancien corps (.conv--large), et l'ecart entre les deux se creuse avec
+    l'echelle au lieu de se tasser.
+  */
+  .conv--pliante .conv__titre{font-size:calc(var(--fs-tile) * 1.5);
+    line-height:1.06;letter-spacing:-.02em}
+  .conv--pliante.conv--large .conv__titre{font-size:calc(var(--fs-tile) * 1.95)}
 
   /*
     LA DESCRIPTION. Sur la case ouverte elle est simplement la ; sur la case
@@ -217,8 +321,31 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
 
   .conv--pliante .conv__detail{padding:0 var(--pad-square) var(--pad-square)}
   .conv--pliante .conv__detail{animation:deplie .4s ease-out}
+
+  /*
+    ═══ UNE CASE QUI S'OUVRE POUSSE SA RANGEE ═══
+
+    Elle a grandi un temps PAR-DESSUS ses voisines : la case quittait le
+    flux, gardait sa place et sa largeur, et son texte s'etendait sur la
+    composition sans la deranger. C'etait la seule facon d'offrir le survol -
+    une case qui pousse ferait sauter la page sous le curseur, comme le
+    disent deja les chiffres cles dans etude.css.
+
+    CE N'EST PAS CE QUE LE SITE FAIT. Une case etroite qui deplie quatre
+    cents mots devient une tour - 1589px dans une colonne de 193 sur
+    Operating System - et cette tour passe devant la moitie de la
+    composition. L'accueil ne fait jamais ca : son contenu se deplie DANS une
+    case dimensionnee pour le contenir, et ce qui depasse pousse la grille au
+    lieu de la couvrir. La composition doit bouger AUTOUR de la case, pas
+    disparaitre dessous.
+
+    Il n'y a donc rien a declarer ici : la case reste dans le flux, la rangee
+    grandit, et ce qui suit descend. Le survol tombe avec, et le clic reste
+    le geste - c'est `aria-expanded` qui commande, et lui seul.
+  */
+
   @media(prefers-reduced-motion:reduce){
     .conv--pliante .conv__detail{animation:none}
-    .conv__plus{transition:none}
+    .conv__ico svg{transition:none}
   }
 </style>

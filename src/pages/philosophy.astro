@@ -18,7 +18,7 @@
   case, elle se lit sous le titre ; sinon la case se replie sur son titre et
   s'ouvre au clic. Ce sont les deux familles de tuiles de la landing - celle
   de « Governance », qui montre son accroche, et les principes « I lead the
-  way… », qui la cachent derriere un « + ».
+  way… », qui la cachent derriere une fleche d'agrandissement.
 
   LE PARTAGE EST MESURE. Les six descriptions font 228, 310, 317, 404, 461 et
   669 signes ; la coupure nette tombe entre 317 et 404. Trois cases s'ouvrent
@@ -178,9 +178,16 @@ import Bouton from '../components/Bouton.astro';
         </div>
       </section>
 
-      {/* Le carre jaune qui ferme la composition : la derniere rangee ne peut
-          pas etre une bande de texte seule, ou elle cesse d'etre un Mondrian. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 5 / 6 / 7"><span class="compo__plat compo__plat--jaune"></span></div>
+      {/*
+        LA CASE QUI FERME LA COMPOSITION, ET ELLE EST BLANCHE. La derniere
+        rangee ne peut pas etre une bande de texte seule - elle cesserait
+        d'etre un Mondrian -, mais ce qu'il faut a cote de la cloture c'est
+        une CASE, pas forcement une couleur : le blanc en est une ici, comme
+        il l'est pour les trois convictions claires. L'aplat jaune qui
+        l'occupait est retire ; la case, ses filets et sa place dans la
+        grille restent.
+      */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 5 / 6 / 7"></div>
 
     </div>
 
