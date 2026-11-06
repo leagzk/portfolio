@@ -58,6 +58,14 @@ export function initDossier(): void {
     les ressaisir dans la page : un sommaire recopie a la main finit toujours
     par annoncer autre chose que ce qui suit.
 
+    `[data-sommaire]` POUR CE QUI N'EST PAS UNE `.lead`. Une idee peut porter
+    ailleurs que dans la phrase d'ouverture d'une sous-partie - un chiffre en
+    exergue, par exemple. On balise alors le passage dans la page, et il monte
+    avec les autres. L'attribut se pose sur un <span> AUTOUR du membre de
+    phrase voulu, et non sur le paragraphe entier : c'est ce qui permet de
+    n'en prendre qu'une partie sans la recopier. L'ordre des puces est celui
+    du document, pas celui des selecteurs.
+
     ON CLONE LE CONTENU, ON NE COPIE PAS LE TEXTE. Les phrases portent des
     <em> qui colorent un membre - « That's the tax. » en rouge - et c'est la
     moitie de leur forme. `textContent` les aurait aplaties.
@@ -70,7 +78,7 @@ export function initDossier(): void {
   const COULEURS = ['rouge', 'bleu', 'jaune'] as const;
   const sommaire = (carte: HTMLButtonElement, pan: HTMLElement) => {
     compo?.querySelector('.compo__sommaire')?.remove();
-    const phrases = Array.from(pan.querySelectorAll<HTMLElement>('.lead'));
+    const phrases = Array.from(pan.querySelectorAll<HTMLElement>('.lead,[data-sommaire]'));
     if (!compo || !phrases.length) return;
     const liste = document.createElement('ul');
     const couleur = COULEURS.find((c) => carte.classList.contains(`dcarte--${c}`));
