@@ -113,13 +113,22 @@ export function initDossier(): void {
     UN ECRAN ET NON UN ECRAN ET DEMI, mesure : le bouton « Next: the approach »
     est a 1106px de la composition pour une fenetre de 1050. A 1.5 il glissait
     encore, et c'est precisement le cas que Lea a signale.
+
+    « instant » ET NON « auto », ET LA NUANCE FAIT TOUTE LA DIFFERENCE.
+    `behavior: 'auto'` ne veut pas dire « saute » : il veut dire « applique le
+    `scroll-behavior` de l'element ». Or reset.css pose
+    `html{scroll-behavior:smooth}`. La branche qui devait couper rendait donc
+    exactement le meme glissement que l'autre - le reglage ne faisait rien.
+    Mesure : clic sur le retour en haut a 7015px de la composition, position
+    inchangee a la ligne suivante. Seul `instant` passe outre la feuille de
+    style.
   */
   const PORTEE_DOUCE = 1;
   const remonter = () => {
     if (!compo) return;
     const trajet = Math.abs(compo.getBoundingClientRect().top);
     const doux = !mouvementReduit() && trajet < innerHeight * PORTEE_DOUCE;
-    compo.scrollIntoView({ block: 'start', behavior: doux ? 'smooth' : 'auto' });
+    compo.scrollIntoView({ block: 'start', behavior: doux ? 'smooth' : 'instant' });
   };
 
   const fermer = (carte: HTMLButtonElement) => {
