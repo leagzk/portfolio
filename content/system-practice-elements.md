@@ -96,8 +96,6 @@ So the system was coherent, and barely adopted. **A design system nobody adopts 
 
 So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.
 
-**The best architecture I built started as the one I got backwards.**
-
 Deep dive in the origin story →
 
 Next: the approach →
@@ -121,6 +119,8 @@ Vision & strategy
 You maintain a design system. *You run a platform.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities** - and the tension is the point: they aren't parallel, each one only works because the other two hold their end.
+
+**The best architecture I built started as the one I got backwards.**
 
 - Brand × Product Corporate Experience Brand × Product The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. **Where the brand becomes tangible.**
 
