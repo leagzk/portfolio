@@ -174,19 +174,15 @@
 .clef--bande,.clef--carre{background:var(--white);color:var(--text)}
 .clef__frag{position:absolute;transform-origin:left bottom}
 /*
-  LE TEXTE DEGAGE LE FRAGMENT, il ne passe pas dessus. C'est ce que fait
-  `.cell--w2` sur l'accueil : 32px de bande en bas, et 60px de marge basse sur
-  le contenu. Sans ce degagement, l'intitule - qui est cale en bas - tombait
-  sur la bande et perdait son contraste.
+  LE TEXTE NE TOUCHE PAS LE FRAGMENT : il est cale en haut, la couleur occupe
+  le bas. C'est la repartition de `.cell--w2` sur l'accueil, ou la bande jaune
+  prend le bas de la case pendant que le texte tient le haut.
 */
 .clef--bande .clef__frag{left:0;right:0;bottom:0;height:30px}
-.clef--bande .clef__dedans{padding-bottom:44px}
-.clef--carre .clef__frag{right:0;top:0;width:84px;height:48px;
-  transform-origin:right top}
-/* Le carre occupe le coin du dessin : celui-ci descend, et l'intitule lui
-   laisse sa place au lieu de passer dessous. */
-.clef--carre .clef__ico{top:auto;bottom:16px}
-.clef--carre .clef__bas{padding-right:44px}
+/* Le carre descend dans le coin bas : le haut de la case est au texte, le bas
+   a la couleur - et le dessin garde sa place en haut a droite. */
+.clef--carre .clef__frag{right:0;bottom:0;width:84px;height:48px;
+  transform-origin:right bottom}
 .clef--rouge .clef__frag{background:var(--red)}
 .clef--bleu .clef__frag{background:var(--blue)}
 .clef--jaune .clef__frag{background:var(--yellow)}
@@ -199,8 +195,17 @@
   partis en marge - « 87% » y mesure 115px a 52 de corps, et debordait. C'est
   la marge des autres cases de composition de cette page.
 */
+/*
+  LE NOMBRE TOUCHE SON INTITULE. `space-between` les envoyait aux deux bouts
+  de la case : 90px de vide entre « ÷3 » et ce qu'il compte, et on lisait deux
+  elements au lieu d'un. Cales en haut, ils font un bloc.
+
+  ET RIEN NE BOUGE A L'OUVERTURE, ce qui n'etait pas le cas en les calant en
+  bas : le contexte se deplie SOUS l'intitule, donc il pousse le vide, pas le
+  nombre.
+*/
 .clef__dedans{position:absolute;inset:0;z-index:1;display:flex;
-  flex-direction:column;justify-content:space-between;gap:12px;
+  flex-direction:column;justify-content:flex-start;gap:10px;
   padding:24px;overflow:hidden}
 .clef__nb{font-family:var(--display);font-size:48px;font-weight:900;line-height:1;
   letter-spacing:-.02em}
