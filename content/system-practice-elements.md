@@ -110,7 +110,7 @@ The decision was the easy part. *Owning it wasn't.*
 
 I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
-Governance was where I refused the easy answer. **Two models, not one.** A hybrid, federated model for how the system gets built - a centralized core my team owned, contribution opened outward, never fully federated: that's the trap. And a tiered service model for how support got prioritized, re-reviewed quarterly against the business's own priorities - so support followed strategy, not the loudest request.
+Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
 
 I set the direction, carried it to leadership, then handed my team the operational goal as **OKRs of their own**, tied to the company's annual objectives - our ambition inside a shared project, never beside it. **Scaling is a series of bets, and I refused to place them blind:** what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
 
@@ -212,7 +212,7 @@ This is how a **core interdisciplinary community of 300+ across 5 global hubs** 
 
 > The community, in one place for once
 
-Taking a system from near-zero to **87% average usage per product in production** isn't a launch - it's **change management at scale**: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.
+**87% average usage per product in production, from near-zero.** That isn't a launch - it's **change management at scale**: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.
 
 Next: the team &rarr;
 
