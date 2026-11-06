@@ -51,8 +51,26 @@ export interface Props {
     l'accueil : ailleurs le contenu commence assez haut pour se voir.
   */
   defiler?: string;
+  /**
+   * LA MESURE DU TITRE, EN CADRATINS - largeur de la boite du h1, et diviseur
+   * du corps. La bande fait deux lignes et jamais trois ; ce qui change d'une
+   * page a l'autre, c'est la longueur de la phrase, donc la largeur qu'il lui
+   * faut. Voir .hero__titre dans ce fichier pour le calcul.
+   *
+   * SE MESURE, NE S'ESTIME PAS : c'est la largeur minimale a laquelle la phrase
+   * tient en exactement deux lignes, relevee dans le navigateur sur le build,
+   * plus ~0.3em pour l'arrondi sous-pixel et les ecarts d'un moteur a l'autre.
+   *
+   * Omise, elle vaut 17.2 - la plus large des pages du site, donc celle qui ne
+   * peut pas donner trois lignes. Un titre plus court qui la garderait serait
+   * seulement plus petit que necessaire, jamais casse.
+   */
+  mesure?: number;
 }
-const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler } = Astro.props;
+const {
+  courant, eyebrow, filigrane, accueil = false, portrait = false, defiler,
+  mesure,
+} = Astro.props;
 ---
 {/*
   LE BANDEAU EST COLLANT, ET IL EST FRERE DU HERO - PAS SON ENFANT.
@@ -185,7 +203,9 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
           </span>
         </div>
       )}
-      <h1 class="hero__titre"><slot /></h1>
+      {/* La mesure voyage en variable et non en classe : c'est un nombre propre
+          a une phrase, pas un etat du composant. Voir la prop `mesure`. */}
+      <h1 class="hero__titre" style={mesure ? `--titre-mesure:${mesure}` : undefined}><slot /></h1>
       <div class="hero__intro"><slot name="intro" /></div>
       <slot name="cta" />
     </div>
@@ -580,8 +600,45 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     font-size:clamp(22px,2vw,28px);line-height:1.1;color:var(--white)}
   .hero__eyebrow{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
     text-transform:uppercase;color:var(--on-ink-eyebrow)}
-  .hero__titre{font-family:var(--display);font-weight:900;font-size:var(--fs-h1);
-    line-height:1;letter-spacing:-.03em;color:var(--white);max-width:760px;margin-top:24px}
+  /*
+    ═══ LES PAGES INTERIEURES TIENNENT LEURS DEUX LIGNES ═══
+
+    Meme probleme que l'accueil juste en dessous, et meme remede - a ceci pres
+    qu'ici il n'y a pas deux phrases a separer : une seule phrase doit se couper
+    en deux lignes et pas en trois.
+
+    LA MESURE DECIDE DU CORPS, PAS L'INVERSE. A 68px fixes dans une boite de
+    760px, le titre ne dispose que de 11.18em ; or le plus exigeant des cinq
+    titres en demande 16.88 pour tenir en deux lignes. Toutes les pages
+    interieures partaient donc sur trois lignes.
+
+    CHAQUE PAGE A LA SIENNE, et c'est la prop `mesure`. Largeurs minimales pour
+    exactement deux lignes, relevees dans le navigateur sur le build : Operating
+    System 16.88em, Philosophy 15.16, Language 13.10, Surfaces 12.60,
+    Governance 12.03, la 404 7.11. Un budget unique aurait aligne tout le site
+    sur le titre le plus long - Governance serait tombee a 47.8px la ou 66.8
+    tenaient deja en deux lignes. La bande garde donc son corps plein aussi
+    longtemps que SA phrase le permet, ce qui est exactement ce que fait
+    l'accueil avec son 14.5. Chaque valeur prend ~0.3em de degagement pour
+    l'arrondi sous-pixel et les ecarts d'un moteur a l'autre.
+
+    LE MEME NOMBRE TIENT LES DEUX BOUTS, et c'est ce qui rend la regle sure.
+    `max-width` en `em` se mesure sur le corps de l'element : la boite fait donc
+    TOUJOURS 17.2 cadratins, que le corps soit plafonne a 68px ou calcule sur la
+    colonne. Un plafond de largeur en pixels, lui, aurait pu contredire le
+    plafond de corps et ramener une troisieme ligne au-dela de 1170px de
+    colonne.
+
+    CQW ET PAS VW, pour la raison donnee a l'accueil : la barre de defilement de
+    Windows et de Linux ferait mentir `100vw` d'une quinzaine de pixels, juste
+    assez pour faire deborder au seuil. Sous 861px, la requete telephone reprend
+    les deux proprietes : la bande y est deja a son corps mobile.
+  */
+  .hero__titre{--titre-mesure:17.2;
+    font-family:var(--display);font-weight:900;
+    font-size:min(var(--fs-h1), calc(100cqw / var(--titre-mesure)));
+    line-height:1;letter-spacing:-.03em;color:var(--white);
+    max-width:calc(var(--titre-mesure) * 1em);margin-top:24px}
   /*
     ═══ L'ACCUEIL TIENT SES DEUX LIGNES ═══
 
