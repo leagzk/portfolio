@@ -586,8 +586,22 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     inatteignables.
   */
   .mobmenu{display:none}
+  /*
+    LE PANNEAU RESERVE SON HAUT A LA CROIX. Le contenu est centre
+    verticalement ; sur un ecran court - 667px, l'iPhone SE - il remplit la
+    bande et « Home » remontait a 40px, pile sous la croix posee a 16. Les 72px
+    de marge haute degagent les 8 + 44 du bouton, plus l'air qu'il faut.
+
+    `safe center` et non `center` : des que le contenu depasse la hauteur
+    disponible, un centrage ordinaire fait sortir le haut du conteneur - et
+    comme le debordement part du cote du depart, ce sont les premieres entrees
+    qu'on perd, sans pouvoir y defiler. `safe` retombe sur un calage en haut
+    dans ce cas precis. Un navigateur qui ne connait pas le mot-cle jette la
+    declaration entiere et cale en haut lui aussi : l'echec va du bon cote.
+  */
   .mobmenu.open{display:flex;position:fixed;inset:0;z-index:60;background:var(--ink);
-    flex-direction:column;justify-content:center;gap:4px;padding:28px;overflow-y:auto}
+    flex-direction:column;justify-content:safe center;gap:4px;
+    padding:72px 28px 28px;overflow-y:auto}
   .mobmenu > a,.mobmenu__groupe > a{color:var(--white);text-decoration:none;
     font-family:var(--display);font-weight:900;font-size:clamp(18px,5vw,26px);
     letter-spacing:-.02em;padding:6px 0}
@@ -606,8 +620,18 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     letter-spacing:.2em;text-transform:uppercase;color:var(--on-ink-eyebrow)}
   .mobmenu__rule{width:100%;height:var(--rule);margin:8px 0 10px;border:0;background:rgba(255,255,255,.18)}
   .mobmenu__liens{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
-  .mobmenu__close{position:absolute;top:16px;left:16px;background:transparent;border:none;
-    color:var(--white);font-size:32px;line-height:1;cursor:pointer}
+  /*
+    LA CROIX EST A DROITE, la ou le pouce la cherche sur un panneau plein
+    ecran, et la ou elle ne croise aucun texte - tout le contenu du menu est
+    ferre a gauche.
+
+    44x44 : elle faisait 24x32, sous le minimum de WCAG 2.5.8 dans les deux
+    sens. Le glyphe garde sa taille, c'est la zone de touche qui grandit.
+  */
+  .mobmenu__close{position:absolute;top:8px;right:8px;display:grid;place-items:center;
+    width:44px;height:44px;background:transparent;border:none;
+    color:var(--white);font-size:28px;line-height:1;cursor:pointer}
+  .mobmenu__close:focus-visible{outline:3px solid var(--yellow);outline-offset:-4px}
 
   @media(prefers-reduced-motion:reduce){
     .hero__liens a{transition:none}
