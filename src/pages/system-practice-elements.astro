@@ -232,11 +232,9 @@ const mecanismes: Tuile[] = [
         synthese="Internalize the engineering, rebuild from zero, and run it as a platform: three axes, six capabilities, two governance models - a centralized core, contribution opened outward."
         couleur="bleu"
         commande="pan-approach"
-        aire="4 / 1 / 6 / 4"
+        aire="4 / 1 / 6 / 3"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 4 / 5 / 5"><span class="compo__plat compo__plat--noir"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 4 / 6 / 5"></div>
 
       <CarteDossier
         id="carte-proof"
@@ -249,8 +247,28 @@ const mecanismes: Tuile[] = [
         aire="1 / 6 / 4 / 8"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 5 / 5 / 6"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 5 / 6 / 6"></div>
+      {/*
+        LA QUATRIEME CARTE : le « qui ». Les trois premieres suivent le
+        systeme - le probleme, l'approche, la preuve - et cette quatrieme suit
+        les gens. Elle prend les colonnes 3 a 5 de la bande basse, la ou 02
+        s'arretait et ou vivaient l'aplat noir et le rouge ; 02 recule d'une
+        colonne, et les deux cartes font 354 et 345px, soit la meme bande.
+
+        NOIRE, ET C'EST LA SEULE. Le rouge, le bleu et le jaune sont pris par
+        les trois chapitres du systeme ; le noir dit que celui-ci parle d'autre
+        chose - et il reste dans la palette Mondrian, qui s'en sert autant que
+        des trois autres.
+      */}
+      <CarteDossier
+        id="carte-team"
+        rang="04"
+        intitule="The team"
+        titre="I didn't build a system I hold together."
+        synthese="Autonomous streams, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story."
+        couleur="noir"
+        commande="pan-team"
+        aire="4 / 3 / 6 / 6"
+      />
 
       {/*
         CE QUE LE SYSTEME EST, DANS LA GRILLE ET PAS DANS UN CHAPITRE. La phrase
@@ -376,19 +394,9 @@ const mecanismes: Tuile[] = [
       </div>
 
       <div class="subsec">
-        <div class="split">
-          <p class="lead">I didn't build a system I hold together. <em class="em-rouge">I built the conditions where it holds itself.</em></p>
-          <ul class="pts">
-            <li><strong>Autonomous streams</strong>, split by capability, each moving without a central decision - inside a <strong>collective framing</strong>, so a stream deciding alone still decides inside a frame it co-wrote.</li>
-            <li><strong>Shared rituals</strong> are the connective tissue keeping five hubs one system rather than an archipelago.</li>
-            <li>Every week, the same conversation: <strong>is the work moving, and is the person growing.</strong> A team that isn't well doesn't ship - wellbeing isn't a nice-to-have, it's load-bearing.</li>
-            <li>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. <strong>A team that only points the way isn't leading; it's watching.</strong></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="subsec">
-        <p class="eb">I don't state values. I install them.</p>
+        {/* data-sommaire : troisieme phrase forte du chapitre - elle n'est pas
+            une `.lead` mais un surtitre, et c'est elle qui le ferme. */}
+        <p class="eb" data-sommaire>I don't state values. I install them.</p>
         <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms" hauteur={320} />
       </div>
 
@@ -406,7 +414,7 @@ const mecanismes: Tuile[] = [
           <div class="body">
             <p>This one does - and the numbers are the system's, not mine. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, <strong>zero users to a community of 2,000+ practitioners.</strong></p>
             <p><strong>And none of it was measured after the fact.</strong> I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.</p>
-            <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong>People don't comply with Elements, they trust it.</strong></p>
+            <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong data-sommaire>People don't comply with Elements, they trust it.</strong></p>
             <p class="qt">Adopted. Trusted. Extended. <strong>Everything a system needs to outlive the person who built it.</strong></p>
           </div>
         </div>
@@ -467,14 +475,23 @@ const mecanismes: Tuile[] = [
           <p>Taking a system from near-zero to <strong>87% average usage per product in production</strong> isn't a launch - it's <strong>change management at scale</strong>: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
         </div>
 
-        {/* Le dessin et sa preuve : l.idee n.est pas venue de la feuille de
-            route, et c.est tout le propos du chapitre. */}
-        <div class="taught">
-          <div class="taught__viz" aria-hidden="true"><IdeaVisual /></div>
-          <div class="body">
-            <p class="qt">The Elements MCP didn&apos;t come from my roadmap. <strong>It came from a contributor.</strong></p>
-            <p>And it&apos;s where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.</p>
-          </div>
+      </div>
+
+      <Bouton variante="bleu" class="suite" commande="carte-team">Next: the team &rarr;</Bouton>
+    </section>
+    {/* ═══════════ 04 · The team ═══════════ */}
+    <section class="pan" id="pan-team" aria-labelledby="titre-team">
+      <h2 class="sr-only" id="titre-team">04 &middot; The team</h2>
+
+      <div class="subsec">
+        <div class="split">
+          <p class="lead">I didn't build a system I hold together. <em class="em-rouge">I built the conditions where it holds itself.</em></p>
+          <ul class="pts">
+            <li><strong>Autonomous streams</strong>, split by capability, each moving without a central decision - inside a <strong>collective framing</strong>, so a stream deciding alone still decides inside a frame it co-wrote.</li>
+            <li><strong>Shared rituals</strong> are the connective tissue keeping five hubs one system rather than an archipelago.</li>
+            <li>Every week, the same conversation: <strong>is the work moving, and is the person growing.</strong> A team that isn't well doesn't ship - wellbeing isn't a nice-to-have, it's load-bearing.</li>
+            <li>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. <strong>A team that only points the way isn't leading; it's watching.</strong></li>
+          </ul>
         </div>
       </div>
 
@@ -486,7 +503,7 @@ const mecanismes: Tuile[] = [
             <div class="body">
               <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. <strong>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong> Design went from one to five. Average completed engagement: <strong>23 months against a one-year target.</strong></p>
               <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong> People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.</p>
-              <p class="qt">My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
+              <p class="qt" data-sommaire>My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
             </div>
           </div>
           <div class="pile">
@@ -503,6 +520,16 @@ const mecanismes: Tuile[] = [
         </div>
       </div>
 
+      {/* Le dessin et sa preuve : l.idee n.est pas venue de la feuille de
+          route, et c.est tout le propos du chapitre. */}
+      <div class="taught">
+        <div class="taught__viz" aria-hidden="true"><IdeaVisual /></div>
+        <div class="body">
+          <p class="qt">The Elements MCP didn&apos;t come from my roadmap. <strong>It came from a contributor.</strong></p>
+          <p>And it&apos;s where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.</p>
+        </div>
+      </div>
+
       <div class="closing">
         <h2>I removed the wait between design and engineering. <em class="em-bleu">There's one wait left.</em></h2>
         <p class="cbody">I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's <strong>velocity</strong>, and it's <strong>proximity</strong> - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. <strong>This is the next mile of the same road.</strong></p>
@@ -511,10 +538,10 @@ const mecanismes: Tuile[] = [
         <Bouton variante="bleu" href="/system-event">See it off the screen →</Bouton>
       </div>
 
-      {/* Fin du dernier chapitre : il n'y a pas de tuile 04, et le sommaire des
-          trois cartes est reduit a celle-ci. Ce bouton le rouvre - voir
-          dossier.ts. Il est a la place des deux « Next: ... », ferre a droite. */}
-      <Bouton variante="noir" class="suite" ferme>Back to the three chapters ↑</Bouton>
+      {/* Fin du dernier chapitre : il n'y a pas de tuile 05, et le sommaire
+          des quatre cartes est reduit a celle-ci. Ce bouton le rouvre - voir
+          dossier.ts. Il est a la place des trois « Next: ... », ferre a droite. */}
+      <Bouton variante="noir" class="suite" ferme>Back to the four chapters &uarr;</Bouton>
     </section>
 
   </div>

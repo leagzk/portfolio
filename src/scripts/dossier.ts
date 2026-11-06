@@ -75,7 +75,7 @@ export function initDossier(): void {
     serait du HTML invalide. Il prend donc sa case dans la grille, a cote
     d'elle. Voir .compo__sommaire dans etude.css.
   */
-  const COULEURS = ['rouge', 'bleu', 'jaune'] as const;
+  const COULEURS = ['rouge', 'bleu', 'jaune', 'noir'] as const;
   const sommaire = (carte: HTMLButtonElement, pan: HTMLElement) => {
     compo?.querySelector('.compo__sommaire')?.remove();
     const phrases = Array.from(pan.querySelectorAll<HTMLElement>('.lead,[data-sommaire]'));

@@ -354,6 +354,7 @@
 .dcarte--rouge .dcarte__plat{background:var(--red)}
 .dcarte--bleu .dcarte__plat{background:var(--blue)}
 .dcarte--jaune .dcarte__plat{background:var(--yellow)}
+.dcarte--noir .dcarte__plat{background:var(--ink)}
 
 .dcarte__txt{position:relative;z-index:1;transition:color .3s}
 .dcarte__eyebrow{display:flex;justify-content:space-between;align-items:center;
@@ -372,7 +373,8 @@
 .dcarte[aria-expanded="true"] .dcarte__plus{transform:rotate(45deg)}
 /* Texte blanc sur le rouge et le bleu, noir sur le jaune. */
 .dcarte--rouge[aria-expanded="true"] .dcarte__txt,
-.dcarte--bleu[aria-expanded="true"] .dcarte__txt{color:var(--white)}
+.dcarte--bleu[aria-expanded="true"] .dcarte__txt,
+.dcarte--noir[aria-expanded="true"] .dcarte__txt{color:var(--white)}
 
 /* ─── Construction : l'etat d'attente et l'etat vu (BRIEF §4.1) ─── */
 /*
@@ -573,6 +575,7 @@
 .compo__sommaire--rouge{--puce:var(--red)}
 .compo__sommaire--bleu{--puce:var(--blue)}
 .compo__sommaire--jaune{--puce:var(--yellow)}
+.compo__sommaire--noir{--puce:var(--ink)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*

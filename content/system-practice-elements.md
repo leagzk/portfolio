@@ -50,6 +50,10 @@ Adopted. Trusted. Extended.
 
 100% adoption across the three Digital Accelerators, 87% of each product's interface, launches shipped three times faster - and 35+ contributors who keep it alive without me.
 
+I didn't build a system I hold together.
+
+Autonomous streams, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story.
+
 The system
 
 Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
@@ -140,16 +144,6 @@ Seven products, one pipeline from design to dev
 
 > The tooling suite, grouped by role
 
-I didn't build a system I hold together. *I built the conditions where it holds itself.*
-
-- **Autonomous streams**, split by capability, each moving without a central decision - inside a **collective framing**, so a stream deciding alone still decides inside a frame it co-wrote.
-
-- **Shared rituals** are the connective tissue keeping five hubs one system rather than an archipelago.
-
-- Every week, the same conversation: **is the work moving, and is the person growing.** A team that isn't well doesn't ship - wellbeing isn't a nice-to-have, it's load-bearing.
-
-- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
-
 I don't state values. I install them.
 
 - Rigour Nothing ships on a hunch. No component, no roadmap line ever shipped without discovery: what the ecosystem actually needs, what already exists. Then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
@@ -210,9 +204,19 @@ This is how a **core interdisciplinary community of 300+ across 5 global hubs** 
 
 Taking a system from near-zero to **87% average usage per product in production** isn't a launch - it's **change management at scale**: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.
 
-The Elements MCP didn't come from my roadmap. **It came from a contributor.**
+Next: the team &rarr;
 
-And it's where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.
+## 04 &middot; The team
+
+I didn't build a system I hold together. *I built the conditions where it holds itself.*
+
+- **Autonomous streams**, split by capability, each moving without a central decision - inside a **collective framing**, so a stream deciding alone still decides inside a frame it co-wrote.
+
+- **Shared rituals** are the connective tissue keeping five hubs one system rather than an archipelago.
+
+- Every week, the same conversation: **is the work moving, and is the person growing.** A team that isn't well doesn't ship - wellbeing isn't a nice-to-have, it's load-bearing.
+
+- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
 
 The team that runs it
 
@@ -228,6 +232,10 @@ My job wasn't to hold it up. **It was to build a structure that outlasts any of 
 
 [Nicolas Chatelain](https://nicolaschatelain.com) led the People axis, from Experience Operations enablement to the Community of Practice engagement plan. [Rodolphe Peruzza](https://rodolphe.design/chat) led the System axis, from craft to experience-pattern industrialization.
 
+The Elements MCP didn't come from my roadmap. **It came from a contributor.**
+
+And it's where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.
+
 ## I removed the wait between design and engineering. *There's one wait left.*
 
 I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. **This is the next mile of the same road.**
@@ -239,7 +247,7 @@ Design systems ship standards.
 
 See it off the screen →
 
-Back to the three chapters ↑
+Back to the four chapters &uarr;
 
 ---
 
