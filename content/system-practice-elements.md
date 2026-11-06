@@ -96,8 +96,6 @@ So the system was coherent, and barely adopted. **A design system nobody adopts 
 
 So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.
 
-Deep dive in the origin story →
-
 Next: the approach →
 
 ## 02 &middot; The approach
