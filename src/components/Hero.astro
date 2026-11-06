@@ -355,8 +355,12 @@ const { courant, eyebrow, filigrane, accueil = false, portrait = false, defiler 
     <circle>. Il part a 1,9s : la photo du loader vient de se poser, et
     l'anneau la reprend.
   */
+  /* will-change : le meme correctif que sur l'anneau du loader - voir son
+     en-tete dans Base.astro. L'avatar n'est pas dans une couche composee,
+     mais les deux anneaux partagent le meme dispositif et le meme risque ;
+     les tenir identiques evite qu'un seul des deux derive un jour. */
   .hero__anneau{position:absolute;inset:-10px;overflow:visible;
-    transform:rotate(-90deg);pointer-events:none}
+    transform:rotate(-90deg);will-change:transform;pointer-events:none}
   /*
     IL SE FERME, PUIS IL S'EFFACE. Il a dit ce qu'il avait a dire - la photo du
     loader s'est posee, le hero la reprend - et s'il restait, il ferait un
