@@ -188,6 +188,20 @@
 .clef--jaune .clef__frag{background:var(--yellow)}
 .clef--gris .clef__frag{background:var(--grey-mondrian)}
 .clef--noir .clef__frag{background:var(--ink)}
+/*
+  LE COIN RESTE BLANC, SEUL SON TRAIT LE DESSINE. Rempli, il faisait un
+  deuxieme aplat dans une case dont tout le propos est d'etre blanche ; vide et
+  cerne, c'est une case de la grille qui se prolonge dans la case - le trait
+  fait le dessin, pas la couleur.
+
+  DEUX COTES, PAS QUATRE : le carre est a ras du coin bas droit, et ses bords
+  droit et bas tombent sur le `gap` de la rangee, deja noir. Les y border
+  doublerait le filet a 3px. Seuls le haut et la gauche se voient, et ce sont
+  eux qui decoupent le coin.
+*/
+.clef--carre .clef__frag{background:var(--white);
+  border-top:var(--rule-fine) solid var(--text);
+  border-left:var(--rule-fine) solid var(--text)}
 
 /*
   24px ET NON `--pad-square`, QUI EN VAUT 48. Les aplats de l'accueil sont des
