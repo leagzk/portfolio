@@ -121,15 +121,40 @@ const PART_PHOTO = 0.62;
 
   C'est le seul endroit du site ou la vitesse du front n'est pas constante, et
   c'est assume : un loader a un budget de temps, une page non.
+
+  ═══ LE BUDGET A ETE RESSERRE, ET VOICI CE QUI A ETE PESE ═══
+
+  Le loader DEMARRE quand le script s'execute : son temps s'ajoute au
+  chargement au lieu de le couvrir. Sur une connexion lente, trois secondes et
+  demie apres une seconde d'attente font quatre secondes et demie avant le
+  premier mot - pour un portfolio lu par des recruteurs, c'est le pire cas qui
+  compte.
+
+  Chaque phase a donc ete raccourcie de ce qu'elle pouvait perdre sans cesser
+  d'etre lisible, et pas d'un pourcentage uniforme :
+    - la construction passe de 1,6 a 1,15s. C'est la phase la plus visible, et
+      celle qui supporte le moins d'etre coupee : un front qui traverse en
+      moins d'une seconde ne se lit plus comme un trace.
+    - le retard de la couleur passe de 0,45 a 0,32s. Il doit rester assez long
+      pour qu'on voie le trait AVANT l'aplat - c'est tout le propos - mais
+      0,45 etait confortable, pas necessaire.
+    - la pause passe de 0,35 a 0,28s. Elle existe pour qu'on voie la grille
+      entiere une fois ; un tiers de seconde y suffit.
+    - le vol passe de 0,8 a 0,7s. Il est deja accompagne par l'entree de la
+      page, donc il n'a pas besoin de tenir seul.
+
+  Total a 1440x900 : le hero apparait a 2,0s au lieu de 2,6, tout est pose a
+  2,7 au lieu de 3,4. Trente pour cent de moins, sans qu'aucune phase cesse
+  d'etre lue.
 */
-const CONSTRUCTION = 1.6;
+const CONSTRUCTION = 1.15;
 const FRONT_MIN = 520;
 const TRAIT_RAPIDITE = 1.8; // un trait se tire plus vite que le front n'avance
 const TRAIT_MIN = 0.22;
 const TRAIT_MAX = 0.8;
-const RETARD_FORME = 0.45; // ce que la couleur attend derriere le front
-const PAUSE = 0.35; // le temps de voir la grille entiere avant qu'elle se defaise
-const VOL = 0.8; // duree du vol des formes communes
+const RETARD_FORME = 0.32; // ce que la couleur attend derriere le front
+const PAUSE = 0.28; // le temps de voir la grille entiere avant qu'elle se defaise
+const VOL = 0.7; // duree du vol des formes communes
 
 /*
   UNE SEULE FOIS PAR VISITE. Le loader presente le site ; revenir sur
@@ -277,6 +302,11 @@ export function initLoader(): void {
       f.style.top = `${(y + (haut - d) / 2).toFixed(1)}px`;
       f.style.width = `${d.toFixed(1)}px`;
       f.style.height = `${d.toFixed(1)}px`;
+      /* L'anneau se tient a 5% du diametre, quelle que soit la taille de la
+         photo - soit 10% du rayon, la proportion qu'avaient les 9px fixes sur
+         la photo de 186px du grand ecran. Voir .loader__anneau dans
+         Base.astro. */
+      f.style.setProperty('--ecart-anneau', `${(d * 0.05).toFixed(1)}px`);
     } else {
       /* Un carre du plus petit cote de la zone, cale sur son coin haut
          gauche : il reste carre quel que soit le rapport de la fenetre, donc

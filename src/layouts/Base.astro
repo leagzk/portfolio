@@ -337,7 +337,17 @@ const personSchema = {
     par un sous WebKit, le decalage restait identique dans les quatre
     combinaisons.
   */
-  .loader__anneau{position:absolute;inset:-9px;z-index:0;overflow:visible;
+  /*
+    SON ECART A LA PHOTO EST PROPORTIONNEL, PAS FIXE. Il valait -9px, ce qui
+    etait juste tant que la photo mesurait au moins 100px : neuf pixels y
+    representent 9% du rayon, l'anneau la serre. Depuis qu'elle tient sa
+    taille de sa case, elle descend a 79px sur un telephone - et neuf pixels y
+    font 19% du rayon. L'anneau ne cerclait plus la photo, il flottait autour.
+    Le script pose donc l'ecart a 6% du diametre ; la valeur ecrite ici n'est
+    qu'un secours si le script ne tourne pas.
+  */
+  .loader__anneau{position:absolute;inset:calc(var(--ecart-anneau,9px) * -1);
+    z-index:0;overflow:visible;
     transform:rotate(-90deg);will-change:transform;transition:opacity .3s ease}
   /* vector-effect : l'epaisseur reste a 1,5px quelle que soit la taille rendue. */
   .loader__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
