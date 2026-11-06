@@ -45,45 +45,62 @@ import { mouvementReduit } from './motion';
   retrait. Les couleurs suivent donc les lignes au lieu d'arriver ensemble, et
   plusieurs cases se remplissent en meme temps a des endroits differents.
 */
-const TRACE_DEBUT = 0.1; // retard du premier filet
-const TRACE_ETALEMENT = 1.9; // ecart entre le premier trait et le dernier
+const TRACE_DEBUT = 0.1; // retard de la premiere vague
 /*
-  UNE VITESSE, PAS UNE DUREE. Tous les filets mettaient 0,5s, quelle que soit
-  leur longueur : sur l'accueil, un filet de 625px filait a 1250px/s pendant
-  qu'un de 56px rampait a 112px/s - onze fois plus lent. Rien, dans ce geste,
-  ne pouvait se lire comme UNE main : une main trace a vitesse a peu pres
-  constante, et c'est la duree qui suit la longueur, pas l'inverse.
+  ═══ LE TRACE AVANCE PAR VAGUES, PAS PAR FILE ═══
 
-1100px/s depuis que les bords sont fusionnes en vraies lignes : elles vont
-  maintenant d'un bout a l'autre de la composition, et a 900 les plus longues
-  trainaient une seconde et quart. Les bornes evitent les deux extremes du
-  geste - un tiret de 50px qui clignerait, une ligne pleine qui s'eterniserait.
+  Chaque trait partait 0,16s apres le precedent, un par un, du premier au
+  dernier. C'etait lisible et c'etait mecanique : « trop sequence », et le
+  dessin se lisait comme une liste qu'on deroule plutot que comme une
+  composition qui se construit.
+
+  Les elements sont donc ranges en VAGUES, par bandes d'avance diagonale, et
+  une vague part d'un seul tenant. Ce qui tombe dans la meme bande arrive
+  ensemble, quel que soit son genre : une verticale en bas a gauche, une
+  verticale en haut a droite et un aplat de couleur partagent la meme
+  anti-diagonale - (x + y) egal - donc la meme vague. C'est exactement la
+  lecture que Lea decrit, et c'est ce que la diagonale disait depuis le
+  debut : la casser trait par trait l'avait perdue.
+
+  SIX VAGUES, DECOUPEES PAR RANG ET NON PAR VALEUR. Les anti-diagonales d'une
+  composition se distribuent en cloche - celle du milieu traverse le plus
+  d'elements -, donc tailler des bandes d'egale LARGEUR entassait tout au
+  centre : mesure sur l'accueil, deux vagues dont une de ONZE elements sur
+  dix-huit, puis deux vagues d'un seul. On trie donc par avance et on coupe en
+  six groupes de meme EFFECTIF : chaque vague compte trois ou quatre membres,
+  quelle que soit la composition, et ses membres restent voisins en diagonale.
+
+  0,3s ENTRE DEUX VAGUES, pour des traces de 0,2 a 1s : la suivante part
+  pendant que la precedente se tire encore. C'est le recouvrement qui rend le
+  geste continu.
+
+  LE SOUFFLE INTERNE EST BORNE, ET C'EST TOUT L'ECART ENTRE UNE VAGUE ET UNE
+  FILE. A 0,04s PAR MEMBRE, une bande de huit s'etalait sur 0,32s - plus que
+  les 0,3s qui separent deux bandes : les vagues se recouvraient, et le trace
+  redevenait l'echelle reguliere qu'on venait de quitter. Mesure sur
+  l'accueil : 0,70 / 0,74 / 0,78 / 0,82 / 0,86 / 0,90 / 0,94 / 0,98 - une file,
+  pas un groupe.
+
+  Les membres d'une bande se repartissent donc sur une FENETRE FIXE de 0,08s,
+  quel que soit leur nombre. A zero ils s'alignaient au centieme et le groupe
+  claquait ; a 0,08 reparti, le groupe respire et reste un groupe - quatre
+  fois moins que l'ecart entre deux vagues.
+*/
+const BANDES = 6;
+const PAS_BANDE = 0.3;
+const ETALE_BANDE = 0.08;
+/*
+  UNE VITESSE, PAS UNE DUREE. Tous les traits mettaient 0,5s, quelle que soit
+  leur longueur : un trait de 625px filait a 1250px/s pendant qu'un de 56px
+  rampait a 112px/s - onze fois plus lent. Rien, dans ce geste, ne pouvait se
+  lire comme UNE main : une main trace a vitesse a peu pres constante, et
+  c'est la duree qui suit la longueur, pas l'inverse. Les bornes evitent les
+  deux extremes - un tiret de 50px qui clignerait, une ligne pleine qui
+  s'eterniserait.
 */
 const TRACE_VITESSE = 1100; // px/s
 const TRACE_DUREE_MIN = 0.22;
 const TRACE_DUREE_MAX = 1;
-/*
-  DEUX FILETS NE PARTENT JAMAIS ENSEMBLE. Le front se propage en diagonale
-  depuis le coin haut gauche - (x + y) / (W + H) -, et deux filets poses sur la
-  meme anti-diagonale recevaient donc le meme retard, au centieme pres. Mesure
-  sur l'accueil : deux verticales a 1,90s exactement, deux a 1,47 et 1,49,
-  trois a 1,06 / 1,07 / 1,20. Sur sept verticales, l'essentiel du tableau
-  partait par paquets, et un paquet ne se lit pas comme une suite de traits.
-
-  Les departs sont donc repris apres coup, dans l'ordre du front : chacun est
-  repousse pour qu'il reste au moins ECART_MIN apres le precedent. L'ordre
-  diagonal est conserve - c'est le concept, le trait du hero touche le coin
-  haut gauche et tout part de la -, seules les egalites sont defaites.
-
-0,16s, et plus 0,07. A 0,07 - quatre images - l'oeil ne separait pas deux
-  departs : Lea voyait toujours des traits arriver « ensemble d'un coup »,
-  alors que la mesure, elle, declarait zero ex aequo. Le chiffre etait juste
-  et la lecture restait fausse ; c'est la lecture qui tranche. A 0,16 le
-  decalage se voit, et comme un trace dure de 0,2 a 1s, il y a toujours deux
-  ou trois lignes en cours - le collectif tient.
-*/
-const ECART_MIN = 0.16;
-const RETRAIT = 0.3; // ce que la couleur attend apres les filets qui la bordent
 /* Une case qui arrive bien apres la construction - on a defile jusqu'a elle -
    ne doit pas heriter d'un retard calcule pour l'ouverture. */
 const RETARD_TARDIF = 0.08;
@@ -148,7 +165,7 @@ function construire(comp: HTMLElement): void {
       /* Une case masquee au point de rupture courant - la pagination du rail
          n'existe que sous 720px - rend une boite nulle. avanceDe la borne. */
       const avance = avanceDe(r.left - cr.left, r.top - cr.top, cr);
-      el.style.setProperty('--retard', `${(TRACE_DEBUT + avance * TRACE_ETALEMENT + RETRAIT).toFixed(2)}s`);
+      el.style.setProperty('--retard', `${(TRACE_DEBUT + avance * BANDES * PAS_BANDE).toFixed(2)}s`);
     });
   };
   placerRetards();
@@ -278,32 +295,125 @@ function construire(comp: HTMLElement): void {
     }
 
     /*
-      ═══ L'ORDRE EST UN MELANGE, PAS DEUX SERIES ═══
+      ═══ LA VAGUE D'UN ELEMENT EST SA BANDE D'AVANCE DIAGONALE ═══
 
-      Verticales et horizontales sont rangees ENSEMBLE, sur la seule avance
-      diagonale : elles s'entrelacent donc d'elles-memes, et la grille se ferme
-      case par case au lieu de se dessiner en deux passes. C'est la condition
-      pour que les carres se forment - une case a besoin de ses deux sens.
-
-      ELLES SE CHEVAUCHENT. ECART_MIN separe deux DEPARTS, pas deux lignes : a
-      0,16s pour des traces de 0,2 a 1s, il y a toujours deux ou trois lignes
-      en cours. Le decalage se lit, le collectif tient.
+      Verticales, horizontales et cases sont rangees ENSEMBLE, sur la seule
+      avance diagonale, puis quantifiees en BANDES vagues. Ce qui tombe dans la
+      meme bande part ensemble : les deux sens s'entrelacent d'eux-memes, et un
+      aplat arrive avec les traits de sa zone plutot qu'apres toute la grille.
     */
-    lignes.sort((a, b) => a.avance - b.avance || (a.sens === b.sens ? 0 : a.sens === 'v' ? -1 : 1));
-    let precedent = -Infinity;
-    lignes.forEach((l, i) => {
+    lignes.forEach((l) => {
       l.duree = Math.min(TRACE_DUREE_MAX, Math.max(TRACE_DUREE_MIN, l.long / TRACE_VITESSE));
-      l.depart = Math.max(TRACE_DEBUT + l.avance * TRACE_ETALEMENT, precedent + ECART_MIN);
-      precedent = l.depart;
-      l.fin = l.depart + l.duree;
-      /*
-        LE SENS ALTERNE. Une main qui trace une grille ne repart pas toujours
-        du meme bord : elle descend, puis remonte, puis redescend. Une ligne
-        sur deux part donc de l'autre bout - bas vers haut pour une verticale,
-        droite vers gauche pour une horizontale. L'alternance suit l'ordre du
-        trace, donc elle est stable d'un chargement a l'autre.
-      */
-      l.inverse = i % 2 === 1;
+    });
+
+    /*
+      ═══ UNE CASE REJOINT LA VAGUE DE SON DERNIER TRAIT ═══
+
+      Pas celle de sa propre position : une case dont le bord bas est trace
+      dans la derniere vague ne peut pas se colorer dans la deuxieme, elle ne
+      serait pas encore fermee. Elle prend donc la bande du plus tardif des
+      traits qui la bordent - elle arrive AVEC lui, dans la meme vague, et non
+      0,3s apres toute la grille.
+
+      Les bords exterieurs n'existent pas (grille ouverte) : une case de coin
+      n'a que deux ou trois traits a attendre, et c'est bien le dernier d'entre
+      eux qui compte.
+    */
+    const borde = (sens: 'v' | 'h', pos: number, a: number, b: number): Ligne | undefined =>
+      lignes.find((l) => l.sens === sens
+        && Math.abs((sens === 'v' ? l.x : l.y) - pos) <= TOL
+        && (sens === 'v' ? l.y : l.x) <= a + TOL
+        && (sens === 'v' ? l.y + l.long : l.x + l.long) >= b - TOL);
+
+    type Membre = { avance: number; bande: number; y: number; x: number; ligne?: Ligne; el?: HTMLElement };
+    const membres: Membre[] = lignes.map((l) => ({
+      avance: l.avance, bande: 0, y: l.y, x: l.x, ligne: l,
+    }));
+
+    cases.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      /* Une case masquee au point de rupture courant - la pagination du rail
+         n'existe que sous 720px - rend une boite nulle. Elle garde le retard
+         de secours pose plus haut ; elle n'est de toute facon pas affichee. */
+      if (!r.width || !r.height) return;
+      const l = r.left - cr.left;
+      const t = r.top - cr.top;
+      const bords = [
+        borde('v', l, t, t + r.height),
+        borde('v', l + r.width, t, t + r.height),
+        borde('h', t, l, l + r.width),
+        borde('h', t + r.height, l, l + r.width),
+      ].filter(Boolean) as Ligne[];
+      const avance = bords.length
+        ? Math.max(...bords.map((b) => b.avance))
+        : Math.max(0, Math.min(1, (l + t) / (W + H)));
+      membres.push({ avance, bande: 0, y: t, x: l, el });
+    });
+
+    /*
+      ═══ L'HEURE D'UNE VAGUE, ET LE SOUFFLE A L'INTERIEUR ═══
+
+      Tous les membres d'une bande partent a l'heure de la bande ; a
+      l'interieur, ils sont ranges dans l'ordre de lecture et decales de
+      JITTER_BANDE. Le groupe reste un groupe - c'est ce que Lea demande -
+      sans que ses membres s'alignent au centieme.
+
+      LE SENS DU TRACE ALTERNE sur l'ordre global des traits : une ligne sur
+      deux part de l'autre bout, bas vers haut pour une verticale, droite vers
+      gauche pour une horizontale. Une main qui trace une grille ne repart pas
+      toujours du meme bord. L'alternance suit un ordre stable, donc elle est
+      la meme d'un chargement a l'autre.
+    */
+    /*
+      LA COUPE SE FAIT PAR RANG : on trie par avance, puis on taille six
+      groupes de meme effectif. Deux elements de meme avance - un trait et
+      l'aplat qu'il ferme, par exemple - ne sont jamais separes par une coupe.
+    */
+    membres.sort((a, b) => a.avance - b.avance || a.y - b.y || a.x - b.x);
+    membres.forEach((m, i) => {
+      m.bande = Math.min(BANDES - 1, Math.floor((i * BANDES) / membres.length));
+    });
+    membres.forEach((m, i) => {
+      if (i > 0 && m.avance === membres[i - 1].avance) m.bande = membres[i - 1].bande;
+    });
+    /*
+      ON RESSERRE LES NUMEROS. Le regroupement ci-dessus vide parfois une
+      bande - ses premiers membres sont tires dans la precedente -, et une
+      bande vide se voyait : 0,6s de silence avant la derniere vague, mesure
+      sur l'accueil. Les bandes restantes sont renumerotees a la suite, donc
+      l'ecart entre deux vagues est toujours celui qu'on a choisi.
+    */
+    let numero = -1;
+    let precedenteBande = -1;
+    membres.forEach((m) => {
+      if (m.bande !== precedenteBande) {
+        precedenteBande = m.bande;
+        numero += 1;
+      }
+      m.bande = numero;
+    });
+    const tailles = new Map<number, number>();
+    membres.forEach((m) => tailles.set(m.bande, (tailles.get(m.bande) ?? 0) + 1));
+    let bandeCourante = -1;
+    let rangDansBande = 0;
+    let nTrait = 0;
+    membres.forEach((m) => {
+      if (m.bande !== bandeCourante) {
+        bandeCourante = m.bande;
+        rangDansBande = 0;
+      }
+      const n = tailles.get(m.bande) ?? 1;
+      const quand = TRACE_DEBUT + m.bande * PAS_BANDE
+        + (n > 1 ? (rangDansBande / (n - 1)) * ETALE_BANDE : 0);
+      rangDansBande += 1;
+      if (m.ligne) {
+        m.ligne.depart = quand;
+        m.ligne.fin = quand + m.ligne.duree;
+        m.ligne.inverse = nTrait % 2 === 1;
+        nTrait += 1;
+      } else if (m.el) {
+        m.el.style.setProperty('--retard', `${quand.toFixed(2)}s`);
+      }
     });
 
     const calque = document.createElement('div');
@@ -318,69 +428,6 @@ function construire(comp: HTMLElement): void {
       seg.style.animationDelay = `${l.depart.toFixed(2)}s`;
       seg.style.animationDuration = `${l.duree.toFixed(2)}s`;
       calque.appendChild(seg);
-    });
-
-    /*
-      ═══ UNE CASE SE REMPLIT QUAND ELLE EST FERMEE ═══
-
-      Son retard se calculait sur sa position dans le front - une formule
-      parallele a celle des lignes, qui tombait juste par construction mais ne
-      DISAIT rien. La couleur arrive maintenant quand le dernier des traits qui
-      bordent la case a fini de se tracer : la case se ferme, puis elle se
-      remplit. C'est ce que Lea demande - des carres qui se forment, pas des
-      lignes sorties de nulle part.
-
-      Les bords exterieurs n'existent pas (grille ouverte) : une case de coin
-      n'a que deux ou trois traits a attendre, et c'est bien le dernier d'entre
-      eux qui compte.
-    */
-    const borde = (sens: 'v' | 'h', pos: number, a: number, b: number): Ligne | undefined =>
-      lignes.find((l) => l.sens === sens
-        && Math.abs((sens === 'v' ? l.x : l.y) - pos) <= TOL
-        && (sens === 'v' ? l.y : l.x) <= a + TOL
-        && (sens === 'v' ? l.y + l.long : l.x + l.long) >= b - TOL);
-
-    const fermetures: { el: HTMLElement; ferme: number; t: number; l: number }[] = [];
-    cases.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      /* Une case masquee au point de rupture courant - la pagination du rail
-         n'existe que sous 720px - rend une boite nulle. Elle garde le retard
-         brut pose plus haut ; elle n'est de toute facon pas affichee. */
-      if (!r.width || !r.height) return;
-      const l = r.left - cr.left;
-      const t = r.top - cr.top;
-      const bords = [
-        borde('v', l, t, t + r.height),
-        borde('v', l + r.width, t, t + r.height),
-        borde('h', t, l, l + r.width),
-        borde('h', t + r.height, l, l + r.width),
-      ].filter(Boolean) as Ligne[];
-      fermetures.push({
-        el,
-        ferme: bords.length ? Math.max(...bords.map((b) => b.fin)) : TRACE_DEBUT,
-        t,
-        l,
-      });
-    });
-
-    /*
-      DEUX CASES NE SE REMPLISSENT PAS ENSEMBLE NON PLUS. Une meme ligne ferme
-      souvent plusieurs cases a la fois - sur l'accueil, la grande horizontale
-      du bas en ferme CINQ -, et elles se coloraient donc au meme centieme.
-      On venait de defaire les departs simultanes des traits pour les voir
-      reapparaitre sur les aplats.
-
-      Les cases fermees ensemble sont donc servies dans l'ordre de lecture,
-      0,08s l'une apres l'autre - le meme pas que la cascade des cases
-      atteintes plus tard. Une case n'arrive jamais AVANT sa fermeture : le
-      decalage ne fait que pousser.
-    */
-    fermetures.sort((a, b) => a.ferme - b.ferme || a.t - b.t || a.l - b.l);
-    let precedenteCase = -Infinity;
-    fermetures.forEach((f) => {
-      const quand = Math.max(f.ferme + RETRAIT, precedenteCase + RETARD_TARDIF);
-      precedenteCase = quand;
-      f.el.style.setProperty('--retard', `${quand.toFixed(2)}s`);
     });
 
     comp.appendChild(calque);

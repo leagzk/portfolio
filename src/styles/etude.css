@@ -220,8 +220,19 @@
   specificite egale sa declaration battrait la remise en une colonne ci-dessous,
   media query comprise.
 */
+/*
+  PAS DE BORDURE EXTERIEURE - LA GRILLE A SES BORDS OUVERTS (BRIEF §3.2).
+  La composition portait `border:var(--rule-fine) solid var(--text)`, qui
+  fermait le dessin d'un cadre sur ses quatre cotes. L'accueil, lui, n'en a
+  jamais eu : son fond noir ne transparait que par les `gap`, et un
+  `clip-path` rogne le pixel de debord que l'arrondi sous-pixel laisse sur les
+  bords. C'est lui la reference - les cinq autres compositions s'alignent.
+
+  Le clip-path rogne droite, bas et gauche, pas le haut : en haut le fond noir
+  s'arrete net sur la premiere case, il n'y a rien a reprendre.
+*/
 .compo{display:grid;position:relative;gap:var(--rule-fine);background:var(--text);
-  border:var(--rule-fine) solid var(--text);
+  clip-path:inset(0 1px 1px 1px);
   scroll-margin-top:calc(var(--chrome-h) + var(--sp-03))}
 .compo > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
 

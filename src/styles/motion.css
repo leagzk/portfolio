@@ -78,5 +78,12 @@
   se trace, la couleur qui pousse, le texte qui monte. Le texte se contente
   desormais d'apparaitre.
 */
-@keyframes pousse{from{transform:scale(0)}}
+/*
+  L'APLAT ENTRE EN FONDU, PAS SEULEMENT EN ECHELLE. Il poussait depuis son
+  coin a pleine opacite : dans une vague ou les traits, eux, se fondent, il
+  claquait. L'opacite monte sur les 45 premiers pour cent de sa course - la
+  couleur prend en meme temps qu'elle s'etend, et la vague se lit d'un seul
+  tenant.
+*/
+@keyframes pousse{from{transform:scale(0);opacity:0}45%{opacity:1}to{transform:scale(1);opacity:1}}
 @keyframes monte{from{opacity:0;transform:translateY(4px)}}
