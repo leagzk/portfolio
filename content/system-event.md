@@ -18,19 +18,27 @@ every supplier. No repository. No deploy pipeline. Just the discipline of
 making a hundred moving parts feel like one thing.
 
 1 an+
+
 from first object to last jar
+
 Designed and orchestrated end to end, alongside the day job.
 
 50+
+
 surfaces, one identity
+
 Paper, fabric, metal, wood - and a pre-event WhatsApp community.
 
 9
+
 suppliers directed from one guide
+
 One page per zone, one owner per page. Executed without me in the room.
 
 3rd
+
 edition, each bigger than the last
+
 A full identity every time, an escape game every time. I don't repeat a system - I version it.
 
 It started with two rented objects.

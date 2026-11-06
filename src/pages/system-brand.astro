@@ -92,13 +92,13 @@ const dessin = (nom: string): string => {
 
 /* ─── Chiffres cles (BRIEF §5.2) ─── */
 const chiffres: Chiffre[] = [
-  { nombre: '2,500', quoi: 'people shipping on-brand',
+  { nombre: '2,500', quoi: 'people shipping on-brand', couleur: 'rouge', motif: 'plein',
     contexte: 'From COMEX to front-line, with no bottleneck in the middle.' },
-  { nombre: '200+', quoi: 'campaigns and internal events',
+  { nombre: '200+', quoi: 'campaigns and internal events', couleur: 'bleu', motif: 'bande',
     contexte: 'All of them ran on the system. The default way things shipped.' },
-  { nombre: '6,000', quoi: 'participants reached',
+  { nombre: '6,000', quoi: 'participants reached', couleur: 'jaune', motif: 'plein',
     contexte: "Sanofi's first hackathons, run on the platform. One idea shipped: Theia®, an app for patients living with sight loss." },
-  { nombre: '1', quoi: 'standard, one pilot',
+  { nombre: '1', quoi: 'standard, one pilot', couleur: 'rouge', motif: 'carre',
     contexte: 'The 2022 rebrand, translated for screens and piloted on sanofi.com.' },
 ];
 
@@ -363,7 +363,7 @@ const pratiques: Tuile[] = [
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} />
+    <ChiffresCles chiffres={chiffres} variante="mondrian" />
 
     {/*
       ─── La composition des 3 cartes (BRIEF §5.3) ───

@@ -65,13 +65,13 @@ const img = chercheurImages(fichiers, 'living-system');
   TROISIEME edition - c'est elle qui prouve que le systeme se versionne.
 */
 const chiffres: Chiffre[] = [
-  { nombre: '1 an+', quoi: 'from first object to last jar',
+  { nombre: '1 an+', quoi: 'from first object to last jar', couleur: 'bleu', motif: 'plein',
     contexte: 'Designed and orchestrated end to end, alongside the day job.' },
-  { nombre: '50+', quoi: 'surfaces, one identity',
+  { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'carre',
     contexte: 'Paper, fabric, metal, wood - and a pre-event WhatsApp community.' },
-  { nombre: '9', quoi: 'suppliers directed from one guide',
+  { nombre: '9', quoi: 'suppliers directed from one guide', couleur: 'noir', motif: 'plein',
     contexte: 'One page per zone, one owner per page. Executed without me in the room.' },
-  { nombre: '3rd', quoi: 'edition, each bigger than the last',
+  { nombre: '3rd', quoi: 'edition, each bigger than the last', couleur: 'rouge', motif: 'bande',
     contexte: "A full identity every time, an escape game every time. I don't repeat a system - I version it." },
 ];
 
@@ -164,7 +164,7 @@ const credits = [
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} label="The measure of it" />
+    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian" />
 
     {/*
       ─── La composition des 3 cartes ───

@@ -106,6 +106,24 @@
   qui a ete dimensionnee pour le contenir ouvert : 240px tiennent le nombre a 48,
   intitule sur deux lignes et quatre lignes de contexte.
 */
+/*
+  SANS CASE DE DEFINITION, UNE SEULE RANGEE SUR TOUTE LA LARGEUR. Les deux
+  autres etudes portent quatre chiffres et pas de phrase de definition : une
+  grille a deux rangees leur ferait des cases de 620px pour trois mots.
+*/
+/*
+  AU-DELA DU PALIER SEULEMENT. Sous 861px la bande s'empile - quatre cases de
+  170px l'une sous l'autre - et une rangee figee a 240px les ecrasait : mesure
+  a 375px, un bandeau de 242px pour 685 de contenu. La classe est doublee pour
+  passer devant la requete telephone, qui est ecrite plus loin ; la requete
+  media la remet a sa place.
+*/
+@media(min-width:861px){
+  .cles--mondrian-seul.cles--mondrian-seul{grid-template-columns:1fr;
+    grid-template-rows:240px}
+  .cles--mondrian-seul .clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
+}
+
 .cles--mondrian{display:grid;grid-template-columns:7fr 5fr;
   grid-template-rows:repeat(2,240px);gap:var(--rule-fine);background:var(--text);
   clip-path:inset(0 1px 0 1px);margin-top:72px;position:relative;
@@ -837,6 +855,14 @@
 @keyframes deplie{from{opacity:0;transform:translateY(-10px)}}
 
 .pan .subsec{display:flex;flex-direction:column;gap:32px}
+/*
+  LE SURTITRE COLLE A SA PHRASE. Les 32px de la sous-partie separent des BLOCS
+  - le texte et la serie de tuiles qui le suit, par exemple - et c'est la bonne
+  mesure pour eux. Entre le surtitre et le titre, ce sont deux lignes d'une
+  meme adresse : l'etiquette et ce qu'elle etiquette. La marge negative reprend
+  20 des 32, et c'est la seule facon d'agir sur UN gap d'un conteneur flex.
+*/
+.pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */
 .pan .eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;

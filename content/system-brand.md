@@ -17,19 +17,27 @@ handed its people the language to talk about it themselves. In 2022, I took
 the part nobody had defined: what the new corporate brand becomes on a screen.
 
 2,500
+
 people shipping on-brand
+
 From COMEX to front-line, with no bottleneck in the middle.
 
 200+
+
 campaigns and internal events
+
 All of them ran on the system. The default way things shipped.
 
 6,000
+
 participants reached
+
 Sanofi's first hackathons, run on the platform. One idea shipped: Theia®, an app for patients living with sight loss.
 
 1
+
 standard, one pilot
+
 The 2022 rebrand, translated for screens and piloted on sanofi.com.
 
 IT was a business driver - and nobody outside IT could see it.
