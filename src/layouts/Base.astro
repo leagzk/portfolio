@@ -59,11 +59,13 @@ const personSchema = {
   Ce qui reste ici : le <head>, le lien d'evitement, le loader, le <main> et le
   pied de page - ce qui est vraiment commun aux sept pages.
 
-  Trois pages gardent leur `noindex` et restent filtrees du sitemap dans
-  astro.config.mjs - operating-system, system-practice-elements et system-brand.
-  Elles sont donc visibles pour qui parcourt le site, invisibles pour les
-  moteurs. Les deux se retirent EN MEME TEMPS le jour ou une page est jugee
-  publiable : l'attribut dans la page, et l'entree dans le filtre du sitemap.
+  `noindex` ne sert plus qu'a la 404. Les trois etudes de cas le portaient le
+  temps d'etre redigees ; elles le sont, et les trois verrous sont tombes
+  ensemble - l'attribut ici, l'entree dans le filtre du sitemap
+  (astro.config.mjs) et le `Disallow` de public/robots.txt. Ils ne font le
+  travail qu'a trois, et le dernier est le plus trompeur : un `Disallow`
+  empeche le crawl, donc empeche Google de LIRE le noindex. Le laisser aurait
+  tenu les pages hors de l'index malgre les deux autres.
 */
 ---
 <!DOCTYPE html>
