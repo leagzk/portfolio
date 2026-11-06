@@ -102,13 +102,13 @@ Next: the approach →
 
 Organisation & people
 
-The decision was the easy part. *Owning it wasn't.*
+Scaling is a series of bets. *I refused to place them blind.*
 
-I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
+**The decision was the easy part. Owning it wasn't.** I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
 Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
 
-I set the direction, carried it to leadership, then handed my team the operational goal as **OKRs of their own**, tied to the company's annual objectives - our ambition inside a shared project, never beside it. **Scaling is a series of bets, and I refused to place them blind:** what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
+I set the direction, carried it to leadership, then handed my team the operational goal as **OKRs of their own**, tied to the company's annual objectives - our ambition inside a shared project, never beside it. Every decision got the same reading: what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
 
 This is the layer no contributor can claim. **Not the components - the conditions.**
 
@@ -166,9 +166,9 @@ Next: the proof →
 
 Business impact
 
-A structure only counts *if it holds.*
+The numbers are the system's, *not mine.*
 
-This one does - and the numbers are the system's, not mine. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, **zero users to a community of 2,000+ practitioners.**
+**A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, **zero users to a community of 2,000+ practitioners.**
 
 **And none of it was measured after the fact.** I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
 
@@ -216,13 +216,15 @@ Next: the team &rarr;
 
 ## 04 &middot; The team
 
-I didn't build a system I hold together. *I built the conditions where it holds itself.*
+Every week, the same question: *is the work moving, and is the person growing.*
+
+**I didn't build a system I hold together. I built the conditions where it holds itself.**
 
 - **Autonomous streams**, split by capability, each moving without a central decision - inside a **collective framing**, so a stream deciding alone still decides inside a frame it co-wrote.
 
 - **Shared rituals** are the connective tissue keeping five hubs one system rather than an archipelago.
 
-- Every week, the same conversation: **is the work moving, and is the person growing.** A team that isn't well doesn't ship - wellbeing isn't a nice-to-have, it's load-bearing.
+- **A team that isn't well doesn't ship** - wellbeing isn't a nice-to-have on the side, it's load-bearing.
 
 - When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
 
