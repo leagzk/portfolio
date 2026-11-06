@@ -97,11 +97,29 @@ export function initDossier(): void {
     compo.appendChild(liste);
   };
 
+  /*
+    LE DEFILEMENT DOUX A UNE PORTEE, AU-DELA IL FAIT ATTENDRE. D'un bouton
+    « Next: ... », pose tout en bas d'un chapitre, la composition est a plus de
+    mille pixels : le trajet dure presque une seconde, pendant laquelle le
+    contenu demande est deja la mais invisible. Mesure : 1164px depuis la fin
+    du chapitre 01.
+
+    AU-DELA D'UN ECRAN, ON COUPE au lieu de glisser : des que la cible est hors
+    champ d'une hauteur entiere, le glissement ne montre plus rien - il fait
+    defiler du contenu qu'on ne lit pas. C'est un SAUT demande, pas un
+    parcours. En deca, le glissement garde son role : dire d'ou l'on vient
+    quand on vient de tout pres.
+
+    UN ECRAN ET NON UN ECRAN ET DEMI, mesure : le bouton « Next: the approach »
+    est a 1106px de la composition pour une fenetre de 1050. A 1.5 il glissait
+    encore, et c'est precisement le cas que Lea a signale.
+  */
+  const PORTEE_DOUCE = 1;
   const remonter = () => {
-    compo?.scrollIntoView({
-      block: 'start',
-      behavior: mouvementReduit() ? 'auto' : 'smooth',
-    });
+    if (!compo) return;
+    const trajet = Math.abs(compo.getBoundingClientRect().top);
+    const doux = !mouvementReduit() && trajet < innerHeight * PORTEE_DOUCE;
+    compo.scrollIntoView({ block: 'start', behavior: doux ? 'smooth' : 'auto' });
   };
 
   const fermer = (carte: HTMLButtonElement) => {
@@ -166,6 +184,20 @@ export function initDossier(): void {
     dessus, et rend le focus a la carte qu'on vient de lire - pas a la premiere
     des trois, qui obligerait a retraverser le sommaire a la tabulation.
   */
+  /*
+    RETOUR EN HAUT, SANS RIEN REFERMER. Un chapitre deplie fait plusieurs
+    ecrans ; arrive en bas, on veut souvent revenir au sommaire sans perdre ce
+    qu'on lisait. Le bouton remonte sur la composition et s'arrete la - a la
+    difference de celui de fin de dossier, qui referme aussi.
+  */
+  document.querySelectorAll<HTMLElement>('[data-haut]').forEach((b) => {
+    b.addEventListener('click', () => {
+      remonter();
+      const ouverte = cartes.find((c) => c.getAttribute('aria-expanded') === 'true');
+      ouverte?.focus({ preventScroll: true });
+    });
+  });
+
   document.querySelectorAll<HTMLElement>('[data-ferme]').forEach((b) => {
     b.addEventListener('click', () => {
       const pan = b.closest<HTMLElement>('.pan');
