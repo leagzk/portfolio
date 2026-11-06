@@ -48,6 +48,41 @@ export function initDossier(): void {
   const majCompo = () => {
     const ouverte = cartes.some((c) => c.getAttribute('aria-expanded') === 'true');
     compo?.classList.toggle('compo--solo', ouverte);
+    if (!ouverte) compo?.querySelector('.compo__sommaire')?.remove();
+  };
+
+  /*
+    LE SOMMAIRE DE LA MOITIE BLANCHE. Chaque sous-partie du panneau s'ouvre sur
+    une `.lead` - « Nobody meets. That's the tax. » - et ces phrases sont deja
+    le resume des idees couvertes. On les reprend telles quelles plutot que de
+    les ressaisir dans la page : un sommaire recopie a la main finit toujours
+    par annoncer autre chose que ce qui suit.
+
+    ON CLONE LE CONTENU, ON NE COPIE PAS LE TEXTE. Les phrases portent des
+    <em> qui colorent un membre - « That's the tax. » en rouge - et c'est la
+    moitie de leur forme. `textContent` les aurait aplaties.
+
+    LE SOMMAIRE EST UN FRERE DE LA CARTE, pas un enfant : la carte est un
+    <button>, qui ne peut contenir que du contenu de phrase - une <ul> dedans
+    serait du HTML invalide. Il prend donc sa case dans la grille, a cote
+    d'elle. Voir .compo__sommaire dans etude.css.
+  */
+  const COULEURS = ['rouge', 'bleu', 'jaune'] as const;
+  const sommaire = (carte: HTMLButtonElement, pan: HTMLElement) => {
+    compo?.querySelector('.compo__sommaire')?.remove();
+    const phrases = Array.from(pan.querySelectorAll<HTMLElement>('.lead'));
+    if (!compo || !phrases.length) return;
+    const liste = document.createElement('ul');
+    const couleur = COULEURS.find((c) => carte.classList.contains(`dcarte--${c}`));
+    liste.className = `compo__sommaire${couleur ? ` compo__sommaire--${couleur}` : ''}`;
+    /* doublon visuel d'un contenu qui suit : rien a redire a l'oreille */
+    liste.setAttribute('aria-hidden', 'true');
+    phrases.forEach((p) => {
+      const item = document.createElement('li');
+      item.append(...Array.from(p.cloneNode(true).childNodes));
+      liste.appendChild(item);
+    });
+    compo.appendChild(liste);
   };
 
   const remonter = () => {
@@ -77,6 +112,7 @@ export function initDossier(): void {
     pan.classList.add('pan--ouvre');
     pan.addEventListener('animationend', () => pan.classList.remove('pan--ouvre'), { once: true });
     majCompo();
+    sommaire(carte, pan);
     remonter();
   };
 

@@ -387,12 +387,29 @@
   `grid-template-columns` sur `.compo` dans une requete media, et elle est
   ECRITE PLUS LOIN que ce fichier. A specificite egale, elle gagnerait.
 
-  LE CHAPITRE OUVERT EST UN INTERCALAIRE, et il lui faut donc ses trois cotes :
-  un filet a gauche, un a droite, et un filant sous toute la largeur. Ouverte,
-  la composition n'a plus qu'un enfant - donc plus un seul `gap`, et c'est par
-  les gaps que son fond noir dessinait les traits. Sans ces bordures la bande
-  flotterait entre le filet des chiffres cles, au-dessus, et celui du panneau,
-  en dessous : trois traits qui ne se rejoindraient pas.
+  LE CHAPITRE OUVERT EST UN INTERCALAIRE, et il lui faut donc ses cotes : un
+  filet a gauche et un filant sous toute la largeur. Ouverte, la composition
+  n'a plus qu'un enfant - donc plus un seul `gap`, et c'est par les gaps que
+  son fond noir dessinait les traits. Sans ces filets la bande flotterait entre
+  celui des chiffres cles, au-dessus, et celui du panneau, en dessous : trois
+  traits qui ne se rejoindraient pas.
+
+  DES PSEUDO-ELEMENTS ET NON DES BORDURES, et c'est une correction mesuree. En
+  `border-left`, le filet gauche poussait la boite de contenu de 1.5px vers la
+  droite ; la moitie de la carte tombait alors a 639.3px quand la division des
+  chiffres cles, elle, est a 640. Un decalage de 0.7px sur un trait de 1.5 -
+  assez pour que la jonction se voie comme un epaississement. En absolu, les
+  filets se posent PAR-DESSUS la carte sans rien deplacer : la composition garde
+  exactement la boite qu'elle a fermee, et la mi-largeur retombe sur 640.
+
+  `z-index` PARCE QUE LA CARTE EST POSITIONNEE. `.dcarte` est en
+  `position:relative` et vient apres les pseudo-elements dans l'ordre de peinture :
+  sans cote, son fond blanc passerait devant les deux filets.
+
+  LE FILET DE DROITE N'EST PAS ICI, mais contre la couleur - voir
+  `.dcarte__plat` plus bas. Pose au bord de la composition, il n'aurait rien
+  continue : rien ne le prolonge au-dessus. Contre l'aplat, il tombe sur une
+  division de la grille des chiffres cles et la fait descendre dans la bande.
 
   PAS DE FILET EN HAUT : `.cles` en pose deja un en bordure basse, et les deux
   blocs se touchent. En ajouter un ici le doublerait.
@@ -402,17 +419,17 @@
   sous-pixel de la grille ; il mangerait exactement les trois filets qu'on
   vient de poser.
 */
-.compo.compo--solo{grid-template-columns:1fr;grid-template-rows:auto;
-  clip-path:none;
-  border-left:var(--rule-fine) solid var(--text);
-  border-right:var(--rule-fine) solid var(--text);
-  border-bottom:var(--rule-fine) solid var(--text)}
-/* `grid-area` est un style en ligne sur la carte - `!important` est la seule
-   facon de le reprendre, comme dans la requete telephone plus haut. */
-.compo--solo .dcarte[aria-expanded="true"]{grid-area:auto !important}
+.compo.compo--solo{grid-template-rows:auto;gap:0;clip-path:none}
+.compo--solo::before,.compo--solo::after{content:"";position:absolute;
+  background:var(--text);z-index:2;pointer-events:none}
+/* le filet gauche, sur toute la hauteur de la bande */
+.compo--solo::before{left:0;top:0;bottom:0;width:var(--rule-fine)}
+/* et le filet filant, sous toute la largeur */
+.compo--solo::after{left:0;right:0;bottom:0;height:var(--rule-fine)}
 /* Tout le reste sort : les deux cartes fermees, les cases decoratives, et le
-   calque de trace s'il traine encore (grille.ts le retire a la fin du trace). */
-.compo--solo > :not([aria-expanded="true"]){display:none}
+   calque de trace s'il traine encore (grille.ts le retire a la fin du trace).
+   Le sommaire, lui, n'existe QUE dans cet etat - il est pose au depliage. */
+.compo--solo > :not([aria-expanded="true"]):not(.compo__sommaire){display:none}
 
 /*
   L'APLAT TIENT LA MOITIE, LA CARTE TIENT TOUT. La carte occupe la largeur de la
@@ -430,12 +447,88 @@
   entiere. A 50% nus, le texte depasserait l'aplat de 36px et le « × » du
   surtitre tomberait sur le blanc. Les 36px retires replacent le bord droit du
   texte a 36px du bord de la couleur : la meme marge qu'a gauche.
+
+  LE FILET DE DROITE EST PORTE PAR L'APLAT, et non par la composition : c'est au
+  bord de la COULEUR qu'il doit se tenir, pas au bord de la bande. Il arrive
+  donc avec le remplissage plutot qu'apres lui, et la carte refermee il s'en va
+  avec elle.
+
+  `50% + 1.5px` ET PAS `50%`, et ce n'est pas un ajustement a l'oeil. Dans cette
+  composition comme dans les chiffres cles, un trait se dessine A DROITE de la
+  division qu'il marque - un `gap` entre une colonne qui finit a X et la
+  suivante qui commence a X+1.5, ou ici la `border-left` de `.cles__col`. La
+  division de mi-largeur est a 640px : son trait occupe 640 a 641.5. Avec un
+  aplat a 50% nus, `box-sizing:border-box` rentrait la bordure DANS les 50% et
+  la posait de 638.5 a 640 - juste a cote, pas dessus, et la ligne se brisait en
+  arrivant dans la bande. L'epaisseur rendue a l'aplat la remet sur l'axe.
 */
-@media(min-width:861px){
-  .compo--solo .dcarte[aria-expanded="true"]{padding:32px 36px}
-  .compo--solo .dcarte[aria-expanded="true"] .dcarte__plat{width:50%}
-  .compo--solo .dcarte[aria-expanded="true"] .dcarte__txt{width:calc(50% - 36px)}
+@media(max-width:860px){
+  .compo.compo--solo{grid-template-columns:1fr}
+  .compo--solo .dcarte[aria-expanded="true"]{grid-area:auto !important}
 }
+@media(min-width:861px){
+  /*
+    DEUX MOITIES, ET LA CARTE PAR-DESSUS LES DEUX. La carte reste pleine largeur
+    - c'est elle qui ferme le chapitre quand on la clique - mais la grille en
+    compte deux pour que le sommaire ait une case a lui. Les deux se superposent
+    dans la meme rangee : la grille l'autorise, et c'est ce qui donne au
+    sommaire le droit de faire grandir la bande s'il est plus haut que la carte.
+    En absolu il aurait ete rogne.
+
+    `repeat(2,50%)` ET `gap:0` : la mi-largeur doit tomber exactement sur le
+    filet de l'aplat. Avec le `gap` de la composition, les colonnes vaudraient
+    (L - 1.5) / 2 et la frontiere serait a 0.75px du filet.
+  */
+  /* classe doublee, toujours pour la meme raison : la page declare
+     `grid-template-columns` sur `.compo` dans cette meme requete media, et
+     plus loin dans le bundle. A specificite egale elle gagnerait - mesure :
+     la carte retombait a 315px, soit les deux premieres colonnes du gabarit
+     a sept de la page. */
+  .compo.compo--solo{grid-template-columns:repeat(2,50%)}
+  .compo--solo .dcarte[aria-expanded="true"]{grid-area:1 / 1 / 2 / 3 !important;
+    padding:32px 36px}
+  .compo--solo .dcarte[aria-expanded="true"] .dcarte__plat{
+    width:calc(50% + var(--rule-fine));
+    border-right:var(--rule-fine) solid var(--text)}
+  .compo--solo .dcarte[aria-expanded="true"] .dcarte__txt{width:calc(50% - 36px)}
+  .compo--solo .compo__sommaire{grid-area:1 / 2 / 2 / 3}
+}
+
+/* ─── Le sommaire du chapitre, dans la moitie blanche ─── */
+/*
+  LES PHRASES FORTES DE LA SECTION, EN PUCES. Chaque sous-partie du panneau
+  s'ouvre sur une `.lead` - « Nobody meets. That's the tax. » - et c'est deja le
+  resume des idees couvertes. Le sommaire les reprend telles quelles : il est
+  construit par dossier.ts AU DEPLIAGE, a partir du panneau lui-meme, et ne peut
+  donc pas deriver de ce qu'il annonce.
+
+  `aria-hidden` ET `pointer-events:none`. Le texte est un DOUBLON de titres
+  presents quelques pixels plus bas : le faire lire deux fois ferait perdre le
+  fil. Et comme toute la bande ferme le chapitre quand on la clique, le sommaire
+  laisse passer le clic au lieu de creuser un trou au milieu de la cible.
+
+  SUR TELEPHONE IL N'EXISTE PAS. A 375px la bande est deja la carte entiere, et
+  le panneau commence juste dessous : annoncer en puces ce qu'on va lire dans
+  l'ecran suivant ne fait que repousser le contenu.
+*/
+/* `background:none` reprend le blanc que `.compo > *` pose sur toutes les cases :
+   le sommaire couvre la moitie droite, donc les 1.5px du filet de l'aplat qui
+   mordent sur sa colonne - et il les aurait caches. */
+.compo__sommaire{list-style:none;margin:0;padding:32px 36px;display:flex;
+  flex-direction:column;justify-content:center;gap:16px;pointer-events:none;
+  background:none}
+@media(max-width:860px){.compo__sommaire{display:none}}
+.compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
+  font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
+  color:var(--text)}
+/* La puce est un carre, comme celle des boutons et celle des listes du panneau,
+   et elle prend la couleur de la carte ouverte. */
+.compo__sommaire li::before{content:"";position:absolute;left:0;top:.3em;
+  width:12px;height:12px;background:var(--puce,var(--text))}
+.compo__sommaire li em{font-style:normal}
+.compo__sommaire--rouge{--puce:var(--red)}
+.compo__sommaire--bleu{--puce:var(--blue)}
+.compo__sommaire--jaune{--puce:var(--yellow)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
