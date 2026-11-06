@@ -68,7 +68,9 @@ const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
         <span class:list={['tuile__face', 'tuile__recto', `tuile--${t.couleur}`]}>
           {t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
           <span class="tuile__titre" set:html={t.titre} />
-          <Icone nom="plus" taille={18} class="tuile__plus" />
+          {/* La fleche circulaire et non un « + » : cette tuile ne deplie rien,
+              elle se retourne. Voir `tourner` dans Icone.astro. */}
+          <Icone nom="tourner" taille={18} class="tuile__tourne" />
         </span>
         <span class="tuile__face tuile__verso">
           {t.rappel && t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
@@ -128,12 +130,19 @@ const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
   .tuile__titre{font-family:var(--display);font-weight:900;font-size:22px;
     line-height:1.15}
   .tuile__titre em{font-style:italic}
-  /* Toujours au meme endroit dans l'encadre (BRIEF §2.7), et il pivote en x
-     quand le verso est montre. 16px du coin, comme les carres de la landing. */
-  .tuile__plus{position:absolute;top:16px;right:16px;transition:transform .4s ease}
-  .tuile__pivot:hover .tuile__plus,
-  .tuile__pivot:focus-visible .tuile__plus,
-  .tuile__pivot[aria-expanded="true"] .tuile__plus{transform:rotate(45deg)}
+  /*
+    Toujours au meme endroit dans l'encadre (BRIEF §2.7), 16px du coin comme
+    les carres de l'accueil.
+
+    IL NE BOUGE PAS, ET C'EST VOULU. Le « + » qu'il remplace pivotait en « x »
+    pour dire que la carte se refermait ; faire tourner celui-ci d'un demi-tour
+    semblait suivre le geste de la tuile - sauf qu'il ne se verrait jamais. Le
+    dessin vit sur le RECTO, et le recto est precisement la face qui part
+    (`backface-visibility:hidden`). L'animation se serait terminee sur une face
+    tournee vers le mur. La tuile qui se retourne EST le retour : l'icone
+    annonce le geste, elle n'a pas a le mimer.
+  */
+  .tuile__tourne{position:absolute;top:16px;right:16px}
 
   .tuile--rouge{background:var(--red);color:var(--white)}
   .tuile--bleu{background:var(--blue);color:var(--white)}
@@ -146,7 +155,7 @@ const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
     .tuile__face{padding:24px}
   }
   @media(prefers-reduced-motion:reduce){
-    .tuile__face,.tuile__plus{transition:none}
+    .tuile__face{transition:none}
   }
 </style>
 

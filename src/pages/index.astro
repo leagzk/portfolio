@@ -158,7 +158,13 @@ const principes = [
         {principes.filter((p) => p.cle !== 'c').map((p) => (
           <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
             <span class="pr__dedans">
-              <Icone nom="plus" taille={18} class="pr__plus" />
+              {/* Deux dessins, un seul visible : le detail se deplie SUR PLACE.
+                  Le « + » reste aux cartes qui commandent une section ailleurs -
+                  voir agrandir/reduire dans Icone.astro. */}
+              <span class="pr__ico" aria-hidden="true">
+                <Icone nom="agrandir" taille={18} class="pr__ico--o" />
+                <Icone nom="reduire" taille={18} class="pr__ico--f" />
+              </span>
               <span class="pr__titre">{p.titre}</span>
               <span class="pr__detail" set:html={p.detail}></span>
             </span>
@@ -169,7 +175,13 @@ const principes = [
         <div class="cell cell--p2" data-rang="3">
           <button class:list={['pr', `pr--${p.cle}`, `pr--${p.couleur}`]} type="button" aria-expanded="false">
             <span class="pr__dedans">
-              <Icone nom="plus" taille={18} class="pr__plus" />
+              {/* Deux dessins, un seul visible : le detail se deplie SUR PLACE.
+                  Le « + » reste aux cartes qui commandent une section ailleurs -
+                  voir agrandir/reduire dans Icone.astro. */}
+              <span class="pr__ico" aria-hidden="true">
+                <Icone nom="agrandir" taille={18} class="pr__ico--o" />
+                <Icone nom="reduire" taille={18} class="pr__ico--f" />
+              </span>
               <span class="pr__titre">{p.titre}</span>
               <span class="pr__detail" set:html={p.detail}></span>
             </span>
@@ -221,18 +233,31 @@ const principes = [
 
 
   /*
-    LES FILETS SONT LE FOND, PAS DES BORDURES. La grille porte le noir et un
-    `gap` de 2px ; chaque case repose un fond blanc par-dessus. Avec des
-    bordures on aurait 4px entre deux cases voisines et 2px aux extremites.
+    LES FILETS SONT DES TRAITS, ET CHAQUE CASE PORTE LE SIEN.
 
-    clip-path:inset(0 1px 1px 1px) rogne un pixel sur trois cotes. C'est le
-    correctif du BRIEF §4.3 : le fond noir transparait par l'arrondi de
-    sub-pixel sur les bords exterieurs et dessine un filet parasite tout autour
-    - la grille doit avoir ses bords OUVERTS, pas un cadre.
+    Ils ont longtemps ete le FOND : la grille portait le noir, un `gap` de 2px
+    le laissait voir, et chaque case reposait du blanc par-dessus. Le trait
+    n'existait alors nulle part - il etait ce qui restait quand les cases ne
+    recouvraient pas. Et au pixel physique pres, elles ne recouvraient pas tout
+    a fait : un filet parasite courait sur tout le perimetre et fermait la
+    grille d'un cadre, alors qu'elle doit avoir ses bords OUVERTS (BRIEF §4.3).
+
+    LE ROGNAGE A LONGTEMPS FAIT OFFICE DE CORRECTIF, et il ne pouvait pas
+    marcher : `clip-path` coupait du NOIR contre du blanc, son bord est lisse,
+    et le melange des deux redonnait le cheveu qu'on voulait retirer. Mesure
+    faite sur une etude : rogner un pixel, en rogner deux ou ne rien rogner
+    donnaient trois rendus identiques ; passer le fond en blanc faisait
+    disparaitre le lisere ET tous les filets d'un coup.
+
+    DESORMAIS chaque case porte une ombre sans flou, etalee de la largeur du
+    filet : elle remplit la gouttiere jusqu'a la voisine, couvre les
+    croisements, et au perimetre elle tombe dehors, ou `overflow` la retire
+    entierement. Plus rien de noir ne vit SOUS une case, donc plus rien a
+    laisser filtrer. Des bordures, elles, auraient donne 4px entre deux cases
+    voisines et 2px aux extremites.
   */
-  .comp{display:grid;position:relative;gap:var(--rule);background:var(--text);
+  .comp{display:grid;position:relative;gap:var(--rule);overflow:hidden;
     scroll-margin-top:calc(var(--chrome-h) + var(--sp-03));
-    clip-path:inset(0 1px 1px 1px);
     grid-template-columns:repeat(12,minmax(0,1fr));
     /*
       LA PREMIERE RANGEE EST UN PLANCHER, PAS UNE HAUTEUR. La maquette la pose
@@ -259,7 +284,8 @@ const principes = [
     `.principes > *` autant que `.comp > *` : .principes est en display:contents,
     donc ses enfants sont des cases de la grille sans en etre les enfants directs.
   */
-  .comp > *,.principes > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
+  .comp > *,.principes > *{background:var(--white);min-width:0;position:relative;
+    overflow:hidden;box-shadow:0 0 0 var(--rule) var(--text)}
   .principes{display:contents}
   /* Enfant direct de .comp : sans display:none elle deviendrait une case. */
   .principes__pagination{display:none}
@@ -358,7 +384,14 @@ const principes = [
      delai sur l'opacite evite qu'elle apparaisse avant d'avoir la place. */
   .pr__detail{font-size:14px;line-height:1.55;opacity:0;max-height:0;overflow:hidden;
     transition:opacity .2s,max-height 0s .2s}
-  .pr__plus{position:absolute;top:16px;right:16px;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  /*
+    LES DEUX DESSINS SE CROISENT SUR PLACE. Poses l'un sur l'autre dans la meme
+    boite de 18px, c'est l'opacite qui bascule : la fleche d'agrandissement est
+    symetrique par le centre, une rotation l'aurait ramenee sur elle-meme.
+  */
+  .pr__ico{position:absolute;top:16px;right:16px;width:18px;height:18px;display:block}
+  .pr__ico svg{position:absolute;inset:0;transition:opacity .25s}
+  .pr__ico--f{opacity:0}
   .pr--rouge{background:var(--red);color:var(--white)}
   .pr--jaune{background:var(--yellow);color:var(--text)}
   .pr--noir{background:var(--ink);color:var(--white)}
@@ -452,7 +485,8 @@ const principes = [
 
   .pr:hover .pr__detail,.pr:focus-visible .pr__detail,.pr[aria-expanded="true"] .pr__detail{
     opacity:1;max-height:200px;transition:opacity .3s .3s,max-height 0s}
-  .pr:hover .pr__plus,.pr:focus-visible .pr__plus,.pr[aria-expanded="true"] .pr__plus{transform:rotate(45deg)}
+  .pr:hover .pr__ico--o,.pr:focus-visible .pr__ico--o,.pr[aria-expanded="true"] .pr__ico--o{opacity:0}
+  .pr:hover .pr__ico--f,.pr:focus-visible .pr__ico--f,.pr[aria-expanded="true"] .pr__ico--f{opacity:1}
 
   /* ═══ Citation ═══ */
   /* -3px de marge basse : la case fusionne visuellement avec le blanc du
@@ -505,7 +539,9 @@ const principes = [
     `attend` est l'etat de depart d'une case, `vu` celui qu'elle prend en
     entrant dans le champ.
   */
-  .comp.pre{background:var(--white)}
+  /* Avant le trace, aucun filet : ce sont les ombres qu'on eteint, et non
+     plus le fond qu'on blanchissait. */
+  .comp.pre > *,.comp.pre .principes > *{box-shadow:none}
   /* .segs, .seg, .seg--v/h et les keyframes traitV/traitH/pousse/monte sont
      descendus dans src/styles/motion.css : ils servent aussi a la composition
      des etudes de cas. Ne restent ici que les selecteurs qui nomment LES
@@ -554,7 +590,7 @@ const principes = [
        a reprendre ici. */
     /* border-top/bottom : la pile est fermee en haut et en bas, alors que la
        grille du bureau a ses bords ouverts. Valeur de la maquette mobile. */
-    .comp{display:flex;flex-direction:column;clip-path:none;
+    .comp{display:flex;flex-direction:column;
       border-top:var(--rule) solid var(--text);border-bottom:var(--rule) solid var(--text);
       grid-template-columns:none;grid-template-rows:none;grid-template-areas:none}
     /* La rangee basse n'a pas de sens empilee : trois cases vides a la suite. */
@@ -618,8 +654,10 @@ const principes = [
     /* Au doigt il n'y a ni survol ni focus-visible : seul le clic ouvre. */
     .pr:hover .pr__detail,.pr:focus-visible .pr__detail{opacity:0;max-height:0}
     .pr[aria-expanded="true"] .pr__detail{opacity:1;max-height:400px}
-    .pr:hover .pr__plus,.pr:focus-visible .pr__plus{transform:none}
-    .pr[aria-expanded="true"] .pr__plus{transform:rotate(45deg)}
+    .pr:hover .pr__ico--o,.pr:focus-visible .pr__ico--o{opacity:1}
+    .pr:hover .pr__ico--f,.pr:focus-visible .pr__ico--f{opacity:0}
+    .pr[aria-expanded="true"] .pr__ico--o{opacity:0}
+    .pr[aria-expanded="true"] .pr__ico--f{opacity:1}
 
     .principes__pagination{display:flex;align-items:center;justify-content:space-between;
       gap:12px;padding:12px 0 0;background:var(--white)}
@@ -638,7 +676,7 @@ const principes = [
   }
 
   @media(prefers-reduced-motion:reduce){
-    .wt__fragment,.pr,.pr__dedans,.pr__detail,.pr__plus,.wt__fleche{transition:none}
+    .wt__fragment,.pr,.pr__dedans,.pr__detail,.pr__ico svg,.wt__fleche{transition:none}
   }
 </style>
 

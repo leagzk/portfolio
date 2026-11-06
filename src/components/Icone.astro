@@ -24,7 +24,8 @@
 */
 export type NomIcone =
   | 'telecharger' | 'mail' | 'bulle' | 'linkedin' | 'maison' | 'plus'
-  | 'fleche' | 'fleche-gauche' | 'fleche-droite' | 'chevron' | 'retour';
+  | 'fleche' | 'fleche-gauche' | 'fleche-droite' | 'chevron' | 'retour'
+  | 'agrandir' | 'reduire' | 'tourner' | 'loupe' | 'fleche-haut';
 
 export interface Props {
   nom: NomIcone;
@@ -52,6 +53,49 @@ const traces: Record<NomIcone, string> = {
   fleche: 'M5 12h13M12 6l6 6-6 6',
   'fleche-gauche': 'M19 12H6M12 6l-6 6 6 6',
   'fleche-droite': 'M5 12h13M12 6l6 6-6 6',
+  /*
+    AGRANDIR ET REDUIRE : les deux fleches en diagonale, vers les coins puis
+    vers le centre. Elles disent « il y a plus a lire ici », la ou le « + »
+    dit « ceci s'ouvre ailleurs » - c'est la difference entre un aplat de
+    chiffre, qui se deplie sur place, et une carte de chapitre, qui commande
+    une section plus bas. Le « + » reste donc aux cartes (BRIEF §2.7).
+
+    DESSINEES A LA REGLE comme le reste du jeu, et non importees : la planche
+    de reference est en aplat plein aux coins arrondis, ce qui n'aurait eu ni
+    la graisse ni le trace des dix autres. Memes 24 de viewBox, meme 2.25 de
+    trait, memes bouts arrondis - la pointe et la hampe de chaque fleche
+    tiennent sur la meme diagonale a 45 degres.
+  */
+  agrandir: 'M15 4h5v5M14 10l6-6M9 20H4v-5M10 14l-6 6',
+  /*
+    TOURNER : la fleche circulaire, pour les tuiles qui se retournent. Elles ne
+    deplient rien et n'ouvrent rien - elles PIVOTENT, recto vers verso - et ni
+    le « + » ni la fleche d'agrandissement ne disent ce geste-la.
+
+    LE SEUL ARC DE LA PLANCHE, ET C'EST ASSUME. Le reste du jeu est trace a la
+    regle (voir la bulle plus haut), mais une rotation ne se dessine pas droit :
+    c'est le mouvement lui-meme qui est courbe. L'exception est la meme que
+    celle de LinkedIn - la forme obeit a ce qu'elle represente, pas l'inverse.
+
+    L'arc tourne sur un rayon de 7.5 centre sur la boite, et s'ouvre sur un peu
+    moins d'un tour ; il se termine en chevron a angle droit, le meme equerrage
+    que la pointe des quatre fleches du jeu.
+  */
+  tourner: 'M18.6 15.5A7.5 7.5 0 1 1 16.8 6.2L20 9.5M20 4v5.5h-5.5',
+  /*
+    LA LOUPE, pour le badge qui agrandit une image. Elle remplace un « + » qui
+    promettait un depliage : ici rien ne se deplie, l'image s'ouvre en grand
+    par-dessus la page. Le dessin dit ce que le geste fait.
+
+    DEUXIEME ARC DE LA PLANCHE, meme raison que `tourner` : un verre de loupe
+    est rond, et le dessiner carre en ferait une fenetre. La queue part du
+    cercle a 45 degres, sur la meme diagonale que les fleches d'agrandissement
+    - les trois dessins du meme coin de boite partagent leur oblique.
+  */
+  loupe: 'M16.5 10.5a6 6 0 1 1-12 0 6 6 0 1 1 12 0M14.8 14.8 20 20',
+  reduire: 'M20 10h-6V4M14 10l6-6M4 14h6v6M10 14l-6 6',
+  /* La fleche du retour en haut : la meme que `fleche`, debout. */
+  'fleche-haut': 'M12 19V6M6 12l6-6 6 6',
   chevron: 'm6 9 6 6 6-6',
   retour: 'M19 12H5M11 18l-6-6 6-6',
   linkedin: '',

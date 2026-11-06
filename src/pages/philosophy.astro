@@ -72,6 +72,7 @@ import Bouton from '../components/Bouton.astro';
     courant="philosophy"
     eyebrow="Philosophy · What I hold"
     filigrane="Philosophy"
+    mesure={15.5}
   >
     Six convictions behind the systems, and the care that keeps them alive.
     <Fragment slot="intro">
@@ -209,25 +210,20 @@ import Bouton from '../components/Bouton.astro';
     bundle - a specificite egale elle gagnerait, media query comprise.
   */
   /*
-    LES BORDS GAUCHE ET DROIT SONT OUVERTS (BRIEF §3.2). .compo cerne la
-    composition d'un filet de 1,5px, et ce filet ne se voit QUE la ou il
-    touche une case blanche : contre le rouge, le jaune ou le bleu il
-    disparait. Il barrait donc le flanc gauche de « 04 · The point » et de la
-    cloture, et le flanc droit de « 02 · The method » et de « 06 · The
-    current » - quatre traits sans raison d'etre, qui faisaient lire la grille
-    comme un tableau encadre. La landing n'en a pas : ses cases filent
-    jusqu'au bord.
+    LES BORDS GAUCHE ET DROIT SONT OUVERTS (BRIEF §3.2) - et ils le sont
+    desormais tout seuls.
 
-    clip-path rogne un pixel a gauche et a droite : sans lui le fond noir de
-    la grille reapparait en un cheveu au sous-pixel. Meme procede que .comp
-    sur la landing.
+    Cette page a longtemps du les rouvrir a la main : `.compo` cernait la
+    composition d'un filet qui ne se voyait QUE contre une case claire, et un
+    `clip-path` rognait en plus le cheveu de fond noir que l'arrondi
+    sous-pixel laissait sur les flancs. Les deux ont disparu : `.compo` n'a
+    plus de bordure, et ses filets ne sont plus un fond mais une ombre portee
+    par chaque case, qui tombe hors de la grille au perimetre et que
+    `overflow` retire (voir .compo dans etude.css).
 
-    LE HAUT ET LE BAS RESTENT. Ce sont eux qui detachent la composition du
-    blanc de la page au-dessus et au-dessous ; les ouvrir aussi la ferait
-    flotter.
+    Rogner encore couterait maintenant un pixel de CASE a gauche et a droite,
+    et rentrerait la composition par rapport au reste de la colonne.
   */
-  .compo--convictions{border-left:0;border-right:0;clip-path:inset(0 1px 0 1px)}
-
   @media(min-width:861px){
     .compo--convictions{grid-template-columns:26fr 20fr 6fr 24fr 18fr 6fr;
       grid-template-rows:minmax(190px,auto) minmax(150px,auto)

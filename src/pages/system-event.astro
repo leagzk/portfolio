@@ -39,6 +39,7 @@ import Carrousel from '../components/Carrousel.astro';
 import type { Vignette } from '../components/Carrousel.astro';
 import Figure from '../components/Figure.astro';
 import Bouton from '../components/Bouton.astro';
+import Icone from '../components/Icone.astro';
 import BeforeAfter from '../components/BeforeAfter.astro';
 import Loupe from '../components/Loupe.astro';
 import { chercheurImages } from '../lib/images';
@@ -65,13 +66,13 @@ const img = chercheurImages(fichiers, 'living-system');
   TROISIEME edition - c'est elle qui prouve que le systeme se versionne.
 */
 const chiffres: Chiffre[] = [
-  { nombre: '1 an+', quoi: 'from first object to last jar',
+  { nombre: '1 an+', quoi: 'from first object to last jar', couleur: 'bleu', motif: 'plein',
     contexte: 'Designed and orchestrated end to end, alongside the day job.' },
-  { nombre: '50+', quoi: 'surfaces, one identity',
+  { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'carre',
     contexte: 'Paper, fabric, metal, wood - and a pre-event WhatsApp community.' },
-  { nombre: '9', quoi: 'suppliers directed from one guide',
+  { nombre: '9', quoi: 'suppliers directed from one guide', couleur: 'noir', motif: 'plein',
     contexte: 'One page per zone, one owner per page. Executed without me in the room.' },
-  { nombre: '3rd', quoi: 'edition, each bigger than the last',
+  { nombre: '3rd', quoi: 'edition, each bigger than the last', couleur: 'rouge', motif: 'bande',
     contexte: "A full identity every time, an escape game every time. I don't repeat a system - I version it." },
 ];
 
@@ -152,6 +153,7 @@ const credits = [
     courant="system-event"
     eyebrow="Systematize a moment · Living System · 3rd edition"
     filigrane="Surfaces"
+    mesure={12.9}
   >
     Same systems thinking, same care - just off the screen.
     <Fragment slot="intro">
@@ -164,7 +166,7 @@ const credits = [
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} label="The measure of it" />
+    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian" />
 
     {/*
       ─── La composition des 3 cartes ───
@@ -319,7 +321,15 @@ const credits = [
         </div>
       </div>
 
-      <Bouton variante="bleu" class="suite" commande="carte-systeme">Next: the system →</Bouton>
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-systeme">Next: the system →</Bouton>
+      </div>
     </section>
 
     {/* ═══════════ 02 · The system ═══════════ */}
@@ -462,7 +472,15 @@ const credits = [
         </div>
       </div>
 
-      <Bouton variante="bleu" class="suite" commande="carte-transmission">Next: the handover →</Bouton>
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-transmission">Next: the handover →</Bouton>
+      </div>
     </section>
 
     {/* ═══════════ 03 · The handover ═══════════ */}
@@ -509,6 +527,19 @@ const credits = [
         <h2>I don't just repeat a system. <em class="em-bleu">I version it.</em></h2>
         <p class="cbody">This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. <strong>The pattern doesn't stop at the screen - and it doesn't stop at work either.</strong></p>
         <Bouton variante="bleu" href="/system-practice-elements">See it at global scale →</Bouton>
+      </div>
+
+      {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
+          qu'ailleurs : il remonte sans rien refermer. A droite, pas de
+          « Next: ... » - il n'y a pas de tuile 04, et le sommaire des
+          trois cartes est reduit a celle-ci ; ce bouton-la le rouvre. Les deux
+          remontent, l'un garde le chapitre ouvert, l'autre referme tout.
+          Voir .pan__pied dans etude.css et dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="noir" class="suite" ferme>Back to the three chapters ↑</Bouton>
       </div>
     </section>
 

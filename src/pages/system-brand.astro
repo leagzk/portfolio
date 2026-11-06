@@ -92,13 +92,13 @@ const dessin = (nom: string): string => {
 
 /* ─── Chiffres cles (BRIEF §5.2) ─── */
 const chiffres: Chiffre[] = [
-  { nombre: '2,500', quoi: 'people shipping on-brand',
+  { nombre: '2,500', quoi: 'people shipping on-brand', couleur: 'rouge', motif: 'plein',
     contexte: 'From COMEX to front-line, with no bottleneck in the middle.' },
-  { nombre: '200+', quoi: 'campaigns and internal events',
+  { nombre: '200+', quoi: 'campaigns and internal events', couleur: 'bleu', motif: 'bande',
     contexte: 'All of them ran on the system. The default way things shipped.' },
-  { nombre: '6,000', quoi: 'participants reached',
+  { nombre: '6,000', quoi: 'participants reached', couleur: 'jaune', motif: 'plein',
     contexte: "Sanofi's first hackathons, run on the platform. One idea shipped: Theia®, an app for patients living with sight loss." },
-  { nombre: '1', quoi: 'standard, one pilot',
+  { nombre: '1', quoi: 'standard, one pilot', couleur: 'rouge', motif: 'carre',
     contexte: 'The 2022 rebrand, translated for screens and piloted on sanofi.com.' },
 ];
 
@@ -352,6 +352,7 @@ const pratiques: Tuile[] = [
     courant="system-brand"
     eyebrow="Systematize a brand · Sanofi · 2018 - 2022"
     filigrane="Language"
+    mesure={13.4}
   >
     At 2,500 people, a brand isn't a charter, it's a shared language.
     <Fragment slot="intro">
@@ -363,7 +364,7 @@ const pratiques: Tuile[] = [
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} />
+    <ChiffresCles chiffres={chiffres} variante="mondrian" />
 
     {/*
       ─── La composition des 3 cartes (BRIEF §5.3) ───
@@ -454,7 +455,15 @@ const pratiques: Tuile[] = [
           </div>
         </div>
       </div>
-      <Bouton variante="bleu" class="suite" commande="carte-approach">Next: the approach →</Bouton>
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-approach">Next: the approach →</Bouton>
+      </div>
     </section>
 
     {/* ═══════════ 02 · The approach ═══════════ */}
@@ -627,7 +636,15 @@ const pratiques: Tuile[] = [
         </div>
       </div>
 
-      <Bouton variante="bleu" class="suite" commande="carte-proof">Next: the proof →</Bouton>
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-proof">Next: the proof →</Bouton>
+      </div>
     </section>
 
     {/* ═══════════ 03 · The proof ═══════════ */}
@@ -730,7 +747,7 @@ const pratiques: Tuile[] = [
                   aria-label={`Enlarge ${e.legende}`}>
                   <Image src={img(e.nom)} alt={e.alt}
                     sizes="(min-width: 900px) 300px, 45vw" loading="lazy" decoding="async" />
-                  <span class="zoom__badge" aria-hidden="true"><Icone nom="plus" taille={13} /></span>
+                  <span class="zoom__badge" aria-hidden="true"><Icone nom="loupe" taille={13} /></span>
                 </button>
               ))}
             </div>
@@ -778,6 +795,19 @@ const pratiques: Tuile[] = [
         <h2>A pilot isn't a proof. It's the fastest way to find out <em class="em-bleu">what you got wrong.</em></h2>
         <p class="cbody">Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <strong>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</strong> And that's where Elements Design System begins.</p>
         <Bouton variante="bleu" href="/system-practice-elements">Discover what came next →</Bouton>
+      </div>
+
+      {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
+          qu'ailleurs : il remonte sans rien refermer. A droite, pas de
+          « Next: ... » - il n'y a pas de tuile 04, et le sommaire des
+          trois cartes est reduit a celle-ci ; ce bouton-la le rouvre. Les deux
+          remontent, l'un garde le chapitre ouvert, l'autre referme tout.
+          Voir .pan__pied dans etude.css et dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="noir" class="suite" ferme>Back to the three chapters ↑</Bouton>
       </div>
     </section>
 

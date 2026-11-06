@@ -57,10 +57,23 @@ export interface Props {
   largeur?: string;
   /** et sous 860px, ou il n'en tient qu'une */
   largeurMobile?: string;
+  /**
+   * NOMBRE DE COLONNES AU BUREAU. Pose, la serie cesse d'etre une piste
+   * au-dela de 860px et devient une MOSAIQUE : tout se voit d'un coup, les
+   * fleches disparaissent, et il n'y a plus rien a faire defiler.
+   *
+   * SOUS 860px ELLE REDEVIENT UNE PISTE, toujours. Une mosaique de cinq
+   * captures sur un telephone, c'est cinq ecrans de haut a traverser avant
+   * d'atteindre la suite du chapitre ; le doigt, lui, balaie.
+   *
+   * Omis, la serie reste une piste partout - c'est le cas des series longues,
+   * ou la mosaique ferait une page a elle seule.
+   */
+  mosaique?: number;
   sizes?: string;
 }
 const {
-  label, eyebrow, vignettes,
+  label, eyebrow, vignettes, mosaique,
   ratio = '16 / 10',
   fr = 1.6,
   largeur = '72%',
@@ -68,7 +81,10 @@ const {
   sizes = '(min-width: 900px) 760px, 90vw',
 } = Astro.props;
 ---
-<div class="carrousel" style={`--slide-w:${largeur};--slide-w-mob:${largeurMobile}`}>
+<div
+  class:list={['carrousel', mosaique && 'carrousel--mosaique']}
+  style={`--slide-w:${largeur};--slide-w-mob:${largeurMobile}${mosaique ? `;--mos-cols:${mosaique}` : ''}`}
+>
   <div class="carrousel__tete">
     {eyebrow && <p class="eb">{eyebrow}</p>}
     <div class="carrousel__fleches">
@@ -131,6 +147,27 @@ const {
   @media(max-width:860px){
     .carrousel__slide{flex:0 0 var(--slide-w-mob,88%)}
   }
+
+  /*
+    ─── La mosaique, au-dela du palier seulement ───
+
+    La piste devient une grille : plus de debordement, donc plus de
+    `scroll-snap` ni de piste focalisable, et plus de fleches - il n'y a plus
+    rien a faire defiler. `flex:none` reprend le `flex:0 0 var(--slide-w)` des
+    vignettes, qui n'a plus de sens hors d'un flux flex.
+
+    LE `tabindex` DE LA PISTE EST RETIRE PAR LE SCRIPT et non par le CSS : un
+    attribut ne se supprime pas en feuille de style, et une piste qui ne defile
+    plus mais reste focalisable ajoute un arret de tabulation qui ne mene nulle
+    part. Voir le script en bas de ce fichier.
+  */
+  @media(min-width:861px){
+    .carrousel--mosaique .carrousel__piste{display:grid;
+      grid-template-columns:repeat(var(--mos-cols,2),minmax(0,1fr));
+      overflow:visible;scroll-snap-type:none;padding-bottom:0}
+    .carrousel--mosaique .carrousel__slide{flex:none;scroll-snap-align:none}
+    .carrousel--mosaique .carrousel__fleches{display:none}
+  }
   /* `scroll-behavior:smooth` est ignore par le navigateur lui-meme sous
      prefers-reduced-motion ; on le retire quand meme pour les navigateurs qui
      ne font le lien que sur la propriete CSS. */
@@ -154,5 +191,22 @@ const {
         piste.scrollBy({ left: piste.clientWidth * 0.75 * Number(b.dataset.sens) });
       });
     });
+
+    /*
+      LE `tabindex` SUIT CE QUE LA PISTE PEUT FAIRE. Il est ecrit dans le HTML
+      parce qu'une piste qui defile DOIT etre focalisable - c'est ce qui donne
+      les fleches du clavier a qui n'a pas de souris. Mais en mosaique elle ne
+      defile plus, et un arret de tabulation qui ne mene nulle part fait perdre
+      du temps a tout le monde. On le retire quand il n'y a rien a parcourir,
+      et on le rend des que la mosaique redevient une piste - au
+      redimensionnement comme au premier rendu.
+    */
+    const suivreTabindex = () => {
+      const defile = piste.scrollWidth > piste.clientWidth + 1;
+      if (defile) piste.setAttribute('tabindex', '0');
+      else piste.removeAttribute('tabindex');
+    };
+    suivreTabindex();
+    addEventListener('resize', suivreTabindex, { passive: true });
   });
 </script>

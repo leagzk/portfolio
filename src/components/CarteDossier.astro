@@ -48,7 +48,12 @@ export interface Props {
    * basses.
    */
   synthese?: string;
-  couleur: 'rouge' | 'bleu' | 'jaune';
+  /*
+    La couleur de l'aplat. Le noir est reserve a la carte qui ne parle pas du
+    systeme mais des gens - voir la carte 04 de l'etude Governance : les trois
+    couleurs disent les trois temps du recit, le noir dit qu'on change d'axe.
+  */
+  couleur: 'rouge' | 'bleu' | 'jaune' | 'noir';
   /** id de la <section> depliee que cette carte commande */
   commande: string;
   /** la carte la plus grande de la composition porte un titre d'un cran de plus */

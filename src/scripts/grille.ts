@@ -178,9 +178,15 @@ function construire(comp: HTMLElement, bordBas = false): void {
     mise en page et ce sont SES enfants qui sont les cases de la grille. On le
     detecte au calcul plutot qu'au nom de classe : la regle vaut pour toute
     composition, presente ou a venir.
+
+    `data-cases` DIT LA MEME CHOSE POUR UN CONTENEUR QUI, LUI, A UNE BOITE.
+    Les rangees du bandeau de chiffres sont des bandes flex - il leur faut un
+    vrai cadre pour que leurs cases se poussent - mais ce sont bien leurs
+    enfants qui sont les cases, et leurs `gap` qui dessinent les filets. Un
+    `display:contents` leur retirerait precisement ce qui les fait vivre.
   */
   const cases = Array.from(comp.children).flatMap((el) =>
-    getComputedStyle(el).display === 'contents'
+    getComputedStyle(el).display === 'contents' || el.hasAttribute('data-cases')
       ? (Array.from(el.children) as HTMLElement[])
       : [el as HTMLElement],
   );
