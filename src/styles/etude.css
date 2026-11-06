@@ -157,11 +157,22 @@
 .clef:focus-visible .clef__detail,
 .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:140px;
   transition:opacity .25s .1s,max-height 0s}
-.clef__plus{position:absolute;top:16px;right:16px;z-index:1;
-  transition:transform .4s cubic-bezier(.2,.7,.2,1)}
-.clef:hover .clef__plus,
-.clef:focus-visible .clef__plus,
-.clef[aria-expanded="true"] .clef__plus{transform:rotate(45deg)}
+/*
+  LES DEUX DESSINS SE CROISENT SUR PLACE. Ils sont poses l'un sur l'autre dans
+  la meme boite de 18px : ce qui change, c'est l'opacite. Une rotation n'aurait
+  rien donne - la fleche d'agrandissement est symetrique par le centre, elle
+  revient sur elle-meme a 180 degres.
+*/
+.clef__ico{position:absolute;top:16px;right:16px;z-index:1;
+  width:18px;height:18px;display:block}
+.clef__ico svg{position:absolute;inset:0;transition:opacity .25s}
+.clef__ico--f{opacity:0}
+.clef:hover .clef__ico--o,
+.clef:focus-visible .clef__ico--o,
+.clef[aria-expanded="true"] .clef__ico--o{opacity:0}
+.clef:hover .clef__ico--f,
+.clef:focus-visible .clef__ico--f,
+.clef[aria-expanded="true"] .clef__ico--f{opacity:1}
 
 /* ─── La grande case : ce qu'est le systeme, et ou lire la suite ─── */
 .clef-def{display:flex;flex-direction:column;gap:20px;padding:32px}
@@ -190,7 +201,10 @@
   .clef__txt{position:relative;inset:auto;gap:16px;padding:24px 16px}
   .clef:hover .clef__detail,.clef:focus-visible .clef__detail{opacity:0;max-height:0}
   .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:400px}
-  .clef:hover .clef__plus,.clef:focus-visible .clef__plus{transform:none}
+  .clef:hover .clef__ico--o,.clef:focus-visible .clef__ico--o{opacity:1}
+  .clef:hover .clef__ico--f,.clef:focus-visible .clef__ico--f{opacity:0}
+  .clef[aria-expanded="true"] .clef__ico--o{opacity:0}
+  .clef[aria-expanded="true"] .clef__ico--f{opacity:1}
 }
 
 /* ─── Cadre defilant : une page entiere dans un cadre au format fixe ─── */

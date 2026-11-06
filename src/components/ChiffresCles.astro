@@ -114,7 +114,13 @@ const AIRE_DEF = '1 / 8 / 3 / 13';
             <span class="clef__detail" data-copy>{c.contexte}</span>
           </span>
         </span>
-        <Icone nom="plus" taille={18} class="clef__plus" />
+        {/* Deux dessins, un seul visible : la fleche qui ouvre cede la place a
+            celle qui referme. Un « + » qui pivote en « x » dit « ceci s'ouvre
+            ailleurs » ; ici le contenu se deplie sur place. */}
+        <span class="clef__ico" aria-hidden="true">
+          <Icone nom="agrandir" taille={18} class="clef__ico--o" />
+          <Icone nom="reduire" taille={18} class="clef__ico--f" />
+        </span>
       </button>
     ))}
     <div class="clef-def" style={`grid-area:${AIRE_DEF}`}>

@@ -24,7 +24,8 @@
 */
 export type NomIcone =
   | 'telecharger' | 'mail' | 'bulle' | 'linkedin' | 'maison' | 'plus'
-  | 'fleche' | 'fleche-gauche' | 'fleche-droite' | 'chevron' | 'retour';
+  | 'fleche' | 'fleche-gauche' | 'fleche-droite' | 'chevron' | 'retour'
+  | 'agrandir' | 'reduire';
 
 export interface Props {
   nom: NomIcone;
@@ -52,6 +53,21 @@ const traces: Record<NomIcone, string> = {
   fleche: 'M5 12h13M12 6l6 6-6 6',
   'fleche-gauche': 'M19 12H6M12 6l-6 6 6 6',
   'fleche-droite': 'M5 12h13M12 6l6 6-6 6',
+  /*
+    AGRANDIR ET REDUIRE : les deux fleches en diagonale, vers les coins puis
+    vers le centre. Elles disent « il y a plus a lire ici », la ou le « + »
+    dit « ceci s'ouvre ailleurs » - c'est la difference entre un aplat de
+    chiffre, qui se deplie sur place, et une carte de chapitre, qui commande
+    une section plus bas. Le « + » reste donc aux cartes (BRIEF §2.7).
+
+    DESSINEES A LA REGLE comme le reste du jeu, et non importees : la planche
+    de reference est en aplat plein aux coins arrondis, ce qui n'aurait eu ni
+    la graisse ni le trace des dix autres. Memes 24 de viewBox, meme 2.25 de
+    trait, memes bouts arrondis - la pointe et la hampe de chaque fleche
+    tiennent sur la meme diagonale a 45 degres.
+  */
+  agrandir: 'M15 4h5v5M14 10l6-6M9 20H4v-5M10 14l-6 6',
+  reduire: 'M20 10h-6V4M14 10l6-6M4 14h6v6M10 14l-6 6',
   chevron: 'm6 9 6 6 6-6',
   retour: 'M19 12H5M11 18l-6-6 6-6',
   linkedin: '',
