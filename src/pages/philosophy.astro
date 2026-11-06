@@ -7,55 +7,61 @@
   temps : six convictions, qui ne se racontent pas l'une apres l'autre mais se
   tiennent ensemble.
 
-  LA COMPOSITION PORTE LES SIX, et c'est la generalisation naturelle du
-  dispositif de Language : six cases Mondrian de tailles differentes, chacune
-  une conviction, chacune qui s'ouvre sous la grille. Le lecteur voit les six
-  d'un coup d'oeil et ouvre celle qui l'interesse - au lieu de derouler six
-  blocs qu'on lit dans l'ordre ou qu'on saute.
+  LA COMPOSITION PORTE LES SIX, ET ELLE LES PORTE ENTIERES. Elle etait un
+  sommaire : six cases qui commandaient six <section> posees dessous, comme
+  les trois cartes d'une etude de cas. C'etait un emprunt de trop - une etude
+  deplie trois mille mots, une conviction en deplie quatre cents, et la
+  grille peut les tenir. Le texte est donc remonte DANS les cases, et la page
+  se lit sans jamais quitter la composition.
 
-  LES CARTES N'ONT PAS DE SYNTHESE, et c'est propre a cette page : le titre EST
-  la conviction, complete en elle-meme. Lui ajouter un resume la redirait en
-  moins bien. Voir la prop `synthese` de CarteDossier.
+  LA REGLE DE LEA, APPLIQUEE CASE PAR CASE : si la description tient dans la
+  case, elle se lit sous le titre ; sinon la case se replie sur son titre et
+  s'ouvre au clic. Ce sont les deux familles de tuiles de la landing - celle
+  de « Governance », qui montre son accroche, et les principes « I lead the
+  way… », qui la cachent derriere un « + ».
+
+  LE PARTAGE EST MESURE. Les six descriptions font 228, 310, 317, 404, 461 et
+  669 signes ; la coupure nette tombe entre 317 et 404. Trois cases s'ouvrent
+  d'emblee - The method, The point, The current - et les trois longues se
+  replient. Chacune des trois ouvertes a recu, dans la grille, une case assez
+  large pour son texte : c'est l'autre moitie de la regle, puisque « tenir
+  dans la case » depend aussi de la case.
 
   TOUT LE TEXTE EST CONSERVE : les six intitules, les six titres et les neuf
-  paragraphes de l'ancienne page sont la, mot pour mot.
+  paragraphes sont la, mot pour mot. Seuls les <em> de couleur des anciennes
+  phrases d'attaque tombent sur les cases de couleur, ou un mot rouge sur un
+  aplat rouge ne se verrait pas ; les trois cases blanches les gardent.
 */
 import Base from '../layouts/Base.astro';
 import '../styles/etude.css';
 import Hero from '../components/Hero.astro';
-import CarteDossier from '../components/CarteDossier.astro';
+import Conviction from '../components/Conviction.astro';
 import Bouton from '../components/Bouton.astro';
 
 /*
-  Les six convictions. L'ordre n'est pas indifferent : il va de ce qui precede
-  le systeme (comprendre) a ce qui lui survit (la relation au courant), en
-  passant par la methode, le cadre, le point et la fondation. Le rang vient du
-  tableau, donc reordonner renumerote.
+  LES SIX CASES SONT ECRITES, PAS DERIVEES D'UN TABLEAU. Elles l'etaient :
+  un tableau portait cle, intitule, couleur, titre et aire, et la page le
+  parcourait. Il n'etait possible que parce que les cases ne contenaient rien
+  - le texte vivait dans les panneaux. Maintenant que chaque case porte sa
+  description, avec ses <p>, ses <strong> et son « Next: … », ce contenu est
+  du markup : il ne rentre pas dans une chaine de caracteres, et l'y forcer
+  demanderait du set:html pour tout.
 
-  `aire` est le grid-area de la case ; les couleurs suivent le rythme Mondrian
-  et non le rang - deux rouges voisins seraient une rangee, pas une
-  composition.
+  Ce qu'on perd : la renumerotation automatique. Reordonner les six demande
+  desormais de reecrire les rangs. C'est six valeurs sur une page qui ne
+  bougera plus souvent, contre un contenu qui redevient lisible la ou il
+  s'affiche.
+
+  L'ORDRE DU DOM EST 01 → 06 et c'est l'ordre de lecture. `grid-area` fait le
+  placement au-dessus de 861px, le flux fait l'empilement en dessous : la
+  tabulation et la lecture a l'oreille suivent les rangs partout, sans
+  propriete `order` a tenir a jour.
+
+  LES COULEURS SUIVENT LE RYTHME MONDRIAN, pas le rang : les trois cases
+  ouvertes sont blanches - le blanc est une couleur de la composition, pas une
+  absence - et les trois repliees portent le rouge, le jaune et le bleu. Deux
+  aplats de meme teinte ne se touchent jamais.
 */
-const convictions = [
-  { cle: 'premise', intitule: 'The premise', couleur: 'rouge' as const,
-    titre: 'Understanding comes before the system.',
-    aire: '1 / 1 / 3 / 3', large: true },
-  { cle: 'method', intitule: 'The method', couleur: 'bleu' as const,
-    titre: 'Communication at the core, from brief to ship.',
-    aire: '1 / 4 / 2 / 6' },
-  { cle: 'frame', intitule: 'The frame', couleur: 'jaune' as const,
-    titre: "A system doesn't standardize people. It frees them.",
-    aire: '2 / 4 / 4 / 6' },
-  { cle: 'point', intitule: 'The point', couleur: 'bleu' as const,
-    titre: "What's left is what matters.",
-    aire: '3 / 1 / 4 / 3' },
-  { cle: 'foundation', intitule: 'The foundation', couleur: 'rouge' as const,
-    titre: "Care isn't the soft part. It's the foundation.",
-    aire: '4 / 1 / 5 / 4' },
-  { cle: 'current', intitule: 'The current', couleur: 'jaune' as const,
-    titre: "I don't work against the current. I learn to ride it.",
-    aire: '4 / 4 / 5 / 7' },
-].map((c, i) => ({ ...c, rang: String(i + 1).padStart(2, '0') }));
 ---
 <Base
   title="Philosophy - Léa Giezek"
@@ -72,8 +78,7 @@ const convictions = [
       Anything can be systematized, once you truly understand each craft. I
       believe people move systems forward - not the other way around. Built on
       trust over control, and humility. Not a system someone maintains, but one
-      a whole community owns, defends, and grows.
-      <b>Never alone. Conviction over caution, always.</b>
+      a whole community owns, defends, and grows. <b>Never alone. Conviction over caution, always.</b>
     </Fragment>
   </Hero>
 
@@ -84,133 +89,99 @@ const convictions = [
       Six colonnes, quatre rangees, deux colonnes fines (la 3 et la 6) qui ne
       portent que du decor : ce sont elles qui empechent les six cases de se
       lire comme un tableau. Les rangees sont des planchers et non des
-      hauteurs, pour la meme raison que sur les trois etudes - une conviction
-      qui gagne une ligne fait grandir sa rangee au lieu d'etre rognee.
+      hauteurs - une conviction qui s'ouvre fait grandir sa rangee au lieu
+      d'etre rognee par l'overflow de la case.
     */}
-    <div class="compo" id="composition" data-grille>
-      {convictions.map((c, i) => (
-        <>
-          <CarteDossier
-            id={`carte-${c.cle}`}
-            rang={c.rang}
-            intitule={c.intitule}
-            titre={c.titre}
-            couleur={c.couleur}
-            commande={`pan-${c.cle}`}
-            large={c.large}
-            aire={c.aire}
-          />
-          {/* les deux colonnes fines, posees apres la premiere et la deuxieme
-              carte pour que l'ordre du DOM reste celui de la lecture */}
-          {i === 0 && (
-            <>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 3 / 2 / 4"><span class="compo__plat compo__plat--gris"></span></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--noir"></span></div>
-            </>
-          )}
-          {i === 1 && (
-            <>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 6 / 2 / 7"></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 6 / 3 / 7"><span class="compo__plat compo__plat--rouge"></span></div>
-              <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 6 / 4 / 7"><span class="compo__plat compo__plat--gris"></span></div>
-            </>
-          )}
-        </>
-      ))}
+    <div class="compo compo--convictions" id="composition" data-grille>
+
+      <Conviction
+        id="conv-premise" rang="01" intitule="The premise" couleur="rouge"
+        titre="Understanding comes before the system."
+        aire="1 / 1 / 3 / 3" pliante large
+      >
+        <p>Not by putting experts in a room together. By understanding each craft deeply enough to translate it to the others. Systematization isn't the cause - it's what becomes possible once the understanding is there.</p>
+        <p>That's why my path runs through <strong>brand, retail, agency and product</strong>: I don't systematize what I haven't understood, and you don't understand a craft you haven't practiced - or at least dived deep enough into it to get along and speak the same language.</p>
+      </Conviction>
+
+      {/* Les deux colonnes fines. Posees apres la premiere case pour que
+          l'ordre du DOM reste celui de la lecture. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 3 / 2 / 4"><span class="compo__plat compo__plat--gris"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"></div>
+
+      <Conviction
+        id="conv-method" rang="02" intitule="The method" couleur="clair"
+        titre="Communication at the core, from brief to ship."
+        aire="1 / 4 / 2 / 7"
+      >
+        <p>In 2018, communication was my <em>subject</em> - I systematized how 2,500 people talked about IT. With Elements, communication became my <em>method</em> - I systematized digital products by making brand, design and engineering finally understand each other. <strong>The subject moved from communication to product. The method never did.</strong></p>
+      </Conviction>
+
+      <Conviction
+        id="conv-frame" rang="03" intitule="The frame" couleur="jaune"
+        titre="A system doesn't standardize people. It frees them."
+        aire="2 / 4 / 4 / 6" pliante
+      >
+        <p>The fear every craftsperson has of a system is that it will flatten them - make them interchangeable. The opposite is true. A good system carries the repeatable, so real expertise has room to breathe. The pivot was never rigidity; it was flexibility, and the collaboration with every stakeholder that made the whole thing rich. <strong>You systematize the frame that frees the craft. You don't replace the craft.</strong></p>
+      </Conviction>
+
+      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 6 / 3 / 7"><span class="compo__plat compo__plat--rouge"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 6 / 4 / 7"><span class="compo__plat compo__plat--gris"></span></div>
+
+      <Conviction
+        id="conv-point" rang="04" intitule="The point" couleur="clair"
+        titre="What's left is what matters."
+        aire="3 / 1 / 4 / 3"
+      >
+        <p>People doing the work that actually creates value - faster, yes, but mostly more <em>confident</em> in what they make, their core expertise valued instead of spent on what a system should have carried. Trusted to own their craft, and accountable for it. That's the point. Not adoption metrics. <strong>People who trust what they ship.</strong></p>
+      </Conviction>
+
+      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--noir"></span></div>
+
+      <Conviction
+        id="conv-foundation" rang="05" intitule="The foundation" couleur="bleu"
+        titre="Care isn't the soft part. It's the foundation."
+        aire="4 / 1 / 5 / 4" pliante
+      >
+        <p>A team that isn't well can't shine, and can't ship. So I hold the health of a team - its wellbeing, its inclusion, its safety to speak - with the <strong>same force</strong> I hold conviction and delivery.</p>
+        <p>But care doesn't stop at the team. It runs the whole length of a system's life: <strong>care for the people who build it, care for the people who use it, care for the people it ultimately reaches</strong> - the practitioner leaning on the library, and the patient on the other side of the screen.</p>
+        <p>A system is only as strong as the people who own it, and it only stays alive because it passes, with care, from one set of hands to the next. <strong>Inclusion isn't a value I add on top. It's infrastructure.</strong></p>
+      </Conviction>
+
+      <Conviction
+        id="conv-current" rang="06" intitule="The current" couleur="clair"
+        titre="I don't work against the current. I learn to ride it."
+        aire="4 / 4 / 5 / 7"
+      >
+        <p>When AI arrived, I didn't brace against it - I learned its temper first: explore, listen, build the trust, then move. You don't tame a force you don't understand. <strong>You earn the right to ride it - guardrails first, then the speed.</strong></p>
+      </Conviction>
+
+      {/*
+        LA CLOTURE EST UNE CASE DE LA COMPOSITION, pas un bloc pose apres.
+        Elle vivait au fond du sixieme panneau ; les panneaux partis, elle
+        aurait pu suivre la grille - mais la page se serait terminee hors de
+        sa propre composition. Elle prend donc la place que la citation
+        « Cultivating practice… » occupe sur la landing : une case blanche de
+        la grille, sa phrase en gros, son bouton cale en bas.
+
+        C'est une .conv : meme aplat, meme retard de trace, meme reveil au
+        defilement que les six convictions. Seule sa mise en page interieure
+        lui appartient. Elle n'a pas de rang - ce n'est pas une septieme
+        conviction, c'est la sortie.
+      */}
+      <section class="conv conv--clair cloture" aria-labelledby="cloture-titre" style="grid-area:5 / 1 / 6 / 5">
+        <span class="conv__plat" aria-hidden="true"></span>
+        <div class="conv__txt cloture__dedans">
+          <h2 id="cloture-titre">Never alone. <em class="em-bleu">Conviction over caution, always.</em></h2>
+          <p class="cloture__corps">These six aren't a manifesto I wrote after the fact - they're what the work keeps proving. If you want to see them running at scale, the three studies are where they show.</p>
+          <Bouton variante="bleu" href="/system-practice-elements">See them at work →</Bouton>
+        </div>
+      </section>
+
+      {/* Le carre jaune qui ferme la composition : la derniere rangee ne peut
+          pas etre une bande de texte seule, ou elle cesse d'etre un Mondrian. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 5 / 6 / 7"><span class="compo__plat compo__plat--jaune"></span></div>
+
     </div>
-
-    {/* ═══════════ 01 · The premise ═══════════ */}
-    <section class="pan" id="pan-premise" aria-labelledby="titre-premise">
-      <h2 class="sr-only" id="titre-premise">01 &middot; The premise</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Understanding comes <em class="em-rouge">before the system.</em></p>
-          <div class="body">
-            <p>Not by putting experts in a room together. By understanding each craft deeply enough to translate it to the others. Systematization isn't the cause - it's what becomes possible once the understanding is there.</p>
-            <p>That's why my path runs through <strong>brand, retail, agency and product</strong>: I don't systematize what I haven't understood, and you don't understand a craft you haven't practiced - or at least dived deep enough into it to get along and speak the same language.</p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-method">Next: the method →</Bouton>
-    </section>
-
-    {/* ═══════════ 02 · The method ═══════════ */}
-    <section class="pan" id="pan-method" aria-labelledby="titre-method">
-      <h2 class="sr-only" id="titre-method">02 &middot; The method</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Communication at the core, <em class="em-bleu">from brief to ship.</em></p>
-          <div class="body">
-            <p>In 2018, communication was my <em>subject</em> - I systematized how 2,500 people talked about IT. With Elements, communication became my <em>method</em> - I systematized digital products by making brand, design and engineering finally understand each other. <strong>The subject moved from communication to product. The method never did.</strong></p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-frame">Next: the frame →</Bouton>
-    </section>
-
-    {/* ═══════════ 03 · The frame ═══════════ */}
-    <section class="pan" id="pan-frame" aria-labelledby="titre-frame">
-      <h2 class="sr-only" id="titre-frame">03 &middot; The frame</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">A system doesn't standardize people. <em class="em-rouge">It frees them.</em></p>
-          <div class="body">
-            <p>The fear every craftsperson has of a system is that it will flatten them - make them interchangeable. The opposite is true. A good system carries the repeatable, so real expertise has room to breathe. The pivot was never rigidity; it was flexibility, and the collaboration with every stakeholder that made the whole thing rich. <strong>You systematize the frame that frees the craft. You don't replace the craft.</strong></p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-point">Next: the point →</Bouton>
-    </section>
-
-    {/* ═══════════ 04 · The point ═══════════ */}
-    <section class="pan" id="pan-point" aria-labelledby="titre-point">
-      <h2 class="sr-only" id="titre-point">04 &middot; The point</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">What's left <em class="em-bleu">is what matters.</em></p>
-          <div class="body">
-            <p>People doing the work that actually creates value - faster, yes, but mostly more <em>confident</em> in what they make, their core expertise valued instead of spent on what a system should have carried. Trusted to own their craft, and accountable for it. That's the point. Not adoption metrics. <strong>People who trust what they ship.</strong></p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-foundation">Next: the foundation →</Bouton>
-    </section>
-
-    {/* ═══════════ 05 · The foundation ═══════════ */}
-    <section class="pan" id="pan-foundation" aria-labelledby="titre-foundation">
-      <h2 class="sr-only" id="titre-foundation">05 &middot; The foundation</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Care isn't the soft part. <em class="em-rouge">It's the foundation.</em></p>
-          <div class="body">
-            <p>A team that isn't well can't shine, and can't ship. So I hold the health of a team - its wellbeing, its inclusion, its safety to speak - with the <strong>same force</strong> I hold conviction and delivery.</p>
-            <p>But care doesn't stop at the team. It runs the whole length of a system's life: <strong>care for the people who build it, care for the people who use it, care for the people it ultimately reaches</strong> - the practitioner leaning on the library, and the patient on the other side of the screen.</p>
-            <p>A system is only as strong as the people who own it, and it only stays alive because it passes, with care, from one set of hands to the next. <strong>Inclusion isn't a value I add on top. It's infrastructure.</strong></p>
-          </div>
-        </div>
-      </div>
-      <Bouton variante="bleu" class="suite" commande="carte-current">Next: the current →</Bouton>
-    </section>
-
-    {/* ═══════════ 06 · The current ═══════════ */}
-    <section class="pan" id="pan-current" aria-labelledby="titre-current">
-      <h2 class="sr-only" id="titre-current">06 &middot; The current</h2>
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">I don't work against the current. <em class="em-bleu">I learn to ride it.</em></p>
-          <div class="body">
-            <p>When AI arrived, I didn't brace against it - I learned its temper first: explore, listen, build the trust, then move. You don't tame a force you don't understand. <strong>You earn the right to ride it - guardrails first, then the speed.</strong></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="closing">
-        <h2>Never alone. <em class="em-bleu">Conviction over caution, always.</em></h2>
-        <p class="cbody">These six aren't a manifesto I wrote after the fact - they're what the work keeps proving. If you want to see them running at scale, the three studies are where they show.</p>
-        <Bouton variante="bleu" href="/system-practice-elements">See them at work →</Bouton>
-      </div>
-    </section>
 
   </div>
 
@@ -224,22 +195,43 @@ const convictions = [
     colonnes 3 et 6 sont fines et ne portent que du decor : ce sont elles qui
     empechent les six cases de se lire comme un tableau a deux colonnes.
 
-    Rangees en minmax, pour la raison mesuree a l'etape 4 : en pixels fixes,
-    une conviction qui gagne une ligne entre 861 et 1120 est AVALEE par la
-    carte, qui est en overflow:hidden.
+    Rangees en minmax, et ce n'est plus seulement une precaution de rognage :
+    trois cases portent desormais leur texte en clair et trois autres
+    grandissent a l'ouverture. Une hauteur fixe avalerait les unes et
+    interdirait aux autres de s'ouvrir.
+
+    Les planchers sont calcules sur le contenu au repos, pas choisis a l'oeil :
+    une case repliee tient en surtitre + titre, une case ouverte doit porter
+    son texte sans que la rangee saute a l'ouverture de sa voisine.
 
     Au-dessus du point de rupture seulement : etude.css remet la composition
     sur une colonne sous 860px, et cette declaration vit plus loin dans le
     bundle - a specificite egale elle gagnerait, media query comprise.
   */
   @media(min-width:861px){
-    .compo{grid-template-columns:26fr 20fr 6fr 24fr 18fr 6fr;
-      grid-template-rows:minmax(180px,auto) minmax(130px,auto)
-        minmax(150px,auto) minmax(160px,auto)}
+    .compo--convictions{grid-template-columns:26fr 20fr 6fr 24fr 18fr 6fr;
+      grid-template-rows:minmax(190px,auto) minmax(150px,auto)
+        minmax(200px,auto) minmax(200px,auto) minmax(260px,auto)}
   }
+
+  /*
+    LA CLOTURE. Meme forme que la citation de la landing : la phrase part du
+    HAUT de la case et le bouton descend en bas avec margin-top:auto. Caler la
+    phrase en bas renverrait tout le jeu de la rangee au-dessus d'elle, et le
+    haut de la case vaudrait ce qui reste au lieu d'une valeur voulue - c'est
+    la mesure faite sur la landing, et elle vaut ici.
+  */
+  .cloture{display:grid}
+  .cloture__dedans{display:flex;flex-direction:column;justify-content:flex-start;
+    gap:24px;padding:var(--pad-square)}
+  .cloture__dedans .sb{margin-top:auto;align-self:flex-start}
+  .cloture h2{margin:0;font-family:var(--display);font-size:var(--fs-section);
+    font-weight:900;line-height:1.1;letter-spacing:-.015em}
+  .cloture__corps{margin:0;font-size:var(--fs-body-s);line-height:1.7;
+    color:var(--text-body);max-width:46ch}
 </style>
 
 <script>
-  import { initDossier } from '../scripts/dossier';
-  initDossier();
+  import { initConvictions } from '../scripts/convictions';
+  initConvictions();
 </script>

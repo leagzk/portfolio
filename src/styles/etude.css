@@ -291,10 +291,10 @@
   compositions ; ce qui est nomme ici, ce sont les elements de celle-ci.
 */
 .compo.pre{background:var(--white)}
-.attend .compo__plat{transform:scale(0)}
-.attend .dcarte__txt{opacity:0}
-.vu .compo__plat{animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
-.vu .dcarte__txt{animation:monte .85s cubic-bezier(.16,1,.3,1)
+.attend :is(.compo__plat,.conv__plat){transform:scale(0)}
+.attend :is(.dcarte__txt,.conv__txt){opacity:0}
+.vu :is(.compo__plat,.conv__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
+.vu :is(.dcarte__txt,.conv__txt){animation:monte .85s cubic-bezier(.16,1,.3,1)
   calc(var(--retard,0s) + .22s) both}
 
 @media(max-width:860px){
@@ -458,9 +458,10 @@
   Sur le bloc sombre le rouge passe au jaune : a 5,67:1 sur blanc il tombe a
   1,9 sur le noir d'encre.
 */
-.pan .em-rouge,.pan .em-bleu,.pan .closing em{font-style:normal}
-.pan .em-rouge{color:var(--red)}
-.pan .em-bleu{color:var(--blue)}
+:is(.pan,.etude) .em-rouge,:is(.pan,.etude) .em-bleu,
+.pan .closing em{font-style:normal}
+:is(.pan,.etude) .em-rouge{color:var(--red)}
+:is(.pan,.etude) .em-bleu{color:var(--blue)}
 .pan .dark .em-rouge{color:var(--yellow)}
 
 /* Deux blocs empiles dans une colonne du .split. */

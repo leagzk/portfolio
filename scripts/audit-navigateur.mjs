@@ -15,9 +15,10 @@
   CE QU'IL NE FAUT PAS LUI FAIRE DIRE. Il ne sait pas lire un aplat peint par
   une image de fond - il s'arrete et ne juge pas. Il attend 600ms pour laisser
   les transitions se poser, sans quoi il releve des couleurs intermediaires. Et
-  il peut manquer un aplat pose derriere le texte par un frere en position
-  absolue dans certains cas : un contraste de 1:1 annonce sur du blanc se
-  verifie a la main avant d'etre cru.
+  il lit les aplats poses par un frere en position absolue - les carres de
+  couleur des boutons, les cases des compositions - en jetant le fond opaque
+  trouve plus haut, qui est derriere eux. Un 1:1 annonce sur du blanc reste
+  la signature d'un fond qu'il n'a pas su lire : il se verifie a la main.
 */
 const lum = (c) => { const [r,g,b]=c.map(v=>{v/=255;return v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4)}); return 0.2126*r+0.7152*g+0.0722*b; };
 const ratio = (a,b) => { const L1=lum(a),L2=lum(b); return (Math.max(L1,L2)+0.05)/(Math.min(L1,L2)+0.05); };
@@ -53,13 +54,44 @@ const fond = (el) => { const pile=[]; let n=el;
     const c=rgb(cs.backgroundColor); if (c&&c.a>0){pile.push(c); if(c.a===1) break;}
     n=n.parentElement; }
   const dessous = couvreur(el, el.getBoundingClientRect());
-  if (dessous) { let base = dessous; for (let i = pile.length - 1; i >= 0; i--) base = fusion(pile[i], base); return {couleur: base}; }
+  if (dessous) {
+    /*
+      LE FOND OPAQUE TROUVE PLUS HAUT EST DERRIERE LE FRERE, PAS DEVANT.
+      C'etait le bug : la pile remonte jusqu'au premier fond opaque - en
+      pratique le blanc de <body> - puis on la recomposait PAR-DESSUS l'aplat
+      du frere. Un blanc opaque pose sur du bleu rend du blanc : tout bouton
+      dont la couleur vit sur un <span> absolu (.sb__carre, soit chaque bouton
+      du site en tactile) etait annonce a 1:1, texte blanc sur fond blanc.
+      Ce faux positif revenait page apres page et on s'etait habitue a le
+      filtrer - ce qui est exactement ce qui fait rater un vrai.
+      L'aplat du frere EST le fond : on jette l'opaque de la pile et on ne
+      recompose au-dessus que les fonds translucides rencontres en chemin.
+    */
+    const devant = pile.slice();
+    if (devant.length && devant[devant.length - 1].a === 1) devant.pop();
+    let base = dessous;
+    for (let i = devant.length - 1; i >= 0; i--) base = fusion(devant[i], base);
+    return {couleur: base};
+  }
   if (!pile.length) return {couleur:[255,255,255]};
   let base = pile[pile.length-1].a===1 ? pile.pop().c : [255,255,255];
   for (let i=pile.length-1;i>=0;i--) base=fusion(pile[i],base);
   return {couleur:base}; };
+/*
+  L'OPACITE SE LIT SUR TOUTE LA CHAINE, PAS SUR LE SEUL ELEMENT. `opacity`
+  ne s'herite pas : un <span> dans un parent a opacity:0 calcule 1, et
+  l'audit le jugeait donc visible. Toutes les compositions du site partent
+  en `.attend`, qui met le texte a 0 et ecrase l'aplat a scale(0) le temps
+  que le trace arrive - une case pas encore revelee se lisait alors comme du
+  blanc sur blanc. Ce n'etait pas un contraste : il n'y avait rien a voir.
+  Un texte entierement transparent n'a pas de contraste a juger.
+*/
+const opaque = (el) => { let n=el;
+  while (n && n.nodeType===1) { if (+getComputedStyle(n).opacity===0) return false; n=n.parentElement; }
+  return true; };
 const visible = (el) => { const cs=getComputedStyle(el);
-  if (cs.display==='none'||cs.visibility==='hidden'||+cs.opacity===0) return false;
+  if (cs.display==='none'||cs.visibility==='hidden') return false;
+  if (!opaque(el)) return false;
   if (el.closest('[hidden]')||el.closest('.sr-only')) return false;
   const r=el.getBoundingClientRect(); return r.width>0&&r.height>0; };
 

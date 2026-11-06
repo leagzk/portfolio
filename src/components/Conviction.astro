@@ -1,0 +1,217 @@
+---
+/*
+  Une conviction de la page Philosophy, posee dans la composition Mondrian.
+
+  DEUX FORMES POUR UNE SEULE REGLE, celle que Lea a posee : si la description
+  tient dans la case, elle se lit tout de suite sous le titre ; si elle n'y
+  tient pas, la case se replie sur son titre et s'ouvre au clic.
+
+  C'est la meme regle que la landing applique deja a ses deux familles de
+  tuiles - la tuile « Governance », qui montre son accroche, et les principes
+  « I lead the way… » / « Enough engineering… », qui la cachent derriere un
+  « + ». Ici les deux vivent dans un seul composant parce qu'elles sont deux
+  etats du meme objet, et que c'est la LONGUEUR du texte qui decide, pas le
+  role de la case.
+
+  LE SEUIL EST MESURE, PAS DEVINE. Les six descriptions font 228, 310, 317,
+  404, 461 et 669 signes ; la coupure nette est entre 317 et 404. Trois cases
+  s'ouvrent donc d'emblee - The method, The point, The current - et trois se
+  replient : The premise, The frame, The foundation. Le seuil n'est pas une
+  constante dans le code : c'est la page qui decide case par case, puisque
+  « tenir dans la case » depend aussi de la taille de la case.
+
+  POURQUOI LA CASE S'OUVRE SUR PLACE, et non dans un panneau sous la grille
+  comme <CarteDossier> sur les etudes de cas. Une etude de cas deplie trois
+  mille mots : aucune case ne les porte, et la grille se briserait. Une
+  conviction deplie quatre cents signes - la rangee grandit, la composition
+  reste entiere, et on lit la conviction LA OU on l'a cliquee.
+
+  LA FORME OUVERTE N'EST PAS UN BOUTON. Il n'y a rien a y actionner : un
+  <div> qui porte son texte. Mettre un bouton inerte la ferait apparaitre dans
+  la tabulation pour ne rien faire.
+*/
+import Icone from './Icone.astro';
+
+export interface Props {
+  /** identifiant de la case - cible des « Next: … » */
+  id: string;
+  /** le rang, tel qu'il s'affiche : « 01 » */
+  rang: string;
+  /** l'intitule du surtitre, sans le rang : « The premise » */
+  intitule: string;
+  /** la conviction elle-meme, qui est le titre de la case */
+  titre: string;
+  /**
+   * `clair` est le blanc de la composition : c'est la forme ouverte, celle
+   * qui montre son texte. Les trois autres sont les aplats pleins des cases
+   * repliees - le meme rythme que les principes de la landing.
+   */
+  couleur: 'rouge' | 'bleu' | 'jaune' | 'clair';
+  /** position dans la grille, en `grid-area` */
+  aire: string;
+  /**
+   * true : la description ne tient pas dans la case, elle s'ouvre au clic.
+   * false : elle se lit sous le titre.
+   */
+  pliante?: boolean;
+  /** la plus grande case de la composition porte un titre d'un cran de plus */
+  large?: boolean;
+}
+const { id, rang, intitule, titre, couleur, aire, pliante = false, large = false } = Astro.props;
+const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--ouverte', large && 'conv--large'];
+---
+<div class:list={classes} style={`grid-area:${aire}`}>
+  {/* L'aplat est un enfant et non un `background` : c'est lui que le trace de
+      la grille fait pousser depuis son coin (.vu .conv__plat dans etude.css),
+      et un fond ne se met pas a l'echelle. */}
+  <span class="conv__plat" aria-hidden="true"></span>
+
+  {pliante ? (
+    <>
+      {/*
+        LE TITRE EST UN <h2> QUI CONTIENT LE BOUTON, et non l'inverse. C'est le
+        patron des panneaux depliables : le titre doit exister pour qui navigue
+        de titre en titre - six convictions sans titre seraient six blocs muets
+        dans le plan du document - et le bouton doit etre le seul element
+        actionnable. Un <h2> DANS un bouton ferait un titre non annonce.
+      */}
+      <h2 class="conv__h">
+        <button id={id} class="conv__tete" type="button" aria-expanded="false" aria-controls={`${id}-txt`}>
+          <span class="conv__txt conv__eyebrow">
+            <span>{rang} &middot; {intitule}</span>
+            <Icone nom="plus" taille={20} class="conv__plus" />
+          </span>
+          {/* data-copy : un <button> ne peut pas contenir de <p>, donc rien ici
+              ne serait sorti dans l'export de contenu. */}
+          <span class="conv__txt conv__titre" data-copy>{titre}</span>
+        </button>
+      </h2>
+      <div class="conv__txt conv__detail" id={`${id}-txt`} hidden>
+        <slot />
+      </div>
+    </>
+  ) : (
+    <div id={id} class="conv__tete">
+      {/*
+        LE SURTITRE EST DANS LE <h2>, comme il l'est dans celui de la case
+        repliee - ou il ne peut pas en sortir, puisqu'il porte le « + » du
+        bouton. Les six titres se lisent donc pareil dans le plan du
+        document : « 02 · The method, Communication at the core… ».
+      */}
+      <h2 class="conv__h">
+        <span class="conv__txt conv__eyebrow"><span>{rang} &middot; {intitule}</span></span>
+        <span class="conv__txt conv__titre" data-copy>{titre}</span>
+      </h2>
+      <div class="conv__txt conv__detail"><slot /></div>
+    </div>
+  )}
+</div>
+
+<style is:global>
+  /*
+    En global et non scopee : la description arrive par <slot>, donc ses <p>
+    portent le hash de la PAGE et non celui de ce composant. Meme raison que
+    <Bouton> et shared.css.
+  */
+
+  /* ═══ La case ═══ */
+  .conv{position:relative;overflow:hidden;min-width:0}
+
+  /*
+    LA COULEUR EST SUR LA CASE, ET AUSSI SUR L'APLAT - les deux, et c'est
+    voulu. L'aplat seul suffisait a l'oeil : il couvre la case en entier. Mais
+    c'est un FRERE du texte, pas son ancetre, et aucun outil de contraste ne
+    remonte un frere - ni l'audit du projet, ni l'inspecteur du navigateur.
+    Un texte blanc sur une case rouge se lisait partout comme du blanc sur
+    blanc, et une vraie regression se serait noyee au milieu de ces fausses.
+    La couleur posee sur la case rend le calcul juste pour tout le monde, sans
+    rien changer a l'ecran : l'aplat pousse par-dessus la meme teinte.
+
+    .attend l'eteint le temps que le trace de la grille arrive : sans ca la
+    case serait deja coloree avant que son aplat ne pousse, et l'animation
+    n'aurait plus rien a montrer.
+  */
+  .conv--rouge{background:var(--red)}
+  .conv--bleu{background:var(--blue)}
+  .conv--jaune{background:var(--yellow)}
+  .conv--clair{background:var(--white)}
+  .conv.attend{background:none}
+
+  .conv__plat{position:absolute;inset:0;transform-origin:left top}
+  .conv--rouge .conv__plat{background:var(--red)}
+  .conv--bleu  .conv__plat{background:var(--blue)}
+  .conv--jaune .conv__plat{background:var(--yellow)}
+  .conv--clair .conv__plat{background:var(--white)}
+
+  /*
+    LES APLATS SONT POSES AU REPOS, et c'est la difference avec <CarteDossier>.
+    Sur une etude de cas la carte est blanche et se remplit a l'ouverture :
+    la couleur y recompense un geste. Ici les six cases sont la composition -
+    elles doivent etre lues comme un Mondrian des le premier coup d'oeil, pas
+    une fois qu'on a clique partout. C'est ce que fait la landing avec ses
+    principes rouge, jaune et noir.
+  */
+  .conv--rouge,.conv--bleu{color:var(--white)}
+  .conv--jaune,.conv--clair{color:var(--text)}
+
+  /* ═══ Le contenu ═══ */
+  .conv__tete{position:relative;z-index:1;display:flex;flex-direction:column;gap:12px;
+    width:100%;height:100%;padding:var(--pad-square);text-align:left}
+  /*
+    Le <h2> ne porte aucune forme propre : il reprend la colonne du bloc qui
+    l'entoure, pour que le surtitre et le titre restent a leur place quel que
+    soit le cote - bouton ou non - ou il se trouve.
+  */
+  .conv__h{display:flex;flex-direction:column;gap:12px;margin:0;
+    font:inherit;letter-spacing:inherit}
+  /* all:unset efface aussi la boite du bouton : on la repose juste apres. */
+  .conv--pliante .conv__tete{all:unset;box-sizing:border-box;position:relative;z-index:1;
+    display:flex;flex-direction:column;gap:12px;width:100%;padding:var(--pad-square);
+    cursor:pointer;text-align:left}
+  .conv--pliante .conv__tete:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
+  /*
+    LE TRAIT DE FOCUS SE DESSINE SUR L'APLAT, pas sur le blanc de la page :
+    outline-offset est negatif, donc la couleur voisine est celle de la case.
+    --focus vaut --blue, et le bleu sur le rouge tombe a 1,27:1 - un trait
+    qu'on ne voit pas n'est pas un trait de focus. Mesure des trois cases :
+    blanc sur rouge 5,67:1, jaune sur bleu 4,67:1, bleu sur jaune 4,67:1.
+    Les trois passent le 3:1 que WCAG 1.4.11 demande a un indicateur.
+  */
+  .conv--rouge .conv__tete:focus-visible{outline-color:var(--white)}
+  .conv--bleu .conv__tete:focus-visible{outline-color:var(--yellow)}
+
+  .conv__txt{position:relative;z-index:1}
+  .conv__eyebrow{display:flex;justify-content:space-between;align-items:center;gap:12px;
+    font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+  .conv__plus{flex:none;transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+  .conv__tete[aria-expanded="true"] .conv__plus{transform:rotate(45deg)}
+  .conv__titre{display:block;margin:0;font-family:var(--display);font-weight:900;
+    font-size:var(--fs-tile);line-height:1.12;letter-spacing:-.01em}
+  .conv--large .conv__titre{font-size:calc(var(--fs-tile) * 1.18)}
+
+  /*
+    LA DESCRIPTION. Sur la case ouverte elle est simplement la ; sur la case
+    pliante, `hidden` la retire du flux ET de l'arbre d'accessibilite, donc la
+    rangee ne reserve pas sa hauteur tant qu'elle est fermee. C'est ce qui
+    permet a la composition de rester compacte au chargement.
+  */
+  .conv__detail{display:flex;flex-direction:column;gap:14px;
+    font-size:var(--fs-body-s);line-height:1.6}
+  .conv__detail[hidden]{display:none}
+  .conv__detail p{margin:0}
+  /* Sur un aplat de couleur, le gras ne peut pas etre un changement de teinte :
+     il n'y a pas de teinte plus foncee disponible. Il reste une graisse. */
+  .conv--clair .conv__detail strong,.conv--clair .conv__detail b{color:var(--text);font-weight:700}
+  .conv__detail em{font-style:italic}
+
+  /* Le « Next: … » de fin de description, ferre a gauche sous le dernier
+     paragraphe, avec l'air qu'il faut pour ne pas se coller au texte. */
+  .conv__detail .sb{margin-top:6px}
+
+  .conv--pliante .conv__detail{padding:0 var(--pad-square) var(--pad-square)}
+  .conv--pliante .conv__detail{animation:deplie .4s ease-out}
+  @media(prefers-reduced-motion:reduce){
+    .conv--pliante .conv__detail{animation:none}
+    .conv__plus{transition:none}
+  }
+</style>
