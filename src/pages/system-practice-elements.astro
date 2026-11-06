@@ -240,6 +240,16 @@ const mecanismes: Tuile[] = [
       <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 5 / 3 / 6"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 5 / 4 / 6"><span class="compo__plat compo__plat--rouge"></span></div>
 
+      {/*
+        LA CASE QUI RESPIRE. La definition occupait les quatre cases du bas a
+        droite ; partie dans le bandeau, elle a laisse un trou - et un trou,
+        dans cette composition, ce n'est pas du blanc, c'est le FOND NOIR qui
+        reparait. Une seule case blanche le couvre, et sans la redecouper en
+        quatre : c'est la respiration de la grille, apres trois cartes et une
+        rangee de couleurs.
+      */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 6 / 6 / 8"></div>
+
       <CarteDossier
         id="carte-approach"
         rang="02"
@@ -248,7 +258,7 @@ const mecanismes: Tuile[] = [
         synthese="Internalize the engineering, rebuild from zero, and run it as a platform: three axes, six capabilities, two governance models - a centralized core, contribution opened outward."
         couleur="bleu"
         commande="pan-approach"
-        aire="4 / 1 / 6 / 3"
+        aire="1 / 6 / 4 / 8"
       />
 
 
@@ -260,7 +270,7 @@ const mecanismes: Tuile[] = [
         synthese="100% adoption across the three Digital Accelerators, 87% of each product's interface, launches shipped three times faster - and 35+ contributors who keep it alive without me."
         couleur="jaune"
         commande="pan-proof"
-        aire="1 / 6 / 4 / 8"
+        aire="4 / 1 / 6 / 3"
       />
 
       {/*
