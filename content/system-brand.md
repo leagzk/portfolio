@@ -2,7 +2,7 @@
 page: /system-brand
 title: "Language - Systematize a brand - Léa Giezek"
 description: "At 2,500 people a brand isn't a charter, it's a shared language. Sanofi IT's brand platform, then the digital standard its rebrand landed on."
-indexable: false
+indexable: true
 ---
 
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
@@ -12,7 +12,9 @@ Systematize a brand · Sanofi · 2018 - 2022
 
 # At 2,500 people, a brand isn't a charter, it's a shared language.
 
-I built IT's brand platform to make an invisible function legible - then handed its people the language to talk about it themselves. In 2022, I took the part nobody had defined: what the new corporate brand becomes on a screen.
+I built IT's brand platform to make an invisible function legible - then
+handed its people the language to talk about it themselves. In 2022, I took
+the part nobody had defined: what the new corporate brand becomes on a screen.
 
 2,500
 people shipping on-brand
@@ -300,6 +302,8 @@ So I pushed the answer one level up. Not a brand adaptation per product: **one s
 Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. **The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.** And that's where Elements Design System begins.
 
 Discover what came next →
+
+Back to the three chapters ↑
 
 ---
 

@@ -12,7 +12,10 @@ Systematize a moment · Living System · 3rd edition
 
 # Same systems thinking, same care - just off the screen.
 
-Over more than a year, I designed and orchestrated a live event from end to end - one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.
+Over more than a year, I designed and orchestrated a live event from end to
+end - one identity, one experience, held together across every surface and
+every supplier. No repository. No deploy pipeline. Just the discipline of
+making a hundred moving parts feel like one thing.
 
 1 an+
 from first object to last jar
@@ -263,6 +266,8 @@ Léa Giezek
 This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. **The pattern doesn't stop at the screen - and it doesn't stop at work either.**
 
 See it at global scale →
+
+Back to the three chapters ↑
 
 ---
 

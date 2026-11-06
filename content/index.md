@@ -11,8 +11,8 @@ indexable: true
 Léa Giezek
 Moving design practice forward
 
-# Design systems
-ship standards. Experience systems grow culture.
+# Design systems ship standards.
+Experience systems grow culture.
 
 Fifteen years across brand, retail, agency and product - every rung of the craft before the direction. I nurture the practice and the people, not just the system. **That's my leadership bet.**
 

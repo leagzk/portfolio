@@ -2,7 +2,7 @@
 page: /system-practice-elements
 title: "Governance - Systematize a practice - Léa Giezek"
 description: "At global scale a system isn't managed, it's governed. Sanofi's experience system: 45+ products, €1M a year, 35+ contributors, Design System Awards finalist."
-indexable: false
+indexable: true
 ---
 
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
@@ -12,7 +12,11 @@ Systematize a practice · Sanofi · 2022 - now
 
 # At global scale, a system isn't managed. It's governed.
 
-I built Elements to remove the friction between experts, cut time to launch and raise product experience at scale - then moved it from a design system to a platform: one pipeline where brand, design and engineering pour into the same chain. Starting in 2022 as **Design Lead**, running the platform today as its **Director**.
+I built Elements to remove the friction between experts, cut time to launch
+and raise product experience at scale - then moved it from a design system
+to a platform: one pipeline where brand, design and engineering pour into
+the same chain. Starting in 2022 as **Design Lead**, running the platform
+today as its **Director**.
 
 100%
 adoption in the 3 Digital Accelerators
@@ -32,7 +36,7 @@ Inner source, not headcount. 4.7/5 practitioner satisfaction.
 
 Three crafts, three silos - and a system nobody adopted.
 
-A designer ships a spec, an engineer rebuilds it, a marketer briefs an agency for a palette the system already had. Then we built the answer brand-first, through a vendor - coherent, and barely adopted.
+A designer ships a spec, an engineer rebuilds it, a marketer briefs an agency for a palette the system already had. Then we built the answer brand-first, through a vendor - coherent, but barely adopted.
 
 I stopped fixing the output and fixed both sources.
 
@@ -41,6 +45,10 @@ Internalize the engineering, rebuild from zero, and run it as a platform: three 
 Adopted. Trusted. Extended.
 
 100% adoption across the three Digital Accelerators, 87% of each product's interface, launches shipped three times faster - and 35+ contributors who keep it alive without me.
+
+The system
+
+Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
 
 ## 01 &middot; The problem
 
@@ -56,13 +64,11 @@ The stakes
 
 A system this size is *two bets in one.*
 
-Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
-
 **Cost rationalization** first, by mutualizing practice so every product team doesn't rebuild the same thing 45 times. Second, **experience at scale**: one coherent journey across every touchpoint. Service design for an entire organization, from employee to patient.
 
 Both bets only pay if the system is adopted. A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase - while the experience stays broken touchpoint by touchpoint. At this scale, every lost hour of velocity is lost across all of them at once.
 
-Some of those platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **Systematize at the source, and you reach every one of them at once.**
+Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **Systematize at the source, and you reach every one of them at once.**
 
 The failure, and the decision
 
@@ -236,6 +242,8 @@ Design systems ship standards.
 *Experience systems grow culture.*
 
 See it off the screen →
+
+Back to the three chapters ↑
 
 ---
 
