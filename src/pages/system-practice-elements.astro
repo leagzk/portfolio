@@ -290,7 +290,7 @@ const mecanismes: Tuile[] = [
         rang="04"
         intitule="The team"
         titre="I didn't build a system I hold together."
-        synthese="Autonomous streams, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story."
+        synthese="Autonomy, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story."
         couleur="noir"
         commande="pan-team"
         aire="4 / 3 / 6 / 6"
@@ -516,7 +516,13 @@ const mecanismes: Tuile[] = [
               src={img('lea-nicolas-rodolphe-elements-awards')}
               alt="Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards"
               legende="<strong>Design System Awards 2025</strong> <span class='tag tag--on'>Governance finalist</span> alongside HP and Tesco. The recognition that means the most to me is the <em>category</em> - because this was never only a craft story. It was a leadership one."
-              ratio="2 / 3"
+              {/* LA SOURCE EST CARREE depuis qu'on l'a recadree a 940x940 sur
+                  l'original 2000x3000 : « cover » n'a donc plus rien a rogner.
+                  Le recadrage est dans le fichier et non dans le CSS parce
+                  qu'aucun reglage d'`object-position` ne pouvait exclure le
+                  quatrieme visage - un carre garde les deux tiers de la hauteur
+                  d'une image 2:3, et ce visage commence au-dessus de ce seuil. */}
+              ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
             />
@@ -530,8 +536,11 @@ const mecanismes: Tuile[] = [
       <div class="taught">
         <div class="taught__viz" aria-hidden="true"><IdeaVisual /></div>
         <div class="body">
-          <p class="qt">The Elements MCP didn&apos;t come from my roadmap. <strong>It came from a contributor.</strong></p>
-          <p>And it&apos;s where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.</p>
+          {/* UN SEUL PARAGRAPHE : l'idee venue d'un contributeur et les carrieres
+              qui ont grandi la sont la meme phrase - la premiere est la preuve
+              de la seconde. Separees, la chute retombait avant d'avoir servi.
+              L'exergue garde son filet : c'est elle qui porte. */}
+          <p class="qt">The Elements MCP didn&apos;t come from my roadmap. <strong>It came from a contributor.</strong> And it&apos;s where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.</p>
         </div>
       </div>
 
