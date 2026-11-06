@@ -46,6 +46,15 @@ export interface Tuile {
 
 export interface Props {
   tuiles: Tuile[];
+  /**
+   * `grid-area` quand la serie est posee DANS une composition, et non dans le
+   * fil du texte. Une seule tuile par appel, alors : c'est la composition qui
+   * place les cases, pas la grille interne de ce composant, et chacune a son
+   * aire. La serie perd du meme coup son fond noir et son cadre - les filets
+   * du Mondrian sont deja portes par `.compo > *`, les doubler donnerait 3px
+   * la ou le trait en vaut 1,5.
+   */
+  aire?: string;
   /** nombre de colonnes au bureau ; en dessous de 720px la grille passe a 1 */
   colonnes?: number;
   /** nom du groupe pour les lecteurs d'ecran */
@@ -59,9 +68,11 @@ export interface Props {
    */
   hauteur?: number;
 }
-const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
+const { tuiles, colonnes = 4, label, hauteur = 240, aire } = Astro.props;
 ---
-<ul class="tuiles" style={`--tuiles-cols:${colonnes};--tuile-h:${hauteur}px`} aria-label={label}>
+<ul class:list={['tuiles', aire && 'tuiles--case']}
+    style={`--tuiles-cols:${colonnes};--tuile-h:${hauteur}px${aire ? `;grid-area:${aire}` : ''}`}
+    aria-label={label}>
   {tuiles.map((t) => (
     <li class="tuile">
       <button class="tuile__pivot" type="button" aria-expanded="false">
@@ -88,6 +99,57 @@ const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
     gap:var(--rule-fine);background:var(--text);
     border:var(--rule-fine) solid var(--text);list-style:none;margin:0;padding:0}
   .tuile{display:grid;min-width:0}
+  /*
+    LA SERIE POSEE DANS UNE COMPOSITION. Elle ne porte plus ni fond ni cadre :
+    la case de la grille lui donne deja son trait. La marge interieure tombe a
+    24px, comme les autres petites cases du site - le carre de droite fait
+    177px a 861, dont 56 seraient partis en marge a 28.
+  */
+  .tuiles--case{background:none;border:0;gap:0}
+  .tuiles--case .tuile__face{padding:24px}
+
+  /*
+    ═══ AU REPOS LE CARRE, RETOURNEE LA TUILE ENTIERE ═══
+
+    LE REPOS. Une tuile du gabarit fait la hauteur de sa face la plus haute,
+    et c'est toujours le VERSO - 272px pour « Fewer components » dans un
+    carre de 234. Posee dans une composition, cette hauteur-la ne lui
+    appartient plus : la case est carree, et le bouton qui depassait faisait
+    glisser le titre du recto 14px sous le bord, ou l'`overflow` de la case
+    le coupait. La piste, la tuile et le bouton sont donc bornes a la hauteur
+    de la case - la piste, la tuile, le bouton ET la rangee du bouton, ou les
+    deux faces se superposent : sans elle, le bouton etait bien carre mais sa
+    rangee interieure gardait la hauteur du verso, et le recto, qui s'y
+    etire, redescendait son titre sous le bord. Le verso, lui, deborde en
+    silence derriere le recto, que `backface-visibility` cache de toute
+    facon.
+
+    LE RETOURNEMENT. Il faut bien que ce verso se lise en entier : mesure a
+    861px, il demande 339, 205 et 362px pour des carres de 193, 195 et 177.
+    La tuile quitte donc le flux le temps de se montrer - meme geste que les
+    cases `.conv--grandit` de cette page, et pour la meme raison : la grille
+    ne doit pas bouger sous le curseur. Elle garde sa place et sa largeur,
+    sa hauteur se libere, et elle s'etend par-dessus ce qu'il y a dessous -
+    le bloc 03 pour les deux carres du haut, le principe 04 pour celui de
+    droite. Les rangees carrees sont calculees sur la largeur des colonnes :
+    elles ne dependent d'aucun contenu, donc rien ne se retasse quand la
+    tuile part.
+  */
+  .tuiles--case{grid-template-rows:minmax(0,1fr)}
+  .tuiles--case .tuile{min-height:0}
+  .tuiles--case .tuile__pivot{min-height:0;height:100%;grid-template-rows:minmax(0,1fr)}
+
+  @media(min-width:861px){
+    .compo .tuiles--case:has(.tuile__pivot:focus-visible),
+    .compo .tuiles--case:has(.tuile__pivot[aria-expanded="true"]){
+      position:absolute;left:0;right:0;top:0;height:auto;min-height:100%;z-index:5}
+  }
+  /* Le survol demande une souris et pas seulement une largeur : au doigt il
+     resterait colle a la tuile touchee. Meme garde que .conv--grandit. */
+  @media(min-width:861px) and (hover:hover){
+    .compo .tuiles--case:hover{position:absolute;left:0;right:0;top:0;
+      height:auto;min-height:100%;z-index:5}
+  }
   /* La perspective vit sur le bouton ; chaque face est son enfant direct et
      tourne pour son propre compte - l'une vers 180deg, l'autre de 180 vers 360.
      backface-visibility fait le reste : a tout instant une seule est face a

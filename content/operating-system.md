@@ -8,13 +8,11 @@ indexable: true
 <!-- Genere par `npm run content` depuis dist/. Ne pas editer a la main :
      la source de verite reste le .astro, ce fichier en est le reflet. -->
 
-Operating System · How my team ships
+Operating System · Practice principles
 
-# Seven principles designed to be handed over, each with a practice behind it.
+# I don't want a team that executes. I want a team of owners.
 
-**I didn't want a team that executes. I wanted a team of owners.**Recognized, proactive - experts with a name, a face, not just a pair of hands.
-
-Everything below is how I built that, and it runs on one conviction: the technical system and the human system obey the same rule. Design tokens make products autonomous, distributed ownership makes people autonomous.
+Recognized, proactive - experts with a name, a face, not just a pair of hands. It runs on one conviction: the technical system and the human system obey the same rule. Design tokens make products autonomous, distributed ownership makes people autonomous.
 
 **One variable in common: trust. One prerequisite: top to frontline, everyone gets to own their part.**
 
@@ -37,8 +35,6 @@ Accessibility is the floor. Responsibility is the reach.
 But inclusion doesn't stop at who can *use* the product. A system touching 45+ products has a footprint - societal and environmental - and it isn't small. So responsibility was designed in, not bolted on, and it looked like **sobriety** at every level.
 
 Accessibility protects the user. Responsibility protects everything around them. **Same driver - inclusion - different reach.**
-
-Sobriety, at every level
 
 - Light By default. Smallest possible package weight, and modular imports - teams pulled only the components they needed, never the whole library, so production sites stayed lean. **A lighter system reaches more people, on more devices, with less energy.**
 
@@ -76,7 +72,7 @@ All of it lived on **Confluence**, documented like a team mantra - so a new join
 
 And growth didn't run top-down. It ran through the community: people levelled up by contributing, teaching, carrying the message - and I grew as much through them. **Reverse mentoring by practice** isn't a nice idea to me, it's how a system stays honest: the day you think you're the one who knows, you've stopped listening. *I lead, and I stay a student.*
 
-## That's not the soft version of leadership. *It's the operating system.*
+## That's not the soft version of leadership. *It's systemic operations with care.*
 
 Seven principles, each with a practice behind it - and each one designed to keep working the day I stop running it. That's the whole test.
 
