@@ -368,6 +368,46 @@
   .compo__decor{display:none}
 }
 
+/* ═══════════ Un chapitre ouvert prend toute la largeur (BRIEF §5.4) ═══════════ */
+/*
+  LA COMPOSITION SE REDUIT A LA CARTE OUVERTE. Tant que les trois cartes
+  cohabitent, la grille Mondrian est le sommaire de l'etude ; des qu'un chapitre
+  s'ouvre, elle n'a plus rien a sommer - la carte devient l'en-tete du chapitre,
+  pleine largeur, et le contenu suit immediatement dessous. Les deux autres
+  cartes et les cases decoratives sortent du flux : les laisser la reviendrait a
+  proposer deux chapitres a cote de celui qu'on est en train de lire.
+
+  LA CLASSE EST POSEE PAR dossier.ts, PAS PAR `:has()`. Le selecteur existe et
+  serait plus court, mais il manque a Safari 15.3 et en dessous - le motion de
+  ce site se donne la peine de le servir (masques prefixes dans motion.css), il
+  n'y a pas de raison de lui refuser la navigation. Le script tient deja l'etat
+  des trois cartes : il pose la classe au meme endroit.
+
+  `.compo.compo--solo` et non `.compo--solo` : la page declare
+  `grid-template-columns` sur `.compo` dans une requete media, et elle est
+  ECRITE PLUS LOIN que ce fichier. A specificite egale, elle gagnerait.
+*/
+.compo.compo--solo{grid-template-columns:1fr;grid-template-rows:auto}
+/* `grid-area` est un style en ligne sur la carte - `!important` est la seule
+   facon de le reprendre, comme dans la requete telephone plus haut. */
+.compo--solo .dcarte[aria-expanded="true"]{grid-area:auto !important}
+/* Tout le reste sort : les deux cartes fermees, les cases decoratives, et le
+   calque de trace s'il traine encore (grille.ts le retire a la fin du trace). */
+.compo--solo > :not([aria-expanded="true"]){display:none}
+
+/*
+  Pleine largeur, la carte cesse d'etre une colonne : le titre et la synthese se
+  posent cote a cote au lieu de s'empiler sur 420px. C'est la meme information,
+  mais lue comme un en-tete de chapitre et non comme une tuile de sommaire.
+*/
+@media(min-width:861px){
+  .compo--solo .dcarte[aria-expanded="true"]{padding:32px 36px}
+  .compo--solo .dcarte[aria-expanded="true"] .dcarte__corps{
+    flex-direction:row;align-items:flex-start;gap:56px}
+  .compo--solo .dcarte[aria-expanded="true"] .dcarte__titre{flex:0 0 45%;max-width:none}
+  .compo--solo .dcarte[aria-expanded="true"] .dcarte__synthese{flex:1;max-width:620px}
+}
+
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
   Grammaire commune a toutes les sections : eyebrow → phrase forte a gauche →

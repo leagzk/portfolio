@@ -22,6 +22,13 @@ import { mouvementReduit } from './motion';
   est plus courte. On remonte donc a la composition, et le focus va sur la carte
   qui vient de s'ouvrir : celui qui navigue au clavier reprend la ou le contenu
   commence, pas la ou le bouton a disparu.
+
+  ET ON REMONTE AUSSI AU CLIC DIRECT SUR UNE CARTE, pour la meme raison. Des
+  qu'une carte s'ouvre, la composition se reduit a elle seule (`.compo--solo`,
+  etude.css) : la carte 02, qui etait en quatrieme rangee, se retrouve tout en
+  haut. Sans remontee, elle sortirait par le haut de l'ecran au moment meme ou
+  on vient de la demander. Le geste est donc le meme partout : la carte ouverte
+  devient l'en-tete du chapitre, cale sous le chrome, et le contenu part dessous.
 */
 export function initDossier(): void {
   const cartes = Array.from(document.querySelectorAll<HTMLButtonElement>('.dcarte'));
@@ -31,6 +38,23 @@ export function initDossier(): void {
   const section = (carte: HTMLButtonElement): HTMLElement | null => {
     const id = carte.getAttribute('aria-controls');
     return id ? document.getElementById(id) : null;
+  };
+
+  /*
+    La classe qui reduit la composition a la carte ouverte. Ce n'est qu'un
+    REFLET de l'etat : la verite reste sur les boutons (`aria-expanded`), et on
+    recalcule apres chaque bascule plutot que de tenir un compteur a jour.
+  */
+  const majCompo = () => {
+    const ouverte = cartes.some((c) => c.getAttribute('aria-expanded') === 'true');
+    compo?.classList.toggle('compo--solo', ouverte);
+  };
+
+  const remonter = () => {
+    compo?.scrollIntoView({
+      block: 'start',
+      behavior: mouvementReduit() ? 'auto' : 'smooth',
+    });
   };
 
   const fermer = (carte: HTMLButtonElement) => {
@@ -52,16 +76,21 @@ export function initDossier(): void {
        rejoue pas. */
     pan.classList.add('pan--ouvre');
     pan.addEventListener('animationend', () => pan.classList.remove('pan--ouvre'), { once: true });
+    majCompo();
+    remonter();
   };
 
   /* Ferme au chargement - l'attribut est deja ecrit a "false" dans le HTML,
      donc rien ne clignote ; on pose seulement `hidden` sur les sections. */
   cartes.forEach((carte) => fermer(carte));
+  majCompo();
 
   cartes.forEach((carte) => {
     carte.addEventListener('click', () => {
-      if (carte.getAttribute('aria-expanded') === 'true') fermer(carte);
-      else ouvrir(carte);
+      if (carte.getAttribute('aria-expanded') === 'true') {
+        fermer(carte);
+        majCompo();
+      } else ouvrir(carte);
     });
   });
 
@@ -74,14 +103,29 @@ export function initDossier(): void {
     b.addEventListener('click', () => {
       const cible = cartes.find((c) => c.id === b.dataset.suite);
       if (!cible) return;
+      /* `ouvrir` reduit la composition et remonte dessus : il ne reste que le
+         focus a poser. preventScroll, parce que le defilement doux fait deja le
+         trajet et qu'un focus qui saute en meme temps l'annulerait. */
       ouvrir(cible);
-      compo?.scrollIntoView({
-        block: 'start',
-        behavior: mouvementReduit() ? 'auto' : 'smooth',
-      });
-      /* preventScroll : le defilement doux ci-dessus fait le trajet, et un
-         focus qui saute en meme temps l'annulerait. */
       cible.focus({ preventScroll: true });
+    });
+  });
+
+  /*
+    Le bouton de fin du dernier chapitre. Apres « 03 · The proof » il n'y a pas
+    de tuile suivante : la seule suite possible est le sommaire lui-meme, que la
+    reduction de la composition a fait disparaitre. Ce bouton le rouvre, remonte
+    dessus, et rend le focus a la carte qu'on vient de lire - pas a la premiere
+    des trois, qui obligerait a retraverser le sommaire a la tabulation.
+  */
+  document.querySelectorAll<HTMLElement>('[data-ferme]').forEach((b) => {
+    b.addEventListener('click', () => {
+      const pan = b.closest<HTMLElement>('.pan');
+      const cible = cartes.find((c) => c.getAttribute('aria-controls') === pan?.id);
+      cartes.forEach((carte) => fermer(carte));
+      majCompo();
+      remonter();
+      cible?.focus({ preventScroll: true });
     });
   });
 }
