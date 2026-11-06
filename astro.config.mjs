@@ -142,13 +142,19 @@ export default defineConfig({
   integrations: [
     sitemap({
       /*
-        Le sitemap ne doit lister que ce qu'on veut voir indexe. Sans ce filtre
-        il contredirait le <meta name="robots" content="noindex"> des brouillons :
-        on demanderait a Google de crawler des pages qu'on lui dit d'ignorer.
-        Retirer une entree d'ici quand la page correspondante est redigee.
+        Le sitemap ne doit lister que ce qu'on veut voir indexe. Il ne reste que
+        la 404 a ecarter : une page d'erreur n'a rien a faire dans un sitemap,
+        et elle garde son `noindex`.
+
+        LES TROIS ETUDES DE CAS SONT ENTREES. Elles etaient filtrees d'ici et
+        marquees noindex le temps d'etre redigees ; elles le sont. Les trois
+        verrous tombaient ensemble - l'attribut dans la page, l'entree dans ce
+        filtre, et le `Disallow` de public/robots.txt - parce qu'ils ne font le
+        travail qu'a trois : un `Disallow` seul empeche le crawl, donc empeche
+        Google de LIRE le noindex, et une page deja connue reste alors indexee
+        sans qu'on puisse l'en sortir.
       */
-      filter: (page) =>
-        !/\/(operating-system|system-brand|system-practice-elements|404)\/?$/.test(page),
+      filter: (page) => !/\/404\/?$/.test(page),
     }),
   ],
 });

@@ -11,13 +11,13 @@
     "audit": "astro build && node scripts/audit.mjs"
   },
   "dependencies": {
-    "@astrojs/sitemap": "^3.7.3",
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "^7.4.7"
   },
   "devDependencies": {
     "@resvg/resvg-js": "^2.6.2",
     "fontkit": "^2.0.2",
-    "parse5": "^7.1.2",
+    "parse5": "^8.1.0",
     "wawoff2": "^2.0.1"
   }
 }
