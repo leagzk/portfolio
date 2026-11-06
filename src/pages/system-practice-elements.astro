@@ -429,7 +429,12 @@ const mecanismes: Tuile[] = [
           ratio="16 / 9"
           fr={1.7778}
           largeur="78%"
-          sizes="(min-width: 900px) 820px, 90vw"
+          {/* Deux colonnes au bureau : les cinq facettes se voient d'un coup,
+              la cinquieme ouvre sa rangee. Sous 860px la piste revient, parce
+              qu'une mosaique de cinq captures y ferait cinq ecrans a traverser
+              avant la suite du chapitre. */}
+          mosaique={2}
+          sizes="(min-width: 900px) 520px, 90vw"
         />
         <p class="cap portee">Multi-brand &middot; multi-theme &middot; B2B / B2C / internal &middot; from employee to patient &middot; worldwide</p>
       </div>
