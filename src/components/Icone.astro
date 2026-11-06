@@ -25,7 +25,7 @@
 export type NomIcone =
   | 'telecharger' | 'mail' | 'bulle' | 'linkedin' | 'maison' | 'plus'
   | 'fleche' | 'fleche-gauche' | 'fleche-droite' | 'chevron' | 'retour'
-  | 'agrandir' | 'reduire' | 'tourner';
+  | 'agrandir' | 'reduire' | 'tourner' | 'loupe';
 
 export interface Props {
   nom: NomIcone;
@@ -82,6 +82,17 @@ const traces: Record<NomIcone, string> = {
     que la pointe des quatre fleches du jeu.
   */
   tourner: 'M18.6 15.5A7.5 7.5 0 1 1 16.8 6.2L20 9.5M20 4v5.5h-5.5',
+  /*
+    LA LOUPE, pour le badge qui agrandit une image. Elle remplace un « + » qui
+    promettait un depliage : ici rien ne se deplie, l'image s'ouvre en grand
+    par-dessus la page. Le dessin dit ce que le geste fait.
+
+    DEUXIEME ARC DE LA PLANCHE, meme raison que `tourner` : un verre de loupe
+    est rond, et le dessiner carre en ferait une fenetre. La queue part du
+    cercle a 45 degres, sur la meme diagonale que les fleches d'agrandissement
+    - les trois dessins du meme coin de boite partagent leur oblique.
+  */
+  loupe: 'M16.5 10.5a6 6 0 1 1-12 0 6 6 0 1 1 12 0M14.8 14.8 20 20',
   reduire: 'M20 10h-6V4M14 10l6-6M4 14h6v6M10 14l-6 6',
   chevron: 'm6 9 6 6 6-6',
   retour: 'M19 12H5M11 18l-6-6 6-6',
