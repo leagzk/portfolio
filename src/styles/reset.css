@@ -1,19 +1,58 @@
 /* Reset et primitives de document. */
 
 *{box-sizing:border-box;margin:0;padding:0}
-/* overflow-x sur html ET body : le poser sur body seul ne suffit pas sur
-   Safari ni sur Android - ces deux-la ne propagent pas le clip du corps a la
-   fenetre, et un debord horizontal (ex. .osbridge__visual sur l'accueil) y
-   rend toute la page defilable et decalee, invisible sur Chrome bureau qui
-   fait cette propagation lui-meme. */
+/*
+  overflow-x SUR html SEULEMENT, ET PLUS SUR body.
+
+  Les deux l'ont longtemps porte, pour clipper les debords horizontaux (les
+  blocs pleine largeur en 100vw, .osbridge__visual sur l'accueil) y compris sur
+  Safari et Android, qui ne propagent pas le clip du corps a la fenetre.
+
+  Mais un `overflow` sur body en fait un CONTENEUR DE DEFILEMENT, et un
+  position:sticky prend alors ce conteneur pour repere au lieu de la fenetre :
+  le bandeau de navigation (<Hero>) ne collait pas, il defilait avec la page.
+  Mesure a l'appui - a scrollY 2000, son top valait -2000.
+
+  Le clip tient avec html seul : c'est lui que la specification fait remonter
+  a la fenetre, et c'est la moitie qui marchait partout. La contrainte
+  documentee etait que body SEUL ne suffit pas - pas que html seul ne suffise
+  pas. A verifier au moindre doute : document.documentElement.scrollWidth doit
+  rester egal a clientWidth sur l'accueil.
+*/
 html{scroll-behavior:smooth;overflow-x:hidden}
-body{font-family:var(--body);color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;line-height:1.62;overflow-x:hidden;transition:background .45s ease,color .45s ease}
+body{font-family:var(--body);color:var(--ink);background:var(--canvas);-webkit-font-smoothing:antialiased;line-height:1.62;transition:background .45s ease,color .45s ease}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 a.sr-only:focus{position:fixed;top:12px;left:12px;z-index:200;width:auto;height:auto;margin:0;padding:12px 20px;clip:auto;overflow:visible;background:var(--ink);color:#fff;border-radius:var(--r-pill);font-weight:600;font-size:16px;text-decoration:none}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--focus);outline-offset:4px;border-radius:8px}
+:focus-visible{outline:3px solid var(--focus);outline-offset:4px;border-radius:0}
 [tabindex="-1"]:focus{outline:none}
 .shell{max-width:var(--shell-w);margin:0 auto;padding:0 var(--sp-03)}
+/*
+  MOUVEMENT REDUIT : UN FILET DE SECURITE, PAS UN INTERRUPTEUR.
+
+  Les dispositifs qui comptent se coupent chacun chez eux - les scripts
+  interrogent mouvementReduit() avant de poser la moindre classe, et les
+  feuilles du gabarit enferment leurs animations dans « no-preference ». Mais
+  l'audit a compte vingt-et-une regles d'animation ou de transition reparties
+  sur vingt fichiers, dont quatre sans aucune garde : shared.css, motion.css,
+  ExternalLink et ProofCards. Compter sur la discipline a chaque ajout, c'est
+  accepter qu'une regle passe un jour au travers.
+
+  La duree tombe donc a presque rien pour TOUT, par defaut. Presque et non zero
+  : une animation de duree nulle n'emet pas d'evenement « animationend », et deux
+  de nos scripts attendent celui-ci pour retirer une classe - la section qui se
+  deplie, et le trace de la grille.
+
+  « iteration-count:1 » est ce qui arrete les boucles infinies, que la duree seule
+  ne suffirait pas a calmer. Les cadres defilants, eux, n'emettent meme pas leur
+  regle sous cette preference : voir .cadref dans etude.css.
+*/
 @media(prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
 }

@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Language — Systematize a brand</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;700;800;900&amp;family=Maven+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#fff}
+a{color:#0B57A4}a:hover{color:#111}
+.hero-nav a:hover{color:#F5CD00}
+.sb{position:relative;display:inline-flex;align-items:center;min-height:44px;padding:0 20px 0 30px;border:0;background:none;cursor:pointer;text-decoration:none;color:#111;font-family:'Hanken Grotesk',sans-serif;font-weight:700;font-size:15px;overflow:hidden}
+.sb .sbk{position:absolute;left:0;top:15px;width:14px;height:14px;background:#0B57A4;transition:width .4s cubic-bezier(.2,.7,.2,1),height .4s cubic-bezier(.2,.7,.2,1),top .4s cubic-bezier(.2,.7,.2,1)}
+.sb:hover .sbk,.sb:focus-visible .sbk{width:100%;height:100%;top:0}
+.sb .sbt{position:relative;z-index:1;transition:color .3s}
+.sb:hover .sbt,.sb:focus-visible .sbt{color:#fff}
+.sb:focus-visible{outline:3px solid #F5CD00;outline-offset:3px}
+.hero-nav a.home:hover{color:#F5CD00}
+@media (max-width:860px){.hero-nav>div{gap:16px !important;justify-content:flex-start !important}}
+@keyframes lt{from{transform:scale(.55) translateY(40px);opacity:.2}to{transform:none;opacity:1}}
+@supports (animation-timeline: view()){.lt{transform-origin:left bottom;animation:lt linear both;animation-timeline:view();animation-range:entry 0% cover 45%}}
+@media (prefers-reduced-motion: reduce){.lt{animation:none}}
+.comp{display:grid;grid-template-columns:20fr 9fr 20fr 24fr 25fr 4fr 16fr;grid-template-rows:170px 75px 30px 245px 60px;gap:1.5px;background:#111;border:1.5px solid #111}
+.cell{background:#fff;position:relative;overflow:hidden}
+.card{all:unset;box-sizing:border-box;cursor:pointer;position:relative;overflow:hidden;background:#fff;display:flex;flex-direction:column;justify-content:flex-start;gap:18px;padding:28px}
+.card:focus-visible{outline:3px solid #0B57A4;outline-offset:-6px}
+.blk{position:absolute;transition:width .4s cubic-bezier(.2,.7,.2,1),height .4s cubic-bezier(.2,.7,.2,1)}
+.txt{position:relative;z-index:1;transition:color .3s}
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px}
+.sw{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:10px}
+.two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.four{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.pp{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px}
+.pp>div{padding:0 24px 48px}
+.pp>div+div{border-left:1.5px solid #111}
+@media (max-width:860px){.pp{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:48px;row-gap:24px}.pp>div{padding:0 16px 24px}.pp>div:nth-child(3){border-left:0}.panel{padding-left:20px !important}}
+.panel{animation:unfold .4s ease-out}
+@keyframes unfold{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+@media (max-width:860px){.comp{grid-template-columns:1fr;grid-template-rows:none}.comp>*{grid-column:auto !important;grid-row:auto !important;min-height:170px}.decor{display:none}.split,.two{grid-template-columns:1fr;gap:24px}.four{grid-template-columns:repeat(2,minmax(0,1fr))}.sw{grid-template-columns:repeat(4,minmax(0,1fr))}.h1{font-size:44px !important}}
+.segs{position:absolute;inset:0;pointer-events:none;z-index:6}
+.segs .seg{position:absolute;background:#111}
+.seg.v{transform-origin:top;animation:drawV .7s cubic-bezier(.2,.7,.2,1) both}
+.seg.h{transform-origin:left;animation:drawH .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes drawV{from{transform:scaleY(0)}to{transform:none}}
+@keyframes drawH{from{transform:scaleX(0)}to{transform:none}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.comp.pre{background:#fff !important;border-color:transparent !important}
+.comp :is(h1,h2,p,blockquote,.txt,.t,.sb),.lhero :is(h1,p,.sb){animation:fadeUp .8s ease-out 1s both}
+.lhero :is(h1,p,.sb){animation-delay:.25s}
+@media (prefers-reduced-motion: reduce){.seg,.comp :is(h1,h2,p,blockquote,.txt,.t,.sb),.lhero :is(h1,p,.sb){animation:none}}
+@media (max-width:860px){.lhgrid{grid-template-columns:1fr !important;gap:40px !important}}
+.grow{transform-origin:center;animation:grow .7s cubic-bezier(.2,.7,.2,1) both}
+@keyframes grow{from{transform:scale(0)}to{transform:scale(1)}}
+.subsec{display:flex;flex-direction:column;gap:32px}
+.panel .eb{margin:0;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#111}
+.panel .lead{margin:0;font-family:'Hanken Grotesk',sans-serif;font-size:34px;line-height:1.1;font-weight:900;letter-spacing:-.015em}
+.panel .body{display:flex;flex-direction:column;gap:16px;font-size:16px;line-height:1.7;color:#222}
+.panel .body p{margin:0}
+.panel .h3{margin:0;font-family:'Hanken Grotesk',sans-serif;font-size:30px;line-height:1.1;font-weight:900;letter-spacing:-.015em;max-width:760px}
+.panel .qt{margin:0;padding-left:20px;border-left:3px solid #0B57A4;font-size:17px;line-height:1.65;font-style:italic;color:#333;max-width:720px}
+.panel .fig{display:flex;flex-direction:column;gap:10px}
+.panel .ph{border-radius:4px;background:#F3F3F3;display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#555}
+.panel .cap{font-size:13px;line-height:1.55;color:#444}
+.panel .tag{display:inline-block;font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 9px;border-radius:999px;border:1.5px solid #111;color:#111;font-style:normal}
+.panel .tag.on{background:#111;color:#fff}
+.panel .itm{display:flex;flex-direction:column;gap:8px}
+.panel .it{font-family:'Hanken Grotesk',sans-serif;font-size:17px;line-height:1.2;font-weight:900}
+.panel .id{font-size:14px;line-height:1.6;color:#333}
+.panel .swi{display:flex;flex-direction:column;gap:6px;font-size:11px;font-weight:700;line-height:1.3}
+.panel .swi .swc{aspect-ratio:1;border-radius:4px}
+.panel .swi code{font-size:10px;font-weight:400;color:#555}
+.panel .kf{display:flex;flex-direction:column;gap:6px;font-size:14px;line-height:1.45}
+.panel .kn{font-family:'Hanken Grotesk',sans-serif;font-size:48px;font-weight:900;line-height:1}
+.panel .tl>div{display:flex;flex-direction:column;gap:4px;font-family:'Hanken Grotesk',sans-serif;font-size:15px;font-weight:800;line-height:1.25}
+.panel .tl code{font-family:ui-monospace,monospace;font-size:12px;font-weight:400;color:#555}
+.panel .dark{background:#0A0708;color:#e6e2e3;border-radius:6px;padding:48px;display:flex;flex-direction:column;gap:18px;font-size:16px;line-height:1.7}
+.panel .dark p:not(.eb){margin:0;max-width:760px}
+.panel .dark strong{color:#fff}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.five{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+@media (max-width:860px){.three,.five{grid-template-columns:repeat(2,minmax(0,1fr))}.panel .lead{font-size:28px}.panel .dark{padding:28px}}
+.carousel{display:flex;flex-direction:column;gap:20px}
+.carhead{display:flex;justify-content:space-between;align-items:center}
+.carnav{display:flex;gap:8px}
+.carbtn{all:unset;box-sizing:border-box;cursor:pointer;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:1.5px solid #111;color:#111;transition:background .2s,color .2s}
+.carbtn:hover,.carbtn:focus-visible{background:#111;color:#fff}
+.track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding-bottom:8px;scrollbar-width:thin}
+.track:focus-visible{outline:3px solid #0B57A4;outline-offset:4px}
+.slide{flex:0 0 72%;scroll-snap-align:start;display:flex;flex-direction:column;gap:10px}
+.closing{display:flex;flex-direction:column;gap:24px;padding-top:24px}
+.closing .cbody{margin:0;font-size:17px;line-height:1.7;color:#222;max-width:640px}
+@media (max-width:860px){.slide{flex-basis:88%}}
+.tlgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5px;background:#111;border:1.5px solid #111}
+.ftile{all:unset;box-sizing:border-box;display:block;cursor:pointer;height:240px;perspective:1200px;background:#fff}
+.ftile:focus-visible{outline:3px solid #0B57A4;outline-offset:-6px}
+.fin{position:relative;display:block;width:100%;height:100%;transition:transform .7s cubic-bezier(.2,.7,.2,1);transform-style:preserve-3d}
+.ftile:hover .fin,.ftile:focus .fin{transform:rotateY(180deg)}
+.ff,.fb{position:absolute;inset:0;box-sizing:border-box;padding:28px;display:flex;flex-direction:column;justify-content:space-between;gap:12px;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.fb{transform:rotateY(180deg);background:#fff;color:#111;justify-content:flex-start}
+.ff code,.fb code{font-family:ui-monospace,monospace;font-size:13px;opacity:.8}
+.fp{font-family:'Hanken Grotesk',sans-serif;font-size:22px;line-height:1.15;font-weight:900}
+.fp em{font-style:italic}
+.fico{position:absolute;top:24px;right:24px;font-size:20px;line-height:1}
+.fd{font-size:14px;line-height:1.6;color:#333}
+@media (max-width:860px){.tlgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.ftile{height:220px}}
+@media (prefers-reduced-motion: reduce){.fin{transition:none}}
+.panel .pts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:12px}
+.panel .pts li{position:relative;padding-left:28px;font-size:16px;line-height:1.6;color:#222}
+.panel .pts li::before{content:"";position:absolute;left:0;top:.8em;width:14px;height:2px;background:#111}
+.vc{display:grid;grid-template-columns:minmax(0,6fr) minmax(0,5fr);gap:48px;align-items:start}
+.vcl{display:flex;flex-direction:column;gap:24px}
+.vcr{display:flex;flex-direction:column;gap:24px}
+@media (max-width:860px){.vc{grid-template-columns:1fr}}
+.mosaic{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-rows:120px;gap:8px}
+.mt{border-radius:4px;background:#F3F3F3;display:flex;align-items:flex-end;padding:12px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#555}
+@media (max-width:860px){.mosaic{grid-auto-rows:90px}}
+.ftile.tall{height:340px}
+@media (max-width:860px){.ftile.tall{height:320px}}
+.slide.sqs{flex-basis:calc((100% - 60px) / 3.4)}
+@media (max-width:860px){.slide.sqs{flex-basis:70%}}
+</style>
+</helmet>
+<div style="font-family: 'Maven Pro', system-ui, sans-serif; color: #111; background: #fff; min-height: 100vh">
+
+  <section class="lhero" style="background: #0A0708; color: #fff; position: relative; overflow: hidden; min-height: min(80vh, 720px); display: flex; flex-direction: column">
+    <nav class="hero-nav" style="position: relative; z-index: 1; max-width: 1120px; width: 100%; box-sizing: border-box; margin: 0 auto; padding: 20px 24px 0; display: grid; grid-template-columns: 48px 1fr; align-items: center; gap: 16px; font-family: 'Hanken Grotesk', sans-serif; font-size: 14px; font-weight: 700">
+      <a href="Main.dc.html" class="home" aria-label="Back to home" style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; color: #fff; text-decoration: none"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"></path><path d="M5 10v10h14V10"></path><path d="M10 20v-5h4v5"></path></svg></a>
+      <div class="nav-links" style="display: flex; justify-content: flex-end; gap: 36px; flex-wrap: wrap">
+        <a href="#" style="color: #fff; text-decoration: none; padding: 12px 0">Philosophy</a>
+        <a href="#" style="color: #fff; text-decoration: none; padding: 12px 0">Operations</a>
+        <a href="#" style="color: #fff; text-decoration: none; padding: 12px 0">System</a>
+        <a href="Language.dc.html" aria-current="page" style="color: #fff; text-decoration: none; padding: 12px 0 9px; border-bottom: 3px solid #F5CD00">Brand</a>
+        <a href="#" style="color: #fff; text-decoration: none; padding: 12px 0">Event</a>
+        <a href="#connect" style="color: #fff; text-decoration: none; padding: 12px 0">Connect</a>
+      </div>
+    </nav>
+    <svg class="ghost" ref="{{setGhost}}" aria-hidden="true" viewBox="0 -150 860 196" preserveAspectRatio="xMidYMax meet" style="position: absolute; left: 0; right: 0; bottom: 0; width: 100%; height: auto; pointer-events: none"><text x="0" y="0" style="font-family: 'Hanken Grotesk', sans-serif; font-size: 190px; font-weight: 900; letter-spacing: -0.03em; fill: rgba(255,255,255,0.07)">Language</text></svg>
+    <div class="lhgrid" style="position: relative; z-index: 1; max-width: 1120px; width: 100%; box-sizing: border-box; margin: 0 auto; flex-grow: 1; padding: 112px 24px 96px; display: grid; grid-template-columns: minmax(0, 1fr); align-content: start">
+      <div style="display: flex; flex-direction: column; gap: 24px">
+        <p style="margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: #cfcacb">Systematize a brand · Sanofi · 2018 - 2022</p>
+        <h1 class="h1" style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 68px; line-height: 1; font-weight: 900; letter-spacing: -0.03em; max-width: 820px;">At 2,500 people, a brand isn't a charter, it's a shared language.</h1>
+        <p style="margin: 0; font-size: 18px; line-height: 1.65; max-width: 620px; color: #e6e2e3">I built IT's brand platform to make an invisible function legible - then handed its people the language to talk about it themselves. In 2022, I took the part nobody had defined: what the new corporate brand becomes on a screen.</p>
+      </div>
+    </div>
+  </section>
+
+  <div style="max-width: 1120px; margin: 0 auto; padding: 0 24px">
+
+    <section class="pp" aria-label="Proof points">
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 56px; font-weight: 900; line-height: 1; letter-spacing: -0.02em">2,500</span><span style="font-size: 15px; font-weight: 700; line-height: 1.4">people shipping on-brand</span><span style="font-size: 13px; line-height: 1.5; color: #555">From COMEX to front-line, with no bottleneck in the middle.</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 56px; font-weight: 900; line-height: 1; letter-spacing: -0.02em">200+</span><span style="font-size: 15px; font-weight: 700; line-height: 1.4">campaigns and internal events</span><span style="font-size: 13px; line-height: 1.5; color: #555">All of them ran on the system. The default way things shipped.</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 56px; font-weight: 900; line-height: 1; letter-spacing: -0.02em">6,000</span><span style="font-size: 15px; font-weight: 700; line-height: 1.4">participants reached</span><span style="font-size: 13px; line-height: 1.5; color: #555">Sanofi's first internal hackathons, run on the platform.</span></div>
+      <div style="display: flex; flex-direction: column; gap: 8px"><span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 56px; font-weight: 900; line-height: 1; letter-spacing: -0.02em">1</span><span style="font-size: 15px; font-weight: 700; line-height: 1.4">standard, one pilot</span><span style="font-size: 13px; line-height: 1.5; color: #555">The 2022 rebrand, translated for screens and piloted on sanofi.com.</span></div>
+    </section>
+
+    <div style="position: relative">
+    <div class="comp {{compCls}}" ref="{{setComp}}" role="tablist" aria-label="Case study" style="margin-top: 0">
+      <div class="cell decor" aria-hidden="true" style="grid-area: 1 / 1 / 2 / 2; background: #E4E4E1"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 1 / 2 / 2 / 3"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 1 / 3 / 2 / 4; background: #0B57A4"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 2 / 1 / 3 / 2"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 2 / 2 / 3 / 3; background: #0A0708"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 2 / 3 / 3 / 4; background: #D0021B"></div>
+      <button class="card" role="tab" aria-selected="{{a.sel}}" onClick="{{a.pick}}" style="grid-area: 1 / 4 / 3 / 6; order: 2">
+        <span class="blk" aria-hidden="true" style="left: 0; top: 0; width: {{a.bw}}; height: {{a.bh}}; background: #0B57A4"></span>
+        <span class="txt" style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: {{a.fg}}"><span>02 · The approach</span><span aria-hidden="true" style="font-size: 20px; letter-spacing: 0; line-height: 1">{{a.mark}}</span></span>
+        <span class="txt" style="display: flex; flex-direction: column; gap: 12px; color: {{a.fg}}">
+          <span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 24px; line-height: 1.1; font-weight: 900; max-width: 420px">You can't templatize what nobody understands yet.</span>
+          <span style="font-size: 15px; line-height: 1.55; font-weight: 500; opacity: 0.85; max-width: 420px">Name IT's place in the value chain first, then build the platform and a production line anyone could pick up - and sell what coherence buys, department by department.</span>
+        </span>
+      </button>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 1 / 6 / 2 / 7"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 2 / 6 / 3 / 7; background: #0B57A4"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 1 / 7 / 2 / 8; background: #E4E4E1"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 2 / 7 / 3 / 8"></div>
+      <button class="card" role="tab" aria-selected="{{p.sel}}" onClick="{{p.pick}}" style="grid-area: 3 / 1 / 6 / 4; order: 1">
+        <span class="blk" aria-hidden="true" style="left: 0; top: 0; width: {{p.bw}}; height: {{p.bh}}; background: #D0021B"></span>
+        <span class="txt" style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: {{p.fg}}"><span>01 · The problem</span><span aria-hidden="true" style="font-size: 20px; letter-spacing: 0; line-height: 1">{{p.mark}}</span></span>
+        <span class="txt" style="display: flex; flex-direction: column; gap: 12px; color: {{p.fg}}">
+          <span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 28px; line-height: 1.1; font-weight: 900; max-width: 420px">IT was a business driver - and nobody outside IT could see it.</span>
+          <span style="font-size: 15px; line-height: 1.55; font-weight: 500; opacity: 0.85; max-width: 420px">Everyone treated as a service desk what was actually driving value. Its role went unexplained, its image was dated, every team improvised the brand - and shadow IT filled the gap.</span>
+        </span>
+      </button>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 3 / 4 / 5 / 5; background: #F5CD00"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 5 / 4 / 6 / 5"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 3 / 5 / 4 / 6"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 3 / 6 / 4 / 7; background: #0A0708"></div>
+      <div class="cell decor" aria-hidden="true" style="grid-area: 3 / 7 / 4 / 8"></div>
+      <button class="card" role="tab" aria-selected="{{r.sel}}" onClick="{{r.pick}}" style="grid-area: 4 / 5 / 6 / 8; order: 3">
+        <span class="blk" aria-hidden="true" style="left: 0; top: 0; width: {{r.bw}}; height: {{r.bh}}; background: #F5CD00"></span>
+        <span class="txt" style="display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: {{r.fg}}"><span>03 · The proof</span><span aria-hidden="true" style="font-size: 20px; letter-spacing: 0; line-height: 1">{{r.mark}}</span></span>
+        <span class="txt" style="display: flex; flex-direction: column; gap: 12px; color: {{r.fg}}">
+          <span style="font-family: 'Hanken Grotesk', sans-serif; font-size: 24px; line-height: 1.1; font-weight: 900; max-width: 420px">Adopted without being enforced.</span>
+          <span style="font-size: 15px; line-height: 1.55; font-weight: 500; opacity: 0.85; max-width: 420px">2,500 people shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com.</span>
+        </span>
+      </button>
+    </div>
+      <div class="segs" aria-hidden="true">
+        <sc-for list="{{segs}}" as="g" hint-placeholder-count="0">
+          <span class="seg {{g.k}}" style="left: {{g.l}}px; top: {{g.t}}px; width: {{g.w}}px; height: {{g.h}}px; animation-delay: {{g.d}}s"></span>
+        </sc-for>
+      </div>
+    </div>
+
+    <sc-if value="{{isProblem}}" hint-placeholder-val="{{true}}">
+      <section class="panel" role="tabpanel" style="padding: 80px 0 96px 48px; border-left: 1.5px solid #111; display: flex; flex-direction: column; gap: 88px">
+<div class="subsec"><div class="split"><p class="lead">IT wasn't a support function. It was a <em style="color: #D0021B">business driver</em> - and nobody outside IT could see it.</p><div class="body"><p>That was the brief, and it wasn't a branding one. Sanofi needed its IT to weigh more across the value chain, and the obstacle was perception: everyone treated as a service desk what was actually driving business value. Its role went unexplained, its image was dated, and its communication was scattered across the whole function, every team improvising the brand.</p>
+<p>And illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - shadow IT, the tax an organisation pays for a function it can't read. A brand doesn't solve that on its own. Nothing solves it without one.</p>
+<p>A logo doesn't move that. Perception doesn't shift because the assets got prettier - it shifts when the function becomes legible, and when everyone inside it can say the same thing about what it does. <strong>That's two problems, and solving one without the other solves nothing.</strong> Understand first, systematize second. The move started here.</p></div></div></div>
+        <button class="sb" onClick="{{goApproach}}" style="align-self: flex-end"><span class="sbk" aria-hidden="true"></span><span class="sbt">Next: the approach →</span></button>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{isApproach}}" hint-placeholder-val="{{false}}">
+      <section class="panel" role="tabpanel" style="padding: 80px 0 96px 48px; border-left: 1.5px solid #111; display: flex; flex-direction: column; gap: 88px">
+<div class="subsec"><p class="eb">The solution</p><div class="split"><p class="lead">You can't templatize what nobody <em style="color: #0B57A4">understands yet.</em></p><div class="body"><p>Before a single template, I did the harder work: <strong>classifying and vulgarizing what IT actually did</strong> - naming its place in the value chain in words a manufacturing lead or a medical rep could use, then translating it graphically so it could be <em>seen</em>, not just read.</p>
+<p>That understanding is what a brand platform is built on, and I built the whole one: <strong>positioning, territory, personality, tone of voice</strong> - what IT stood for, and how it was allowed to sound. Not decoration laid over the function. The argument for it, made explicit.</p>
+<p>And none of it was built off to the side. The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.</p></div></div></div><div class="subsec"><h3 class="h3">The Sanofi brand was the constraint. <span style="color: #D0021B">The IT world was the playground.</span></h3><p class="eb">One colour per business capability</p><div class="sw"><div class="swi"><div class="swc" style="background: #456730"></div><span>R&amp;D</span><code>#456730</code></div><div class="swi"><div class="swc" style="background: #7EB066"></div><span>Development</span><code>#7EB066</code></div><div class="swi"><div class="swc" style="background: #0CAC95"></div><span>Medical &amp; Regulatory</span><code>#0CAC95</code></div><div class="swi"><div class="swc" style="background: #CA5F51"></div><span>Manufacturing</span><code>#CA5F51</code></div><div class="swi"><div class="swc" style="background: #FAA429"></div><span>Supply Chain</span><code>#FAA429</code></div><div class="swi"><div class="swc" style="background: #EBDC2E"></div><span>Sales &amp; Marketing</span><code>#EBDC2E</code></div><div class="swi"><div class="swc" style="background: #7A5FA1"></div><span>Compliance</span><code>#7A5FA1</code></div><div class="swi"><div class="swc" style="background: #0594D0"></div><span>Support Functions</span><code>#0594D0</code></div></div><div class="carousel"><div class="carhead"><p class="eb">Lively flat design characters</p><div class="carnav"><button class="carbtn" aria-label="Previous" onClick="{{carPrev2}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button><button class="carbtn" aria-label="Next" onClick="{{carNext2}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div></div><div class="track" ref="{{setTrack2}}" tabindex="0" aria-label="Characters"><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[R&amp;D]</div><span class="cap">R&amp;D</span></div><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[Development]</div><span class="cap">Development</span></div><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[Medical &amp; Regulatory]</div><span class="cap">Medical &amp; Regulatory</span></div><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[Manufacturing]</div><span class="cap">Manufacturing</span></div><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[Supply Chain]</div><span class="cap">Supply Chain</span></div><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[Sales &amp; Marketing]</div><span class="cap">Sales &amp; Marketing</span></div><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[Compliance]</div><span class="cap">Compliance</span></div><div class="slide sqs"><div class="ph" style="aspect-ratio: 1 / 1">[Support Functions]</div><span class="cap">Support Functions</span></div></div></div><p class="eb">Sample of visual strategy pairing</p><div class="four"><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Capability map]</div><span class="cap">Capability map</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[R&amp;D]</div><span class="cap">Research &amp; development</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Medical &amp; Regulatory]</div><span class="cap">Medical &amp; regulatory</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Business units]</div><span class="cap">Business units</span></div></div></div><div class="subsec"><div class="split"><p class="lead">A template per intent, <em style="color: #0B57A4">not per person.</em></p><div class="body"><p>Then the system that carried it: a colour architecture that scaled across entities, a visual language with its own rules of composition, and each digital entity given its own personality - matched to the business it served, and unmistakably Sanofi.</p>
+<p>None of which is worth anything until someone can pick it up. So the production line: <strong>shared libraries on Creative Cloud</strong>, where every asset lived once and updated everywhere at once - social, Microsoft suite, illustration kits, newsletters typed by objective rather than by sender.</p>
+<p>All of it built and systematized in the Adobe suite, for the people whose job is craft - then translated into the tools everyone else opens every morning. <strong>PowerPoint included, yes sir.</strong></p></div></div></div><div class="subsec"><p class="eb">The adoption</p><div class="split"><div style="display: flex; flex-direction: column; gap: 28px"><p class="lead">Nobody asks for <em style="color: #D0021B">an umbrella.</em> They ask for their own logo.</p><div class="two" style="gap: 12px"><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[ITS R&amp;D quarterly report]</div><span class="cap">ITS R&amp;D quarterly report</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[ITS R&amp;D newsletter]</div><span class="cap">ITS R&amp;D newsletter</span></div></div></div><div class="body"><p>Until then, everyone had done what they wanted. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like. <strong>Consolidation reads as a loss long before it reads as a gain.</strong> That was the real obstacle, and it wasn't a design problem.</p>
+<p>So I started where the decisions were made. Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.</p>
+<p>And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. <strong>Change management doesn't run beside the strategy. It rides it.</strong></p></div></div></div><div class="subsec"><div class="split"><p class="lead">Selling it was the start. Making it <em style="color: #0B57A4">a language people use</em> - not a charter they obey - was the job.</p><div class="body"><ul class="pts"><li><strong>One contact point per department</strong> - mine were Vaccines, R&amp;D and Medical: a catalyst, not a gate.</li><li>Leadership's messages and the front-line's assets pulled from <strong>the same platform</strong>.</li><li>A brand this size has to be taught, not announced - so the training ran <strong>at three speeds</strong>: intranet guides, short videos, live sessions and leadership webinars.</li><li><strong>Same content, three ways in.</strong> Nobody guesses how to use it, nobody waits for an invite.</li><li>Contribution was the only way a shared identity <strong>survives contact with fifteen roadmaps.</strong></li></ul></div></div></div><div class="subsec"><p class="eb">The operations</p><div class="split"><p class="lead">I didn't just standardize the assets. I standardized <em style="color: #D0021B">the practice.</em></p><div class="body"><p>The tools made people autonomous. But autonomy without a shared practice just scatters faster - so I standardized how the communication team itself worked. Four things, one way of running each - and each one feeds the next.</p></div></div><div class="tlgrid"><button class="ftile tall"><span class="fin"><span class="ff" style="background: #D0021B; color: #fff"><code>Rituals</code><span class="fp">Three directions, one practice.</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><span class="fd">Inward, a design review where my work-study students and everyone with hands in the system showed the work and had it challenged. Across the team, a standing alignment between contact points. Outward, a recurring conversation with my perimeters, where needs surfaced early enough to be planned instead of absorbed. <strong>Craft, cohesion, demand.</strong></span></span></span></button><button class="ftile tall"><span class="fin"><span class="ff" style="background: #0B57A4; color: #fff"><code>Editorial calendar</code><span class="fp">Run like a roadmap.</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><span class="fd">Needs centralized from every digital entity, arbitrated together, locked for the quarter, reviewed at the next - so what shipped stayed on point instead of drifting toward whoever asked loudest. <strong>It became a commitment made with the people it bound.</strong></span></span></span></button><button class="ftile tall"><span class="fin"><span class="ff" style="background: #F5CD00; color: #111"><code>Communication plans</code><span class="fp">Nobody starts from a blank page.</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><span class="fd">One standard format, structure already decided, so the time went into the content. Same artefact in both rooms - the one we worked from, the one we brought to the IT leadership board. It spread past my team without anyone mandating it. <strong>A shared format is one nobody has to explain.</strong></span></span></span></button><button class="ftile tall"><span class="fin"><span class="ff" style="background: #0A0708; color: #fff"><code>Campaign metrics</code><span class="fp">Produced by default.</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><span class="fd">Engagement rate, open rate, reach, on dashboards that filled themselves. What makes numbers mean anything is the engineering under them: one collection method, one reporting frequency, one reading grid. <strong>Standardize how you measure, or you're not comparing campaigns - you're comparing methods.</strong></span></span></span></button></div></div><div class="subsec"><div class="split"><p class="lead">Measured while it ran - <em style="color: #0B57A4">not after the fact.</em></p><div class="body"><p>Numbers only cover what they can see. So every quarter we ran a qualitative survey on the rest - starting with whether the sessions and the webinars had been worth the time people gave them. When the signal arrives on its own, a communication team stops defending its choices and starts adjusting them - and what it learns goes back into the next ritual, and the next quarter's calendar.</p>
+<p>And I built the autonomy into people, not just process: I mentored two work-study students and levelled up colleagues until they could run the system themselves. Self-service isn't a portal - it's the day nobody needs to ask you. <strong>Knowledge shared is autonomy that stays</strong> - the same conviction I'd scale into Elements' 35+ contributors years later.</p></div></div></div><div class="subsec"><div class="split"><p class="lead">The <em style="color: #D0021B">what</em> is assets, templates, identity. The <em style="color: #D0021B">how</em> is practices, method, measurement.</p><div class="body"><p>Fragmentation lives in both, so I fixed both. The <strong>why</strong> is simpler. A digital function scattered across entities was meant to end up feeling like one - not looking unified, being unified, by people who worked the same way and could recognize each other's work at a glance.</p>
+<p>A shared identity makes a function legible to the outside. <strong>A shared practice makes it a community to itself.</strong></p></div></div></div>
+        <button class="sb" onClick="{{goProof}}" style="align-self: flex-end"><span class="sbk" aria-hidden="true"></span><span class="sbt">Next: the proof →</span></button>
+      </section>
+    </sc-if>
+
+    <sc-if value="{{isProof}}" hint-placeholder-val="{{false}}">
+      <section class="panel" role="tabpanel" style="padding: 80px 0 96px 48px; border-left: 1.5px solid #111; display: flex; flex-direction: column; gap: 88px; position: relative">
+<div class="subsec"><p class="eb">The results</p><div class="split"><p class="lead">A brand only counts when people use it <em style="color: #D0021B">without asking.</em></p><div class="body"><p>They did - and the proof is what they made with it, not what I drew. The platform was never judged on how it looked. It was judged on whether people reached for the tools instead of improvising around them.&nbsp;<span style="color: rgb(51, 51, 51); font-size: 17px; font-style: italic">Adopted without being enforced - and re-adopted when the identity underneath it changed. <b>That's the only result a brand platform can claim.</b></span></p></div></div><div class="tlgrid"><button class="ftile"><span class="fin"><span class="ff" style="background: #D0021B; color: #fff"><code>2018</code><span class="fp">communication <em>was</em> the system</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><code>2018</code><span class="fd">Digital Communication Service Owner. IT's brand platform built end to end - brand, communication, production - for 2,500 people.</span></span></span></button><button class="ftile"><span class="fin"><span class="ff" style="background: #0B57A4; color: #fff"><code>2020</code><span class="fp">the system <em>outlived</em> its own identity</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><code>2020</code><span class="fd">A reorg reset the identity from the top. I versioned it instead of defending it - V1 made IT legible, V2 made it navigable.</span></span></span></button><button class="ftile"><span class="fin"><span class="ff" style="background: #F5CD00; color: #111"><code>2022</code><span class="fp">the brand <em>became</em> the system</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><code>2022</code><span class="fd">Sanofi unified every internal identity. As Product Design Lead, I translated it for screens - one standard, piloted on sanofi.com.</span></span></span></button><button class="ftile"><span class="fin"><span class="ff" style="background: #0A0708; color: #fff"><code>2023</code><span class="fp">the system <em>grew</em> into the method</span><span class="fico" aria-hidden="true">+</span></span><span class="fb"><code>2023</code><span class="fd">Understand each craft, translate it to the others, systematize what's left. That's where Elements Design System begins.</span></span></span></button></div></div><div class="subsec"><p class="eb">2020 - THE SYSTEM OUTLIVED ITS OWN IDENTITY</p><div class="vc"><div class="vcl"><p class="lead">A reorg is a breaking change. <br><em style="color: rgb(11, 87, 164)">I shipped a major of the brand platform.</em></p><div class="body"><div>In 2020, IT moved from service provider to enabler, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't.&nbsp;<strong>I didn't defend mine. I versioned it.&nbsp;</strong></div><ul class="pts"><li>Two concepts on the table: I argued for the bold one, leadership picked the shorter migration.&nbsp;<strong>Taste on one side, adoption on the other.</strong> I shipped 01 like it had been my idea.<br></li><li><b>A refinement, not a rebuild</b>: a leaner structure, organized around products and service lines. The machine held: calendar, contact points, sessions, webinars - and went to work on the migration.</li><li>Campaigns became the migration path. <strong>Communication wasn't announcing the system. It was deploying it.&nbsp;</strong>No deprecation warning in PowerPoint: a major, shipped before I knew what to call it.</li></ul></div></div><div class="vcr"><div class="fig"><div class="ph" style="aspect-ratio: 16 / 9">[Concept 01 · Evolution]</div><span class="cap"><strong style="color: #111">Evolution</strong> <span class="tag on">Retained</span> Same equity, less weight.</span></div><div class="fig"><div class="ph" style="aspect-ratio: 16 / 9">[Concept 02 · Reinterpreted]</div><span class="cap"><strong style="color: #111">Reinterpreted</strong> <span class="tag">Not retained</span> Bold, screen-first.</span></div></div></div></div><div class="dark" style="width: 976px"><p class="eb" style="color: #F5CD00">The turning point</p><h3 class="h3" style="color: #fff">A brand book doesn't survive contact with a screen.</h3><p style="width: 923px">The first time the ground moved, it was one function. The second time, it was the whole company. In 2022, Sanofi unified every internal identity into a single brand. The part nobody had defined was what that brand becomes once it's interactive - so I took it: <strong>translating the new corporate identity through a digital prism</strong>, and shipping the first concepts that proved it could hold on a product, not just on a page.</p><p>I wasn't the only one moving - and by then I'd moved too. The product teams that appeared in the last reset had turned into a function: Sanofi stood up product design in 2021 with the creation of the Consumer Experience team, and I joined it as <strong>Product Design Lead</strong>, carrying four years of brand and communication in with me. So when the rebrand landed, the two forces looking for each other - brand on one side, product on the other - met in a role that had lived in both. <strong>That's the gap I've always worked in.</strong></p></div><div class="subsec"><p class="eb"><span style="letter-spacing: 2.2px">2022 - </span>THE BRAND BECAME THE SYSTEM</p><div class="split" style="align-items: start"><div style="display: flex; flex-direction: column; gap: 20px"><p class="lead" style="color: #111111">UI kits everywhere, <span style="color: rgb(208, 2, 27)"><i>one</i></span><em style="color: rgb(208, 2, 27)"> per entity,</em> none speaking to the others.</p><p style="margin: 0; font-size: 16px; line-height: 1.7; color: rgb(34, 34, 34)">Translating the brand meant looking hard at what it would land on. So I ran the discovery - a broad benchmark of the field, then an audit of what Sanofi already had. The finding was familiar: the exact fragmentation I'd spent four years removing from communication, sitting one layer deeper - in the interface itself.</p></div><div style="display: flex; flex-direction: column; gap: 12px"><p class="eb">Product design discovery extract</p><div class="mosaic" aria-label="Product design discovery extract"><div class="mt" style="grid-column: 1 / 3; grid-row: 1 / 3"><span>Moodboard notes</span></div><div class="mt" style="grid-column: 3; grid-row: 1"><span>Competitors findings</span></div><div class="mt" style="grid-column: 3; grid-row: 2"><span>Colour scale</span></div><div class="mt" style="grid-column: 1; grid-row: 3"><span>Art Deco revival</span></div><div class="mt" style="grid-column: 2 / 4; grid-row: 3"><span>People matter</span></div></div></div></div><p class="eb">Sample of corporate constraints</p><div class="three"><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Colour palette]</div><span class="cap">Colour palette</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Logotype]</div><span class="cap">Logotype</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Photography]</div><span class="cap">Photography</span></div></div></div><div class="subsec"><p class="eb"><span style="letter-spacing: 2.2px">2023 - </span>THE SYSTEM GREW INTO THE METHOD</p><h3 class="h3" style="color: #111111"><span style="font-size: 34px; letter-spacing: -0.51px">Converging to one standard </span><em style="font-size: 34px; letter-spacing: -0.51px; color: rgb(208, 2, 27)">to harmonize the experience of every digital touchpoints.</em></h3><p style="line-height: 1.7; color: rgb(34, 34, 34)">So I pushed the answer one level up. Not a brand adaptation per product: <strong>one standard for the portfolio</strong>, with sanofi.com as the pilot - the first real product to carry it, and the one that would tell us what the standard got right and what it didn't.</p><div class="three"><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Concept 01]</div><span class="cap"><strong style="color: #111">Clinical Revival</strong> - Reinventing conventional Pharma standards through flexible but structured layouts to inspire trust, simplicity and focus, avoiding the unnecessary.</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Concept 02]</div><span class="cap"><strong style="color: #111">Pharma-zine</strong> - Pushing the boundaries of traditional Pharma branding by adopting magazines' graphical conventions to create a bold and dynamic content-driven storytelling.</span></div><div class="fig"><div class="ph" style="aspect-ratio: 4 / 3">[Concept 03]</div><span class="cap"><strong style="color: #111">Connecting the Dot</strong> - Embracing the playfulness of the Sanofi dot story through motion design to maximize the recognition of the brand and propose a unique experience.</span></div></div><div class="split"><div class="body"></div></div></div><div class="subsec"><div class="carousel"><div class="carhead"><div class="carnav"><button class="carbtn" aria-label="Previous" onClick="{{carPrev}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"></path></svg></button><button class="carbtn" aria-label="Next" onClick="{{carNext}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"></path></svg></button></div></div><div class="track" ref="{{setTrack}}" tabindex="0" aria-label="Pilot screens"><div class="slide"><div class="ph" style="aspect-ratio: 16 / 10">[Article page]</div><span class="cap">sanofi.com · Article page</span></div><div class="slide"><div class="ph" style="aspect-ratio: 16 / 10">[Event page]</div><span class="cap">sanofi.com · Event page</span></div><div class="slide"><div class="ph" style="aspect-ratio: 16 / 10">[Search results]</div><span class="cap">sanofi.com · Search results</span></div><div class="slide"><div class="ph" style="aspect-ratio: 16 / 10">[Video grid]</div><span class="cap">sanofi.com · Video grid</span></div><div class="slide"><div class="ph" style="aspect-ratio: 16 / 10">[Elements tokens origin]</div><span class="cap">Where Elements Design System begins · Tokens origin</span></div></div></div></div>
+        <div class="closing">
+          <h2 style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 40px; line-height: 1.05; font-weight: 900; letter-spacing: -0.02em; max-width: 640px">A pilot isn't a proof. It's the fastest way to find out <em style="color: #0B57A4">what you got wrong.</em></h2>
+          <p class="cbody">Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <strong>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</strong> And that's where Elements Design System begins.</p>
+          <a href="#" class="sb" style="align-self: flex-start; margin-top: -4px"><span class="sbk" aria-hidden="true"></span><span class="sbt">Discover what came next →</span></a>
+        </div>
+      </section>
+    </sc-if>
+
+    <section id="connect" style="margin-top: 0; background: #0A0708; color: #fff; border-radius: 0 0 6px 6px; padding: 52px 48px 32px">
+      <h2 class="lt" style="margin: 0; font-family: 'Hanken Grotesk', sans-serif; font-size: 96px; line-height: 0.9; font-weight: 900; letter-spacing: -0.035em">Let's talk.</h2>
+      <p style="margin: 18px 0 0; font-size: 16px; line-height: 1.65; max-width: 560px">Conviction, delivery, and care - I hold all three at the same heat. A team that isn't well can't shine, and can't ship. <strong>That's not the soft part of the job. It's the foundation.</strong></p>
+      <div style="display: flex; gap: 24px; flex-wrap: wrap; margin-top: 24px; font-family: 'Hanken Grotesk', sans-serif; font-weight: 700; font-size: 14px">
+        <a href="mailto:giezek.lea@gmail.com" style="color: #F5CD00; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="M3 7l9 6 9-6"></path></svg>Email</a>
+        <a href="https://www.linkedin.com/in/lea-giezek/" style="color: #F5CD00; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 10v8M6 6v.01M10 18v-8M10 13a3 3 0 016 0v5"></path></svg>LinkedIn</a>
+        <a href="#" style="color: #F5CD00; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; min-height: 44px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex-shrink:0"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"></path></svg>Download CV</a>
+      </div>
+      <div style="margin-top: 28px; padding-top: 18px; border-top: 1px solid #2a2627; font-size: 12px; line-height: 1.7; color: #a9a4a5">
+        <div>© <strong style="color: #fff">Léa GIEZEK</strong> - 2026</div>
+        <div>Designed by a human, developed with Claude, deployed with Vercel, iterated with peers. <strong style="color: #fff">Never alone.</strong></div>
+      </div>
+    </section>
+    <div style="height: 64px"></div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2800}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { open: null };
+  }
+  baseVals() {
+    const open = this.state.open;
+    const go = (id) => () => this.setState({ open: this.state.open === id ? null : id });
+    const card = (id, rest, restH, onFg) => {
+      const on = open === id;
+      return {
+        sel: on ? 'true' : 'false',
+        pick: go(id),
+        bw: on ? '100%' : rest,
+        bh: on ? '100%' : restH,
+        fg: on ? onFg : '#111',
+        mark: on ? '↓' : '+'
+      };
+    };
+    return {
+      p: card('problem', '0px', '0px', '#fff'),
+      a: card('approach', '0px', '0px', '#fff'),
+      r: card('proof', '0px', '0px', '#111'),
+      isProblem: open === 'problem',
+      isApproach: open === 'approach',
+      isProof: open === 'proof',
+      goApproach: go('approach'),
+      goProof: go('proof')
+    };
+  }
+  componentDidMount() {
+    this.buildTimers = [];
+    const run = () => {
+      try {
+        const c = this.compEl;
+        if (!c) { this.setState({ built: true }); return; }
+        const cr = c.getBoundingClientRect();
+        const W = cr.width, H = cr.height;
+        const cs = getComputedStyle(c);
+        const bw = parseFloat(cs.borderTopWidth) || 0;
+        const gap = parseFloat(cs.columnGap) || 2;
+        const segs = [];
+        const add = (k, l, t, w, h) => segs.push({ k: k, l: l, t: t, w: w, h: h, d: (0.05 + ((l + t) / (W + H)) * 0.8).toFixed(2) });
+        Array.prototype.forEach.call(c.children, (el) => {
+          const r = el.getBoundingClientRect();
+          if (!r.width || !r.height) return;
+          const x = r.left - cr.left, y = r.top - cr.top, x2 = x + r.width, y2 = y + r.height;
+          if (x2 < W - bw - 1) add('v', x2, Math.max(0, y - gap), gap, r.height + 2 * gap);
+          if (y2 < H - bw - 1) add('h', Math.max(0, x - gap), y2, r.width + 2 * gap, gap);
+        });
+        if (bw) { add('h', 0, 0, W, bw); add('v', 0, 0, bw, H); add('v', W - bw, 0, bw, H); add('h', 0, H - bw, W, bw); }
+        this.setState({ segs: segs });
+        this.buildTimers.push(setTimeout(() => this.setState({ built: true }), 1700));
+      } catch (e) { this.setState({ built: true }); }
+    };
+    this.buildTimers.push(setTimeout(run, 80));
+    const fit = () => {
+      try {
+        const g = this.ghostEl;
+        const t = g && g.querySelector('text');
+        if (!t) return;
+        const b = t.getBBox();
+        if (b.width) g.setAttribute('viewBox', b.x + ' ' + b.y + ' ' + b.width + ' ' + b.height);
+      } catch (e) {}
+    };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); else fit();
+    this.buildTimers.push(setTimeout(fit, 400));
+  }
+  componentWillUnmount() {
+    (this.buildTimers || []).forEach((t) => clearTimeout(t));
+  }
+  renderVals() {
+    const st = this.state;
+    return Object.assign({}, this.baseVals(), {
+      segs: st.built ? [] : (st.segs || []),
+      compCls: st.built ? '' : 'pre',
+      setComp: (el) => { this.compEl = el; },
+      setGhost: (el) => { this.ghostEl = el; },
+      setTrack: (el) => { this.trackEl = el; },
+      setTrack2: (el) => { this.trackEl2 = el; },
+      carPrev2: () => { const t = this.trackEl2; if (t) t.scrollBy({ left: -t.clientWidth * 0.75, behavior: 'smooth' }); },
+      carNext2: () => { const t = this.trackEl2; if (t) t.scrollBy({ left: t.clientWidth * 0.75, behavior: 'smooth' }); },
+      carPrev: () => { const t = this.trackEl; if (t) t.scrollBy({ left: -t.clientWidth * 0.75, behavior: 'smooth' }); },
+      carNext: () => { const t = this.trackEl; if (t) t.scrollBy({ left: t.clientWidth * 0.75, behavior: 'smooth' }); }
+    });
+  }
+}
+</script>
+</body>
+</html>

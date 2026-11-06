@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Banner C — Fragments</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@500;700;800;900&amp;family=Maven+Pro:wght@400;500;700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#0A0708}
+.bn{position:relative;width:1584px;height:396px;overflow:hidden;font-family:'Hanken Grotesk',sans-serif;box-sizing:border-box}
+.eb{margin:0;font-family:'Maven Pro',sans-serif;font-size:16px;font-weight:700;letter-spacing:.2em;text-transform:uppercase}
+.h{margin:0;font-weight:900;letter-spacing:-.03em;line-height:1}
+.sb{display:inline-flex;align-items:center;gap:12px;font-weight:700;font-size:17px}
+.sb i{display:block;width:16px;height:16px}
+</style>
+</helmet>
+<div class="bn" style="background:#0A0708;color:#fff">
+  <div style="position:absolute;left:520px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.18)"></div>
+  
+  <div style="position:absolute;left:1328px;top:0;bottom:0;width:2px;background:rgba(255,255,255,.18)"></div>
+  <div style="position:absolute;left:1330px;right:0;top:0;height:64px;background:#0B57A4"></div>
+  <div style="position:absolute;left:1330px;width:136px;top:66px;bottom:0;background:#D0021B"></div>
+  <div style="position:absolute;left:1468px;right:0;bottom:0;height:120px;background:#F5CD00"></div>
+  
+  <div style="position:absolute;left:612px;right:248px;top:145px;display:flex;flex-direction:column;gap:26px">
+    <p class="eb" style="color:#CFCACB;margin-bottom:-6px">Moving design practice forward</p>
+    <h1 class="h" style="font-size: 43px; white-space: nowrap; width: 712px">Design systems ship standards.<br>Experience systems grow culture.</h1>
+    <span class="sb"><i style="background:#F5CD00"></i>leagiezek.design</span>
+  </div>
+<div style="position:absolute;left:1468px;right:0;top:66px;bottom:122px;background:#fff"></div><div style="position:absolute;left:520px;right:0;top:64px;height:2px;background:rgba(255,255,255,.18)"></div><div style="position:absolute;left:1466px;top:66px;bottom:0;width:2px;background:rgba(255,255,255,.18)"></div></div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1584,"height":396}}'>
+class Component extends DCLogic {
+  componentDidMount() {
+    const fit = () => {
+      try {
+        const g = this.ghostEl; const t = g && g.querySelector('text');
+        if (!t) return; const b = t.getBBox();
+        if (b.width) g.setAttribute('viewBox', b.x + ' ' + b.y + ' ' + b.width + ' ' + b.height);
+      } catch (e) {}
+    };
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit); else fit();
+    this.t = setTimeout(fit, 400);
+  }
+  componentWillUnmount() { clearTimeout(this.t); }
+  renderVals() { return { setGhost: (el) => { this.ghostEl = el; } }; }
+}
+</script>
+</body>
+</html>

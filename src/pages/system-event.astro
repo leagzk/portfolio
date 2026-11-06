@@ -1,68 +1,109 @@
 ---
+/*
+  ═══ Etude de cas Surfaces — Systematize a moment (BRIEF §7) ═══
+
+  PAS DE MAQUETTE ICI NON PLUS. Comme Governance, le brief demande d'appliquer
+  le systeme (§7), pas de reproduire un artboard. Gabarit de Language (§5),
+  composition dessinee ici - une troisieme grille, encore differente des deux
+  autres : la carte du milieu traverse toute la hauteur, et la bande fine est
+  verticale au lieu d'etre horizontale.
+
+  LES TROIS TEMPS NE S'APPELLENT PAS problem / approach / proof, et c'est
+  voulu. Ces trois mots-la sont ceux d'un dossier d'entreprise ; plaques sur un
+  evenement ils sonneraient faux, et le brief §0bis demande justement que cette
+  page porte la preuve que la creativite depasse l'ecran. Le recit a ses
+  propres trois temps : LA CONTRAINTE (deux objets loues, cinq mots), LE
+  SYSTEME (cinquante surfaces, la scenographie, le jeu), LA TRANSMISSION (le
+  guide de production, et ce que les gens en ont fait). La mecanique du gabarit
+  est la meme ; seuls les intitules suivent l'histoire.
+
+  LA DIRECTION CREATIVE EST RENDUE EXPLICITE (BRIEF §0bis) : les cinq mots sont
+  presentes comme ce qu'ils etaient - le brief donne a tout le monde, suppliers
+  compris -, le guide de production comme le document de direction, et les neuf
+  prestataires comme ceux qu'il a fallu diriger. Rien n'est invente : ces trois
+  elements etaient deja dans la page, disperses.
+
+  TOUT LE CONTENU ET TOUS LES VISUELS SONT CONSERVES. Les trente et une images,
+  les neuf credits, le specimen typographique, les trois formes deplacables, le
+  fondu de la suite d'invitation et les trois comparaisons guide/realise sont
+  la. Ce qui tombe, ce sont les dispositifs que le gabarit remplace : le
+  sommaire flottant et les quatre surtitres de chapitre.
+*/
 import Base from '../layouts/Base.astro';
-import '../styles/case-study.css';
-import PageIntro from '../components/PageIntro.astro';
-import Banner from '../components/Banner.astro';
+import '../styles/etude.css';
+import Hero from '../components/Hero.astro';
+import ChiffresCles from '../components/ChiffresCles.astro';
+import type { Chiffre } from '../components/ChiffresCles.astro';
+import CarteDossier from '../components/CarteDossier.astro';
+import Carrousel from '../components/Carrousel.astro';
+import type { Vignette } from '../components/Carrousel.astro';
+import Figure from '../components/Figure.astro';
+import Bouton from '../components/Bouton.astro';
+import BeforeAfter from '../components/BeforeAfter.astro';
+import Loupe from '../components/Loupe.astro';
+import { chercheurImages } from '../lib/images';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-import Carousel from '../components/Carousel.astro';
-import BeforeAfter from '../components/BeforeAfter.astro';
-import ChapterTabs from '../components/ChapterTabs.astro';
-import Swatches from '../components/Swatches.astro';
-import { sommaire } from '../lib/chapitres';
-import { chercheurImages } from '../lib/images';
 
 /*
-  Toutes les images de la page, chargees en une fois plutot qu'en 31 imports.
-  Difference majeure avec les anciens chemins en chaine : un nom errone casse
-  le build ici, au lieu de produire un 404 silencieux en production.
+  Toutes les images en une fois plutot qu'en trente et un imports. Un nom
+  errone casse le build ici, au lieu de produire un 404 silencieux.
+
+  CREDITS DANS LES FICHIERS : photos = Madeleine Photographe / studiomadeleine.fr,
+  pages de guide = Lea Giezek. Ils survivent a l'optimisation grace au service
+  d'image maison (src/imageService.mjs) ; sharp les supprimerait sinon.
 */
 const fichiers = import.meta.glob<ImageMetadata>('../assets/living-system/*.webp', {
-  eager: true,
-  import: 'default',
+  eager: true, import: 'default',
 });
 const img = chercheurImages(fichiers, 'living-system');
 
 /*
-  IMAGES : `src/assets/living-system/` - plus /public/, elles passent desormais
-  par astro:assets (redimensionnement + srcset au build).
-  - photos     : credit EXIF/XMP Madeleine Photographe / studiomadeleine.fr
-  - pages spec : credit EXIF/XMP Lea Giezek (c'est ton document)
-  Ces credits survivent a l'optimisation grace au service d'image maison
-  (src/imageService.mjs) : sharp les supprimerait sinon.
+  ─── Chiffres cles (BRIEF §5.2) ───
+  Ceux d'un evenement ne sont pas ceux d'une plateforme, et c'est le propos :
+  la duree, l'etendue, les prestataires diriges, et le fait que ce soit une
+  TROISIEME edition - c'est elle qui prouve que le systeme se versionne.
 */
-
-/*
-  Les sept surfaces du carrousel "One identity, fifty-plus surfaces".
-  Ajouter une image = une entree ici. Les pastilles de pagination en sont
-  derivees, elles ne peuvent plus se desynchroniser.
-  Credit XMP des photos : Madeleine Photographe (voir en tete de fichier).
-*/
-const surfaces = [
-    { src: img('identity-welcome-sign'), caption: 'Signage',
-    alt: "Welcome sign on an easel showing the event monogram, beside stacked metal trunks" },
-    { src: img('identity-invitation-suite'), caption: 'Stationery',
-    alt: "Invitation suite of layered printed cards and coloured envelopes" },
-    { src: img('identity-monogram-arch'), caption: 'Scenography',
-    alt: "Monogram disc and a striped disc hanging from the ceremony arch above a floral pedestal" },
-    { src: img('identity-cards'), caption: 'Message cards',
-    alt: "Wall rack holding message cards in the identity's colours and patterns" },
-    { src: img('identity-place-setting'), caption: 'Table setting',
-    alt: "Place setting built on the patterned plate, with a monogram coaster and printed cards laid on it" },
-    { src: img('identity-message-desk'), caption: 'Writing desk',
-    alt: "Writing desk set up for guests with coloured pens and a framed instruction card" },
-    { src: img('identity-dresscode'), caption: 'Dresscode',
-    alt: "The dress code worn, seen from behind on a gravel path: a sequinned open-back top, a long white skirt, a white hair bow and a wildflower bouquet held low" },
-    { src: img('identity-guest-gift'), caption: 'Guest gift',
-    alt: "Enamel heart pin in the identity's ochre, worn on a navy lapel beside a bow tie in the scalloped pattern" },
-    { src: img('game-cats-board'), caption: 'Collaborative game',
-    alt: "Print artwork for the first riddle: a nine by nine colour-region grid with its single rule set above it" },
+const chiffres: Chiffre[] = [
+  { nombre: '1 an+', quoi: 'from first object to last jar',
+    contexte: 'Designed and orchestrated end to end, alongside the day job.' },
+  { nombre: '50+', quoi: 'surfaces, one identity',
+    contexte: 'Paper, fabric, metal, wood - and a pre-event WhatsApp community.' },
+  { nombre: '9', quoi: 'suppliers directed from one guide',
+    contexte: 'One page per zone, one owner per page. Executed without me in the room.' },
+  { nombre: '3rd', quoi: 'edition, each bigger than the last',
+    contexte: "A full identity every time, an escape game every time. I don't repeat a system - I version it." },
 ];
 
 /*
-  Palette du projet, prise sur la glacure de l'assiette Popolo.
-  Les noms sont en francais - d'ou le lang="fr" sur chaque <b>, sans quoi
-  une synthese vocale anglaise les ecorcherait.
+  ─── Les neuf surfaces du carrousel ───
+  Ajouter une image = une entree ici. Credit XMP : Madeleine Photographe.
+*/
+const surfaces: Vignette[] = [
+  { nom: 'identity-welcome-sign', legende: 'Signage',
+    alt: 'Welcome sign on an easel showing the event monogram, beside stacked metal trunks' },
+  { nom: 'identity-invitation-suite', legende: 'Stationery',
+    alt: 'Invitation suite of layered printed cards and coloured envelopes' },
+  { nom: 'identity-monogram-arch', legende: 'Scenography',
+    alt: 'Monogram disc and a striped disc hanging from the ceremony arch above a floral pedestal' },
+  { nom: 'identity-cards', legende: 'Message cards',
+    alt: "Wall rack holding message cards in the identity's colours and patterns" },
+  { nom: 'identity-place-setting', legende: 'Table setting',
+    alt: 'Place setting built on the patterned plate, with a monogram coaster and printed cards laid on it' },
+  { nom: 'identity-message-desk', legende: 'Writing desk',
+    alt: 'Writing desk set up for guests with coloured pens and a framed instruction card' },
+  { nom: 'identity-dresscode', legende: 'Dresscode',
+    alt: 'The dress code worn, seen from behind on a gravel path: a sequinned open-back top, a long white skirt, a white hair bow and a wildflower bouquet held low' },
+  { nom: 'identity-guest-gift', legende: 'Guest gift',
+    alt: "Enamel heart pin in the identity's ochre, worn on a navy lapel beside a bow tie in the scalloped pattern" },
+  { nom: 'game-cats-board', legende: 'Collaborative game',
+    alt: 'Print artwork for the first riddle: a nine by nine colour-region grid with its single rule set above it' },
+].map((s) => ({ src: img(s.nom), alt: s.alt, legende: s.legende, titre: s.legende }));
+
+/*
+  Palette prise sur la glacure de l'assiette Popolo. Les noms sont en francais,
+  d'ou le lang="fr" sur chacun : sans lui une synthese vocale anglaise les
+  ecorcherait.
 */
 const couleurs = [
   { hex: '#008C68', nom: 'Vert' },
@@ -72,457 +113,552 @@ const couleurs = [
   { hex: '#FDC1BD', nom: 'Rose' },
 ];
 
+/* Les trois etapes du jeu, dans l'ordre ou on les vit. */
+const etapes = [
+  { nom: 'game-locked', rang: '01', titre: 'The constraint',
+    propos: 'A locked trunk, a combination, and clues scattered across the day.',
+    alt: 'Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid' },
+  { nom: 'game-opened', rang: '02', titre: 'The crack',
+    propos: 'Progression built so the last step feels earned, not handed over.',
+    alt: 'Opened trunk revealing a framed congratulations card above rows of jars' },
+  { nom: 'game-reward', rang: '03', titre: 'The payoff',
+    propos: 'The reward carries the identity too. The system runs to the last object.',
+    alt: 'Rows of jars packed in the trunk, each labelled with the event monogram on striped paper' },
+];
+
 /*
-  Les neuf prestataires de l'evenement. data-label reprend le nom : le CSS s'en
-  sert pour reserver la largeur du gras au survol, sans faire sauter la mise en
-  page - meme procede que .topnav a::after.
+  Les neuf prestataires. data-label reprend le nom : le CSS s'en sert pour
+  reserver la largeur du gras au survol, sans faire sauter la mise en page.
 */
 const credits = [
-  { role: "Artwork & event design", nom: "Léa Giezek" },
-  { role: "Photography", nom: "Madeleine Photographe\u00a0©", href: 'https://studiomadeleine.fr/' },
-  { role: "Day-of coordination", nom: "Hera & Harmonia", href: 'https://hera-et-harmonia.com/' },
-  { role: "Venue", nom: "Le Grand Breuil", href: 'https://www.legrandbreuil.com/' },
-  { role: "Furniture", nom: "Agence Parade", href: 'https://agence-parade.fr/' },
-  { role: "Print", nom: "Les Ateliers Paquereau", href: 'https://www.imprimerie-paquereau.com/' },
-  { role: "Floral design", nom: "Les Nanas", href: 'https://lesnanas-studiofloral.com/' },
-  { role: "Tableware & linen", nom: "Maison Options", href: 'https://www.options.fr/' },
-  { role: "Cocktail bar", nom: "Le Horse Bar", href: 'https://sobarsodrink.squarespace.com/' },
+  { role: 'Artwork & event design', nom: 'Léa Giezek' },
+  { role: 'Photography', nom: 'Madeleine Photographe ©', href: 'https://studiomadeleine.fr/' },
+  { role: 'Day-of coordination', nom: 'Hera & Harmonia', href: 'https://hera-et-harmonia.com/' },
+  { role: 'Venue', nom: 'Le Grand Breuil', href: 'https://www.legrandbreuil.com/' },
+  { role: 'Furniture', nom: 'Agence Parade', href: 'https://agence-parade.fr/' },
+  { role: 'Print', nom: 'Les Ateliers Paquereau', href: 'https://www.imprimerie-paquereau.com/' },
+  { role: 'Floral design', nom: 'Les Nanas', href: 'https://lesnanas-studiofloral.com/' },
+  { role: 'Tableware & linen', nom: 'Maison Options', href: 'https://www.options.fr/' },
+  { role: 'Cocktail bar', nom: 'Le Horse Bar', href: 'https://sobarsodrink.squarespace.com/' },
 ];
-/*
-  Les chapitres, en un seul endroit : ils alimentent les onglets lateraux
-  (<ChapterTabs>) et les surtitres de section. Meme raison que sur
-  system-practice-elements - ecrits deux fois, l'ancre et le numero derivent a
-  la premiere reorganisation. Le numero vient du rang, donc reordonner
-  renumerote.
-*/
-const chapitres = [
-  { id: 'ch-identity',     titre: 'Identity' },
-  { id: 'ch-staging',      titre: 'Staging' },
-  { id: 'ch-game',         titre: 'The centrepiece', onglet: 'Centrepiece' },
-  { id: 'ch-coordination', titre: 'Coordination' },
-];
-
-/* chap('ch-staging') -> « 02 - Staging ». Voir src/lib/chapitres.ts. */
-const { surtitre: chap } = sommaire(chapitres);
-
 ---
-<Base title="Living System - Léa Giezek"
-  description="A case study: one live event treated as a design system. Identity, staging, a six-puzzle centrepiece and the production guide that let others run it."
-  current="system-event"
-  brandFonts><!-- specimen .ls-type : fino-sans + serenity, via le kit Adobe Fonts -->
+<Base
+  title="Surfaces - Systematize a moment - Léa Giezek"
+  description="One live experience treated as a design system: identity, staging, a six-puzzle centrepiece and the production guide that let others run it without me."
+  brandFonts
+>{/* brandFonts : le specimen .spec charge fino-sans et serenity via Adobe Fonts */}
 
-<!-- CARD 1 : banner + intro -->
-  <div class="card">
-    <Banner home>
-        <p class="banner__standards">Same systems thinking, same care - just off the screen.</p>
-        <span class="banner__culture" style="--culture-size:23.7cqw" aria-hidden="true">Surfaces</span>
-    </Banner>
+  <Hero
+    courant="system-event"
+    eyebrow="Systematize a moment · Living System · 3rd edition"
+    filigrane="Surfaces"
+  >
+    Same systems thinking, same care - just off the screen.
+    <Fragment slot="intro">
+      Over more than a year, I designed and orchestrated a live event from end to
+      end - one identity, one experience, held together across every surface and
+      every supplier. No repository. No deploy pipeline. Just the discipline of
+      making a hundred moving parts feel like one thing.
+    </Fragment>
+  </Hero>
 
-    <PageIntro eyebrow="Living System">
-      <p class="p-intro__lead">Over more than a year, I designed and orchestrated a live event from end to end - one identity, one experience, held together across every surface and every supplier. No repository. No deploy pipeline. Just the discipline of making a hundred moving parts feel like one thing.</p>
-      <p class="p-intro__lead">It's the proof I keep coming back to: <b>my way of working doesn't depend on the medium.</b> Systems thinking, brand coherence, experience design - they hold whether the output ships to production or lives in a garden for one day.</p>
-    </PageIntro>
+  <div class="etude">
+
+    <ChiffresCles chiffres={chiffres} label="The measure of it" />
+
+    {/*
+      ─── La composition des 3 cartes ───
+      Troisieme grille du site, encore differente des deux autres : sept
+      colonnes, QUATRE rangees, la bande fine est VERTICALE (la quatrieme
+      colonne) au lieu d'etre horizontale, et la carte du milieu traverse toute
+      la hauteur. Les trois cartes font 472x291, 363x535 et 472x241 : trois
+      formes, pas trois variantes d'un meme rectangle.
+    */}
+    <div class="compo" id="composition" data-grille>
+      <CarteDossier
+        id="carte-contrainte"
+        rang="01"
+        intitule="The constraint"
+        titre="It started with two rented objects."
+        synthese="Not a moodboard: a plate and an armchair we could actually put in the space. One gave the pattern language, the other gave the posture - and five words came out of them before anything was drawn."
+        couleur="rouge"
+        commande="pan-contrainte"
+        large
+        aire="1 / 1 / 3 / 4"
+      />
+
+      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 4 / 2 / 5"><span class="compo__plat compo__plat--jaune"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 4 / 3 / 5"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 4 / 4 / 5"><span class="compo__plat compo__plat--noir"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 4 / 5 / 5"></div>
+
+      <CarteDossier
+        id="carte-systeme"
+        rang="02"
+        intitule="The system"
+        titre="One identity, fifty-plus surfaces, zero inconsistency."
+        synthese="Declined on paper, fabric, metal and wood - then staged in the space, and closed by an escape game built from zero. The test was the boring surfaces."
+        couleur="bleu"
+        commande="pan-systeme"
+        aire="1 / 5 / 5 / 7"
+      />
+
+      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 7 / 2 / 8"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 7 / 3 / 8"><span class="compo__plat compo__plat--rouge"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 7 / 4 / 8"><span class="compo__plat compo__plat--gris"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 7 / 5 / 8"></div>
+
+      <CarteDossier
+        id="carte-transmission"
+        rang="03"
+        intitule="The handover"
+        titre="Precise enough to be run without me in the room."
+        synthese="One page per zone, one owner per page. I briefed nine suppliers from it, handed the day to a coordinator - and got to be in the experience instead of running it."
+        couleur="jaune"
+        commande="pan-transmission"
+        aire="3 / 1 / 5 / 4"
+      />
+    </div>
+
+    {/* ═══════════ 01 · The constraint ═══════════ */}
+    <section class="pan" id="pan-contrainte" aria-labelledby="titre-contrainte">
+      <h2 class="sr-only" id="titre-contrainte">01 &middot; The constraint</h2>
+
+      <div class="subsec">
+        <div class="split">
+          <p class="lead">A living system isn't one you finish. It's one that takes its real shape <em class="em-rouge">in the hands of the people who use it.</em></p>
+          <div class="pile">
+            <div class="body">
+              <p>Here, off the screen, exactly as it does on it. Not product. Not digital. Not communication. A living one - and it held together just the same.</p>
+              <p>It's the proof I keep coming back to: <strong>my way of working doesn't depend on the medium.</strong> Systems thinking, brand coherence, experience design - they hold whether the output ships to production or lives in a garden for one day.</p>
+            </div>
+            <Figure
+              src={img('staging-arch')}
+              alt="Ceremony arch hung with shapes from the event's visual identity, framed by floral pedestals and two seats"
+              legende="The system, in the world"
+              ratio="3 / 4"
+              ajuste="cover"
+              sizes="(min-width: 900px) 420px, 90vw"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="eb">Where it came from</p>
+        <div class="split">
+          <p class="lead">Starting from a constraint <em class="em-bleu">you don't own.</em></p>
+          <div class="body">
+            <p><strong>The whole thing started with two objects.</strong> Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The <strong>Popolo</strong> plate: scalloped rim, hand-painted florals, cobalt and ochre. The <strong>Roly Poly</strong> armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.</p>
+            <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colors, conviviality and playfulness.</strong> Then systematised end to end across the whole experience, from the first envelope to the last jar label.</p>
+            <p>The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - <strong>are the reason the day ended up with an escape game in it.</strong></p>
+          </div>
+        </div>
+        <p class="qt">Those five words were the brief - mine, and everyone else's. <strong>Every supplier was briefed from them, and every arbitration came back to them.</strong> That is the whole of the creative direction: not a mood, a short list you can hold someone to.</p>
+      </div>
+
+      <div class="subsec">
+        <p class="eb">The system itself</p>
+        <div class="trois-blocs">
+          <div class="bloc">
+            <p class="bloc__t">Shapes</p>
+            {/*
+              Trois decoupes, prises sur le bord de l'assiette et la silhouette
+              du fauteuil. Elles sont DEPLACABLES au-dela de 900px - c'est le
+              geste du brief, on les pose sur la table - et redeviennent un rang
+              fixe en dessous, ou un glisser volerait le defilement tactile.
+            */}
+            <ul class="formes" aria-label="The three cut-out shapes">
+              <li class="forme" style="--x:0%;--y:0px;--rot:-8deg">
+                <svg viewBox="0 0 155.09 155.09" aria-hidden="true"><circle cx="77.54" cy="77.54" r="77.54" /></svg>
+                <b>Circle</b>
+              </li>
+              <li class="forme" style="--x:34%;--y:84px;--rot:5deg">
+                <svg viewBox="0 0 135.38 144.45" aria-hidden="true"><path d="M86.34,0H0s0,119.69,0,119.69c0,13.67,11.08,24.75,24.75,24.75h110.62s0-95.41,0-95.41C135.38,21.95,113.42,0,86.34,0Z" /></svg>
+                <b>Square</b>
+              </li>
+              <li class="forme" style="--x:66%;--y:12px;--rot:-4deg">
+                <svg viewBox="0 0 164.64 171.5" aria-hidden="true"><path d="M5.28,76l-1.81-2.23c-7.07-8.7-2.81-21.8,8.02-24.68l2.78-.74c7.07-1.88,11.85-8.46,11.46-15.77l-.15-2.87c-.6-11.19,10.54-19.29,21-15.25l2.68,1.03c6.83,2.63,14.56.12,18.54-6.02l1.56-2.41c6.09-9.41,19.86-9.41,25.95,0l1.56,2.41c3.98,6.14,11.71,8.66,18.54,6.02l2.68-1.03c10.46-4.03,21.6,4.06,21,15.25l-.15,2.87c-.39,7.31,4.39,13.89,11.46,15.77l2.78.74c10.83,2.88,15.09,15.98,8.02,24.68l-1.81,2.23c-4.61,5.68-4.61,13.81,0,19.49l1.81,2.23c7.07,8.7,2.81,21.8-8.02,24.68l-2.78.74c-7.07,1.88-11.85,8.46-11.46,15.77l.15,2.87c.6,11.19-10.54,19.29-21,15.25l-2.68-1.03c-6.83-2.63-14.56-.12-18.54,6.02l-1.56,2.41c-6.09,9.41-19.86,9.41-25.95,0l-1.56-2.41c-3.97-6.14-11.71-8.66-18.54-6.02l-2.68,1.03c-10.46,4.03-21.6-4.06-21-15.25l.15-2.87c.39-7.31-4.39-13.89-11.46-15.77l-2.78-.74c-10.83-2.88-15.09-15.98-8.02-24.68l1.81-2.23c4.61-5.68,4.61-13.81,0-19.49Z" /></svg>
+                <b>Star</b>
+              </li>
+            </ul>
+            <p class="cap">Three cut-outs, taken off the plate's rim and the chair's silhouette. Every badge, tag, disc and die-cut in the identity is one of these three.</p>
+          </div>
+
+          <div class="bloc">
+            <p class="bloc__t">Colors</p>
+            <ul class="sw" style="--swc:5">
+              {couleurs.map((c) => (
+                <li class="swi">
+                  <div class="swc" style={`background:${c.hex}`}></div>
+                  <span lang="fr">{c.nom}</span>
+                  <code>{c.hex}</code>
+                </li>
+              ))}
+            </ul>
+            <p class="cap">Taken straight off the glaze of the Popolo plate.</p>
+          </div>
+
+          <div class="bloc">
+            <p class="bloc__t">Type</p>
+            <div class="spec">
+              <p class="spec__display">Aa</p>
+              <div class="spec__meta">
+                <p class="spec__nom">Fino Sans</p>
+                <p class="spec__usage">Display - titles, numbers, anything set large. High contrast, tight, a little theatrical.</p>
+              </div>
+            </div>
+            <div class="spec">
+              <p class="spec__sans">Aa</p>
+              <div class="spec__meta">
+                <p class="spec__nom">Serenity</p>
+                <p class="spec__usage">Text - rules, timings, instructions. Plain enough to disappear behind the display face.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <Bouton variante="bleu" class="suite" commande="carte-systeme">Next: the system →</Bouton>
+    </section>
+
+    {/* ═══════════ 02 · The system ═══════════ */}
+    <section class="pan" id="pan-systeme" aria-labelledby="titre-systeme">
+      <h2 class="sr-only" id="titre-systeme">02 &middot; The system</h2>
+
+      <div class="subsec">
+        <div class="split">
+          <p class="lead">Nothing was left to chance, <em class="em-rouge">and nothing drifted.</em></p>
+          <div class="body">
+            <p>A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. <strong>Dozens of touchpoints, one language</strong> - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.</p>
+          </div>
+        </div>
+        <Carrousel
+          label="The surfaces"
+          eyebrow="One identity, fifty-plus surfaces"
+          vignettes={surfaces}
+          ratio="4 / 3"
+          fr={1.3333}
+          largeur="62%"
+          sizes="(min-width: 900px) 660px, 90vw"
+        />
+      </div>
+
+      <div class="subsec">
+        <p class="eb">The test</p>
+        <div class="split">
+          <p class="lead">The test was <em class="em-bleu">the boring surfaces.</em></p>
+          <div class="body">
+            <p>Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, welcome signage to your room to share care. Same display face, same stripes, same jokes.</p>
+            <p>That's where <strong>conviviality and playfulness</strong> stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.</p>
+          </div>
+        </div>
+        <div class="two">
+          <Figure src={img('signage-door-tag')} legende="Room tag, in place" ratio="4 / 3" ajuste="cover"
+            alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type"
+            sizes="(min-width: 900px) 520px, 90vw" />
+          <Figure src={img('print-glass-rules')} legende="Glass rules - 100 × 150 mm" ratio="4 / 3"
+            alt="Print artwork for the small card explaining what to do with your glass through the evening"
+            sizes="(min-width: 900px) 520px, 90vw" />
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="eb">Printed, in the hand</p>
+        <div class="two">
+          <Figure src={img('identity-invitation-detail')} legende="The invitation, printed" ratio="4 / 3" ajuste="cover"
+            alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
+            sizes="(min-width: 900px) 520px, 90vw" />
+          {/*
+            LA SUITE SE FOND D'UN ETAT A L'AUTRE, trois images au meme endroit :
+            la pile fermee, ouverte, puis posee. Trois vignettes cote a cote
+            auraient montre trois photos ; le fondu montre un objet qu'on
+            deplie. src/scripts/crossfade.ts, 2,2s par etat.
+          */}
+          <figure class="fig">
+            <div class="fig__cadre suite" style="aspect-ratio:4 / 3;--fit:contain">
+              <Image class="suite__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="suite__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="suite__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="cap">The suite, unfolding</figcaption>
+          </figure>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="eb">Staging</p>
+        <div class="split">
+          <p class="lead">Space, <em class="em-rouge">staged.</em></p>
+          <div class="body">
+            <p>An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.</p>
+            <p>The system on paper, and the system in the world - <strong>the same jump from specification to production I run on the platform</strong>, made physical.</p>
+          </div>
+        </div>
+        <div class="two">
+          <Figure src={img('staging-hall')} legende="The room, at scale" ratio="4 / 3" ajuste="cover"
+            alt="Reception hall under exposed beams and string lights, long tables laid for a hundred guests"
+            sizes="(min-width: 900px) 520px, 90vw" />
+          <Figure src={img('staging-table')} legende="Tablescape" ratio="4 / 3" ajuste="cover"
+            alt="Long table with patterned plates, gold cutlery and single-stem vases running down the centre"
+            sizes="(min-width: 900px) 520px, 90vw" />
+          <Figure src={img('staging-glass')} legende="Place card" ratio="4 / 3" ajuste="cover"
+            alt="Place card clipped to a wine glass on the laid table, beside a small vase of ranunculus"
+            sizes="(min-width: 900px) 520px, 90vw" />
+          <Figure src={img('staging-flowers')} legende="Palette" ratio="4 / 3" ajuste="cover"
+            alt="Close view of the flower palette: white daisies, blue cornflowers and pink blooms"
+            sizes="(min-width: 900px) 520px, 90vw" />
+        </div>
+        <BeforeAfter
+          spec={{ src: img('spec-zone-seating'), alt: 'Page from the production guide: mockup of the seating panels with the material checklist' }}
+          built={{ src: img('staging-entrance-evening'), alt: 'The seating panels installed at the venue doorway at dusk, flanked by floral columns' }}
+          caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
+        />
+      </div>
+
+      <div class="subsec">
+        <p class="eb">The centrepiece</p>
+        <div class="split">
+          <p class="lead">A game, <em class="em-bleu">by design.</em></p>
+          <div class="body">
+            <p>An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
+            <p><strong>Six riddles, six different mechanics for six essential clues to unlock one final chest, all together.</strong> Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.</p>
+          </div>
+        </div>
+        <Figure src={img('game-setup-wide')} legende="The game, set up in the courtyard" ratio="16 / 9" ajuste="cover"
+          alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement"
+          sizes="(min-width: 900px) 1040px, 92vw" />
+        <div class="three">
+          {etapes.map((e) => (
+            <Figure
+              src={img(e.nom)}
+              alt={e.alt}
+              legende={`<strong>${e.rang} &middot; ${e.titre}</strong> ${e.propos}`}
+              ratio="4 / 3"
+              ajuste="cover"
+              sizes="(min-width: 900px) 340px, 45vw"
+            />
+          ))}
+        </div>
+        <div class="body">
+          <p>But here's what I love most about it: <strong>it only became itself once people played it.</strong> I designed the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, evolving as they moved through it, in ways no plan could fully script.</p>
+        </div>
+        <p class="qt">Shipped empty. <strong>Finished by the people who played it.</strong></p>
+        <BeforeAfter
+          spec={{ src: img('spec-zone-murdle'), alt: 'Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes' }}
+          built={{ src: img('game-murdle'), alt: 'The same deduction board after play, its grid filled with pink and green wooden tokens' }}
+          builtLabel="Played"
+          caption="The deduction grid, before anyone touched it and after a hundred people did."
+        />
+        <BeforeAfter
+          spec={{ src: img('spec-zone-wordsearch'), alt: 'Production guide page for the word-grid game: blank poster on an easel with its material checklist' }}
+          built={{ src: img('game-wordsearch'), alt: 'The word grid mid-game, crossed through with chalk lines as players work it out together' }}
+          builtLabel="Played"
+          caption="I drew the grid. The marks on it aren't mine - and that was always the point."
+        />
+        <div class="body">
+          <p>That's the whole truth about the systems I build: <strong>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</strong> An escape game, a design system, a platform: same principle.</p>
+          <p class="qt">The frame is mine. <strong>The life is theirs.</strong></p>
+        </div>
+      </div>
+
+      <Bouton variante="bleu" class="suite" commande="carte-transmission">Next: the handover →</Bouton>
+    </section>
+
+    {/* ═══════════ 03 · The handover ═══════════ */}
+    <section class="pan" id="pan-transmission" aria-labelledby="titre-transmission">
+      <h2 class="sr-only" id="titre-transmission">03 &middot; The handover</h2>
+
+      <div class="dark">
+        <p class="eb">The part nobody sees</p>
+        <h3 class="h3">One page per zone, one owner per page.</h3>
+        <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
+        <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief. <strong>That's the whole method.</strong></p>
+        <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
+        <p class="dark__chute">The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. It works in a repo. It works in a garden.</p>
+      </div>
+
+      <div class="subsec">
+        <Figure src={img('coordination-embrace')} legende="Inside it, not behind it." ratio="16 / 9" ajuste="cover"
+          alt="Guests embracing at the event, the designer among them rather than running the day"
+          sizes="(min-width: 900px) 1040px, 92vw" />
+      </div>
+
+      <div class="subsec">
+        <p class="eb">Credits</p>
+        <div class="split">
+          <p class="lead">Vision and execution directed by me - <em class="em-rouge">everything else by people far better than me at their own craft.</em></p>
+          <dl class="credits">
+            {credits.map((c) => (
+              <div class="credits__ligne">
+                {/* pas de set:html : le role est du texte brut, et set:html
+                    laisserait passer un & nu la ou il faut &amp; */}
+                <dt>{c.role}</dt>
+                <dd>
+                  {c.href
+                    ? <a href={c.href} target="_blank" rel="noopener noreferrer" data-label={c.nom}>{c.nom}<span class="sr-only"> (opens in a new tab)</span></a>
+                    : <span class="credits__moi">{c.nom}</span>}
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </div>
+
+      <div class="closing">
+        <h2>I don't just repeat a system. <em class="em-bleu">I version it.</em></h2>
+        <p class="cbody">This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. <strong>The pattern doesn't stop at the screen - and it doesn't stop at work either.</strong></p>
+        <Bouton variante="bleu" href="/system-practice-elements">See it at global scale →</Bouton>
+      </div>
+    </section>
+
   </div>
 
-  <ChapterTabs chapitres={chapitres} />
-
-  <!-- THESIS -->
-  <section class="ls-thesis ls-reveal" aria-label="The system, in the world">
-    <figure class="ls-fig ls-thesis__fig">
-      <Image src={img('staging-arch')} alt="Ceremony arch hung with shapes from the event's visual identity, framed by floral pedestals and two seats" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="eager" decoding="async" />
-    </figure>
-    <div class="ls-thesis__body">
-      <p class="ls-pull">A living system isn't one you finish. It's one that takes its real shape <em>in the hands of the people who use it</em> - here, off the screen, exactly as it does on it.</p>
-      <p class="ls-note">Not product. Not digital. Not communication. A living one - and it held together just the same.</p>
-    </div>
-  </section>
-
-  <!-- 01 IDENTITY -->
-  <section class="ls-chapter ls-reveal" aria-labelledby="ch-identity">
-    <div class="ls-head">
-      <p class="ls-eyebrow"><span>{chap('ch-identity')}</span></p>
-      <h2 class="ls-title" id="ch-identity">One identity, everywhere.</h2>
-      <p class="ls-lede">Starting from a constraint you don't own, then making every other decision agree with it. That's most of the job on the platform too.</p>
-    </div>
-
-    <div class="ls-idgrid">
-      <div class="ls-idgrid__text">
-        <div class="ls-origin">
-          <div class="ls-origin__body">
-            <p class="ls-body"><b>The whole thing started with two objects.</b> Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The <b>Popolo</b> plate: scalloped rim, hand-painted florals, cobalt and ochre. The <b>Roly Poly</b> armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture.</p>
-            <p class="ls-body">Five words came out of them, written down before anything was drawn: <b>shapes, type, colors, conviviality and playfulness.</b> Then systematised end to end across the whole experience, from the first envelope to the last jar label.</p>
-            <p class="ls-body">The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - <b>are the reason the day ended up with an escape game in it.</b></p>
-          </div>
-        </div>
-
-
-        <div class="ls-head ls-head--after">
-          <p class="ls-body">A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. <b>Dozens of touchpoints, one language</b> - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.</p>
-        </div>
-      </div>
-      <div class="ls-system">
-        <div class="ls-system__block">
-          <p class="ls-system__label">Shapes</p>
-          <ul class="ls-shapes" aria-label="The three cut-out shapes">
-          <li class="ls-shape" style="--x:0%;--y:0px;--rot:-8deg;--grad-ref:url(#lsgrad0)">
-            <svg viewBox="0 0 155.09 155.09" aria-hidden="true"><defs><linearGradient id="lsgrad0" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--shape-a)"/><stop offset="1" stop-color="var(--shape-b)"/></linearGradient></defs><circle cx="77.54" cy="77.54" r="77.54" fill="url(#lsgrad0)"/></svg>
-            <b>Circle</b>
-          </li>
-          <li class="ls-shape" style="--x:36%;--y:96px;--rot:5deg;--grad-ref:url(#lsgrad1)">
-            <svg viewBox="0 0 135.38 144.45" aria-hidden="true"><defs><linearGradient id="lsgrad1" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--shape-a)"/><stop offset="1" stop-color="var(--shape-b)"/></linearGradient></defs><path fill="url(#lsgrad1)" d="M86.34,0H0s0,119.69,0,119.69c0,13.67,11.08,24.75,24.75,24.75h110.62s0-95.41,0-95.41C135.38,21.95,113.42,0,86.34,0Z"/></svg>
-            <b>Square</b>
-          </li>
-          <li class="ls-shape" style="--x:70%;--y:14px;--rot:-4deg;--grad-ref:url(#lsgrad2)">
-            <svg viewBox="0 0 164.64 171.5" aria-hidden="true"><defs><linearGradient id="lsgrad2" x1="0" y1="1" x2="1" y2="0"><stop offset="0" stop-color="var(--shape-a)"/><stop offset="1" stop-color="var(--shape-b)"/></linearGradient></defs><path fill="url(#lsgrad2)" d="M5.28,76l-1.81-2.23c-7.07-8.7-2.81-21.8,8.02-24.68l2.78-.74c7.07-1.88,11.85-8.46,11.46-15.77l-.15-2.87c-.6-11.19,10.54-19.29,21-15.25l2.68,1.03c6.83,2.63,14.56.12,18.54-6.02l1.56-2.41c6.09-9.41,19.86-9.41,25.95,0l1.56,2.41c3.98,6.14,11.71,8.66,18.54,6.02l2.68-1.03c10.46-4.03,21.6,4.06,21,15.25l-.15,2.87c-.39,7.31,4.39,13.89,11.46,15.77l2.78.74c10.83,2.88,15.09,15.98,8.02,24.68l-1.81,2.23c-4.61,5.68-4.61,13.81,0,19.49l1.81,2.23c7.07,8.7,2.81,21.8-8.02,24.68l-2.78.74c-7.07,1.88-11.85,8.46-11.46,15.77l.15,2.87c.6,11.19-10.54,19.29-21,15.25l-2.68-1.03c-6.83-2.63-14.56-.12-18.54,6.02l-1.56,2.41c-6.09,9.41-19.86,9.41-25.95,0l-1.56-2.41c-3.97-6.14-11.71-8.66-18.54-6.02l-2.68,1.03c-10.46,4.03-21.6-4.06-21-15.25l.15-2.87c.39-7.31-4.39-13.89-11.46-15.77l-2.78-.74c-10.83-2.88-15.09-15.98-8.02-24.68l1.81-2.23c4.61-5.68,4.61-13.81,0-19.49Z"/></svg>
-            <b>Star</b>
-          </li>
-          </ul>
-          <p class="ls-shapes__note">Three cut-outs, taken off the plate's rim and the chair's silhouette. Every badge, tag, disc and die-cut in the identity is one of these three.</p>
-        </div>
-
-        <Swatches label="Colors" couleurs={couleurs} lang="fr" />
-
-        <div class="ls-system__block">
-          <p class="ls-system__label">Type</p>
-          <div class="ls-type">
-            <p class="ls-type__display">Aa</p>
-            <div class="ls-type__meta">
-              <p class="ls-type__name">Fino Sans</p>
-              <p class="ls-type__use">Display - titles, numbers, anything set large. High contrast, tight, a little theatrical.</p>
-            </div>
-          </div>
-          <div class="ls-type">
-            <p class="ls-type__sans">Aa</p>
-            <div class="ls-type__meta">
-              <p class="ls-type__name">Serenity</p>
-              <p class="ls-type__use">Text - rules, timings, instructions. Plain enough to disappear behind the display face.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <h3 class="ls-claim ls-claim--head">Nothing was left to chance, and nothing drifted. <b>One identity, fifty-plus surfaces, zero inconsistency.</b></h3>
-
-    <Carousel id="lscarousel" label="Choose a surface" itemLabel="Surface" start={1} slides={surfaces} />
-
-    <div class="ls-signage">
-      <div class="ls-signage__text">
-        <p class="ls-sub">The test was the boring surfaces.</p>
-        <p class="ls-body">Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, welcome signage to your room to share care. Same display face, same stripes, same jokes.</p>
-        <p class="ls-body">That's where <b>conviviality and playfulness</b> stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.</p>
-      </div>
-      <div class="ls-signage__figs">
-        <figure class="ls-fig">
-          <Image src={img('signage-door-tag')} alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-          <figcaption class="ls-cap">Room tag, in place</figcaption>
-        </figure>
-        <figure class="ls-fig ls-fig--flat">
-          <Image src={img('print-glass-rules')} alt="Print artwork for the small card explaining what to do with your glass through the evening" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-          <figcaption class="ls-cap">Glass rules - 100 × 150 mm</figcaption>
-        </figure>
-      </div>
-    </div>
-
-    <div class="ls-print">
-      <figure class="ls-print__art">
-        {/* .ls-print__frame porte le border-radius, le fond et le contour de theme */}
-        <div class="ls-print__frame">
-          <Image src={img('identity-invitation-detail')} alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
-        </div>
-        <figcaption class="ls-cap">Printed, in the hand</figcaption>
-      </figure>
-      <figure class="ls-print__suite">
-        <div class="ls-suite__stage">
-          <Image class="ls-suite__frame is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
-          <Image class="ls-suite__frame" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
-          <Image class="ls-suite__frame" src={img('suite-state-3')} alt="The invitation suite arranged in place" layout="constrained" sizes="(min-width: 900px) 500px, 100vw" loading="lazy" decoding="async" />
-        </div>
-      </figure>
-    </div>
-
-  </section>
-
-  <!-- 02 STAGING -->
-  <section class="ls-chapter ls-reveal" aria-labelledby="ch-staging">
-    <div class="ls-split">
-      <div class="ls-split__text">
-        <p class="ls-eyebrow"><span>{chap('ch-staging')}</span></p>
-        <h2 class="ls-title" id="ch-staging">Space, staged.</h2>
-        <p class="ls-body">An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.</p>
-        <p class="ls-body">The system on paper, and the system in the world - <b>the same jump from specification to production I run on the platform</b>, made physical.</p>
-      </div>
-      <div class="ls-split__media">
-        <figure class="ls-fig">
-          <Image src={img('staging-hall')} alt="Reception hall under exposed beams and string lights, long tables laid for a hundred guests" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-          <figcaption class="ls-cap">The room, at scale</figcaption>
-        </figure>
-        <figure class="ls-fig">
-          <Image src={img('staging-table')} alt="Long table with patterned plates, gold cutlery and single-stem vases running down the centre" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-          <figcaption class="ls-cap">Tablescape</figcaption>
-        </figure>
-        <div class="ls-pair">
-          <figure class="ls-fig">
-            <Image src={img('staging-glass')} alt="Place card clipped to a wine glass on the laid table, beside a small vase of ranunculus" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-            <figcaption class="ls-cap">Place card</figcaption>
-          </figure>
-          <figure class="ls-fig">
-            <Image src={img('staging-flowers')} alt="Close view of the flower palette: white daisies, blue cornflowers and pink blooms" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-            <figcaption class="ls-cap">Palette</figcaption>
-          </figure>
-        </div>
-      </div>
-    </div>
-
-    <BeforeAfter
-      spec={{ src: img('spec-zone-seating'), alt: "Page from the production guide: mockup of the seating panels with the material checklist" }}
-      built={{ src: img('staging-entrance-evening'), alt: "The seating panels installed at the venue doorway at dusk, flanked by floral columns" }}
-      caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
-    />
-  </section>
-
-  <!-- 03 THE GAME -->
-  <section class="ls-chapter ls-reveal" aria-labelledby="ch-game">
-    <div class="ls-gamehead">
-      <div class="ls-gamehead__top">
-        <p class="ls-eyebrow"><span>{chap('ch-game')}</span></p>
-        <h2 class="ls-title" id="ch-game">A game, by design.</h2>
-      </div>
-      <p class="ls-body ls-gamehead__body">An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
-      <figure class="ls-gamehead__fig">
-        <Image src={img('game-setup-wide')} alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-      </figure>
-    </div>
-
-
-    <p class="ls-body ls-body--wide"><b>Six riddles, six different mechanics for six essential clues to unlock one final chest, all together.</b> Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.</p>
-
-    <ol class="ls-steps">
-      <li class="ls-step">
-        <figure class="ls-fig">
-          <Image src={img('game-locked')} alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-        </figure>
-        <p class="ls-step__t"><span class="ls-step__n">01</span>The constraint</p>
-        <p class="ls-step__b">A locked trunk, a combination, and clues scattered across the day.</p>
-      </li>
-      <li class="ls-step">
-        <figure class="ls-fig">
-          <Image src={img('game-opened')} alt="Opened trunk revealing a framed congratulations card above rows of jars" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-        </figure>
-        <p class="ls-step__t"><span class="ls-step__n">02</span>The crack</p>
-        <p class="ls-step__b">Progression built so the last step feels earned, not handed over.</p>
-      </li>
-      <li class="ls-step">
-        <figure class="ls-fig">
-          <Image src={img('game-reward')} alt="Rows of jars packed in the trunk, each labelled with the event monogram on striped paper" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-        </figure>
-        <p class="ls-step__t"><span class="ls-step__n">03</span>The payoff</p>
-        <p class="ls-step__b">The reward carries the identity too. The system runs to the last object.</p>
-      </li>
-    </ol>
-
-    <div class="ls-body ls-body--wide">
-      <p>But here's what I love most about it: <b>it only became itself once people played it.</b> I designed the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, evolving as they moved through it, in ways no plan could fully script.</p>
-    </div>
-
-    <p class="ls-sub">Shipped empty.<br><b>Finished by the people who played it.</b></p>
-
-    <BeforeAfter
-      spec={{ src: img('spec-zone-murdle'), alt: "Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes" }}
-      built={{ src: img('game-murdle'), alt: "The same deduction board after play, its grid filled with pink and green wooden tokens" }}
-      builtLabel="Played"
-      caption="The deduction grid, before anyone touched it and after a hundred people did."
-    />
-
-    <BeforeAfter
-      spec={{ src: img('spec-zone-wordsearch'), alt: "Production guide page for the word-grid game: blank poster on an easel with its material checklist" }}
-      built={{ src: img('game-wordsearch'), alt: "The word grid mid-game, crossed through with chalk lines as players work it out together" }}
-      builtLabel="Played"
-      caption="I drew the grid. The marks on it aren't mine - and that was always the point."
-    />
-
-    <div class="ls-body ls-body--wide">
-      <p>That's the whole truth about the systems I build: <b>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</b> An escape game, a design system, a platform: same principle.</p>
-    </div>
-
-    <p class="ls-claim ls-claim--big">The frame is mine.<br><b>The life is theirs.</b></p>
-  </section>
-
-  <!-- 04 COORDINATION -->
-  <section class="ls-chapter ls-reveal" aria-labelledby="ch-coordination">
-    <div class="card ls-dark">
-      <div class="ls-dark__inner">
-        <p class="ls-eyebrow ls-eyebrow--light"><span>{chap('ch-coordination')}</span></p>
-        <h2 class="ls-title" id="ch-coordination">The part nobody sees.</h2>
-        <div class="ls-body ls-body--light">
-          <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
-          <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <b>A production guide precise enough to be executed without me in the room</b> - then I handed the day itself to <a href="https://hera-et-harmonia.com/" target="_blank" rel="noopener noreferrer">Hera &amp; Harmonia<span class="sr-only"> (opens in a new tab)</span></a>, who ran it from the brief. <b>One page per zone, one owner per page. That's the whole method.</b></p>
-        </div>
-
-
-        <div class="ls-body ls-body--light">
-          <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
-        </div>
-
-        <figure class="ls-fig ls-fig--wide">
-          <Image src={img('coordination-embrace')} alt="Guests embracing at the event, the designer among them rather than running the day" layout="constrained" sizes="(min-width: 1080px) 1040px, 100vw" loading="lazy" decoding="async" />
-          <figcaption class="ls-cap ls-cap--light">Inside it, not behind it.</figcaption>
-        </figure>
-
-        <p class="ls-note ls-note--light">The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. It works in a repo. It works in a garden.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- CLOSING -->
-  {/* pas de titre a pointer ici, la chute est en <p> : d'ou l'aria-label */}
-  <section class="ls-closing ls-reveal" aria-label="In closing">
-    <p class="ls-closing__t">I don't just repeat a system.<br>I <em>version</em> it.</p>
-    <p class="ls-closing__b">This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. The pattern doesn't stop at the screen - and it doesn't stop at work either.</p>
-  </section>
-
-  <!-- CREDITS -->
-  <section class="ls-credits ls-reveal" aria-labelledby="ch-credits">
-    <h2 class="ls-credits__t" id="ch-credits">Credits</h2>
-    <p class="ls-credits__intro">Vision and execution directed by me, but everything else was operated by people far better than me at their own craft.</p>
-      <dl class="ls-credits__list">
-        {credits.map((c) => (
-          <div class="ls-credits__row">
-            {/* pas de set:html : le role est du texte brut, et set:html laisserait
-                passer un & nu la ou il faut &amp; */}
-            <dt>{c.role}</dt>
-            <dd>
-              {/*
-                Pas <ExternalLink> ici : ces neuf liens n'ont pas le glyphe de
-                sortie - neuf fleches dans un registre de credits feraient une
-                colonne de pictogrammes. Ils en reprennent en revanche la mention
-                sr-only, qui manquait : partout ailleurs sur le site un lien
-                sortant s'annonce, et rien ne justifiait que ceux-la se taisent.
-                Invisible a l'oeil - .sr-only fait 1px - donc `data-label`, qui
-                reserve la largeur du gras au survol, n'en est pas affecte.
-              */}
-              {c.href
-                ? <a href={c.href} target="_blank" rel="noopener noreferrer" data-label={c.nom}>{c.nom}<span class="sr-only"> (opens in a new tab)</span></a>
-                : <span class="ls-credits__self">{c.nom}</span>}
-            </dd>
-          </div>
-        ))}
-      </dl>
-  </section>
-
+  {/* une seule loupe pour toutes les series agrandissables de la page */}
+  <Loupe />
 
 </Base>
 
 <style is:global>
+  /* ═══ Ce qui est propre a l'etude Surfaces ═══ */
+
   /*
-    Regles propres a cette page : les formes de l'identite, les pastilles de
-    couleur, le specimen typographique, le faire-part, les grilles taillees
-    pour ce contenu. La charpente narrative vient de src/styles/case-study.css.
+    LA COMPOSITION. Sept colonnes et QUATRE rangees - les deux autres etudes en
+    ont cinq. La bande fine est VERTICALE ici (la quatrieme colonne, 8fr) au
+    lieu d'etre horizontale, et la carte du milieu traverse toute la hauteur.
+    Mesure a 1072 : 472x291, 363x535 et 472x241. Trois formes, pas trois
+    variantes d'un meme rectangle.
+
+    Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre 861
+    et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
+    hidden - les avale. Defaut mesure a l'etape 4, pas question de le refaire.
+
+    Au-dessus du point de rupture seulement : etude.css remet la composition
+    sur une colonne sous 860px, et cette declaration vit plus loin dans le
+    bundle - a specificite egale elle gagnerait, media query comprise.
   */
-  .ls-origin{margin-top:var(--sp-12)}
-  .ls-origin__body .ls-body{margin-top:var(--sp-06)}
-  .ls-thesis{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:var(--sp-15);align-items:center;margin:var(--sp-20) 0 clamp(72px,9vw,120px)}
-  .ls-thesis__fig{aspect-ratio:3/4}
-  .ls-signage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:var(--sp-15);align-items:center;margin-top:clamp(48px,6vw,84px)}
-  .ls-signage__figs{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-02)}
-  .ls-signage .ls-sub{margin-top:0}
-  .ls-system{grid-template-columns:1fr;--brand-display:"fino-sans",Georgia,serif;--brand-sans:"serenity",system-ui,sans-serif;
-      display:grid;gap:clamp(24px,4vw,48px);
-      margin-top:var(--sp-19);padding-top:var(--sp-12);border-top:1px solid var(--line)}
-  .ls-type{display:flex;align-items:baseline;gap:var(--sp-02);padding:14px 0;border-bottom:1px solid var(--line)}
-  .ls-type:first-of-type{border-top:1px solid var(--line)}
-  .ls-type__display{font-family:var(--brand-display);font-weight:700;font-size:clamp(38px,4.4vw,56px);line-height:.9;color:var(--ink)}
-  .ls-type__sans{font-family:var(--brand-sans);font-weight:500;font-size:clamp(34px,4vw,50px);line-height:.9;color:var(--ink)}
-  .ls-type__meta{min-width:0}
-  .ls-type__name{font-size:14px;font-weight:700;letter-spacing:.02em;color:var(--ink)}
-  .ls-type__use{margin-top:3px;font-size:13px;line-height:1.5;color:var(--ink-muted)}
-  .ls-gamehead{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:0 var(--sp-14);align-items:start}
-  .ls-gamehead__top{grid-column:1 / -1;margin-bottom:var(--sp-06)}
-  .ls-gamehead__body{margin-top:0;max-width:none}
-  .ls-gamehead__fig{margin:0}
-  .ls-gamehead__fig img{display:block;width:100%;height:auto;border-radius:var(--r-lg);border:var(--edge-w) solid var(--edge)}
-  .ls-idgrid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-15);align-items:start}
-  .ls-idgrid > *{min-width:0}
-  .ls-system > *{min-width:0}
-  .ls-idgrid__text > * + *{margin-top:var(--sp-03)}
-  .ls-idgrid .ls-head{max-width:none}
-  .ls-idgrid .ls-body,.ls-idgrid .ls-lede{max-width:none}
-  .ls-idgrid .ls-system{margin-top:0;padding-top:0;border-top:none}
-  .ls-shapes{--shape-a:#E84140;--shape-b:#FFE1C5;list-style:none;position:relative;height:clamp(240px,26vw,320px);margin:0;padding:0;touch-action:none}
-  [data-theme="mono"] .ls-shapes{--shape-a:#232320;--shape-b:#83827A}
-  [data-theme="contrast"] .ls-shapes{--shape-a:var(--accent-alt);--shape-b:var(--highlight)}
-  .ls-shape{position:absolute;left:var(--x);top:var(--y);display:flex;flex-direction:column;align-items:center;gap:10px;transform:rotate(var(--rot));cursor:grab;user-select:none;transition:transform .22s cubic-bezier(.22,1,.36,1)}
-  .ls-shape svg{width:clamp(72px,8.4vw,112px);height:clamp(72px,8.4vw,112px);display:block;overflow:visible}
-  .ls-shape svg :where(circle,path){fill:#070304;transition:fill .28s ease}
-  .ls-shape:hover svg :where(circle,path),.ls-shape.grabbing svg :where(circle,path){fill:var(--grad-ref)}
-  .ls-shape b{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted)}
-  .ls-shape:hover{transform:rotate(0deg) scale(1.06)}
-  .ls-shape.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.08);z-index:30}
-  .ls-shapes__note{margin-top:14px;font-size:13px;line-height:1.55;color:var(--ink-muted)}
-  .ls-print{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(20px,3.4vw,48px);align-items:center;margin:var(--sp-20) 0 0}
-  .ls-print__art,.ls-print__suite{margin:0;min-width:0}
-  .ls-print__frame{border-radius:var(--r-lg);overflow:hidden;background:var(--tile-red);line-height:0;border:var(--edge-w) solid var(--edge)}
-  .ls-print__frame img{width:100%;height:auto;display:block}
-  .ls-suite__stage{position:relative;aspect-ratio:4/3;background:none;border:none}
-  .ls-suite__frame{position:absolute;inset:0;margin:auto;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .9s ease}
-  .ls-suite__frame.is-on{opacity:1}
+  @media(min-width:861px){
+    .compo{grid-template-columns:20fr 12fr 20fr 8fr 26fr 14fr 18fr;
+      grid-template-rows:minmax(170px,auto) minmax(95px,auto)
+        minmax(120px,auto) minmax(75px,auto)}
+  }
+
+  /* ─── Les trois blocs du systeme : formes, couleurs, type ─── */
+  .pan .trois-blocs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:var(--rule-fine);background:var(--text);
+    border:var(--rule-fine) solid var(--text)}
+  .pan .bloc{background:var(--white);padding:28px 24px;display:flex;
+    flex-direction:column;gap:16px;min-width:0}
+  .pan .bloc__t{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase}
+  .pan .bloc .sw{gap:8px}
+  .pan .bloc .cap{margin-top:auto}
+
+  /*
+    ─── Les trois decoupes ───
+    DEPLACABLES AU-DELA DE 900px, et c'est le geste du brief : on les pose sur
+    la table, on les tourne, on regarde ce qu'elles donnent ensemble. En
+    dessous elles redeviennent un rang fixe - un glisser y volerait le
+    defilement tactile, et rendreDeplacable() est appele avec ce seuil.
+    Pas de degrade ici, contrairement a l'ancienne page : le gabarit n'en a
+    aucun, et un aplat franc par forme dit la meme chose dans sa langue.
+  */
+  .pan .formes{list-style:none;position:relative;height:230px;margin:0;padding:0;
+    touch-action:none}
+  .pan .forme{position:absolute;left:var(--x);top:var(--y);display:flex;
+    flex-direction:column;align-items:center;gap:10px;
+    transform:rotate(var(--rot));cursor:grab;user-select:none;
+    transition:transform .22s cubic-bezier(.22,1,.36,1)}
+  .pan .forme svg{width:82px;height:82px;display:block;overflow:visible}
+  .pan .forme svg :is(circle,path){fill:var(--text);transition:fill .28s ease}
+  .pan .forme:nth-child(1):hover svg :is(circle,path),
+  .pan .forme:nth-child(1).grabbing svg :is(circle,path){fill:var(--red)}
+  .pan .forme:nth-child(2):hover svg :is(circle,path),
+  .pan .forme:nth-child(2).grabbing svg :is(circle,path){fill:var(--blue)}
+  .pan .forme:nth-child(3):hover svg :is(circle,path),
+  .pan .forme:nth-child(3).grabbing svg :is(circle,path){fill:var(--yellow)}
+  .pan .forme b{font-size:11px;font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-muted)}
+  .pan .forme:hover{transform:rotate(0deg) scale(1.06)}
+  .pan .forme.grabbing{cursor:grabbing;transform:rotate(0deg) scale(1.08);z-index:30}
+
+  /*
+    ─── Le specimen typographique ───
+    Les deux polices du projet, servies par le kit Adobe (brandFonts dans
+    <Base>). Ce sont les SEULES polices tierces du site, et elles ne se
+    chargent que sur cette page.
+  */
+  .pan .spec{--brand-display:"fino-sans",Georgia,serif;
+    --brand-sans:"serenity",system-ui,sans-serif;
+    display:flex;align-items:baseline;gap:16px;padding:14px 0;
+    border-top:var(--rule-fine) solid var(--text)}
+  .pan .spec__display{margin:0;font-family:var(--brand-display);font-weight:700;
+    font-size:44px;line-height:.9}
+  .pan .spec__sans{margin:0;font-family:var(--brand-sans);font-weight:500;
+    font-size:40px;line-height:.9}
+  .pan .spec__meta{min-width:0}
+  .pan .spec__nom{margin:0;font-size:14px;font-weight:700}
+  .pan .spec__usage{margin:3px 0 0;font-size:13px;line-height:1.5;
+    color:var(--ink-muted)}
+
+  /*
+    ─── La suite d'invitation qui se deplie ───
+    Trois etats au MEME endroit, en fondu. Trois vignettes cote a cote
+    auraient montre trois photos ; le fondu montre un objet qu'on deplie.
+  */
+  .pan .suite{position:relative}
+  .pan .suite .suite__etat{position:absolute;inset:0;width:100%;height:100%;
+    object-fit:contain;opacity:0;transition:opacity .9s ease}
+  .pan .suite .suite__etat.is-on{opacity:1}
+
+  /* ─── Les neuf credits ─── */
+  .pan .credits{margin:0;display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px 28px}
+  .pan .credits__ligne{display:flex;flex-direction:column;gap:5px;min-width:0}
+  .pan .credits__ligne dt{font-size:11px;font-weight:700;letter-spacing:.14em;
+    text-transform:uppercase;color:var(--ink-muted)}
+  .pan .credits__ligne dd{margin:0;font-size:16px;line-height:1.3}
+  .pan .credits__ligne a{text-decoration:none;font-weight:500;color:var(--text);
+    border-bottom:var(--rule-fine) solid var(--blue);transition:font-weight .2s}
+  /* ::after reserve la largeur du gras : sans lui, le survol ferait sauter la
+     mise en page de toute la colonne. */
+  .pan .credits__ligne a::after{content:attr(data-label);display:block;height:0;
+    overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
+  .pan .credits__ligne a:hover{font-weight:700}
+  .pan .credits__moi{font-weight:700}
+
+  @media(max-width:860px){
+    .pan .trois-blocs{grid-template-columns:1fr}
+    /* Les formes redeviennent un rang : plus de glisser, plus de position
+       absolue - en dessous de ce seuil le geste volerait le defilement. */
+    .pan .formes{height:auto;display:flex;gap:28px;touch-action:auto;
+      padding:4px 0 0;flex-wrap:wrap}
+    .pan .forme{position:static;cursor:default;transform:none}
+    .pan .forme:hover,.pan .forme.grabbing{transform:none}
+    .pan .spec__display{font-size:38px}
+    .pan .spec__sans{font-size:34px}
+  }
+
   @media(prefers-reduced-motion:reduce){
-    .ls-suite__frame{transition:none}
-  }
-  .ls-credits{margin:0 0 clamp(56px,7vw,96px);padding-top:var(--sp-16);border-top:1px solid var(--line)}
-  .ls-credits__t{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--accent-alt);font-family:var(--body)}
-  .ls-credits__intro{margin-top:14px;max-width:56ch;font-size:clamp(15px,1.5vw,17px);line-height:1.6;color:var(--ink-soft)}
-  .ls-credits__list{margin:var(--sp-12) 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:var(--sp-06) var(--sp-14)}
-  .ls-credits__row{display:flex;flex-direction:column;gap:5px}
-  .ls-credits__row dt{font-size:11px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-muted)}
-  .ls-credits__row dd{margin:0;font-size:16px;line-height:1.3}
-  .ls-credits__row a{position:relative;text-decoration:none;font-weight:500;color:var(--ink);transition:color .28s ease}
-  .ls-credits__row a::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
-  .ls-credits__row a:hover{font-weight:700}
-  .ls-credits__self{font-weight:700;color:var(--ink)}
-  @media(max-width:560px){
-    .ls-credits__row{flex-direction:column;align-items:flex-start;gap:4px}
-    .ls-credits__row dd{text-align:left}
-  }
-  @media(max-width:900px){
-    .ls-thesis{grid-template-columns:1fr;gap:var(--sp-09)}
-    .ls-thesis__fig{aspect-ratio:4/3}
-    .ls-system{grid-template-columns:1fr;gap:clamp(28px,5vw,40px)}
-    .ls-shapes{height:auto;display:flex;align-items:flex-start;justify-content:flex-start;gap:clamp(28px,5vw,56px);touch-action:auto;padding:4px 0 0}
-    .ls-shape{position:static;cursor:default;transform:none}
-    .ls-shape:hover,.ls-shape.grabbing{transform:none}
-    .ls-print{grid-template-columns:1fr;gap:var(--sp-08)}
-    .ls-idgrid{grid-template-columns:1fr;gap:clamp(24px,4vw,36px)}
-    .ls-gamehead{grid-template-columns:1fr;gap:var(--sp-08)}
-    .ls-gamehead__top{margin-bottom:0}
-    .ls-origin{grid-template-columns:1fr;gap:var(--sp-09)}
-    .ls-signage{grid-template-columns:1fr;gap:var(--sp-08)}
-    .ls-signage__figs{display:flex;overflow-x:auto;scroll-snap-type:x proximity;touch-action:pan-x;
-        gap:14px;padding-bottom:8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
-        margin-right:calc(-1 * var(--sp-03))}
-    .ls-signage__figs::-webkit-scrollbar{display:none}
-    .ls-signage__figs > figure{flex:0 0 78%;scroll-snap-align:start}
-    .ls-signage__figs > figure:last-child{flex-basis:70%}
-  }
-  @media(max-width:560px){
-    .ls-shapes{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;touch-action:pan-x;
-        gap:clamp(24px,8vw,44px);padding:4px 0 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-    .ls-shapes::-webkit-scrollbar{display:none}
-    .ls-shape{flex:0 0 auto;scroll-snap-align:center}
-    .ls-shape svg{width:96px;height:96px}
+    .pan .suite .suite__etat{transition:none}
   }
 </style>
 
 <script>
-  import { revealAll } from '../scripts/reveal';
+  import { initDossier } from '../scripts/dossier';
+  import { initLoupe } from '../scripts/loupe';
+  import { suivreCadres } from '../scripts/vues';
   import { fonduEnchaine } from '../scripts/crossfade';
   import { rendreDeplacable } from '../scripts/drag';
 
-  revealAll('.ls-reveal', { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+  initDossier();
+  initLoupe();
+  suivreCadres();
 
-  const stage = document.querySelector<HTMLElement>('.ls-suite__stage');
-  if (stage) fonduEnchaine(stage, '.ls-suite__frame', 2200);
+  /* La suite d'invitation : trois etats, 2,2s chacun. */
+  const scene = document.querySelector<HTMLElement>('.suite');
+  if (scene) fonduEnchaine(scene, '.suite__etat', 2200);
 
-  rendreDeplacable('.ls-shape', '(max-width:900px)');
-  /* le carrousel des surfaces s'amorce lui-meme, dans <Carousel> */
+  /* Les trois decoupes, deplacables seulement au-dela du palier mobile. */
+  rendreDeplacable('.forme', '(max-width:860px)');
 </script>

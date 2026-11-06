@@ -80,6 +80,30 @@ export default defineConfig({
           "'self'",
           'https://use.typekit.net',
           /*
+            p.typekit.net EST LE MOUCHARD D'USAGE D'ADOBE, PAS LES POLICES.
+
+            La feuille du kit en appelle une seconde, p.typekit.net/p.css, qui
+            sert a Adobe a compter les pages vues. Elle etait bloquee, et la
+            console de /system-event affichait une violation a chaque visite ;
+            les deux familles du specimen - fino-sans et serenity - se
+            chargeaient quand meme, le blocage ne coutait rien a l'affichage.
+
+            L'hote est ouvert pour faire taire cette erreur et rendre au kit le
+            comptage que sa licence attend. C'est le SEUL tiers a recevoir une
+            requete depuis ce site.
+
+            LA PERMISSION EST GLOBALE, LA REQUETE NE L'EST PAS. Astro ecrit la
+            meme politique dans les sept pages, donc l'hote y est autorise
+            partout ; mais seule /system-event charge le kit, et elle seule
+            appelle donc p.typekit.net. Les six autres n'emettent aucune
+            requete tierce.
+
+            Le jour ou ce specimen part, les trois mentions de typekit partent
+            avec lui : ici, dans font-src, et le <link> conditionnel de
+            Base.astro.
+          */
+          'https://p.typekit.net',
+          /*
             Le projet pose des variables CSS dans des attributs style= (par
             exemple --culture-size sur les banniere). Une empreinte ne peut pas
             couvrir un attribut, il faut 'unsafe-inline'. `kind: "attribute"` le

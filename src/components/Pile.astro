@@ -1,0 +1,73 @@
+---
+/*
+  LES SEPT SURFACES D'UN CONCEPT, EN PILE QUI TOURNE.
+
+  Les deux concepts du rebranding de 2020 ont ete produits surface par surface :
+  le deck (couverture, section, contenu), l'email et sa variation de service,
+  puis les deux posts sociaux. C'est la COMPARAISON qui porte le propos, pas une
+  planche prise seule - d'ou deux piles cote a cote, meme ordre des deux cotes,
+  pour qu'on passe de l'une a l'autre a la meme surface. On descend du support le
+  plus institutionnel au plus quotidien.
+
+  POURQUOI UNE PILE ET NON SEPT VIGNETTES. Sept planches par colonne font
+  largement plus d'une hauteur d'ecran, et la comparaison ne tient que si les
+  deux colonnes montrent la MEME surface au MEME moment - ce qu'une suite qu'on
+  fait defiler ne garantit jamais. La pile tient les sept au meme endroit et les
+  presente dans le meme ordre des deux cotes.
+
+  --base est le cote de la COLONNE : chaque pile fait venir ses planches de son
+  propre bord de page, donc elles semblent arriver du dehors.
+
+  SOUS 860px LA PILE SE DEPLIE EN COLONNE, et le script ne tourne pas : voir
+  src/scripts/pile.ts. Rien n'est perdu, les sept planches sont dans le HTML.
+*/
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+export interface Planche {
+  src: ImageMetadata;
+  legende: string;
+  alt: string;
+}
+
+export interface Props {
+  /** intitule de la serie, pour les lecteurs d'ecran */
+  label: string;
+  planches: Planche[];
+  /** cote d'entree : -1 depuis la gauche, 1 depuis la droite */
+  base?: -1 | 1;
+  /** rapport de la boite commune aux sept planches */
+  ratio?: string;
+  sizes?: string;
+}
+const {
+  label, planches, base = -1, ratio = '4 / 3',
+  sizes = '(min-width: 900px) 480px, 92vw',
+} = Astro.props;
+---
+<div class="pile-cadre">
+  <ol class="pilep" style={`--base:${base};aspect-ratio:${ratio}`} aria-label={label}>
+    {planches.map((pl, i) => (
+      /* --alt inverse une planche sur deux ; il ne sert qu'en colonne unique,
+         ou c'est la seule facon de garder de l'alternance */
+      <li class="pilep__carte" style={`--alt:${i % 2 ? -1 : 1}`}>
+        {/*
+          DEUX ETAGES, ET C'EST CE QUI FAIT L'ARC. La carte porte le deplacement
+          HORIZONTAL, cet element-ci porte le vertical, l'inclinaison et
+          l'echelle. Sur un seul element les deux axes partageraient la meme
+          transition - `transform` est une seule propriete - donc ils
+          s'interpoleraient ensemble et le trajet serait une DIAGONALE DROITE.
+          Separes, chacun suit sa courbe : l'horizontale decelere tot pendant que
+          la verticale s'attarde en bas, puis remonte vite sur la fin. C'est ce
+          decalage qui creuse la trajectoire.
+        */}
+        <div class="pilep__pose">
+          <figure class="pilep__fig">
+            <Image src={pl.src} alt={pl.alt} sizes={sizes} loading="lazy" decoding="async" />
+            <figcaption class="cap">{pl.legende}</figcaption>
+          </figure>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>

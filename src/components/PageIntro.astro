@@ -5,9 +5,11 @@
   `id="intro"` est conserve sur les 5 pages qui l'avaient - il reste la cible de
   liens existants. Le lien d'evitement, lui, vise desormais #main (etape 2).
 
-  Note de hierarchie : le <h1> est ici l'element visuellement le plus petit de la
-  page (12px, capitales), tandis que le texte dominant est un <p>. C'est un ecart
-  assume entre hierarchie semantique et hierarchie visuelle, pas un oubli.
+  L'EYEBROW N'EST PLUS LE <h1>. Il l'a ete, et c'etait un ecart assume : un h1
+  de 12px en capitales pendant que le titre de la banniere, a 48px, n'etait
+  qu'un <p>. Le redesign met le vrai titre dans le hero (<Hero>), qui porte
+  desormais le h1 ; cet eyebrow redevient ce qu'il est, un surtitre. Le texte
+  ne bouge pas, seule la balise change.
 */
 export interface Props {
   /** texte du <h1>, rendu en petites capitales accentuees */
@@ -16,6 +18,6 @@ export interface Props {
 const { eyebrow } = Astro.props;
 ---
 <div class="p-intro" id="intro">
-  <h1 class="p-eyebrow">{eyebrow}</h1>
+  <p class="p-eyebrow">{eyebrow}</p>
   <slot />
 </div>

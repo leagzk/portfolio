@@ -1,11 +1,56 @@
 /* Keyframes partagees.
-   tilePulse est consommee par .banner__pepper (chrome global, toutes les pages)
-   ET par .osbridge__* (accueil) : la descendre dans index casserait l'animation
-   du piment ailleurs, sans erreur visible. */
+   tilePulse est consommee par .dcard--photo (accueil) ET par .osbridge__*
+   (accueil) : elle servait aussi a .banner__pepper, disparu avec le selecteur
+   de themes.
+   pepperIn et ringPulse n'animaient que le piment et son anneau dans le
+   loader ; la photo les a remplaces (BRIEF §3.1) et elles sont tombees. */
 
 @keyframes circleIn{to{transform:scale(1)}}
-@keyframes pepperIn{60%{transform:scale(1.16) rotate(7deg)}to{transform:scale(1) rotate(0deg)}}
-@keyframes ringPulse{0%{transform:scale(.72);opacity:.75}100%{transform:scale(1.9);opacity:0}}
 @keyframes appIn{to{opacity:1}}
 @keyframes tilePulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.4);opacity:0}}
 @keyframes stickIn{0%{opacity:0;transform:rotate(var(--rot)) scale(.4)}60%{opacity:1;transform:rotate(var(--rot)) scale(1.06)}100%{opacity:1;transform:rotate(var(--rot)) scale(1)}}
+
+/*
+  ═══ Construction d'une composition Mondrian (BRIEF §4.1) ═══
+
+  Ces regles sont GENERIQUES et servent a toutes les compositions du site -
+  celle de l'accueil, celle de chaque etude de cas. Elles vivaient dans le
+  <style is:global> de index.astro, ou la deuxieme composition n'y avait pas
+  acces : les filets sont poses par src/scripts/grille.ts, qui tourne sur
+  n'importe quel [data-grille], mais les segments qu'il cree n'avaient de style
+  que sur l'accueil.
+
+  Ce qui reste propre a chaque page : les selecteurs .attend / .vu, qui nomment
+  les elements a decaler, et la classe `pre` qui blanchit le fond de SA grille.
+  Le script decide QUAND, la feuille decide QUOI.
+*/
+.segs{position:absolute;inset:0;z-index:6;pointer-events:none}
+.seg{position:absolute;background:var(--text)}
+/*
+  UNE COURBE DE TRACE, PAS UN RESSORT. cubic-bezier(.16,1,.3,1) arrive a 90% de
+  sa course dans le premier tiers : le filet claquait en place. Un trait qu'on
+  tire part doucement, tient sa vitesse, et s'arrete net - c'est ce que decrit
+  (.4,0,.2,1), et c'est ce qui le fait lire comme un TRACE.
+
+  0,5s et non 1,1 : avec un etalement de 2,4s, une duree longue faisait se
+  chevaucher tous les filets et l'ensemble apparaissait d'un bloc. Court, le
+  front reste fin - quelques filets en train de se faire, et le reste qui
+  attend son tour. Voir les constantes de src/scripts/grille.ts.
+*/
+.seg--v{transform-origin:top;animation:traitV .5s cubic-bezier(.4,0,.2,1) both}
+.seg--h{transform-origin:left;animation:traitH .5s cubic-bezier(.4,0,.2,1) both}
+@keyframes traitV{from{transform:scaleY(0)}}
+@keyframes traitH{from{transform:scaleX(0)}}
+/*
+  L'APLAT POUSSE depuis le coin que son transform-origin designe - c'est la
+  couleur qui ENTRE dans la case, pas la case qui s'allume. Le texte, lui,
+  apparait en fondu : --retard est pose par le script, case par case, donc les
+  deux suivent le trace au lieu d'arriver ensemble.
+
+  Le fondu ne monte plus que de 4px. A 8 il se lisait comme un deplacement, et
+  trois mouvements differents se superposaient dans la meme case - le filet qui
+  se trace, la couleur qui pousse, le texte qui monte. Le texte se contente
+  desormais d'apparaitre.
+*/
+@keyframes pousse{from{transform:scale(0)}}
+@keyframes monte{from{opacity:0;transform:translateY(4px)}}

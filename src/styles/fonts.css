@@ -13,7 +13,8 @@
      stricte.
   3. Deux allers-retours DNS + TLS economises au premier rendu.
 
-  Maven Pro est une fonte variable : UN fichier couvre 400 a 700, d'ou le
+  Les deux sont des fontes variables : UN fichier couvre 400 a 700 pour Maven
+  Pro, 100 a 900 pour Hanken Grotesk, d'ou le
   `font-weight: 400 700` plutot que quatre declarations. Ne pas le remplacer par
   des graisses statiques, ce serait quatre telechargements pour le meme resultat.
 
@@ -25,7 +26,7 @@
   Fichiers dans public/fonts/. Regenerer depuis l'API css2 de Google si une
   graisse ou un sous-ensemble manque, et garder les deux en accord.
 
-  Licences : Maven Pro et Momo Trust Display sont sous SIL Open Font License,
+  Licences : Maven Pro et Hanken Grotesk sont sous SIL Open Font License,
   qui autorise explicitement l'hebergement sur son propre serveur.
 */
 
@@ -49,22 +50,36 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
-/* Momo Trust Display — latin-ext */
+/*
+  Hanken Grotesk — la display, en remplacement de Momo Trust Display.
+
+  Momo Trust n'existait qu'en graisse 400. L'echelle du redesign demande du 900
+  sur tous les titres (hero 68px, sections 30px, lead 34px), et reclamer a un
+  navigateur une graisse absente lui fait fabriquer un faux gras - c'est la
+  raison pour laquelle ce projet s'interdisait <b> dans les titres. Hanken
+  couvre 100 a 900 dans UN fichier variable, donc l'interdit tombe avec elle.
+
+  Les fichiers MomoTrustDisplay-*.woff2 restent dans public/fonts/ : plus rien
+  ne les charge, mais rien n'a encore ete supprime du repo. A retirer sur
+  decision explicite.
+*/
+
+/* Hanken Grotesk — latin-ext */
 @font-face {
-  font-family: 'Momo Trust Display';
+  font-family: 'Hanken Grotesk';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/MomoTrustDisplay-latin-ext.woff2') format('woff2');
+  src: url('/fonts/HankenGrotesk-latin-ext.woff2') format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-/* Momo Trust Display — latin */
+/* Hanken Grotesk — latin */
 @font-face {
-  font-family: 'Momo Trust Display';
+  font-family: 'Hanken Grotesk';
   font-style: normal;
-  font-weight: 400;
+  font-weight: 100 900;
   font-display: swap;
-  src: url('/fonts/MomoTrustDisplay-latin.woff2') format('woff2');
+  src: url('/fonts/HankenGrotesk-latin.woff2') format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }

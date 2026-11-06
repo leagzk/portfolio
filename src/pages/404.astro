@@ -1,16 +1,15 @@
 ---
 import Base from '../layouts/Base.astro';
 import PageIntro from '../components/PageIntro.astro';
-import Banner from '../components/Banner.astro';
+import Hero from '../components/Hero.astro';
 ---
 <Base title="Page not found - Léa Giezek"
   description="This page doesn't exist - or doesn't exist yet. Head back to the home page."
   noindex>
 
+  <Hero filigrane="404">Nothing here.<br />Not yet, anyway.</Hero>
+
   <div class="card">
-    <Banner>
-      <p class="banner__standards">Nothing here.<br>Not yet, anyway.</p>
-    </Banner>
     <PageIntro eyebrow="404">
       <p class="p-intro__lead">
         The page you were after has moved, or was never written.

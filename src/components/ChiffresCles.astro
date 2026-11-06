@@ -1,0 +1,45 @@
+---
+/*
+  Les chiffres cles d'une etude de cas (BRIEF §5.2).
+
+  Quatre colonnes separees par des filets VERTICAUX, et c'est tout le propos du
+  dispositif : les filets ne touchent pas le hero au-dessus et descendent
+  jusqu'au cadre de la composition en dessous. Ils relient les deux, la ou une
+  rangee de cartes aurait fait un bloc de plus.
+
+  Le CSS est dans src/styles/etude.css, avec le reste du gabarit : la page
+  l'importe deja, et un <style> scope ici ne traverserait pas la frontiere du
+  slot de toute facon.
+
+  QUATRE, PAS N. La grille est ecrite en quatre colonnes et le passage a deux
+  colonnes sous 860px suppose un nombre pair ; une cinquieme entree casserait
+  les deux. Le garde est au build plutot qu'a l'oeil.
+*/
+export interface Chiffre {
+  /** le nombre, tel qu'il s'ecrit : « 2,500 », « 200+ », « 1 » */
+  nombre: string;
+  /** ce que le nombre compte - une phrase nominale, sans verbe */
+  quoi: string;
+  /** la ligne de contexte, qui dit ce que le chiffre vaut */
+  contexte: string;
+}
+
+export interface Props {
+  chiffres: Chiffre[];
+  /** intitule du groupe pour les lecteurs d'ecran */
+  label?: string;
+}
+const { chiffres, label = 'Proof points' } = Astro.props;
+if (chiffres.length !== 4) {
+  throw new Error(`<ChiffresCles> attend exactement 4 chiffres, reçu ${chiffres.length}`);
+}
+---
+<section class="cles" aria-label={label}>
+  {chiffres.map((c) => (
+    <div class="cles__col">
+      <span class="cles__nb">{c.nombre}</span>
+      <span class="cles__quoi">{c.quoi}</span>
+      <span class="cles__ctx">{c.contexte}</span>
+    </div>
+  ))}
+</section>

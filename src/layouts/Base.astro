@@ -4,13 +4,13 @@ import '../styles/tokens.css';
 import '../styles/reset.css';
 import '../styles/motion.css';
 import '../styles/shared.css';
+import Icone from '../components/Icone.astro';
+import { CV_HREF, CV_POIDS } from '../lib/cv';
 
 export interface Props {
   title: string;
   /** resume de la page : meta description + Open Graph. ~155 caracteres. */
   description: string;
-  /** cle de l'entree de nav active : philosophy | operating-system | system-practice-elements | system-brand | system-event */
-  current?: string;
   /** ecran de chargement, reserve a la page d'accueil */
   loader?: boolean;
   /** page tenue hors des moteurs de recherche (brouillons) */
@@ -27,7 +27,6 @@ export interface Props {
 const {
   title,
   description,
-  current,
   loader = false,
   noindex = false,
   ogImage = '/og-default.png',
@@ -52,72 +51,42 @@ const personSchema = {
 };
 
 /*
-  Toutes les pages redigees figurent desormais dans la nav : il n'y a plus de
-  brouillon tenu hors du menu.
+  LA NAVIGATION A DEMENAGE DANS <Hero>. Le brief la pose dans la bande noire
+  (§2.1) : il n'y a plus de barre collante, plus de dock fixe, plus de menu
+  deroulant. Les entrees sont declarees dans src/lib/nav.ts, et chaque page
+  passe sa cle `courant` au Hero plutot qu'a ce layout.
 
-  Trois d'entre elles gardent leur `noindex` et restent filtrees du sitemap dans
+  Ce qui reste ici : le <head>, le lien d'evitement, le loader, le <main> et le
+  pied de page - ce qui est vraiment commun aux sept pages.
+
+  Trois pages gardent leur `noindex` et restent filtrees du sitemap dans
   astro.config.mjs - operating-system, system-practice-elements et system-brand.
   Elles sont donc visibles pour qui parcourt le site, invisibles pour les
-  moteurs. Le lien permet de les faire lire ; le noindex evite qu'elles soient
-  indexees dans leur etat actuel : le texte est complet, les visuels non.
-  Les deux se retirent EN MEME TEMPS le jour ou une page est jugee publiable -
-  l'attribut dans la page, et l'entree dans le filtre du sitemap. Lever l'un
-  sans l'autre remet les deux reglages en contradiction.
-
-  L'ordre de « Selected work » est chronologique a l'envers : la pratique
-  d'abord, la marque ensuite, le moment pour finir. Il suit celui des cartes de
-  l'accueil, et les deux doivent le rester - c'est la meme serie, lue deux fois.
+  moteurs. Les deux se retirent EN MEME TEMPS le jour ou une page est jugee
+  publiable : l'attribut dans la page, et l'entree dans le filtre du sitemap.
 */
-const main = [
-  { key: 'philosophy', href: '/philosophy', label: 'Philosophy' },
-  { key: 'operating-system', href: '/operating-system', label: 'Operating System' },
-];
-const work = [
-  { key: 'system-practice-elements', href: '/system-practice-elements', label: 'Systematize a Practice' },
-  { key: 'system-brand', href: '/system-brand', label: 'Systematize a Brand' },
-  { key: 'system-event', href: '/system-event', label: 'Systematize a Moment' },
-];
-/*
-  La page courante est-elle une des entrees de « Selected work » ? Sur une page
-  de case study, la marque de position vivait dans le menu deroulant - donc
-  invisible tant qu'on ne l'ouvrait pas, et la nav fermee ne disait plus ou on
-  se trouvait. Le declencheur la porte desormais.
-  Un drapeau et pas un aria-current : le bouton n'ouvre pas une page, c'est le
-  lien du menu qui est la page courante et qui garde la semantique. Deux marques
-  « courant » dans le meme groupe se liraient deux fois a l'oreille.
-*/
-const workCourant = work.some((i) => i.key === current);
 ---
 <!DOCTYPE html>
-<html lang="en" data-theme="spicy">
+<html lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <!--
-  Seul script qui doit rester inline ET dans le <head>. Deux raisons :
+  Seul script qui doit rester inline ET dans le <head>. Il pose la classe .js,
+  dont dependent .js .drag .dcard, .js .tenet et .js .ls-reveal (opacity:0 en
+  attente de leur animation d'entree). Posee trop tard, le contenu apparait
+  puis disparait pour se re-animer.
 
-  1. Il restaure le theme choisi avant le premier rendu. Place plus bas, le
-     visiteur verrait le theme par defaut clignoter avant le sien.
-  2. Il pose la classe .js, dont dependent .js .drag .dcard, .js .tenet et
-     .js .ls-reveal (opacity:0 en attente de leur animation d'entree). Pose
-     trop tard, le contenu apparait puis disparait pour se re-animer.
+  Un <script> bundle par Astro serait type="module", donc differe : trop tard.
+  Garder ce bloc court et sans import.
 
-  Un <script> bundle par Astro serait type="module", donc differe : trop tard
-  dans les deux cas. Garder ce bloc court et sans import.
+  Il restaurait aussi le theme choisi depuis localStorage avant le premier
+  rendu. Le redesign n'a plus qu'un seul jeu de valeurs (voir tokens.css) : la
+  lecture du stockage est tombee avec le selecteur.
 -->
 <script is:inline>
 (function () {
-  var root = document.documentElement;
-  root.classList.add('js');
-  try {
-    var saved = localStorage.getItem('theme');
-    // liste blanche : ne jamais ecrire dans le DOM une valeur brute du stockage
-    if (saved === 'spicy' || saved === 'contrast' || saved === 'mono') {
-      root.setAttribute('data-theme', saved);
-    }
-  } catch (e) {
-    /* navigation privee ou stockage refuse : on garde le theme par defaut */
-  }
+  document.documentElement.classList.add('js');
 })();
 </script>
 <title>{title}</title>
@@ -133,16 +102,34 @@ const workCourant = work.some((i) => i.key === current);
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={ogImageUrl} />
 <meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+{/* 627 et non 630 : c'est la hauteur reelle du fichier (BRIEF §9). Une hauteur
+    declaree fausse fait recadrer la vignette par certains clients. */}
+<meta property="og:image:height" content="627" />
+<meta property="og:image:alt" content="Design systems ship standards. Experience systems grow culture. - Léa Giezek" />
 <meta property="og:locale" content="en_GB" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />
 
+<!--
+  TROIS DECLARATIONS, ET CHACUNE SERT A QUELQU'UN. Le SVG est le favicon reel -
+  net a toutes les tailles, et il porte sa variante pour les onglets sombres
+  (BRIEF §10). Le .ico est le repli des navigateurs qui ignorent le SVG, et le
+  seul format que Windows accepte pour un raccourci ; il contient le 16 et le
+  32. Le PNG de 32 sert aux agregateurs et aux applications qui refusent l'ico.
+
+  L'ORDRE COMPTE : un navigateur qui comprend le SVG prend la derniere
+  declaration qu'il sait lire, donc le SVG vient APRES l'ico.
+
+  Les cinq fichiers sont fabriques par « npm run identite » - voir
+  scripts/identite.mjs. Ne pas les retoucher a la main : ils se refont.
+-->
+<link rel="icon" href="/favicon.ico" sizes="32x32" />
+<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-<meta name="theme-color" content="#E84140" />
+<meta name="theme-color" content="#0A0708" />
 
 <!--
   Les deux polices du site sont servies par notre domaine (src/styles/fonts.css).
@@ -152,7 +139,7 @@ const workCourant = work.some((i) => i.key === current);
   system-ui. Ne pas y ajouter latin-ext, que la plupart des pages ne touchent
   jamais - ce serait 40 Ko preleves sur le chemin critique pour rien.
 -->
-<link rel="preload" href="/fonts/MomoTrustDisplay-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/fonts/HankenGrotesk-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="/fonts/MavenPro-latin.woff2" as="font" type="font/woff2" crossorigin />
 
 {/*
@@ -181,76 +168,39 @@ const workCourant = work.some((i) => i.key === current);
   ce qui annulait sa raison d'etre.
 -->
 <a class="sr-only" href="#main">Skip to content</a>
-{loader && <div class="loader" id="loader" aria-hidden="true"><div class="loader__panel"></div><div class="loader__fly" id="fly"><span class="loader__ring"></span><span class="loader__circle"><span class="loader__pepper">&#127798;</span></span></div></div>}
-<div class:list={['app', loader && 'app--reveal']}>
-<div class="mobbar" id="mobbar" aria-hidden="true"></div>
-<header class="topdock">
-  <div class="topdock__inner">
-    <button class="hamb" id="hamb" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-    <div class="pepperegg" id="pepperegg">
-      <div class="pepperegg__sw" id="themesw" role="group" aria-label="Colour theme">
-        <button class="swatch sw-spicy" data-set="spicy" aria-pressed="true" aria-label="Spicy theme"></button>
-        <button class="swatch sw-contrast" data-set="contrast" aria-pressed="false" aria-label="Mondrian theme"></button>
-        <button class="swatch sw-mono" data-set="mono" aria-pressed="false" aria-label="Mono theme"></button>
-      </div>
-      <button class="banner__pepper" id="pepperbtn" aria-label="Colour theme" aria-controls="themesw" aria-expanded="false">🌶️</button>
+{loader && (
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__panel"></div>
+    {/*
+      LE TRAIT VIT HORS DE .loader__fly, et il le faut : il traverse l'ecran
+      entier, alors que .loader__fly se met a l'echelle du portrait au moment
+      du vol. Dedans, il aurait retreci avec la photo.
+      Les trois carres sont poses DESSUS, aux endroits que le trait atteint en
+      s'ouvrant - jamais au centre, ou la photo les couvrirait.
+    */}
+    <div class="loader__trait" id="trait" aria-hidden="true">
+      <span class="loader__carre loader__carre--rouge"></span>
+      <span class="loader__carre loader__carre--bleu"></span>
+      <span class="loader__carre loader__carre--jaune"></span>
+    </div>
+    <div class="loader__fly" id="fly">
+      {/*
+        L'ANNEAU EST UN TRACE, PAS UNE PULSATION. Un <svg> et non une bordure :
+        seul un trace peut se dessiner, et c'est le geste de tout le site - les
+        filets de la composition se tracent, ils n'apparaissent pas.
+        pathLength="1" normalise la longueur du cercle a 1, ce qui rend le
+        dasharray independant du rayon : si le portrait change de taille, le
+        trace reste juste.
+      */}
+      <svg class="loader__anneau" id="anneau" viewBox="0 0 100 100" aria-hidden="true">
+        <circle cx="50" cy="50" r="49" pathLength="1" />
+      </svg>
+      <span class="loader__circle"></span>
     </div>
   </div>
-</header>
+)}
+<div class:list={['app', loader && 'app--reveal']}>
 <div class="shell">
-
-  <nav class="topnav" aria-label="Primary">
-    {main.map(i => <a href={i.href} data-label={i.label} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-    <div class="navgroup">
-      <button class="navgroup__trigger" id="worktrigger" data-current={workCourant ? 'true' : undefined} aria-expanded="false" aria-controls="workmenu"><span class="navgroup__label" data-label="Selected work">Selected work</span><svg class="navgroup__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></button>
-      <div class="navgroup__menu" id="workmenu" role="group" aria-labelledby="worktrigger">
-        {work.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-      </div>
-    </div>
-    <a href="#connect" data-label="Connect">Connect</a>
-  </nav>
-
-  {/*
-    Le menu mobile reprend la structure de la nav de bureau plutot que d'aplatir
-    ses six liens en une seule liste : « Selected work » y est un groupe, il doit
-    le rester ici. Les trois recits sont donc annonces par leur surtitre et
-    tenus entre deux filets - la meme lecture que sous le menu deroulant, sans
-    avoir a deplier quoi que ce soit.
-
-    « Let's talk » plutot que « Connect », et suivi des trois memes boutons que
-    le pied de page : depuis un telephone, la moitie des visites s'arrete a
-    « comment vous joindre » - autant y repondre dans le menu plutot que de
-    renvoyer vers un ancrage en bas de page.
-  */}
-  <nav class="mobmenu" id="mobmenu" aria-hidden="true" aria-label="Menu">
-    <button class="mobmenu__close" id="mobclose" aria-label="Close menu">&#10005;</button>
-    {/* Sous 720px, .banner__home est masque et la nav n'avait aucun lien vers
-        l'accueil : depuis une sous-page, le retour etait impossible. */}
-    <a href="/" aria-current={current === undefined ? 'page' : undefined}>Home</a>
-    {main.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-
-    <div class="mobmenu__group">
-      <p class="mobmenu__eyebrow" id="mobwork">Selected work</p>
-      <hr class="mobmenu__rule">
-      {work.map(i => <a href={i.href} aria-current={current === i.key ? 'page' : undefined}>{i.label}</a>)}
-    </div>
-
-    {/*
-      « Let's talk » est un surtitre de section et non un lien, comme « Selected
-      work » : ce qui suit EST la destination - les trois boutons - et un lien
-      de plus vers l'ancrage du pied de page aurait fait deux chemins pour la
-      meme intention, dont un plus long.
-    */}
-    <div class="mobmenu__group">
-      <p class="mobmenu__eyebrow">Let's talk</p>
-      <hr class="mobmenu__rule">
-      <div class="mobmenu__links">
-        <a class="btn3" href="mailto:giezek.lea@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
-        <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9z"/></svg>LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-        <a class="btn3" href="/Lea-Giezek-CV.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
-      </div>
-    </div>
-  </nav>
 
   {/* tabindex="-1" : sans lui, le lien d'evitement fait defiler la page mais ne
       deplace pas reellement le focus dans plusieurs navigateurs. */}
@@ -264,9 +214,9 @@ const workCourant = work.some((i) => i.key === current);
       <h2 class="talk__head">Let's talk.</h2>
       <p class="talk__body">Conviction, delivery, and care - I hold all three at the same heat. A team that isn't well can't shine, and can't ship. <b>That's not the soft part of the job. It's the foundation.</b></p>
       <div class="talk__links">
-        <a class="btn3" href="mailto:giezek.lea@gmail.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Email</a>
-        <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9z"/></svg>LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
-        <a class="btn3" href="/Lea-Giezek-CV.pdf" download><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>Download CV<span class="sr-only"> (PDF, 3.6 Mo)</span></a>
+        <a class="btn3" href="mailto:giezek.lea@gmail.com"><Icone nom="mail" taille={20} />Email</a>
+        <a class="btn3" href="https://www.linkedin.com/in/lea-giezek/" target="_blank" rel="noopener noreferrer"><Icone nom="linkedin" taille={20} />LinkedIn<span class="sr-only"> (opens in a new tab)</span></a>
+        <a class="btn3" href={CV_HREF} download><Icone nom="telecharger" taille={20} />Download CV<span class="sr-only"> ({CV_POIDS})</span></a>
       </div>
       <p class="talk__legal">&copy; <b>L&eacute;a GIEZEK</b> - 2026<br>Designed by a human, developed with Claude, deployed with Vercel, iterated with peers. <b>Never alone.</b></p>
     </div>
@@ -276,122 +226,106 @@ const workCourant = work.some((i) => i.key === current);
 </div>
 
 <style is:global>
-  /* surcharges de theme du chrome - vivaient dans tokens.css, qui ne doit
-     contenir que des declarations de custom properties */
-  [data-theme="contrast"] .topnav.stuck{border:var(--edge-w) solid var(--edge);border-top:none}
-  [data-theme="contrast"] .navgroup__menu a:hover{background:var(--highlight);color:var(--on-highlight)}
-  [data-theme="mono"] .navgroup__menu a:hover{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 2px #070304}
-  [data-theme="contrast"] .navgroup__menu{border:var(--edge-w) solid var(--edge);border-top:none;left:-2px;right:-2px}
-  [data-theme="contrast"] .topnav.menuopen{border:var(--edge-w) solid var(--edge);border-top:none;border-bottom:none}
-  [data-theme="contrast"] .topnav a[aria-current="page"]::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
-  [data-theme="contrast"] .navgroup__trigger[data-current] .navgroup__label::before{background:var(--highlight);height:6px;bottom:-8px;border:var(--edge-w) solid var(--edge);border-radius:0}
-  [data-theme="contrast"] .mobmenu > a[aria-current="page"],[data-theme="contrast"] .mobmenu__group > a[aria-current="page"]{color:var(--highlight)}
-  @media(max-width:720px){
-  [data-theme="contrast"] .mobbar{border:var(--edge-w) solid var(--edge);border-top:none}
-}
+  /*
+    LES SURCHARGES DE THEME ONT DISPARU D'ICI. Dix regles y commutaient le
+    chrome entre `spicy`, `mono` et `contrast`. Le site n'a plus qu'un jeu de
+    valeurs : celles de `contrast` sont repliees dans les regles de base
+    ci-dessous, celles de `mono` sont tombees.
+    Ce chrome - nav deroulante, dock, barre mobile - est entierement refait a
+    l'etape 2 du redesign (nav a six liens ferree a droite dans le hero noir).
+    Ce qui suit le tient debout d'ici la, il n'est pas la forme visee.
+  */
   /*
     Chrome rendu par ce layout : nav, dock, menu mobile, loader, pied de page.
     Le CSS propre a une page vit desormais dans cette page ; les regles
     partagees vivent dans src/styles/. Voir le commentaire de shared.css
     pour la raison pour laquelle elles ne peuvent pas etre scopees ici.
   */
-  .topnav{position:sticky;top:0;z-index:50;display:flex;justify-content:center;flex-wrap:wrap;align-items:center;gap:clamp(16px,3vw,40px);min-height:var(--mobbar-h);padding:0;border-radius:0 0 var(--r-xl) var(--r-xl);transition:background .28s ease,box-shadow .28s ease}
-  .topnav.stuck{background:var(--canvas);box-shadow:0 4px 16px rgba(7,3,4,.08)}
-  .topnav a{position:relative;text-decoration:none;font-weight:500;font-size:16px;color:var(--ink);white-space:nowrap;transition:color .28s ease}
-  .topnav a::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
-  .topnav a:hover{font-weight:700}
-  .navgroup{position:static;display:flex;align-items:center}
   /*
-    line-height:inherit est ce qui aligne le trait de « Selected work » sur
-    celui des autres entrees. Un <button> ne suit pas la ligne du document : les
-    navigateurs lui imposent `line-height:normal`, soit ~1.2 la ou les liens
-    heritent du 1.62 du corps. Sa boite faisait donc 19px contre 26, et le trait
-    - accroche au bas de cette boite par `bottom:-8px` - remontait de 4px.
-    Corriger la hauteur de ligne plutot que compenser le `bottom` : les deux
-    reglages restent alors une seule valeur, et un changement de graisse ou de
-    corps ne les desolidarise pas.
+    LE CSS DU CHROME A SUIVI SON MARKUP DANS <Hero>. Vivaient ici : la nav
+    collante et son menu deroulant, le dock fixe, la barre mobile fantome, le
+    hamburger et le panneau plein ecran - environ 80 regles qui se repondaient
+    entre ce fichier, chrome.ts et les surcharges de page.
+
+    Ce qui reste : le loader et le pied de page, les deux seules choses que ce
+    layout rend encore.
   */
-  .navgroup__trigger{position:relative;display:inline-flex;align-items:center;gap:8px;font-family:var(--body);font-weight:500;font-size:16px;line-height:inherit;color:var(--ink);background:none;border:none;padding:0;cursor:pointer;white-space:nowrap;transition:color .28s ease}
-  .navgroup__label::after{content:attr(data-label);display:block;height:0;overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
-  .navgroup__trigger:hover .navgroup__label,.navgroup.open .navgroup__label{font-weight:700}
-  .navgroup__chev{width:16px;height:16px;flex:none;transition:transform .22s ease}
-  .navgroup.open .navgroup__chev{transform:rotate(180deg);color:var(--accent)}
-  .navgroup__menu{position:absolute;left:0;right:0;top:calc(100% - 16px);z-index:2;display:flex;justify-content:center;flex-wrap:wrap;gap:8px;padding:0 8px 16px;background:var(--canvas);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 20px 16px -4px rgba(7,3,4,.10);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .22s ease,transform .26s cubic-bezier(.22,1,.36,1),visibility .26s}
-  .navgroup:hover .navgroup__menu,.navgroup:focus-within .navgroup__menu,.navgroup.open .navgroup__menu{opacity:1;visibility:visible;transform:none}
-  .navgroup__menu a{padding:12px 20px;border-radius:var(--r-pill);font-size:16px;font-weight:500;color:var(--ink);text-decoration:none;white-space:nowrap;transition:background .18s ease,color .18s ease,box-shadow .18s ease}
-  .navgroup__menu a:hover{background:var(--ink);color:#fff;font-weight:500}
-  .topnav.menuopen{background:var(--canvas);border-bottom-left-radius:0;border-bottom-right-radius:0;box-shadow:none}
-  .topnav.menuopen:not(.stuck){z-index:52}
-  .topnav.menuopen > a{color:var(--ink-muted)}
-  .topnav.menuopen > a[aria-current="page"]{font-weight:500}
-  .topnav.menuopen > a[aria-current="page"]::before{opacity:0}
-  .hamb{display:none;flex-direction:column;justify-content:center;gap:4px;width:40px;height:32px;padding:8px 4px;background:transparent;border:none;cursor:pointer}
-  .hamb span{display:block;width:24px;height:2.5px;background:#fff;border-radius:2px}
-  .mobmenu{display:none}
-  .mobbar{display:none}
-  .topdock{position:fixed;top:0;left:0;right:0;z-index:51;pointer-events:none}
-  .topdock__inner{max-width:1080px;margin:0 auto;height:var(--mobbar-h);display:flex;align-items:center;padding-left:calc(var(--sp-03) + var(--sp-09));padding-right:calc(var(--sp-03) + var(--sp-05))}
-  .topdock__inner > *{pointer-events:auto}
-  /*
-    overflow-y:auto : le menu porte desormais neuf entrees, deux filets et trois
-    boutons. Sur un telephone bas - ou avec une taille de police systeme
-    agrandie - le contenu peut depasser, et un panneau plein ecran qui deborde
-    sans defiler rend ses derniers liens inatteignables.
-  */
-  .mobmenu.open{display:flex;position:fixed;inset:0;z-index:60;background:#070304;flex-direction:column;justify-content:center;gap:4px;padding:28px;overflow-y:auto}
-  /*
-    `> a` et non `a` : les trois boutons de contact sont eux aussi des liens, et
-    la matrice display de la navigation n'a rien a leur faire. Ils gardent celle
-    de .btn3, comme dans le pied de page.
-  */
-  /*
-    .mobmenu__group > a AUSSI, ET C'EST LE COEUR DU CORRECTIF. Les trois liens
-    "Systematize a..." vivent depuis peu dans un .mobmenu__group (pour que le
-    filet se dimensionne sur eux) : ce sont donc des PETITS-ENFANTS de .mobmenu,
-    plus des enfants directs, et le combinateur `>` ne les atteint plus. Ils
-    retombaient sur `a{color:inherit}` du reset et le soulignement par defaut du
-    navigateur - visible dans le theme Mondrian, ou --ink est assez sombre pour
-    que la difference saute aux yeux, mais le defaut existait dans les trois.
-  */
-  .mobmenu > a,.mobmenu__group > a{color:#fff;text-decoration:none;font-family:var(--display);font-weight:400;font-size:clamp(14px,4vw,22px);letter-spacing:-.01em;padding:6px 0}
-  /* surtitre du groupe : meme matrice que les intitules de figures du site */
-  /*
-    Le filet doit s'arreter au bord de la plus longue ligne qu'il separe, pas
-    courir sur toute la largeur du panneau. `.mobmenu` etire ses enfants en
-    largeur par defaut (flex column, align-items normal = stretch) - c'est ce
-    qui donnait au filet les 100% du panneau. Le groupe casse cet etirement :
-    `width:max-content` le fait retomber sur la largeur intrinseque de son
-    enfant le plus large, calculee AVANT tout etirement. A l'interieur, un
-    nouveau contexte flex column restaure le stretch : chaque ligne, y compris
-    le filet en `width:100%`, s'aligne alors sur cette largeur - celle du plus
-    long intitule, pas celle de l'ecran.
-  */
-  .mobmenu__group{display:flex;flex-direction:column;width:max-content;max-width:100%}
-  .mobmenu__eyebrow{margin:18px 0 0;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.55)}
-  .mobmenu__rule{width:100%;height:1px;margin:8px 0 10px;border:0;background:rgba(255,255,255,.18)}
-  /* empiles et non en ligne : a trois boutons dont un « Download CV », le
-     retour a la ligne tombait apres le deuxieme et laissait un rang orphelin */
-  .mobmenu__links{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
-  .mobmenu__close{position:absolute;top:16px;left:16px;background:transparent;border:none;color:#fff;font-size:32px;line-height:1;cursor:pointer}
   .loader{position:fixed;inset:0;z-index:100;pointer-events:none}
   .loader__panel{position:absolute;inset:0;background:var(--hero-grad);z-index:1;transition:opacity .55s ease}
-  .loader__fly{position:fixed;left:50%;top:50%;z-index:2;width:clamp(100px,13vw,140px);height:clamp(100px,13vw,140px);transform:translate(-50%,-50%);transition:transform .85s cubic-bezier(.62,0,.2,1);will-change:transform}
-  .loader__ring{position:absolute;inset:0;border-radius:50%;border:2px solid rgba(255,255,255,.65);transform:scale(.72);opacity:0;animation:ringPulse 1.15s ease-out .55s}
-  .loader__circle{width:100%;height:100%;border-radius:50%;background:#FFFDFB;display:grid;place-items:center;transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards;box-shadow:0 14px 44px rgba(120,20,5,.32)}
-  .loader__pepper{font-size:clamp(44px,6vw,64px);line-height:1;transform:scale(0) rotate(-28deg);animation:pepperIn .62s cubic-bezier(.34,1.56,.64,1) .42s forwards}
+  .loader__fly{position:fixed;left:50%;top:50%;z-index:2;width:clamp(100px,13vw,140px);height:clamp(100px,13vw,140px);transform:translate(-50%,-50%);transition:transform .85s cubic-bezier(.62,0,.2,1),opacity .5s ease;will-change:transform}
+  /*
+    La photo, seule au centre du panneau noir (BRIEF §3.1). Le disque ne porte
+    pas d'enfant, il EST la photo.
+  */
+  .loader__circle{position:relative;z-index:1;display:block;width:100%;height:100%;
+    border-radius:50%;background:var(--portrait) center/cover no-repeat;
+    transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards}
+
+  /*
+    ═══ UN TRAIT QUI FAIT LE TOUR, PUIS FILE DROIT ═══
+
+    Trois anneaux qui pulsaient en boucle donnaient un effet stroboscopique -
+    trois ondes qui se chassent, et rien qui aille quelque part. Le geste est
+    refait dans la langue du site : UN trait blanc, propre, qui se trace.
+
+    Trois temps, dans cet ordre :
+      1. l'anneau se TRACE autour de la photo, une fois, sans repetition
+         (0,15 → 1,0s) ;
+      2. le trait s'OUVRE depuis le centre de l'ecran, a gauche et a droite,
+         sur la ligne de la photo (0,95 → 1,45s) ;
+      3. trois carres de 12px - rouge, bleu, jaune - POUSSENT sur ce trait aux
+         endroits qu'il vient d'atteindre (1,15 / 1,28 / 1,38s).
+
+    C'est la grammaire de la composition : les filets se tracent, les aplats
+    poussent depuis un coin. Le loader la dit en petit avant que la page ne la
+    dise en grand.
+
+    Le decor est EFFACE PAR LE SCRIPT au depart du vol - l'anneau parce qu'il
+    suivrait la photo et se mettrait a l'echelle de la cible, le trait parce
+    qu'il n'a plus rien a annoncer.
+  */
+  .loader__anneau{position:absolute;inset:-9px;z-index:0;overflow:visible;
+    transform:rotate(-90deg);transition:opacity .3s ease}
+  /* vector-effect : l'epaisseur reste a 1,5px quelle que soit la taille rendue,
+     au lieu d'etre multipliee par l'echelle du viewBox. */
+  .loader__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
+    vector-effect:non-scaling-stroke;
+    stroke-dasharray:1;stroke-dashoffset:1;
+    animation:tracerAnneau .85s cubic-bezier(.65,0,.35,1) .15s forwards}
+  @keyframes tracerAnneau{to{stroke-dashoffset:0}}
+
+  /*
+    LE CONTENEUR NE S'ETIRE PAS, SON ::before SI. Le trait etait le conteneur
+    lui-meme, et les trois carres etaient donc etires avec lui : entre 1,15 et
+    1,45s ils se seraient affiches en lamelles verticales, puis seraient
+    revenus carres d'un coup. Le ::before porte seul le scaleX ; les carres,
+    poses dans un conteneur qui ne bouge pas, gardent leur forme.
+  */
+  .loader__trait{position:fixed;left:0;right:0;top:50%;z-index:1;height:12px;
+    margin-top:-6px;transition:opacity .3s ease}
+  .loader__trait::before{content:"";position:absolute;left:0;right:0;top:50%;
+    height:1.5px;margin-top:-.75px;background:var(--white);
+    transform:scaleX(0);transform-origin:center;
+    animation:filerTrait .5s cubic-bezier(.16,1,.3,1) .95s forwards}
+  @keyframes filerTrait{to{transform:scaleX(1)}}
+
+  /* Les carres ne sont PAS au centre : la photo les couvrirait. Ils tombent la
+     ou le trait arrive quand ils poussent. */
+  .loader__carre{position:absolute;top:50%;width:12px;height:12px;
+    margin-top:-6px;transform:scale(0);transform-origin:center;
+    animation:pousseCarre .32s cubic-bezier(.34,1.56,.64,1) forwards}
+  .loader__carre--rouge{left:19%;background:var(--red);animation-delay:1.15s}
+  .loader__carre--bleu{left:74%;background:var(--blue);animation-delay:1.28s}
+  .loader__carre--jaune{left:88%;background:var(--yellow);animation-delay:1.38s}
+  @keyframes pousseCarre{to{transform:scale(1)}}
   .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
-  .pepperegg{position:relative;margin-left:auto;display:flex;align-items:center;gap:12px;transform-origin:right center;transform:translateY(calc(var(--mobbar-h)/2 + var(--sp-03) + var(--sp-21)/2));transition:transform .38s cubic-bezier(.22,1,.36,1)}
-  .topdock.stuck .pepperegg{transform:scale(.78)}
-  .pepperegg__sw{position:absolute;right:100%;padding-right:12px;top:50%;display:flex;gap:8px;align-items:center;opacity:0;pointer-events:none;transform:translate(8px,-50%);transition:transform .32s cubic-bezier(.22,1,.36,1),opacity .28s}
-  .pepperegg:hover .pepperegg__sw,.pepperegg:focus-within .pepperegg__sw,.pepperegg.open .pepperegg__sw{opacity:1;pointer-events:auto;transform:translate(0,-50%)}
-  .pepperegg.picked .pepperegg__sw{opacity:0;pointer-events:none;transform:translate(8px,-50%)}
-  .banner__pepper{position:relative;flex:none;width:var(--sp-21);height:var(--sp-21);border-radius:50%;background:#FFFDFB;border:none;cursor:pointer;display:grid;place-items:center;font-size:clamp(24px,3vw,32px);box-shadow:0 6px 20px rgba(120,20,5,.25)}
-  .banner__pepper::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--ring);opacity:0;pointer-events:none}
-  .banner__pepper:hover::after{animation:tilePulse .9s ease-out}
+  /* Colle au contenu : l'ecart ne venait pas du footer - qui est deja a
+     margin-bottom:0 - mais de la marge basse du dernier bloc du <main>. */
+  main > :last-child{margin-bottom:0}
   .talk__legal{margin-top:var(--sp-17);padding-top:var(--sp-03);border-top:1px solid rgba(255,255,255,.16);font-size:12px;line-height:1.7;letter-spacing:.02em;color:rgba(255,255,255,.62)}
   .talk__legal b{font-weight:600;color:rgba(255,255,255,.82)}
   .talk{padding:clamp(32px,4vw,52px)}
-  .talk__head{font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.02em}
+  .talk__head{font-family:var(--display);font-weight:900;font-size:clamp(28px,3.4vw,44px);letter-spacing:-.03em}
   .talk__body{font-size:clamp(16px,1.6vw,20px);color:var(--ink-soft);margin-top:16px;max-width:60ch}
   .talk__body b{color:var(--ink)}
   .talk__links{display:flex;gap:24px;flex-wrap:wrap;margin-top:24px}
@@ -399,67 +333,27 @@ const workCourant = work.some((i) => i.key === current);
   .talk-card.in .talk__head{font-size:clamp(48px,12vw,148px);line-height:.92;letter-spacing:-.03em}
   .talk-card .talk__body{color:rgba(255,255,255,.94)}
   .talk-card .talk__body b{color:#fff}
-  .swatch{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--line);cursor:pointer;padding:0;transition:transform .15s}
-  .swatch:hover{transform:scale(1.14)}
-  .swatch[aria-pressed="true"]{box-shadow:0 0 0 2px var(--card),0 0 0 4px var(--ink)}
-  .sw-spicy{background:linear-gradient(135deg,#E84140,#FFE1C5)}
-  .sw-mono{background:linear-gradient(135deg,#232320,#83827A)}
-  .sw-contrast{background:linear-gradient(#111,#111) 58% 0/2.5px 100% no-repeat,linear-gradient(#111,#111) 0 55%/100% 2.5px no-repeat,conic-gradient(from 90deg at 58% 55%,#0B57A4 0 25%,#fff 25% 50%,#D0021B 50% 75%,#F7D000 75% 100%)}
-  .topnav a[aria-current="page"]{font-weight:700}
-  .topnav a[aria-current="page"]::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;background:var(--accent);transition:opacity .28s ease}
-  /*
-    Le declencheur « Selected work » n'est pas un <a> : la regle ci-dessus ne
-    l'atteint pas, d'ou ce jumeau. Le trait est pose sur le LABEL et non sur le
-    bouton, sinon il aurait aussi souligne le chevron - les autres entrees
-    soulignent leur texte, pas leur boite.
-  */
-  .navgroup__trigger[data-current] .navgroup__label{font-weight:700;position:relative}
-  .navgroup__trigger[data-current] .navgroup__label::before{content:"";position:absolute;left:0;right:0;bottom:-8px;height:2px;border-radius:2px;background:var(--accent);transition:opacity .28s ease}
-  /*
-    Les entrees du menu deroulant, elles, n'ont plus de trait. Ce sont des
-    pastilles arrondies : un soulignement pose 8px sous elles est le vocabulaire
-    de la nav principale applique la ou il ne veut rien dire - et en Mondrian
-    c'etait une barre jaune de 6px cerclee de noir sous une pilule. La graisse
-    suffit a marquer la page courante une fois le menu ouvert.
-  */
-  .navgroup__menu a[aria-current="page"]::before{content:none}
-  .mobmenu > a[aria-current="page"],.mobmenu__group > a[aria-current="page"]{color:var(--accent)}
-  /*
-    EN MONO LA COULEUR NE PEUT PAS PORTER LA MARQUE DE POSITION. --accent y vaut
-    #232320 : sur le #070304 du panneau, 1,3:1 - du noir sur du noir. La page
-    courante etait donc signalee dans deux themes sur trois et pas dans le
-    troisieme, sans que rien ne le montre tant qu'on ne bascule pas.
-
-    Le soulignement plutot que la graisse : la fonte display du menu n'a qu'une
-    seule graisse, et lui en demander une deuxieme ferait fabriquer un faux gras
-    par le navigateur. C'est la meme raison qui interdit <b> dans les titres du
-    site.
-  */
-  [data-theme="mono"] .mobmenu > a[aria-current="page"],[data-theme="mono"] .mobmenu__group > a[aria-current="page"]{color:#fff;
-    text-decoration:underline;text-underline-offset:6px;text-decoration-thickness:2px}
   @media(max-width:720px){
-  .topnav{display:none}
-  .hamb{display:flex}
-  .pepperegg,.topdock.stuck .pepperegg{transform:none}
-  .mobbar{display:block;position:fixed;top:0;left:var(--sp-03);right:var(--sp-03);z-index:49;height:var(--mobbar-h);background:var(--hero-grad);border-radius:0 0 var(--r-xl) var(--r-xl);box-shadow:0 6px 20px rgba(120,30,10,.18);opacity:0;pointer-events:none;transition:opacity .28s ease}
-  .mobbar.show{opacity:1;pointer-events:auto}
   .talk-card.in .talk__head{font-size:clamp(32px,10vw,56px)}
   .talk__links{flex-direction:column;align-items:flex-start;gap:8px}
 }
   @media(prefers-reduced-motion:reduce){
-  .mobbar,.topnav,.topnav a,.pepperegg,.navgroup__menu,.navgroup__chev{transition:none}
   .loader{display:none}
   .app--reveal{opacity:1;animation:none}
   .talk-card .talk__head{transition:none}
-  .banner__pepper::after{animation:none}
 }
 </style>
 
 <script>
   import { initChrome } from '../scripts/chrome';
   import { revealAll } from '../scripts/reveal';
+  import { ajusterFiligranes } from '../scripts/filigrane';
+  import { tracerGrille } from '../scripts/grille';
 
   initChrome();
+  /* Le hero est rendu par les sept pages : la mise a l'echelle du mot en
+     filigrane est donc la responsabilite du layout, comme le pied de page. */
+  ajusterFiligranes();
 
   /*
     Le pied de page est rendu ICI, sur les 7 pages : son entree en scene est donc
@@ -473,6 +367,16 @@ const workCourant = work.some((i) => i.key === current);
     (voir la clause prefers-reduced-motion plus haut).
   */
   revealAll('.talk-card', { threshold: 0.2 });
+
+  /*
+    La construction des compositions Mondrian (BRIEF §4.1). Appelee ici et non
+    dans les pages : il y en a desormais DEUX - l'accueil et chaque etude de
+    cas - et le script les sert toutes en une passe (il boucle sur
+    [data-grille]). Appele depuis les pages, il l'etait dans l'une et oublie
+    dans l'autre : la composition de Language s'affichait d'un coup, sans que
+    rien ne le signale. Meme raison que ajusterFiligranes ci-dessus.
+  */
+  tracerGrille();
 </script>
 </body>
 </html>

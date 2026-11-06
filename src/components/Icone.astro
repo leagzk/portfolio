@@ -1,0 +1,61 @@
+---
+/*
+  Le jeu d'icones du site, en un seul endroit.
+
+  Elles etaient recopiees en clair dans le markup : telechargement, courriel et
+  LinkedIn vivaient en double (menu mobile + pied de page), la maison dans
+  Banner, le chevron dans la nav. Six copies de trois dessins, et autant
+  d'occasions d'en retoucher une et d'oublier les autres - c'est exactement ce
+  qui etait arrive au « ↓ » que le brief remplace (§12) : il fallait le changer
+  a quatre endroits.
+
+  UNE SEULE FAMILLE DE TRACE. Toutes les icones de trait partagent les memes
+  reglages - viewBox 24, stroke 2.25, bouts et jointures arrondis, currentColor
+  - poses UNE fois sur le <svg> et non repetes par dessin. C'est la definition
+  du brief §12, etendue a tout le jeu pour que le « + », les fleches et la
+  maison aient la meme graisse de trait que le telechargement.
+
+  LinkedIn fait exception et c'est normal : c'est une marque, elle se dessine
+  en aplat. Elle porte donc `fill` et aucun trait.
+
+  aria-hidden sans condition : une icone de ce jeu accompagne toujours un
+  intitule. La rendre lisible ferait annoncer deux fois la meme chose, ou pire,
+  ferait decrire le dessin a la place du libelle.
+*/
+export type NomIcone =
+  | 'telecharger' | 'mail' | 'linkedin' | 'maison' | 'plus'
+  | 'fleche' | 'fleche-gauche' | 'fleche-droite' | 'chevron' | 'retour';
+
+export interface Props {
+  nom: NomIcone;
+  /** cote en px ; le CSS d'accueil peut le surcharger (.btn3 svg impose 20) */
+  taille?: number;
+  /** classe passee au <svg>, pour les icones qui pivotent (voir .plus--ouvert) */
+  class?: string;
+}
+const { nom, taille = 16, class: classe } = Astro.props;
+
+/* Chemins. Celui de `telecharger` est la valeur exacte du BRIEF §12. */
+const traces: Record<NomIcone, string> = {
+  telecharger: 'M12 4v11M7 10l5 5 5-5M5 20h14',
+  mail: 'M3 6h18v12H3zM3 7l9 6 9-6',
+  maison: 'M4 11 12 4l8 7M6 10v10h12V10',
+  plus: 'M12 5v14M5 12h14',
+  fleche: 'M5 12h13M12 6l6 6-6 6',
+  'fleche-gauche': 'M19 12H6M12 6l-6 6 6 6',
+  'fleche-droite': 'M5 12h13M12 6l6 6-6 6',
+  chevron: 'm6 9 6 6 6-6',
+  retour: 'M19 12H5M11 18l-6-6 6-6',
+  linkedin: '',
+};
+
+const marque =
+  'M4.98 3.5A2.5 2.5 0 1 1 5 8.5a2.5 2.5 0 0 1 0-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.78 2.65 4.78 6.1V21h-4v-5.4c0-1.3-.02-2.96-1.8-2.96-1.8 0-2.08 1.4-2.08 2.86V21H9z';
+---
+{nom === 'linkedin' ? (
+  <svg class={classe} width={taille} height={taille} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d={marque} /></svg>
+) : (
+  <svg class={classe} width={taille} height={taille} viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"
+       aria-hidden="true"><path d={traces[nom]} /></svg>
+)}
