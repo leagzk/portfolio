@@ -47,48 +47,32 @@ import { mouvementReduit } from './motion';
 */
 const TRACE_DEBUT = 0.1; // retard de la premiere vague
 /*
-  ═══ LE TRACE AVANCE PAR VAGUES, PAS PAR FILE ═══
+  ═══ LE RYTHME EST CELUI D'UN FRONT, PAS D'UN DECOUPAGE ═══
 
-  Chaque trait partait 0,16s apres le precedent, un par un, du premier au
-  dernier. C'etait lisible et c'etait mecanique : « trop sequence », et le
-  dessin se lisait comme une liste qu'on deroule plutot que comme une
-  composition qui se construit.
+  Trois modeles ont ete essayes avant celui-ci, et chacun a ete rejete a
+  l'oeil : une file ou chaque trait partait 0,16s apres le precedent (« trop
+  sequence »), puis des vagues par bandes d'avance diagonale (des micro-blocs
+  qui ne voulaient rien dire), puis des vagues par croisement. Le modele
+  retenu vient d'une reference posee par Lea - voir l'en-tete du front dans
+  tracerFilets.
 
-  Les elements sont donc ranges en VAGUES, par bandes d'avance diagonale, et
-  une vague part d'un seul tenant. Ce qui tombe dans la meme bande arrive
-  ensemble, quel que soit son genre : une verticale en bas a gauche, une
-  verticale en haut a droite et un aplat de couleur partagent la meme
-  anti-diagonale - (x + y) egal - donc la meme vague. C'est exactement la
-  lecture que Lea decrit, et c'est ce que la diagonale disait depuis le
-  debut : la casser trait par trait l'avait perdue.
+  LE FRONT TRAVERSE A 480px/s. Il met donc 2,2s a parcourir les 1072px d'une
+  composition, et c'est lui qui donne son instant a chaque trait : un trait
+  part quand le front atteint son bord gauche. Plus de vagues, plus de bandes.
 
-  SIX VAGUES, DECOUPEES PAR RANG ET NON PAR VALEUR. Les anti-diagonales d'une
-  composition se distribuent en cloche - celle du milieu traverse le plus
-  d'elements -, donc tailler des bandes d'egale LARGEUR entassait tout au
-  centre : mesure sur l'accueil, deux vagues dont une de ONZE elements sur
-  dix-huit, puis deux vagues d'un seul. On trie donc par avance et on coupe en
-  six groupes de meme EFFECTIF : chaque vague compte trois ou quatre membres,
-  quelle que soit la composition, et ses membres restent voisins en diagonale.
+  0,1s ENTRE DEUX DEPARTS. Les horizontales qui commencent au bord gauche
+  partageraient l'instant zero : la composition s'ouvrirait sur un paquet au
+  lieu d'un trait seul, qui est le premier geste de la reference.
 
-  0,3s ENTRE DEUX VAGUES, pour des traces de 0,2 a 1s : la suivante part
-  pendant que la precedente se tire encore. C'est le recouvrement qui rend le
-  geste continu.
+  0,55s DE RETARD POUR LA COULEUR. Lu sur la reference, ou le treillis a
+  franchi la moitie de la toile quand les premiers aplats se posent a gauche.
 
-  LE SOUFFLE INTERNE EST BORNE, ET C'EST TOUT L'ECART ENTRE UNE VAGUE ET UNE
-  FILE. A 0,04s PAR MEMBRE, une bande de huit s'etalait sur 0,32s - plus que
-  les 0,3s qui separent deux bandes : les vagues se recouvraient, et le trace
-  redevenait l'echelle reguliere qu'on venait de quitter. Mesure sur
-  l'accueil : 0,70 / 0,74 / 0,78 / 0,82 / 0,86 / 0,90 / 0,94 / 0,98 - une file,
-  pas un groupe.
-
-  Les membres d'une bande se repartissent donc sur une FENETRE FIXE de 0,08s,
-  quel que soit leur nombre. A zero ils s'alignaient au centieme et le groupe
-  claquait ; a 0,08 reparti, le groupe respire et reste un groupe - quatre
-  fois moins que l'ecart entre deux vagues.
+  0,08s ENTRE DEUX CASES. Une meme verticale en ferme plusieurs a la fois.
 */
-const BANDES = 6;
-const PAS_BANDE = 0.3;
-const ETALE_BANDE = 0.08;
+const FRONT_VITESSE = 480; // px/s
+const ECART_TRAIT = 0.1;
+const RETARD_COULEUR = 0.55;
+const ECART_CASE = 0.08;
 /*
   UNE VITESSE, PAS UNE DUREE. Tous les traits mettaient 0,5s, quelle que soit
   leur longueur : un trait de 625px filait a 1250px/s pendant qu'un de 56px
@@ -172,7 +156,7 @@ function construire(comp: HTMLElement): void {
       /* Une case masquee au point de rupture courant - la pagination du rail
          n'existe que sous 720px - rend une boite nulle. avanceDe la borne. */
       const avance = avanceDe(r.left - cr.left, r.top - cr.top, cr);
-      el.style.setProperty('--retard', `${(TRACE_DEBUT + avance * BANDES * PAS_BANDE).toFixed(2)}s`);
+      el.style.setProperty('--retard', `${(TRACE_DEBUT + avance * 2 + RETARD_COULEUR).toFixed(2)}s`);
     });
   };
   placerRetards();
@@ -316,71 +300,64 @@ function construire(comp: HTMLElement): void {
     });
 
     /*
-      ═══ UNE VAGUE EST UN CROISEMENT ═══
+      ═══ UN FRONT QUI TRAVERSE, DE GAUCHE A DROITE ═══
 
-      Les elements etaient groupes par bandes d'avance diagonale. Ca produisait
-      bien des vagues melangees, mais rien ne garantissait qu'elles veuillent
-      dire quelque chose : deux traits de la meme bande pouvaient se trouver
-      aux deux bouts opposes de la composition sans jamais se rencontrer, et le
-      dessin se lisait par micro-blocs separes plutot que comme une grille qui
-      se construit.
+      Reference posee par Lea : une construction de composition Mondrian ou
+      le treillis se pose en balayant la toile, et ou la couleur remplit
+      derriere. Releve image par image sur les neuf secondes de la video :
+      a 0,3s un SEUL trait en haut a gauche ; a 1,0s un treillis partiel dans
+      le quart gauche ; a 2,6s le treillis couvre la moitie gauche et les
+      premieres couleurs sont posees pendant que la moitie droite est encore
+      blanche ; a 3,4s tout est la.
 
-      Une vague est donc un CROISEMENT : une verticale, l'horizontale qui la
-      coupe, et les cases les plus proches de leur point de rencontre. On voit
-      le trait vertical partir, l'horizontale venir le couper, et la couleur
-      prendre autour du croisement - puis le croisement suivant. C'est la
-      lecture que Lea decrit mot pour mot.
+      Trois traits de caractere en sortent, et ce sont eux qu'on reprend :
+      ca commence par un trait SEUL, le front balaie HORIZONTALEMENT - et non
+      en diagonale comme ici jusqu'a present -, et la couleur TRAINE derriere
+      le front d'environ une seconde.
 
-      LES VERTICALES MENENT. Elles sont parcourues dans l'ordre du front, et
-      chacune reclame la premiere horizontale libre qui la croise VRAIMENT -
-      pas la plus proche, celle qui l'intersecte. Les lignes qui n'ont pas
-      trouve de partenaire - il y en a toujours, les deux familles n'ont pas le
-      meme cardinal - forment leur propre vague, inseree a son rang d'avance.
+      LES TRAITS MENENT, ET C'EST UN CHOIX. Tout le site argumente qu'un
+      systeme precede ce qu'il porte : que la structure ouvre et que la
+      couleur vienne s'y loger dit cette these. L'inverse - des aplats qui
+      apparaissent sur du blanc avant d'avoir un cadre - la contredit.
+
+      LE FRONT EST UNE VITESSE, PAS UN DECOUPAGE. Chaque trait part quand le
+      front atteint son bord gauche : une horizontale EST le front qui passe,
+      une verticale est ce qu'il laisse en traversant. Plus de vagues, plus de
+      bandes - la position seule donne l'instant, et la continuité vient de
+      la, pas d'un groupement.
     */
-    const croise = (v: Ligne, h: Ligne) =>
-      v.x >= h.x - TOL && v.x <= h.x + h.long + TOL
-      && h.y >= v.y - TOL && h.y <= v.y + v.long + TOL;
-
-    type Vague = { avance: number; x: number; y: number; lignes: Ligne[]; cases: HTMLElement[] };
-    const vagues: Vague[] = [];
-
-    const verticales = lignes.filter((l) => l.sens === 'v').sort((a, b) => a.avance - b.avance);
-    const horizontales = lignes.filter((l) => l.sens === 'h').sort((a, b) => a.avance - b.avance);
-    const prises = new Set<Ligne>();
-
-    verticales.forEach((v) => {
-      const h = horizontales.find((c) => !prises.has(c) && croise(v, c));
-      if (h) prises.add(h);
-      prises.add(v);
-      vagues.push({
-        avance: Math.min(v.avance, h ? h.avance : v.avance),
-        /* Le point de rencontre, ou le milieu du trait quand il est seul :
-           c'est lui qui dit quelles cases appartiennent a cette vague. */
-        x: v.x,
-        y: h ? h.y : v.y + v.long / 2,
-        lignes: h ? [v, h] : [v],
-        cases: [],
-      });
-    });
-
-    lignes.filter((l) => !prises.has(l)).forEach((l) => {
-      vagues.push({
-        avance: l.avance,
-        x: l.sens === 'v' ? l.x : l.x + l.long / 2,
-        y: l.sens === 'v' ? l.y + l.long / 2 : l.y,
-        lignes: [l],
-        cases: [],
-      });
-    });
-
-    vagues.sort((a, b) => a.avance - b.avance);
+    const avanceFront = (x: number) => x / FRONT_VITESSE;
 
     /*
-      CHAQUE CASE REJOINT LE CROISEMENT LE PLUS PROCHE DE SON CENTRE - « un
-      carre de couleur qui est pas loin ». Elle ne peut pas arriver avant que
-      l'un de ses bords ait commence a se tracer : sans cette borne, un aplat
-      se posait dans une zone ou aucun trait n'etait encore passe, et la
-      couleur precedait la structure au lieu de la suivre.
+      DEUX TRAITS NE PARTENT PAS ENSEMBLE. Les horizontales qui commencent au
+      bord gauche partageraient toutes l'instant zero, et la composition
+      s'ouvrirait sur un paquet au lieu d'un trait. Les departs sont donc
+      repris dans l'ordre du front, chacun repousse a au moins ECART_TRAIT
+      apres le precedent : le premier trait reste seul, et la densite monte.
+    */
+    lignes.sort((a, b) => avanceFront(a.x) - avanceFront(b.x) || a.y - b.y);
+    let precedent = -Infinity;
+    lignes.forEach((l, i) => {
+      l.depart = Math.max(TRACE_DEBUT + avanceFront(l.x), precedent + ECART_TRAIT);
+      precedent = l.depart;
+      l.fin = l.depart + l.duree;
+      /* Le sens alterne : une main qui trace une grille ne repart pas
+         toujours du meme bord. */
+      l.inverse = i % 2 === 1;
+    });
+
+    /*
+      ═══ LA COULEUR TRAINE DERRIERE LE FRONT ═══
+
+      Une case se remplit quand le front a fini de la TRAVERSER - donc sur son
+      bord DROIT, pas sur son bord gauche : a ce moment-la ses deux verticales
+      sont posees, elle est fermee. Plus RETARD_COULEUR, qui est le retard
+      d'une seconde lu sur la reference : le treillis continue d'avancer a
+      droite pendant que la couleur prend a gauche.
+
+      Aucune case ne peut arriver avant le dernier des traits qui la bordent.
+      Le calcul par le bord droit le garantit presque toujours ; la borne
+      couvre les cas ou un trait lointain a ete repousse par la cadence.
     */
     const borde = (sens: 'v' | 'h', pos: number, a: number, b: number): Ligne | undefined =>
       lignes.find((l) => l.sens === sens
@@ -388,6 +365,7 @@ function construire(comp: HTMLElement): void {
         && (sens === 'v' ? l.y : l.x) <= a + TOL
         && (sens === 'v' ? l.y + l.long : l.x + l.long) >= b - TOL);
 
+    const remplissages: { el: HTMLElement; quand: number; y: number; x: number }[] = [];
     cases.forEach((el) => {
       const r = el.getBoundingClientRect();
       /* Une case masquee au point de rupture courant - la pagination du rail
@@ -396,55 +374,32 @@ function construire(comp: HTMLElement): void {
       if (!r.width || !r.height) return;
       const l = r.left - cr.left;
       const t = r.top - cr.top;
-      const cx = l + r.width / 2;
-      const cy = t + r.height / 2;
       const bords = [
         borde('v', l, t, t + r.height),
         borde('v', l + r.width, t, t + r.height),
         borde('h', t, l, l + r.width),
         borde('h', t + r.height, l, l + r.width),
       ].filter(Boolean) as Ligne[];
-      const premiere = bords.length
-        ? Math.min(...bords.map((b) => vagues.findIndex((v) => v.lignes.includes(b))))
-        : 0;
-      let meilleure = Math.max(0, premiere);
-      let distance = Infinity;
-      vagues.forEach((v, i) => {
-        if (i < premiere) return;
-        const d = (v.x - cx) ** 2 + (v.y - cy) ** 2;
-        if (d < distance) { distance = d; meilleure = i; }
+      const ferme = bords.length ? Math.max(...bords.map((b) => b.depart)) : 0;
+      remplissages.push({
+        el,
+        quand: Math.max(TRACE_DEBUT + avanceFront(l + r.width), ferme) + RETARD_COULEUR,
+        y: t,
+        x: l,
       });
-      vagues[meilleure].cases.push(el);
     });
 
     /*
-      L'HEURE D'UNE VAGUE, ET LE SOUFFLE A L'INTERIEUR. Les membres d'une vague
-      se repartissent sur une fenetre FIXE de ETALE_BANDE, quel que soit leur
-      nombre : a decalage constant par membre, une vague nombreuse s'etalait
-      plus que l'ecart entre deux vagues et le trace redevenait une file.
-
-      LE TRAIT PASSE AVANT L'APLAT DE SA VAGUE : la ligne ouvre, la couleur
-      suit dans la meme respiration.
-
-      LE SENS DU TRACE ALTERNE sur l'ordre global des traits - une main qui
-      trace une grille ne repart pas toujours du meme bord.
+      DEUX CASES NON PLUS. Une meme verticale ferme souvent plusieurs cases a
+      la fois ; sans ce pas elles se coloreraient au meme centieme. Elles sont
+      servies dans l'ordre de lecture, ECART_CASE l'une apres l'autre.
     */
-    let nTrait = 0;
-    vagues.forEach((v, i) => {
-      const membres: (Ligne | HTMLElement)[] = [...v.lignes, ...v.cases];
-      const n = membres.length;
-      membres.forEach((m, j) => {
-        const quand = TRACE_DEBUT + i * PAS_BANDE + (n > 1 ? (j / (n - 1)) * ETALE_BANDE : 0);
-        if ((m as Ligne).sens) {
-          const l = m as Ligne;
-          l.depart = quand;
-          l.fin = quand + l.duree;
-          l.inverse = nTrait % 2 === 1;
-          nTrait += 1;
-        } else {
-          (m as HTMLElement).style.setProperty('--retard', `${quand.toFixed(2)}s`);
-        }
-      });
+    remplissages.sort((a, b) => a.quand - b.quand || a.y - b.y || a.x - b.x);
+    let precedenteCase = -Infinity;
+    remplissages.forEach((f) => {
+      const quand = Math.max(f.quand, precedenteCase + ECART_CASE);
+      precedenteCase = quand;
+      f.el.style.setProperty('--retard', `${quand.toFixed(2)}s`);
     });
 
     const calque = document.createElement('div');
