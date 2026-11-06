@@ -305,10 +305,10 @@ const mecanismes: Tuile[] = [
 
       <div class="subsec">
         <div class="split">
-          <p class="lead">Nobody meets. <em class="em-rouge">That's the tax.</em></p>
+          <p class="lead" data-sommaire>Nobody meets. <em class="em-rouge">That's the tax.</em></p>
           <div class="body">
             <p>A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. <strong>Not incompetence - distance.</strong> Three crafts, three silos, each solving in private what the others had already solved.</p>
-            <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale. The <em>how</em> was worse - practices siloed team by team, the same cost paid forty-five times over. <strong>The capability was there. The structure to use it wasn't.</strong></p>
+            <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale. The <em>how</em> was worse: practices siloed team by team. <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
           </div>
         </div>
       </div>
@@ -333,10 +333,7 @@ const mecanismes: Tuile[] = [
       */}
       <div class="dark">
         <p class="eb">The failure, and the decision</p>
-        {/* data-sommaire : la troisieme phrase forte du chapitre n'est pas une
-            `.lead` mais ce titre - c'est lui qui porte la decision. Il monte
-            donc dans le sommaire avec les deux autres. Voir dossier.ts. */}
-        <h3 class="h3" data-sommaire>You can't outsource the thing your whole system depends on.</h3>
+        <h3 class="h3">You can't outsource the thing your whole system depends on.</h3>
         <p>The engineering was externalized before my time - not my call. But <strong>the bet I shared, and got wrong, was priority.</strong> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.</p>
         <p>So the system was coherent, and barely adopted. <strong>A design system nobody adopts is the oldest failure in the field</strong>, and we'd walked straight into it.</p>
         <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg: <strong>a €1M bet on a model, not a line item.</strong> I drove it, and I carried it through.</p>
@@ -354,10 +351,10 @@ const mecanismes: Tuile[] = [
       <div class="subsec">
         <p class="eb">What I owned</p>
         <div class="split">
-          <p class="lead">The decision was the easy part. <em class="em-rouge">Owning it wasn't.</em></p>
+          <p class="lead" data-sommaire>The decision was the easy part. <em class="em-rouge">Owning it wasn't.</em></p>
           <div class="body">
             <p>I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real. Then I hired into them: from one designer to <strong>a core team of 9, organised by capability with accountable leads</strong>. The budget came with it, and the line between what the platform funded and what it shipped was mine.</p>
-            <p>Governance was where I refused the easy answer. <strong>Two models, not one.</strong> A hybrid, federated model for how the system gets built - a centralized core my team owned, contribution opened outward, never fully federated: that's the trap. And a tiered service model for how support got prioritized, re-reviewed quarterly against the business's own priorities - so support followed strategy, not the loudest request.</p>
+            <p>Governance was where I refused the easy answer. <strong data-sommaire>Two models, not one.</strong> A hybrid, federated model for how the system gets built - a centralized core my team owned, contribution opened outward, never fully federated: that's the trap. And a tiered service model for how support got prioritized, re-reviewed quarterly against the business's own priorities - so support followed strategy, not the loudest request.</p>
             <p>I set the direction, carried it to leadership, then handed my team the operational goal as <strong>OKRs of their own</strong>, tied to the company's annual objectives - our ambition inside a shared project, never beside it. <strong>Scaling is a series of bets, and I refused to place them blind:</strong> what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.</p>
           </div>
         </div>
@@ -367,7 +364,7 @@ const mecanismes: Tuile[] = [
       <div class="subsec">
         <p class="eb">The architecture</p>
         <div class="split">
-          <p class="lead">You maintain a design system. <em class="em-bleu">You run a platform.</em></p>
+          <p class="lead" data-sommaire>You maintain a design system. <em class="em-bleu">You run a platform.</em></p>
           <div class="body">
             <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities</strong> - and the tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
           </div>
@@ -399,9 +396,7 @@ const mecanismes: Tuile[] = [
       </div>
 
       <div class="subsec">
-        {/* data-sommaire : troisieme phrase forte du chapitre - elle n'est pas
-            une `.lead` mais un surtitre, et c'est elle qui le ferme. */}
-        <p class="eb" data-sommaire>I don't state values. I install them.</p>
+        <p class="eb">I don't state values. I install them.</p>
         <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms" hauteur={320} />
       </div>
 
@@ -415,7 +410,7 @@ const mecanismes: Tuile[] = [
       <div class="subsec">
         <p class="eb">The results</p>
         <div class="split">
-          <p class="lead">A structure only counts <em class="em-rouge">if it holds.</em></p>
+          <p class="lead" data-sommaire>A structure only counts <em class="em-rouge">if it holds.</em></p>
           <div class="body">
             <p>This one does - and the numbers are the system's, not mine. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, <strong>zero users to a community of 2,000+ practitioners.</strong></p>
             <p><strong>And none of it was measured after the fact.</strong> I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.</p>
@@ -477,7 +472,7 @@ const mecanismes: Tuile[] = [
         </div>
 
         <div class="body">
-          <p>Taking a system from near-zero to <strong>87% average usage per product in production</strong> isn't a launch - it's <strong>change management at scale</strong>: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
+          <p>Taking a system from near-zero to <strong data-sommaire>87% average usage per product in production</strong> isn't a launch - it's <strong>change management at scale</strong>: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
         </div>
 
       </div>
@@ -490,7 +485,7 @@ const mecanismes: Tuile[] = [
 
       <div class="subsec">
         <div class="split">
-          <p class="lead">I didn't build a system I hold together. <em class="em-rouge">I built the conditions where it holds itself.</em></p>
+          <p class="lead" data-sommaire>I didn't build a system I hold together. <em class="em-rouge">I built the conditions where it holds itself.</em></p>
           <ul class="pts">
             <li><strong>Autonomous streams</strong>, split by capability, each moving without a central decision - inside a <strong>collective framing</strong>, so a stream deciding alone still decides inside a frame it co-wrote.</li>
             <li><strong>Shared rituals</strong> are the connective tissue keeping five hubs one system rather than an archipelago.</li>
@@ -504,7 +499,7 @@ const mecanismes: Tuile[] = [
         <p class="eb">The team that runs it</p>
         <div class="split split--haut">
           <div class="pile">
-            <p class="lead">Zero resignations <em class="em-rouge">in three years.</em></p>
+            <p class="lead" data-sommaire>Zero resignations <em class="em-rouge">in three years.</em></p>
             <div class="body">
               <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. <strong>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong> Design went from one to five. Average completed engagement: <strong>23 months against a one-year target.</strong></p>
               <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong> People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.</p>

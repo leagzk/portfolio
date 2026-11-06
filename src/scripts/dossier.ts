@@ -52,19 +52,23 @@ export function initDossier(): void {
   };
 
   /*
-    LE SOMMAIRE DE LA MOITIE BLANCHE. Chaque sous-partie du panneau s'ouvre sur
-    une `.lead` - « Nobody meets. That's the tax. » - et ces phrases sont deja
-    le resume des idees couvertes. On les reprend telles quelles plutot que de
-    les ressaisir dans la page : un sommaire recopie a la main finit toujours
-    par annoncer autre chose que ce qui suit.
+    LE SOMMAIRE DE LA MOITIE BLANCHE, ET IL SE CHOISIT. Les phrases sont
+    balisees `data-sommaire` dans la page, une par une.
 
-    `[data-sommaire]` POUR CE QUI N'EST PAS UNE `.lead`. Une idee peut porter
-    ailleurs que dans la phrase d'ouverture d'une sous-partie - un chiffre en
-    exergue, par exemple. On balise alors le passage dans la page, et il monte
-    avec les autres. L'attribut se pose sur un <span> AUTOUR du membre de
-    phrase voulu, et non sur le paragraphe entier : c'est ce qui permet de
-    n'en prendre qu'une partie sans la recopier. L'ordre des puces est celui
-    du document, pas celui des selecteurs.
+    IL A D'ABORD PRIS TOUTES LES `.lead`, et c'etait une facilite : chaque
+    sous-partie s'ouvre sur une phrase forte, donc le sommaire se faisait
+    tout seul. Sauf qu'une phrase forte n'est pas forcement DE LA CATEGORIE
+    DU CHAPITRE. Le chapitre 01 s'appelle « The problem » et ses puces
+    annoncaient l'enjeu du systeme puis la decision de l'internaliser - deux
+    choses tres bien ecrites, mais qui ne sont pas des bloquants. Un sommaire
+    qui annonce autre chose que son titre fait perdre le fil plus surement
+    qu'un sommaire absent.
+
+    ON NE RECOPIE TOUJOURS RIEN. La balise se pose sur la phrase LA OU ELLE
+    VIT - sur une `.lead`, sur un <strong> au milieu d'un paragraphe, sur un
+    <span> autour du seul membre voulu. Le sommaire ne peut donc pas deriver
+    de ce qu'il annonce, et il n'y a pas deux versions d'une meme phrase a
+    tenir a jour. L'ordre des puces est celui du document.
 
     ON CLONE LE CONTENU, ON NE COPIE PAS LE TEXTE. Les phrases portent des
     <em> qui colorent un membre - « That's the tax. » en rouge - et c'est la
@@ -78,7 +82,7 @@ export function initDossier(): void {
   const COULEURS = ['rouge', 'bleu', 'jaune', 'noir'] as const;
   const sommaire = (carte: HTMLButtonElement, pan: HTMLElement) => {
     compo?.querySelector('.compo__sommaire')?.remove();
-    const phrases = Array.from(pan.querySelectorAll<HTMLElement>('.lead,[data-sommaire]'));
+    const phrases = Array.from(pan.querySelectorAll<HTMLElement>('[data-sommaire]'));
     if (!compo || !phrases.length) return;
     const liste = document.createElement('ul');
     const couleur = COULEURS.find((c) => carte.classList.contains(`dcarte--${c}`));
