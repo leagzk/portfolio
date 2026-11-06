@@ -24,7 +24,36 @@
   les elements a decaler, et la classe `pre` qui blanchit le fond de SA grille.
   Le script decide QUAND, la feuille decide QUOI.
 */
+/*
+  LE CALQUE NE DOIT RIEN PEINDRE, ET IL PEIGNAIT TOUT.
+
+  `.segs` est un enfant direct de la composition, donc `.compo > *` - la regle
+  qui donne aux CASES leur fond blanc - s'appliquait aussi a lui. Avec
+  `inset:0` et `z-index:6`, il posait un rectangle blanc OPAQUE sur toute la
+  composition pendant la duree du trace : les traits se dessinaient dessus,
+  les aplats poussaient dessous sans qu'on les voie, et tout arrivait d'un
+  bloc au moment ou le calque se retire. Les cinq compositions en .compo
+  etaient touchees ; l'accueil, dont les cases ne portent pas cette regle, ne
+  l'etait pas - d'ou « sur toutes les pages sauf la landing ».
+
+  L'ACCUEIL ETAIT TOUCHE AUSSI - `.comp > *` porte la meme regle. Il s'en
+  tirait a l'oeil parce que sa composition tient dans la fenetre et que tout
+  s'y joue en deux secondes : le blanc du calque passait pour l'etat de
+  depart. Les cinq autres, plus longues a construire, le montraient.
+
+  LES MESURES NE POUVAIENT PAS LE VOIR : les retards, les durees et les
+  croisements etaient justes - c'est la PEINTURE qui etait fausse. Trois
+  passes a regler une choregraphie que personne ne voyait.
+*/
 .segs{position:absolute;inset:0;z-index:6;pointer-events:none}
+/*
+  `.segs.segs` ET PAS `.segs`. La regle des cases - `.compo > *`, `.comp > *` -
+  a exactement la meme specificite qu'une classe seule, et elle est ecrite
+  plus bas dans la cascade : elle gagnait. Mesure apres un premier correctif
+  naif : fond du calque toujours `rgb(255,255,255)` sur les six compositions.
+  Doubler la classe suffit a passer devant sans recourir a `!important`.
+*/
+.segs.segs{background:none;overflow:visible}
 .seg{position:absolute;background:var(--text)}
 /*
   UNE COURBE DE TRACE, PAS UN RESSORT. cubic-bezier(.16,1,.3,1) arrive a 90% de
