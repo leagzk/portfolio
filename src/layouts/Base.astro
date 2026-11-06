@@ -291,8 +291,27 @@ const personSchema = {
     suivrait la photo et se mettrait a l'echelle de la cible, le trait parce
     qu'il n'a plus rien a annoncer.
   */
+  /*
+    will-change : CE N'EST PAS UNE OPTIMISATION, C'EST LE CORRECTIF D'UN BUG
+    DE RENDU WEBKIT. Sur iPhone - et donc dans Chrome iOS, qui tourne sur le
+    meme moteur - l'anneau se peignait DECALE d'environ 25px en haut a droite
+    de la photo, alors que ses boites se mesuraient parfaitement concentriques.
+    Un defaut de peinture, pas de geometrie.
+
+    REPRODUIT SOUS LE WEBKIT DE PLAYWRIGHT, puis isole : le decalage disparait
+    des qu'on force l'anneau dans sa propre couche de composition. L'element
+    vit dans .loader__fly, qui est en position:fixed avec will-change:transform
+    et une transition - WebKit rasterise alors le SVG avec la couche du parent
+    et se trompe d'origine. `will-change:transform` lui en donne une a lui, et
+    le trace retombe juste. `transform:translateZ(0)` corrige a l'identique ;
+    on garde la forme declarative, celle que .loader__fly emploie deja.
+
+    NI pathLength NI vector-effect N'Y ETAIENT POUR QUELQUE CHOSE. Les deux ont
+    ete soupconnes et testes un par un sous WebKit : le decalage restait
+    identique dans les quatre combinaisons.
+  */
   .loader__anneau{position:absolute;inset:-9px;z-index:0;overflow:visible;
-    transform:rotate(-90deg);transition:opacity .3s ease}
+    transform:rotate(-90deg);will-change:transform;transition:opacity .3s ease}
   /* vector-effect : l'epaisseur reste a 1,5px quelle que soit la taille rendue,
      au lieu d'etre multipliee par l'echelle du viewBox. */
   .loader__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
