@@ -52,8 +52,6 @@ The system
 
 Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
 
-Operating System
-
 Three crafts, three silos - and a system nobody adopted.
 
 A designer ships a spec, an engineer rebuilds it, a marketer briefs an agency for a palette the system already had. Then we built the answer brand-first, through a vendor - coherent, but barely adopted.

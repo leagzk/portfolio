@@ -181,7 +181,6 @@
 .clef-def__phrase{margin:0;font-family:var(--display);font-size:22px;
   line-height:1.25;font-weight:900;letter-spacing:-.01em;color:var(--text)}
 .clef-def__phrase strong{color:var(--red)}
-.clef-def .sb{margin-top:auto;align-self:flex-start}
 
 /* La construction sert ces cases comme celles de la composition. */
 .attend :is(.clef__plat){transform:scale(0)}
