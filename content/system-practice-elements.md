@@ -19,24 +19,40 @@ the same chain. Starting in 2022 as **Design Lead**, running the platform
 today as its **Director**.
 
 100%
+
 adoption in the 3 Digital Accelerators
+
 R&D, Commercial, Manufacturing. Every product in the perimeter runs on Elements.
 
 87%
+
 component usage per product
+
 Teams build on the system, not around it.
 
 ÷3
+
 time-to-launch on strategic launches
+
 Like Beyfortus®. 810+ development days saved.
 
 35+
+
 contributors, from zero in 18 months
+
 Inner source, not headcount. 4.7/5 practitioner satisfaction.
 
 0
+
 resignations in three years
+
 Design went from one to five. Average completed engagement: 23 months against a one-year target.
+
+The system
+
+Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
+
+Operating System
 
 Three crafts, three silos - and a system nobody adopted.
 
@@ -53,10 +69,6 @@ Adopted. Trusted. Extended.
 I didn't build a system I hold together.
 
 Autonomous streams, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story.
-
-The system
-
-Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
 
 ## 01 &middot; The problem
 

@@ -69,13 +69,13 @@ const img = chercheurImages(fichiers, 'elements-system');
   systeme ne tient pas dans une seule paire de mains.
 */
 const chiffres: Chiffre[] = [
-  { nombre: '100%', quoi: 'adoption in the 3 Digital Accelerators',
+  { nombre: '100%', quoi: 'adoption in the 3 Digital Accelerators', couleur: 'rouge',
     contexte: 'R&D, Commercial, Manufacturing. Every product in the perimeter runs on Elements.' },
-  { nombre: '87%', quoi: 'component usage per product',
+  { nombre: '87%', quoi: 'component usage per product', couleur: 'bleu',
     contexte: 'Teams build on the system, not around it.' },
-  { nombre: '÷3', quoi: 'time-to-launch on strategic launches',
+  { nombre: '÷3', quoi: 'time-to-launch on strategic launches', couleur: 'jaune',
     contexte: 'Like Beyfortus®. 810+ development days saved.' },
-  { nombre: '35+', quoi: 'contributors, from zero in 18 months',
+  { nombre: '35+', quoi: 'contributors, from zero in 18 months', couleur: 'gris',
     contexte: 'Inner source, not headcount. 4.7/5 practitioner satisfaction.' },
   /*
     LE CINQUIEME PROUVE LA DIRECTION, PAS LE SYSTEME. Les quatre premiers
@@ -84,7 +84,7 @@ const chiffres: Chiffre[] = [
     au troisieme tiers du troisieme chapitre - derriere un clic, a l'endroit
     le plus enterre, pour l'argument le plus cherche.
   */
-  { nombre: '0', quoi: 'resignations in three years',
+  { nombre: '0', quoi: 'resignations in three years', couleur: 'noir',
     contexte: 'Design went from one to five. Average completed engagement: 23 months against a one-year target.' },
 ];
 
@@ -184,7 +184,23 @@ const mecanismes: Tuile[] = [
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} />
+    {/*
+      LA DEFINITION A QUITTE LA COMPOSITION POUR LE BANDEAU. Elle y etait une
+      case parmi les chapitres ; elle est maintenant la grande case
+      typographique au milieu des chiffres, sur le modele du bloc de l'accueil.
+      Elle se lit donc AVANT les chapitres, ce qui est son role - dire ce
+      qu'est le systeme dont les quatre chapitres racontent l'histoire.
+
+      ET ELLE PORTE LE RENVOI QUI MANQUAIT. Cette etude prouve une facon de
+      diriger a l'echelle, et elle ne liait nulle part la page qui la decrit.
+    */}
+    <ChiffresCles chiffres={chiffres} variante="mondrian">
+      <Fragment slot="definition">
+        <p class="clef-def__eb">The system</p>
+        <p class="clef-def__phrase">Elements is Sanofi&apos;s unified experience system - <strong>one design language</strong> serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.</p>
+        <Bouton href="/operating-system" variante="bleu" icone="fleche">Operating System</Bouton>
+      </Fragment>
+    </ChiffresCles>
 
     {/*
       ─── La composition des 3 cartes (BRIEF §5.3) ───
@@ -269,27 +285,6 @@ const mecanismes: Tuile[] = [
         commande="pan-team"
         aire="4 / 3 / 6 / 6"
       />
-
-      {/*
-        CE QUE LE SYSTEME EST, DANS LA GRILLE ET PAS DANS UN CHAPITRE. La phrase
-        definissait Elements au milieu de « The stakes » : on ne disait donc ce
-        qu'est le systeme qu'APRES avoir demande au lecteur de choisir un
-        chapitre. Elle prend sa case dans la composition, a la forme du bloc
-        Operating System de l'accueil - surtitre, texte court, bande de couleur
-        en bas. Elle occupe les quatre cases du bas a droite ; la bande bleue
-        reprend celle que l'aplat de 5/6 portait.
-
-        CE N'EST PAS UNE CARTE : on ne l'ouvre pas, elle ne commande rien. Elle
-        disparait avec le reste quand un chapitre s'ouvre, ce qui est juste -
-        c'est au sommaire qu'elle appartient.
-      */}
-      <div class="quoi" style="grid-area:4 / 6 / 6 / 8">
-        <span class="quoi__plat" aria-hidden="true"></span>
-        <div class="quoi__txt">
-          <p class="quoi__eb">The system</p>
-          <p class="quoi__texte">Elements is Sanofi&apos;s unified experience system - <strong>one design language</strong> serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.</p>
-        </div>
-      </div>
     </div>
 
     {/* ═══════════ 01 · The problem ═══════════ */}
@@ -637,10 +632,13 @@ const mecanismes: Tuile[] = [
 </style>
 
 <script>
+  import { initChiffres } from '../scripts/chiffres';
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { suivreCadres } from '../scripts/vues';
 
+  /* le contexte des chiffres se deplie au clic aussi - voir le fichier */
+  initChiffres();
   initDossier();
   initLoupe();
   /* hors champ, les cadres cessent de defiler : voir src/scripts/vues.ts */

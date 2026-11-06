@@ -2,22 +2,40 @@
 /*
   Les chiffres cles d'une etude de cas (BRIEF §5.2).
 
-  Quatre colonnes separees par des filets VERTICAUX, et c'est tout le propos du
-  dispositif : les filets ne touchent pas le hero au-dessus et descendent
-  jusqu'au cadre de la composition en dessous. Ils relient les deux, la ou une
-  rangee de cartes aurait fait un bloc de plus.
+  DEUX FORMES, ET C'EST LA PAGE QUI CHOISIT.
+
+  « bandeau » - la forme d'origine : des colonnes blanches separees par des
+  filets VERTICAUX, qui ne touchent pas le hero au-dessus et descendent jusqu'au
+  cadre de la composition en dessous. Ils relient les deux, la ou une rangee de
+  cartes aurait fait un bloc de plus.
+
+  « mondrian » - des APLATS DE COULEUR DEPLIABLES, sur le modele des principes
+  de l'accueil : le nombre et son intitule se lisent d'emblee, le contexte
+  arrive au survol, au focus ou au clic. Une grande case typographique les
+  accompagne - sur Governance, la definition du systeme et le renvoi vers la
+  page qui dit comment l'equipe travaille. Le bandeau cesse alors d'etre une
+  rangee pour devenir une composition, comme celle qui le suit.
+
+  POURQUOI DEPLIABLE PLUTOT QUE TOUT VISIBLE : la ligne de contexte est ce qui
+  donne sa valeur au chiffre, mais c'est aussi ce qui empeche de les compter
+  d'un coup d'oeil. Repliee, elle laisse cinq nombres se lire en une seconde ;
+  depliee, elle les explique un par un. Les deux lectures ont leur moment, et
+  le « + » dit qu'il y en a une seconde.
 
   Le CSS est dans src/styles/etude.css, avec le reste du gabarit : la page
   l'importe deja, et un <style> scope ici ne traverserait pas la frontiere du
   slot de toute facon.
 
-  QUATRE OU CINQ, PAS N. Le bandeau compte desormais ses colonnes (`--cles-n`),
-  et sous 860px il passe a deux : une colonne qui ouvre une rangee perd sa
-  bordure gauche, et la derniere, si elle est seule, prend les deux colonnes.
-  Au-dela de cinq les nombres a 56px ne tiennent plus leur ligne - mesure a
-  1280px : cinq colonnes font 214px, six en feraient 178. Le garde reste au
+  QUATRE OU CINQ, PAS N. Le bandeau compte ses colonnes (`--cles-n`), et sous
+  860px il passe a deux : une colonne qui ouvre une rangee perd sa bordure
+  gauche, et la derniere, si elle est seule, prend les deux colonnes. Au-dela de
+  cinq les nombres a 56px ne tiennent plus leur ligne - mesure a 1280px : cinq
+  colonnes font 214px, six en feraient 178. La forme mondrian, elle, en demande
+  exactement cinq : son gabarit est dessine, pas calcule. Le garde reste au
   build plutot qu'a l'oeil.
 */
+import Icone from './Icone.astro';
+
 export interface Chiffre {
   /** le nombre, tel qu'il s'ecrit : « 2,500 », « 200+ », « 1 » */
   nombre: string;
@@ -25,37 +43,92 @@ export interface Chiffre {
   quoi: string;
   /** la ligne de contexte, qui dit ce que le chiffre vaut */
   contexte: string;
+  /** forme mondrian seulement : la couleur de l'aplat */
+  couleur?: 'rouge' | 'bleu' | 'jaune' | 'gris' | 'noir' | 'blanc';
 }
 
 export interface Props {
   chiffres: Chiffre[];
   /** intitule du groupe pour les lecteurs d'ecran */
   label?: string;
+  /** « bandeau » par defaut ; « mondrian » attend cinq chiffres et un slot */
+  variante?: 'bandeau' | 'mondrian';
 }
-const { chiffres, label = 'Proof points' } = Astro.props;
-if (chiffres.length < 4 || chiffres.length > 5) {
+const { chiffres, label = 'Proof points', variante = 'bandeau' } = Astro.props;
+const mondrian = variante === 'mondrian';
+
+if (!mondrian && (chiffres.length < 4 || chiffres.length > 5)) {
   throw new Error(`<ChiffresCles> attend 4 ou 5 chiffres, reçu ${chiffres.length}`);
 }
+if (mondrian && chiffres.length !== 5) {
+  throw new Error(
+    `<ChiffresCles variante="mondrian"> attend exactement 5 chiffres, reçu ${chiffres.length}`,
+  );
+}
+
+/*
+  LE GABARIT EST DESSINE, PAS CALCULE. Douze colonnes, deux rangees, et des
+  cases de largeurs differentes - c'est ce qui fait une composition plutot
+  qu'une rangee. Les trois premieres se lisent en haut, les deux suivantes en
+  bas : L'ORDRE DU DOM EST L'ORDRE VISUEL, et comme ce sont des boutons, c'est
+  aussi l'ordre de tabulation.
+
+  Le plus large des nombres ouvre : « 100% » demande 150px a 56px de corps, et
+  trois colonnes lui en donnent 267 - les deux colonnes d'« 87% » ne lui en
+  auraient laisse que 177.
+*/
+const AIRES = [
+  '1 / 1 / 2 / 4',
+  '1 / 4 / 2 / 6',
+  '1 / 6 / 2 / 8',
+  '2 / 1 / 3 / 4',
+  '2 / 4 / 3 / 8',
+];
+const AIRE_DEF = '1 / 8 / 3 / 13';
 ---
 {/*
   data-filets : crochet du trace anime (src/scripts/grille.ts). Les filets de
   ce bandeau sont de vraies bordures CSS et non des `gap` ; le script les
   releve comme il releve ceux d'une composition, et le MEME front les traverse
   - le bandeau et la composition qui le suit se touchent, ils ne font qu'un
-  bloc.
+  bloc. En forme mondrian les filets viennent des `gap` sur fond noir, comme
+  dans la composition : le script releve les memes aretes dans les deux cas.
 */}
-{/*
-  LE NOMBRE DE COLONNES SUIT LE NOMBRE DE CHIFFRES, et n'est pas ecrit en dur
-  dans la feuille de style : les etudes n'en ont pas toutes autant. Governance
-  en porte cinq depuis qu'elle prouve aussi la direction d'equipe ; les autres
-  en gardent quatre, et `--cles-n` vaut 4 par defaut dans etude.css.
-*/}
-<section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>
-  {chiffres.map((c) => (
-    <div class="cles__col">
-      <span class="cles__nb">{c.nombre}</span>
-      <span class="cles__quoi">{c.quoi}</span>
-      <span class="cles__ctx">{c.contexte}</span>
+{mondrian ? (
+  <section class="cles cles--mondrian" data-filets aria-label={label}>
+    {chiffres.map((c, i) => (
+      <button
+        class:list={['clef', `clef--${c.couleur ?? 'blanc'}`]}
+        type="button"
+        aria-expanded="false"
+        style={`grid-area:${AIRES[i]}`}
+      >
+        <span class="clef__plat" aria-hidden="true"></span>
+        <span class="clef__txt">
+          {/* data-copy : un <button> ne peut pas porter de <p>, donc rien ici
+              ne sortirait dans l'export de contenu sans ce crochet. Voir
+              scripts/export-content.mjs. */}
+          <span class="clef__nb" data-copy>{c.nombre}</span>
+          <span class="clef__bas">
+            <span class="clef__quoi" data-copy>{c.quoi}</span>
+            <span class="clef__detail" data-copy>{c.contexte}</span>
+          </span>
+        </span>
+        <Icone nom="plus" taille={18} class="clef__plus" />
+      </button>
+    ))}
+    <div class="clef-def" style={`grid-area:${AIRE_DEF}`}>
+      <slot name="definition" />
     </div>
-  ))}
-</section>
+  </section>
+) : (
+  <section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>
+    {chiffres.map((c) => (
+      <div class="cles__col">
+        <span class="cles__nb">{c.nombre}</span>
+        <span class="cles__quoi">{c.quoi}</span>
+        <span class="cles__ctx">{c.contexte}</span>
+      </div>
+    ))}
+  </section>
+)}

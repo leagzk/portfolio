@@ -94,6 +94,105 @@
 .vu :is(.cles__quoi,.cles__ctx){
   animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .14s) both}
 
+/* ═══════════ Chiffres cles, forme mondrian (BRIEF §5.2) ═══════════ */
+/*
+  LE BANDEAU DEVIENT UNE COMPOSITION. Meme construction que `.compo` : un fond
+  noir que les `gap` laissent voir, des cases qui le couvrent, et un `clip-path`
+  qui rogne le pixel de debord sous-pixel sur les trois bords ouverts. Le trace
+  anime n'a rien a apprendre - il releve les memes aretes.
+
+  LES HAUTEURS SONT FIXES, ET C'EST VOULU. Une case qui grandit au survol ferait
+  bouger toute la rangee sous le curseur. Le contexte se deplie DANS la case,
+  qui a ete dimensionnee pour le contenir ouvert : 220px tiennent le nombre a 48,
+  intitule sur deux lignes et quatre lignes de contexte.
+*/
+.cles--mondrian{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));
+  grid-template-rows:repeat(2,220px);gap:var(--rule-fine);background:var(--text);
+  clip-path:inset(0 1px 0 1px);margin-top:72px;position:relative;
+  border-bottom:var(--rule-fine) solid var(--text)}
+.cles--mondrian.pre{background:var(--white);border-bottom-color:transparent}
+.cles--mondrian > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
+
+/* ─── L'aplat depliable ─── */
+/*
+  C'EST LE PRINCIPE DE L'ACCUEIL, PAS UNE NOUVELLE MECANIQUE. Meme bouton, meme
+  « + » qui pivote, meme revelation au survol, au focus et au clic - le clic
+  parce que sur telephone les deux autres n'existent pas (BRIEF §11).
+
+  L'APLAT EST UN ENFANT, PAS UN FOND : la case doit pouvoir POUSSER a la
+  construction, et une case dont le fond porte la couleur decouvrirait le noir
+  de la grille en passant a `scale(0)`. Meme raison que `.compo__plat`.
+*/
+.clef{all:unset;box-sizing:border-box;position:relative;display:block;
+  cursor:pointer;overflow:hidden}
+.clef:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
+.clef__plat{position:absolute;inset:0;transform-origin:left top}
+.clef--rouge .clef__plat{background:var(--red)}
+.clef--bleu .clef__plat{background:var(--blue)}
+.clef--jaune .clef__plat{background:var(--yellow)}
+.clef--gris .clef__plat{background:var(--grey-mondrian)}
+.clef--noir .clef__plat{background:var(--ink)}
+.clef--rouge,.clef--bleu,.clef--noir{color:var(--white)}
+.clef--jaune,.clef--gris,.clef--blanc{color:var(--text)}
+
+/*
+  24px ET NON `--pad-square`, QUI EN VAUT 48. Les aplats de l'accueil sont des
+  cases de 300px et plus ; les plus etroits d'ici en font 177, dont 96 seraient
+  partis en marge - « 87% » y mesure 115px a 52 de corps, et debordait. C'est
+  la marge des autres cases de composition de cette page.
+*/
+.clef__txt{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;
+  justify-content:space-between;gap:12px;padding:24px}
+.clef__nb{font-family:var(--display);font-size:48px;font-weight:900;line-height:1;
+  letter-spacing:-.02em}
+.clef__bas{display:flex;flex-direction:column;gap:8px}
+.clef__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.35}
+/*
+  Le contexte n'existe qu'ouvert. `max-height` anime le depliage, et le delai
+  sur l'opacite evite qu'il apparaisse avant d'avoir la place.
+*/
+.clef__detail{font-size:13px;line-height:1.5;opacity:0;max-height:0;overflow:hidden;
+  transition:opacity .2s,max-height 0s .2s}
+.clef:hover .clef__detail,
+.clef:focus-visible .clef__detail,
+.clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:140px;
+  transition:opacity .25s .1s,max-height 0s}
+.clef__plus{position:absolute;top:16px;right:16px;z-index:1;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1)}
+.clef:hover .clef__plus,
+.clef:focus-visible .clef__plus,
+.clef[aria-expanded="true"] .clef__plus{transform:rotate(45deg)}
+
+/* ─── La grande case : ce qu'est le systeme, et ou lire la suite ─── */
+.clef-def{display:flex;flex-direction:column;gap:20px;padding:32px}
+.clef-def__eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
+.clef-def__phrase{margin:0;font-family:var(--display);font-size:22px;
+  line-height:1.25;font-weight:900;letter-spacing:-.01em;color:var(--text)}
+.clef-def__phrase strong{color:var(--red)}
+.clef-def .sb{margin-top:auto;align-self:flex-start}
+
+/* La construction sert ces cases comme celles de la composition. */
+.attend :is(.clef__plat){transform:scale(0)}
+.attend :is(.clef__txt,.clef-def > *){opacity:0}
+.vu :is(.clef__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
+.vu :is(.clef__txt,.clef-def > *){animation:monte .85s cubic-bezier(.16,1,.3,1)
+  calc(var(--retard,0s) + .22s) both}
+
+@media(max-width:860px){
+  /*
+    Une case par rangee : a 343px, deux aplats cote a cote ne laisseraient pas
+    de place au nombre. Les hauteurs se relachent, puisque rien ne se survole -
+    le depliage s'y fait au clic, et la rangee peut grandir avec lui.
+  */
+  .cles--mondrian{grid-template-columns:1fr;grid-template-rows:none;margin-top:48px}
+  .cles--mondrian > *{grid-area:auto !important;min-height:170px}
+  .clef__txt{position:relative;inset:auto;gap:16px;padding:24px 16px}
+  .clef:hover .clef__detail,.clef:focus-visible .clef__detail{opacity:0;max-height:0}
+  .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:400px}
+  .clef:hover .clef__plus,.clef:focus-visible .clef__plus{transform:none}
+}
+
 /* ─── Cadre defilant : une page entiere dans un cadre au format fixe ─── */
 /*
   La formule et le pourquoi sont dans src/components/CadreDefilant.astro. Ici
@@ -246,7 +345,14 @@
 .pan .taught__viz svg{width:100%;height:auto;display:block}
 
 @media(max-width:860px){
-  .cles{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:48px;row-gap:24px}
+  /*
+    `:not(.cles--mondrian)` : la forme mondrian a sa propre requete telephone,
+    ECRITE PLUS HAUT dans ce fichier. A specificite egale ces trois lignes
+    gagneraient - mesure : les aplats repassaient a deux colonnes de 171px et
+    le `row-gap` de 24px laissait voir le fond noir en bandes.
+  */
+  .cles:not(.cles--mondrian){grid-template-columns:repeat(2,minmax(0,1fr));
+    margin-top:48px;row-gap:24px}
   .cles__col{padding:0 16px 24px}
   /*
     Une colonne qui ouvre une rangee n'a plus de voisine a gauche. La formule
