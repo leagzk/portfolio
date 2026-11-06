@@ -102,6 +102,15 @@ const opaque = (el) => { let n=el;
 const visible = (el) => { const cs=getComputedStyle(el);
   if (cs.display==='none'||cs.visibility==='hidden') return false;
   if (!opaque(el)) return false;
+  /*
+    `inert` VEUT DIRE QUE PERSONNE NE LIT CA. C'est ce que porte le fond d'une
+    page pendant que le menu mobile est ouvert : un calque noir opaque le
+    recouvre, il est hors de l'ordre de tabulation et hors de l'arbre
+    d'accessibilite. Juger son contraste n'a pas de sens - et le calque fausse
+    le calcul, puisque c'est LUI que l'audit trouve comme fond : le bloc jaune
+    « Download CV » de la barre etait annonce a 1,06:1, encre sur encre.
+  */
+  if (el.closest('[inert]')) return false;
   if (el.closest('[hidden]')||el.closest('.sr-only')) return false;
   const r=el.getBoundingClientRect(); return r.width>0&&r.height>0; };
 
