@@ -11,9 +11,12 @@
   l'importe deja, et un <style> scope ici ne traverserait pas la frontiere du
   slot de toute facon.
 
-  QUATRE, PAS N. La grille est ecrite en quatre colonnes et le passage a deux
-  colonnes sous 860px suppose un nombre pair ; une cinquieme entree casserait
-  les deux. Le garde est au build plutot qu'a l'oeil.
+  QUATRE OU CINQ, PAS N. Le bandeau compte desormais ses colonnes (`--cles-n`),
+  et sous 860px il passe a deux : une colonne qui ouvre une rangee perd sa
+  bordure gauche, et la derniere, si elle est seule, prend les deux colonnes.
+  Au-dela de cinq les nombres a 56px ne tiennent plus leur ligne - mesure a
+  1280px : cinq colonnes font 214px, six en feraient 178. Le garde reste au
+  build plutot qu'a l'oeil.
 */
 export interface Chiffre {
   /** le nombre, tel qu'il s'ecrit : « 2,500 », « 200+ », « 1 » */
@@ -30,8 +33,8 @@ export interface Props {
   label?: string;
 }
 const { chiffres, label = 'Proof points' } = Astro.props;
-if (chiffres.length !== 4) {
-  throw new Error(`<ChiffresCles> attend exactement 4 chiffres, reçu ${chiffres.length}`);
+if (chiffres.length < 4 || chiffres.length > 5) {
+  throw new Error(`<ChiffresCles> attend 4 ou 5 chiffres, reçu ${chiffres.length}`);
 }
 ---
 {/*
@@ -41,7 +44,13 @@ if (chiffres.length !== 4) {
   - le bandeau et la composition qui le suit se touchent, ils ne font qu'un
   bloc.
 */}
-<section class="cles" data-filets aria-label={label}>
+{/*
+  LE NOMBRE DE COLONNES SUIT LE NOMBRE DE CHIFFRES, et n'est pas ecrit en dur
+  dans la feuille de style : les etudes n'en ont pas toutes autant. Governance
+  en porte cinq depuis qu'elle prouve aussi la direction d'equipe ; les autres
+  en gardent quatre, et `--cles-n` vaut 4 par defaut dans etude.css.
+*/}
+<section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>
   {chiffres.map((c) => (
     <div class="cles__col">
       <span class="cles__nb">{c.nombre}</span>

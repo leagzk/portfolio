@@ -34,6 +34,10 @@ Like Beyfortus®. 810+ development days saved.
 contributors, from zero in 18 months
 Inner source, not headcount. 4.7/5 practitioner satisfaction.
 
+0
+resignations in three years
+Design went from one to five. Average completed engagement: 23 months against a one-year target.
+
 Three crafts, three silos - and a system nobody adopted.
 
 A designer ships a spec, an engineer rebuilds it, a marketer briefs an agency for a palette the system already had. Then we built the answer brand-first, through a vendor - coherent, but barely adopted.

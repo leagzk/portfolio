@@ -51,7 +51,7 @@
   garde ses bords ouverts. Les 48px d'air sous les nombres viennent du padding
   de .cles__col ; le filet tombe donc au pixel ou il tombait avant.
 */
-.cles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px;
+.cles{display:grid;grid-template-columns:repeat(var(--cles-n,4),minmax(0,1fr));margin-top:72px;
   border-bottom:var(--rule-fine) solid var(--text);position:relative}
 /*
   PENDANT LE TRACE, LES VRAIES BORDURES S'EFFACENT. Le script pose par-dessus
@@ -248,8 +248,17 @@
 @media(max-width:860px){
   .cles{grid-template-columns:repeat(2,minmax(0,1fr));margin-top:48px;row-gap:24px}
   .cles__col{padding:0 16px 24px}
-  /* La troisieme ouvre la deuxieme rangee : elle n'a plus de voisine a gauche. */
-  .cles__col:nth-child(3){border-left:0}
+  /*
+    Une colonne qui ouvre une rangee n'a plus de voisine a gauche. La formule
+    plutot que `nth-child(3)` : Governance en porte cinq depuis qu'elle prouve
+    aussi la direction d'equipe, et la cinquieme ouvre une rangee elle aussi.
+  */
+  .cles__col:nth-child(odd){border-left:0}
+  /*
+    Un nombre impair laisse la derniere seule sur sa rangee. Elle prend les
+    deux colonnes : un chiffre cle a cote d'un trou se lit comme un oubli.
+  */
+  .cles__col:last-child:nth-child(odd){grid-column:1 / -1}
 }
 
 /* ═══════════ Composition des 3 cartes (BRIEF §5.3) ═══════════ */
