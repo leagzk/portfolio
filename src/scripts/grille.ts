@@ -46,7 +46,7 @@ import { mouvementReduit } from './motion';
   plusieurs cases se remplissent en meme temps a des endroits differents.
 */
 const TRACE_DEBUT = 0.1; // retard du premier filet
-const TRACE_ETALEMENT = 2.4; // ecart entre le premier filet et le dernier
+const TRACE_ETALEMENT = 1.9; // ecart entre le premier trait et le dernier
 /*
   UNE VITESSE, PAS UNE DUREE. Tous les filets mettaient 0,5s, quelle que soit
   leur longueur : sur l'accueil, un filet de 625px filait a 1250px/s pendant
@@ -54,14 +54,14 @@ const TRACE_ETALEMENT = 2.4; // ecart entre le premier filet et le dernier
   ne pouvait se lire comme UNE main : une main trace a vitesse a peu pres
   constante, et c'est la duree qui suit la longueur, pas l'inverse.
 
-  900px/s est la vitesse moyenne de l'ancien reglage sur la composition de
-  l'accueil : l'ensemble garde donc son tempo, ce sont les ecarts entre filets
-  qui disparaissent. Les bornes evitent les deux extremes du geste - un tiret
-  de 50px qui clignerait, un filet de 900px qui s'eterniserait.
+1100px/s depuis que les bords sont fusionnes en vraies lignes : elles vont
+  maintenant d'un bout a l'autre de la composition, et a 900 les plus longues
+  trainaient une seconde et quart. Les bornes evitent les deux extremes du
+  geste - un tiret de 50px qui clignerait, une ligne pleine qui s'eterniserait.
 */
-const TRACE_VITESSE = 900; // px/s
-const TRACE_DUREE_MIN = 0.26;
-const TRACE_DUREE_MAX = 0.8;
+const TRACE_VITESSE = 1100; // px/s
+const TRACE_DUREE_MIN = 0.22;
+const TRACE_DUREE_MAX = 1;
 /*
   DEUX FILETS NE PARTENT JAMAIS ENSEMBLE. Le front se propage en diagonale
   depuis le coin haut gauche - (x + y) / (W + H) -, et deux filets poses sur la
@@ -75,10 +75,14 @@ const TRACE_DUREE_MAX = 0.8;
   diagonal est conserve - c'est le concept, le trait du hero touche le coin
   haut gauche et tout part de la -, seules les egalites sont defaites.
 
-  0,07s : en dessous l'oeil ne separe plus deux departs, au-dessus la
-  construction s'etire et le collectif se perd.
+0,16s, et plus 0,07. A 0,07 - quatre images - l'oeil ne separait pas deux
+  departs : Lea voyait toujours des traits arriver « ensemble d'un coup »,
+  alors que la mesure, elle, declarait zero ex aequo. Le chiffre etait juste
+  et la lecture restait fausse ; c'est la lecture qui tranche. A 0,16 le
+  decalage se voit, et comme un trace dure de 0,2 a 1s, il y a toujours deux
+  ou trois lignes en cours - le collectif tient.
 */
-const ECART_MIN = 0.07;
+const ECART_MIN = 0.16;
 const RETRAIT = 0.3; // ce que la couleur attend apres les filets qui la bordent
 /* Une case qui arrive bien apres la construction - on a defile jusqu'a elle -
    ne doit pas heriter d'un retard calcule pour l'ouverture. */
@@ -172,104 +176,221 @@ function construire(comp: HTMLElement): void {
       return;
     }
 
-    const calque = document.createElement('div');
-    calque.className = 'segs';
-    calque.setAttribute('aria-hidden', 'true');
-    const ep = 2;
-    const vus = new Set<string>();
     /*
-      Les filets sont COLLECTES avant d'etre cadences : leur depart depend de
-      celui des autres (voir ECART_MIN), donc aucun ne peut etre fixe tant
-      qu'on ne les a pas tous.
+      ═══ UNE LIGNE, ET PLUS UN BORD DE CASE ═══
+
+      Chaque case posait le filet de son bord droit et celui de son bord bas.
+      Une « ligne verticale » de la composition etait donc TROIS OU QUATRE
+      segments empiles, chacun avec son propre retard : rien ne se tracait du
+      haut vers le bas, la ligne se remplissait par morceaux, souvent dans le
+      desordre. C'est ce que Lea voyait - des traits qui apparaissent d'un coup
+      plutot qu'un trait qu'on tire.
+
+      Les bords sont donc releves puis FUSIONNES : meme abscisse, intervalles
+      qui se touchent, une seule ligne. On releve les quatre bords de chaque
+      case et pas seulement droite et bas - une case peut border a gauche une
+      ligne qu'aucune autre ne borde a droite, quand la grille a des cellules
+      a cheval sur plusieurs rangees.
     */
-    const filets: { seg: HTMLElement; avance: number; duree: number; depart: number }[] = [];
+    const TOL = 2; // le `gap` de la grille : deux bords distants de 2px se touchent
 
-    const poser = (sens: 'v' | 'h', l: number, t: number, w: number, h: number) => {
-      /* Deux cases voisines partagent un bord : sans ce garde le meme filet
-         serait dessine - et anime - deux fois, et le recouvrement se verrait. */
-      const cle = `${sens}${Math.round(l)}:${Math.round(t)}:${Math.round(w)}:${Math.round(h)}`;
-      if (vus.has(cle)) return;
-      vus.add(cle);
-      const seg = document.createElement('span');
-      seg.className = `seg seg--${sens}`;
-      seg.style.cssText = `left:${l}px;top:${t}px;width:${w}px;height:${h}px`;
-      const longueur = sens === 'v' ? h : w;
-      filets.push({
-        seg,
-        /* L'avance se mesure au point ou le filet COMMENCE a se tracer : son
-           coin haut gauche, qui est aussi son transform-origin. */
-        avance: avanceDe(l, t, cr),
-        duree: Math.min(TRACE_DUREE_MAX, Math.max(TRACE_DUREE_MIN, longueur / TRACE_VITESSE)),
-        depart: 0,
-      });
-      calque.appendChild(seg);
-    };
+    type Arete = { pos: number; a: number; b: number };
+    const brutes: Record<'v' | 'h', Arete[]> = { v: [], h: [] };
 
-    /* Chaque filet interieur est le bord DROIT ou BAS d'au moins une case. Les
-       bords exterieurs sont ignores : la grille a ses bords ouverts (§3.2). */
     cases.forEach((el) => {
       const r = el.getBoundingClientRect();
       if (!r.width || !r.height) return;
       const l = r.left - cr.left;
       const t = r.top - cr.top;
-      if (r.right - cr.left < W - 1) poser('v', l + r.width, t, ep, r.height);
-      if (r.bottom - cr.top < H - 1) poser('h', l, t + r.height, r.width, ep);
+      const d = l + r.width;
+      const b = t + r.height;
+      /* Les bords exterieurs sont ignores : la grille a ses bords ouverts
+         (§3.2). Un bord est exterieur s'il touche le cadre de la composition. */
+      if (l > TOL) brutes.v.push({ pos: l, a: t, b });
+      if (d < W - TOL) brutes.v.push({ pos: d, a: t, b });
+      if (t > TOL) brutes.h.push({ pos: t, a: l, b: d });
+      if (b < H - TOL) brutes.h.push({ pos: b, a: l, b: d });
     });
 
     /*
-      LA CADENCE. Les filets sont ranges dans l'ordre du front - leur avance
-      diagonale - puis chacun est pousse a au moins ECART_MIN apres le
-      precedent. L'ordre ne change jamais ; seuls les ex aequo sont separes.
+      LES DEUX BORDS D'UN MEME TRAIT SONT DISTANTS DE 2px, et c'est le `gap`
+      de la grille : le trait noir EST cet ecart. Le bord droit d'une case
+      tombe a x, le bord gauche de sa voisine a x + 2. Groupes par abscisse
+      arrondie, ils donnaient DEUX lignes paralleles a 2px l'une de l'autre,
+      tracees l'une apres l'autre - mesure sur l'accueil : seize lignes la ou
+      il y en a huit, chacune en double. Le regroupement se fait donc par
+      PROXIMITE, a la tolerance pres, et la ligne est posee sur le bord le
+      plus a gauche (ou le plus haut) du groupe : c'est lui qui ouvre l'ecart.
     */
-    filets.sort((a, b) => a.avance - b.avance);
-    let precedent = -Infinity;
-    filets.forEach((f) => {
-      f.depart = Math.max(TRACE_DEBUT + f.avance * TRACE_ETALEMENT, precedent + ECART_MIN);
-      precedent = f.depart;
-      f.seg.style.animationDelay = `${f.depart.toFixed(2)}s`;
-      f.seg.style.animationDuration = `${f.duree.toFixed(2)}s`;
-    });
-
-    /*
-      L'HORLOGE DES COULEURS EST CELLE DES FILETS, et plus une formule
-      parallele. Le retard brut d'une case supposait des filets partis a
-      l'heure brute ; depuis que la cadence les decale, l'aplat arrivait avant
-      les deux traits qui le bordent. On lit donc le depart REEL du trace a
-      l'avance de la case, en interpolant entre les deux filets qui l'encadrent,
-      et la couleur attend RETRAIT apres lui.
-    */
-    const retardSurLeTrace = (avance: number): number => {
-      if (!filets.length) return TRACE_DEBUT + avance * TRACE_ETALEMENT;
-      if (avance <= filets[0].avance) return filets[0].depart;
-      const dernier = filets[filets.length - 1];
-      if (avance >= dernier.avance) return dernier.depart;
-      for (let i = 1; i < filets.length; i += 1) {
-        const a = filets[i - 1];
-        const b = filets[i];
-        if (avance <= b.avance) {
-          const ecart = b.avance - a.avance;
-          const part = ecart ? (avance - a.avance) / ecart : 0;
-          return a.depart + part * (b.depart - a.depart);
-        }
-      }
-      return dernier.depart;
+    const fusionner = (aretes: Arete[]): Arete[] => {
+      if (!aretes.length) return [];
+      const parPos: Arete[][] = [];
+      [...aretes].sort((x, y) => x.pos - y.pos).forEach((e) => {
+        const dernier = parPos[parPos.length - 1];
+        if (dernier && e.pos - dernier[0].pos <= TOL) dernier.push(e);
+        else parPos.push([e]);
+      });
+      const sorties: Arete[] = [];
+      parPos.forEach((lot) => {
+        const pos = lot[0].pos;
+        lot.sort((x, y) => x.a - y.a);
+        let courant = { pos, a: lot[0].a, b: lot[0].b };
+        lot.slice(1).forEach((e) => {
+          if (e.a <= courant.b + TOL) courant.b = Math.max(courant.b, e.b);
+          else {
+            sorties.push(courant);
+            courant = { pos, a: e.a, b: e.b };
+          }
+        });
+        sorties.push(courant);
+      });
+      return sorties;
     };
 
+    type Ligne = {
+      sens: 'v' | 'h';
+      x: number; y: number; long: number;
+      inverse: boolean;
+      avance: number; duree: number; depart: number; fin: number;
+    };
+
+    const lignes: Ligne[] = [
+      ...fusionner(brutes.v).map((e) => ({ sens: 'v' as const, x: e.pos, y: e.a, long: e.b - e.a })),
+      ...fusionner(brutes.h).map((e) => ({ sens: 'h' as const, x: e.a, y: e.pos, long: e.b - e.a })),
+    ].map((l) => ({
+      ...l,
+      inverse: false,
+      /*
+        L'AVANCE SE MESURE AU COIN HAUT GAUCHE DE LA LIGNE, pas a son milieu.
+        C'est de ce coin-la que le trait du hero arrive, et une ligne qui
+        commence haut a gauche doit partir tot meme si elle descend loin. Au
+        milieu, toutes les grandes verticales se seraient retrouvees groupees
+        au centre de l'ordre.
+      */
+      avance: Math.max(0, Math.min(1, (l.x + l.y) / (W + H))),
+      duree: 0, depart: 0, fin: 0,
+    }));
+
+    if (!lignes.length) {
+      comp.classList.remove('pre');
+      comp.dataset.phase = 'fini';
+      return;
+    }
+
+    /*
+      ═══ L'ORDRE EST UN MELANGE, PAS DEUX SERIES ═══
+
+      Verticales et horizontales sont rangees ENSEMBLE, sur la seule avance
+      diagonale : elles s'entrelacent donc d'elles-memes, et la grille se ferme
+      case par case au lieu de se dessiner en deux passes. C'est la condition
+      pour que les carres se forment - une case a besoin de ses deux sens.
+
+      ELLES SE CHEVAUCHENT. ECART_MIN separe deux DEPARTS, pas deux lignes : a
+      0,16s pour des traces de 0,2 a 1s, il y a toujours deux ou trois lignes
+      en cours. Le decalage se lit, le collectif tient.
+    */
+    lignes.sort((a, b) => a.avance - b.avance || (a.sens === b.sens ? 0 : a.sens === 'v' ? -1 : 1));
+    let precedent = -Infinity;
+    lignes.forEach((l, i) => {
+      l.duree = Math.min(TRACE_DUREE_MAX, Math.max(TRACE_DUREE_MIN, l.long / TRACE_VITESSE));
+      l.depart = Math.max(TRACE_DEBUT + l.avance * TRACE_ETALEMENT, precedent + ECART_MIN);
+      precedent = l.depart;
+      l.fin = l.depart + l.duree;
+      /*
+        LE SENS ALTERNE. Une main qui trace une grille ne repart pas toujours
+        du meme bord : elle descend, puis remonte, puis redescend. Une ligne
+        sur deux part donc de l'autre bout - bas vers haut pour une verticale,
+        droite vers gauche pour une horizontale. L'alternance suit l'ordre du
+        trace, donc elle est stable d'un chargement a l'autre.
+      */
+      l.inverse = i % 2 === 1;
+    });
+
+    const calque = document.createElement('div');
+    calque.className = 'segs';
+    calque.setAttribute('aria-hidden', 'true');
+    lignes.forEach((l) => {
+      const seg = document.createElement('span');
+      seg.className = `seg seg--${l.sens}${l.inverse ? ' seg--inv' : ''}`;
+      const w = l.sens === 'v' ? 2 : l.long;
+      const h = l.sens === 'v' ? l.long : 2;
+      seg.style.cssText = `left:${l.x}px;top:${l.y}px;width:${w}px;height:${h}px`;
+      seg.style.animationDelay = `${l.depart.toFixed(2)}s`;
+      seg.style.animationDuration = `${l.duree.toFixed(2)}s`;
+      calque.appendChild(seg);
+    });
+
+    /*
+      ═══ UNE CASE SE REMPLIT QUAND ELLE EST FERMEE ═══
+
+      Son retard se calculait sur sa position dans le front - une formule
+      parallele a celle des lignes, qui tombait juste par construction mais ne
+      DISAIT rien. La couleur arrive maintenant quand le dernier des traits qui
+      bordent la case a fini de se tracer : la case se ferme, puis elle se
+      remplit. C'est ce que Lea demande - des carres qui se forment, pas des
+      lignes sorties de nulle part.
+
+      Les bords exterieurs n'existent pas (grille ouverte) : une case de coin
+      n'a que deux ou trois traits a attendre, et c'est bien le dernier d'entre
+      eux qui compte.
+    */
+    const borde = (sens: 'v' | 'h', pos: number, a: number, b: number): Ligne | undefined =>
+      lignes.find((l) => l.sens === sens
+        && Math.abs((sens === 'v' ? l.x : l.y) - pos) <= TOL
+        && (sens === 'v' ? l.y : l.x) <= a + TOL
+        && (sens === 'v' ? l.y + l.long : l.x + l.long) >= b - TOL);
+
+    const fermetures: { el: HTMLElement; ferme: number; t: number; l: number }[] = [];
     cases.forEach((el) => {
       const r = el.getBoundingClientRect();
-      const avance = avanceDe(r.left - cr.left, r.top - cr.top, cr);
-      el.style.setProperty('--retard', `${(retardSurLeTrace(avance) + RETRAIT).toFixed(2)}s`);
+      /* Une case masquee au point de rupture courant - la pagination du rail
+         n'existe que sous 720px - rend une boite nulle. Elle garde le retard
+         brut pose plus haut ; elle n'est de toute facon pas affichee. */
+      if (!r.width || !r.height) return;
+      const l = r.left - cr.left;
+      const t = r.top - cr.top;
+      const bords = [
+        borde('v', l, t, t + r.height),
+        borde('v', l + r.width, t, t + r.height),
+        borde('h', t, l, l + r.width),
+        borde('h', t + r.height, l, l + r.width),
+      ].filter(Boolean) as Ligne[];
+      fermetures.push({
+        el,
+        ferme: bords.length ? Math.max(...bords.map((b) => b.fin)) : TRACE_DEBUT,
+        t,
+        l,
+      });
+    });
+
+    /*
+      DEUX CASES NE SE REMPLISSENT PAS ENSEMBLE NON PLUS. Une meme ligne ferme
+      souvent plusieurs cases a la fois - sur l'accueil, la grande horizontale
+      du bas en ferme CINQ -, et elles se coloraient donc au meme centieme.
+      On venait de defaire les departs simultanes des traits pour les voir
+      reapparaitre sur les aplats.
+
+      Les cases fermees ensemble sont donc servies dans l'ordre de lecture,
+      0,08s l'une apres l'autre - le meme pas que la cascade des cases
+      atteintes plus tard. Une case n'arrive jamais AVANT sa fermeture : le
+      decalage ne fait que pousser.
+    */
+    fermetures.sort((a, b) => a.ferme - b.ferme || a.t - b.t || a.l - b.l);
+    let precedenteCase = -Infinity;
+    fermetures.forEach((f) => {
+      const quand = Math.max(f.ferme + RETRAIT, precedenteCase + RETARD_TARDIF);
+      precedenteCase = quand;
+      f.el.style.setProperty('--retard', `${quand.toFixed(2)}s`);
     });
 
     comp.appendChild(calque);
 
     /*
       LES CASES DEJA A L'ECRAN REJOIGNENT LE TRACE. Elles attendaient leur
-      propre seuil de 25%, qui n'a aucun rapport avec l'horloge des filets :
+      propre seuil de 25%, qui n'a aucun rapport avec l'horloge des lignes :
       mesure sur l'accueil pendant la construction, sept cases etaient servies
-      et quatre attendaient encore, alors que leurs filets, eux, etaient en
-      train de se poser. La couleur ne suivait donc pas la grille, elle
-      arrivait quand le defilement voulait bien.
+      et quatre attendaient encore, alors que leurs traits, eux, etaient en
+      train de se poser.
 
       Une case seulement AMORCEE compte : c'est son retard qui la sequence, et
       la retenir jusqu'a 25% reviendrait a la sortir du geste. Celles qui sont
@@ -282,11 +403,11 @@ function construire(comp: HTMLElement): void {
       libererCase(el);
     });
 
-    /* On rend la main au vrai fond noir quand le dernier filet a fini. Avant,
-       il manquerait des lignes ; apres, les segments feraient doublon. La fin
-       se lit sur les filets eux-memes : avec des durees qui suivent la
-       longueur, elle ne se calcule plus d'avance. */
-    const fin = filets.reduce((max, f) => Math.max(max, f.depart + f.duree), 0);
+    /* On rend la main au vrai fond noir quand la derniere ligne a fini. Avant,
+       il manquerait des traits ; apres, le calque ferait doublon. La fin se lit
+       sur les lignes elles-memes : avec des durees qui suivent la longueur,
+       elle ne se calcule plus d'avance. */
+    const fin = lignes.reduce((max, l) => Math.max(max, l.fin), 0);
     window.setTimeout(() => {
       comp.classList.remove('pre');
       calque.remove();

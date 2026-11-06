@@ -46,6 +46,15 @@
 .seg--v{transform-origin:top;animation:traitV .5s cubic-bezier(.4,0,.2,1) both}
 .seg--h{transform-origin:left;animation:traitH .5s cubic-bezier(.4,0,.2,1) both}
 /*
+  LE SENS DU TRACE. `transform-origin` designe le bout par lequel la ligne
+  COMMENCE : une verticale part du haut, une horizontale de la gauche. Une
+  ligne sur deux porte `--inv` et part de l'autre bout - voir l'alternance
+  dans src/scripts/grille.ts. Une main qui trace une grille ne repart pas
+  toujours du meme bord.
+*/
+.seg--v.seg--inv{transform-origin:bottom}
+.seg--h.seg--inv{transform-origin:right}
+/*
   LA POINTE SE POSE AVANT QUE LE TRAIT PARTE. Le filet n'animait que son
   echelle : il naissait a pleine opacite, donc il etait imprime d'un coup puis
   etire - deux lectures contradictoires dans le meme geste. L'opacite monte sur
