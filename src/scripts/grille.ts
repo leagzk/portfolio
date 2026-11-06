@@ -92,6 +92,21 @@ const ECART_CASE = 0.08;
 */
 const ECART_RANG = 0.3;
 /*
+  CE QU'UNE CHRONOLOGIE PEUT COUTER AU TOTAL. A 0,3s par rang, trois rangs
+  coutent 0,6s et six en coutent 1,5 : philosophy, qui en tient six, passait de
+  3,4 a 4,1s de construction. Reduire l'ecart partout aurait repris a l'accueil
+  l'avance qu'on venait de lui donner - les deux pages n'ont pas le meme
+  probleme.
+
+  C'est donc l'ETALEMENT TOTAL qui est borne, et le pas s'en deduit : trois
+  rangs gardent leurs 0,3s, six se resserrent d'eux-memes a 0,18s. Une
+  composition qui en compterait douze ne doublerait pas sa duree pour autant.
+
+  0,9s : une seconde de chronologie est le maximum qu'on puisse ajouter a un
+  trace qui dure deja trois secondes sans qu'il se mette a trainer.
+*/
+const ETALE_RANG = 0.9;
+/*
   CE QUE COUTE UN TEXTE. Les regles `.vu` des pages lancent un aplat a
   `--retard` pile et un texte a `--retard + 0,22s` : la valeur d'abord, ce
   qu'elle dit ensuite. Une case qui n'a PAS d'aplat - la citation de
@@ -514,10 +529,11 @@ function construire(comp: HTMLElement, bordBas = false): void {
     const suite = remplissages
       .filter((f) => f.rang !== undefined)
       .sort((a, b) => (a.rang as number) - (b.rang as number));
+    const pas = Math.min(ECART_RANG, ETALE_RANG / Math.max(1, suite.length - 1));
     let precedentVu = -Infinity;
     suite.forEach((f) => {
       const decalage = f.texte ? RETARD_TEXTE : 0;
-      const vu = Math.max(f.quand + decalage, precedentVu + ECART_RANG);
+      const vu = Math.max(f.quand + decalage, precedentVu + pas);
       f.quand = vu - decalage;
       precedentVu = vu;
     });
