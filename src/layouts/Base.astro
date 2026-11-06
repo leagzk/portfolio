@@ -172,37 +172,42 @@ const personSchema = {
 <a class="sr-only" href="#main">Skip to content</a>
 {loader && (
   <div class="loader" id="loader" aria-hidden="true">
-    <div class="loader__panel"></div>
+    <div class="loader__panel" id="panneau"></div>
     {/*
-      LE TRAIT VIT HORS DE .loader__fly, et il le faut : il traverse l'ecran
-      entier, alors que .loader__fly se met a l'echelle du portrait au moment
-      du vol. Dedans, il aurait retreci avec la photo.
-      Les trois carres sont poses DESSUS, aux endroits que le trait atteint en
-      s'ouvrant - jamais au centre, ou la photo les couvrirait.
+      ═══ LA GRILLE DU LOADER ═══
+
+      Elle ne dit pas autre chose que la composition de la page : des filets
+      qui se tracent sous un front, des aplats qui prennent derriere. Ce sont
+      les memes classes `.seg` et le meme masque - voir src/styles/motion.css.
+      Les traits sont crees par le script, qui mesure la fenetre.
+
+      ELLE EST NOIRE A FILETS BLANCS, la ou les compositions sont blanches a
+      filets noirs. C'est ce qui permet au hero, noir lui aussi, d'apparaitre
+      derriere elle sans rupture : la grille se defait, le fond ne change pas.
+
+      LES QUATRE FORMES SONT LES ELEMENTS COMMUNS avec le hero - les trois
+      primaires et le portrait. `data-vole` nomme leur cible ; quand la grille
+      se defait, elles ne s'effacent pas, elles vont se poser a leur place.
     */}
-    <div class="loader__trait" id="trait" aria-hidden="true">
-      <span class="loader__carre loader__carre--rouge"></span>
-      <span class="loader__carre loader__carre--bleu"></span>
-      <span class="loader__carre loader__carre--jaune"></span>
-    </div>
-    <div class="loader__fly" id="fly">
-      {/*
-        L'ANNEAU EST UN TRACE, PAS UNE PULSATION. Un <svg> et non une bordure :
-        seul un trace peut se dessiner, et c'est le geste de tout le site - les
-        filets de la composition se tracent, ils n'apparaissent pas.
-        LE DASHARRAY EST LA VRAIE CIRCONFERENCE, PLUS pathLength. Il valait
-        pathLength="1", qui normalise la longueur du trace a 1 et rend le
-        dasharray independant du rayon. C'est elegant, et WebKit ne l'honore
-        pas sur un <circle> : sur iPhone le trace se dessinait de travers
-        pendant que le reste du loader restait en place. Le viewBox ne bouge
-        jamais - 100 unites, r=49 - donc la circonference vaut toujours
-        2*PI*49 = 307,88 unites, et un nombre ecrit est aussi stable qu'une
-        normalisation. Seul un changement de `r` demanderait de le recalculer.
-      */}
-      <svg class="loader__anneau" id="anneau" viewBox="0 0 100 100" aria-hidden="true">
-        <circle cx="50" cy="50" r="49" />
-      </svg>
-      <span class="loader__circle"></span>
+    <div class="loader__grille" id="grille">
+      <span class="loader__plat loader__plat--rouge" data-vole=".hero__primaire--rouge"></span>
+      <span class="loader__plat loader__plat--jaune" data-vole=".hero__primaire--jaune"></span>
+      <span class="loader__plat loader__plat--bleu" data-vole=".hero__primaire--bleu"></span>
+      <span class="loader__photo" id="fly" data-vole="[data-portrait]">
+        {/*
+          L'ANNEAU EST UN TRACE, PAS UNE PULSATION. Un <svg> et non une
+          bordure : seul un trace peut se dessiner, et c'est le geste de tout
+          le site.
+
+          LE DASHARRAY EST LA VRAIE CIRCONFERENCE, PLUS pathLength. Il valait
+          pathLength="1", que WebKit n'honore pas sur un <circle> : sur iPhone
+          le trace se dessinait de travers. Le viewBox ne bouge jamais - 100
+          unites, r=49 - donc la circonference vaut 2*PI*49 = 307,88.
+        */}
+        <svg class="loader__anneau" id="anneau" viewBox="0 0 100 100" aria-hidden="true">
+          <circle cx="50" cy="50" r="49" />
+        </svg>
+      </span>
     </div>
   </div>
 )}
@@ -258,92 +263,88 @@ const personSchema = {
     layout rend encore.
   */
   .loader{position:fixed;inset:0;z-index:100;pointer-events:none}
-  .loader__panel{position:absolute;inset:0;background:var(--hero-grad);z-index:1;transition:opacity .55s ease}
-  .loader__fly{position:fixed;left:50%;top:50%;z-index:2;width:clamp(100px,13vw,140px);height:clamp(100px,13vw,140px);transform:translate(-50%,-50%);transition:transform .85s cubic-bezier(.62,0,.2,1),opacity .5s ease;will-change:transform}
+  .loader__panel{position:absolute;inset:0;background:var(--ink);z-index:1;
+    transition:opacity .5s ease}
+  .loader__grille{position:absolute;inset:0;z-index:2}
   /*
-    La photo, seule au centre du panneau noir (BRIEF §3.1). Le disque ne porte
-    pas d'enfant, il EST la photo.
+    LES FILETS DU LOADER SONT BLANCS. Ce sont les memes `.seg` que les
+    compositions - meme masque, meme balayage, meme alternance de sens - mais
+    poses sur du noir. Seule la couleur change ; le geste est identique, et
+    c'est le but : le loader dit en petit ce que la page dira en grand.
   */
-  .loader__circle{position:relative;z-index:1;display:block;width:100%;height:100%;
-    border-radius:50%;background:var(--portrait) center/cover no-repeat;
-    transform:scale(0);animation:circleIn .7s cubic-bezier(.34,1.56,.64,1) .12s forwards}
+  .loader .seg{background:var(--white)}
 
   /*
-    ═══ UN TRAIT QUI FAIT LE TOUR, PUIS FILE DROIT ═══
+    ═══ LES QUATRE FORMES COMMUNES ═══
 
-    Trois anneaux qui pulsaient en boucle donnaient un effet stroboscopique -
-    trois ondes qui se chassent, et rien qui aille quelque part. Le geste est
-    refait dans la langue du site : UN trait blanc, propre, qui se trace.
+    LEUR ETAT DE REPOS EST `scale(1)`, ET CE N'EST PAS UN DETAIL. L'entree se
+    fait par une animation `both` : avant son retard elle tient le `from`
+    (scale 0), apres elle tient le `to` (scale 1), qui est aussi l'etat de
+    repos. Le script peut donc COUPER l'animation au moment du vol sans que la
+    forme saute - elle est deja a l'echelle 1 - et poser son `transform` de
+    vol a la place. Avec un repos a scale(0), couper l'animation l'aurait fait
+    disparaitre net.
 
-    Trois temps, dans cet ordre :
-      1. l'anneau se TRACE autour de la photo, une fois, sans repetition
-         (0,15 → 1,0s) ;
-      2. le trait s'OUVRE depuis le centre de l'ecran, a gauche et a droite,
-         sur la ligne de la photo (0,95 → 1,45s) ;
-      3. trois carres de 12px - rouge, bleu, jaune - POUSSENT sur ce trait aux
-         endroits qu'il vient d'atteindre (1,15 / 1,28 / 1,38s).
+    L'APLAT REMPLIT SA ZONE, IL NE SE POSE PAS DEDANS. C'est ce qui distingue
+    une composition d'un quadrillage decore : la couleur EST la case. Taille
+    et position viennent donc du script, qui les tient des fractions de la
+    grille - et les trois zones n'ont ni la meme taille ni les memes
+    proportions.
 
-    C'est la grammaire de la composition : les filets se tracent, les aplats
-    poussent depuis un coin. Le loader la dit en petit avant que la page ne la
-    dise en grand.
-
-    Le decor est EFFACE PAR LE SCRIPT au depart du vol - l'anneau parce qu'il
-    suivrait la photo et se mettrait a l'echelle de la cible, le trait parce
-    qu'il n'a plus rien a annoncer.
+    IL POUSSE DEPUIS SON COIN HAUT GAUCHE, comme les aplats des compositions
+    (voir `pousse` dans motion.css). Le VOL, lui, part du centre - le script
+    bascule l'origine au moment ou il commence : replie depuis le coin, le
+    bloc se lisait comme un pliage et non comme un deplacement.
   */
+  .loader__plat{position:absolute;transform:scale(1);transform-origin:top left;
+    animation:platEntre .5s cubic-bezier(.4,0,.2,1) var(--retard,0s) both;
+    transition:transform .8s cubic-bezier(.62,0,.2,1),opacity .4s ease;
+    will-change:transform}
+  .loader__plat--rouge{background:var(--red)}
+  .loader__plat--jaune{background:var(--yellow)}
+  .loader__plat--bleu{background:var(--blue)}
+  @keyframes platEntre{from{transform:scale(0);opacity:0}45%{opacity:1}
+    to{transform:scale(1);opacity:1}}
+
   /*
-    will-change : CE N'EST PAS UNE OPTIMISATION, C'EST LE CORRECTIF D'UN BUG
-    DE RENDU WEBKIT. Sur iPhone - et donc dans Chrome iOS, qui tourne sur le
+    SA TAILLE VIENT DE SA CASE, pas d'un clamp : elle se pose au centre de la
+    case centrale de la grille, a 62% de son plus petit cote. Un disque bord a
+    bord dans un carre ne serait plus une photo dans une grille, mais une
+    bulle. Les 100px ecrits ici sont un plancher de secours - si le script ne
+    tourne pas, elle ne doit pas se reduire a zero et ne laisser que son
+    anneau.
+  */
+  .loader__photo{position:absolute;display:block;border-radius:50%;
+    width:100px;height:100px;
+    background:var(--portrait) center/cover no-repeat;transform:scale(1);
+    animation:photoEntre .7s cubic-bezier(.34,1.56,.64,1) var(--retard,0s) both;
+    transition:transform .8s cubic-bezier(.62,0,.2,1),opacity .4s ease;
+    will-change:transform}
+  @keyframes photoEntre{from{transform:scale(0);opacity:0}60%{opacity:1}
+    to{transform:scale(1);opacity:1}}
+
+  /*
+    will-change SUR L'ANNEAU : CE N'EST PAS UNE OPTIMISATION, C'EST LE
+    CORRECTIF D'UN BUG DE RENDU WEBKIT. Sur iPhone - et donc dans Chrome iOS,
     meme moteur - l'anneau se peignait DECALE d'environ 25px en haut a droite
-    de la photo, alors que ses boites se mesuraient parfaitement concentriques.
-    Un defaut de peinture, pas de geometrie.
+    de la photo, alors que ses boites se mesuraient concentriques. Reproduit
+    sous le WebKit de Playwright : le decalage disparait des qu'on force
+    l'anneau dans sa propre couche. Son parent est en will-change:transform
+    avec une transition ; WebKit rasterise alors le SVG avec la couche du
+    parent et se trompe d'origine.
 
-    REPRODUIT SOUS LE WEBKIT DE PLAYWRIGHT, puis isole : le decalage disparait
-    des qu'on force l'anneau dans sa propre couche de composition. L'element
-    vit dans .loader__fly, qui est en position:fixed avec will-change:transform
-    et une transition - WebKit rasterise alors le SVG avec la couche du parent
-    et se trompe d'origine. `will-change:transform` lui en donne une a lui, et
-    le trace retombe juste. `transform:translateZ(0)` corrige a l'identique ;
-    on garde la forme declarative, celle que .loader__fly emploie deja.
-
-    NI pathLength NI vector-effect N'Y ETAIENT POUR QUELQUE CHOSE. Les deux ont
-    ete soupconnes et testes un par un sous WebKit : le decalage restait
-    identique dans les quatre combinaisons.
+    NI pathLength NI vector-effect N'Y ETAIENT POUR QUELQUE CHOSE : testes un
+    par un sous WebKit, le decalage restait identique dans les quatre
+    combinaisons.
   */
   .loader__anneau{position:absolute;inset:-9px;z-index:0;overflow:visible;
     transform:rotate(-90deg);will-change:transform;transition:opacity .3s ease}
-  /* vector-effect : l'epaisseur reste a 1,5px quelle que soit la taille rendue,
-     au lieu d'etre multipliee par l'echelle du viewBox. */
+  /* vector-effect : l'epaisseur reste a 1,5px quelle que soit la taille rendue. */
   .loader__anneau circle{fill:none;stroke:var(--white);stroke-width:1.5;
     vector-effect:non-scaling-stroke;
     stroke-dasharray:307.88;stroke-dashoffset:307.88;
-    animation:tracerAnneau .85s cubic-bezier(.65,0,.35,1) .15s forwards}
+    animation:tracerAnneau .85s cubic-bezier(.65,0,.35,1) var(--retard-anneau,.15s) forwards}
   @keyframes tracerAnneau{to{stroke-dashoffset:0}}
-
-  /*
-    LE CONTENEUR NE S'ETIRE PAS, SON ::before SI. Le trait etait le conteneur
-    lui-meme, et les trois carres etaient donc etires avec lui : entre 1,15 et
-    1,45s ils se seraient affiches en lamelles verticales, puis seraient
-    revenus carres d'un coup. Le ::before porte seul le scaleX ; les carres,
-    poses dans un conteneur qui ne bouge pas, gardent leur forme.
-  */
-  .loader__trait{position:fixed;left:0;right:0;top:50%;z-index:1;height:12px;
-    margin-top:-6px;transition:opacity .3s ease}
-  .loader__trait::before{content:"";position:absolute;left:0;right:0;top:50%;
-    height:1.5px;margin-top:-.75px;background:var(--white);
-    transform:scaleX(0);transform-origin:center;
-    animation:filerTrait .5s cubic-bezier(.16,1,.3,1) .95s forwards}
-  @keyframes filerTrait{to{transform:scaleX(1)}}
-
-  /* Les carres ne sont PAS au centre : la photo les couvrirait. Ils tombent la
-     ou le trait arrive quand ils poussent. */
-  .loader__carre{position:absolute;top:50%;width:12px;height:12px;
-    margin-top:-6px;transform:scale(0);transform-origin:center;
-    animation:pousseCarre .32s cubic-bezier(.34,1.56,.64,1) forwards}
-  .loader__carre--rouge{left:19%;background:var(--red);animation-delay:1.15s}
-  .loader__carre--bleu{left:74%;background:var(--blue);animation-delay:1.28s}
-  .loader__carre--jaune{left:88%;background:var(--yellow);animation-delay:1.38s}
-  @keyframes pousseCarre{to{transform:scale(1)}}
   .app--reveal{opacity:0;animation:appIn .6s ease 1.0s forwards}
   /* Colle au contenu : l'ecart ne venait pas du footer - qui est deja a
      margin-bottom:0 - mais de la marge basse du dernier bloc du <main>. */
