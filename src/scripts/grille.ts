@@ -74,6 +74,17 @@ const ECART_TRAIT = 0.1;
 const RETARD_COULEUR = 0.55;
 const ECART_CASE = 0.08;
 /*
+  L'ECART D'UN RANG EST PLUS GRAND QUE CELUI DE DEUX CASES VOISINES, et ce
+  n'est pas une question de confort : un aplat part a `--retard` pile, alors
+  qu'un texte part a `--retard + 0,22s` (voir les regles .vu des pages). Une
+  case qui n'a QUE du texte - la citation de l'accueil - se faisait donc
+  doubler par les aplats du rang suivant, alors que le calcul, lui, la servait
+  bien en premier : citation a 1,95s, duo a 2,11s, et le duo visible avant
+  elle. 0,3s depasse le decalage du texte, donc l'ordre tient quoi que porte
+  la case.
+*/
+const ECART_RANG = 0.3;
+/*
   UNE VITESSE, PAS UNE DUREE. Tous les traits mettaient 0,5s, quelle que soit
   leur longueur : un trait de 625px filait a 1250px/s pendant qu'un de 56px
   rampait a 112px/s - onze fois plus lent. Rien, dans ce geste, ne pouvait se
@@ -437,7 +448,7 @@ function construire(comp: HTMLElement, bordBas = false): void {
       .sort((a, b) => (a.rang as number) - (b.rang as number));
     let precedentRang = -Infinity;
     suite.forEach((f) => {
-      f.quand = Math.max(f.quand, precedentRang + ECART_CASE);
+      f.quand = Math.max(f.quand, precedentRang + ECART_RANG);
       precedentRang = f.quand;
     });
 
