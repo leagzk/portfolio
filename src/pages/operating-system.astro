@@ -224,16 +224,20 @@ const sobriete: Tuile[] = [
   /* ═══ Ce qui est propre a Operating System ═══ */
 
   /*
-    LES BORDS GAUCHE ET DROIT SONT OUVERTS (BRIEF §3.2), comme sur Philosophy.
-    .compo cerne la composition d'un filet de 1,5px qui ne se voit QUE contre
-    une case blanche ; il barrait le flanc des cases claires et faisait lire la
-    grille comme un tableau encadre. clip-path rogne un pixel de chaque cote,
-    sans quoi le fond noir de la grille reapparait en un cheveu au sous-pixel.
-    Le haut et le bas restent : ce sont eux qui detachent la composition du
-    blanc de la page.
-  */
-  .compo--principes{border-left:0;border-right:0;clip-path:inset(0 1px 0 1px)}
+    LES BORDS GAUCHE ET DROIT SONT OUVERTS (BRIEF §3.2) - et ils le sont
+    desormais tout seuls.
 
+    Cette page a longtemps du les rouvrir a la main : `.compo` cernait la
+    composition d'un filet qui ne se voyait QUE contre une case claire, et un
+    `clip-path` rognait en plus le cheveu de fond noir que l'arrondi
+    sous-pixel laissait sur les flancs. Les deux ont disparu : `.compo` n'a
+    plus de bordure, et ses filets ne sont plus un fond mais une ombre portee
+    par chaque case, qui tombe hors de la grille au perimetre et que
+    `overflow` retire (voir .compo dans etude.css).
+
+    Rogner encore couterait maintenant un pixel de CASE a gauche et a droite,
+    et rentrerait la composition par rapport au reste de la colonne.
+  */
   /*
     LA COMPOSITION DES SEPT PRINCIPES. Six colonnes, six rangees ; les colonnes
     3 et 6 sont fines et ne portent que du decor.

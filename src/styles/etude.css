@@ -124,12 +124,24 @@
   .cles--mondrian-seul .clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
 }
 
+/*
+  MEME GRAMMAIRE QUE LA COMPOSITION : chaque case porte son trait, le fond ne
+  porte plus rien. Voir .compo pour le pourquoi - c'est le meme lisere qui
+  courait ici, et le meme remede.
+
+  LE FILET DU BAS RESTE UNE VRAIE BORDURE, lui. Il ne separe pas deux cases du
+  bandeau : il separe le bandeau de la composition qui le suit, et les deux
+  blocs se touchent. Une bordure est a sa place pour dire ca, et `overflow` ne
+  la touche pas - elle vit hors de la boite de remplissage.
+*/
 .cles--mondrian{display:grid;grid-template-columns:7fr 5fr;
-  grid-template-rows:repeat(2,240px);gap:var(--rule-fine);background:var(--text);
-  clip-path:inset(0 1px 0 1px);margin-top:72px;position:relative;
+  grid-template-rows:repeat(2,240px);gap:var(--rule-fine);overflow:hidden;
+  margin-top:72px;position:relative;
   border-bottom:var(--rule-fine) solid var(--text)}
-.cles--mondrian.pre{background:var(--white);border-bottom-color:transparent}
-.cles--mondrian > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
+.cles--mondrian.pre{border-bottom-color:transparent}
+.cles--mondrian.pre > *,.cles--mondrian.pre .clef-case{box-shadow:none}
+.cles--mondrian > *{background:var(--white);min-width:0;position:relative;overflow:hidden;
+  box-shadow:0 0 0 var(--rule-fine) var(--text)}
 /*
   ─── La rangee, et pourquoi elle existe ───
 
@@ -140,15 +152,15 @@
   Chaque rangee est donc une bande flex a elle, et ses cases se partagent la
   largeur en proportion de leur `--u`.
 
-  ELLE PORTE LE NOIR, PAS LE BLANC : ce sont ses `gap` qui dessinent les filets
-  entre ses cases, comme ceux de la composition. La regle juste au-dessus la
-  met en blanc avec les autres enfants, d'ou la reprise.
+  ELLE NE PORTE PLUS LE NOIR : ses cases portent chacune leur trait, comme
+  celles de la composition, et la rangee n'est qu'un conteneur blanc. Son
+  `overflow` retire les ombres des deux cases des extremites, qui tomberaient
+  hors du bandeau.
 
   LA DERNIERE CASE SURVOLEE RESTE DEVANT : `z-index` sur la case etendue, sans
   quoi l'ombre interieure qui tient le filet des reduites passerait dessus.
 */
-.clef-rangee{background:var(--text);display:flex;gap:var(--rule-fine);
-  overflow:hidden}
+.clef-rangee{display:flex;gap:var(--rule-fine);overflow:hidden}
 .clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
 .clef-rangee:nth-of-type(2){grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
@@ -171,7 +183,7 @@
   une case blanche, c'est son fragment qui pousse, comme `.wt__fragment`.
 */
 .clef-case{position:relative;overflow:hidden;background:var(--white);
-  flex:var(--u,1) 1 0;min-width:0}
+  flex:var(--u,1) 1 0;min-width:0;box-shadow:0 0 0 var(--rule-fine) var(--text)}
 .clef{all:unset;box-sizing:border-box;position:absolute;inset:0;
   cursor:pointer;overflow:hidden;transform-origin:left top}
 .clef:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
@@ -553,19 +565,38 @@
 */
 /*
   PAS DE BORDURE EXTERIEURE - LA GRILLE A SES BORDS OUVERTS (BRIEF §3.2).
-  La composition portait `border:var(--rule-fine) solid var(--text)`, qui
-  fermait le dessin d'un cadre sur ses quatre cotes. L'accueil, lui, n'en a
-  jamais eu : son fond noir ne transparait que par les `gap`, et un
-  `clip-path` rogne le pixel de debord que l'arrondi sous-pixel laisse sur les
-  bords. C'est lui la reference - les cinq autres compositions s'alignent.
 
-  Le clip-path rogne droite, bas et gauche, pas le haut : en haut le fond noir
-  s'arrete net sur la premiere case, il n'y a rien a reprendre.
+  LES FILETS SONT DES TRAITS, PLUS UN FOND QUI TRANSPARAIT. La composition a
+  longtemps porte le noir en FOND, que les `gap` laissaient voir : le trait
+  n'existait nulle part, il etait ce qui restait quand les cases ne
+  recouvraient pas. Et elles ne le recouvraient pas tout a fait - a l'arrondi
+  du pixel physique pres -, si bien qu'un lisere noir courait sur tout le
+  perimetre et fermait la grille d'un cadre qu'elle n'a jamais voulu.
+
+  LE ROGNAGE NE POUVAIT PAS LE REPARER, et c'est ce qui a mis du temps a se
+  voir. `clip-path` coupait bien un pixel, mais il coupait du NOIR contre du
+  blanc : son bord est lisse, et le melange des deux redonnait exactement le
+  cheveu qu'on voulait retirer. Mesure : rogner un pixel, en rogner deux ou ne
+  rien rogner donnaient trois rendus identiques ; passer le fond en blanc
+  faisait disparaitre le lisere ET tous les filets d'un coup - le lisere EST le
+  fond.
+
+  CHAQUE CASE PORTE DONC SON PROPRE TRAIT, par une ombre sans flou etalee de la
+  largeur du filet. Elle deborde de la case sur ses quatre cotes, remplit la
+  gouttiere jusqu'a la voisine - qui pousse la sienne a sa rencontre - et
+  couvre aussi les croisements, qu'une ombre a droite plus une ombre en bas
+  auraient laisses blancs. Plus rien de noir ne vit SOUS une case : il n'y a
+  donc plus rien a laisser filtrer.
+
+  AU PERIMETRE, L'OMBRE TOMBE DEHORS et `overflow` la retire entierement - pas
+  un bord de noir a moitie efface, mais du blanc contre du blanc. Les filets
+  qui doivent toucher le bord y touchent toujours : celui qui separe deux cases
+  de la premiere rangee court sur toute leur hauteur, donc jusqu'en haut.
 */
-.compo{display:grid;position:relative;gap:var(--rule-fine);background:var(--text);
-  clip-path:inset(0 1px 1px 1px);
+.compo{display:grid;position:relative;gap:var(--rule-fine);overflow:hidden;
   scroll-margin-top:calc(var(--chrome-h) + var(--sp-03))}
-.compo > *{background:var(--white);min-width:0;position:relative;overflow:hidden}
+.compo > *{background:var(--white);min-width:0;position:relative;overflow:hidden;
+  box-shadow:0 0 0 var(--rule-fine) var(--text)}
 
 /*
   L'aplat de couleur est un enfant de la case, pas son fond.
@@ -591,9 +622,18 @@
   annoncerait de travers. `aria-expanded` + `aria-controls` disent exactement ce
   qui se passe, et le bouton repond a Entree comme a Espace sans rien ajouter.
 */
+/*
+  `all:unset` REPREND AUSSI LE TRAIT, et il faut le redonner. La regle
+  `.compo > *` pose l'ombre qui dessine les filets ; les deux selecteurs ont la
+  meme specificite et celui-ci vient apres, donc `all:unset` gagne et la carte
+  serait la seule case de la grille sans son trait. Mesure du symptome : le
+  filet entre les cartes 03 et 04 manquait, la ou aucune case decorative ne
+  venait le poser a leur place.
+*/
 .dcarte{all:unset;box-sizing:border-box;cursor:pointer;position:relative;
   overflow:hidden;background:var(--white);display:flex;flex-direction:column;
-  justify-content:flex-start;gap:18px;padding:28px}
+  justify-content:flex-start;gap:18px;padding:28px;
+  box-shadow:0 0 0 var(--rule-fine) var(--text)}
 .dcarte:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
 
 /*
@@ -635,7 +675,9 @@
   est simplement la. Les keyframes sont dans motion.css, communes a toutes les
   compositions ; ce qui est nomme ici, ce sont les elements de celle-ci.
 */
-.compo.pre{background:var(--white)}
+/* Avant le trace, aucun filet : ce sont les ombres qu'on eteint maintenant,
+   et non plus le fond qu'on blanchissait. */
+.compo.pre > *{box-shadow:none}
 .attend :is(.compo__plat,.conv__plat){transform:scale(0)}
 .attend :is(.dcarte__txt,.conv__txt){opacity:0}
 .vu :is(.compo__plat,.conv__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
@@ -705,7 +747,15 @@
   sous-pixel de la grille ; il mangerait exactement les trois filets qu'on
   vient de poser.
 */
-.compo.compo--solo{grid-template-rows:auto;gap:0;clip-path:none}
+.compo.compo--solo{grid-template-rows:auto;gap:0}
+/*
+  EN SOLO, LES CASES NE PORTENT PLUS LEUR TRAIT. Le chapitre ouvert n'est plus
+  une case parmi d'autres : c'est un intercalaire, dont les deux filets sont
+  dessines ci-dessous par ::before et ::after. L'ombre de chaque case ferait
+  un cadre autour de la carte et du sommaire - exactement ce qu'on vient de
+  retirer a la grille.
+*/
+.compo--solo > *{box-shadow:none}
 .compo--solo::before,.compo--solo::after{content:"";position:absolute;
   background:var(--text);z-index:2;pointer-events:none}
 /* le filet gauche, sur toute la hauteur de la bande */

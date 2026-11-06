@@ -71,7 +71,15 @@
   comparait l'ECRIT au RENDU. Quatre passes a regler la choregraphie d'un
   calque qui n'etait pas la ou je croyais.
 */
-.segs.segs{position:absolute;inset:0;background:none;overflow:visible}
+/*
+  ET IL NE DOIT PAS NON PLUS PORTER DE TRAIT. Depuis que les filets sont des
+  ombres portees par les cases (`.compo > *`), le calque en heritait comme il
+  heritait du fond blanc : un cadre noir tout autour de la composition,
+  pendant la duree du trace, soit exactement le lisere qu'on venait d'enlever
+  - et seulement le temps de l'animation, donc invisible a l'inspecteur.
+*/
+.segs.segs{position:absolute;inset:0;background:none;overflow:visible;
+  box-shadow:none}
 /*
   UN FILET DECLARE S'EFFACE LE TEMPS QU'ON LE TRACE. `data-trait` designe un
   filet qui fait partie du dessin sans etre un bord de case - celui des cartes
