@@ -37,7 +37,22 @@
   dessous - et un padding bas de 48px qui fait descendre le filet sous le texte
   jusqu'au cadre de la composition.
 */
-.cles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px}
+/*
+  LE FILET SOUS LES CHIFFRES LES ANCRE, et il leur appartient.
+
+  Il existait, mais par accident : c'etait le `border-top` de la composition
+  qui suit - les deux blocs se touchent exactement, l'ecart mesure entre eux
+  est de zero. En retirant le cadre de .compo (grille a bords ouverts), le
+  filet est parti avec, et les chiffres se sont retrouves a flotter.
+
+  Il est donc repose ici, ou il a toujours du etre : un bloc de chiffres se
+  ferme par un trait, c'est ce trait qui en fait une mesure et pas une liste.
+  Pose sur .cles, il ne depend plus de ce qui vient apres - et la composition
+  garde ses bords ouverts. Les 48px d'air sous les nombres viennent du padding
+  de .cles__col ; le filet tombe donc au pixel ou il tombait avant.
+*/
+.cles{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:72px;
+  border-bottom:var(--rule-fine) solid var(--text)}
 .cles__col{display:flex;flex-direction:column;gap:8px;
   padding:0 var(--gutter) var(--pad-square)}
 .cles__col + .cles__col{border-left:var(--rule-fine) solid var(--text)}

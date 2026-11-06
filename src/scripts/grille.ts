@@ -209,7 +209,16 @@ function construire(comp: HTMLElement): void {
       ligne qu'aucune autre ne borde a droite, quand la grille a des cellules
       a cheval sur plusieurs rangees.
     */
-    const TOL = 2; // le `gap` de la grille : deux bords distants de 2px se touchent
+    /*
+      4px ET NON 2. La tolerance servait a reunir les deux bords d un meme
+      trait, distants du `gap` de la grille. Mais l accueil porte deux
+      horizontales a TROIS pixels l une de l autre - le bas d une case et le
+      haut du rail qui la suit -, et a 2px elles restaient deux lignes : le
+      meme trait se tracait deux fois, a deux instants. Quatre pixels les
+      reunissent sans risque, les vraies lignes voisines d une composition
+      etant a des dizaines de pixels l une de l autre.
+    */
+    const TOL = 4;
 
     type Arete = { pos: number; a: number; b: number };
     const brutes: Record<'v' | 'h', Arete[]> = { v: [], h: [] };
@@ -294,41 +303,83 @@ function construire(comp: HTMLElement): void {
       return;
     }
 
-    /*
-      ═══ LA VAGUE D'UN ELEMENT EST SA BANDE D'AVANCE DIAGONALE ═══
-
-      Verticales, horizontales et cases sont rangees ENSEMBLE, sur la seule
-      avance diagonale, puis quantifiees en BANDES vagues. Ce qui tombe dans la
-      meme bande part ensemble : les deux sens s'entrelacent d'eux-memes, et un
-      aplat arrive avec les traits de sa zone plutot qu'apres toute la grille.
-    */
+    /* La duree suit la longueur : tous les traits a la meme vitesse. */
     lignes.forEach((l) => {
       l.duree = Math.min(TRACE_DUREE_MAX, Math.max(TRACE_DUREE_MIN, l.long / TRACE_VITESSE));
     });
 
     /*
-      ═══ UNE CASE REJOINT LA VAGUE DE SON DERNIER TRAIT ═══
+      ═══ UNE VAGUE EST UN CROISEMENT ═══
 
-      Pas celle de sa propre position : une case dont le bord bas est trace
-      dans la derniere vague ne peut pas se colorer dans la deuxieme, elle ne
-      serait pas encore fermee. Elle prend donc la bande du plus tardif des
-      traits qui la bordent - elle arrive AVEC lui, dans la meme vague, et non
-      0,3s apres toute la grille.
+      Les elements etaient groupes par bandes d'avance diagonale. Ca produisait
+      bien des vagues melangees, mais rien ne garantissait qu'elles veuillent
+      dire quelque chose : deux traits de la meme bande pouvaient se trouver
+      aux deux bouts opposes de la composition sans jamais se rencontrer, et le
+      dessin se lisait par micro-blocs separes plutot que comme une grille qui
+      se construit.
 
-      Les bords exterieurs n'existent pas (grille ouverte) : une case de coin
-      n'a que deux ou trois traits a attendre, et c'est bien le dernier d'entre
-      eux qui compte.
+      Une vague est donc un CROISEMENT : une verticale, l'horizontale qui la
+      coupe, et les cases les plus proches de leur point de rencontre. On voit
+      le trait vertical partir, l'horizontale venir le couper, et la couleur
+      prendre autour du croisement - puis le croisement suivant. C'est la
+      lecture que Lea decrit mot pour mot.
+
+      LES VERTICALES MENENT. Elles sont parcourues dans l'ordre du front, et
+      chacune reclame la premiere horizontale libre qui la croise VRAIMENT -
+      pas la plus proche, celle qui l'intersecte. Les lignes qui n'ont pas
+      trouve de partenaire - il y en a toujours, les deux familles n'ont pas le
+      meme cardinal - forment leur propre vague, inseree a son rang d'avance.
+    */
+    const croise = (v: Ligne, h: Ligne) =>
+      v.x >= h.x - TOL && v.x <= h.x + h.long + TOL
+      && h.y >= v.y - TOL && h.y <= v.y + v.long + TOL;
+
+    type Vague = { avance: number; x: number; y: number; lignes: Ligne[]; cases: HTMLElement[] };
+    const vagues: Vague[] = [];
+
+    const verticales = lignes.filter((l) => l.sens === 'v').sort((a, b) => a.avance - b.avance);
+    const horizontales = lignes.filter((l) => l.sens === 'h').sort((a, b) => a.avance - b.avance);
+    const prises = new Set<Ligne>();
+
+    verticales.forEach((v) => {
+      const h = horizontales.find((c) => !prises.has(c) && croise(v, c));
+      if (h) prises.add(h);
+      prises.add(v);
+      vagues.push({
+        avance: Math.min(v.avance, h ? h.avance : v.avance),
+        /* Le point de rencontre, ou le milieu du trait quand il est seul :
+           c'est lui qui dit quelles cases appartiennent a cette vague. */
+        x: v.x,
+        y: h ? h.y : v.y + v.long / 2,
+        lignes: h ? [v, h] : [v],
+        cases: [],
+      });
+    });
+
+    lignes.filter((l) => !prises.has(l)).forEach((l) => {
+      vagues.push({
+        avance: l.avance,
+        x: l.sens === 'v' ? l.x : l.x + l.long / 2,
+        y: l.sens === 'v' ? l.y + l.long / 2 : l.y,
+        lignes: [l],
+        cases: [],
+      });
+    });
+
+    vagues.sort((a, b) => a.avance - b.avance);
+
+    /*
+      CHAQUE CASE REJOINT LE CROISEMENT LE PLUS PROCHE DE SON CENTRE - « un
+      carre de couleur qui est pas loin ». Elle ne peut pas arriver avant que
+      l'un de ses bords ait commence a se tracer : sans cette borne, un aplat
+      se posait dans une zone ou aucun trait n'etait encore passe, et la
+      couleur precedait la structure au lieu de la suivre.
     */
     const borde = (sens: 'v' | 'h', pos: number, a: number, b: number): Ligne | undefined =>
       lignes.find((l) => l.sens === sens
         && Math.abs((sens === 'v' ? l.x : l.y) - pos) <= TOL
         && (sens === 'v' ? l.y : l.x) <= a + TOL
         && (sens === 'v' ? l.y + l.long : l.x + l.long) >= b - TOL);
-
-    type Membre = { avance: number; bande: number; y: number; x: number; ligne?: Ligne; el?: HTMLElement };
-    const membres: Membre[] = lignes.map((l) => ({
-      avance: l.avance, bande: 0, y: l.y, x: l.x, ligne: l,
-    }));
 
     cases.forEach((el) => {
       const r = el.getBoundingClientRect();
@@ -338,82 +389,55 @@ function construire(comp: HTMLElement): void {
       if (!r.width || !r.height) return;
       const l = r.left - cr.left;
       const t = r.top - cr.top;
+      const cx = l + r.width / 2;
+      const cy = t + r.height / 2;
       const bords = [
         borde('v', l, t, t + r.height),
         borde('v', l + r.width, t, t + r.height),
         borde('h', t, l, l + r.width),
         borde('h', t + r.height, l, l + r.width),
       ].filter(Boolean) as Ligne[];
-      const avance = bords.length
-        ? Math.max(...bords.map((b) => b.avance))
-        : Math.max(0, Math.min(1, (l + t) / (W + H)));
-      membres.push({ avance, bande: 0, y: t, x: l, el });
+      const premiere = bords.length
+        ? Math.min(...bords.map((b) => vagues.findIndex((v) => v.lignes.includes(b))))
+        : 0;
+      let meilleure = Math.max(0, premiere);
+      let distance = Infinity;
+      vagues.forEach((v, i) => {
+        if (i < premiere) return;
+        const d = (v.x - cx) ** 2 + (v.y - cy) ** 2;
+        if (d < distance) { distance = d; meilleure = i; }
+      });
+      vagues[meilleure].cases.push(el);
     });
 
     /*
-      ═══ L'HEURE D'UNE VAGUE, ET LE SOUFFLE A L'INTERIEUR ═══
+      L'HEURE D'UNE VAGUE, ET LE SOUFFLE A L'INTERIEUR. Les membres d'une vague
+      se repartissent sur une fenetre FIXE de ETALE_BANDE, quel que soit leur
+      nombre : a decalage constant par membre, une vague nombreuse s'etalait
+      plus que l'ecart entre deux vagues et le trace redevenait une file.
 
-      Tous les membres d'une bande partent a l'heure de la bande ; a
-      l'interieur, ils sont ranges dans l'ordre de lecture et decales de
-      JITTER_BANDE. Le groupe reste un groupe - c'est ce que Lea demande -
-      sans que ses membres s'alignent au centieme.
+      LE TRAIT PASSE AVANT L'APLAT DE SA VAGUE : la ligne ouvre, la couleur
+      suit dans la meme respiration.
 
-      LE SENS DU TRACE ALTERNE sur l'ordre global des traits : une ligne sur
-      deux part de l'autre bout, bas vers haut pour une verticale, droite vers
-      gauche pour une horizontale. Une main qui trace une grille ne repart pas
-      toujours du meme bord. L'alternance suit un ordre stable, donc elle est
-      la meme d'un chargement a l'autre.
+      LE SENS DU TRACE ALTERNE sur l'ordre global des traits - une main qui
+      trace une grille ne repart pas toujours du meme bord.
     */
-    /*
-      LA COUPE SE FAIT PAR RANG : on trie par avance, puis on taille six
-      groupes de meme effectif. Deux elements de meme avance - un trait et
-      l'aplat qu'il ferme, par exemple - ne sont jamais separes par une coupe.
-    */
-    membres.sort((a, b) => a.avance - b.avance || a.y - b.y || a.x - b.x);
-    membres.forEach((m, i) => {
-      m.bande = Math.min(BANDES - 1, Math.floor((i * BANDES) / membres.length));
-    });
-    membres.forEach((m, i) => {
-      if (i > 0 && m.avance === membres[i - 1].avance) m.bande = membres[i - 1].bande;
-    });
-    /*
-      ON RESSERRE LES NUMEROS. Le regroupement ci-dessus vide parfois une
-      bande - ses premiers membres sont tires dans la precedente -, et une
-      bande vide se voyait : 0,6s de silence avant la derniere vague, mesure
-      sur l'accueil. Les bandes restantes sont renumerotees a la suite, donc
-      l'ecart entre deux vagues est toujours celui qu'on a choisi.
-    */
-    let numero = -1;
-    let precedenteBande = -1;
-    membres.forEach((m) => {
-      if (m.bande !== precedenteBande) {
-        precedenteBande = m.bande;
-        numero += 1;
-      }
-      m.bande = numero;
-    });
-    const tailles = new Map<number, number>();
-    membres.forEach((m) => tailles.set(m.bande, (tailles.get(m.bande) ?? 0) + 1));
-    let bandeCourante = -1;
-    let rangDansBande = 0;
     let nTrait = 0;
-    membres.forEach((m) => {
-      if (m.bande !== bandeCourante) {
-        bandeCourante = m.bande;
-        rangDansBande = 0;
-      }
-      const n = tailles.get(m.bande) ?? 1;
-      const quand = TRACE_DEBUT + m.bande * PAS_BANDE
-        + (n > 1 ? (rangDansBande / (n - 1)) * ETALE_BANDE : 0);
-      rangDansBande += 1;
-      if (m.ligne) {
-        m.ligne.depart = quand;
-        m.ligne.fin = quand + m.ligne.duree;
-        m.ligne.inverse = nTrait % 2 === 1;
-        nTrait += 1;
-      } else if (m.el) {
-        m.el.style.setProperty('--retard', `${quand.toFixed(2)}s`);
-      }
+    vagues.forEach((v, i) => {
+      const membres: (Ligne | HTMLElement)[] = [...v.lignes, ...v.cases];
+      const n = membres.length;
+      membres.forEach((m, j) => {
+        const quand = TRACE_DEBUT + i * PAS_BANDE + (n > 1 ? (j / (n - 1)) * ETALE_BANDE : 0);
+        if ((m as Ligne).sens) {
+          const l = m as Ligne;
+          l.depart = quand;
+          l.fin = quand + l.duree;
+          l.inverse = nTrait % 2 === 1;
+          nTrait += 1;
+        } else {
+          (m as HTMLElement).style.setProperty('--retard', `${quand.toFixed(2)}s`);
+        }
+      });
     });
 
     const calque = document.createElement('div');
