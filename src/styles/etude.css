@@ -304,12 +304,21 @@
 .clef-def__phrase strong{color:var(--red)}
 
 /* La construction sert ces cases comme celles de la composition. */
+/*
+  LE DESSIN ATTEND AVEC SA CASE. Sur une case pleine il n'y pensait pas : le
+  bouton entier passe a `scale(0)`, le dessin avec. Sur une case BLANCHE, seul
+  le fragment est mis en attente - le bouton, lui, reste en place - et la
+  fleche s'affichait donc avant le nombre et son intitule, seule au milieu
+  d'une case vide. Elle rejoint la liste de ce qui monte.
+
+  C'est le principe de l'accueil, ou `.attend` couvre les titres ET les
+  boutons : rien de ce qui est POSE SUR une case n'apparait avant elle.
+*/
 .attend :is(.clef--plein,.clef__frag,.clef-def__bande){transform:scale(0)}
-.attend :is(.clef--bande,.clef--carre) :is(.clef__nb,.clef__bas),
-.attend :is(.clef__nb,.clef__bas,.clef-def__eb,.clef-def__phrase){opacity:0}
+.attend :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){opacity:0}
 .vu :is(.clef--plein,.clef__frag,.clef-def__bande){
   animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
-.vu :is(.clef__nb,.clef__bas,.clef-def__eb,.clef-def__phrase){
+.vu :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){
   animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
 
 @media(max-width:860px){
@@ -554,27 +563,6 @@
 .compo__plat--jaune{background:var(--yellow)}
 .compo__plat--noir{background:var(--ink)}
 
-/* ─── La case qui dit ce qu'est le systeme ─── */
-/*
-  MEME FORME QUE LE BLOC OPERATING SYSTEM DE L'ACCUEIL : une case de la grille,
-  un surtitre, un texte court, une bande de couleur en bas. Ce n'est pas une
-  carte - on ne l'ouvre pas, elle ne commande aucune section - c'est la
-  definition qui permet de lire les trois autres.
-
-  LA BANDE EST UN ENFANT, PAS UN FOND, pour la meme raison que `.compo__plat`
-  juste au-dessus : elle doit POUVOIR POUSSER a la construction, et une case
-  dont le fond porte la couleur decouvrirait le noir de la grille en passant a
-  `scale(0)`. Le bas de la case lui est reserve par le padding, sans quoi le
-  texte long passerait dessous.
-*/
-.quoi{display:flex;flex-direction:column;gap:14px;padding:24px 24px 94px}
-.quoi__plat{position:absolute;left:0;right:0;bottom:0;height:70px;
-  background:var(--blue);transform-origin:left bottom}
-.quoi__txt{display:flex;flex-direction:column;gap:12px}
-.quoi__eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--text)}
-.quoi__texte{margin:0;font-size:14px;line-height:1.55;color:var(--text-body)}
-.quoi__texte strong{color:var(--text)}
 
 /* ─── La carte depliable ─── */
 /*
@@ -630,10 +618,10 @@
   compositions ; ce qui est nomme ici, ce sont les elements de celle-ci.
 */
 .compo.pre{background:var(--white)}
-.attend :is(.compo__plat,.conv__plat,.quoi__plat){transform:scale(0)}
-.attend :is(.dcarte__txt,.conv__txt,.quoi__txt){opacity:0}
-.vu :is(.compo__plat,.conv__plat,.quoi__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
-.vu :is(.dcarte__txt,.conv__txt,.quoi__txt){animation:monte .85s cubic-bezier(.16,1,.3,1)
+.attend :is(.compo__plat,.conv__plat){transform:scale(0)}
+.attend :is(.dcarte__txt,.conv__txt){opacity:0}
+.vu :is(.compo__plat,.conv__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
+.vu :is(.dcarte__txt,.conv__txt){animation:monte .85s cubic-bezier(.16,1,.3,1)
   calc(var(--retard,0s) + .22s) both}
 
 @media(max-width:860px){
