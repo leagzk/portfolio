@@ -386,8 +386,27 @@
   `.compo.compo--solo` et non `.compo--solo` : la page declare
   `grid-template-columns` sur `.compo` dans une requete media, et elle est
   ECRITE PLUS LOIN que ce fichier. A specificite egale, elle gagnerait.
+
+  LE CHAPITRE OUVERT EST UN INTERCALAIRE, et il lui faut donc ses trois cotes :
+  un filet a gauche, un a droite, et un filant sous toute la largeur. Ouverte,
+  la composition n'a plus qu'un enfant - donc plus un seul `gap`, et c'est par
+  les gaps que son fond noir dessinait les traits. Sans ces bordures la bande
+  flotterait entre le filet des chiffres cles, au-dessus, et celui du panneau,
+  en dessous : trois traits qui ne se rejoindraient pas.
+
+  PAS DE FILET EN HAUT : `.cles` en pose deja un en bordure basse, et les deux
+  blocs se touchent. En ajouter un ici le doublerait.
+
+  `clip-path:none` EST OBLIGATOIRE, pas une precaution. Le `clip-path` de
+  `.compo` rogne un pixel a droite, en bas et a gauche pour ravaler le debord
+  sous-pixel de la grille ; il mangerait exactement les trois filets qu'on
+  vient de poser.
 */
-.compo.compo--solo{grid-template-columns:1fr;grid-template-rows:auto}
+.compo.compo--solo{grid-template-columns:1fr;grid-template-rows:auto;
+  clip-path:none;
+  border-left:var(--rule-fine) solid var(--text);
+  border-right:var(--rule-fine) solid var(--text);
+  border-bottom:var(--rule-fine) solid var(--text)}
 /* `grid-area` est un style en ligne sur la carte - `!important` est la seule
    facon de le reprendre, comme dans la requete telephone plus haut. */
 .compo--solo .dcarte[aria-expanded="true"]{grid-area:auto !important}
