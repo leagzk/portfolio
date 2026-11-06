@@ -396,16 +396,26 @@
 .compo--solo > :not([aria-expanded="true"]){display:none}
 
 /*
-  Pleine largeur, la carte cesse d'etre une colonne : le titre et la synthese se
-  posent cote a cote au lieu de s'empiler sur 420px. C'est la meme information,
-  mais lue comme un en-tete de chapitre et non comme une tuile de sommaire.
+  L'APLAT TIENT LA MOITIE, LA CARTE TIENT TOUT. La carte occupe la largeur de la
+  composition - c'est elle qui porte la rangee de la grille - mais la couleur
+  s'arrete a 50%. Un aplat plein sur 1050px serait une banniere ; la moitie
+  laisse une case blanche a cote, et la composition reste une composition meme
+  reduite a un seul element.
+
+  LE TEXTE S'EMPILE, comme dans la tuile fermee : surtitre, titre, puis la
+  synthese dessous. Rien ne change de forme en s'ouvrant, seule la boite grandit.
+
+  `calc(50% - 36px)` ET PAS `50%`. Les pourcentages du texte se comptent sur la
+  BOITE DE CONTENU - la carte moins ses 36px de marge interne de chaque cote -
+  alors que l'aplat, qui est en absolu a `left:0`, se compte sur la carte
+  entiere. A 50% nus, le texte depasserait l'aplat de 36px et le « × » du
+  surtitre tomberait sur le blanc. Les 36px retires replacent le bord droit du
+  texte a 36px du bord de la couleur : la meme marge qu'a gauche.
 */
 @media(min-width:861px){
   .compo--solo .dcarte[aria-expanded="true"]{padding:32px 36px}
-  .compo--solo .dcarte[aria-expanded="true"] .dcarte__corps{
-    flex-direction:row;align-items:flex-start;gap:56px}
-  .compo--solo .dcarte[aria-expanded="true"] .dcarte__titre{flex:0 0 45%;max-width:none}
-  .compo--solo .dcarte[aria-expanded="true"] .dcarte__synthese{flex:1;max-width:620px}
+  .compo--solo .dcarte[aria-expanded="true"] .dcarte__plat{width:50%}
+  .compo--solo .dcarte[aria-expanded="true"] .dcarte__txt{width:calc(50% - 36px)}
 }
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
