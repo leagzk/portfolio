@@ -50,14 +50,16 @@ export interface Chiffre {
    *
    * `plein` - toute la case est de couleur. `bande` et `carre` - la case
    * reste BLANCHE et la couleur n'y tient qu'un fragment : une bande en bas,
-   * un carre dans le coin, comme `.wt__fragment` sur l'accueil.
+   * un carre dans le coin, comme `.wt__fragment` sur l'accueil. `encadre` -
+   * le meme carre, mais VIDE : seul son trait le dessine, et c'est la grille
+   * qui semble se prolonger dans la case.
    *
    * CINQ APLATS PLEINS COTE A COTE, C'EST UNE PALETTE, PAS UNE COMPOSITION.
    * Ce qui rend l'accueil graphique n'est pas la quantite de couleur, c'est sa
    * RARETE : trois aplats pleins au milieu de cases blanches que la couleur ne
    * fait qu'effleurer. On reprend ce dosage.
    */
-  motif?: 'plein' | 'bande' | 'carre';
+  motif?: 'plein' | 'bande' | 'carre' | 'encadre';
 }
 
 export interface Props {

@@ -189,7 +189,7 @@
   DOM et le contenu est en z-index 1), donc le chiffre peut mordre dessus sans
   que la couleur le mange.
 */
-.clef--bande,.clef--carre{background:var(--white);color:var(--text)}
+.clef--bande,.clef--carre,.clef--encadre{background:var(--white);color:var(--text)}
 .clef__frag{position:absolute;transform-origin:left bottom}
 /*
   LE TEXTE NE TOUCHE PAS LE FRAGMENT : il est cale en haut, la couleur occupe
@@ -199,25 +199,25 @@
 .clef--bande .clef__frag{left:0;right:0;bottom:0;height:30px}
 /* Le carre descend dans le coin bas : le haut de la case est au texte, le bas
    a la couleur - et le dessin garde sa place en haut a droite. */
-.clef--carre .clef__frag{right:0;bottom:0;width:84px;height:48px;
-  transform-origin:right bottom}
+.clef--carre .clef__frag,.clef--encadre .clef__frag{right:0;bottom:0;
+  width:84px;height:48px;transform-origin:right bottom}
 .clef--rouge .clef__frag{background:var(--red)}
 .clef--bleu .clef__frag{background:var(--blue)}
 .clef--jaune .clef__frag{background:var(--yellow)}
 .clef--gris .clef__frag{background:var(--grey-mondrian)}
 .clef--noir .clef__frag{background:var(--ink)}
 /*
-  LE COIN RESTE BLANC, SEUL SON TRAIT LE DESSINE. Rempli, il faisait un
-  deuxieme aplat dans une case dont tout le propos est d'etre blanche ; vide et
-  cerne, c'est une case de la grille qui se prolonge dans la case - le trait
-  fait le dessin, pas la couleur.
+  LE COIN VIDE, OU SEUL LE TRAIT DESSINE. C'est un motif a lui (`encadre`), et
+  non le comportement de tous les carres : la regle valait pour CHAQUE `carre`
+  du site, donc elle vidait aussi le jaune de Surfaces et le rouge de Language.
+  Un motif se choisit page par page, il ne s'impose pas.
 
   DEUX COTES, PAS QUATRE : le carre est a ras du coin bas droit, et ses bords
   droit et bas tombent sur le `gap` de la rangee, deja noir. Les y border
   doublerait le filet a 3px. Seuls le haut et la gauche se voient, et ce sont
   eux qui decoupent le coin.
 */
-.clef--carre .clef__frag{background:var(--white);
+.clef--encadre .clef__frag{background:var(--white);
   border-top:var(--rule-fine) solid var(--text);
   border-left:var(--rule-fine) solid var(--text)}
 
