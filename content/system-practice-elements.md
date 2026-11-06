@@ -54,19 +54,17 @@ Elements is Sanofi's unified experience system - **one design language** serving
 
 Nobody meets. *That's the tax.*
 
-A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. **Not incompetence - distance.** Three crafts, three silos, each solving in private what the others had already solved. And it wasn't one handoff, it was the whole ecosystem.
+A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. **Not incompetence - distance.** Three crafts, three silos, each solving in private what the others had already solved.
 
-The *what* was fragmented: an ecosystem of products and touchpoints that didn't share a language, built on assets that didn't connect - **design and engineering debt compounding with every launch**, at global scale.
-
-The *how* was worse. Practices siloed team by team, none standardized, everyone paying the same cost forty-five times over. This is where time goes: not into the work, into the gaps between people redoing what already exists. Meanwhile the system itself can ship in seconds, accessible, responsive and on-brand by default. **The capability was there. The structure to use it wasn't.**
+And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse - practices siloed team by team, the same cost paid forty-five times over. **The capability was there. The structure to use it wasn't.**
 
 The stakes
 
-A system this size is *two bets in one.*
+A system this size is *two bets in one.* Both only pay if it's adopted.
 
-**Cost rationalization** first, by mutualizing practice so every product team doesn't rebuild the same thing 45 times. Second, **experience at scale**: one coherent journey across every touchpoint. Service design for an entire organization, from employee to patient.
+**Cost rationalization** first, so forty-five product teams stop rebuilding the same thing. Then **experience at scale**: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
 
-Both bets only pay if the system is adopted. A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase - while the experience stays broken touchpoint by touchpoint. At this scale, every lost hour of velocity is lost across all of them at once.
+A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase.
 
 Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **Systematize at the source, and you reach every one of them at once.**
 
@@ -74,13 +72,11 @@ The failure, and the decision
 
 ### You can't outsource the thing your whole system depends on.
 
-That's the lesson. Here's the half I don't get to blame on anyone else. The engineering was externalized before my time - not my call. But **the early bet I shared, and got wrong, was priority.** Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified, on-brand system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.
+The engineering was externalized before my time - not my call. But **the bet I shared, and got wrong, was priority.** Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.
 
-So the system was coherent, and barely adopted. It took me too long to see it: we'd built it brand-first and at arm's length - for the brand, and through a vendor, but not for the people who had to build on it. **A design system nobody adopts is the oldest failure in the field**, and we'd walked straight into it.
+So the system was coherent, and barely adopted. **A design system nobody adopts is the oldest failure in the field**, and we'd walked straight into it.
 
-So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero - design foundations, Figma kit, React repos - this time from a holistic view of the whole portfolio and the experience it had to serve. Brand *and* product, connected, because I'd learned what it costs to choose one.
-
-It wasn't the safe path. Internalizing means owning the budget, the hiring, the reorg - **a €1M bet on a model, not a line item.** I drove it, and I carried it through.
+So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg: **a €1M bet on a model, not a line item.** I drove it, and I carried it through.
 
 The best architecture I built started as the one I got backwards.
 

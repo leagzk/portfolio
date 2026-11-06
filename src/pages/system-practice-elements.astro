@@ -275,9 +275,8 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">Nobody meets. <em class="em-rouge">That's the tax.</em></p>
           <div class="body">
-            <p>A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. <strong>Not incompetence - distance.</strong> Three crafts, three silos, each solving in private what the others had already solved. And it wasn't one handoff, it was the whole ecosystem.</p>
-            <p>The <em>what</em> was fragmented: an ecosystem of products and touchpoints that didn't share a language, built on assets that didn't connect - <strong>design and engineering debt compounding with every launch</strong>, at global scale.</p>
-            <p>The <em>how</em> was worse. Practices siloed team by team, none standardized, everyone paying the same cost forty-five times over. This is where time goes: not into the work, into the gaps between people redoing what already exists. Meanwhile the system itself can ship in seconds, accessible, responsive and on-brand by default. <strong>The capability was there. The structure to use it wasn't.</strong></p>
+            <p>A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. <strong>Not incompetence - distance.</strong> Three crafts, three silos, each solving in private what the others had already solved.</p>
+            <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale. The <em>how</em> was worse - practices siloed team by team, the same cost paid forty-five times over. <strong>The capability was there. The structure to use it wasn't.</strong></p>
           </div>
         </div>
       </div>
@@ -285,13 +284,11 @@ const mecanismes: Tuile[] = [
       <div class="subsec">
         <p class="eb">The stakes</p>
         <div class="split">
-          <p class="lead">A system this size is <em class="em-bleu">two bets in one.</em></p>
+          <p class="lead">A system this size is <em class="em-bleu">two bets in one.</em> Both only pay if it's adopted.</p>
           <div class="body">
-            <p><strong>Cost rationalization</strong> first, by mutualizing practice so every product team doesn't rebuild the same thing 45 times. Second, <strong>experience at scale</strong>: one coherent journey across every touchpoint. Service design for an entire organization, from employee to patient.</p>
-            <p>Both bets only pay if the system is adopted. A system nobody trusts is the worst of both worlds: you fund the platform <em>and</em> the fragmentation it was meant to erase - while the experience stays broken touchpoint by touchpoint. At this scale, every lost hour of velocity is lost across all of them at once.</p>
-            <p class="qt">{/* data-sommaire : cette phrase monte aussi dans le sommaire
-                du chapitre, dans la moitie blanche de la bande ouverte. Elle
-                n'y est pas recopiee - voir src/scripts/dossier.ts. */}<span data-sommaire>Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide.</span> <strong>Systematize at the source, and you reach every one of them at once.</strong></p>
+            <p><strong>Cost rationalization</strong> first, so forty-five product teams stop rebuilding the same thing. Then <strong>experience at scale</strong>: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.</p>
+            <p>A system nobody trusts is the worst of both worlds: you fund the platform <em>and</em> the fragmentation it was meant to erase.</p>
+            <p class="qt">Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. <strong>Systematize at the source, and you reach every one of them at once.</strong></p>
           </div>
         </div>
       </div>
@@ -304,11 +301,13 @@ const mecanismes: Tuile[] = [
       */}
       <div class="dark">
         <p class="eb">The failure, and the decision</p>
-        <h3 class="h3">You can't outsource the thing your whole system depends on.</h3>
-        <p>That's the lesson. Here's the half I don't get to blame on anyone else. The engineering was externalized before my time - not my call. But <strong>the early bet I shared, and got wrong, was priority.</strong> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified, on-brand system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.</p>
-        <p>So the system was coherent, and barely adopted. It took me too long to see it: we'd built it brand-first and at arm's length - for the brand, and through a vendor, but not for the people who had to build on it. <strong>A design system nobody adopts is the oldest failure in the field</strong>, and we'd walked straight into it.</p>
-        <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero - design foundations, Figma kit, React repos - this time from a holistic view of the whole portfolio and the experience it had to serve. Brand <em>and</em> product, connected, because I'd learned what it costs to choose one.</p>
-        <p>It wasn't the safe path. Internalizing means owning the budget, the hiring, the reorg - <strong>a €1M bet on a model, not a line item.</strong> I drove it, and I carried it through.</p>
+        {/* data-sommaire : la troisieme phrase forte du chapitre n'est pas une
+            `.lead` mais ce titre - c'est lui qui porte la decision. Il monte
+            donc dans le sommaire avec les deux autres. Voir dossier.ts. */}
+        <h3 class="h3" data-sommaire>You can't outsource the thing your whole system depends on.</h3>
+        <p>The engineering was externalized before my time - not my call. But <strong>the bet I shared, and got wrong, was priority.</strong> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.</p>
+        <p>So the system was coherent, and barely adopted. <strong>A design system nobody adopts is the oldest failure in the field</strong>, and we'd walked straight into it.</p>
+        <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg: <strong>a €1M bet on a model, not a line item.</strong> I drove it, and I carried it through.</p>
         <p class="dark__chute">The best architecture I built started as the one I got backwards.</p>
         <Bouton variante="bleu" href="/system-brand">Deep dive in the origin story →</Bouton>
       </div>
