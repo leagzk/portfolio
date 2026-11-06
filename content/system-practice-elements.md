@@ -76,17 +76,15 @@ Nobody meets. Everybody rebuilds. *In silos, again and again.*
 
 A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. **Not incompetence - distance.** Three crafts, three silos, each solving in private what the others had already solved.
 
-And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
+And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team. Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
 
 Investment case
 
 A system this size is *two bets in one.* It only pays if it's adopted.
 
-**Cost rationalization** first, so forty-five product teams stop rebuilding the same thing. Then **experience at scale**: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
+**Cost rationalization** first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then **experience at scale**: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
 
 A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase.
-
-Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **Systematize at the source, and you reach every one of them at once.**
 
 Executive partnership
 
