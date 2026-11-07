@@ -54,8 +54,12 @@ export interface Props {
    * repliees - le meme rythme que les principes de la landing.
    */
   couleur: 'rouge' | 'bleu' | 'jaune' | 'clair' | 'noir';
-  /** position dans la grille, en `grid-area` */
-  aire: string;
+  /**
+   * Position dans la grille, en `grid-area`. Facultative : une case posee
+   * dans un groupe - le trio des trois derniers principes - est placee par
+   * son groupe, pas par la composition.
+   */
+  aire?: string;
   /**
    * true : la description ne tient pas dans la case, elle s'ouvre au clic.
    * false : elle se lit sous le titre.
@@ -82,7 +86,7 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
 ---
 {/* data-rang : le trace anime sert les convictions dans l'ordre de leur rang
     et non dans celui du front - voir src/scripts/grille.ts. */}
-<div class:list={classes} style={`grid-area:${aire}`} data-rang={rang}>
+<div class:list={classes} style={aire ? `grid-area:${aire}` : undefined} data-rang={rang}>
   {/* L'aplat est un enfant et non un `background` : c'est lui que le trace de
       la grille fait pousser depuis son coin (.vu .conv__plat dans etude.css),
       et un fond ne se met pas a l'echelle. */}
@@ -323,26 +327,43 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   .conv--pliante .conv__detail{animation:deplie .4s ease-out}
 
   /*
-    ═══ UNE CASE QUI S'OUVRE POUSSE SA RANGEE ═══
+    ═══ UNE CASE S'OUVRE AU SURVOL, ET POUSSE SA RANGEE ═══
 
-    Elle a grandi un temps PAR-DESSUS ses voisines : la case quittait le
-    flux, gardait sa place et sa largeur, et son texte s'etendait sur la
-    composition sans la deranger. C'etait la seule facon d'offrir le survol -
-    une case qui pousse ferait sauter la page sous le curseur, comme le
-    disent deja les chiffres cles dans etude.css.
+    C'est le geste de l'accueil, repris entier : la case s'ouvre au passage
+    de la souris, elle grandit, et ce qu'il y a autour descend. Elle a
+    grandi un temps PAR-DESSUS ses voisines - elle quittait le flux, gardait
+    sa place, et son texte passait sur la composition - et c'etait l'erreur :
+    une case etroite qui deplie quatre cents mots devient une tour, et cette
+    tour cache la moitie de la grille. L'accueil ne couvre jamais, il POUSSE.
 
-    CE N'EST PAS CE QUE LE SITE FAIT. Une case etroite qui deplie quatre
-    cents mots devient une tour - 1589px dans une colonne de 193 sur
-    Operating System - et cette tour passe devant la moitie de la
-    composition. L'accueil ne fait jamais ca : son contenu se deplie DANS une
-    case dimensionnee pour le contenir, et ce qui depasse pousse la grille au
-    lieu de la couvrir. La composition doit bouger AUTOUR de la case, pas
-    disparaitre dessous.
+    CE QUE CA COUTE, ET C'EST ASSUME. La composition bouge sous le curseur :
+    survoler une case fait descendre celles du dessous, et le projet ecrit
+    ailleurs que c'est a eviter (voir .cles--mondrian dans etude.css). Les
+    chiffres cles l'evitent parce que leurs cases sont dimensionnees pour
+    leur contenu ouvert ; ici les descriptions sont trop longues pour que
+    chaque case les contienne, et entre couvrir la composition et la pousser,
+    c'est pousser.
 
-    Il n'y a donc rien a declarer ici : la case reste dans le flux, la rangee
-    grandit, et ce qui suit descend. Le survol tombe avec, et le clic reste
-    le geste - c'est `aria-expanded` qui commande, et lui seul.
+    `hidden` reste la verite de l'etat clique et de ce qu'annonce un lecteur
+    d'ecran ; ces regles ne font que le montrer a l'oeil, et elles passent
+    devant `.conv__detail[hidden]` par leur specificite.
   */
+  @media(min-width:861px){
+    .conv--pliante:has(.conv__tete:focus-visible) .conv__detail{display:flex}
+    .conv--pliante:has(.conv__tete:focus-visible) .conv__ico--o{opacity:0}
+    .conv--pliante:has(.conv__tete:focus-visible) .conv__ico--f{opacity:1}
+  }
+  /*
+    LE SURVOL DEMANDE UNE SOURIS, ET PAS SEULEMENT UNE LARGEUR. La landing a
+    paye cette lecon : sous 721px son `:hover` « collait au doigt » et un
+    simple glissement effacait le texte d'une carte. Une tablette tactile
+    tient 1024px de large ; `hover:hover` pose la vraie condition.
+  */
+  @media(min-width:861px) and (hover:hover){
+    .conv--pliante:hover .conv__detail{display:flex}
+    .conv--pliante:hover .conv__ico--o{opacity:0}
+    .conv--pliante:hover .conv__ico--f{opacity:1}
+  }
 
   @media(prefers-reduced-motion:reduce){
     .conv--pliante .conv__detail{animation:none}
