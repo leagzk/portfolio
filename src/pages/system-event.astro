@@ -227,6 +227,9 @@ const credits = [
       <h2 class="sr-only" id="titre-contrainte">01 &middot; The constraint</h2>
 
       <div class="subsec">
+        {/* « Here, off the screen, exactly as it does on it » - la phrase est
+            dans le bloc. Seule sous-partie du chapitre sans surtitre. */}
+        <p class="eb" data-sommaire>Off the screen</p>
         <div class="split">
           <p class="lead">A living system isn't one you finish. It's one that takes its real shape <em class="em-rouge">in the hands of the people who use it.</em></p>
           <div class="pile">
@@ -247,7 +250,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb">Where it came from</p>
+        <p class="eb" data-sommaire>Where it came from</p>
         <div class="split">
           <p class="lead">Starting from a constraint <em class="em-rouge">you don't own.</em></p>
           <div class="body">
@@ -260,7 +263,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb">The system itself</p>
+        <p class="eb" data-sommaire>The system itself</p>
         <div class="trois-blocs">
           <div class="bloc">
             <p class="bloc__t">Shapes</p>
@@ -355,7 +358,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb">The test</p>
+        <p class="eb" data-sommaire>The test</p>
         <div class="split">
           <p class="lead">The test was <em class="em-bleu">the boring surfaces.</em></p>
           <div class="body">
@@ -374,7 +377,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb">Printed, in the hand</p>
+        <p class="eb" data-sommaire>Printed, in the hand</p>
         <div class="two">
           <Figure src={img('identity-invitation-detail')} legende="The invitation, printed" ratio="4 / 3" ajuste="cover"
             alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
@@ -397,7 +400,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb">Staging</p>
+        <p class="eb" data-sommaire>Staging</p>
         <div class="split">
           <p class="lead">Space, <em class="em-bleu">staged.</em></p>
           <div class="body">
@@ -427,7 +430,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb">The centrepiece</p>
+        <p class="eb" data-sommaire>The centrepiece</p>
         <div class="split">
           <p class="lead">A game, <em class="em-bleu">by design.</em></p>
           <div class="body">
@@ -488,7 +491,7 @@ const credits = [
       <h2 class="sr-only" id="titre-transmission">03 &middot; The handover</h2>
 
       <div class="dark">
-        <p class="eb">The part nobody sees</p>
+        <p class="eb" data-sommaire>The part nobody sees</p>
         <h3 class="h3">One page per zone, one owner per page.</h3>
         <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
         <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief. <strong>That's the whole method.</strong></p>
@@ -503,7 +506,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb">Credits</p>
+        <p class="eb" data-sommaire>Credits</p>
         <div class="split">
           <p class="lead">Vision and execution directed by me - <em class="em-rouge">everything else by people far better than me at their own craft.</em></p>
           <dl class="credits">

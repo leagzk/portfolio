@@ -959,7 +959,12 @@
   .dcarte__points{position:relative;display:block;margin-top:16px;
     padding-top:16px;border-top:var(--rule-fine) solid currentColor}
   .dcarte__liste{display:flex;flex-direction:column;gap:10px;padding-right:74px}
-  .dcarte__bande{position:absolute;right:0;top:16px;bottom:0;width:56px;
+  /* `top:0` EST LE FILET, PAS LE TEXTE. Le `padding-top` de 16px degage la
+     premiere puce du trait ; l'aplat, lui, n'a rien a degager - il doit
+     TOUCHER la ligne, sans quoi un blanc s'ouvre entre les deux et la grille
+     se defait. Il part donc du bord de la boite de remplissage, c'est-a-dire
+     sous le trait lui-meme. */
+  .dcarte__bande{position:absolute;right:0;top:0;bottom:0;width:56px;
     background:var(--puce,currentColor)}
   .dcarte__points::after{content:"";position:absolute;right:56px;
     top:calc(var(--rule-fine) * -1);bottom:-8px;

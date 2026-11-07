@@ -55,6 +55,8 @@ One page per zone, one owner per page. I briefed nine suppliers from it, handed 
 
 ## 01 &middot; The constraint
 
+Off the screen
+
 A living system isn't one you finish. It's one that takes its real shape *in the hands of the people who use it.*
 
 Here, off the screen, exactly as it does on it. Not product. Not digital. Not communication. A living one - and it held together just the same.
