@@ -386,7 +386,26 @@
   .cles--mondrian > *{grid-area:auto !important}
   /* Au doigt rien ne se pousse : la rangee s'empile et chaque case prend la
      largeur. Le depliage se fait au clic, dans la case. */
-  .clef-rangee{flex-direction:column;overflow:visible}
+  /*
+    LA BANDE DE CHIFFRES RESTE UNE GRILLE SOUS LE PALIER. Elle s'empilait :
+    cinq cases pleine largeur de 170px l'une sur l'autre, soit 860px d'un
+    seul rythme, et la case de definition par-dessus. Deux colonnes rendent
+    aux chiffres la forme qu'ils ont au bureau - des carres - sans rien
+    changer a leur ordre : a 375px une colonne fait 170,75px, donc chaque
+    case est carree d'elle-meme et le `min-height` ne mord plus.
+
+    LA RANGEE IMPAIRE SE REFERME SUR UNE PLEINE LARGEUR. La premiere rangee
+    porte trois chiffres quand la page a une definition : deux carres et un
+    orphelin. L'orphelin prend les deux colonnes, ce qui donne au mobile le
+    rythme carre / carre / bande que la composition tient au bureau.
+
+    `:nth-child(3):nth-last-child(1)` SE REGLE TOUT SEUL : il ne designe un
+    troisieme enfant que s'il est aussi le dernier, donc uniquement la rangee
+    de trois. Les etudes sans definition portent quatre chiffres sur une
+    seule rangee et restent en deux fois deux, sans exception a ecrire.
+  */
+  .clef-rangee{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
+  .clef-rangee > :nth-child(3):nth-last-child(1){grid-column:1 / -1}
   .clef-case{flex:none;min-height:170px}
   .clef{position:relative;inset:auto;min-height:170px}
   .clef__dedans{position:relative;inset:auto;gap:16px;padding:24px 16px}
