@@ -965,8 +965,19 @@
   compris, et viendrait buter contre le noir du footer. Le pseudo-element
   s'arrete ou s'arrete le contenu.
 */
+/*
+  L'ECART ENTRE SOUS-PARTIES EST CELUI D'UN CHAPITRE, PAS D'UN PARAGRAPHE.
+  A 88px il valait moins de trois fois le gap interne (32px), et la colonne
+  de gauche en souffrait : une attaque courte y laissait le surtitre suivant
+  arriver presque aussitot, pendant que la colonne de droite deroulait six
+  paragraphes. A 128px le rapport passe a 4:1 et la frontiere se lit.
+
+  LE GAP INTERNE NE BOUGE PAS. Monter les deux aurait tout dilate en gardant
+  la meme ambiguite - c'est l'ECART entre les deux mesures qui dit la
+  hierarchie, pas leur taille.
+*/
 .pan{position:relative;padding:80px 0 96px 48px;display:flex;flex-direction:column;
-  gap:88px}
+  gap:128px}
 .pan::before{content:"";position:absolute;left:0;top:0;bottom:96px;
   width:var(--rule-fine);background:var(--text)}
 /* Une section fermee ne laisse rien derriere elle - ni filet, ni espace. */
@@ -1179,7 +1190,7 @@
 .pan > .suite{align-self:flex-end}
 
 @media(max-width:860px){
-  .pan{padding:48px 0 64px 20px;gap:56px}
+  .pan{padding:48px 0 64px 20px;gap:80px}
   .pan::before{bottom:64px}
   .pan .split,.pan .two,.pan .vc{grid-template-columns:1fr;gap:24px}
   /* une colonne : plus de rangees a partager, chaque concept redevient une pile */
