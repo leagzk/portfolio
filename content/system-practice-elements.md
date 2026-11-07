@@ -15,7 +15,7 @@ Systematize a practice · Sanofi · 2022 - now
 I built Elements to remove the friction between experts, cut time to launch
 and raise product experience at scale - then moved it from a design system
 to a platform: one pipeline where brand, design and engineering pour into
-the same chain. **Design Lead in 2022, Director today: a core team of 9, a €1M platform, 45+ product teams.**
+the same chain. **Design Lead in 2022, Director today: a €1M platform across Sanofi's digital estate, from employee to patient.**
 
 The system
 
