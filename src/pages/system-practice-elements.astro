@@ -163,7 +163,11 @@ const produits = [
 
   Les corps suivent : chacun disait ce que son titre dit desormais. Le
   premier passe donc a ce que la discovery regardait VRAIMENT, le second a ce
-  qui a permis de tenir le 100% dans la duree. « So no product team paid the
+  que « continuously tested » veut dire - des controles la ou le travail se
+  fait, donc une regression qui ne sort jamais du systeme. Le detail de
+  l'outillage (axe, les controles natifs de Storybook, la revue manuelle) est
+  deja sur Operating System : le rapatrier ici recreerait le doublon qu'on
+  vient d'enlever, et deshabillerait une page merge. « So no product team paid the
   cost downstream » tombe pour la meme raison - c'est la phrase du principe
   03 ; a sa place, ce que ca change pour une equipe produit.
 
@@ -174,8 +178,8 @@ const produits = [
 const mecanismes: Tuile[] = [
   { eyebrow: 'Rigour', couleur: 'rouge', titre: 'Every component passed discovery and community testing.',
     texte: "What the ecosystem actually needs, what already exists, what the people who build with it say back - then one shared convention, written down. <strong>The standard isn't a review at the end, it's the default at the start.</strong>" },
-  { eyebrow: 'Responsibility', couleur: 'bleu', titre: '100% WCAG AA before the first major.',
-    texte: 'WCAG AA as the Sanofi digital standard, not our own bar: the full library audited, then held there release after release. <strong>Accessibility stopped being a debt a product team inherits.</strong>' },
+  { eyebrow: 'Responsibility', couleur: 'bleu', titre: '100% WCAG AA before the first major, and continuously tested within the pipeline.',
+    texte: 'WCAG AA as the Sanofi digital standard, not our own bar. The checks live where the work happens, so a regression never leaves the system. <strong>Accessibility stopped being a debt a product team inherits.</strong>' },
   { eyebrow: 'Ethics', couleur: 'noir', titre: 'A constraint nobody asked me to keep.',
     texte: 'When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. <strong>Not everyone draws it. I do.</strong>' },
 ];
