@@ -25,7 +25,7 @@ That's why my path runs through brand, retail, agency and product. **I don't sys
 
 Communication at the core, from brief to ship.
 
-Communication was my *subject* before it became my *method*. For example at Sanofi: first a shared language for 2,500 people, then a design system that made brand, design and engineering finally understand each other. **The subject moved from communication to experience design. The method never did.**
+Communication was my *subject* before it became my *method*. A shared language first, then the system that carries it - the same work twice, making brand, design and engineering finally understand each other. **The subject moved from communication to experience design. The method never did.**
 
 A system doesn't standardize people. It frees them.
 
@@ -39,7 +39,7 @@ Care isn't the soft part. It's the foundation.
 
 I hold the health of a team - its wellbeing, its inclusion, its safety to speak - with the **same force** I hold conviction and delivery. Not after them, and not if there's time left.
 
-But care doesn't stop at the team. It runs the whole length of a system's life: **care for the people who build it, care for the people who use it, care for the people it ultimately reaches** - at Sanofi, that chain ran from the practitioner leaning on the library to the patient on the other side of the screen.
+But care doesn't stop at the team. It runs the whole length of a system's life: **care for the people who build it, care for the people who use it, care for the people it ultimately reaches** - and the last ones never see the system at all. They only ever meet what it produced.
 
 A system is only as strong as the people who own it, and it only stays alive because it passes, with care, from one set of hands to the next. **Inclusion isn't a value I add on top. It's infrastructure.**
 
