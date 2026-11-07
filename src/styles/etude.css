@@ -965,9 +965,15 @@
     separent la bande du bord de l'ecran. Les 16 restants sont la gouttiere
     de page, hors des deux boites.
   */
+  /* LE TRAIT DU HAUT EST AUSSI LE HAUT DU CADRE, donc `--rule` comme les trois
+     autres cotes et non `--rule-fine`. Il traverse toute la carte, pas
+     seulement l'aplat : c'est le separateur de la zone qui s'epaissit avec
+     lui, et c'est le prix d'un cadre dont les quatre cotes pesent pareil.
+     `currentColor` reste - a 1,06:1 de `--text`, l'oeil ne les separe pas, et
+     la couleur suit la carte si elle s'ouvre. */
   .dcarte__points{position:relative;display:block;margin-top:16px;
     margin-right:-28px;padding-top:16px;
-    border-top:var(--rule-fine) solid currentColor}
+    border-top:var(--rule) solid currentColor}
   .dcarte__liste{display:flex;flex-direction:column;gap:10px;padding-right:74px}
   /* `top:0` EST LE FILET, PAS LE TEXTE. Le `padding-top` de 16px degage la
      premiere puce du trait ; l'aplat, lui, n'a rien a degager - il doit
