@@ -10,7 +10,7 @@ indexable: true
 
 Philosophy · What I hold
 
-# Six convictions behind the systems, and the care that keeps them alive.
+# Six convictions behind the systemic thinking, and the care that keeps it alive.
 
 Anything can be systematized, once you truly understand each craft. But
 people move systems forward, not the other way around - so I build on
