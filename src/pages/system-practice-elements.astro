@@ -152,12 +152,30 @@ const produits = [
   Terme = suite : le renversement est le sujet. Ce ne sont pas des valeurs
   affichees mais des contraintes installees, et la troisieme est celle que
   personne n'avait demandee.
+
+  LES TITRES DISENT UN FAIT, PAS UN PRINCIPE - LE PRINCIPE A SA PAGE. Deux
+  d'entre eux etaient repris mot pour mot d'Operating System : « Nothing
+  ships on a hunch » ouvre son principe 01, et « The floor, not the reach »
+  comprime le titre de son 03. Un lecteur qui enchaine les deux pages lisait
+  deux fois la meme phrase, et c'etait la page de PREUVE qui s'affaiblissait,
+  alors que c'est elle qui detient les faits. Les eyebrows - Rigour,
+  Responsibility, Ethics - suffisent a tenir le lien entre les deux pages.
+
+  Les corps suivent : chacun disait ce que son titre dit desormais. Le
+  premier passe donc a ce que la discovery regardait VRAIMENT, le second a ce
+  qui a permis de tenir le 100% dans la duree. « So no product team paid the
+  cost downstream » tombe pour la meme raison - c'est la phrase du principe
+  03 ; a sa place, ce que ca change pour une equipe produit.
+
+  LA TROISIEME NE BOUGE PAS : « A constraint nobody asked me to keep » n'est
+  reprise nulle part, et c'est la seule des trois qui raconte un arbitrage
+  plutot qu'une mesure.
 */
 const mecanismes: Tuile[] = [
-  { eyebrow: 'Rigour', couleur: 'rouge', titre: 'Nothing ships on a hunch.',
-    texte: "No component, no roadmap line ever shipped without discovery: what the ecosystem actually needs, what already exists. Then one shared convention, written down. <strong>The standard isn't a review at the end, it's the default at the start.</strong>" },
-  { eyebrow: 'Responsibility', couleur: 'bleu', titre: 'The floor, not the reach.',
-    texte: 'WCAG AA as the Sanofi digital standard, not our own bar. Full library audited to 100% before our first major, then held there. <strong>So no product team paid the cost downstream.</strong>' },
+  { eyebrow: 'Rigour', couleur: 'rouge', titre: 'Every component passed discovery and community testing.',
+    texte: "What the ecosystem actually needs, what already exists, what the people who build with it say back - then one shared convention, written down. <strong>The standard isn't a review at the end, it's the default at the start.</strong>" },
+  { eyebrow: 'Responsibility', couleur: 'bleu', titre: '100% WCAG AA before the first major.',
+    texte: 'WCAG AA as the Sanofi digital standard, not our own bar: the full library audited, then held there release after release. <strong>Accessibility stopped being a debt a product team inherits.</strong>' },
   { eyebrow: 'Ethics', couleur: 'noir', titre: 'A constraint nobody asked me to keep.',
     texte: 'When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. <strong>Not everyone draws it. I do.</strong>' },
 ];

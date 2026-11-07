@@ -154,9 +154,9 @@ Build
 
 I don't state values. I install them.
 
-- Rigour Nothing ships on a hunch. No component, no roadmap line ever shipped without discovery: what the ecosystem actually needs, what already exists. Then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
+- Rigour Every component passed discovery and community testing. What the ecosystem actually needs, what already exists, what the people who build with it say back - then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
 
-- Responsibility The floor, not the reach. WCAG AA as the Sanofi digital standard, not our own bar. Full library audited to 100% before our first major, then held there. **So no product team paid the cost downstream.**
+- Responsibility 100% WCAG AA before the first major. WCAG AA as the Sanofi digital standard, not our own bar: the full library audited, then held there release after release. **Accessibility stopped being a debt a product team inherits.**
 
 - Ethics A constraint nobody asked me to keep. When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. **Not everyone draws it. I do.**
 
