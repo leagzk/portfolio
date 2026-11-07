@@ -271,8 +271,12 @@ const enCases = tuiles.some((t) => t.aire);
       n'est pas une case, c'est une legende.
     */
     .compo .tuiles__pagination{min-height:0}
+    /* Padding symetrique : le filet du perimetre passe sous la pagination, et
+       sans degagement en bas les points le touchaient. Meme valeur que
+       .principes__pagination sur l'accueil - les deux rails se paginent
+       pareil. */
     .tuiles__pagination{display:flex;align-items:center;justify-content:space-between;
-      gap:12px;padding:12px 0 0;background:var(--white)}
+      gap:12px;padding:12px 0;background:var(--white)}
   }
   .tuiles__points{display:flex;gap:6px}
   .tuiles__points i{width:10px;height:10px;background:var(--grey-mondrian)}
