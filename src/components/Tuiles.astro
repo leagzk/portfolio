@@ -264,6 +264,13 @@ const enCases = tuiles.some((t) => t.aire);
     /* 290px : la meme carte que le rail de l'accueil, et le bord de la
        suivante reste visible sur un telephone de 375. */
     .tuile--case{flex:0 0 290px;scroll-snap-align:start}
+    /*
+      `min-height:0` : la pagination est un enfant direct de `.compo`, donc
+      la regle mobile qui donne 170px de plancher aux CASES l'attrapait aussi
+      - 170px de blanc mort sous la piste pour trois points et un mot. Ce
+      n'est pas une case, c'est une legende.
+    */
+    .compo .tuiles__pagination{min-height:0}
     .tuiles__pagination{display:flex;align-items:center;justify-content:space-between;
       gap:12px;padding:12px 0 0;background:var(--white)}
   }

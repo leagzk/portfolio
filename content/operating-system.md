@@ -25,21 +25,13 @@ It's the discipline I put in place after learning, the hard way, what it costs t
 
 At Sanofi, it's how we knew what to build versus what to buy - and it didn't stop at launch: we kept interviewing, testing our own ways of working, **reprioritizing against what we heard**.
 
-One source of truth - trusted by humans, verified by machines.
+Trusted by humans, verified by machines.
 
 One language, not four. **Multi-surface design tokens** carry brand and behavior across web, native and content; **Figma variables** hold the component architecture on the design side, **Storybook** holds it on the code side.
 
 And trust doesn't mean unchecked: **automate the repeatable, measure what matters, keep the human judgment where it counts**. That's governance you can't skip and don't have to police.
 
 At Sanofi, every pull request ran **automated conformity checks before a double human validation**, Chromatic caught visual regressions before they shipped, and I read DORA metrics every sprint next to satisfaction surveys - as decisions, not dashboards for show.
-
-Accessibility is the floor. Responsibility is the reach.
-
-**WCAG AA is a floor, not a bar to clear**: the minimum for every product, not just the design system. Accessibility protects the user. Responsibility protects everything around them. **Same driver - inclusion - different reach.**
-
-For example at Sanofi, I positioned it as the digital standard, we audited the full library to **100% compliance before our first major**, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - **so no product team paid the accessibility cost downstream**.
-
-Inclusion doesn't stop at who can *use* the product. A system touching dozens of products has a footprint - societal and environmental - and it isn't small. **Responsibility gets designed in, not bolted on**, and it looks like sobriety at every level.
 
 - Light by default. Modular imports, minimal weight - teams pulled what they needed, not the whole library. **Lighter reaches further.**
 
@@ -49,6 +41,14 @@ Inclusion doesn't stop at who can *use* the product. A system touching dozens of
 
 ******
 Swipe →
+
+Accessibility is the floor. Responsibility is the reach.
+
+**WCAG AA is a floor, not a bar to clear**: the minimum for every product, not just the design system. Accessibility protects the user. Responsibility protects everything around them. **Same driver - inclusion - different reach.**
+
+For example at Sanofi, I positioned it as the digital standard, we audited the full library to **100% compliance before our first major**, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - **so no product team paid the accessibility cost downstream**.
+
+Inclusion doesn't stop at who can *use* the product. A system touching dozens of products has a footprint - societal and environmental - and it isn't small. **Responsibility gets designed in, not bolted on**, and it looks like sobriety at every level.
 
 AI should earn trust, not exploit it.
 

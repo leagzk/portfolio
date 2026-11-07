@@ -205,15 +205,45 @@ const sobriete: Tuile[] = [
       <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 3 / 2 / 4"><span class="compo__plat compo__plat--noir"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"></div>
 
+      {/*
+        LE 02 NE SE REPLIE PAS, PARCE QUE SA CASE N'A RIEN A CACHER. Mesure
+        a 1280 : sa description depliee demande 588px, et sa case en fait
+        588 - elle tenait deja son texte entier, et le clic ne servait qu'a
+        montrer ce qui rentrait de toute facon. C'est la regle de Lea,
+        appliquee a l'endroit comme pour le 03 : si le texte tient dans la
+        case, il se lit sous le titre.
+
+        OUVERT A TOUTE LARGEUR, ET PAS SEULEMENT SUR MOBILE : un bloc ouvert
+        « par essence » ne depend pas de la taille de la fenetre. Le faire
+        basculer au palier donnerait deux pages differentes a lire.
+      */}
       <Conviction
         id="pr-truth" rang="02" intitule="Source of truth" couleur="clair"
-        titre="One source of truth - trusted by humans, verified by machines."
-        aire="1 / 4 / 4 / 7" pliante
+        titre="Trusted by humans, verified by machines."
+        aire="1 / 4 / 4 / 7"
       >
         <p>One language, not four. <strong>Multi-surface design tokens</strong> carry brand and behavior across web, native and content; <strong>Figma variables</strong> hold the component architecture on the design side, <strong>Storybook</strong> holds it on the code side.</p>
         <p>And trust doesn't mean unchecked: <strong>automate the repeatable, measure what matters, keep the human judgment where it counts</strong>. That's governance you can't skip and don't have to police.</p>
         <p>At Sanofi, every pull request ran <strong>automated conformity checks before a double human validation</strong>, Chromatic caught visual regressions before they shipped, and I read DORA metrics every sprint next to satisfaction surveys - as decisions, not dashboards for show.</p>
       </Conviction>
+
+      {/* ─── Les trois sobrietes, avant le principe qu'elles detaillent ───
+          Elles le suivaient dans le DOM. Au bureau elles sont pourtant
+          AU-DESSUS de lui - rangees 3 et 4 contre 4 et 5 - et sur mobile,
+          ou l'ordre du DOM est l'ordre de la pile, elles tombaient entre
+          deux blocs ouverts de 769 et 817px. Les remonter rapproche donc
+          le DOM de ce qu'on voit au bureau ET coupe le mur de texte sur
+          mobile. Leur aire ne change pas : c'est `grid-area` qui place, le
+          DOM ne fait que l'ordre de lecture. */}
+      {/*
+        UNE SEULE SERIE, TROIS AIRES. Elles etaient trois appels d'une tuile
+        chacun, un par aire - et trois series ne peuvent pas devenir UNE piste
+        a defilement sous le palier. Elles n'en font plus qu'une : au bureau
+        elle s'efface (`display:contents`) et ses trois tuiles se posent
+        chacune a son aire ; sous 861px, ou la composition s'empile, elle
+        redevient une boite et defile.
+      */}
+      <Tuiles tuiles={sobriete} colonnes={1} hauteur={0} label="The three forms of sobriety" />
 
       {/*
         LE PRINCIPE 03 NE SE REPLIE PAS. Les six autres cachent leur
@@ -233,18 +263,6 @@ const sobriete: Tuile[] = [
         <p>For example at Sanofi, I positioned it as the digital standard, we audited the full library to <strong>100% compliance before our first major</strong>, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - <strong>so no product team paid the accessibility cost downstream</strong>.</p>
         <p>Inclusion doesn't stop at who can <em>use</em> the product. A system touching dozens of products has a footprint - societal and environmental - and it isn't small. <strong>Responsibility gets designed in, not bolted on</strong>, and it looks like sobriety at every level.</p>
       </Conviction>
-
-      {/* ─── Les trois sobrietes, autour du principe 03 ─── */}
-      {/*
-        UNE SEULE SERIE, TROIS AIRES. Elles etaient trois appels d'une tuile
-        chacun, un par aire - et trois series ne peuvent pas devenir UNE piste
-        a defilement sous le palier. Elles n'en font plus qu'une : au bureau
-        elle s'efface (`display:contents`) et ses trois tuiles se posent
-        chacune a son aire ; sous 861px, ou la composition s'empile, elle
-        redevient une boite et defile.
-      */}
-      <Tuiles tuiles={sobriete} colonnes={1} hauteur={0} label="The three forms of sobriety" />
-
 
       <Conviction
         id="pr-ethics" rang="04" intitule="Ethics" couleur="noir"
@@ -528,11 +546,63 @@ const sobriete: Tuile[] = [
     `deplie` que partout ailleurs. Le jeu de bandes colorees reste - c'est
     une mise en page, pas une animation.
   */
-  .compo .trio{display:contents}
+  /*
+    SOUS LE PALIER, DEUX CARRES PAR RANGEE ET UN BLANC QUI TOURNE. Le trio
+    passait en `display:contents` et ses trois cartes s'empilaient avec les
+    autres cases : trois aplats pleine largeur de plus dans une colonne qui
+    en compte deja huit, et la composition devenait un empilement de pavés
+    de couleur. L'accueil ne fait pas ca - il garde des carres et des blancs
+    qui se deplacent d'une rangee a l'autre.
+
+    Le trio reste donc une case, partagee en quatre : 05 et 06 en carres
+    cote a cote - `aspect-ratio` plutot qu'une hauteur, puisque la largeur
+    est celle d'une demi-colonne -, 07 aux deux tiers dessous, et un blanc
+    au tiers restant, a sa gauche.
+
+    LE BLANC VAUT UNE MARGE, PAS UN TIERS. Le trait qui le separe du 07
+    tombe exactement la ou commence le titre de la cloture, juste en dessous
+    - meme valeur, `--pad-square`, donc les deux bougeront toujours
+    ensemble. A un tiers, il s'arretait a 120px pour un titre qui commence a
+    48 : deux alignements a trois pixels l'un de l'autre, ce qui se voit
+    plus qu'un seul franc.
+
+    TROIS PISTES POUR DEUX PARTAGES, ET ELLES SE CALCULENT. Une grille doit
+    donner ici des MOITIES a la rangee du haut et une marge + le reste a
+    celle du bas. Trois pistes suffisent : la marge, puis ce qui manque a la
+    marge pour faire une moitie, puis l'autre moitie. Le 05 prend les deux
+    premieres, le 06 la troisieme, le blanc la premiere et le 07 les deux
+    dernieres. Le blanc est un `::after` : il ne dit rien, il occupe.
+
+    ET DES QU'UNE CARTE EST OUVERTE, LE TRIO PASSE SUR UNE COLONNE. Au tap,
+    la carte s'ouvrait dans sa demi-colonne : 178px de large moins 48 de
+    marge, 130px de texte - moins que ce qu'on reprochait aux colonnes du
+    bureau. La passer seule sur deux colonnes reglait la lecture mais
+    laissait une cellule vide a cote de sa voisine, un trou noir au milieu
+    du groupe. C'est donc toute la grille qui se defait : trois bandes
+    pleine largeur, dont celle qu'on lit. Les voisines ne se reduisent pas
+    en bandeau de 28px pour autant - au doigt il n'y a pas de survol, et un
+    bandeau de 28px ne se re-touche pas facilement.
+  */
+  .compo .trio{display:grid;gap:var(--rule-fine);background:var(--text);
+    grid-template-columns:var(--pad-square)
+      calc((100% - var(--rule-fine)) / 2 - var(--rule-fine) - var(--pad-square))
+      calc((100% - var(--rule-fine)) / 2)}
+  .compo .trio > .conv:nth-child(1){grid-area:1 / 1 / 2 / 3;aspect-ratio:1}
+  .compo .trio > .conv:nth-child(2){grid-area:1 / 3 / 2 / 4;aspect-ratio:1}
+  .compo .trio > .conv:nth-child(3){grid-area:2 / 2 / 3 / 4}
+  .compo .trio::after{content:"";grid-area:2 / 1 / 3 / 2;background:var(--white)}
+  /* Ouverte, la carte a besoin de toute la largeur : la grille se defait
+     plutot que de laisser une cellule vide a cote d'elle. */
+  .compo .trio:has(.conv__tete[aria-expanded="true"]){grid-template-columns:1fr}
+  .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv{grid-area:auto;aspect-ratio:auto}
+  .compo .trio:has(.conv__tete[aria-expanded="true"])::after{display:none}
 
   @media(min-width:861px){
     .compo .trio{display:flex;gap:var(--rule-fine);background:var(--text)}
-    .trio > .conv{flex:0 0 calc((100% - 2 * var(--rule-fine)) / 3);min-width:0}
+    .compo .trio > .conv{flex:0 0 calc((100% - 2 * var(--rule-fine)) / 3);
+      min-width:0;aspect-ratio:auto}
+    .compo .trio > .conv{grid-area:auto;aspect-ratio:auto}
+    .compo .trio::after{display:none}
 
     .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv{flex-basis:28px}
     .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv:has(.conv__tete[aria-expanded="true"]){
@@ -561,22 +631,22 @@ const sobriete: Tuile[] = [
     line-height:1.12;letter-spacing:-.01em}
 
   /*
-    ─── LE TITRE DU PRINCIPE 03 EST L'ENONCE DE SA CASE ───
+    ─── LES CASES QUI SE LISENT EN DUR PORTENT UN ENONCE ───
 
-    Les six autres titres sont des titres de case repliee : seuls dans leur
-    aplat, ils portent deja l'emphase que leur donne Conviction. Celui-ci est
-    le seul a ouvrir un texte qui se lit en entier sous lui, et au corps des
-    tuiles - 17px - il devenait une etiquette posee au-dessus de son propre
-    paragraphe, plus petit que la citation qu'il annonce.
+    Les cinq cases repliables ont des titres de case repliee : seuls dans
+    leur aplat, ils portent deja l'emphase que leur donne Conviction. Le 02
+    et le 03 sont les deux qui ouvrent un texte lu en entier sous eux, et au
+    corps des tuiles - 17px - leur titre devenait une etiquette posee
+    au-dessus de son propre paragraphe.
 
-    Il prend donc le traitement de la case « Cultivating practice… » de la
-    landing, qui fait exactement ce travail-la : une phrase en corps de
+    Ils prennent donc le traitement de la case « Cultivating practice… » de
+    la landing, qui fait exactement ce travail : une phrase en corps de
     section, Maven en 900, interligne serre, et le texte descriptif dessous.
-    C'est la seule case du site dans ce cas ; la regle reste donc ici, sur
-    son id, et ne remonte pas dans le composant.
+    Le 02 a rejoint le 03 le jour ou il a cesse de se replier - meme role,
+    donc meme echelle.
   */
-  #pr-inclusion .conv__titre{font-size:var(--fs-section);line-height:1.1;
-    letter-spacing:-.015em}
+  :is(#pr-truth,#pr-inclusion) .conv__titre{font-size:var(--fs-section);
+    line-height:1.1;letter-spacing:-.015em}
   .conv__detail .eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
     letter-spacing:.2em;text-transform:uppercase}
 </style>
