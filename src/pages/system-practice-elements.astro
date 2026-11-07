@@ -175,43 +175,35 @@ const capacites: Tuile[] = [
 ];
 
 /*
-  ─── UNE PUCE COMMENCE UNE PHRASE. TOUJOURS. ───
+  ─── LE SOMMAIRE EST LA LISTE DES SOUS-PARTIES ───
 
-  Le script CLONE le contenu de `[data-sommaire]` : ce qui est pose au milieu
-  d'une phrase arrive donc en minuscule en tete de puce. Le piege s'est
-  referme trois fois - « from zero users… », « a team never equals… »,
-  « change management at scale… » - parce qu'on marque en lisant le
-  paragraphe, ou la minuscule est correcte. La regle : si la phrase a marquer
-  commence au milieu d'une autre, c'est la PHRASE qu'il faut couper, pas la
-  balise qu'il faut etirer.
+  `data-sommaire` est pose sur les treize `.eb`, pas sur des phrases du
+  corps : le sommaire d'un chapitre est donc la liste de ses sous-parties,
+  et il dit DE QUOI le chapitre parle au lieu d'en resumer les idees. Rien
+  a ecrire, rien a tenir a jour : ajouter une sous-partie ajoute sa ligne.
 
-  ─── LE SOMMAIRE SE LIT COMME UN TEXTE, ET DEUX CHAPITRES BOITAIENT ───
+  C'EST OPT-IN, ET IL FAUT QUE CA LE RESTE. Recolter `.subsec > .eb` plutot
+  qu'un marqueur paraissait plus propre, mais Brand et Event ont plusieurs
+  `.eb` par sous-partie - « Sample of visual strategy pairing », « Concept
+  1 » sont des legendes de figure. Le selecteur leur fabriquerait cinq a
+  neuf puces par chapitre melees a des legendes. Le marqueur, lui, ne dit
+  que ce qu'on a choisi de dire.
 
-  Les phrases `data-sommaire` forment trois puces par chapitre, et c'est ce
-  qu'un lecteur presse lit en premier. Relues a la suite, hors de leur
-  paragraphe, deux series ne tenaient pas.
+  TROIS PIEGES DISPARAISSENT AVEC LES PHRASES. Le script CLONE le contenu
+  marque : une phrase prise au milieu d'une autre arrivait en minuscule en
+  tete de puce, et ce piege s'est referme trois fois. Un libelle n'a pas de
+  milieu. Les douze phrases du corps devaient par ailleurs se tenir DEUX
+  fois - dans leur paragraphe et hors de lui - et ne pas redire la synthese
+  de leur propre carte : deux contraintes qui ont demande deux passes
+  entieres. Elles tombent toutes les deux.
 
-  LE 03 S'APPELLE « THE PROOF » ET S'OUVRAIT SUR UNE CONDITION : « A
-  structure only counts if it holds. » C'est la mise en place, pas la preuve
-  - la preuve est dans la phrase d'apres, « This one does ». La puce passe
-  donc au premier resultat du chapitre, et les trois sont desormais des
-  faits : 2 000+ praticiens, la confiance plutot que la conformite, 87%
-  d'usage.
+  CE QUE LE CHANGEMENT COUTE : le sommaire ne donne plus les idees, il donne
+  les sujets. « A data-driven cadence, with discovery that never closed »
+  disait quelque chose ; « Vision & strategy » annonce. Le pari est qu'on
+  lit un sommaire pour decider d'ouvrir, pas pour s'economiser la lecture.
 
-  LE 04 DISAIT DEUX FOIS LA MEME CHOSE. « I didn't build a system I hold
-  together. I built the conditions where it holds itself. » et « My job
-  wasn't to hold it up. It was to build a structure that outlasts any of
-  us. » : meme figure, meme verbe, meme affirmation, dans un sommaire de
-  trois lignes. La premiere reste en gras dans la page, ou elle ouvre le
-  chapitre, mais quitte le sommaire ; a sa place, « Nothing shipped without
-  us aligned, and nothing waited on me to be decided », qui dit COMMENT
-  l'autonomie fonctionnait et que rien d'autre ne dit.
-
-  UNE PUCE NE COMMENCE PAS EN MINUSCULE. Le marqueur du 03 prenait « zero
-  users to… » au milieu d'une phrase : correct dans le paragraphe, fautif en
-  tete de puce puisque le script CLONE le contenu. La phrase devient « From
-  zero users to a community of 2,000+ practitioners », qui se tient aux deux
-  endroits.
+  LE 03 EN A QUATRE, PAS TROIS - il a quatre sous-parties. Le sommaire suit
+  la page ; c'est le prix de ne plus etre ecrit a la main.
 
   ─── LE GRAS DE CETTE PAGE, ET POURQUOI IL EST DENSE ───
 
@@ -220,13 +212,14 @@ const capacites: Tuile[] = [
   et a Operating System. A 59, le gras cesse de designer et devient une
   texture.
 
-  MAIS ONZE D'ENTRE EUX NE SONT PAS DE L'EMPHASE : ils portent
-  `data-sommaire` et composent le sommaire de chapitre (voir dossier.ts, qui
-  recolte `[data-sommaire]`). Sur cette page le gras fait donc DEUX metiers,
-  et ces onze-la ne se jugent pas au meme aune - « The same cost, paid
-  forty-five times over. » suivi de « The capability was there. The structure
-  to use it wasn't. » font deux gras colles qu'on enleverait ailleurs, mais
-  ce sont deux lignes du sommaire.
+ONZE D'ENTRE EUX FAISAIENT UN SECOND METIER, ET NE LE FONT PLUS. Ils
+  portaient `data-sommaire` et composaient le sommaire de chapitre, donc ils
+  ne se jugeaient pas au meme aune : « The same cost, paid forty-five times
+  over. » suivi de « The capability was there. The structure to use it
+  wasn't. » font deux gras colles qu'on enleverait ailleurs, mais c'etaient
+  deux lignes du sommaire. Le marqueur vit maintenant sur les surtitres, donc
+  ces onze-la redeviennent de l'emphase ordinaire et se jugent comme le
+  reste - a relire a l'occasion avec cette regle seule.
 
   SIX SONT TOMBES, TOUS DANS LES QUARANTE-HUIT AUTRES, et tous pour la meme
   raison : ils doublaient. Les deux etiquettes des paris - « Cost
@@ -529,19 +522,19 @@ const mecanismes: Tuile[] = [
             etablit, au mot pres : « Not incompetence - distance », puis « The
             capability was there. The structure to use it wasn't. » Un
             goulot d'etranglement est un symptome ; la cause est en amont. */}
-        <p class="eb">Root cause</p>
+        <p class="eb" data-sommaire>Root cause</p>
         <div class="split">
           <p class="lead">Not incompetence. <em class="em-rouge">Distance.</em></p>
           <div class="body">
             <p><strong>Nobody meets. Everybody rebuilds. In silos, again and again.</strong> A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had.</p>
             <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale.</p>
-            <p>The <em>how</em> was worse: practices siloed team by team. <span data-sommaire>A team never equals one surface: one platform has shipped 2,000+ marketing websites, another localises a single product 150+ times.</span> <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
+            <p>The <em>how</em> was worse: practices siloed team by team. A team never equals one surface: one platform has shipped 2,000+ marketing websites, another localises a single product 150+ times. <strong>The same cost, paid forty-five times over.</strong> <strong>The capability was there. The structure to use it wasn't.</strong></p>
           </div>
         </div>
       </div>
 
       <div class="subsec">
-        <p class="eb">Investment case</p>
+        <p class="eb" data-sommaire>Investment case</p>
         <div class="split">
           <p class="lead">A system this size is <em class="em-rouge">two bets in one.</em> It only pays if it's adopted.</p>
           <div class="body">
@@ -568,7 +561,7 @@ const mecanismes: Tuile[] = [
         chapitre ou une phrase conclut au lieu d'avancer.
       */}
       <div class="subsec">
-        <p class="eb">Executive partnership</p>
+        <p class="eb" data-sommaire>Executive partnership</p>
         <div class="split">
           <p class="lead">A €1M bet on a model, <em class="em-rouge">not a line item.</em></p>
           <div class="body">
@@ -596,7 +589,7 @@ const mecanismes: Tuile[] = [
       <h2 class="sr-only" id="titre-approach">02 &middot; The approach</h2>
 
       <div class="subsec">
-        <p class="eb">Organisation &amp; people</p>
+        <p class="eb" data-sommaire>Organisation &amp; people</p>
         <div class="split">
           {/*
             TROIS SOUS-PARTIES DE SUITE PARIAIENT. « A system this size is two
@@ -616,14 +609,14 @@ const mecanismes: Tuile[] = [
           <div class="body">
             <p><strong>The decision was the easy part. Owning it wasn't.</strong> Its capabilities, its roles, one operating model - and the job descriptions that made them real, <strong>organised by capability with accountable leads</strong>. The budget came with it, and the line between what the platform funded and what it shipped was mine.</p>
             <p>Governance was where I refused the easy answer - two models, not one. <strong>A centralized core for building, a tiered service for support.</strong> The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.</p>
-            <p><span data-sommaire>Every decision got the same reading: what it opened, what it exposed, what it cost to reverse.</span> Surfaced early, then locked with the team or my stakeholders.</p>
-            <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong data-sommaire>A data-driven cadence, with discovery that never closed.</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
+            <p>Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.</p>
+            <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong>A data-driven cadence, with discovery that never closed.</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
           </div>
         </div>
       </div>
 
       <div class="subsec">
-        <p class="eb">Vision &amp; strategy</p>
+        <p class="eb" data-sommaire>Vision &amp; strategy</p>
         <div class="split">
           {/*
             CELLE-CI DOUBLAIT LA DEFINITION DU BANDEAU, en plus de la figure.
@@ -666,7 +659,7 @@ const mecanismes: Tuile[] = [
       </div>
 
       <div class="subsec">
-        <p class="eb">Build</p>
+        <p class="eb" data-sommaire>Build</p>
         {/*
           LA CHAINE N'EST PLUS UN INVENTAIRE. Elle se lisait en sept pas
           numerotes - un sommaire d'outillage, ou chaque ligne avait le meme
@@ -687,7 +680,7 @@ const mecanismes: Tuile[] = [
           <p class="lead">The pipeline is the thesis <em class="em-rouge">made physical.</em></p>
           <div class="body">
             <p>It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.</p>
-            <p>Brand, design and engineering pour into the same chain - the wait between experts, engineered out. <strong data-sommaire>The ÷3 is not people working faster - it's expertises no longer waiting on each other.</strong></p>
+            <p>Brand, design and engineering pour into the same chain - the wait between experts, engineered out. <strong>The ÷3 is not people working faster - it's expertises no longer waiting on each other.</strong></p>
           </div>
         </div>
       </div>
@@ -708,7 +701,7 @@ const mecanismes: Tuile[] = [
       <h2 class="sr-only" id="titre-proof">03 &middot; The proof</h2>
 
       <div class="subsec">
-        <p class="eb">Business impact</p>
+        <p class="eb" data-sommaire>Business impact</p>
         <div class="split">
           {/*
             MEME HUMILITE, SANS LA FIGURE. « The numbers are the system's,
@@ -718,15 +711,15 @@ const mecanismes: Tuile[] = [
           */}
           <p class="lead">These numbers belong to <em class="em-rouge">the team that made them.</em></p>
           <div class="body">
-            <p><strong>A structure only counts if it holds.</strong> This one does. <strong data-sommaire>From zero users to a community of 2,000+ practitioners.</strong></p>
-            <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong data-sommaire>People don't comply with Elements, they trust it.</strong></p>
+            <p><strong>A structure only counts if it holds.</strong> This one does. <strong>From zero users to a community of 2,000+ practitioners.</strong></p>
+            <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong>People don't comply with Elements, they trust it.</strong></p>
             <p class="qt">Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.</p>
           </div>
         </div>
       </div>
 
       <div class="subsec">
-        <p class="eb">What Elements actually is</p>
+        <p class="eb" data-sommaire>What Elements actually is</p>
         <Carrousel
           label="Facets of the platform"
           eyebrow="You may think it is a Figma library"
@@ -745,7 +738,7 @@ const mecanismes: Tuile[] = [
       </div>
 
       <div class="subsec">
-        <p class="eb">Influence &amp; community</p>
+        <p class="eb" data-sommaire>Influence &amp; community</p>
         <div class="split">
           <p class="lead">A design system you install. <em class="em-bleu">A community you have to earn.</em></p>
           <div class="body">
@@ -784,7 +777,7 @@ const mecanismes: Tuile[] = [
         </div>
 
         <div class="body">
-          <p><strong>87% average usage per product in production, from near-zero.</strong> That isn't a launch - it's change management at scale. <strong data-sommaire>Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.</strong> It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
+          <p><strong>87% average usage per product in production, from near-zero.</strong> That isn't a launch - it's change management at scale. <strong>Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.</strong> It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
         </div>
       </div>
 
@@ -806,7 +799,7 @@ const mecanismes: Tuile[] = [
         montrees.
       */}
       <div class="subsec">
-        <p class="eb">They shaped it. We carried the rest.</p>
+        <p class="eb" data-sommaire>They shaped it. We carried the rest.</p>
         <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms" hauteur={320} />
       </div>
 
@@ -825,6 +818,7 @@ const mecanismes: Tuile[] = [
       <h2 class="sr-only" id="titre-team">04 &middot; The team</h2>
 
       <div class="subsec">
+        <p class="eb" data-sommaire>Autonomy</p>
         <div class="split">
           <p class="lead">Every week, the same question: <em class="em-rouge">is the work moving, and is the person growing.</em></p>
           <div class="body">
@@ -845,17 +839,17 @@ const mecanismes: Tuile[] = [
       </div>
 
       <div class="subsec">
-        <p class="eb">People</p>
+        <p class="eb" data-sommaire>People</p>
         <div class="split split--haut">
           <div class="pile">
             <p class="lead">Zero resignations <em class="em-rouge">in three years.</em></p>
             <div class="body">
-              <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Agile is the tempo, not a checkbox. <strong data-sommaire>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong></p>
+              <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Agile is the tempo, not a checkbox. <strong>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong></p>
             <p>I hired into the org I had drawn - from one designer to a core team of nine, design itself going from one to five - then carried the direction to leadership and handed them the operational goal as <strong>OKRs of their own</strong>, tied to the company's annual objectives: our ambition inside a shared project, never beside it.</p>
-            <p><strong data-sommaire>Average completed engagement: 23 months against a one-year target.</strong></p>
+            <p><strong>Average completed engagement: 23 months against a one-year target.</strong></p>
               <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong> People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.</p>
               <p><strong>Nicolas</strong> came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as <strong>Design Ops Lead</strong> and we founded the capability together. <strong>His growth and the company's outcome, paired.</strong></p>
-            <p class="qt" data-sommaire>My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
+            <p class="qt">My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
             </div>
           </div>
           <div class="pile">
@@ -881,7 +875,7 @@ const mecanismes: Tuile[] = [
       {/* Le dessin et sa preuve : l.idee n.est pas venue de la feuille de
           route, et c.est tout le propos du chapitre. */}
       <div class="subsec">
-        <p class="eb">Innovation</p>
+        <p class="eb" data-sommaire>Innovation</p>
         <div class="taught">
           <div class="taught__viz" aria-hidden="true"><IdeaVisual /></div>
           <div class="body">

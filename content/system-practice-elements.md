@@ -209,6 +209,8 @@ Next: the team &rarr;
 
 ## 04 &middot; The team
 
+Autonomy
+
 Every week, the same question: *is the work moving, and is the person growing.*
 
 **I didn't build a system I hold together. I built the conditions where it holds itself.**
