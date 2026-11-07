@@ -1111,6 +1111,25 @@
   suffit, et l'italique d'un 900 a 34px passe pour un defaut de rendu.
   Sur le bloc sombre le rouge passe au jaune : a 5,67:1 sur blanc il tombe a
   1,9 sur le noir d'encre.
+
+  UN CHAPITRE N'ACCENTUE QUE DANS UNE COULEUR, CELLE DE SA CARTE. C'est la
+  regle de Lea : les mots colores d'un titre prennent la couleur de la
+  section. Elle s'applique telle quelle quand la couleur peut porter du
+  texte sur blanc - rouge 5,67:1, bleu 7,21:1 - et pas autrement :
+
+    carte rouge → .em-rouge      carte jaune → .em-rouge  (1,54:1, echec
+    carte bleu  → .em-bleu       carte noir  → .em-bleu    meme en grand)
+
+  Le jaune ne tient que sur fond sombre, d'ou la derniere ligne ci-dessous.
+  Le noir, lui, passe le contraste mais EST la couleur du titre : l'accent
+  deviendrait indiscernable. Comme les trois etudes numerotent rouge, bleu,
+  jaune (et noir au 04 de Governance), la regle donne une alternance rouge /
+  bleu / rouge / bleu.
+
+  A VERIFIER SUR LE RENDU, PAS DANS LE SOURCE : un chapitre peut contenir
+  une <section> imbriquee, et un decoupage naif du .astro saute alors la fin
+  du chapitre. La mesure qui compte est `getComputedStyle(em).color`, une
+  seule valeur par `.pan`.
 */
 :is(.pan,.etude) .em-rouge,:is(.pan,.etude) .em-bleu,
 .pan .closing em{font-style:normal}
