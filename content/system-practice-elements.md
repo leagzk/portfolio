@@ -75,9 +75,11 @@ Root cause
 
 Not incompetence. *Distance.*
 
-**Nobody meets. Everybody rebuilds. In silos, again and again.** A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. Three crafts, three silos, each solving in private what the others had already solved.
+**Nobody meets. Everybody rebuilds. In silos, again and again.** A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had.
 
-And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team - and a team never equals one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
+And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale.
+
+The *how* was worse: practices siloed team by team - and a team never equals one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
 
 Investment case
 
@@ -91,7 +93,9 @@ Executive partnership
 
 A €1M bet on a model, *not a line item.*
 
-**You can't outsource the thing your whole system depends on.** The engineering was externalized before my time - not my call. But **the bet I shared, and got wrong, was priority.** Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.
+**You can't outsource the thing your whole system depends on.** The engineering was externalized before my time - not my call.
+
+**The bet I shared, and got wrong, was priority.** Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.
 
 So the system was coherent, and barely adopted. **A design system nobody adopts is the oldest failure in the field**, and we'd walked straight into it.
 
@@ -105,7 +109,7 @@ Organisation & people
 
 I designed the organisation *before I filled it.*
 
-**The decision was the easy part. Owning it wasn't.** I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
+**The decision was the easy part. Owning it wasn't.** Its capabilities, its roles, one operating model - and the job descriptions that made them real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
 Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
 
@@ -231,7 +235,9 @@ People
 
 Zero resignations *in three years.*
 
-**I owned the *why* and the *what*. They owned the *how*** - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. **Nothing shipped without us aligned, and nothing waited on me to be decided.** Design went from one to five. Average completed engagement: **23 months against a one-year target.**
+**I owned the *why* and the *what*. They owned the *how*** - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. **Nothing shipped without us aligned, and nothing waited on me to be decided.**
+
+Design went from one to five. Average completed engagement: **23 months against a one-year target.**
 
 The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.** People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.
 
