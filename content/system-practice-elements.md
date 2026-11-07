@@ -121,7 +121,7 @@ Vision & strategy
 
 The best architecture I built *started as the one I got backwards.*
 
-Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities** - and the tension is the point: they aren't parallel, each one only works because the other two hold their end.
+Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities - and none of them works alone.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
 - Brand × Product Corporate Experience Brand × Product The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. **Where the brand becomes tangible.**
 
@@ -141,7 +141,7 @@ The pipeline is the thesis *made physical.*
 
 It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.
 
-Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **That's the ÷3: not people working faster, but expertises no longer waiting on each other.**
+Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **The ÷3 is not people working faster - it's expertises no longer waiting on each other.**
 
 Next: the proof →
 
