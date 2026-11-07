@@ -121,7 +121,7 @@
 @media(min-width:861px){
   .cles--mondrian-seul.cles--mondrian-seul{grid-template-columns:1fr;
     grid-template-rows:240px}
-  .cles--mondrian-seul .clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
+  .cles--mondrian-seul .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 }
 
 /*
@@ -161,8 +161,18 @@
   quoi l'ombre interieure qui tient le filet des reduites passerait dessus.
 */
 .clef-rangee{display:flex;gap:var(--rule-fine);overflow:hidden}
-.clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
-.clef-rangee:nth-of-type(2){grid-area:2 / 1 / 3 / 2}
+/*
+  LA RANGEE EST PLACEE PAR SON RANG, PAS PAR SA POSITION DANS LE FRONT. Ces
+  deux regles ont pesé `:nth-of-type(1)` et `(2)` ; le jour ou la definition
+  est passee devant les rangees dans le markup - pour que le mobile la lise
+  avant les chiffres - elle est devenue le premier <div> de la section, et
+  les deux rangees ont glisse d'un cran : la premiere ne correspondait plus a
+  rien, la seconde prenait la place de la premiere, et les cinq chiffres se
+  lisaient a l'envers au bureau. Un selecteur positionnel compte TOUS les
+  freres du meme type, pas seulement ceux qui portent la classe.
+*/
+.clef-rangee--1{grid-area:1 / 1 / 2 / 2}
+.clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
 
 /* ─── L'aplat depliable ─── */
@@ -323,6 +333,21 @@
 */
 .clef-def{position:relative;display:flex;flex-direction:column;gap:20px;
   padding:32px 32px calc(84px + 32px)}
+/*
+  LE PRIX DESCEND CONTRE LA BANDE, et c'est `margin-top:auto` - le meme
+  geste que le bouton de la cloture. La case a une hauteur FIXE au bureau,
+  deux rangees de 240px : raccourcir la phrase de definition y a laisse 159px
+  de blanc d'un seul tenant au-dessus de la bande. Le blanc est une matiere
+  de cette composition, pas un trou, mais pas quand il s'amasse en un seul
+  endroit. Reparti en deux, il tient la definition en haut et la preuve en
+  bas, et la case se lit comme une affiche plutot que comme un texte qui
+  s'est arrete trop tot.
+
+  Sous le palier la case suit son contenu : il n'y a pas d'espace libre, donc
+  `auto` ne vaut rien et la regle ne mord pas.
+*/
+.clef-def__prix{margin:auto 0 0;font-size:var(--fs-caption);line-height:1.5;
+  color:var(--ink-muted)}
 .clef-def__filet{position:absolute;left:0;right:0;bottom:84px;
   height:var(--rule-fine);background:var(--text)}
 .clef-def__bande{position:absolute;left:0;right:0;bottom:0;height:84px;
@@ -361,7 +386,26 @@
   .cles--mondrian > *{grid-area:auto !important}
   /* Au doigt rien ne se pousse : la rangee s'empile et chaque case prend la
      largeur. Le depliage se fait au clic, dans la case. */
-  .clef-rangee{flex-direction:column;overflow:visible}
+  /*
+    LA BANDE DE CHIFFRES RESTE UNE GRILLE SOUS LE PALIER. Elle s'empilait :
+    cinq cases pleine largeur de 170px l'une sur l'autre, soit 860px d'un
+    seul rythme, et la case de definition par-dessus. Deux colonnes rendent
+    aux chiffres la forme qu'ils ont au bureau - des carres - sans rien
+    changer a leur ordre : a 375px une colonne fait 170,75px, donc chaque
+    case est carree d'elle-meme et le `min-height` ne mord plus.
+
+    LA RANGEE IMPAIRE SE REFERME SUR UNE PLEINE LARGEUR. La premiere rangee
+    porte trois chiffres quand la page a une definition : deux carres et un
+    orphelin. L'orphelin prend les deux colonnes, ce qui donne au mobile le
+    rythme carre / carre / bande que la composition tient au bureau.
+
+    `:nth-child(3):nth-last-child(1)` SE REGLE TOUT SEUL : il ne designe un
+    troisieme enfant que s'il est aussi le dernier, donc uniquement la rangee
+    de trois. Les etudes sans definition portent quatre chiffres sur une
+    seule rangee et restent en deux fois deux, sans exception a ecrire.
+  */
+  .clef-rangee{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
+  .clef-rangee > :nth-child(3):nth-last-child(1){grid-column:1 / -1}
   .clef-case{flex:none;min-height:170px}
   .clef{position:relative;inset:auto;min-height:170px}
   .clef__dedans{position:relative;inset:auto;gap:16px;padding:24px 16px}

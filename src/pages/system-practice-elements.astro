@@ -148,16 +148,98 @@ const produits = [
 ].map((p, i) => ({ ...p, repere: String(i + 1).padStart(2, '0') }));
 
 /*
+  ─── LE SOMMAIRE SE LIT COMME UN TEXTE, ET DEUX CHAPITRES BOITAIENT ───
+
+  Les phrases `data-sommaire` forment trois puces par chapitre, et c'est ce
+  qu'un lecteur presse lit en premier. Relues a la suite, hors de leur
+  paragraphe, deux series ne tenaient pas.
+
+  LE 03 S'APPELLE « THE PROOF » ET S'OUVRAIT SUR UNE CONDITION : « A
+  structure only counts if it holds. » C'est la mise en place, pas la preuve
+  - la preuve est dans la phrase d'apres, « This one does ». La puce passe
+  donc au premier resultat du chapitre, et les trois sont desormais des
+  faits : 2 000+ praticiens, la confiance plutot que la conformite, 87%
+  d'usage.
+
+  LE 04 DISAIT DEUX FOIS LA MEME CHOSE. « I didn't build a system I hold
+  together. I built the conditions where it holds itself. » et « My job
+  wasn't to hold it up. It was to build a structure that outlasts any of
+  us. » : meme figure, meme verbe, meme affirmation, dans un sommaire de
+  trois lignes. La premiere reste en gras dans la page, ou elle ouvre le
+  chapitre, mais quitte le sommaire ; a sa place, « Nothing shipped without
+  us aligned, and nothing waited on me to be decided », qui dit COMMENT
+  l'autonomie fonctionnait et que rien d'autre ne dit.
+
+  UNE PUCE NE COMMENCE PAS EN MINUSCULE. Le marqueur du 03 prenait « zero
+  users to… » au milieu d'une phrase : correct dans le paragraphe, fautif en
+  tete de puce puisque le script CLONE le contenu. La phrase devient « From
+  zero users to a community of 2,000+ practitioners », qui se tient aux deux
+  endroits.
+
+  ─── LE GRAS DE CETTE PAGE, ET POURQUOI IL EST DENSE ───
+
+  La page en portait 59. La regle du site est pourtant simple : le gras tient
+  l'idee OPERANTE, pas la figure - c'est elle qu'on a appliquee a Philosophy
+  et a Operating System. A 59, le gras cesse de designer et devient une
+  texture.
+
+  MAIS ONZE D'ENTRE EUX NE SONT PAS DE L'EMPHASE : ils portent
+  `data-sommaire` et composent le sommaire de chapitre (voir dossier.ts, qui
+  recolte `[data-sommaire]`). Sur cette page le gras fait donc DEUX metiers,
+  et ces onze-la ne se jugent pas au meme aune - « The same cost, paid
+  forty-five times over. » suivi de « The capability was there. The structure
+  to use it wasn't. » font deux gras colles qu'on enleverait ailleurs, mais
+  ce sont deux lignes du sommaire.
+
+  SIX SONT TOMBES, TOUS DANS LES QUARANTE-HUIT AUTRES, et tous pour la meme
+  raison : ils doublaient. Les deux etiquettes des paris - « Cost
+  rationalization » et « experience at scale » - encadraient l'insight du
+  paragraphe et lui prenaient son relief ; la structure de la phrase les
+  designe deja. « And none of it was measured after the fact » collait au
+  chiffre qu'il annonçait. « Everything a system needs to outlive the person
+  who built it » et « A system nobody believes in dies with its founder »
+  disaient la these de la survie une deuxieme et une troisieme fois, alors
+  que le chapitre 04 la ferme. « This is the next mile of the same road »
+  precedait de six mots la vraie chute.
+
+  UN SEUL A DEPLACE PLUTOT QUE DISPARU. Dans la puce du chapitre 04, le gras
+  etait sur « A team that only points the way isn't leading; it's watching » -
+  la figure. Il est passe sur « you don't point at the problem from across the
+  room, you cross it » : le standard, c'est-a-dire ce qu'on peut appliquer
+  demain. La figure reste, en corps normal, pour refermer.
+
   ─── Les trois mecanismes ───
   Terme = suite : le renversement est le sujet. Ce ne sont pas des valeurs
   affichees mais des contraintes installees, et la troisieme est celle que
   personne n'avait demandee.
+
+  LES TITRES DISENT UN FAIT, PAS UN PRINCIPE - LE PRINCIPE A SA PAGE. Deux
+  d'entre eux etaient repris mot pour mot d'Operating System : « Nothing
+  ships on a hunch » ouvre son principe 01, et « The floor, not the reach »
+  comprime le titre de son 03. Un lecteur qui enchaine les deux pages lisait
+  deux fois la meme phrase, et c'etait la page de PREUVE qui s'affaiblissait,
+  alors que c'est elle qui detient les faits. Les eyebrows - Rigour,
+  Responsibility, Ethics - suffisent a tenir le lien entre les deux pages.
+
+  Les corps suivent : chacun disait ce que son titre dit desormais. Le
+  premier passe donc a ce que la discovery regardait VRAIMENT, le second a ce
+  que « continuously tested » veut dire - des controles la ou le travail se
+  fait, donc une regression qui ne sort jamais du systeme. Le detail de
+  l'outillage (axe, les controles natifs de Storybook, la revue manuelle) est
+  deja sur Operating System : le rapatrier ici recreerait le doublon qu'on
+  vient d'enlever, et deshabillerait une page merge. « So no product team paid the
+  cost downstream » tombe pour la meme raison - c'est la phrase du principe
+  03 ; a sa place, ce que ca change pour une equipe produit.
+
+  LA TROISIEME NE BOUGE PAS : « A constraint nobody asked me to keep » n'est
+  reprise nulle part, et c'est la seule des trois qui raconte un arbitrage
+  plutot qu'une mesure.
 */
 const mecanismes: Tuile[] = [
-  { eyebrow: 'Rigour', couleur: 'rouge', titre: 'Nothing ships on a hunch.',
-    texte: "No component, no roadmap line ever shipped without discovery: what the ecosystem actually needs, what already exists. Then one shared convention, written down. <strong>The standard isn't a review at the end, it's the default at the start.</strong>" },
-  { eyebrow: 'Responsibility', couleur: 'bleu', titre: 'The floor, not the reach.',
-    texte: 'WCAG AA as the Sanofi digital standard, not our own bar. Full library audited to 100% before our first major, then held there. <strong>So no product team paid the cost downstream.</strong>' },
+  { eyebrow: 'Rigour', couleur: 'rouge', titre: 'Every component passed discovery and community testing.',
+    texte: "What the ecosystem actually needs, what already exists, what the people who build with it say back - then one shared convention, written down. <strong>The standard isn't a review at the end, it's the default at the start.</strong>" },
+  { eyebrow: 'Responsibility', couleur: 'bleu', titre: '100% WCAG AA before the first major, and continuously tested within the pipeline.',
+    texte: 'WCAG AA as the Sanofi digital standard, not our own bar. The checks live where the work happens, so a regression never leaves the system. <strong>Accessibility stopped being a debt a product team inherits.</strong>' },
   { eyebrow: 'Ethics', couleur: 'noir', titre: 'A constraint nobody asked me to keep.',
     texte: 'When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. <strong>Not everyone draws it. I do.</strong>' },
 ];
@@ -175,17 +257,63 @@ const mecanismes: Tuile[] = [
   >
     At global scale, a system isn't managed. It's governed.
     <Fragment slot="intro">
-      I built Elements to remove the friction between experts, cut time to launch
-      and raise product experience at scale - then moved it from a design system
-      to a platform: one pipeline where brand, design and engineering pour into
-      the same chain. Starting in 2022 as <b>Design Lead</b>, running the platform
-      today as its <b>Director</b>.
+      I first built Elements to cut time-to-launch and remove the friction
+      between design and engineering. Then I scaled it to raise brand
+      experience and make design excellence consistent - moving from a design
+      system managed as a product to an experience design platform. <b>Design Lead in 2022, Director today: a €1M platform across
+      Sanofi's brand portfolio, reaching from employee to patient.</b>
     </Fragment>
   </Hero>
 
   <div class="etude">
 
     {/*
+      L'INTRO DIT UNE RESPONSABILITE, PAS UN ORGANIGRAMME. Elle finissait sur
+      « Starting in 2022 as Design Lead, running the platform today as its
+      Director » : la place la plus lue d'un paragraphe occupee par une
+      progression de titres. Un lecteur VP y cherche la TAILLE de ce qui a ete
+      tenu - une equipe, un budget, un perimetre -, et les trois chiffres
+      existaient deja, enterres dans les chapitres : 9 personnes, 1M d'euros,
+      45+ equipes produit. Ils remontent ou on les lit.
+
+      « ONE PIPELINE WHERE BRAND, DESIGN AND ENGINEERING POUR INTO THE SAME
+      CHAIN » EST SORTIE D'ICI. Trois raisons, qui vont dans le meme sens.
+      Elle redisait la premiere phrase du paragraphe - « remove the friction
+      between design and engineering » -, en ajoutant la marque. C'etait un
+      fragment sans verbe entre deux phrases completes, donc une legende
+      egaree. Et surtout elle existe mot pour mot au chapitre 02, ou elle
+      porte quelque chose : « The pipeline is the thesis made physical […]
+      the wait between experts, engineered out. That's the ÷3. » Dans le hero
+      c'etait une image sans sa consequence ; la-bas elle gagne un chiffre.
+
+      ILS NE DOUBLENT PAS LA BANDE DE CHIFFRES, qui ne montre que des
+      RESULTATS - 100% d'adoption, 87% d'usage, le /3, 35+ contributeurs, zero
+      demission. Ceux de l'intro sont des moyens. C'est la difference entre ce
+      qu'on vous confie et ce que vous en faites.
+
+      NI EFFECTIF NI COMPTE D'EQUIPES, ET POUR DEUX RAISONS DISTINCTES. « A
+      core team of 9 » date : un effectif bouge, et une page de positionnement
+      ne peut pas dependre d'un chiffre qu'il faudra corriger a chaque
+      recrutement ou depart. « 45+ product teams » sous-evalue : ce sont des
+      EQUIPES, pas des surfaces, et le chapitre 01 dit lui-meme qu'une seule
+      de leurs plateformes porte 200+ sites. Compter les equipes revient a
+      mesurer l'impact par le nombre de robinets plutot que par le debit.
+
+      « SANOFI'S DIGITAL ESTATE » EST UNE REVENDICATION QUE LA BANDE PROUVE
+      JUSTE DESSOUS : 100% d'adoption dans les trois accelerateurs
+      numeriques - R&D, Commercial, Manufacturing. Le hero affirme, les
+      chiffres attestent, et aucune phrase n'est dite deux fois. « From
+      employee to patient » donne la portee humaine, qui est la seule a ne
+      jamais se perimer.
+
+      ET LA DEFINITION NE PASSE PAS DANS LE HERO. L'echange a ete envisage :
+      « Elements is Sanofi's unified experience system… » en description, et
+      l'intro redescendue dans la case. Le hero dirait alors ce qu'est un
+      OUTIL juste apres un titre qui affirme une position de gouvernance - le
+      lecteur apprendrait ce que contient un catalogue avant d'apprendre ce
+      qu'a fait quelqu'un. La portee par surfaces et par marques est une
+      preuve de perimetre : sa place est contre les chiffres, pas avant eux.
+
       LA DEFINITION A QUITTE LA COMPOSITION POUR LE BANDEAU. Elle y etait une
       case parmi les chapitres ; elle est maintenant la grande case
       typographique au milieu des chiffres, sur le modele du bloc de l'accueil.
@@ -199,7 +327,59 @@ const mecanismes: Tuile[] = [
     <ChiffresCles chiffres={chiffres} variante="mondrian">
       <Fragment slot="definition">
         <p class="clef-def__eb">The system</p>
-        <p class="clef-def__phrase">Elements is Sanofi&apos;s unified experience system - <strong>one design language</strong> serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.</p>
+        {/*
+          ELLE DEFINISSAIT LA OU ELLE DEVAIT AFFIRMER. « Elements is Sanofi's
+          unified experience system - one design language serving digital
+          products and design delivery platforms globally, from B2B and B2C
+          platforms to internal tools, across products, brands and themes. »
+          C'est une entree de glossaire : X est un Y qui sert Z. Tout le reste
+          de la page affirme - le titre, l'intro, les chapitres - et cette
+          case, qu'on lit en DEUXIEME, retombait au registre du catalogue.
+
+          TROIS ENUMERATIONS POUR UNE SEULE IDEE. « digital products and
+          design delivery platforms globally », puis « from B2B and B2C
+          platforms to internal tools », puis « across products, brands and
+          themes » : le lecteur a compris « tout » des la premiere, les deux
+          autres ajoutaient des mots et pas de l'information. L'energie se
+          perdait sur trente-deux mots de portee.
+
+          ELLE REDISAIT L'INTRO, EN PLUS PLAT. L'intro dit deja « experience
+          design platform », « one pipeline where brand, design and
+          engineering pour into the same chain » et « across Sanofi's brand
+          portfolio ». Lue juste apres, la definition n'apportait que la
+          liste.
+
+          CE QU'ELLE DIT MAINTENANT REPOND AU PROBLEME DE LA PAGE. Le
+          chapitre 01 etablit qu'une equipe n'egale jamais une surface, et que
+          les surfaces se comptent par milliers. La reponse tient en une
+          phrase : une seule langue, et toutes ces surfaces la parlent. Le mot
+          « surface » fait le lien, et il est deja defini a ce moment-la. Une
+          seule enumeration subsiste, en apposition, pour donner l'etendue
+          sans la repeter.
+
+          Le nom « Elements » tombe : le surtitre dit « The system » et
+          l'intro l'a nomme trois fois. La case n'a pas a le representer, et
+          la phrase y gagne vingt-cinq signes.
+        */}
+        <p class="clef-def__phrase"><strong>One shared language</strong>, and every surface Sanofi ships speaks it - from B2B platforms to internal tools and agents, worldwide. Governed as a platform, not maintained as a library.</p>
+        {/*
+          LA PREUVE EXTERNE TIENT AVEC LA DEFINITION, PAS AVEC L'INTRO. Le
+          prix a vecu deux etats avant celui-ci : une ligne de credit en
+          capitales sous l'intro - un second surtitre dans un hero qui en a
+          deja un -, puis une phrase dans la description, ou il coutait 2,5
+          lignes de telephone a un hero qui en prenait deja 56% de l'ecran.
+
+          Sa place est ici pour une raison de fond, pas seulement de hauteur :
+          cette case est collee aux chiffres, c'est-a-dire a l'endroit ou la
+          page prouve. Et depuis que la definition se lit AVANT eux sur
+          telephone, le prix arrive tout aussi tot qu'avant.
+
+          EN CORPS DE LEGENDE ET SANS CAPITALES : la case a deja son surtitre,
+          une seconde ligne en capitales y referait le begaiement qu'on vient
+          d'enlever du hero. L'argument, lui, reste au chapitre 04, qui ne
+          cite pas le prix mais dit que ce qui compte est la CATEGORIE.
+        */}
+        <p class="clef-def__prix">Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.</p>
       </Fragment>
     </ChiffresCles>
 
@@ -317,7 +497,7 @@ const mecanismes: Tuile[] = [
           <p class="lead">Not incompetence. <em class="em-rouge">Distance.</em></p>
           <div class="body">
             <p><strong data-sommaire>Nobody meets. Everybody rebuilds. In silos, again and again.</strong> A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. Three crafts, three silos, each solving in private what the others had already solved.</p>
-            <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale. The <em>how</em> was worse: practices siloed team by team. Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
+            <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale. The <em>how</em> was worse: practices siloed team by team - and a team never equals one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
           </div>
         </div>
       </div>
@@ -327,7 +507,7 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">A system this size is <em class="em-rouge">two bets in one.</em> It only pays if it's adopted.</p>
           <div class="body">
-            <p><strong>Cost rationalization</strong> first, so forty-five product teams stop rebuilding the same thing. <strong>Systematize at the source, and you reach every one of them at once.</strong> Then <strong>experience at scale</strong>: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.</p>
+            <p>Cost rationalization first, so forty-five product teams stop rebuilding the same thing. <strong>Systematize at the source, and you reach every one of them at once.</strong> Then experience at scale: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.</p>
             <p>A system nobody trusts is the worst of both worlds: you fund the platform <em>and</em> the fragmentation it was meant to erase.</p>
           </div>
         </div>
@@ -356,7 +536,7 @@ const mecanismes: Tuile[] = [
           <div class="body">
             <p><strong>You can't outsource the thing your whole system depends on.</strong> The engineering was externalized before my time - not my call. But <strong>the bet I shared, and got wrong, was priority.</strong> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.</p>
             <p>So the system was coherent, and barely adopted. <strong>A design system nobody adopts is the oldest failure in the field</strong>, and we'd walked straight into it.</p>
-            <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.</p>
+            <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. <strong>Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.</strong></p>
           </div>
         </div>
       </div>
@@ -453,10 +633,10 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">The numbers are the system's, <em class="em-rouge">not mine.</em></p>
           <div class="body">
-            <p><strong data-sommaire>A structure only counts if it holds.</strong> This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, <strong>zero users to a community of 2,000+ practitioners.</strong></p>
-            <p><strong>And none of it was measured after the fact.</strong> I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.</p>
+            <p><strong>A structure only counts if it holds.</strong> This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. <strong data-sommaire>From zero users to a community of 2,000+ practitioners.</strong></p>
+            <p>And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.</p>
             <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong data-sommaire>People don't comply with Elements, they trust it.</strong></p>
-            <p class="qt">Adopted. Trusted. Extended. <strong>Everything a system needs to outlive the person who built it.</strong></p>
+            <p class="qt">Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.</p>
           </div>
         </div>
       </div>
@@ -485,7 +665,7 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">A design system you install. <em class="em-bleu">A community you have to earn.</em></p>
           <div class="body">
-            <p>Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. <strong>A system nobody believes in dies with its founder; one a community owns, outlives them.</strong></p>
+            <p>Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.</p>
             <p><strong>Experience runs both ways.</strong> Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. <em>Design the experience of the people designing the experience.</em></p>
           </div>
         </div>
@@ -541,12 +721,17 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">Every week, the same question: <em class="em-rouge">is the work moving, and is the person growing.</em></p>
           <div class="body">
-            <p><strong data-sommaire>I didn't build a system I hold together. I built the conditions where it holds itself.</strong></p>
+            <p><strong>I didn't build a system I hold together. I built the conditions where it holds itself.</strong></p>
             <ul class="pts">
             <li><strong>Autonomous streams</strong>, split by capability, each moving without a central decision - inside a <strong>collective framing</strong>, so a stream deciding alone still decides inside a frame it co-wrote.</li>
             <li><strong>Shared rituals</strong> are the connective tissue keeping five hubs one system rather than an archipelago.</li>
-            <li><strong>A team that isn't well doesn't ship</strong> - wellbeing isn't a nice-to-have on the side, it's load-bearing.</li>
-            <li>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. <strong>A team that only points the way isn't leading; it's watching.</strong></li>
+            {/* Cette puce ouvrait sur « A team that isn't well doesn't ship » :
+                mot pour mot la premiere phrase du footer, qui se lit au bas de
+                CETTE page comme des six autres. Elle dit maintenant ce que la
+                page est seule a pouvoir dire - non pas la conviction, mais la
+                place qu'elle a prise dans un plan. */}
+            <li><strong>Wellbeing was a line in the plan</strong>, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.</li>
+            <li>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. The standard I set: <strong>you don't point at the problem from across the room, you cross it</strong>. A team that only points the way isn't leading; it's watching.</li>
             </ul>
           </div>
         </div>
@@ -558,7 +743,7 @@ const mecanismes: Tuile[] = [
           <div class="pile">
             <p class="lead" data-sommaire>Zero resignations <em class="em-rouge">in three years.</em></p>
             <div class="body">
-              <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. <strong>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong> Design went from one to five. Average completed engagement: <strong>23 months against a one-year target.</strong></p>
+              <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. <strong data-sommaire>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong> Design went from one to five. Average completed engagement: <strong>23 months against a one-year target.</strong></p>
               <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong> People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.</p>
               <p class="qt" data-sommaire>My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
             </div>
@@ -601,7 +786,7 @@ const mecanismes: Tuile[] = [
 
       <div class="closing">
         <h2>I removed the wait between design and engineering. <em class="em-bleu">There's one wait left.</em></h2>
-        <p class="cbody">I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's <strong>velocity</strong>, and it's <strong>proximity</strong> - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. <strong>This is the next mile of the same road.</strong></p>
+        <p class="cbody">I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's <strong>velocity</strong>, and it's <strong>proximity</strong> - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. This is the next mile of the same road.</p>
         <p class="cbody">Not a system people obey - one they own. <strong>That's what growing a culture means.</strong></p>
         <p class="signature">Design systems ship standards.<br /><em class="em-bleu">Experience systems grow culture.</em></p>
         <Bouton variante="bleu" href="/system-event">See it off the screen →</Bouton>
@@ -629,6 +814,23 @@ const mecanismes: Tuile[] = [
 </Base>
 
 <style is:global>
+  /*
+    LE MULTIPLICATEUR SE DIT EN DEUX CHIFFRES, PAS EN UN TOTAL. La phrase
+    annonçait « 200+ websites » pour une seule plateforme : un facteur dix en
+    dessous de la realite, et un seul exemple la ou il en faut deux pour voir
+    le mecanisme. Une plateforme a livre 2 000+ sites marketing - c'est la
+    largeur ; une autre localise un seul produit 150+ fois - c'est la
+    profondeur. Un total agrege serait faux de toute facon : ces deux-la ne
+    se comptent pas dans la meme unite.
+
+    « AND A TEAM NEVER EQUALS ONE SURFACE » remplace « Some platforms carry
+    hundreds of surfaces on their own ». C'est la meme idee dite comme une
+    regle plutot que comme un constat, et c'est elle qui justifie la phrase
+    suivante : si le cout se paie quarante-cinq fois, c'est parce qu'on
+    compte des equipes quand il faudrait compter des surfaces.
+  */
+
+
   /* ═══ Ce qui est propre a l'etude Governance ═══ */
 
   /*

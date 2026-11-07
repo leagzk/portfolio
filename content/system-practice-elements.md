@@ -12,11 +12,16 @@ Systematize a practice · Sanofi · 2022 - now
 
 # At global scale, a system isn't managed. It's governed.
 
-I built Elements to remove the friction between experts, cut time to launch
-and raise product experience at scale - then moved it from a design system
-to a platform: one pipeline where brand, design and engineering pour into
-the same chain. Starting in 2022 as **Design Lead**, running the platform
-today as its **Director**.
+I first built Elements to cut time-to-launch and remove the friction
+between design and engineering. Then I scaled it to raise brand
+experience and make design excellence consistent - moving from a design
+system managed as a product to an experience design platform. **Design Lead in 2022, Director today: a €1M platform across Sanofi's brand portfolio, reaching from employee to patient.**
+
+The system
+
+**One shared language**, and every surface Sanofi ships speaks it - from B2B platforms to internal tools and agents, worldwide. Governed as a platform, not maintained as a library.
+
+Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.
 
 100%
 
@@ -48,10 +53,6 @@ resignations in three years
 
 Design went from one to five. Average completed engagement: 23 months against a one-year target.
 
-The system
-
-Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
-
 Three crafts, three silos - and a system nobody adopted.
 
 A designer ships a spec, an engineer rebuilds it, a marketer briefs an agency for a palette the system already had. Then we built the answer brand-first, through a vendor - coherent, but barely adopted.
@@ -76,13 +77,13 @@ Not incompetence. *Distance.*
 
 **Nobody meets. Everybody rebuilds. In silos, again and again.** A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. Three crafts, three silos, each solving in private what the others had already solved.
 
-And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team. Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
+And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team - and a team never equals one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
 
 Investment case
 
 A system this size is *two bets in one.* It only pays if it's adopted.
 
-**Cost rationalization** first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then **experience at scale**: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
+Cost rationalization first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then experience at scale: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
 
 A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase.
 
@@ -94,7 +95,7 @@ A €1M bet on a model, *not a line item.*
 
 So the system was coherent, and barely adopted. **A design system nobody adopts is the oldest failure in the field**, and we'd walked straight into it.
 
-So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.
+So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. **Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.**
 
 Next: the approach →
 
@@ -154,9 +155,9 @@ Build
 
 I don't state values. I install them.
 
-- Rigour Nothing ships on a hunch. No component, no roadmap line ever shipped without discovery: what the ecosystem actually needs, what already exists. Then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
+- Rigour Every component passed discovery and community testing. What the ecosystem actually needs, what already exists, what the people who build with it say back - then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
 
-- Responsibility The floor, not the reach. WCAG AA as the Sanofi digital standard, not our own bar. Full library audited to 100% before our first major, then held there. **So no product team paid the cost downstream.**
+- Responsibility 100% WCAG AA before the first major, and continuously tested within the pipeline. WCAG AA as the Sanofi digital standard, not our own bar. The checks live where the work happens, so a regression never leaves the system. **Accessibility stopped being a debt a product team inherits.**
 
 - Ethics A constraint nobody asked me to keep. When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. **Not everyone draws it. I do.**
 
@@ -168,13 +169,13 @@ Business impact
 
 The numbers are the system's, *not mine.*
 
-**A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, **zero users to a community of 2,000+ practitioners.**
+**A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. **From zero users to a community of 2,000+ practitioners.**
 
-**And none of it was measured after the fact.** I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
+And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
 
 4.7 out of 5 on practitioner satisfaction, twice a year. **People don't comply with Elements, they trust it.**
 
-Adopted. Trusted. Extended. **Everything a system needs to outlive the person who built it.**
+Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.
 
 What Elements actually is
 
@@ -194,7 +195,7 @@ Influence & community
 
 A design system you install. *A community you have to earn.*
 
-Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. **A system nobody believes in dies with its founder; one a community owns, outlives them.**
+Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.
 
 **Experience runs both ways.** Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. *Design the experience of the people designing the experience.*
 
@@ -224,9 +225,9 @@ Every week, the same question: *is the work moving, and is the person growing.*
 
 - **Shared rituals** are the connective tissue keeping five hubs one system rather than an archipelago.
 
-- **A team that isn't well doesn't ship** - wellbeing isn't a nice-to-have on the side, it's load-bearing.
+- **Wellbeing was a line in the plan**, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.
 
-- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
+- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: **you don't point at the problem from across the room, you cross it**. A team that only points the way isn't leading; it's watching.
 
 People
 
@@ -248,7 +249,7 @@ The Elements MCP didn't come from my roadmap. **It came from a contributor.** An
 
 ## I removed the wait between design and engineering. *There's one wait left.*
 
-I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. **This is the next mile of the same road.**
+I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. This is the next mile of the same road.
 
 Not a system people obey - one they own. **That's what growing a culture means.**
 
