@@ -224,7 +224,7 @@ Every week, the same question: *is the work moving, and is the person growing.*
 
 - **Shared rituals** are the connective tissue keeping five hubs one system rather than an archipelago.
 
-- **A team that isn't well doesn't ship** - wellbeing isn't a nice-to-have on the side, it's load-bearing.
+- **Wellbeing was a line in the plan**, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.
 
 - When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
 
