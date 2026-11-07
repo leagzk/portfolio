@@ -17,6 +17,8 @@ and raise product experience at scale - then moved it from a design system
 to a platform: one pipeline where brand, design and engineering pour into
 the same chain. **Design Lead in 2022, Director today: a €1M platform across Sanofi's digital estate, from employee to patient.**
 
+Design System Awards 2025 &middot; Governance finalist, alongside HP and Tesco
+
 The system
 
 Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.

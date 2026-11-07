@@ -203,6 +203,22 @@ const mecanismes: Tuile[] = [
       the same chain. <b>Design Lead in 2022, Director today: a €1M platform across
       Sanofi's digital estate, from employee to patient.</b>
     </Fragment>
+    {/*
+      LE SEUL FAIT DU HERO QUI NE VIENT PAS DE MOI. Tout le reste y est
+      auto-declare : ce que j'ai bati, ce que je dirige, le perimetre. Un jury
+      lit d'abord ce qu'un tiers a valide, et cette page avait sa seule preuve
+      externe au bout du chapitre 04 - apres huit ecrans. Elle remonte ici,
+      sous l'intro, dans le slot `cta` que cette page n'utilisait pas.
+
+      L'ARGUMENT, LUI, RESTE EN BAS. Le chapitre 04 ne se contente pas de
+      citer le prix : il dit que ce qui compte est la CATEGORIE - gouvernance
+      et non artisanat -, et cette lecture n'a de sens qu'apres la
+      demonstration. Un titre en haut est un justificatif ; la meme phrase en
+      bas est une conclusion. Les deux ne se volent rien.
+    */}
+    <Fragment slot="cta">
+      <p class="hero__laurier">Design System Awards 2025 &middot; Governance finalist, alongside HP and Tesco</p>
+    </Fragment>
   </Hero>
 
   <div class="etude">
@@ -692,6 +708,15 @@ const mecanismes: Tuile[] = [
 </Base>
 
 <style is:global>
+  /*
+    Le laurier reprend l'oeil du surtitre du hero - meme corps, meme
+    approche, meme capitale - mais en blanc plein la ou le surtitre est
+    attenue : c'est une preuve, pas une etiquette de rubrique. Il vit dans le
+    slot `cta`, donc sous l'intro, avec le degagement que le hero donne deja
+    a ce qu'il accueille.
+  */
+  .hero__laurier{margin:24px 0 0;font-size:var(--fs-eyebrow);font-weight:700;
+    letter-spacing:.2em;text-transform:uppercase;color:var(--white)}
   /* ═══ Ce qui est propre a l'etude Governance ═══ */
 
   /*
