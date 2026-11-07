@@ -677,11 +677,18 @@ const {
   .hero--accueil .hero__titre{max-width:none;
     font-size:min(var(--fs-h1), calc(100cqw / 14.5))}
   /*
-    UNE PHRASE PAR LIGNE, TANT QU'UNE PHRASE TIENT SUR UNE LIGNE. Les deux
-    <span> d'index.astro deviennent des blocs : meme resultat qu'un <br>, a
-    ceci pres qu'un bloc se defait. Voir le palier de 580px plus bas.
+    UNE PHRASE PAR LIGNE, TANT QU'UNE PHRASE TIENT SUR UNE LIGNE. Les <span>
+    qu'une page met dans son titre deviennent des blocs : meme resultat qu'un
+    <br>, a ceci pres qu'un bloc se defait. Voir le palier de 580px plus bas.
+
+    LA REGLE N'EST PLUS RESERVEE A L'ACCUEIL. Elle y est nee, mais le besoin
+    revient des qu'un titre fait deux phrases : sur Operating System, « I
+    don't want a team that executes. I want a team of owners. » laissait la
+    coupure tomber au milieu - « …executes. I » en bout de ligne, et la
+    seconde phrase commencant sans son sujet. Le span n'existe que la ou une
+    page l'ecrit, donc la regle ne touche aucun titre d'une seule phrase.
   */
-  .hero--accueil .hero__phrase{display:block}
+  .hero__phrase{display:block}
   .hero__intro:empty{display:none}
   .hero__intro{font-size:var(--fs-intro);line-height:1.65;color:var(--on-ink);
     max-width:560px;margin-top:28px}
@@ -847,6 +854,12 @@ const {
     rendu de la police. La meme marge que le palier de la nav, pour la meme
     raison - un moteur qui compose deux pixels plus large basculerait sinon
     une ligne trop tard, sur une phrase qui deborde.
+
+    ET CE PALIER RESTE A L'ACCUEIL, lui. Il corrige une ligne a moitie vide
+    sur SES phrases ; les titres a deux phrases des pages interieures sont
+    plus courts et se replient proprement en blocs - les defaire y
+    ramenerait la coupure au milieu d'une phrase, qui est precisement ce
+    qu'on vient d'enlever.
   */
   @media(max-width:580px){
     .hero--accueil .hero__phrase{display:inline}
