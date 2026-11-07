@@ -121,7 +121,7 @@
 @media(min-width:861px){
   .cles--mondrian-seul.cles--mondrian-seul{grid-template-columns:1fr;
     grid-template-rows:240px}
-  .cles--mondrian-seul .clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
+  .cles--mondrian-seul .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 }
 
 /*
@@ -161,8 +161,18 @@
   quoi l'ombre interieure qui tient le filet des reduites passerait dessus.
 */
 .clef-rangee{display:flex;gap:var(--rule-fine);overflow:hidden}
-.clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
-.clef-rangee:nth-of-type(2){grid-area:2 / 1 / 3 / 2}
+/*
+  LA RANGEE EST PLACEE PAR SON RANG, PAS PAR SA POSITION DANS LE FRONT. Ces
+  deux regles ont pesé `:nth-of-type(1)` et `(2)` ; le jour ou la definition
+  est passee devant les rangees dans le markup - pour que le mobile la lise
+  avant les chiffres - elle est devenue le premier <div> de la section, et
+  les deux rangees ont glisse d'un cran : la premiere ne correspondait plus a
+  rien, la seconde prenait la place de la premiere, et les cinq chiffres se
+  lisaient a l'envers au bureau. Un selecteur positionnel compte TOUS les
+  freres du meme type, pas seulement ceux qui portent la classe.
+*/
+.clef-rangee--1{grid-area:1 / 1 / 2 / 2}
+.clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
 
 /* ─── L'aplat depliable ─── */

@@ -18,6 +18,10 @@ to a platform: one pipeline where brand, design and engineering pour into
 the same chain. Starting in 2022 as **Design Lead**, running the platform
 today as its **Director**.
 
+The system
+
+Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
+
 100%
 
 adoption in the 3 Digital Accelerators
@@ -47,10 +51,6 @@ Inner source, not headcount. 4.7/5 practitioner satisfaction.
 resignations in three years
 
 Design went from one to five. Average completed engagement: 23 months against a one-year target.
-
-The system
-
-Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
 
 Three crafts, three silos - and a system nobody adopted.
 
