@@ -15,7 +15,7 @@ One thing isn't: community.
 
 You can't arbitrate what you don't understand, or translate what you
 can't speak - so I learn the craft before I weigh it. I arbitrate most
-things: scope, sequence, cost, who builds what. **Get that right and the system stops needing a single keeper: a whole community owns it, defends it, and grows it in alignment.**
+things: scope, sequence, cost, who builds what. **Get that right and the system stops needing a single keeper: a whole community owns it, defends it, and grows it in one direction.**
 
 Understanding comes before the system.
 
@@ -33,7 +33,7 @@ The fear every craftsperson has of a system is that it will flatten them - make 
 
 What's left is what matters.
 
-People doing the work that actually creates value - faster, yes, but mostly more *confident* in what they make, their expertise spent on the craft instead of on what the system should have carried. Trusted to own it, accountable for it. **The measure isn't adoption. It's people who trust what they ship.**
+People doing the work that actually creates value - faster, yes, but mostly more *confident* in what they make. And a system they don't just consume: they run it, stress it, push their own cases back into it, and it changes because they did. **The measure isn't adoption. It's people who trust what they ship.**
 
 Care isn't the soft part. It's the foundation.
 
