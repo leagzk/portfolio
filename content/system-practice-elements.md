@@ -83,7 +83,7 @@ Investment case
 
 A system this size is *two bets in one.* It only pays if it's adopted.
 
-**Cost rationalization** first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then **experience at scale**: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
+Cost rationalization first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then experience at scale: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
 
 A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase.
 
@@ -171,11 +171,11 @@ The numbers are the system's, *not mine.*
 
 **A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, **zero users to a community of 2,000+ practitioners.**
 
-**And none of it was measured after the fact.** I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
+And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
 
 4.7 out of 5 on practitioner satisfaction, twice a year. **People don't comply with Elements, they trust it.**
 
-Adopted. Trusted. Extended. **Everything a system needs to outlive the person who built it.**
+Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.
 
 What Elements actually is
 
@@ -195,7 +195,7 @@ Influence & community
 
 A design system you install. *A community you have to earn.*
 
-Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. **A system nobody believes in dies with its founder; one a community owns, outlives them.**
+Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.
 
 **Experience runs both ways.** Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. *Design the experience of the people designing the experience.*
 
@@ -227,7 +227,7 @@ Every week, the same question: *is the work moving, and is the person growing.*
 
 - **Wellbeing was a line in the plan**, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.
 
-- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
+- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: **you don't point at the problem from across the room, you cross it**. A team that only points the way isn't leading; it's watching.
 
 People
 
@@ -249,7 +249,7 @@ The Elements MCP didn't come from my roadmap. **It came from a contributor.** An
 
 ## I removed the wait between design and engineering. *There's one wait left.*
 
-I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. **This is the next mile of the same road.**
+I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. This is the next mile of the same road.
 
 Not a system people obey - one they own. **That's what growing a culture means.**
 

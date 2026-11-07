@@ -148,6 +148,38 @@ const produits = [
 ].map((p, i) => ({ ...p, repere: String(i + 1).padStart(2, '0') }));
 
 /*
+  ─── LE GRAS DE CETTE PAGE, ET POURQUOI IL EST DENSE ───
+
+  La page en portait 59. La regle du site est pourtant simple : le gras tient
+  l'idee OPERANTE, pas la figure - c'est elle qu'on a appliquee a Philosophy
+  et a Operating System. A 59, le gras cesse de designer et devient une
+  texture.
+
+  MAIS ONZE D'ENTRE EUX NE SONT PAS DE L'EMPHASE : ils portent
+  `data-sommaire` et composent le sommaire de chapitre (voir dossier.ts, qui
+  recolte `[data-sommaire]`). Sur cette page le gras fait donc DEUX metiers,
+  et ces onze-la ne se jugent pas au meme aune - « The same cost, paid
+  forty-five times over. » suivi de « The capability was there. The structure
+  to use it wasn't. » font deux gras colles qu'on enleverait ailleurs, mais
+  ce sont deux lignes du sommaire.
+
+  SIX SONT TOMBES, TOUS DANS LES QUARANTE-HUIT AUTRES, et tous pour la meme
+  raison : ils doublaient. Les deux etiquettes des paris - « Cost
+  rationalization » et « experience at scale » - encadraient l'insight du
+  paragraphe et lui prenaient son relief ; la structure de la phrase les
+  designe deja. « And none of it was measured after the fact » collait au
+  chiffre qu'il annonçait. « Everything a system needs to outlive the person
+  who built it » et « A system nobody believes in dies with its founder »
+  disaient la these de la survie une deuxieme et une troisieme fois, alors
+  que le chapitre 04 la ferme. « This is the next mile of the same road »
+  precedait de six mots la vraie chute.
+
+  UN SEUL A DEPLACE PLUTOT QUE DISPARU. Dans la puce du chapitre 04, le gras
+  etait sur « A team that only points the way isn't leading; it's watching » -
+  la figure. Il est passe sur « you don't point at the problem from across the
+  room, you cross it » : le standard, c'est-a-dire ce qu'on peut appliquer
+  demain. La figure reste, en corps normal, pour refermer.
+
   ─── Les trois mecanismes ───
   Terme = suite : le renversement est le sujet. Ce ne sont pas des valeurs
   affichees mais des contraintes installees, et la troisieme est celle que
@@ -447,7 +479,7 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">A system this size is <em class="em-rouge">two bets in one.</em> It only pays if it's adopted.</p>
           <div class="body">
-            <p><strong>Cost rationalization</strong> first, so forty-five product teams stop rebuilding the same thing. <strong>Systematize at the source, and you reach every one of them at once.</strong> Then <strong>experience at scale</strong>: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.</p>
+            <p>Cost rationalization first, so forty-five product teams stop rebuilding the same thing. <strong>Systematize at the source, and you reach every one of them at once.</strong> Then experience at scale: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.</p>
             <p>A system nobody trusts is the worst of both worlds: you fund the platform <em>and</em> the fragmentation it was meant to erase.</p>
           </div>
         </div>
@@ -574,9 +606,9 @@ const mecanismes: Tuile[] = [
           <p class="lead">The numbers are the system's, <em class="em-rouge">not mine.</em></p>
           <div class="body">
             <p><strong data-sommaire>A structure only counts if it holds.</strong> This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, <strong>zero users to a community of 2,000+ practitioners.</strong></p>
-            <p><strong>And none of it was measured after the fact.</strong> I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.</p>
+            <p>And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.</p>
             <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong data-sommaire>People don't comply with Elements, they trust it.</strong></p>
-            <p class="qt">Adopted. Trusted. Extended. <strong>Everything a system needs to outlive the person who built it.</strong></p>
+            <p class="qt">Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.</p>
           </div>
         </div>
       </div>
@@ -605,7 +637,7 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">A design system you install. <em class="em-bleu">A community you have to earn.</em></p>
           <div class="body">
-            <p>Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. <strong>A system nobody believes in dies with its founder; one a community owns, outlives them.</strong></p>
+            <p>Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.</p>
             <p><strong>Experience runs both ways.</strong> Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. <em>Design the experience of the people designing the experience.</em></p>
           </div>
         </div>
@@ -671,7 +703,7 @@ const mecanismes: Tuile[] = [
                 page est seule a pouvoir dire - non pas la conviction, mais la
                 place qu'elle a prise dans un plan. */}
             <li><strong>Wellbeing was a line in the plan</strong>, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.</li>
-            <li>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. <strong>A team that only points the way isn't leading; it's watching.</strong></li>
+            <li>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. The standard I set: <strong>you don't point at the problem from across the room, you cross it</strong>. A team that only points the way isn't leading; it's watching.</li>
             </ul>
           </div>
         </div>
@@ -726,7 +758,7 @@ const mecanismes: Tuile[] = [
 
       <div class="closing">
         <h2>I removed the wait between design and engineering. <em class="em-bleu">There's one wait left.</em></h2>
-        <p class="cbody">I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's <strong>velocity</strong>, and it's <strong>proximity</strong> - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. <strong>This is the next mile of the same road.</strong></p>
+        <p class="cbody">I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's <strong>velocity</strong>, and it's <strong>proximity</strong> - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. This is the next mile of the same road.</p>
         <p class="cbody">Not a system people obey - one they own. <strong>That's what growing a culture means.</strong></p>
         <p class="signature">Design systems ship standards.<br /><em class="em-bleu">Experience systems grow culture.</em></p>
         <Bouton variante="bleu" href="/system-event">See it off the screen →</Bouton>
