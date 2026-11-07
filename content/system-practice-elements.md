@@ -105,7 +105,7 @@ Next: the approach →
 
 ## 02 &middot; The approach
 
-Organisation & people
+Organisation & governance
 
 I designed the organisation *before I filled it.*
 
@@ -135,7 +135,7 @@ Elements isn't a single product anymore. It's several products under one governa
 
 - People Community of Practice People The governance and culture that turn contribution into practice: inner source model, contribution pathways, shared rituals, practice leadership. **The humans who grow it.**
 
-Build
+Build pipeline
 
 The pipeline is the thesis *made physical.*
 
