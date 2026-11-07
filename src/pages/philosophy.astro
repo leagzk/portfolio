@@ -80,13 +80,26 @@ import Bouton from '../components/Bouton.astro';
   absence - et les trois repliees portent le rouge, le jaune et le bleu. Deux
   aplats de meme teinte ne se touchent jamais.
 
-  « NEVER ALONE » NE SE DIT PLUS TROIS FOIS. L'intro du hero finissait sur
-  « Never alone. Conviction over caution, always. » - mot pour mot le titre de
-  la cloture, au bas de la meme page, et « Never alone » revient encore dans
-  la ligne legale du footer. Un bandeau de fin qui reprend l'ouverture est une
-  figure ; la meme phrase a trois endroits est une redite, et c'est la cloture
-  qui la porte le mieux, en grand et en couleur. L'intro se termine donc sur
-  ce qu'elle est seule a dire : le systeme qu'une communaute possede.
+  « CONVICTION OVER CAUTION, ALWAYS » DISAIT FAUX. C'etait le titre de la
+  cloture, et l'intro du hero le repetait mot pour mot - mais le probleme
+  n'etait pas la redite, il etait le fond. La phrase oppose conviction et
+  prudence, puis annonce que la premiere gagne « toujours ». Lea mesure les
+  risques et arbitre ses decisions ; la formule la peignait en fonceuse, ce
+  qui est le portrait d'un debutant plus que d'une VP. Un « always » dans une
+  signature est d'ailleurs rarement vrai.
+
+  CE QUI EST VRAI TIENT LA MEME PLACE, EN PLUS FORT : une conviction n'est pas
+  le contraire de la prudence, c'est ce qu'on continue de pousser une fois
+  qu'on a pese. « These six aren't preferences. Each one cost something to
+  keep. » Le premier membre refuse la lecture molle d'une page de valeurs - le
+  surtitre dit « What I hold », la cloture precise que ce n'est pas un gout -
+  et le second dit l'arbitrage par son prix : on ne paie que ce qu'on a
+  soupese. C'est la forme de la cloture d'Operating System : une denegation,
+  puis la definition en bleu.
+
+  L'intro du hero, elle, se termine depuis sur ce qu'elle est seule a dire :
+  le systeme qu'une communaute possede. « Never alone » reste au footer, ou
+  il se lit au bas de chaque page.
 
   AU PASSAGE, « Built on trust over control, and humility » n'avait pas de
   sujet - batie sur quoi ? La phrase reprend le fil de la precedente : « so I
@@ -221,7 +234,7 @@ import Bouton from '../components/Bouton.astro';
       <section class="conv conv--clair cloture" aria-labelledby="cloture-titre" style="grid-area:5 / 1 / 6 / 5">
         <span class="conv__plat" aria-hidden="true"></span>
         <div class="conv__txt cloture__dedans">
-          <h2 id="cloture-titre">Never alone. <em class="em-bleu">Conviction over caution, always.</em></h2>
+          <h2 id="cloture-titre">These six aren't preferences. <em class="em-bleu">Each one cost something to keep.</em></h2>
           <p class="cloture__corps">This is the systems thinking I run on - and convictions only count where they hold under pressure. At global scale that pressure has a name: governance, where a system either outlives the people who built it, or it doesn't.</p>
           <Bouton variante="bleu" href="/system-practice-elements">Governance study →</Bouton>
         </div>
@@ -297,6 +310,20 @@ import Bouton from '../components/Bouton.astro';
   .cloture__dedans{display:flex;flex-direction:column;justify-content:flex-start;
     gap:24px;padding:var(--pad-square)}
   .cloture__dedans .sb{margin-top:auto;align-self:flex-start}
+  /*
+    LA SECONDE PHRASE COMMENCE SA LIGNE, ET C'EST UNE REGLE, PAS UN REGLAGE.
+    Le titre est fait de deux phrases dont la seconde est bleue ; en flux
+    continu elle demarrait au milieu de la ligne 1 - « These six aren't
+    preferences. They're the » - et la couleur se lisait comme une
+    surbrillance posee au hasard plutot que comme une reprise.
+
+    Operating System resout le meme probleme avec une mesure en `ch`, calee
+    sur SA phrase. Un `display:block` sur l'em obtient le meme resultat sans
+    nombre a tenir a jour : la coupe tient a toutes les largeurs, et elle
+    tiendra encore quand le texte changera. Chaque phrase se replie ensuite
+    dans sa propre boite.
+  */
+  .cloture h2 em{display:block}
   .cloture h2{margin:0;font-family:var(--display);font-size:var(--fs-section);
     font-weight:900;line-height:1.1;letter-spacing:-.015em}
   .cloture__corps{margin:0;font-size:var(--fs-body-s);line-height:1.7;
