@@ -79,7 +79,7 @@ Not incompetence. *Distance.*
 
 And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale.
 
-The *how* was worse: practices siloed team by team - and a team never equals one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
+The *how* was worse: practices siloed team by team. A team never equals one surface: one platform has shipped 2,000+ marketing websites, another localises a single product 150+ times. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
 
 Investment case
 
@@ -113,9 +113,9 @@ I designed the organisation *before I filled it.*
 
 Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
 
-Every decision got the same reading: what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
+Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.
 
-And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
+And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
 
 Vision & strategy
 
@@ -195,7 +195,7 @@ This is how a **core interdisciplinary community of 300+ across 5 global hubs** 
 
 > The community, in one place for once
 
-**87% average usage per product in production, from near-zero.** That isn't a launch - it's **change management at scale**: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.
+**87% average usage per product in production, from near-zero.** That isn't a launch - it's change management at scale. **Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.** It takes patience and it takes refusing - the two are the same discipline, not opposites.
 
 They shaped it. We carried the rest.
 
@@ -229,7 +229,7 @@ Zero resignations *in three years.*
 
 I hired into the org I had drawn - from one designer to a core team of nine, design itself going from one to five - then carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared project, never beside it.
 
-Average completed engagement: **23 months against a one-year target.**
+**Average completed engagement: 23 months against a one-year target.**
 
 The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.** People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.
 

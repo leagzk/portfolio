@@ -175,6 +175,16 @@ const capacites: Tuile[] = [
 ];
 
 /*
+  ─── UNE PUCE COMMENCE UNE PHRASE. TOUJOURS. ───
+
+  Le script CLONE le contenu de `[data-sommaire]` : ce qui est pose au milieu
+  d'une phrase arrive donc en minuscule en tete de puce. Le piege s'est
+  referme trois fois - « from zero users… », « a team never equals… »,
+  « change management at scale… » - parce qu'on marque en lisant le
+  paragraphe, ou la minuscule est correcte. La regle : si la phrase a marquer
+  commence au milieu d'une autre, c'est la PHRASE qu'il faut couper, pas la
+  balise qu'il faut etirer.
+
   ─── LE SOMMAIRE SE LIT COMME UN TEXTE, ET DEUX CHAPITRES BOITAIENT ───
 
   Les phrases `data-sommaire` forment trois puces par chapitre, et c'est ce
@@ -523,9 +533,9 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">Not incompetence. <em class="em-rouge">Distance.</em></p>
           <div class="body">
-            <p><strong data-sommaire>Nobody meets. Everybody rebuilds. In silos, again and again.</strong> A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had.</p>
+            <p><strong>Nobody meets. Everybody rebuilds. In silos, again and again.</strong> A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had.</p>
             <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale.</p>
-            <p>The <em>how</em> was worse: practices siloed team by team - and a team never equals one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
+            <p>The <em>how</em> was worse: practices siloed team by team. <span data-sommaire>A team never equals one surface: one platform has shipped 2,000+ marketing websites, another localises a single product 150+ times.</span> <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
           </div>
         </div>
       </div>
@@ -605,9 +615,9 @@ const mecanismes: Tuile[] = [
           <p class="lead">I designed the organisation <em class="em-rouge">before I filled it.</em></p>
           <div class="body">
             <p><strong>The decision was the easy part. Owning it wasn't.</strong> Its capabilities, its roles, one operating model - and the job descriptions that made them real, <strong>organised by capability with accountable leads</strong>. The budget came with it, and the line between what the platform funded and what it shipped was mine.</p>
-            <p>Governance was where I refused the easy answer - two models, not one. <strong data-sommaire>A centralized core for building, a tiered service for support.</strong> The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.</p>
-            <p>Every decision got the same reading: what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.</p>
-            <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong>A data-driven cadence, with discovery that never closed</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
+            <p>Governance was where I refused the easy answer - two models, not one. <strong>A centralized core for building, a tiered service for support.</strong> The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.</p>
+            <p><span data-sommaire>Every decision got the same reading: what it opened, what it exposed, what it cost to reverse.</span> Surfaced early, then locked with the team or my stakeholders.</p>
+            <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong data-sommaire>A data-driven cadence, with discovery that never closed.</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
           </div>
         </div>
       </div>
@@ -645,7 +655,7 @@ const mecanismes: Tuile[] = [
           */}
           <p class="lead">The best architecture I built <em class="em-bleu">started as the one I got backwards.</em></p>
           <div class="body">
-            <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong data-sommaire>Three axes, six capabilities - and none of them works alone.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
+            <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities - and none of them works alone.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
             {/* Elle conclut l'architecture, pas l'erreur : posee au chapitre 01
                 elle commentait la faute avant qu'on ait vu ce qu'elle a produit.
                 Ici, le lecteur vient de lire les trois axes - la phrase dit d'ou
@@ -774,7 +784,7 @@ const mecanismes: Tuile[] = [
         </div>
 
         <div class="body">
-          <p><strong data-sommaire>87% average usage per product in production, from near-zero.</strong> That isn't a launch - it's <strong>change management at scale</strong>: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
+          <p><strong>87% average usage per product in production, from near-zero.</strong> That isn't a launch - it's change management at scale. <strong data-sommaire>Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.</strong> It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
         </div>
       </div>
 
@@ -838,11 +848,11 @@ const mecanismes: Tuile[] = [
         <p class="eb">People</p>
         <div class="split split--haut">
           <div class="pile">
-            <p class="lead" data-sommaire>Zero resignations <em class="em-rouge">in three years.</em></p>
+            <p class="lead">Zero resignations <em class="em-rouge">in three years.</em></p>
             <div class="body">
               <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Agile is the tempo, not a checkbox. <strong data-sommaire>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong></p>
             <p>I hired into the org I had drawn - from one designer to a core team of nine, design itself going from one to five - then carried the direction to leadership and handed them the operational goal as <strong>OKRs of their own</strong>, tied to the company's annual objectives: our ambition inside a shared project, never beside it.</p>
-            <p>Average completed engagement: <strong>23 months against a one-year target.</strong></p>
+            <p><strong data-sommaire>Average completed engagement: 23 months against a one-year target.</strong></p>
               <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong> People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.</p>
               <p><strong>Nicolas</strong> came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as <strong>Design Ops Lead</strong> and we founded the capability together. <strong>His growth and the company's outcome, paired.</strong></p>
             <p class="qt" data-sommaire>My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
