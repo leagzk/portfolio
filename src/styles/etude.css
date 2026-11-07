@@ -972,8 +972,9 @@
      `currentColor` reste - a 1,06:1 de `--text`, l'oeil ne les separe pas, et
      la couleur suit la carte si elle s'ouvre. */
   .dcarte__points{position:relative;display:block;margin-top:16px;
-    margin-right:-28px;padding-top:16px;
-    border-top:var(--rule) solid currentColor}
+    margin-right:-28px;padding-top:16px;padding-bottom:8px;
+    border-top:var(--rule) solid currentColor;
+    border-bottom:var(--rule) solid currentColor}
   .dcarte__liste{display:flex;flex-direction:column;gap:10px;padding-right:74px}
   /* `top:0` EST LE FILET, PAS LE TEXTE. Le `padding-top` de 16px degage la
      premiere puce du trait ; l'aplat, lui, n'a rien a degager - il doit
@@ -992,10 +993,9 @@
     la zone touche deja le bord de la carte, et la carte coupe ce qui depasse.
     L'aplat perd donc deux pixels de chaque cote, et les traits les occupent.
   */
-  .dcarte__bande{position:absolute;right:0;top:0;bottom:-8px;width:56px;
+  .dcarte__bande{position:absolute;right:0;top:0;bottom:0;width:56px;
     box-sizing:border-box;background:var(--puce,currentColor);
-    border-right:var(--rule) solid var(--text);
-    border-bottom:var(--rule) solid var(--text)}
+    border-right:var(--rule) solid var(--text)}
   /*
     LE 04 PASSE AU GRIS, parce que son noir rendait le cadre invisible : aplat
     #0A0708 et filets #111111 se touchent a 1,06:1 - le carre n'avait plus de
@@ -1006,7 +1006,7 @@
   */
   .dcarte--noir .dcarte__bande{background:var(--grey-mondrian)}
   .dcarte__points::after{content:"";position:absolute;right:56px;
-    top:calc(var(--rule-fine) * -1);bottom:-8px;
+    top:calc(var(--rule) * -1);bottom:calc(-8px - var(--rule));
     width:var(--rule);background:var(--text)}
   /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
      l'ECART qu'on garde, pas le retrait. */
