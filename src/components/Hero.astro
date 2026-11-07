@@ -881,14 +881,18 @@ const {
     .hero__primaires{gap:8px;margin-bottom:24px}
     .hero__primaire{width:30px;height:30px}
     .hero__corps{padding-top:var(--sp-14);padding-bottom:var(--sp-06)}
-    .hero__titre{font-size:var(--fs-h1-mob);max-width:none;margin-top:0}
+    .hero__titre{font-size:var(--fs-h1-mob);line-height:1.02;max-width:none;margin-top:0}
     .hero__intro{font-size:var(--fs-body);max-width:none}
     /*
-      L'accueil descend a 36px la ou les pages interieures tiennent a 44px :
-      son titre fait deux phrases quand les autres en font une. Valeur de
-      MainMobile.dc.html, qui prime sur le 44px du tableau du §1.
+      CETTE REGLE NE CHANGE PLUS LA TAILLE, elle la REPETE. L'accueil porte
+      une formule fluide hors requete media - `min(--fs-h1, 100cqw / 14.5)`,
+      specificite (0,2,0) - qui battrait la regle de palier ci-dessus et
+      laisserait le titre de l'accueil seul a varier avec la largeur. Il faut
+      donc redire le token ici pour le ramener dans le rang. Toutes les pages
+      partagent desormais la meme valeur ; c'est `--fs-h1-mob` qui l'arbitre,
+      pas ce selecteur.
     */
-    .hero--accueil .hero__titre{font-size:36px;line-height:1.02}
+    .hero--accueil .hero__titre{font-size:var(--fs-h1-mob);line-height:1.02}
     /*
       LA SIGNATURE RESTE AU-DESSUS DU TITRE, avatar compris.
 
