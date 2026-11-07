@@ -25,7 +25,7 @@ That's why my path runs through brand, retail, agency and product. **I don't sys
 
 Communication at the core, from brief to ship.
 
-Communication was my *subject* before it became my *method*. For example at Sanofi: first a shared language for 2,500 people, then a design system that made brand, design and engineering finally understand each other. **The subject moved from communication to product. The method never did.**
+Communication was my *subject* before it became my *method*. For example at Sanofi: first a shared language for 2,500 people, then a design system that made brand, design and engineering finally understand each other. **The subject moved from communication to experience. The method never did.**
 
 A system doesn't standardize people. It frees them.
 
