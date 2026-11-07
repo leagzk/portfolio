@@ -103,7 +103,7 @@ Next: the approach →
 
 Organisation & people
 
-Scaling is a series of bets. *I refused to place them blind.*
+I designed the organisation *before I filled it.*
 
 **The decision was the easy part. Owning it wasn't.** I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
