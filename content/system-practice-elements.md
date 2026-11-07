@@ -45,13 +45,13 @@ The rebuild that forty-five teams no longer pay for.
 
 contributors, from zero in 18 months
 
-Inner source, not headcount. 4.7/5 practitioner satisfaction.
+Inner source, not headcount. Capability that no budget line bought.
 
 0
 
 resignations in three years
 
-Design went from one to five. Average completed engagement: 23 months against a one-year target.
+Average completed engagement: 23 months against a one-year target.
 
 Three crafts, three silos - and a system nobody adopted.
 
