@@ -27,7 +27,7 @@ Recognized as Governance finalist at the Design System Awards 2025, alongside HP
 
 adoption in the 3 Digital Accelerators
 
-R&D, Commercial, Manufacturing. Every product in the perimeter runs on Elements.
+Every product in the perimeter runs on Elements.
 
 87%
 
@@ -39,7 +39,13 @@ Teams build on the system, not around it.
 
 time-to-launch on strategic launches
 
-Like Beyfortus®. 810+ development days saved.
+Like Beyfortus®, across R&D, Commercial and Manufacturing.
+
+810+
+
+development days saved
+
+The rebuild that forty-five teams no longer pay for.
 
 35+
 
