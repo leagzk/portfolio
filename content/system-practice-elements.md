@@ -155,8 +155,6 @@ Build
 
 **The pipeline is the thesis made physical.** Brand, design and engineering pour into the same chain - the wait between experts, engineered out. That's the ÷3: not people working faster, but expertises no longer waiting on each other.
 
-> The tooling suite, grouped by role
-
 I don't state values. I install them.
 
 - Rigour Every component passed discovery and community testing. What the ecosystem actually needs, what already exists, what the people who build with it say back - then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
@@ -276,7 +274,6 @@ Back to the four chapters &uarr;
 
 ## Textes alternatifs des visuels
 
-- The Elements mark at the centre of its tooling suite, each tool grouped by role: documentation with Confluence and Zeroheight, design libraries with Figma, code packages with GitHub and React, code showcase with Storybook, communities with Slack and Teams, and AI solutions
 - Figma library screens: a Sanofi navigation bar, buttons, form controls, a data table and a date picker, shown in light and dark mode
 - Two Sanofi products in production - a component explorer on a laptop and a public campaign page on a desktop screen - with a mobile study card in front
 - Two phone screens side by side: a question answered in the Elements Slack community, and a GitHub issue on the design system component library
