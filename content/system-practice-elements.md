@@ -155,14 +155,6 @@ Build
 
 **The pipeline is the thesis made physical.** Brand, design and engineering pour into the same chain - the wait between experts, engineered out. That's the ÷3: not people working faster, but expertises no longer waiting on each other.
 
-I don't state values. I install them.
-
-- Rigour Every component passed discovery and community testing. What the ecosystem actually needs, what already exists, what the people who build with it say back - then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
-
-- Responsibility 100% WCAG AA before the first major, and continuously tested within the pipeline. WCAG AA as the Sanofi digital standard, not our own bar. The checks live where the work happens, so a regression never leaves the system. **Accessibility stopped being a debt a product team inherits.**
-
-- Ethics A constraint nobody asked me to keep. When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. **Not everyone draws it. I do.**
-
 Next: the proof →
 
 ## 03 &middot; The proof
@@ -216,6 +208,14 @@ This is how a **core interdisciplinary community of 300+ across 5 global hubs** 
 > The community, in one place for once
 
 **87% average usage per product in production, from near-zero.** That isn't a launch - it's **change management at scale**: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.
+
+They shaped it. We carried the rest.
+
+- Rigour The roadmap grew on what product teams brought back. Every component started from what teams told us they were rebuilding. Their cases fed the pipeline, and the conventions that came out of it were written down once, for everyone. **A roadmap nobody had to lobby for.**
+
+- Responsibility We took the accessibility load off forty-five backlogs. Teams told us where the cost landed: audits to run, fixes to retrofit, a bar to clear alone. So we carried it - WCAG AA as the Sanofi standard, 100% before our first major, checks living where the work happens. **Their time goes to what makes their product theirs.**
+
+- Ethics The fear AI raised became a shared piece of work. The community said what it was wary of - judgement replaced, craft diluted, quality unchecked. I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, guardrails non-negotiable throughout. **Named out loud, the fear turned into a brief.**
 
 Next: the team &rarr;
 
