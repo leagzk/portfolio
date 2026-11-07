@@ -115,6 +115,8 @@ Governance was where I refused the easy answer - two models, not one. **A centra
 
 Every decision got the same reading: what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
 
+And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
+
 This is the layer no contributor can claim. **Not the components - the conditions.**
 
 Vision & strategy
@@ -172,8 +174,6 @@ Business impact
 These numbers belong to *the team that made them.*
 
 **A structure only counts if it holds.** This one does. **From zero users to a community of 2,000+ practitioners.**
-
-And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
 
 4.7 out of 5 on practitioner satisfaction, twice a year. **People don't comply with Elements, they trust it.**
 
