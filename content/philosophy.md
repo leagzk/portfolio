@@ -10,7 +10,7 @@ indexable: true
 
 Philosophy · What I hold
 
-# Six convictions behind the systemic thinking, and the care that keeps it alive.
+# Six convictions behind every system I've built, and the care that keeps them alive.
 
 Anything can be systematized, once you truly understand each craft. But
 people move systems forward, not the other way around - so I build on
@@ -48,6 +48,6 @@ When AI arrived, I didn't brace against it - I learned its temper first: explore
 
 ## Never alone. *Conviction over caution, always.*
 
-These six aren't a manifesto I wrote after the fact - they're what the work keeps proving. If you want to see them running at scale, the three studies are where they show.
+This is the systems thinking I run on - and convictions only count where they hold under pressure. At global scale that pressure has a name: governance, where a system either outlives the people who built it, or it doesn't.
 
-See them at work →
+Governance study →
