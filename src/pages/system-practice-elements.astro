@@ -69,12 +69,18 @@ const img = chercheurImages(fichiers, 'elements-system');
   systeme ne tient pas dans une seule paire de mains.
 */
 const chiffres: Chiffre[] = [
-  { nombre: '100%', quoi: 'adoption in the 3 Digital Accelerators', couleur: 'rouge', motif: 'plein',
-    contexte: 'Every product in the perimeter runs on Elements.' },
+  /*
+    LE 100% A QUITTE LA BANDE POUR LE CONTEXTE DU /3. Il y faisait doublon de
+    famille avec le 87% - deux mesures d'adoption cote a cote, dont un
+    lecteur presse ne retient qu'une - et il manquait au /3 ce qui en fait un
+    resultat d'entreprise plutot qu'un record isole : le gain de vitesse vaut
+    partout, pas sur un lancement. Reunis, les deux disent une seule chose
+    complete.
+  */
   { nombre: '87%', quoi: 'component usage per product', couleur: 'bleu', motif: 'bande',
     contexte: 'Teams build on the system, not around it.' },
   { nombre: '÷3', quoi: 'time-to-launch on strategic launches', couleur: 'jaune', motif: 'plein',
-    contexte: 'Like Beyfortus®, across R&D, Commercial and Manufacturing.' },
+    contexte: 'Like Beyfortus®. 100% adoption in the 3 Digital Accelerators: every product in the perimeter runs on Elements.' },
   /*
     LE QUATRIEME EST LE SEUL QUI SE CONVERTIT EN ARGENT, et il vivait en
     sous-ligne du /3. Les cinq autres disent l'adoption, la vitesse et les

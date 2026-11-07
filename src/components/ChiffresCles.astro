@@ -116,17 +116,18 @@ const avecDef = Astro.slots.has('definition');
   LES PROPORTIONS SONT CELLES DU DESSIN, et elles dependent de ce que la bande
   a a porter.
 
-  AVEC LA DEFINITION : deux rangees sur la moitie gauche, trois chiffres
-  chacune, sur sept unites. Le plus large des nombres ouvre chaque rangee -
-  « 100% » demande 150px a 48 de corps, et trois unites lui en donnent 266 ;
-  deux ne lui en auraient laisse que 177. La seconde rangee ouvre donc sur
-  « 810+ », qui est le plus large des trois siens.
+  AVEC LA DEFINITION : deux rangees sur la moitie gauche, trois chiffres puis
+  deux, sur sept unites. LA CONTRAINTE N'EST PAS LA PLACE DU PLUS LARGE, MAIS
+  SA LARGEUR : « 810+ » demande 218px a 48 de corps, et seules trois unites
+  lui en donnent 266 ; deux ne lui en laisseraient que 177 et le nombre
+  deborderait. Il ferme donc sa rangee au lieu de l'ouvrir, ce qui ne change
+  rien a la regle - 2-2-3 puis 3-4.
 
   SANS ELLE : une seule rangee de quatre, sur les douze unites, en 3-2-4-3. Une
   bande de deux rangees pour quatre chiffres ferait des cases de 620px de large
   pour trois mots - du vide, pas de la composition.
 */
-const UNITES = avecDef ? [3, 2, 2, 3, 2, 2] : [3, 2, 4, 3];
+const UNITES = avecDef ? [2, 2, 3, 3, 4] : [3, 2, 4, 3];
 /*
   LES DEUX RANGEES SE COUPENT AU MILIEU, ET LE MILIEU SE CALCULE. Elles
   etaient ecrites en dur - 0 a 3, puis 3 a 5 -, ce qui tenait tant que la

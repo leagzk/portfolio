@@ -23,12 +23,6 @@ The system
 
 Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.
 
-100%
-
-adoption in the 3 Digital Accelerators
-
-Every product in the perimeter runs on Elements.
-
 87%
 
 component usage per product
@@ -39,7 +33,7 @@ Teams build on the system, not around it.
 
 time-to-launch on strategic launches
 
-Like Beyfortus®, across R&D, Commercial and Manufacturing.
+Like Beyfortus®. 100% adoption in the 3 Digital Accelerators: every product in the perimeter runs on Elements.
 
 810+
 
