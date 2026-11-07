@@ -595,8 +595,15 @@
 */
 .compo{display:grid;position:relative;gap:var(--rule-fine);overflow:hidden;
   scroll-margin-top:calc(var(--chrome-h) + var(--sp-03))}
-.compo > *{background:var(--white);min-width:0;position:relative;overflow:hidden;
-  box-shadow:0 0 0 var(--rule-fine) var(--text)}
+/*
+  `.compo .tuiles--cases > *` AUTANT QUE `.compo > *` : une serie de tuiles
+  posee dans une composition passe en `display:contents` au bureau, donc ce
+  sont ses TUILES qui sont les cases de la grille, pas elle. Sans ce second
+  selecteur elles n'auraient ni fond blanc, ni rognage, ni filet - c'est la
+  meme paire que `.comp > *,.principes > *` sur l'accueil.
+*/
+.compo > *,.compo .tuiles--cases > *{background:var(--white);min-width:0;
+  position:relative;overflow:hidden;box-shadow:0 0 0 var(--rule-fine) var(--text)}
 
 /*
   L'aplat de couleur est un enfant de la case, pas son fond.
@@ -677,7 +684,7 @@
 */
 /* Avant le trace, aucun filet : ce sont les ombres qu'on eteint maintenant,
    et non plus le fond qu'on blanchissait. */
-.compo.pre > *{box-shadow:none}
+.compo.pre > *,.compo.pre .tuiles--cases > *{box-shadow:none}
 .attend :is(.compo__plat,.conv__plat){transform:scale(0)}
 .attend :is(.dcarte__txt,.conv__txt){opacity:0}
 .vu :is(.compo__plat,.conv__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}

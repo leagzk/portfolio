@@ -659,8 +659,16 @@ const principes = [
     .pr[aria-expanded="true"] .pr__ico--o{opacity:0}
     .pr[aria-expanded="true"] .pr__ico--f{opacity:1}
 
+    /*
+       PADDING SYMETRIQUE, PAS SEULEMENT AU-DESSUS. La pagination est une case
+       de la composition, donc le filet du perimetre passe sous elle. Avec
+       `12px 0 0`, les points et le mot « swipe » le touchaient : une legende
+       collee a son trait se lit comme une erreur de calage. Les 12px du bas
+       repondent a ceux du haut - meme degagement de part et d'autre. Le rail
+       des tuiles (Tuiles.astro) tient la meme valeur.
+    */
     .principes__pagination{display:flex;align-items:center;justify-content:space-between;
-      gap:12px;padding:12px 0 0;background:var(--white)}
+      gap:12px;padding:12px 0;background:var(--white)}
     .principes__points{display:flex;gap:6px}
     .principes__points i{width:10px;height:10px;background:var(--grey-mondrian)}
     .principes__points i.est-actif{background:var(--ink)}
