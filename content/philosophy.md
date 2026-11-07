@@ -11,7 +11,7 @@ indexable: true
 Philosophy · What I hold
 
 # Almost everything is negotiable.
-Six things aren't.
+One thing isn't: community.
 
 I arbitrate most of it: scope, sequence, cost, who builds what. But I
 learn the craft before I weigh it - you can't arbitrate what you don't
