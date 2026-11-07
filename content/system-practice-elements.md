@@ -197,7 +197,7 @@ This is how a **core interdisciplinary community of 300+ across 5 global hubs** 
 
 **87% average usage per product in production, from near-zero.** That isn't a launch - it's change management at scale. **Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.** It takes patience and it takes refusing - the two are the same discipline, not opposites.
 
-They shaped it. We carried the rest.
+Collaboration
 
 - Rigour The roadmap grew on what product teams brought back. Every component started from what teams told us they were rebuilding. Their cases fed the pipeline, and the conventions that came out of it were written down once, for everyone. **A roadmap nobody had to lobby for.**
 
