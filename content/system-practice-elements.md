@@ -20,7 +20,7 @@ design and engineering pour into the same chain. **Design Lead in 2022, Director
 
 The system
 
-**One design language**, and every surface Sanofi ships speaks it - from B2B platforms to internal tools, across brands and themes, worldwide.
+**One shared language**, and every surface Sanofi ships speaks it - from B2B platforms to internal tools and agents, for every brand and every theme, worldwide. An experience design platform at scale.
 
 Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.
 
