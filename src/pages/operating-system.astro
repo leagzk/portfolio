@@ -512,14 +512,27 @@ const sobriete: Tuile[] = [
     cellule de hauteur fixe, celles-ci doivent pouvoir faire grandir leur
     rangee quand le texte depasse le carre. En absolu elles ne compteraient
     plus dans la hauteur, et ce qui depasse serait rogne.
+
+    ET LE PARTAGE NE S'ANIME PAS. Il l'a fait : `flex-basis` glissait sur une
+    demi-seconde, et le texte attendait la fin pour se montrer. Deux defauts
+    au lieu d'un. Le premier est de sensation - une demi-seconde avant de
+    voir quoi que ce soit, la ou les six autres cases de la page repondent
+    tout de suite. Le second est mecanique : `flex-basis` est une propriete
+    de mise en page, donc chaque image recalculait les trois cartes, la
+    rangee, et tout ce que la rangee pousse. Le duo de l'accueil peut se
+    l'offrir parce que ses cartes sont en absolu dans une cellule de hauteur
+    fixe - elles ne font bouger personne.
+
+    Les trois se comportent donc comme les six autres : la case prend sa
+    taille d'un coup, et c'est le TEXTE qui porte le mouvement, avec le meme
+    `deplie` que partout ailleurs. Le jeu de bandes colorees reste - c'est
+    une mise en page, pas une animation.
   */
   .compo .trio{display:contents}
 
   @media(min-width:861px){
     .compo .trio{display:flex;gap:var(--rule-fine);background:var(--text)}
-    .trio > .conv{flex:0 0 calc((100% - 2 * var(--rule-fine)) / 3);min-width:0;
-      transition:flex-basis .5s cubic-bezier(.2,.7,.2,1)}
-    .trio .conv__tete{transition:opacity .3s}
+    .trio > .conv{flex:0 0 calc((100% - 2 * var(--rule-fine)) / 3);min-width:0}
 
     .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv{flex-basis:28px}
     .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv:has(.conv__tete[aria-expanded="true"]){
@@ -532,63 +545,6 @@ const sobriete: Tuile[] = [
     .compo .trio:has(> .conv:hover) > .conv{flex-basis:28px}
     .compo .trio:has(> .conv:hover) > .conv:hover{flex-basis:calc(100% - 2 * (28px + var(--rule-fine)))}
     .trio:has(> .conv:hover) > .conv:not(:hover) .conv__tete{opacity:0}
-  }
-
-  /*
-    ═══ LA CARTE BOUGE D'ABORD, LE TEXTE VIENT APRES ═══
-
-    Deux choses changeaient en meme temps et a deux vitesses : la largeur
-    s'animait sur une demi-seconde pendant que la hauteur, elle, sautait des
-    la premiere image - le texte apparaissait aussitot, la rangee grandissait
-    d'un coup, et la cloture descendait sous le curseur alors que la carte
-    etait encore en train de s'elargir. Le texte, lui, se recomposait a
-    chaque image : ses lignes se recoupaient pendant toute l'animation.
-
-    LE TEXTE ATTEND DONC LA FIN DU MOUVEMENT. Il est a `max-height:0`, donc
-    sans hauteur, le temps que la carte prenne sa largeur ; a 0,5s - la duree
-    exacte de la transition de `flex-basis` - il est la. Deux temps lisibles
-    au lieu de deux mouvements concurrents, et la grille ne bouge qu'une
-    fois, quand le texte est deja compose.
-
-    IL N'ENTRE PAS EN FONDU, ET C'EST VOULU. Un fondu de 0,3s apres les 0,5s
-    de la carte, c'est encore du mouvement une fois le mouvement fini - trois
-    quarts de seconde ou quelque chose bouge toujours. Le texte se revele
-    d'un coup, a sa place, sur une carte qui ne bouge plus. EN REVANCHE IL
-    S'EFFACE EN FONDU : au repli, c'est lui qui part en premier, et la carte
-    retrecit sur une case deja vide.
-
-    C'est le reglage de .pr__detail sur l'accueil, a ceci pres que le delai y
-    vaut 0,3s parce que ses cartes se deplacent sur une distance plus courte.
-    LE DELAI N'EST QUE DANS LA REGLE OUVERTE : en refermant, le texte doit
-    disparaitre tout de suite, sinon il reste affiche pendant que la carte
-    retrecit sous lui.
-
-    1200px DE PLAFOND, ET IL NE COUTE RIEN. La hauteur ne s'anime pas - elle
-    SAUTE a 0,5s (`max-height 0s .5s`) -, donc ce nombre n'a qu'un seul role :
-    ne jamais passer sous la hauteur du texte, sinon il est coupe. Mesure du
-    pire cas, la ou les cartes sont au plus etroit : 940px pour Ownership a
-    861. Un premier essai a 600 rognait Ownership des 1280 - 652px de texte -
-    et deux cartes sur trois a 861. En dessous du palier la regle ne
-    s'applique plus du tout : la serie s'empile et le plafond disparait.
-  */
-  @media(min-width:861px){
-    .trio .conv__detail{max-height:0;opacity:0;overflow:hidden;animation:none;
-      transition:opacity .15s,max-height 0s .15s}
-    .trio .conv:has(.conv__tete[aria-expanded="true"]) .conv__detail{
-      max-height:1200px;opacity:1;transition:opacity 0s .5s,max-height 0s .5s}
-  }
-  @media(min-width:861px) and (hover:hover){
-    .trio .conv:hover .conv__detail{
-      max-height:1200px;opacity:1;transition:opacity 0s .5s,max-height 0s .5s}
-  }
-  /*
-    SOUS LE PALIER le trio n'existe pas : `display:contents` le retire et ses
-    trois cartes s'empilent avec les autres cases. Elles cessent alors d'etre
-    des `.compo > *` - elles sont des petites-filles - et perdent le filet
-    que cette regle leur donnait : on le leur rend ici.
-  */
-  @media(max-width:860px){
-    .compo .trio > *{box-shadow:0 0 0 var(--rule-fine) var(--text);min-height:170px}
   }
 
   /*
