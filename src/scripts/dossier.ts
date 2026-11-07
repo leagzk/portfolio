@@ -98,6 +98,44 @@ export function initDossier(): void {
   };
 
   /*
+    LES MEMES PHRASES, SUR LA CARTE FERMEE, POUR LE TELEPHONE. Le sommaire
+    ci-dessus prend une case de la composition : il n'y a pas de case libre
+    sous le palier, ou la bande EST la carte. Les trois puces y sont donc
+    posees DANS la carte, sous sa synthese, et elles s'y lisent avant qu'on
+    ouvre - c'est le moment ou elles servent, puisque c'est la qu'on decide
+    d'ouvrir.
+
+    EN <span> ET NON EN <ul> : la carte est un <button>, qui n'accepte que du
+    contenu de phrase. C'est deja la raison pour laquelle le sommaire du
+    bureau est un FRERE de la carte et non son enfant.
+
+    `aria-hidden` SUR LE BLOC ENTIER, et ce n'est pas un detail de confort :
+    le nom accessible d'un bouton est son texte, donc trois phrases de plus
+    le rendraient interminable a l'ecoute. Le contenu, lui, est annonce dans
+    le panneau - le meme arbitrage que pour le sommaire du bureau.
+
+    POSEES UNE FOIS AU CHARGEMENT, pas a l'ouverture : elles existent quand la
+    carte est fermee, donc leur cycle de vie n'est pas celui du panneau.
+  */
+  cartes.forEach((carte) => {
+    const pan = section(carte);
+    const corps = carte.querySelector<HTMLElement>('.dcarte__corps');
+    if (!pan || !corps) return;
+    const phrases = Array.from(pan.querySelectorAll<HTMLElement>('[data-sommaire]'));
+    if (!phrases.length) return;
+    const bloc = document.createElement('span');
+    bloc.className = 'dcarte__points';
+    bloc.setAttribute('aria-hidden', 'true');
+    phrases.forEach((p) => {
+      const point = document.createElement('span');
+      point.className = 'dcarte__point';
+      point.append(...Array.from(p.cloneNode(true).childNodes));
+      bloc.appendChild(point);
+    });
+    corps.appendChild(bloc);
+  });
+
+  /*
     LE DEFILEMENT DOUX A UNE PORTEE, AU-DELA IL FAIT ATTENDRE. D'un bouton
     « Next: ... », pose tout en bas d'un chapitre, la composition est a plus de
     mille pixels : le trajet dure presque une seconde, pendant laquelle le

@@ -905,6 +905,30 @@
   flex-direction:column;justify-content:center;gap:16px;pointer-events:none;
   background:none}
 @media(max-width:860px){.compo__sommaire{display:none}}
+
+/*
+  ─── Les trois puces, sur la carte fermee, et seulement sur telephone ───
+
+  Au bureau elles sont la case voisine : la composition a de la place a
+  droite, et la carte ouverte s'y adosse. Sous le palier cette case n'existe
+  pas - la bande EST la carte -, donc les puces descendent dans la carte,
+  sous la synthese, ou elles se lisent AVANT l'ouverture. C'est le moment ou
+  elles servent : les quatre cartes sont empilees et fermees, et c'est sur
+  elles qu'on choisit.
+
+  Elles sont posees par le script a chaque carte, donc eteintes par defaut :
+  au bureau le sommaire de la composition fait deja ce travail, et les avoir
+  aux deux endroits dirait tout deux fois.
+*/
+.dcarte__points{display:none}
+@media(max-width:860px){
+  .dcarte__points{display:flex;flex-direction:column;gap:10px;margin-top:16px;
+    padding-top:16px;border-top:var(--rule-fine) solid currentColor}
+  .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;
+    padding-left:14px;position:relative}
+  .dcarte__point::before{content:"";position:absolute;left:0;top:.5em;
+    width:6px;height:6px;background:currentColor}
+}
 .compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
   font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
   color:var(--text)}
