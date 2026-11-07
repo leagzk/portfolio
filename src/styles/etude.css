@@ -956,15 +956,28 @@
     horizontal de la zone et ressort sous elle, exactement comme la verticale
     de la reference traverse l'horizontale.
   */
+  /*
+    LA ZONE SORT DU PADDING DE LA CARTE, A DROITE. Les 28px de retrait
+    servent au texte ; l'aplat et son filet, eux, doivent filer jusqu'au bord.
+    La marge negative les y mene sans sortir de la boite de la carte - qui est
+    en `overflow:hidden`, comme la composition : tout ce qui depasse ces deux
+    boites est coupe, et c'est ce qui limite le geste a 28 des 44px qui
+    separent la bande du bord de l'ecran. Les 16 restants sont la gouttiere
+    de page, hors des deux boites.
+  */
   .dcarte__points{position:relative;display:block;margin-top:16px;
-    padding-top:16px;border-top:var(--rule-fine) solid currentColor}
+    margin-right:-28px;padding-top:16px;
+    border-top:var(--rule-fine) solid currentColor}
   .dcarte__liste{display:flex;flex-direction:column;gap:10px;padding-right:74px}
   /* `top:0` EST LE FILET, PAS LE TEXTE. Le `padding-top` de 16px degage la
      premiere puce du trait ; l'aplat, lui, n'a rien a degager - il doit
      TOUCHER la ligne, sans quoi un blanc s'ouvre entre les deux et la grille
      se defait. Il part donc du bord de la boite de remplissage, c'est-a-dire
      sous le trait lui-meme. */
-  .dcarte__bande{position:absolute;right:0;top:0;bottom:0;width:56px;
+  /* `bottom:-8px` COMME LE FILET, ET POUR LA MEME RAISON. Les deux descendent
+     a la meme ligne : un aplat qui s'arrete avant son trait laisse un bout de
+     filet nu, et c'est exactement ce qui se voyait. */
+  .dcarte__bande{position:absolute;right:0;top:0;bottom:-8px;width:56px;
     background:var(--puce,currentColor)}
   .dcarte__points::after{content:"";position:absolute;right:56px;
     top:calc(var(--rule-fine) * -1);bottom:-8px;
