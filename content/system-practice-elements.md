@@ -169,7 +169,7 @@ Business impact
 
 The numbers are the system's, *not mine.*
 
-**A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, **zero users to a community of 2,000+ practitioners.**
+**A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. **From zero users to a community of 2,000+ practitioners.**
 
 And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
 

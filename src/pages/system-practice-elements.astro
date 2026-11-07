@@ -148,6 +148,34 @@ const produits = [
 ].map((p, i) => ({ ...p, repere: String(i + 1).padStart(2, '0') }));
 
 /*
+  ─── LE SOMMAIRE SE LIT COMME UN TEXTE, ET DEUX CHAPITRES BOITAIENT ───
+
+  Les phrases `data-sommaire` forment trois puces par chapitre, et c'est ce
+  qu'un lecteur presse lit en premier. Relues a la suite, hors de leur
+  paragraphe, deux series ne tenaient pas.
+
+  LE 03 S'APPELLE « THE PROOF » ET S'OUVRAIT SUR UNE CONDITION : « A
+  structure only counts if it holds. » C'est la mise en place, pas la preuve
+  - la preuve est dans la phrase d'apres, « This one does ». La puce passe
+  donc au premier resultat du chapitre, et les trois sont desormais des
+  faits : 2 000+ praticiens, la confiance plutot que la conformite, 87%
+  d'usage.
+
+  LE 04 DISAIT DEUX FOIS LA MEME CHOSE. « I didn't build a system I hold
+  together. I built the conditions where it holds itself. » et « My job
+  wasn't to hold it up. It was to build a structure that outlasts any of
+  us. » : meme figure, meme verbe, meme affirmation, dans un sommaire de
+  trois lignes. La premiere reste en gras dans la page, ou elle ouvre le
+  chapitre, mais quitte le sommaire ; a sa place, « Nothing shipped without
+  us aligned, and nothing waited on me to be decided », qui dit COMMENT
+  l'autonomie fonctionnait et que rien d'autre ne dit.
+
+  UNE PUCE NE COMMENCE PAS EN MINUSCULE. Le marqueur du 03 prenait « zero
+  users to… » au milieu d'une phrase : correct dans le paragraphe, fautif en
+  tete de puce puisque le script CLONE le contenu. La phrase devient « From
+  zero users to a community of 2,000+ practitioners », qui se tient aux deux
+  endroits.
+
   ─── LE GRAS DE CETTE PAGE, ET POURQUOI IL EST DENSE ───
 
   La page en portait 59. La regle du site est pourtant simple : le gras tient
@@ -605,7 +633,7 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">The numbers are the system's, <em class="em-rouge">not mine.</em></p>
           <div class="body">
-            <p><strong data-sommaire>A structure only counts if it holds.</strong> This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, <strong>zero users to a community of 2,000+ practitioners.</strong></p>
+            <p><strong>A structure only counts if it holds.</strong> This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. <strong data-sommaire>From zero users to a community of 2,000+ practitioners.</strong></p>
             <p>And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.</p>
             <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong data-sommaire>People don't comply with Elements, they trust it.</strong></p>
             <p class="qt">Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.</p>
@@ -693,7 +721,7 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">Every week, the same question: <em class="em-rouge">is the work moving, and is the person growing.</em></p>
           <div class="body">
-            <p><strong data-sommaire>I didn't build a system I hold together. I built the conditions where it holds itself.</strong></p>
+            <p><strong>I didn't build a system I hold together. I built the conditions where it holds itself.</strong></p>
             <ul class="pts">
             <li><strong>Autonomous streams</strong>, split by capability, each moving without a central decision - inside a <strong>collective framing</strong>, so a stream deciding alone still decides inside a frame it co-wrote.</li>
             <li><strong>Shared rituals</strong> are the connective tissue keeping five hubs one system rather than an archipelago.</li>
@@ -715,7 +743,7 @@ const mecanismes: Tuile[] = [
           <div class="pile">
             <p class="lead" data-sommaire>Zero resignations <em class="em-rouge">in three years.</em></p>
             <div class="body">
-              <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. <strong>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong> Design went from one to five. Average completed engagement: <strong>23 months against a one-year target.</strong></p>
+              <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. <strong data-sommaire>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong> Design went from one to five. Average completed engagement: <strong>23 months against a one-year target.</strong></p>
               <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong> People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.</p>
               <p class="qt" data-sommaire>My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
             </div>
