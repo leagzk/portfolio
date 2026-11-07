@@ -88,14 +88,21 @@ import Bouton from '../components/Bouton.astro';
   qui est le portrait d'un debutant plus que d'une VP. Un « always » dans une
   signature est d'ailleurs rarement vrai.
 
-  CE QUI EST VRAI TIENT LA MEME PLACE, EN PLUS FORT : une conviction n'est pas
-  le contraire de la prudence, c'est ce qu'on continue de pousser une fois
-  qu'on a pese. « These six aren't preferences. Each one cost something to
-  keep. » Le premier membre refuse la lecture molle d'une page de valeurs - le
-  surtitre dit « What I hold », la cloture precise que ce n'est pas un gout -
-  et le second dit l'arbitrage par son prix : on ne paie que ce qu'on a
-  soupese. C'est la forme de la cloture d'Operating System : une denegation,
-  puis la definition en bleu.
+  LE PREMIER MEMBRE REFUSE LA LECTURE MOLLE D'UNE PAGE DE VALEURS : le
+  surtitre dit « What I hold », la cloture precise que ce n'est pas un gout.
+  C'est la forme de la cloture d'Operating System - une denegation, puis la
+  definition en bleu.
+
+  LE SECOND A CHANGE DEUX FOIS, ET LA TROISIEME EST LA BONNE. « Each one cost
+  something to keep » disait l'arbitrage par son prix ; juste, mais le hero
+  le dit deja - « almost everything is negotiable » - et une cloture qui
+  reprend l'ouverture n'ajoute rien a la fin d'une page. « They're what the
+  work keeps proving » apporte ce qui manquait : ces convictions ne sont pas
+  tenues, elles sont VERIFIEES. Et c'est la phrase qui rend le bouton
+  inevitable - on ne va pas voir une etude pour admirer une position, on y va
+  pour la preuve. Elle est d'ailleurs de Lea : elle vivait dans le paragraphe
+  de la sortie, ou elle etait noyee entre une denegation et une offre au
+  conditionnel.
 
   LE HERO ANNONCAIT LA PAGE AU LIEU DE PRENDRE POSITION. « Six convictions
   behind every system I've built… » est un sommaire : il dit ce que la page
@@ -236,7 +243,7 @@ import Bouton from '../components/Bouton.astro';
     <div class="compo compo--convictions" id="composition" data-grille>
 
       <Conviction
-        id="conv-premise" rang="01" intitule="The premise" couleur="rouge"
+        id="conv-premise" rang="01" intitule="Craft" couleur="rouge"
         titre="Understanding comes before the system."
         aire="1 / 1 / 3 / 3" pliante large
       >
@@ -250,7 +257,7 @@ import Bouton from '../components/Bouton.astro';
       <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"></div>
 
       <Conviction
-        id="conv-method" rang="02" intitule="The method" couleur="clair"
+        id="conv-method" rang="02" intitule="Shared language" couleur="clair"
         titre="Communication at the core, from brief to ship."
         aire="1 / 4 / 2 / 7"
       >
@@ -258,7 +265,7 @@ import Bouton from '../components/Bouton.astro';
       </Conviction>
 
       <Conviction
-        id="conv-frame" rang="03" intitule="The frame" couleur="jaune"
+        id="conv-frame" rang="03" intitule="Autonomy" couleur="jaune"
         titre="A system doesn't standardize people. It frees them."
         aire="2 / 4 / 4 / 6" pliante
       >
@@ -269,7 +276,7 @@ import Bouton from '../components/Bouton.astro';
       <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 6 / 4 / 7"><span class="compo__plat compo__plat--gris"></span></div>
 
       <Conviction
-        id="conv-point" rang="04" intitule="The point" couleur="clair"
+        id="conv-point" rang="04" intitule="Contribution" couleur="clair"
         titre="What's left is what matters."
         aire="3 / 1 / 4 / 3"
       >
@@ -279,7 +286,7 @@ import Bouton from '../components/Bouton.astro';
       <div class="compo__decor compo__decor--bande compo__decor--inverse" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--noir"></span></div>
 
       <Conviction
-        id="conv-foundation" rang="05" intitule="The foundation" couleur="bleu"
+        id="conv-foundation" rang="05" intitule="Team health" couleur="bleu"
         titre="Care isn't the soft part. It's the foundation."
         aire="4 / 1 / 5 / 4" pliante
       >
@@ -289,7 +296,7 @@ import Bouton from '../components/Bouton.astro';
       </Conviction>
 
       <Conviction
-        id="conv-current" rang="06" intitule="The current" couleur="clair"
+        id="conv-current" rang="06" intitule="Change" couleur="clair"
         titre="I don't work against the current. I learn to ride it."
         aire="4 / 4 / 5 / 7"
       >
@@ -308,6 +315,21 @@ import Bouton from '../components/Bouton.astro';
         defilement que les six convictions. Seule sa mise en page interieure
         lui appartient. Elle n'a pas de rang - ce n'est pas une septieme
         conviction, c'est la sortie.
+
+            LES INTITULES NOMMENT UN METIER, PLUS UNE FONCTION RHETORIQUE. Ils
+        disaient The premise, The method, The frame, The point, The
+        foundation, The current : la place de chaque bloc dans une
+        demonstration. Un lecteur qui parcourt les six y lisait six noms
+        abstraits et n'apprenait rien du metier. Operating System fait
+        l'inverse depuis toujours - Discovery, Source of truth, Ethics,
+        Releases, Ownership -, et c'est ce qu'on attend d'une page de
+        positionnement. Craft, Shared language, Autonomy, Contribution, Team
+        health, Change : le sujet, pas le role.
+
+        Ce qu'on perd, et c'est assume : l'ancienne serie formait une
+        demonstration, prémisse puis methode puis cadre. Elegant a l'ecrit,
+        invisible a la lecture - et « The current » la cassait deja, etant une
+        metaphore et non une position d'argument.
 
         LA SORTIE NE S'EXCUSAIT PAS, ELLE SE DEFENDAIT. Le paragraphe
         s'ouvrait sur « These six aren't a manifesto I wrote after the fact » :
@@ -331,9 +353,9 @@ import Bouton from '../components/Bouton.astro';
       <section class="conv conv--clair cloture" aria-labelledby="cloture-titre" style="grid-area:5 / 1 / 6 / 5">
         <span class="conv__plat" aria-hidden="true"></span>
         <div class="conv__txt cloture__dedans">
-          <h2 id="cloture-titre">These six aren't preferences. <em class="em-bleu">Each one cost something to keep.</em></h2>
+          <h2 id="cloture-titre">These six aren't preferences. <em class="em-bleu">They're what the work keeps proving.</em></h2>
           <p class="cloture__corps">This is the systems thinking I run on - and convictions only count where they hold under pressure. At global scale that pressure has a name: governance, where a system either outlives the people who built it, or it doesn't.</p>
-          <Bouton variante="bleu" href="/system-practice-elements">Governance study →</Bouton>
+          <Bouton variante="rouge" href="/system-practice-elements">Governance study →</Bouton>
         </div>
       </section>
 

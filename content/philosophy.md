@@ -47,7 +47,7 @@ I don't work against the current. I learn to ride it.
 
 When AI arrived, I didn't brace against it - I learned its temper first: explore, listen, build the team's trust, then move. You don't tame a force you don't understand, and you don't drag people through one. **You earn the right to ride it - guardrails first, then the speed.**
 
-## These six aren't preferences. *Each one cost something to keep.*
+## These six aren't preferences. *They're what the work keeps proving.*
 
 This is the systems thinking I run on - and convictions only count where they hold under pressure. At global scale that pressure has a name: governance, where a system either outlives the people who built it, or it doesn't.
 
