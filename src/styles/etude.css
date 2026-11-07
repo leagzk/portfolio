@@ -935,8 +935,15 @@
     padding-top:16px;border-top:var(--rule-fine) solid currentColor}
   .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;
     padding-left:14px;position:relative}
+  /*
+    LA PUCE PREND LA COULEUR DU CHAPITRE, comme celle du sommaire du bureau -
+    meme variable `--puce`, posee ici sur la carte. Sur la carte FERMEE le
+    fond est blanc : `.dcarte__plat` reste en 0x0 tant que `aria-expanded`
+    n'est pas vrai, donc la couleur ne se deploie qu'a l'ouverture et la puce
+    n'a rien a concurrencer.
+  */
   .dcarte__point::before{content:"";position:absolute;left:0;top:.5em;
-    width:6px;height:6px;background:currentColor}
+    width:6px;height:6px;background:var(--puce,currentColor)}
 }
 .compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
   font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
@@ -959,10 +966,10 @@
 */
 .compo__sommaire.compo__sommaire li *{color:inherit;font-style:normal;
   font-weight:inherit}
-.compo__sommaire--rouge{--puce:var(--red)}
-.compo__sommaire--bleu{--puce:var(--blue)}
-.compo__sommaire--jaune{--puce:var(--yellow)}
-.compo__sommaire--noir{--puce:var(--ink)}
+.compo__sommaire--rouge,.dcarte--rouge{--puce:var(--red)}
+.compo__sommaire--bleu,.dcarte--bleu{--puce:var(--blue)}
+.compo__sommaire--jaune,.dcarte--jaune{--puce:var(--yellow)}
+.compo__sommaire--noir,.dcarte--noir{--puce:var(--ink)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
