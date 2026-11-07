@@ -196,28 +196,30 @@ const mecanismes: Tuile[] = [
     mesure={12.3}
   >
     At global scale, a system isn't managed. It's governed.
+    {/*
+      LA PREUVE EXTERNE EST DANS LA DESCRIPTION, PAS SOUS ELLE. Le prix a
+      d'abord ete pose en ligne de credit sous l'intro, en capitales
+      espacees : un SECOND surtitre dans un hero qui en a deja un, donc une
+      hierarchie qui begaye. Il rentre dans le paragraphe.
+
+      ET IL N'EST PAS EN GRAS. Le gras tient ce qu'on a confie a Lea - role,
+      budget, perimetre ; le prix est d'un autre ordre, c'est ce qu'un TIERS
+      a valide. Dit a voix normale apres une phrase appuyee, il se lit comme
+      un fait acquis plutot que comme un argument qu'on pousse.
+
+      L'ARGUMENT, LUI, RESTE AU CHAPITRE 04, qui ne cite pas le prix mais dit
+      que ce qui compte est la CATEGORIE - gouvernance et non artisanat. Un
+      titre en haut est un justificatif, la meme phrase en bas est une
+      conclusion : les deux ne se volent rien.
+    */}
     <Fragment slot="intro">
       I built Elements to remove the friction between experts, cut time to launch
       and raise product experience at scale - then moved it from a design system
       to a platform: one pipeline where brand, design and engineering pour into
       the same chain. <b>Design Lead in 2022, Director today: a €1M platform across
-      Sanofi's digital estate, from employee to patient.</b>
-    </Fragment>
-    {/*
-      LE SEUL FAIT DU HERO QUI NE VIENT PAS DE MOI. Tout le reste y est
-      auto-declare : ce que j'ai bati, ce que je dirige, le perimetre. Un jury
-      lit d'abord ce qu'un tiers a valide, et cette page avait sa seule preuve
-      externe au bout du chapitre 04 - apres huit ecrans. Elle remonte ici,
-      sous l'intro, dans le slot `cta` que cette page n'utilisait pas.
-
-      L'ARGUMENT, LUI, RESTE EN BAS. Le chapitre 04 ne se contente pas de
-      citer le prix : il dit que ce qui compte est la CATEGORIE - gouvernance
-      et non artisanat -, et cette lecture n'a de sens qu'apres la
-      demonstration. Un titre en haut est un justificatif ; la meme phrase en
-      bas est une conclusion. Les deux ne se volent rien.
-    */}
-    <Fragment slot="cta">
-      <p class="hero__laurier">Design System Awards 2025 &middot; Governance finalist, alongside HP and Tesco</p>
+      Sanofi's digital estate, from employee to patient.</b> Recognized as
+      Governance finalist at the Design System Awards 2025, alongside HP and
+      Tesco.
     </Fragment>
   </Hero>
 
@@ -391,7 +393,7 @@ const mecanismes: Tuile[] = [
           <p class="lead">Not incompetence. <em class="em-rouge">Distance.</em></p>
           <div class="body">
             <p><strong data-sommaire>Nobody meets. Everybody rebuilds. In silos, again and again.</strong> A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. Three crafts, three silos, each solving in private what the others had already solved.</p>
-            <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale. The <em>how</em> was worse: practices siloed team by team - and a team is never one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
+            <p>And it wasn't one handoff. The <em>what</em> was fragmented: products and touchpoints that didn't share a language, <strong>design and engineering debt compounding with every launch</strong>, at global scale. The <em>how</em> was worse: practices siloed team by team - and a team never equals one surface. One platform has shipped 2,000+ marketing websites; another localises a single product 150+ times. <strong data-sommaire>The same cost, paid forty-five times over.</strong> <strong data-sommaire>The capability was there. The structure to use it wasn't.</strong></p>
           </div>
         </div>
       </div>
@@ -717,22 +719,14 @@ const mecanismes: Tuile[] = [
     profondeur. Un total agrege serait faux de toute facon : ces deux-la ne
     se comptent pas dans la meme unite.
 
-    « AND A TEAM IS NEVER ONE SURFACE » remplace « Some platforms carry
+    « AND A TEAM NEVER EQUALS ONE SURFACE » remplace « Some platforms carry
     hundreds of surfaces on their own ». C'est la meme idee dite comme une
     regle plutot que comme un constat, et c'est elle qui justifie la phrase
     suivante : si le cout se paie quarante-cinq fois, c'est parce qu'on
     compte des equipes quand il faudrait compter des surfaces.
   */
 
-  /*
-    Le laurier reprend l'oeil du surtitre du hero - meme corps, meme
-    approche, meme capitale - mais en blanc plein la ou le surtitre est
-    attenue : c'est une preuve, pas une etiquette de rubrique. Il vit dans le
-    slot `cta`, donc sous l'intro, avec le degagement que le hero donne deja
-    a ce qu'il accueille.
-  */
-  .hero__laurier{margin:24px 0 0;font-size:var(--fs-eyebrow);font-weight:700;
-    letter-spacing:.2em;text-transform:uppercase;color:var(--white)}
+
   /* ═══ Ce qui est propre a l'etude Governance ═══ */
 
   /*
