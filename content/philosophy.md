@@ -13,8 +13,9 @@ Philosophy · What I hold
 # Almost everything is negotiable.
 Six things aren't.
 
-Scope, sequence, cost, who builds what: I arbitrate all of it,
-constantly. These six I don't put on the table. **They're what makes a system worth owning - and what keeps it alive once I've handed it over.**
+I arbitrate most of it: scope, sequence, cost, who builds what. But I
+learn the craft before I weigh it - you can't arbitrate what you don't
+understand, or translate what you can't speak. **Get that right and the system stops needing a keeper: a whole community owns it, defends it, and grows it on its own.**
 
 Understanding comes before the system.
 
