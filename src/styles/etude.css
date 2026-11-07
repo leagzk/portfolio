@@ -734,6 +734,15 @@
 .vu :is(.compo__plat,.conv__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
 .vu :is(.dcarte__txt,.conv__txt){animation:monte .85s cubic-bezier(.16,1,.3,1)
   calc(var(--retard,0s) + .22s) both}
+/*
+  ET ELLES NE SE REJOUENT PAS. Une animation CSS repart a zero quand son
+  element revient de `display:none`, or `.compo--solo` masque les cartes non
+  ouvertes : chaque fermeture de chapitre rejouait donc l'entree de toute la
+  composition. `poser` (grille.ts) ajoute `pose` quand l'entree est finie ;
+  ces deux regles l'annulent a partir de la. Meme specificite que les deux
+  ci-dessus - elles doivent donc rester APRES.
+*/
+.pose :is(.compo__plat,.conv__plat),.pose :is(.dcarte__txt,.conv__txt){animation:none}
 
 @media(max-width:860px){
   /*

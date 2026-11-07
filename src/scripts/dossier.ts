@@ -225,27 +225,30 @@ export function initDossier(): void {
   });
 
   /*
-    Le bouton de fin du dernier chapitre. Apres « 03 · The proof » il n'y a pas
-    de tuile suivante : la seule suite possible est le sommaire lui-meme, que la
-    reduction de la composition a fait disparaitre. Ce bouton le rouvre, remonte
-    dessus, et rend le focus a la carte qu'on vient de lire - pas a la premiere
-    des trois, qui obligerait a retraverser le sommaire a la tabulation.
+    Le bouton de fin du dernier chapitre partage ce gestionnaire : apres le
+    dernier « Next » il n'y a pas de tuile suivante, et la seule suite possible
+    est le sommaire lui-meme, que la reduction de la composition avait fait
+    disparaitre.
   */
   /*
-    RETOUR EN HAUT, SANS RIEN REFERMER. Un chapitre deplie fait plusieurs
-    ecrans ; arrive en bas, on veut souvent revenir au sommaire sans perdre ce
-    qu'on lisait. Le bouton remonte sur la composition et s'arrete la - a la
-    difference de celui de fin de dossier, qui referme aussi.
-  */
-  document.querySelectorAll<HTMLElement>('[data-haut]').forEach((b) => {
-    b.addEventListener('click', () => {
-      remonter();
-      const ouverte = cartes.find((c) => c.getAttribute('aria-expanded') === 'true');
-      ouverte?.focus({ preventScroll: true });
-    });
-  });
+    RETOUR EN HAUT : ON REFERME TOUT. Le bouton se contentait de remonter, en
+    laissant le chapitre deplie - l'idee etant qu'on revient au sommaire sans
+    perdre sa lecture. Mais ce qu'on retrouve alors n'est pas le sommaire :
+    c'est `.compo--solo`, une seule carte sur toute la largeur. Le geste
+    promet un retour a la page et rend un etat intermediaire.
 
-  document.querySelectorAll<HTMLElement>('[data-ferme]').forEach((b) => {
+    IL FAIT DONC EXACTEMENT CE QUE FAIT LE BOUTON DE FIN DE DOSSIER, d'ou un
+    seul gestionnaire pour les deux : fermer, recomposer, remonter, et rendre
+    le focus a la carte du chapitre qu'on quitte - pas a la premiere des
+    quatre, qui obligerait a retraverser le sommaire a la tabulation.
+
+    ET RIEN NE SE REJOUE. La composition restauree ramene a l'ecran des cartes
+    qui etaient en `display:none`, ce qui RELANCE leurs animations d'entree ;
+    `poser` dans grille.ts les neutralise une fois l'entree faite. Le
+    defilement, lui, est deja coupe par la portee de `remonter` : depuis le
+    bas d'un chapitre la composition est a plus d'un ecran.
+  */
+  document.querySelectorAll<HTMLElement>('[data-haut],[data-ferme]').forEach((b) => {
     b.addEventListener('click', () => {
       const pan = b.closest<HTMLElement>('.pan');
       const cible = cartes.find((c) => c.getAttribute('aria-controls') === pan?.id);
