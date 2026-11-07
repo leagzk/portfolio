@@ -651,15 +651,13 @@ const sobriete: Tuile[] = [
     se lisait pas comme plus important, juste comme pas du meme jeu. Au
     passage son titre tient en deux lignes au lieu de trois sur telephone.
 
-    `text-wrap:balance` REPARTIT LES LIGNES AU LIEU DE LES REMPLIR. Le
-    03 cassait en 247 / 68 / 213 / 134 px : le mot « floor. » restait seul
-    sur une ligne de 68px dans une mesure de 247, ce qui se lit comme un
-    retour chariot et coupe la phrase en deux. Balance egalise - 168 / 147 /
-    184 / 162 - sans changer le nombre de lignes. Les navigateurs qui ne la
-    connaissent pas remplissent comme avant : on ne perd rien.
+    LA REPARTITION DES LIGNES N'EST PAS ICI : `text-wrap:balance` est pose
+    une fois pour toutes sur `.conv__titre` dans Conviction.astro, ou il
+    repare aussi les cases etroites du trio et les affiches de Philosophy.
+    C'est lui qui a supprime le « floor. » seul sur 68px au milieu du 03.
   */
   :is(#pr-discovery,#pr-truth,#pr-inclusion) .conv__titre{font-size:var(--fs-section);
-    line-height:1.1;letter-spacing:-.015em;text-wrap:balance}
+    line-height:1.1;letter-spacing:-.015em}
   .conv__detail .eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
     letter-spacing:.2em;text-transform:uppercase}
 </style>

@@ -239,8 +239,27 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   .conv__ico--f{opacity:0}
   .conv__tete[aria-expanded="true"] .conv__ico--o{opacity:0}
   .conv__tete[aria-expanded="true"] .conv__ico--f{opacity:1}
+  /*
+    UN TITRE SE REPARTIT, UN TEXTE SE REMPLIT. `text-wrap:balance` cherche la
+    coupe qui egalise les lignes au lieu de remplir la premiere jusqu'au bord
+    et de laisser tomber ce qui reste. Dans des cases etroites - 208px au
+    bureau, 123 sur la piste mobile - le remplissage produisait des lignes
+    orphelines qu'on lit comme des retours chariot : « hands. » seul sur 50px
+    sous une ligne de 244, « floor. » sur 68 sous une ligne de 247.
+
+    MIEUX QU'UNE ESPACE INSECABLE, qui donnerait la meme coupe mais la
+    figerait dans la copy : le caractere partirait dans `data-copy`, dans
+    l'export des .md, et tiendrait encore quand la case ou le texte auront
+    change de largeur. Balance recalcule a chaque mise en page.
+
+    Le 07 y gagne la coupe apres la virgule - « A team of owners, / not a
+    team of hands. » - aux deux paliers, et c'est bien l'antithese qui tient
+    une ligne chacune. Les navigateurs sans la propriete remplissent comme
+    avant : la regle n'enleve rien a personne.
+  */
   .conv__titre{display:block;margin:0;font-family:var(--display);font-weight:900;
-    font-size:var(--fs-tile);line-height:1.12;letter-spacing:-.01em}
+    font-size:var(--fs-tile);line-height:1.12;letter-spacing:-.01em;
+    text-wrap:balance}
   .conv--large .conv__titre{font-size:calc(var(--fs-tile) * 1.18)}
 
   /*
