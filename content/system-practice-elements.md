@@ -207,7 +207,7 @@ contributor
 
 maintainer
 
-So I made it a capability, and I made it someone's. One of my design system designers had the human skills the job asked for - federating a community, running its rituals - and had to grow into the rest: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned her as **Design Ops Lead**, we founded the capability together, and it became **Practitioner Experience**. Her career growth and the company's outcome, paired.
+So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became **Practitioner Experience**.
 
 The timing was the bet. We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own - so the foundations became the standard rather than catching up with it.
 
@@ -244,6 +244,8 @@ Zero resignations *in three years.*
 Design went from one to five. Average completed engagement: **23 months against a one-year target.**
 
 The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.** People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.
+
+**Nicolas** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead** and we founded the capability together. **His growth and the company's outcome, paired.**
 
 My job wasn't to hold it up. **It was to build a structure that outlasts any of us.**
 
