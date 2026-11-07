@@ -75,9 +75,16 @@ const mondrian = variante === 'mondrian';
 if (!mondrian && (chiffres.length < 4 || chiffres.length > 5)) {
   throw new Error(`<ChiffresCles> attend 4 ou 5 chiffres, reçu ${chiffres.length}`);
 }
-if (mondrian && (chiffres.length < 4 || chiffres.length > 5)) {
+/*
+  LA FORME MONDRIAN ACCEPTE SIX CHIFFRES DEPUIS QUE LES RANGEES SE CALCULENT.
+  Elle en plafonnait a cinq, ce qui allait avec des rangees ecrites en dur.
+  Six se coupent en trois et trois, et `UNITES` leur donne 3-2-2 par rangee.
+  Au-dela, la moitie gauche ferait des cases de moins de 150px et « 100% » n'y
+  tiendrait plus sur une ligne : la garde reste, elle a juste un cran de plus.
+*/
+if (mondrian && (chiffres.length < 4 || chiffres.length > 6)) {
   throw new Error(
-    `<ChiffresCles variante="mondrian"> attend 4 ou 5 chiffres, reçu ${chiffres.length}`,
+    `<ChiffresCles variante="mondrian"> attend 4 a 6 chiffres, reçu ${chiffres.length}`,
   );
 }
 /*
@@ -109,18 +116,29 @@ const avecDef = Astro.slots.has('definition');
   LES PROPORTIONS SONT CELLES DU DESSIN, et elles dependent de ce que la bande
   a a porter.
 
-  AVEC LA DEFINITION : deux rangees sur la moitie gauche, 3-2-2 en haut et 3-4
-  en bas, sur sept unites. Le plus large des nombres ouvre - « 100% » demande
-  150px a 48 de corps, et trois unites lui en donnent 266 ; deux ne lui en
-  auraient laisse que 177.
+  AVEC LA DEFINITION : deux rangees sur la moitie gauche, trois chiffres puis
+  deux, sur sept unites. LA CONTRAINTE N'EST PAS LA PLACE DU PLUS LARGE, MAIS
+  SA LARGEUR : « 810+ » demande 218px a 48 de corps, et seules trois unites
+  lui en donnent 266 ; deux ne lui en laisseraient que 177 et le nombre
+  deborderait. Il ferme donc sa rangee au lieu de l'ouvrir, ce qui ne change
+  rien a la regle - 2-2-3 puis 3-4.
 
   SANS ELLE : une seule rangee de quatre, sur les douze unites, en 3-2-4-3. Une
   bande de deux rangees pour quatre chiffres ferait des cases de 620px de large
   pour trois mots - du vide, pas de la composition.
 */
-const UNITES = avecDef ? [3, 2, 2, 3, 4] : [3, 2, 4, 3];
+const UNITES = avecDef ? [2, 2, 3, 3, 4] : [3, 2, 4, 3];
+/*
+  LES DEUX RANGEES SE COUPENT AU MILIEU, ET LE MILIEU SE CALCULE. Elles
+  etaient ecrites en dur - 0 a 3, puis 3 a 5 -, ce qui tenait tant que la
+  bande portait cinq chiffres. Rien ne se serait perdu en silence au sixieme,
+  la garde ci-dessus refusant de rendre la page ; mais il fallait reecrire
+  deux bornes pour chaque changement de nombre. La coupe suit desormais le
+  compte.
+*/
+const MOITIE = Math.ceil(chiffres.length / 2);
 const RANGEES = avecDef
-  ? [{ depart: 0, fin: 3 }, { depart: 3, fin: 5 }]
+  ? [{ depart: 0, fin: MOITIE }, { depart: MOITIE, fin: chiffres.length }]
   : [{ depart: 0, fin: chiffres.length }];
 ---
 {/*
@@ -138,6 +156,30 @@ const RANGEES = avecDef
     aria-label={label}
   >
     {/*
+      LA DEFINITION EST ECRITE AVANT LES CHIFFRES, ET C'EST POUR LE MOBILE.
+      Au bureau son `grid-area` la pose a droite, en vis-a-vis des deux
+      rangees : l'ordre du front n'y change rien. Empilee, la grille suit le
+      flux, et la definition se lisait APRES cinq chiffres - mesure sur le
+      build a 375px : 1019px sous la fin de l'intro, soit 1,3 ecran. Le
+      lecteur rencontrait « Elements » dans le hero puis cinq nombres sur une
+      chose dont on ne lui avait pas dit la nature. Au bureau l'ecart n'est
+      que de 374px, 0,4 ecran, et le probleme ne se posait pas.
+
+      ECRITE AVANT, DONC, PLUTOT QUE DEPLACEE PAR `order` : la propriete
+      desaccorderait l'ordre de tabulation de l'ordre visuel, et ce projet
+      s'interdit de la tenir a jour. Le front EST l'ordre de lecture ; la
+      grille replace au-dessus du palier.
+    */}
+    {avecDef && (
+      <div class="clef-def">
+        <slot name="definition" />
+        {/* Le filet et la bande ferment la case, comme sur le bloc Operating
+            System de l'accueil - voir .clef-def dans etude.css. */}
+        <span class="clef-def__filet" aria-hidden="true"></span>
+        <span class="clef-def__bande" aria-hidden="true"></span>
+      </div>
+    )}
+    {/*
       LA CASE PORTE LA GRILLE, LE PANNEAU PORTE LA COULEUR - et c'est le
       montage des principes de l'accueil, repris tel quel. Le bouton remplit sa
       case ; c'est la CASE qui s'etend ou se reduit quand on la survole, et ses
@@ -146,8 +188,8 @@ const RANGEES = avecDef
       data-cases : la rangee n'est pas une case, ce sont ses enfants qui en
       sont. Le trace anime descend donc d'un cran - voir src/scripts/grille.ts.
     */}
-    {RANGEES.map((r) => (
-      <div class="clef-rangee" data-cases>
+    {RANGEES.map((r, k) => (
+      <div class:list={['clef-rangee', `clef-rangee--${k + 1}`]} data-cases>
       {chiffres.slice(r.depart, r.fin).map((c, j) => {
         const i = r.depart + j;
         return (
@@ -187,15 +229,6 @@ const RANGEES = avecDef
       })}
       </div>
     ))}
-    {avecDef && (
-      <div class="clef-def">
-        <slot name="definition" />
-        {/* Le filet et la bande ferment la case, comme sur le bloc Operating
-            System de l'accueil - voir .clef-def dans etude.css. */}
-        <span class="clef-def__filet" aria-hidden="true"></span>
-        <span class="clef-def__bande" aria-hidden="true"></span>
-      </div>
-    )}
   </section>
 ) : (
   <section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>

@@ -12,45 +12,46 @@ Systematize a practice · Sanofi · 2022 - now
 
 # At global scale, a system isn't managed. It's governed.
 
-I built Elements to remove the friction between experts, cut time to launch
-and raise product experience at scale - then moved it from a design system
-to a platform: one pipeline where brand, design and engineering pour into
-the same chain. Starting in 2022 as **Design Lead**, running the platform
-today as its **Director**.
+I first built Elements to cut time-to-launch and remove the friction
+between design and engineering. Then I scaled it to raise brand
+experience and make design excellence consistent - moving from a design
+system managed as a product to an experience design platform. **Design Lead in 2022, Director today: a €1M platform across Sanofi's brand portfolio, reaching from employee to patient.**
 
-100%
+The system
 
-adoption in the 3 Digital Accelerators
+**One shared language**, and every surface Sanofi ships speaks it - from B2B platforms to internal tools and agents, worldwide. Governed as a platform, not maintained as a library.
 
-R&D, Commercial, Manufacturing. Every product in the perimeter runs on Elements.
+Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.
 
 87%
 
 component usage per product
 
-Teams build on the system, not around it.
+Capacity freed for what makes each brand experience unique.
 
 ÷3
 
 time-to-launch on strategic launches
 
-Like Beyfortus®. 810+ development days saved.
+Like Beyfortus®. 100% adoption in the 3 Digital Accelerators: every product in the perimeter runs on Elements.
+
+810+
+
+development days saved
+
+The rebuild that forty-five teams no longer pay for.
 
 35+
 
 contributors, from zero in 18 months
 
-Inner source, not headcount. 4.7/5 practitioner satisfaction.
+Inner source, not headcount. Capability that no budget line bought.
 
 0
 
 resignations in three years
 
-Design went from one to five. Average completed engagement: 23 months against a one-year target.
-
-The system
-
-Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
+Average completed engagement: 23 months against a one-year target.
 
 Three crafts, three silos - and a system nobody adopted.
 
@@ -74,15 +75,17 @@ Root cause
 
 Not incompetence. *Distance.*
 
-**Nobody meets. Everybody rebuilds. In silos, again and again.** A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had. Three crafts, three silos, each solving in private what the others had already solved.
+**Nobody meets. Everybody rebuilds. In silos, again and again.** A designer ships a spec. An engineer rebuilds it from scratch. A marketer briefs an agency for a palette the system already had.
 
-And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale. The *how* was worse: practices siloed team by team. Some platforms carry hundreds of surfaces on their own - one marketing platform alone delivers 200+ websites worldwide. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
+And it wasn't one handoff. The *what* was fragmented: products and touchpoints that didn't share a language, **design and engineering debt compounding with every launch**, at global scale.
+
+The *how* was worse: practices siloed team by team. A team never equals one surface: one platform has shipped 2,000+ marketing websites, another localises a single product 150+ times. **The same cost, paid forty-five times over.** **The capability was there. The structure to use it wasn't.**
 
 Investment case
 
 A system this size is *two bets in one.* It only pays if it's adopted.
 
-**Cost rationalization** first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then **experience at scale**: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
+Cost rationalization first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then experience at scale: one coherent journey across every touchpoint - service design for an entire organization.
 
 A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase.
 
@@ -90,35 +93,35 @@ Executive partnership
 
 A €1M bet on a model, *not a line item.*
 
-**You can't outsource the thing your whole system depends on.** The engineering was externalized before my time - not my call. But **the bet I shared, and got wrong, was priority.** Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.
+**You can't outsource the thing your whole system depends on.** The engineering was externalized before my time - not my call.
+
+**The bet I shared, and got wrong, was priority.** Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.
 
 So the system was coherent, and barely adopted. **A design system nobody adopts is the oldest failure in the field**, and we'd walked straight into it.
 
-So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.
+So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. **Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.**
 
 Next: the approach →
 
 ## 02 &middot; The approach
 
-Organisation & people
+Organisation & governance
 
-Scaling is a series of bets. *I refused to place them blind.*
+I designed the organisation *before I filled it.*
 
-**The decision was the easy part. Owning it wasn't.** I designed the target org - its capabilities, its roles, one operating model - and wrote the job descriptions that made it real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
+**The decision was the easy part. Owning it wasn't.** Its capabilities, its roles, one operating model - and the job descriptions that made them real, **organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
 Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
 
-I set the direction, carried it to leadership, then handed my team the operational goal as **OKRs of their own**, tied to the company's annual objectives - our ambition inside a shared project, never beside it. Every decision got the same reading: what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
+Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.
 
-This is the layer no contributor can claim. **Not the components - the conditions.**
+And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
 
 Vision & strategy
 
-You maintain a design system. *You run a platform.*
+The best architecture I built *started as the one I got backwards.*
 
-Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities** - and the tension is the point: they aren't parallel, each one only works because the other two hold their end.
-
-**The best architecture I built started as the one I got backwards.**
+Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities - and none of them works alone.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
 - Brand × Product Corporate Experience Brand × Product The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. **Where the brand becomes tangible.**
 
@@ -132,33 +135,13 @@ Elements isn't a single product anymore. It's several products under one governa
 
 - People Community of Practice People The governance and culture that turn contribution into practice: inner source model, contribution pathways, shared rituals, practice leadership. **The humans who grow it.**
 
-Build
+Build pipeline
 
-- 01 Token architecture multi-brand, multi-theme, multi-surface
+The pipeline is the thesis *made physical.*
 
-- 02 Libraries Figma and React, hosted on GitHub
+It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.
 
-- 03 Figma Companion palettes, accessibility checks, layout scaffolding from the canvas
-
-- 04 Storybook source of truth, living, versioned documentation
-
-- 05 Elements MCP integrated into AI design and engineering workflows
-
-- 06 Support channels Slack and Teams streams with automation layers
-
-- 07 Elements Portal showcase website
-
-**The pipeline is the thesis made physical.** Brand, design and engineering pour into the same chain - the wait between experts, engineered out. That's the ÷3: not people working faster, but expertises no longer waiting on each other.
-
-> The tooling suite, grouped by role
-
-I don't state values. I install them.
-
-- Rigour Nothing ships on a hunch. No component, no roadmap line ever shipped without discovery: what the ecosystem actually needs, what already exists. Then one shared convention, written down. **The standard isn't a review at the end, it's the default at the start.**
-
-- Responsibility The floor, not the reach. WCAG AA as the Sanofi digital standard, not our own bar. Full library audited to 100% before our first major, then held there. **So no product team paid the cost downstream.**
-
-- Ethics A constraint nobody asked me to keep. When AI entered the strategy, I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, quality guardrails non-negotiable throughout. **Not everyone draws it. I do.**
+Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **The ÷3 is not people working faster - it's expertises no longer waiting on each other.**
 
 Next: the proof →
 
@@ -166,15 +149,13 @@ Next: the proof →
 
 Business impact
 
-The numbers are the system's, *not mine.*
+These numbers belong to *the team that made them.*
 
-**A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. From there, **zero users to a community of 2,000+ practitioners.**
-
-**And none of it was measured after the fact.** I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
+**A structure only counts if it holds.** This one does. **From zero users to a community of 2,000+ practitioners.**
 
 4.7 out of 5 on practitioner satisfaction, twice a year. **People don't comply with Elements, they trust it.**
 
-Adopted. Trusted. Extended. **Everything a system needs to outlive the person who built it.**
+Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.
 
 What Elements actually is
 
@@ -188,13 +169,13 @@ You may think it is a Figma library
 
 > Global team
 
-Multi-brand &middot; multi-theme &middot; B2B / B2C / internal &middot; from employee to patient &middot; worldwide
+Multi-brand &middot; multi-theme &middot; from employee to patient
 
 Influence & community
 
 A design system you install. *A community you have to earn.*
 
-Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. **A system nobody believes in dies with its founder; one a community owns, outlives them.**
+Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.
 
 **Experience runs both ways.** Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. *Design the experience of the people designing the experience.*
 
@@ -204,17 +185,31 @@ contributor
 
 maintainer
 
-So I created the **Practitioner Experience capability** to make that real, and elevated one of my team to run it - her career growth and the company's outcome, paired. I set the direction: community-led adoption, contribution over control. My team built and ran the machine - the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
+So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became **Practitioner Experience**.
+
+The timing was the bet. We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own - so the foundations became the standard rather than catching up with it.
+
+Community-led adoption, contribution over control - and my team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
 
 This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. Not a mailing list: a contribution model adapted from Zalando's, where everyone gives at the level of their skill.
 
 > The community, in one place for once
 
-**87% average usage per product in production, from near-zero.** That isn't a launch - it's **change management at scale**: turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time. It takes patience and it takes refusing - the two are the same discipline, not opposites.
+**87% average usage per product in production, from near-zero.** That isn't a launch - it's change management at scale. **Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.** It takes patience and it takes refusing - the two are the same discipline, not opposites.
+
+Collaboration
+
+- Rigour The roadmap grew on what product teams brought back. Every component started from what teams told us they were rebuilding. Their cases fed the pipeline, and the conventions that came out of it were written down once, for everyone. **A roadmap nobody had to lobby for.**
+
+- Responsibility We took the accessibility load off forty-five backlogs. Teams told us where the cost landed: audits to run, fixes to retrofit, a bar to clear alone. So we carried it - WCAG AA as the Sanofi standard, 100% before our first major, checks living where the work happens. **Their time goes to what makes their product theirs.**
+
+- Ethics The fear AI raised became a shared piece of work. The community said what it was wary of - judgement replaced, craft diluted, quality unchecked. I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, guardrails non-negotiable throughout. **Named out loud, the fear turned into a brief.**
 
 Next: the team &rarr;
 
 ## 04 &middot; The team
+
+Autonomy
 
 Every week, the same question: *is the work moving, and is the person growing.*
 
@@ -224,17 +219,23 @@ Every week, the same question: *is the work moving, and is the person growing.*
 
 - **Shared rituals** are the connective tissue keeping five hubs one system rather than an archipelago.
 
-- **A team that isn't well doesn't ship** - wellbeing isn't a nice-to-have on the side, it's load-bearing.
+- **Wellbeing was a line in the plan**, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.
 
-- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: you don't point at the problem from across the room, you cross it. **A team that only points the way isn't leading; it's watching.**
+- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: **you don't point at the problem from across the room, you cross it**. A team that only points the way isn't leading; it's watching.
 
 People
 
 Zero resignations *in three years.*
 
-**I owned the *why* and the *what*. They owned the *how*** - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. **Nothing shipped without us aligned, and nothing waited on me to be decided.** Design went from one to five. Average completed engagement: **23 months against a one-year target.**
+**I owned the *why* and the *what*. They owned the *how*** - and made it sharper than I could have specified. Agile is the tempo, not a checkbox. **Nothing shipped without us aligned, and nothing waited on me to be decided.**
+
+I hired into the org I had drawn - from one designer to a core team of nine, design itself going from one to five - then carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared project, never beside it.
+
+**Average completed engagement: 23 months against a one-year target.**
 
 The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.** People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.
+
+**Nicolas** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead** and we founded the capability together. **His growth and the company's outcome, paired.**
 
 My job wasn't to hold it up. **It was to build a structure that outlasts any of us.**
 
@@ -248,7 +249,7 @@ The Elements MCP didn't come from my roadmap. **It came from a contributor.** An
 
 ## I removed the wait between design and engineering. *There's one wait left.*
 
-I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. **This is the next mile of the same road.**
+I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. This is the next mile of the same road.
 
 Not a system people obey - one they own. **That's what growing a culture means.**
 
@@ -263,7 +264,6 @@ Back to the four chapters &uarr;
 
 ## Textes alternatifs des visuels
 
-- The Elements mark at the centre of its tooling suite, each tool grouped by role: documentation with Confluence and Zeroheight, design libraries with Figma, code packages with GitHub and React, code showcase with Storybook, communities with Slack and Teams, and AI solutions
 - Figma library screens: a Sanofi navigation bar, buttons, form controls, a data table and a date picker, shown in light and dark mode
 - Two Sanofi products in production - a component explorer on a laptop and a public campaign page on a desktop screen - with a mobile study card in front
 - Two phone screens side by side: a question answered in the Elements Slack community, and a GitHub issue on the design system component library

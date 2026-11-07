@@ -54,6 +54,8 @@ Adopted without being enforced.
 
 ## 01 &middot; The problem
 
+The brief
+
 IT wasn't a support function. It was a *business driver* - and nobody outside IT could see it.
 
 That was the brief, and it wasn't a branding one. Sanofi needed its IT to weigh more across the value chain, and the obstacle was perception: everyone treated as a service desk what was actually driving business value. Its role went unexplained, its image was dated, and its communication was scattered across the whole function, every team improvising the brand.

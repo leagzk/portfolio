@@ -121,7 +121,7 @@
 @media(min-width:861px){
   .cles--mondrian-seul.cles--mondrian-seul{grid-template-columns:1fr;
     grid-template-rows:240px}
-  .cles--mondrian-seul .clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
+  .cles--mondrian-seul .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 }
 
 /*
@@ -161,8 +161,18 @@
   quoi l'ombre interieure qui tient le filet des reduites passerait dessus.
 */
 .clef-rangee{display:flex;gap:var(--rule-fine);overflow:hidden}
-.clef-rangee:nth-of-type(1){grid-area:1 / 1 / 2 / 2}
-.clef-rangee:nth-of-type(2){grid-area:2 / 1 / 3 / 2}
+/*
+  LA RANGEE EST PLACEE PAR SON RANG, PAS PAR SA POSITION DANS LE FRONT. Ces
+  deux regles ont pesé `:nth-of-type(1)` et `(2)` ; le jour ou la definition
+  est passee devant les rangees dans le markup - pour que le mobile la lise
+  avant les chiffres - elle est devenue le premier <div> de la section, et
+  les deux rangees ont glisse d'un cran : la premiere ne correspondait plus a
+  rien, la seconde prenait la place de la premiere, et les cinq chiffres se
+  lisaient a l'envers au bureau. Un selecteur positionnel compte TOUS les
+  freres du meme type, pas seulement ceux qui portent la classe.
+*/
+.clef-rangee--1{grid-area:1 / 1 / 2 / 2}
+.clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
 
 /* ─── L'aplat depliable ─── */
@@ -323,6 +333,21 @@
 */
 .clef-def{position:relative;display:flex;flex-direction:column;gap:20px;
   padding:32px 32px calc(84px + 32px)}
+/*
+  LE PRIX DESCEND CONTRE LA BANDE, et c'est `margin-top:auto` - le meme
+  geste que le bouton de la cloture. La case a une hauteur FIXE au bureau,
+  deux rangees de 240px : raccourcir la phrase de definition y a laisse 159px
+  de blanc d'un seul tenant au-dessus de la bande. Le blanc est une matiere
+  de cette composition, pas un trou, mais pas quand il s'amasse en un seul
+  endroit. Reparti en deux, il tient la definition en haut et la preuve en
+  bas, et la case se lit comme une affiche plutot que comme un texte qui
+  s'est arrete trop tot.
+
+  Sous le palier la case suit son contenu : il n'y a pas d'espace libre, donc
+  `auto` ne vaut rien et la regle ne mord pas.
+*/
+.clef-def__prix{margin:auto 0 0;font-size:var(--fs-caption);line-height:1.5;
+  color:var(--ink-muted)}
 .clef-def__filet{position:absolute;left:0;right:0;bottom:84px;
   height:var(--rule-fine);background:var(--text)}
 .clef-def__bande{position:absolute;left:0;right:0;bottom:0;height:84px;
@@ -361,7 +386,26 @@
   .cles--mondrian > *{grid-area:auto !important}
   /* Au doigt rien ne se pousse : la rangee s'empile et chaque case prend la
      largeur. Le depliage se fait au clic, dans la case. */
-  .clef-rangee{flex-direction:column;overflow:visible}
+  /*
+    LA BANDE DE CHIFFRES RESTE UNE GRILLE SOUS LE PALIER. Elle s'empilait :
+    cinq cases pleine largeur de 170px l'une sur l'autre, soit 860px d'un
+    seul rythme, et la case de definition par-dessus. Deux colonnes rendent
+    aux chiffres la forme qu'ils ont au bureau - des carres - sans rien
+    changer a leur ordre : a 375px une colonne fait 170,75px, donc chaque
+    case est carree d'elle-meme et le `min-height` ne mord plus.
+
+    LA RANGEE IMPAIRE SE REFERME SUR UNE PLEINE LARGEUR. La premiere rangee
+    porte trois chiffres quand la page a une definition : deux carres et un
+    orphelin. L'orphelin prend les deux colonnes, ce qui donne au mobile le
+    rythme carre / carre / bande que la composition tient au bureau.
+
+    `:nth-child(3):nth-last-child(1)` SE REGLE TOUT SEUL : il ne designe un
+    troisieme enfant que s'il est aussi le dernier, donc uniquement la rangee
+    de trois. Les etudes sans definition portent quatre chiffres sur une
+    seule rangee et restent en deux fois deux, sans exception a ecrire.
+  */
+  .clef-rangee{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
+  .clef-rangee > :nth-child(3):nth-last-child(1){grid-column:1 / -1}
   .clef-case{flex:none;min-height:170px}
   .clef{position:relative;inset:auto;min-height:170px}
   .clef__dedans{position:relative;inset:auto;gap:16px;padding:24px 16px}
@@ -690,6 +734,15 @@
 .vu :is(.compo__plat,.conv__plat){animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
 .vu :is(.dcarte__txt,.conv__txt){animation:monte .85s cubic-bezier(.16,1,.3,1)
   calc(var(--retard,0s) + .22s) both}
+/*
+  ET ELLES NE SE REJOUENT PAS. Une animation CSS repart a zero quand son
+  element revient de `display:none`, or `.compo--solo` masque les cartes non
+  ouvertes : chaque fermeture de chapitre rejouait donc l'entree de toute la
+  composition. `poser` (grille.ts) ajoute `pose` quand l'entree est finie ;
+  ces deux regles l'annulent a partir de la. Meme specificite que les deux
+  ci-dessus - elles doivent donc rester APRES.
+*/
+.pose :is(.compo__plat,.conv__plat),.pose :is(.dcarte__txt,.conv__txt){animation:none}
 
 @media(max-width:860px){
   /*
@@ -861,6 +914,114 @@
   flex-direction:column;justify-content:center;gap:16px;pointer-events:none;
   background:none}
 @media(max-width:860px){.compo__sommaire{display:none}}
+
+/*
+  ─── Les trois puces, sur la carte fermee, et seulement sur telephone ───
+
+  Au bureau elles sont la case voisine : la composition a de la place a
+  droite, et la carte ouverte s'y adosse. Sous le palier cette case n'existe
+  pas - la bande EST la carte -, donc les puces descendent dans la carte,
+  sous la synthese, ou elles se lisent AVANT l'ouverture. C'est le moment ou
+  elles servent : les quatre cartes sont empilees et fermees, et c'est sur
+  elles qu'on choisit.
+
+  Elles sont posees par le script a chaque carte, donc eteintes par defaut :
+  au bureau le sommaire de la composition fait deja ce travail, et les avoir
+  aux deux endroits dirait tout deux fois.
+*/
+.dcarte__points{display:none}
+@media(max-width:860px){
+  /*
+    LA ZONE SE FERME SUR UNE BANDE, ET LES TRAITS FONT GRILLE. C'est la
+    reference posee par Lea : chez Mondrian ce ne sont pas les aplats qui
+    structurent, ce sont les lignes - elles traversent, elles depassent leurs
+    intersections, et la couleur occupe ce qu'elles delimitent.
+
+    UNE BANDE VERTICALE PLUTOT QU'UN CARRE, et ce n'est pas qu'un gout : un
+    carre a besoin d'une taille, donc d'une hauteur, donc de la zone - et la
+    zone depend de la largeur laissee au texte, que le carre determine. Ce
+    cycle s'est referme pour de vrai : en item flex etire avec
+    `aspect-ratio`, le navigateur tranchait sur une passe perimee et
+    COMPRIMAIT la colonne. Mesure a 320px : la liste demandait 163px, la
+    rangee en rendait 107, et la carte - en `overflow:hidden` - coupait 29px.
+
+    UNE BANDE N'A QUE SA LARGEUR A ELLE. Les 56px sont le module de
+    l'accueil, ou la meme figure revient trois fois sous 720px. La hauteur
+    suit la zone sans rien lui demander : trois puces ou quatre, repliees ou
+    non, la reserve du texte (74 = 56 + 2 de filet + 16 d'ecart) ne bouge
+    pas. Plus de cycle, donc plus de coupe.
+
+    LE FILET DEPASSE, EN HAUT ET EN BAS. C'est ce qui le fait lire comme une
+    ligne de grille plutot que comme un bord de bande : il part DANS le trait
+    horizontal de la zone et ressort sous elle, exactement comme la verticale
+    de la reference traverse l'horizontale.
+  */
+  /*
+    LA ZONE SORT DU PADDING DE LA CARTE, A DROITE. Les 28px de retrait
+    servent au texte ; l'aplat et son filet, eux, doivent filer jusqu'au bord.
+    La marge negative les y mene sans sortir de la boite de la carte - qui est
+    en `overflow:hidden`, comme la composition : tout ce qui depasse ces deux
+    boites est coupe, et c'est ce qui limite le geste a 28 des 44px qui
+    separent la bande du bord de l'ecran. Les 16 restants sont la gouttiere
+    de page, hors des deux boites.
+  */
+  /* LE TRAIT DU HAUT EST AUSSI LE HAUT DU CADRE, donc `--rule` comme les trois
+     autres cotes et non `--rule-fine`. Il traverse toute la carte, pas
+     seulement l'aplat : c'est le separateur de la zone qui s'epaissit avec
+     lui, et c'est le prix d'un cadre dont les quatre cotes pesent pareil.
+     `currentColor` reste - a 1,06:1 de `--text`, l'oeil ne les separe pas, et
+     la couleur suit la carte si elle s'ouvre. */
+  .dcarte__points{position:relative;display:block;margin-top:16px;
+    margin-right:-28px;padding:16px 0 16px;
+    border-top:var(--rule) solid currentColor;
+    border-bottom:var(--rule) solid currentColor}
+  .dcarte__liste{display:flex;flex-direction:column;gap:10px;padding-right:74px}
+  /* `top:0` EST LE FILET, PAS LE TEXTE. Le `padding-top` de 16px degage la
+     premiere puce du trait ; l'aplat, lui, n'a rien a degager - il doit
+     TOUCHER la ligne, sans quoi un blanc s'ouvre entre les deux et la grille
+     se defait. Il part donc du bord de la boite de remplissage, c'est-a-dire
+     sous le trait lui-meme. */
+  /*
+    `bottom:-8px` COMME LE FILET, ET POUR LA MEME RAISON. Les deux descendent
+    a la meme ligne : un aplat qui s'arrete avant son trait laisse un bout de
+    filet nu, et c'est exactement ce qui se voyait.
+
+    LE CADRE SE FERME SUR QUATRE COTES. Le trait du haut est celui de la zone,
+    la verticale de gauche est le `::after` ci-dessous ; restaient la droite et
+    le bas, que l'aplat porte lui-meme en bordure. `border-box` les prend DANS
+    ses 56px au lieu de les ajouter dehors : a droite il n'y a plus de place -
+    la zone touche deja le bord de la carte, et la carte coupe ce qui depasse.
+    L'aplat perd donc deux pixels de chaque cote, et les traits les occupent.
+  */
+  .dcarte__bande{position:absolute;right:0;top:0;bottom:0;width:56px;
+    box-sizing:border-box;background:var(--puce,currentColor);
+    border-right:var(--rule) solid var(--text)}
+  /*
+    LE 04 PASSE AU GRIS, parce que son noir rendait le cadre invisible : aplat
+    #0A0708 et filets #111111 se touchent a 1,06:1 - le carre n'avait plus de
+    bord, juste une masse. Le gris de la composition tranche a 14,8:1 sur le
+    meme filet, et c'est deja lui qui porte les aplats gris de la page
+    (.compo__plat--gris). Les puces du chapitre, elles, restent noires : c'est
+    la couleur de la carte, et a 8px sur blanc elle se lit.
+  */
+  .dcarte--noir .dcarte__bande{background:var(--grey-mondrian)}
+  .dcarte__points::after{content:"";position:absolute;right:56px;
+    top:calc(var(--rule) * -1);bottom:calc(-8px - var(--rule)); /* 8 = depassement de grille, sans rapport avec le degagement des puces */
+    width:var(--rule);background:var(--text)}
+  /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
+     l'ECART qu'on garde, pas le retrait. */
+  .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;
+    padding-left:16px;position:relative}
+  /*
+    LA PUCE PREND LA COULEUR DU CHAPITRE, comme celle du sommaire du bureau -
+    meme variable `--puce`, posee ici sur la carte. Sur la carte FERMEE le
+    fond est blanc : `.dcarte__plat` reste en 0x0 tant que `aria-expanded`
+    n'est pas vrai, donc la couleur ne se deploie qu'a l'ouverture et la puce
+    n'a rien a concurrencer.
+  */
+  .dcarte__point::before{content:"";position:absolute;left:0;top:.45em;
+    width:8px;height:8px;background:var(--puce,currentColor)}
+}
 .compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
   font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
   color:var(--text)}
@@ -882,10 +1043,10 @@
 */
 .compo__sommaire.compo__sommaire li *{color:inherit;font-style:normal;
   font-weight:inherit}
-.compo__sommaire--rouge{--puce:var(--red)}
-.compo__sommaire--bleu{--puce:var(--blue)}
-.compo__sommaire--jaune{--puce:var(--yellow)}
-.compo__sommaire--noir{--puce:var(--ink)}
+.compo__sommaire--rouge,.dcarte--rouge{--puce:var(--red)}
+.compo__sommaire--bleu,.dcarte--bleu{--puce:var(--blue)}
+.compo__sommaire--jaune,.dcarte--jaune{--puce:var(--yellow)}
+.compo__sommaire--noir,.dcarte--noir{--puce:var(--ink)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
@@ -897,8 +1058,19 @@
   compris, et viendrait buter contre le noir du footer. Le pseudo-element
   s'arrete ou s'arrete le contenu.
 */
+/*
+  L'ECART ENTRE SOUS-PARTIES EST CELUI D'UN CHAPITRE, PAS D'UN PARAGRAPHE.
+  A 88px il valait moins de trois fois le gap interne (32px), et la colonne
+  de gauche en souffrait : une attaque courte y laissait le surtitre suivant
+  arriver presque aussitot, pendant que la colonne de droite deroulait six
+  paragraphes. A 128px le rapport passe a 4:1 et la frontiere se lit.
+
+  LE GAP INTERNE NE BOUGE PAS. Monter les deux aurait tout dilate en gardant
+  la meme ambiguite - c'est l'ECART entre les deux mesures qui dit la
+  hierarchie, pas leur taille.
+*/
 .pan{position:relative;padding:80px 0 96px 48px;display:flex;flex-direction:column;
-  gap:88px}
+  gap:128px}
 .pan::before{content:"";position:absolute;left:0;top:0;bottom:96px;
   width:var(--rule-fine);background:var(--text)}
 /* Une section fermee ne laisse rien derriere elle - ni filet, ni espace. */
@@ -1043,6 +1215,25 @@
   suffit, et l'italique d'un 900 a 34px passe pour un defaut de rendu.
   Sur le bloc sombre le rouge passe au jaune : a 5,67:1 sur blanc il tombe a
   1,9 sur le noir d'encre.
+
+  UN CHAPITRE N'ACCENTUE QUE DANS UNE COULEUR, CELLE DE SA CARTE. C'est la
+  regle de Lea : les mots colores d'un titre prennent la couleur de la
+  section. Elle s'applique telle quelle quand la couleur peut porter du
+  texte sur blanc - rouge 5,67:1, bleu 7,21:1 - et pas autrement :
+
+    carte rouge → .em-rouge      carte jaune → .em-rouge  (1,54:1, echec
+    carte bleu  → .em-bleu       carte noir  → .em-bleu    meme en grand)
+
+  Le jaune ne tient que sur fond sombre, d'ou la derniere ligne ci-dessous.
+  Le noir, lui, passe le contraste mais EST la couleur du titre : l'accent
+  deviendrait indiscernable. Comme les trois etudes numerotent rouge, bleu,
+  jaune (et noir au 04 de Governance), la regle donne une alternance rouge /
+  bleu / rouge / bleu.
+
+  A VERIFIER SUR LE RENDU, PAS DANS LE SOURCE : un chapitre peut contenir
+  une <section> imbriquee, et un decoupage naif du .astro saute alors la fin
+  du chapitre. La mesure qui compte est `getComputedStyle(em).color`, une
+  seule valeur par `.pan`.
 */
 :is(.pan,.etude) .em-rouge,:is(.pan,.etude) .em-bleu,
 .pan .closing em{font-style:normal}
@@ -1092,7 +1283,7 @@
 .pan > .suite{align-self:flex-end}
 
 @media(max-width:860px){
-  .pan{padding:48px 0 64px 20px;gap:56px}
+  .pan{padding:48px 0 64px 20px;gap:80px}
   .pan::before{bottom:64px}
   .pan .split,.pan .two,.pan .vc{grid-template-columns:1fr;gap:24px}
   /* une colonne : plus de rangees a partager, chaque concept redevient une pile */

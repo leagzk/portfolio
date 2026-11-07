@@ -98,6 +98,52 @@ export function initDossier(): void {
   };
 
   /*
+    LES MEMES PHRASES, SUR LA CARTE FERMEE, POUR LE TELEPHONE. Le sommaire
+    ci-dessus prend une case de la composition : il n'y a pas de case libre
+    sous le palier, ou la bande EST la carte. Les trois puces y sont donc
+    posees DANS la carte, sous sa synthese, et elles s'y lisent avant qu'on
+    ouvre - c'est le moment ou elles servent, puisque c'est la qu'on decide
+    d'ouvrir.
+
+    EN <span> ET NON EN <ul> : la carte est un <button>, qui n'accepte que du
+    contenu de phrase. C'est deja la raison pour laquelle le sommaire du
+    bureau est un FRERE de la carte et non son enfant.
+
+    `aria-hidden` SUR LE BLOC ENTIER, et ce n'est pas un detail de confort :
+    le nom accessible d'un bouton est son texte, donc trois phrases de plus
+    le rendraient interminable a l'ecoute. Le contenu, lui, est annonce dans
+    le panneau - le meme arbitrage que pour le sommaire du bureau.
+
+    POSEES UNE FOIS AU CHARGEMENT, pas a l'ouverture : elles existent quand la
+    carte est fermee, donc leur cycle de vie n'est pas celui du panneau.
+  */
+  cartes.forEach((carte) => {
+    const pan = section(carte);
+    const corps = carte.querySelector<HTMLElement>('.dcarte__corps');
+    if (!pan || !corps) return;
+    const phrases = Array.from(pan.querySelectorAll<HTMLElement>('[data-sommaire]'));
+    if (!phrases.length) return;
+    const bloc = document.createElement('span');
+    bloc.className = 'dcarte__points';
+    bloc.setAttribute('aria-hidden', 'true');
+    const liste = document.createElement('span');
+    liste.className = 'dcarte__liste';
+    phrases.forEach((p) => {
+      const point = document.createElement('span');
+      point.className = 'dcarte__point';
+      point.append(...Array.from(p.cloneNode(true).childNodes));
+      liste.appendChild(point);
+    });
+    bloc.appendChild(liste);
+    /* La bande de couleur qui ferme la zone - voir .dcarte__bande dans
+       etude.css. Elle ne porte rien : c'est le bloc entier qui est
+       `aria-hidden`. */
+    bloc.appendChild(Object.assign(document.createElement('span'),
+      { className: 'dcarte__bande' }));
+    corps.appendChild(bloc);
+  });
+
+  /*
     LE DEFILEMENT DOUX A UNE PORTEE, AU-DELA IL FAIT ATTENDRE. D'un bouton
     « Next: ... », pose tout en bas d'un chapitre, la composition est a plus de
     mille pixels : le trajet dure presque une seconde, pendant laquelle le
@@ -187,27 +233,30 @@ export function initDossier(): void {
   });
 
   /*
-    Le bouton de fin du dernier chapitre. Apres « 03 · The proof » il n'y a pas
-    de tuile suivante : la seule suite possible est le sommaire lui-meme, que la
-    reduction de la composition a fait disparaitre. Ce bouton le rouvre, remonte
-    dessus, et rend le focus a la carte qu'on vient de lire - pas a la premiere
-    des trois, qui obligerait a retraverser le sommaire a la tabulation.
+    Le bouton de fin du dernier chapitre partage ce gestionnaire : apres le
+    dernier « Next » il n'y a pas de tuile suivante, et la seule suite possible
+    est le sommaire lui-meme, que la reduction de la composition avait fait
+    disparaitre.
   */
   /*
-    RETOUR EN HAUT, SANS RIEN REFERMER. Un chapitre deplie fait plusieurs
-    ecrans ; arrive en bas, on veut souvent revenir au sommaire sans perdre ce
-    qu'on lisait. Le bouton remonte sur la composition et s'arrete la - a la
-    difference de celui de fin de dossier, qui referme aussi.
-  */
-  document.querySelectorAll<HTMLElement>('[data-haut]').forEach((b) => {
-    b.addEventListener('click', () => {
-      remonter();
-      const ouverte = cartes.find((c) => c.getAttribute('aria-expanded') === 'true');
-      ouverte?.focus({ preventScroll: true });
-    });
-  });
+    RETOUR EN HAUT : ON REFERME TOUT. Le bouton se contentait de remonter, en
+    laissant le chapitre deplie - l'idee etant qu'on revient au sommaire sans
+    perdre sa lecture. Mais ce qu'on retrouve alors n'est pas le sommaire :
+    c'est `.compo--solo`, une seule carte sur toute la largeur. Le geste
+    promet un retour a la page et rend un etat intermediaire.
 
-  document.querySelectorAll<HTMLElement>('[data-ferme]').forEach((b) => {
+    IL FAIT DONC EXACTEMENT CE QUE FAIT LE BOUTON DE FIN DE DOSSIER, d'ou un
+    seul gestionnaire pour les deux : fermer, recomposer, remonter, et rendre
+    le focus a la carte du chapitre qu'on quitte - pas a la premiere des
+    quatre, qui obligerait a retraverser le sommaire a la tabulation.
+
+    ET RIEN NE SE REJOUE. La composition restauree ramene a l'ecran des cartes
+    qui etaient en `display:none`, ce qui RELANCE leurs animations d'entree ;
+    `poser` dans grille.ts les neutralise une fois l'entree faite. Le
+    defilement, lui, est deja coupe par la portee de `remonter` : depuis le
+    bas d'un chapitre la composition est a plus d'un ecran.
+  */
+  document.querySelectorAll<HTMLElement>('[data-haut],[data-ferme]').forEach((b) => {
     b.addEventListener('click', () => {
       const pan = b.closest<HTMLElement>('.pan');
       const cible = cartes.find((c) => c.getAttribute('aria-controls') === pan?.id);

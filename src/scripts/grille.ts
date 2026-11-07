@@ -236,10 +236,40 @@ function construire(comp: HTMLElement, bordBas = false): void {
     sert : les cases deja a l'ecran quand il part lui sont rendues tout de
     suite, et il doit pouvoir cesser de les observer.
   */
+  /*
+    UNE CASE N'ENTRE QU'UNE FOIS, ET LE NAVIGATEUR NE LE SAIT PAS. `.vu`
+    declenche `pousse` sur l'aplat et `monte` sur le texte (etude.css). Or une
+    animation CSS REPART A ZERO des qu'un element revient de `display:none` -
+    et c'est precisement ce que fait la composition d'une etude : tant qu'un
+    chapitre est ouvert, `.compo--solo` masque les cartes non ouvertes, qui
+    reapparaissent toutes a la fermeture.
+
+    MESURE : animation forcee a `finished` (t=3000) avant masquage, puis
+    `running` a 383ms apres reouverture. C'est une animation NEUVE, pas celle
+    qui avait fini.
+
+    On marque donc la case `pose` quand son entree est reellement terminee, et
+    la feuille coupe l'animation a partir de la. ON ATTEND LA FIN, PAS UN
+    DELAI : chaque case porte un `--retard` different, et `pousse` (0,6s) et
+    `monte` (0,85s) ne finissent pas ensemble. Sans animation - mouvement
+    reduit, feuille absente - la promesse est vide et la classe tombe tout de
+    suite, ce qui est le bon etat.
+  */
+  const poser = (cellule: HTMLElement) => {
+    const anims = cellule.getAnimations({ subtree: true });
+    if (!anims.length) {
+      cellule.classList.add('pose');
+      return;
+    }
+    Promise.all(anims.map((a) => a.finished.catch(() => undefined)))
+      .then(() => cellule.classList.add('pose'));
+  };
+
   const libererCase = (cellule: HTMLElement) => {
     cellule.classList.remove('attend');
     cellule.classList.add('vu');
     ioCases.unobserve(cellule);
+    poser(cellule);
   };
 
   let traceeFait = false;
@@ -654,6 +684,7 @@ function construire(comp: HTMLElement, bordBas = false): void {
       cellule.classList.remove('attend');
       cellule.classList.add('vu');
       obs.unobserve(cellule);
+      poser(cellule);
     });
   }, { threshold: 0.25 });
   cases.forEach((el) => ioCases.observe(el));
