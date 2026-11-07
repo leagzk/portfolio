@@ -175,22 +175,6 @@ const capacites: Tuile[] = [
 ];
 
 /*
-  ─── Les sept produits, dans l'ordre de la chaine design → dev ───
-  L'ORDRE EST LA THESE : on part des tokens et on finit sur la vitrine, sans
-  qu'aucun relais n'attende un humain. Le reordonner casse la demonstration du
-  ÷3.
-*/
-const produits = [
-  { intitule: 'Token architecture', note: 'multi-brand, multi-theme, multi-surface' },
-  { intitule: 'Libraries', note: 'Figma and React, hosted on GitHub' },
-  { intitule: 'Figma Companion', note: 'palettes, accessibility checks, layout scaffolding from the canvas' },
-  { intitule: 'Storybook', note: 'source of truth, living, versioned documentation' },
-  { intitule: 'Elements MCP', note: 'integrated into AI design and engineering workflows' },
-  { intitule: 'Support channels', note: 'Slack and Teams streams with automation layers' },
-  { intitule: 'Elements Portal', note: 'showcase website' },
-].map((p, i) => ({ ...p, repere: String(i + 1).padStart(2, '0') }));
-
-/*
   ─── LE SOMMAIRE SE LIT COMME UN TEXTE, ET DEUX CHAPITRES BOITAIENT ───
 
   Les phrases `data-sommaire` forment trois puces par chapitre, et c'est ce
@@ -673,17 +657,28 @@ const mecanismes: Tuile[] = [
 
       <div class="subsec">
         <p class="eb">Build</p>
-        <ol class="chaine">
-          {produits.map((p) => (
-            <li class="chaine__pas">
-              <span class="chaine__n">{p.repere}</span>
-              <span class="chaine__nom">{p.intitule}</span>
-              <span class="chaine__note">{p.note}</span>
-            </li>
-          ))}
-        </ol>
-        <div class="body">
-          <p><strong>The pipeline is the thesis made physical.</strong> Brand, design and engineering pour into the same chain - the wait between experts, engineered out. That's the ÷3: not people working faster, but expertises no longer waiting on each other.</p>
+        {/*
+          LA CHAINE N'EST PLUS UN INVENTAIRE. Elle se lisait en sept pas
+          numerotes - un sommaire d'outillage, ou chaque ligne avait le meme
+          poids que les six autres et ou rien ne disait dans quel ORDRE le
+          travail passe. Or c'est l'ordre qui est le sujet : le propos de
+          cette sous-partie n'est pas qu'il existe sept outils, c'est qu'ils
+          se tiennent bout a bout.
+
+          Elle prend donc la forme des deux sous-parties precedentes - une
+          phrase d'attaque, puis un paragraphe. La phrase etait deja la,
+          ouvrant le corps en gras : « The pipeline is the thesis made
+          physical. » Elle y pesait autant que le reste ; en attaque, elle
+          annonce. Le paragraphe parcourt la chaine d'un bout a l'autre, des
+          tokens jusqu'au produit en production, et les sept outils y sont
+          tous - nommes au passage plutot qu'alignes.
+        */}
+        <div class="split">
+          <p class="lead">The pipeline is the thesis <em class="em-rouge">made physical.</em></p>
+          <div class="body">
+            <p>It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.</p>
+            <p>Brand, design and engineering pour into the same chain - the wait between experts, engineered out. <strong>That's the ÷3: not people working faster, but expertises no longer waiting on each other.</strong></p>
+          </div>
         </div>
       </div>
 
@@ -964,23 +959,6 @@ const mecanismes: Tuile[] = [
   }
 
   /*
-    ─── La chaine des sept produits ───
-    Sept colonnes separees par le filet, comme la composition : c'est une
-    CHAINE, et le filet est ce qui dit que chaque maillon touche le suivant.
-    Des cartes detachees auraient montre sept produits ; la chaine montre un
-    pipeline, qui est le propos.
-  */
-  .pan .chaine{list-style:none;margin:0;padding:0;display:grid;
-    grid-template-columns:repeat(7,minmax(0,1fr));gap:var(--rule-fine);
-    background:var(--text);border:var(--rule-fine) solid var(--text)}
-  .pan .chaine__pas{background:var(--white);padding:20px 14px;display:flex;
-    flex-direction:column;gap:8px;min-width:0}
-  .pan .chaine__n{font-family:var(--display);font-size:13px;font-weight:900;
-    letter-spacing:.12em;color:var(--red)}
-  .pan .chaine__nom{font-weight:700;font-size:15px;line-height:1.25}
-  .pan .chaine__note{font-size:13px;line-height:1.5;color:var(--text-body)}
-
-  /*
     ─── Le parcours du praticien ───
     consumer → contributor → maintainer. Les trois dessins sont INLINES et non
     poses en <img> : leur trait suit --accent par currentColor, ce qu'un
@@ -1011,9 +989,6 @@ const mecanismes: Tuile[] = [
 
   @media(max-width:860px){
     .pan .signature{font-size:24px}
-    /* Sept colonnes a 390px font 48px de large : la chaine se replie en deux,
-       et le filet continue de dire que les maillons se touchent. */
-    .pan .chaine{grid-template-columns:repeat(2,minmax(0,1fr))}
     .pan .parcours{gap:12px;padding:20px 16px}
     .pan .parcours__s{font-size:18px}
     .pan .parcours__i{width:38px;height:38px}

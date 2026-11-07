@@ -137,21 +137,11 @@ Elements isn't a single product anymore. It's several products under one governa
 
 Build
 
-- 01 Token architecture multi-brand, multi-theme, multi-surface
+The pipeline is the thesis *made physical.*
 
-- 02 Libraries Figma and React, hosted on GitHub
+It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.
 
-- 03 Figma Companion palettes, accessibility checks, layout scaffolding from the canvas
-
-- 04 Storybook source of truth, living, versioned documentation
-
-- 05 Elements MCP integrated into AI design and engineering workflows
-
-- 06 Support channels Slack and Teams streams with automation layers
-
-- 07 Elements Portal showcase website
-
-**The pipeline is the thesis made physical.** Brand, design and engineering pour into the same chain - the wait between experts, engineered out. That's the ÷3: not people working faster, but expertises no longer waiting on each other.
+Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **That's the ÷3: not people working faster, but expertises no longer waiting on each other.**
 
 Next: the proof →
 
