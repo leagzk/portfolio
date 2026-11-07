@@ -931,8 +931,39 @@
 */
 .dcarte__points{display:none}
 @media(max-width:860px){
-  .dcarte__points{display:flex;flex-direction:column;gap:10px;margin-top:16px;
+  /*
+    LA ZONE SE FERME SUR UNE BANDE, ET LES TRAITS FONT GRILLE. C'est la
+    reference posee par Lea : chez Mondrian ce ne sont pas les aplats qui
+    structurent, ce sont les lignes - elles traversent, elles depassent leurs
+    intersections, et la couleur occupe ce qu'elles delimitent.
+
+    UNE BANDE VERTICALE PLUTOT QU'UN CARRE, et ce n'est pas qu'un gout : un
+    carre a besoin d'une taille, donc d'une hauteur, donc de la zone - et la
+    zone depend de la largeur laissee au texte, que le carre determine. Ce
+    cycle s'est referme pour de vrai : en item flex etire avec
+    `aspect-ratio`, le navigateur tranchait sur une passe perimee et
+    COMPRIMAIT la colonne. Mesure a 320px : la liste demandait 163px, la
+    rangee en rendait 107, et la carte - en `overflow:hidden` - coupait 29px.
+
+    UNE BANDE N'A QUE SA LARGEUR A ELLE. Les 56px sont le module de
+    l'accueil, ou la meme figure revient trois fois sous 720px. La hauteur
+    suit la zone sans rien lui demander : trois puces ou quatre, repliees ou
+    non, la reserve du texte (74 = 56 + 2 de filet + 16 d'ecart) ne bouge
+    pas. Plus de cycle, donc plus de coupe.
+
+    LE FILET DEPASSE, EN HAUT ET EN BAS. C'est ce qui le fait lire comme une
+    ligne de grille plutot que comme un bord de bande : il part DANS le trait
+    horizontal de la zone et ressort sous elle, exactement comme la verticale
+    de la reference traverse l'horizontale.
+  */
+  .dcarte__points{position:relative;display:block;margin-top:16px;
     padding-top:16px;border-top:var(--rule-fine) solid currentColor}
+  .dcarte__liste{display:flex;flex-direction:column;gap:10px;padding-right:74px}
+  .dcarte__bande{position:absolute;right:0;top:16px;bottom:0;width:56px;
+    background:var(--puce,currentColor)}
+  .dcarte__points::after{content:"";position:absolute;right:56px;
+    top:calc(var(--rule-fine) * -1);bottom:-8px;
+    width:var(--rule);background:var(--text)}
   /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
      l'ECART qu'on garde, pas le retrait. */
   .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;

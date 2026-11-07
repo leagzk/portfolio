@@ -126,12 +126,20 @@ export function initDossier(): void {
     const bloc = document.createElement('span');
     bloc.className = 'dcarte__points';
     bloc.setAttribute('aria-hidden', 'true');
+    const liste = document.createElement('span');
+    liste.className = 'dcarte__liste';
     phrases.forEach((p) => {
       const point = document.createElement('span');
       point.className = 'dcarte__point';
       point.append(...Array.from(p.cloneNode(true).childNodes));
-      bloc.appendChild(point);
+      liste.appendChild(point);
     });
+    bloc.appendChild(liste);
+    /* La bande de couleur qui ferme la zone - voir .dcarte__bande dans
+       etude.css. Elle ne porte rien : c'est le bloc entier qui est
+       `aria-hidden`. */
+    bloc.appendChild(Object.assign(document.createElement('span'),
+      { className: 'dcarte__bande' }));
     corps.appendChild(bloc);
   });
 
