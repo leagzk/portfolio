@@ -14,6 +14,35 @@
 */
 [id^="ch-"]{scroll-margin-top:calc(var(--mobbar-h) + var(--sp-03))}
 
+/*
+  ═══ UN TITRE SE REPARTIT, UN TEXTE SE REMPLIT ═══
+
+  `text-wrap:balance` cherche la coupe qui egalise les lignes au lieu de
+  remplir la premiere jusqu'au bord et de laisser tomber ce qui reste. Sans
+  elle, un titre d'affiche produit des lignes orphelines qu'on lit comme des
+  retours chariot : releve sur le build a 375px, « hands. » seul sur 50px
+  sous une ligne de 244 (Operating System), « floor. » sur 68 sous 247,
+  « police. » sur 121 sous 291 (accueil), « bottleneck. » sur 91 sous 236
+  (Governance).
+
+  ELLE EST ICI ET PAS DANS CHAQUE COMPOSANT. Posee sur `.conv__titre` seul,
+  elle reparait les deux pages de positionnement et laissait les cinq autres
+  avec leurs orphelines : la regle ne vaut pas pour un composant, elle vaut
+  pour un TYPE de texte - la phrase d'affiche, celle qui se compose. Le corps
+  de texte, lui, doit continuer a remplir. Une nouvelle classe de titre
+  s'ajoute a cette liste, et c'est le seul endroit a tenir a jour.
+
+  `.hero__titre` EN EST ABSENT, ET C'EST VOLONTAIRE. Sa coupe n'est pas
+  laissee au navigateur : la prop `mesure` du <Hero> donne a chaque page la
+  largeur en cadratins qui pose SA coupe, relevee a la main dans le
+  navigateur. Balance se battrait contre ce reglage.
+
+  Les navigateurs qui ne connaissent pas la propriete remplissent comme
+  avant : la regle n'enleve rien a personne.
+*/
+.conv__titre,.pr__titre,.os__titre,.tuile__titre,.dcarte__titre,
+.cloture h2,.talk__head{text-wrap:balance}
+
 
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-xl);overflow:hidden;margin-bottom:var(--sp-02);transition:background .45s ease,border-color .45s ease}
 .card{border-width:var(--edge-w)}

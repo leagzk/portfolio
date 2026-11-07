@@ -6,6 +6,15 @@
   etude de cas. Pas de chiffres cles, pas de trois temps - sept principes, qui
   se tiennent ensemble plutot que de se raconter l'un apres l'autre.
 
+  MAIS LES EXEMPLES NOMMENT L'ENTREPRISE ICI, ET PAS SUR PHILOSOPHY. Cette
+  page decrit un modele operatoire et une facon de manager : un principe de
+  conduite sans cas concret reste une intention, et c'est ce qu'un lecteur
+  vient verifier. Les « For example at Sanofi… » y sont donc a leur place.
+  Philosophy, qui dit ce que Lea PENSE, n'en porte aucun : une conviction se
+  tient ou ne se tient pas, et le nom d'un employeur n'y prouve rien. Le jour
+  ou quelqu'un voudra « harmoniser » les deux pages, c'est cette distinction
+  qu'il effacera - conviction d'un cote, pratique de l'autre.
+
   LA COMPOSITION PORTE TOUT, Y COMPRIS LE TEXTE. Elle etait un sommaire : sept
   cases commandaient sept <section> posees dessous. Les sections sont parties,
   le texte est remonte DANS les cases, et la page ne sort plus de sa grille -
@@ -65,20 +74,60 @@ import type { Tuile } from '../components/Tuiles.astro';
 import Bouton from '../components/Bouton.astro';
 
 /*
-  Les trois formes de la sobriete. Le decoupage terme / chute n'est pas force :
-  le document source ecrivait deja ces trois points en deux temps. Elles
-  sortent du corps du principe 03 et deviennent trois tuiles, le dispositif du
-  gabarit pour un terme et sa definition.
+  LES TROIS FORMES DE LA SOBRIETE SONT DES CARRES DE LA COMPOSITION.
+
+  Elles etaient trois tuiles empilees dans le corps du principe 03, sur une
+  colonne, dans une case de 493px : 1512px deplie pour 1019px de composition.
+  Le bloc les avalait au lieu de les montrer.
+
+  Sorties, elles prennent la place que l'accueil donne a ses trois principes
+  autour de la citation « Cultivating practice… » : deux carres au-dessus du
+  bloc de texte, un a sa droite. Le principe 03 peut alors se lire EN DUR.
+
+  ELLES SE RETOURNENT, elles ne se deplient pas, et c'est ce qui les
+  distingue des sept principes qui les entourent. Un principe cache un texte
+  qu'on vient chercher ; un terme et sa chute sont deux faces de la meme
+  chose - c'est le dispositif du gabarit (BRIEF §2.5), et la fleche
+  circulaire le dit la ou les fleches en diagonale diraient « il y a plus a
+  lire ». Deux gestes voisins qui ne se confondent pas.
+
+  LES COULEURS SUIVENT LE VOISINAGE, pas le propos : le carre 01 est rouge
+  juste au-dessus, donc les deux carres qui le touchent ne peuvent pas
+  l'etre. Le jaune et le noir prennent la rangee haute, le rouge celle du
+  dessous, ou il ne touche que du blanc, du gris et le noir de 04.
+*/
+/*
+  UN SEUL TITRE, PAS DE SURTITRE. Le terme et sa chute - « Light » puis « By
+  default. » - etaient le dispositif du gabarit : un repere en monospace en
+  haut, le propos en bas. Dans un carre de 255px, ces deux lignes de graisses
+  et de familles differentes se lisaient comme deux etiquettes posees loin
+  l'une de l'autre, alors que c'est UNE phrase. Elles n'en font plus qu'une,
+  dans la graisse du titre.
+
+  « Fewer components / More coverage. » devient « Simple by architecture. »
+  pour que les trois se tiennent sur la meme construction - by default, by
+  design, by architecture - et surtout au meme NIVEAU : light et quiet sont
+  des qualites, « fewer components » etait un constat, et le seul des trois
+  a tomber sur quatre lignes a 861px quand les autres en tiennent deux.
+  « Simple » est une qualite, et c'est le mot que son propre verso emploie en
+  premier.
+
+  « Sobriety by architecture » aurait ete plus court encore, et c'est
+  justement ce qu'il ne faut pas : la sobriete est ce que les trois font
+  ENSEMBLE, pas une troisieme forme. Sur une tuile, elle se lirait comme le
+  titre du trio et ferait de ses deux voisines des sous-cas - et le mot est
+  deja porte deux fois par la case d'a cote, dans son surtitre et a la fin de
+  sa description. Ce que la chute disait, « the smallest set that meets the
+  widest need », le verso le dit toujours.
 */
 const sobriete: Tuile[] = [
-  { eyebrow: 'Light', couleur: 'rouge', titre: 'By default.',
-    texte: 'Smallest possible package weight, and modular imports - teams pulled only the components they needed, never the whole library, so production sites stayed lean. <strong>A lighter system reaches more people, on more devices, with less energy.</strong>' },
-  { eyebrow: 'Quiet', couleur: 'bleu', titre: 'By design.',
-    texte: 'The system stayed deliberately sober, so brands could express themselves without fighting it. <strong>Restraint as a feature, not a limitation.</strong>' },
-  { eyebrow: 'Fewer components', couleur: 'noir', titre: 'More coverage.',
-    texte: 'Simple, flexible component architectures - the smallest set that meets the widest need, instead of a library that sprawls. Same for patterns: I ran a rationalization pass to keep them coherent across every product and positioned as standards.' },
-];
----
+  { couleur: 'jaune', titre: 'Light by default.', aire: '3 / 1 / 4 / 2',
+    texte: 'Modular imports, minimal weight - teams pulled what they needed, not the whole library. <strong>Lighter reaches further.</strong>' },
+  { couleur: 'noir', titre: 'Quiet by design.', aire: '3 / 2 / 4 / 4',
+    texte: 'Sober by choice, so brands express themselves without fighting it. <strong>Restraint as a feature, not a limitation.</strong>' },
+  { couleur: 'bleu', titre: 'Flexible by architecture.', aire: '4 / 4 / 5 / 5',
+    texte: 'The smallest set that meets the widest need. <strong>Fewer components, more coverage.</strong>' },
+];---
 <Base
   title="Operating System - Léa Giezek"
   description="How my team ships: discovery as a gate, one source of truth, accessibility as the floor, ethics before AI, and distributed ownership holding it together."
@@ -86,17 +135,37 @@ const sobriete: Tuile[] = [
 
   <Hero
     courant="operating-system"
-    eyebrow="Operating System · How my team ships"
+    eyebrow="Operating System · Practice principles"
     filigrane="Ownership"
+    mesure={15.3}
   >
-    Seven principles designed to be handed over, each with a practice behind it.
+    {/*
+      UNE PHRASE PAR <span>, ET PAS UN <br>. Le titre en fait deux, et sans
+      ces balises la coupure tombait au milieu : « I don't want a team that
+      executes. I » en bout de ligne, puis « want a team of owners. » -
+      la seconde phrase commencant sans son sujet. Les spans la posent sur sa
+      propre ligne et se defont tout seuls si la place manque.
+
+      LA MESURE VA AVEC : 15.3 cadratins, relevee au navigateur sur le build.
+      A 14 la premiere phrase passe sur deux lignes ; a 15 elle tient, et les
+      0.3 de degagement sont ceux que le composant demande pour l'arrondi
+      sous-pixel. Mesure faite a 1280, 1024, 900 et 861 : une ligne par
+      phrase partout, et le corps reste a 68px jusqu'a 1120.
+
+      L'ESPACE ENTRE LES DEUX BALISES EST SIGNIFIANT. Ne pas passer a la
+      ligne entre elles sans le garder.
+    */}
+    <span class="hero__phrase">I don't want a team that executes.</span> <span class="hero__phrase">I want a team of owners.</span>
     <Fragment slot="intro">
-      <p><b>I didn't want a team that executes. I wanted a team of owners.</b>
-      Recognized, proactive - experts with a name, a face, not just a pair of
-      hands.</p>
-      <p>Everything below is how I built that, and it runs on one conviction:
-      the technical system and the human system obey the same rule. Design
-      tokens make products autonomous, distributed ownership makes people
+      {/* La phrase d'attaque de l'intro est devenue le titre : elle n'est pas
+          repetee ici, ou elle se serait lue deux fois a trois lignes d'ecart.
+          Ce qui la suivait tient tout seul - c'est la definition de ce que le
+          titre vient d'annoncer, et la conviction enchaine dans le meme
+          paragraphe. */}
+      <p>Recognized, proactive - experts with a name, a face, not just a pair
+      of hands. It runs on one conviction: <b>a system carries what repeats,
+      so people carry what matters</b>. Design tokens keep experiences
+      consistent across touchpoints; distributed ownership makes people
       autonomous.</p>
       <p><b>One variable in common: trust. One prerequisite: top to frontline,
       everyone gets to own their part.</b></p>
@@ -114,13 +183,30 @@ const sobriete: Tuile[] = [
     */}
     <div class="compo compo--principes" id="composition" data-grille>
 
+      {/*
+        LES CASES REPLIABLES POUSSENT, ELLES NE CHEVAUCHENT PAS. Elles ont
+        grandi un temps par-dessus leurs voisines, en quittant le flux :
+        c'etait la seule facon d'offrir le survol sans que la grille bouge,
+        mais une case etroite qui deplie quatre cents mots devient une tour -
+        1589px dans une colonne de 193 - et cette tour passe devant la moitie
+        de la composition. Ce n'est pas ce que fait l'accueil : la, le
+        contenu se deplie DANS une case dimensionnee pour le contenir, et ce
+        qui depasse pousse la grille au lieu de la couvrir.
+
+        Elles restent donc dans le flux. Deplier fait grandir la rangee et
+        descendre ce qui suit - la composition bouge AUTOUR de la case, elle
+        ne disparait pas dessous. Le survol tombe avec : il ferait sauter la
+        page sous le curseur, et c'est la raison que le projet ecrit deja
+        pour les chiffres cles (voir .cles--mondrian dans etude.css).
+      */}
       <Conviction
         id="pr-discovery" rang="01" intitule="Discovery" couleur="rouge"
         titre="Nothing ships without discovery."
-        aire="1 / 1 / 3 / 3" pliante large
+        aire="1 / 1 / 3 / 3" pliante large declaration
       >
-        <p>No component, no line of the roadmap ever shipped on a hunch. Every one started with the same work: what does the product ecosystem actually need, and what already exists that we can build on? <strong>Need first, existing second, decision third.</strong></p>
-        <p>It's how we knew what to build versus what to buy - and it's the discipline I put in place after learning, the hard way, what it costs to build for the brand instead of the people who adopt it. <strong>Discovery isn't a phase. It's the gate.</strong> And it doesn't stop at launch: we kept interviewing, testing our own ways of working, and reprioritizing against what we heard.</p>
+        <p>Nothing ships on a hunch. Every component, every line of roadmap starts with the same work: what does the product ecosystem actually need, and what already exists to build on? <strong>Need first, existing second, decision third.</strong></p>
+        <p>It's the discipline I put in place after learning, the hard way, what it costs to build for the brand instead of the people who adopt it. <strong>Discovery isn't a phase. It's the gate.</strong></p>
+        <p>At Sanofi, it's how we knew what to build versus what to buy - and it didn't stop at launch: we kept interviewing, testing our own ways of working, <strong>reprioritizing against what we heard</strong>.</p>
       </Conviction>
 
       {/* Les deux colonnes fines. Posees apres la premiere case pour que
@@ -128,91 +214,175 @@ const sobriete: Tuile[] = [
       <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 3 / 2 / 4"><span class="compo__plat compo__plat--noir"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"></div>
 
+      {/*
+        LE 02 NE SE REPLIE PAS, PARCE QUE SA CASE N'A RIEN A CACHER. Mesure
+        a 1280 : sa description depliee demande 588px, et sa case en fait
+        588 - elle tenait deja son texte entier, et le clic ne servait qu'a
+        montrer ce qui rentrait de toute facon. C'est la regle de Lea,
+        appliquee a l'endroit comme pour le 03 : si le texte tient dans la
+        case, il se lit sous le titre.
+
+        OUVERT A TOUTE LARGEUR, ET PAS SEULEMENT SUR MOBILE : un bloc ouvert
+        « par essence » ne depend pas de la taille de la fenetre. Le faire
+        basculer au palier donnerait deux pages differentes a lire.
+      */}
       <Conviction
         id="pr-truth" rang="02" intitule="Source of truth" couleur="clair"
-        titre="One source of truth - trusted by humans, verified by machines."
-        aire="1 / 4 / 2 / 7" pliante
+        titre="Trusted by humans, verified by machines."
+        aire="1 / 4 / 4 / 7" declaration
       >
-        <p>One language, not four. <strong>Multi-surface design tokens</strong> carry brand and behavior across web, native and content; <strong>Figma variables</strong> hold the component architecture on the design side; <strong>Storybook</strong> is the engineering source of truth on the code side.</p>
-        <p>And trust doesn't mean unchecked: every pull request runs <strong>automated conformity checks before a double human validation</strong>, and <strong>Chromatic</strong> catches visual regressions before they ship. I ran the team on live signal too - <strong>DORA metrics every sprint</strong>, satisfaction surveys, ritual feedback - read as decisions, not dashboards for show. Automate the repeatable, measure what matters, keep the human judgment where it counts. <strong>That's governance you can't skip and don't have to police.</strong></p>
+        <p>One language, not four. <strong>Multi-surface design tokens</strong> carry brand and behavior across web, native and content; <strong>Figma variables</strong> hold the component architecture on the design side, <strong>Storybook</strong> holds it on the code side.</p>
+        <p>And trust doesn't mean unchecked: <strong>automate the repeatable, measure what matters, keep the human judgment where it counts</strong>. That's governance you can't skip and don't have to police.</p>
+        <p>At Sanofi, every pull request ran <strong>automated conformity checks before a double human validation</strong>, Chromatic caught visual regressions before they shipped, and I read DORA metrics every sprint next to satisfaction surveys - as decisions, not dashboards for show.</p>
       </Conviction>
 
+      {/* ─── Les trois sobrietes, avant le principe qu'elles detaillent ───
+          Elles le suivaient dans le DOM. Au bureau elles sont pourtant
+          AU-DESSUS de lui - rangees 3 et 4 contre 4 et 5 - et sur mobile,
+          ou l'ordre du DOM est l'ordre de la pile, elles tombaient entre
+          deux blocs ouverts de 769 et 817px. Les remonter rapproche donc
+          le DOM de ce qu'on voit au bureau ET coupe le mur de texte sur
+          mobile. Leur aire ne change pas : c'est `grid-area` qui place, le
+          DOM ne fait que l'ordre de lecture. */}
+      {/*
+        UNE SEULE SERIE, TROIS AIRES. Elles etaient trois appels d'une tuile
+        chacun, un par aire - et trois series ne peuvent pas devenir UNE piste
+        a defilement sous le palier. Elles n'en font plus qu'une : au bureau
+        elle s'efface (`display:contents`) et ses trois tuiles se posent
+        chacune a son aire ; sous 861px, ou la composition s'empile, elle
+        redevient une boite et defile.
+      */}
+      <Tuiles tuiles={sobriete} colonnes={1} hauteur={0} label="The three forms of sobriety" />
+
+      {/*
+        LE PRINCIPE 03 NE SE REPLIE PAS. Les six autres cachent leur
+        description derriere un clic parce qu'elle ne tient pas dans leur
+        case ; celle-ci a recu la case qu'il faut - trois rangees de haut, a
+        cote des trois sobrietes - et une description qu'on peut lire sans
+        rien demander vaut mieux qu'une description qu'il faut ouvrir. C'est
+        la regle de Lea, appliquee a l'endroit : si le texte tient dans la
+        case, il se lit sous le titre.
+      */}
       <Conviction
-        id="pr-inclusion" rang="03" intitule="Inclusion" couleur="jaune"
+        id="pr-inclusion" rang="03" intitule="Inclusion and sobriety" couleur="clair"
         titre="Accessibility is the floor. Responsibility is the reach."
-        aire="2 / 4 / 4 / 6" pliante
+        aire="4 / 1 / 6 / 4" declaration
       >
-        <p><strong>WCAG AA</strong> wasn't our bar - I positioned it as the Sanofi digital standard, the minimum for every product, not just the library. We audited the full library to <strong>100% compliance before our first major</strong>, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - so no product team paid the accessibility cost downstream.</p>
-        <p>But inclusion doesn't stop at who can <em>use</em> the product. A system touching 45+ products has a footprint - societal and environmental - and it isn't small. So responsibility was designed in, not bolted on, and it looked like <strong>sobriety</strong> at every level.</p>
-        <p class="qt">Accessibility protects the user. Responsibility protects everything around them. <strong>Same driver - inclusion - different reach.</strong></p>
-        <p class="eb">Sobriety, at every level</p>
-        <Tuiles tuiles={sobriete} colonnes={1} label="The three forms of sobriety" hauteur={280} />
+        <p><strong>WCAG AA is a floor, not a bar to clear</strong>: the minimum for every product, not just the design system. Accessibility protects the user. Responsibility protects everything around them. <strong>Same driver - inclusion - different reach.</strong></p>
+        <p>For example at Sanofi, I positioned it as the digital standard, we audited the full library to <strong>100% compliance before our first major</strong>, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - <strong>so no product team paid the accessibility cost downstream</strong>.</p>
+        <p>Inclusion doesn't stop at who can <em>use</em> the product. A system touching dozens of products has a footprint - societal and environmental - and it isn't small. <strong>Responsibility gets designed in, not bolted on</strong>, and it looks like sobriety at every level.</p>
       </Conviction>
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 6 / 3 / 7"><span class="compo__plat compo__plat--gris"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 6 / 4 / 7"><span class="compo__plat compo__plat--rouge"></span></div>
-
       <Conviction
-        id="pr-ethics" rang="04" intitule="Ethics" couleur="bleu"
+        id="pr-ethics" rang="04" intitule="Ethics" couleur="noir"
         titre="AI should earn trust, not exploit it."
-        aire="3 / 1 / 4 / 3" pliante
+        aire="5 / 4 / 6 / 7" pliante
       >
-        <p>When AI entered the digital roadmap, most teams asked what it could <em>do</em>. I asked what it should <em>never</em> do - and put that on the table first.</p>
-        <p>Before shipping AI-assisted features, I've asked the team to investigate, test prior to rolling anything at scale - to keep consistency, value and on-brand positioning across every product. AI wasn't just a new technology to embrace, but more a tool to add to our stack with responsible usage. And so got the community of practice sensitized too.</p>
-        <p>An AI that nudges, manipulates, anchors on dark patterns or manufactures urgency isn't a feature, it's a breach of trust - and in healthcare, that trust isn't abstract. <strong>It starts with an employee and it finishes with a patient.</strong></p>
-        <p>Not everyone shares this as a priority. I do. A system that shapes how people interact with their health has no business optimizing for engagement over honesty. Coherent and on-brand is the baseline. <strong>Ethical is the standard.</strong></p>
+        <p>When AI enters a roadmap, most teams ask what it can <em>do</em>. I ask what it should <em>never</em> do, and I put that on the table first: investigate, test before rolling anything at scale, and <strong>treat it as a tool added to the stack with responsible usage</strong> - not a technology to embrace because it exists.</p>
+        <p>An AI that nudges, manipulates, anchors on dark patterns or manufactures urgency isn't a feature, it's a breach of trust - and in healthcare that trust isn't abstract. It starts with an employee and it finishes with a patient.</p>
+        <p>Not everyone shares this as a priority. I do. Coherent and on-brand is the baseline. <strong>Ethical is the standard.</strong></p>
       </Conviction>
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--gris"></span></div>
+      {/* Ce qui reste de la rangee du carre rouge : un aplat, parce qu'une
+          rangee ne peut pas se terminer sur du vide sans cesser d'etre un
+          Mondrian. Gris et non primaire - les trois carres sont
+          l'evenement coloré de cette bande, un quatrieme aplat vif leur
+          disputerait l'oeil. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 5 / 5 / 7"><span class="compo__plat compo__plat--gris"></span></div>
+
+      {/*
+        LES TROIS DERNIERS PARTAGENT UNE CASE, ET SE LA DISPUTENT.
+
+        Ils etaient trois cases de la grille, un carre chacun. Au repos
+        c'etait juste ; ouvert, ca ne l'etait plus : une colonne de 255px
+        moins 48 de marge laisse 207px de texte, et quatre cents mots dans
+        207px font une tour qu'on ne lit pas.
+
+        Ils sont donc UNE case, partagee en trois. Celle qu'on survole prend
+        toute la largeur - 656px de texte au lieu de 207 - et les deux autres
+        se reduisent a une bande de couleur. C'est exactement le duo de
+        l'accueil, ou la carte ouverte prend `calc(100% - 28px)` et sa voisine
+        devient un bandeau vertical ; ici elles sont trois.
+
+        EN FLEX ET NON EN ABSOLU, c'est la seule difference avec le duo. Les
+        cartes de l'accueil sont posees dans une cellule de hauteur fixe ;
+        ici la case doit pouvoir grandir quand le texte deplie depasse le
+        carre - le 07 en a pour 400px a pleine largeur. En absolu elles ne
+        compteraient plus dans la hauteur de la rangee, et ce qui depasse
+        serait rogne.
+      */}
+      <div class="trio" style="grid-area:6 / 1 / 7 / 5">
 
       <Conviction
-        id="pr-releases" rang="05" intitule="Releases" couleur="clair"
+        id="pr-releases" rang="05" intitule="Releases" couleur="bleu"
         titre="We break nothing without a bridge."
-        aire="4 / 1 / 5 / 4" pliante
+        pliante
       >
-        <p>With that many products depending on us, a careless breaking change is a tax paid 45 times over. So: <strong>one major release a year, maximum</strong> - protected, deliberate - and a steady cadence of improvements and fixes, roughly <strong>one release per two-week sprint</strong>.</p>
-        <p>When a breaking change was unavoidable, we shipped a <strong>patch path</strong> alongside it and left product teams a real buffer to upgrade on their own schedule. The documentation was industrialized to match - at the component and the library level - structured to keep side effects from ever surprising a consumer.</p>
+        <p>A careless breaking change is a tax paid once per consumer, so the cadence is deliberate: <strong>one major release a year, maximum</strong>, with a steady run of improvements and fixes in between. And when one is unavoidable, it ships with a <strong>patch path</strong> and a real buffer for teams to upgrade on their own schedule.</p>
+        <p>At Sanofi, forty-five products depended on the library - that tax, paid forty-five times. <strong>A bridge, every time.</strong></p>
       </Conviction>
 
       <Conviction
         id="pr-support" rang="06" intitule="Support" couleur="rouge"
         titre="Support on their terms, not mine."
-        aire="4 / 4 / 5 / 7" pliante
+        pliante
       >
-        <p>The system serves the people building on it, so support flexed to them, not the other way around. <strong>Office hours</strong> for whoever wanted synchronous help; <strong>asynchronous support</strong> for whoever needed to move on their own clock - product teams kept full control over the urgency of their own problems.</p>
-        <p>And communication was built to outgrow me. I kept it proactive and regular, but the point was always for the community to take the mic: <strong>members carrying the messages, answering each other directly</strong>, becoming the channel instead of routing everything through me.</p>
+        <p>The system serves the people building on it, so <strong>support flexes to them, not the other way around</strong>: office hours for whoever wants synchronous help, asynchronous support for whoever needs their own clock - teams keep control over the urgency of their own problems.</p>
+        <p>And communication is built to outgrow me: <strong>the community takes the mic</strong>, not me.</p>
+        <p>At Sanofi, members carried the messages and answered each other directly, becoming the channel instead of routing everything through me.</p>
       </Conviction>
 
-      {/* Le septieme occupe toute sa rangee : les six premiers disent comment
-          le systeme tient, celui-ci comment l'equipe tient - et c'est la que
-          la page va. */}
       <Conviction
-        id="pr-owners" rang="07" intitule="Ownership" couleur="bleu"
+        id="pr-owners" rang="07" intitule="Ownership" couleur="jaune"
         titre="A team of owners, not a team of hands."
-        aire="5 / 1 / 6 / 7" pliante
+        pliante
       >
-        <p>Inside the team, ownership was structural, not a pep talk. The <strong>support lead rotated every sprint</strong> - a model we didn't guess at but iterated into, reading the support and satisfaction data until the rotation was what the signal asked for - so responsibility, and recognition as the identified point of contact, moved around and no one got stuck in execution. Roles rotated. <strong>Sprint planning was collective</strong>, <strong>retros ran every sprint</strong>, and I sat in on the <strong>dailies</strong> as often as I could - mostly to absorb the hot updates coming down, so the team could stay in the work instead of the noise.</p>
-        <p>All of it lived on <strong>Confluence</strong>, documented like a team mantra - so a new joiner became an owner fast, and the rest of Sanofi could see exactly how we worked. <strong>Transparency wasn't a value on a wall. It was the onboarding.</strong></p>
-        <p>And growth didn't run top-down. It ran through the community: people levelled up by contributing, teaching, carrying the message - and I grew as much through them. <strong>Reverse mentoring by practice</strong> isn't a nice idea to me, it's how a system stays honest: the day you think you're the one who knows, you've stopped listening. <em>I lead, and I stay a student.</em></p>
+        <p><strong>Ownership is structural, not a pep talk.</strong> Roles rotate, planning is collective, retros run every sprint - so recognition moves around and <strong>no one gets stuck in execution</strong>.</p>
+        <p>At Sanofi, the support lead changed every sprint - a model we iterated into by reading the support data until the rotation was what the signal asked for. All of it documented, so a new joiner became an owner fast: <strong>transparency isn't a value on a wall, it's the onboarding</strong>.</p>
+        <p>And growth runs through the community, not top-down - <strong>reverse mentoring by practice</strong>, where I grow as much through them as they do through me. <em>I lead, and I stay a student.</em></p>
       </Conviction>
+      </div>
+
+      {/* La case qui ferme la rangee du trio est vide : le blanc est une
+          couleur de la composition, et les trois cartes a cote d'elle en
+          portent deja trois. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:6 / 5 / 7 / 7"></div>
+
 
       {/*
         LA CLOTURE, case blanche de la grille. Meme forme que sur Philosophy et
         que la citation de la landing : la phrase part du haut, le bouton
         descend en bas. Elle n'a pas de rang - c'est la sortie.
       */}
-      <section class="conv conv--clair cloture" aria-labelledby="cloture-titre" style="grid-area:6 / 1 / 7 / 5">
+      <section class="conv conv--clair cloture" aria-labelledby="cloture-titre" style="grid-area:7 / 4 / 8 / 7">
         <span class="conv__plat" aria-hidden="true"></span>
         <div class="conv__txt cloture__dedans">
-          <h2 id="cloture-titre">That's not the soft version of leadership. <em class="em-bleu">It's the operating system.</em></h2>
-          <p class="cloture__corps">Seven principles, each with a practice behind it - and each one designed to keep working the day I stop running it. That's the whole test.</p>
-          <Bouton variante="bleu" href="/philosophy">The convictions underneath →</Bouton>
+          <h2 id="cloture-titre">That's not the soft version of leadership. <em class="em-bleu">It's&nbsp;systemic operations with care.</em></h2>
+          {/*
+            LE PONT VERS PHILOSOPHY, ET PAS UN RENVOI POLI. Cette page porte
+            le COMMENT - sept principes, chacun avec sa pratique. Philosophy
+            porte ce qui les choisit, et son surtitre le dit deja : « What I
+            hold ». Le paragraphe nomme les deux moities pour que le bouton
+            n'arrive pas de nulle part.
+
+            LE PARAGRAPHE PLANTE LE MOT DU BOUTON. Il disait « what picks
+            them » - juste, mais le bouton tombait de cote : rien dans le
+            bloc ne preparait « mindset ». Le titre, lui, parle deja de
+            leadership (« That's not the soft version of leadership »), donc
+            la chaine se tient des que le paragraphe nomme le mindset :
+            revendication, moitie manquante, porte.
+          */}
+          <p class="cloture__corps">Seven principles, each with a practice behind it - and each one designed to keep working the day I stop running it. That's the how. The mindset that picks them is the other half: what I hold about craft, trust, and the people a system is for.</p>
+          <Bouton variante="bleu" href="/philosophy">Leadership mindset →</Bouton>
         </div>
       </section>
 
-      {/* Le carre jaune qui ferme la composition : la derniere rangee ne peut
-          pas etre une bande de texte seule, ou elle cesse d'etre un Mondrian. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:6 / 5 / 7 / 7"><span class="compo__plat compo__plat--jaune"></span></div>
+      {/* LA DERNIERE RANGEE EST INVERSEE : la cloture a droite, la case vide
+          a gauche. Elle ferme la composition sur un blanc plutot que sur un
+          aplat - une rangee ne peut pas etre une bande de texte seule, mais
+          ce qu'il lui faut c'est une CASE, et le blanc en est une. Son bord
+          gauche tombe sur celui du 07, au-dessus. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:7 / 1 / 8 / 4"></div>
 
     </div>
 
@@ -250,10 +420,47 @@ const sobriete: Tuile[] = [
     sur une colonne sous 860px, et cette declaration vit plus loin dans le
     bundle - a specificite egale elle gagnerait, media query comprise.
   */
+  /*
+    ═══ TROIS CASES CARREES, ET ELLES LE RESTENT A TOUTE LARGEUR ═══
+
+    Les trois sobrietes sont des carres : deux au-dessus du principe 03, un a
+    sa droite. Un carre dans une grille en `fr` ne se declare pas - la largeur
+    d'une colonne suit la fenetre, la hauteur d'une rangee ne la suit pas - et
+    une hauteur en pixels ne serait juste qu'a une seule largeur : a 861, la
+    colonne 1 tombe a 193px et une rangee figee a 256 en ferait un portrait.
+
+    La rangee se calcule donc sur la MEME base que la colonne. `--compo-utile`
+    est la largeur que les six colonnes se partagent : la composition moins
+    ses cinq filets. La rangee des deux carres du haut vaut .24 de cette base,
+    comme la colonne 1 (24fr) et comme les colonnes 2+3 reunies (18 + 6, plus
+    le filet qui les separe). Celle du carre de droite vaut .22, comme la
+    colonne 4. Les trois cases sont carrees a la fraction de pixel pres, de
+    861px a la largeur maximale du site.
+
+    `aspect-ratio` sur les cases aurait ete plus direct, et ne tenait pas :
+    le bloc 03 traverse la rangee du carre rouge, et un element qui traverse
+    une rangee `auto` y repousse sa part de hauteur - le carre aurait grandi
+    avec le texte d'a cote.
+  */
+  /*
+    LA RANGEE DE 05 ET 06 VAUT LA MOITIE DE LA LARGEUR UTILE, et c'est la
+    meme mecanique que les carres : une hauteur calculee sur la base des
+    colonnes, pas posee en pixels. Les deux cases y font 514x532 et 557x532 a
+    la largeur maximale - deux grands carres a quelques pixels pres, les
+    colonnes 1-3 valant 48fr et les colonnes 4-6 52.
+
+    CETTE TAILLE EST CE QUI LEUR PERMET DE S'OUVRIR SANS RIEN POUSSER :
+    mesure a 1280, Releases deplie demande 532px pour une case de 532, et
+    Support 532 pour 532. A 1024 Support ne pousse toujours rien et Releases
+    24px ; a 861, ou les colonnes se resserrent, elles poussent 201 et 153 -
+    la rangee grandit, ce qui suit descend, et rien n'est recouvert.
+  */
   @media(min-width:861px){
-    .compo--principes{grid-template-columns:24fr 18fr 6fr 22fr 24fr 6fr;
+    .compo--principes{--compo-utile:calc(min(var(--shell-w),100vw) - 2 * var(--gutter) - 5 * var(--rule-fine));
+      grid-template-columns:24fr 18fr 6fr 24fr 22fr 6fr;
       grid-template-rows:minmax(190px,auto) minmax(140px,auto)
-        minmax(170px,auto) minmax(190px,auto) minmax(170px,auto)
+        calc(var(--compo-utile) * .24) calc(var(--compo-utile) * .24)
+        minmax(190px,auto) minmax(calc(var(--compo-utile) * .24),auto)
         minmax(260px,auto)}
   }
 
@@ -268,21 +475,205 @@ const sobriete: Tuile[] = [
   .cloture__dedans{display:flex;flex-direction:column;justify-content:flex-start;
     gap:24px;padding:var(--pad-square)}
   .cloture__dedans .sb{margin-top:auto;align-self:flex-start}
-  .cloture h2{margin:0;font-family:var(--display);font-size:var(--fs-section);
-    font-weight:900;line-height:1.1;letter-spacing:-.015em}
+  /*
+    LA MESURE DU TITRE EST CHOISIE POUR L'ENDROIT OU IL SE COUPE. A pleine
+    case - 675px a 1280 - la premiere phrase tenait sur une ligne et laissait
+    « It's » monter avec elle : un fragment bleu de 38px seul en bout de
+    ligne, et la phrase a laquelle il appartient commencant dessous sans lui.
+    Mesure des coupes : a 32ch la ligne ne prend plus que la premiere phrase,
+    et la seconde part du bord gauche, entiere. En dessous de 30ch le titre
+    passe a trois lignes et la coupure retombe au milieu d'une phrase.
+
+    C'est une mesure, pas une largeur : des que la case est plus etroite que
+    32ch, la regle ne mord plus et le titre reprend la largeur de sa case.
+
+    LES DEUX PHRASES SE SUIVENT, elles ne se superposent pas. La seconde a
+    pris un temps sa propre ligne, pour qu'aucune coupure ne laisse « It's »
+    seul en bout de ligne. Mais les separer en faisait deux declarations
+    posees l'une sur l'autre, la ou la cloture veut un bloc : elles coulent
+    donc a la suite, et c'est la couleur qui fait le partage.
+
+    L'ORPHELIN EST TENU PAR UNE ESPACE INSECABLE, et non plus par un saut de
+    ligne : « It's&nbsp;systemic » ne se coupe pas, donc les deux mots
+    passent ensemble a la ligne suivante au lieu de laisser « It's » - 38px -
+    tout seul en bout de ligne. Mesure a 390px, ou le titre tient sur six
+    lignes : c'est la seule largeur ou le cas se presentait encore.
+
+    PHILOSOPHY NE FAIT PAS PAREIL, ET C'EST UN CHOIX, PAS UN OUBLI. Sa
+    cloture pose `display:block` sur l'em : ses deux phrases prennent chacune
+    une ligne. La solution est plus sure - aucun nombre a tenir a jour, elle
+    survit a un changement de texte -, mais elle produit exactement ce que le
+    paragraphe ci-dessus a ecarte ici : deux declarations posees l'une sur
+    l'autre. La ou Philosophy veut une denegation PUIS une assertion, cette
+    page-ci veut un seul bloc que la couleur partage. Le jour ou l'une des
+    deux doit ceder, c'est une decision de redaction, pas de CSS.
+  */
+  .cloture h2{margin:0;max-width:32ch;font-family:var(--display);
+    font-size:var(--fs-section);font-weight:900;line-height:1.1;
+    letter-spacing:-.015em}
   .cloture__corps{margin:0;font-size:var(--fs-body-s);line-height:1.7;
     color:var(--text-body);max-width:46ch}
 
   /*
     ─── Ce que le principe 03 emporte avec lui ───
-    La citation et le surtitre de la sobriete etaient styles sous `.pan`. Les
-    panneaux partis, ils vivent dans une case : les deux regles suivent, sans
-    changer de valeurs. Le filet de la citation passe au noir - sur l'aplat
-    jaune, le bleu de marque tombe a 4,67:1 contre 12,2 pour l'encre, et un
-    filet decoratif se juge sur le meme pied qu'un indicateur.
+    LA CITATION N'EN EST PLUS UNE. Elle etait stylee sous `.pan` - italique,
+    filet a gauche, le dispositif d'un aparte dans un long panneau de texte -
+    et elle a suivi les mots quand ils sont remontes dans une case. Mais dans
+    une case qui se lit en entier, trois lignes italiques derriere un filet
+    font une interruption ; c'est la derniere phrase du principe, pas une
+    note de bas de page. Elle est donc un paragraphe comme les deux autres,
+    et son gras suffit a la poser. La regle est retiree plutot que reecrite :
+    il n'y a plus rien a declarer pour elle.
   */
-  .conv__detail .qt{margin:0;padding-left:20px;border-left:3px solid var(--text);
-    font-size:var(--fs-body-s);line-height:1.65;font-style:italic}
+
+  /*
+    ═══ LE TRIO : UNE CASE, TROIS CARTES QUI SE LA PARTAGENT ═══
+
+    AU REPOS, trois parts egales - 252px de cote pour une rangee de 255, donc
+    trois carres a trois pixels pres. Le `gap` montre le fond de la case, qui
+    est l'encre : ce sont les deux filets du Mondrian entre les trois.
+
+    OUVERTE, LA CARTE PREND LA LARGEUR ET LES AUTRES DEVIENNENT DES BANDES.
+    C'est le duo de l'accueil, a trois : la carte active passe a toute la
+    largeur moins deux bandeaux de 28px, les deux autres s'y reduisent, et
+    leur contenu s'efface - une bande de 28px n'a pas de quoi porter un
+    titre. Le texte deplie passe de 207px de colonne a 656 : c'est la seule
+    chose qui rendait ces cases illisibles ouvertes.
+
+    `:has` DIT L'ETAT, ET UNE SEULE PAIRE DE REGLES SUFFIT : « si une carte
+    est ouverte, toutes deviennent des bandes, sauf celle qui l'est ». Pas de
+    nth-child, donc rien a renumeroter si l'ordre change.
+
+    EN FLEX ET NON EN ABSOLU : les cartes de l'accueil vivent dans une
+    cellule de hauteur fixe, celles-ci doivent pouvoir faire grandir leur
+    rangee quand le texte depasse le carre. En absolu elles ne compteraient
+    plus dans la hauteur, et ce qui depasse serait rogne.
+
+    ET LE PARTAGE NE S'ANIME PAS. Il l'a fait : `flex-basis` glissait sur une
+    demi-seconde, et le texte attendait la fin pour se montrer. Deux defauts
+    au lieu d'un. Le premier est de sensation - une demi-seconde avant de
+    voir quoi que ce soit, la ou les six autres cases de la page repondent
+    tout de suite. Le second est mecanique : `flex-basis` est une propriete
+    de mise en page, donc chaque image recalculait les trois cartes, la
+    rangee, et tout ce que la rangee pousse. Le duo de l'accueil peut se
+    l'offrir parce que ses cartes sont en absolu dans une cellule de hauteur
+    fixe - elles ne font bouger personne.
+
+    Les trois se comportent donc comme les six autres : la case prend sa
+    taille d'un coup, et c'est le TEXTE qui porte le mouvement, avec le meme
+    `deplie` que partout ailleurs. Le jeu de bandes colorees reste - c'est
+    une mise en page, pas une animation.
+  */
+  /*
+    SOUS LE PALIER, DEUX CARRES PAR RANGEE ET UN BLANC QUI TOURNE. Le trio
+    passait en `display:contents` et ses trois cartes s'empilaient avec les
+    autres cases : trois aplats pleine largeur de plus dans une colonne qui
+    en compte deja huit, et la composition devenait un empilement de pavés
+    de couleur. L'accueil ne fait pas ca - il garde des carres et des blancs
+    qui se deplacent d'une rangee a l'autre.
+
+    Le trio reste donc une case, partagee en quatre : 05 et 06 en carres
+    cote a cote - `aspect-ratio` plutot qu'une hauteur, puisque la largeur
+    est celle d'une demi-colonne -, 07 aux deux tiers dessous, et un blanc
+    au tiers restant, a sa gauche.
+
+    LE BLANC VAUT UNE MARGE, PAS UN TIERS. Le trait qui le separe du 07
+    tombe exactement la ou commence le titre de la cloture, juste en dessous
+    - meme valeur, `--pad-square`, donc les deux bougeront toujours
+    ensemble. A un tiers, il s'arretait a 120px pour un titre qui commence a
+    48 : deux alignements a trois pixels l'un de l'autre, ce qui se voit
+    plus qu'un seul franc.
+
+    TROIS PISTES POUR DEUX PARTAGES, ET ELLES SE CALCULENT. Une grille doit
+    donner ici des MOITIES a la rangee du haut et une marge + le reste a
+    celle du bas. Trois pistes suffisent : la marge, puis ce qui manque a la
+    marge pour faire une moitie, puis l'autre moitie. Le 05 prend les deux
+    premieres, le 06 la troisieme, le blanc la premiere et le 07 les deux
+    dernieres. Le blanc est un `::after` : il ne dit rien, il occupe.
+
+    ET DES QU'UNE CARTE EST OUVERTE, LE TRIO PASSE SUR UNE COLONNE. Au tap,
+    la carte s'ouvrait dans sa demi-colonne : 178px de large moins 48 de
+    marge, 130px de texte - moins que ce qu'on reprochait aux colonnes du
+    bureau. La passer seule sur deux colonnes reglait la lecture mais
+    laissait une cellule vide a cote de sa voisine, un trou noir au milieu
+    du groupe. C'est donc toute la grille qui se defait : trois bandes
+    pleine largeur, dont celle qu'on lit. Les voisines ne se reduisent pas
+    en bandeau de 28px pour autant - au doigt il n'y a pas de survol, et un
+    bandeau de 28px ne se re-touche pas facilement.
+  */
+  .compo .trio{display:grid;gap:var(--rule-fine);background:var(--text);
+    grid-template-columns:var(--pad-square)
+      calc((100% - var(--rule-fine)) / 2 - var(--rule-fine) - var(--pad-square))
+      calc((100% - var(--rule-fine)) / 2)}
+  .compo .trio > .conv:nth-child(1){grid-area:1 / 1 / 2 / 3;aspect-ratio:1}
+  .compo .trio > .conv:nth-child(2){grid-area:1 / 3 / 2 / 4;aspect-ratio:1}
+  .compo .trio > .conv:nth-child(3){grid-area:2 / 2 / 3 / 4}
+  .compo .trio::after{content:"";grid-area:2 / 1 / 3 / 2;background:var(--white)}
+  /* Ouverte, la carte a besoin de toute la largeur : la grille se defait
+     plutot que de laisser une cellule vide a cote d'elle. */
+  .compo .trio:has(.conv__tete[aria-expanded="true"]){grid-template-columns:1fr}
+  .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv{grid-area:auto;aspect-ratio:auto}
+  .compo .trio:has(.conv__tete[aria-expanded="true"])::after{display:none}
+
+  @media(min-width:861px){
+    .compo .trio{display:flex;gap:var(--rule-fine);background:var(--text)}
+    .compo .trio > .conv{flex:0 0 calc((100% - 2 * var(--rule-fine)) / 3);
+      min-width:0;aspect-ratio:auto}
+    .compo .trio > .conv{grid-area:auto;aspect-ratio:auto}
+    .compo .trio::after{display:none}
+
+    .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv{flex-basis:28px}
+    .compo .trio:has(.conv__tete[aria-expanded="true"]) > .conv:has(.conv__tete[aria-expanded="true"]){
+      flex-basis:calc(100% - 2 * (28px + var(--rule-fine)))}
+    .trio:has(.conv__tete[aria-expanded="true"]) > .conv:not(:has(.conv__tete[aria-expanded="true"])) .conv__tete{opacity:0}
+  }
+  /* Le survol demande une souris et pas seulement une largeur - meme garde
+     que partout ailleurs sur cette page. */
+  @media(min-width:861px) and (hover:hover){
+    .compo .trio:has(> .conv:hover) > .conv{flex-basis:28px}
+    .compo .trio:has(> .conv:hover) > .conv:hover{flex-basis:calc(100% - 2 * (28px + var(--rule-fine)))}
+    .trio:has(> .conv:hover) > .conv:not(:hover) .conv__tete{opacity:0}
+  }
+
+  /*
+    LES TROIS CARRES DE LA DERNIERE RANGEE SONT DES CASES ETROITES, et c'est
+    le meme reglage que les chiffres cles : 24px de marge et non 48, le titre
+    au corps des tuiles et non d'un cran et demi. A 861px un carre de 24fr
+    fait 193 ; a 48 de marge il ne resterait que 97px de colonne, et « A team
+    of owners, not a team of hands. » au grand corps y demanderait plus de
+    hauteur que la case n'en a.
+  */
+  :is(#pr-releases,#pr-support,#pr-owners).conv__tete{padding:24px}
+  :is(#pr-releases-txt,#pr-support-txt,#pr-owners-txt){padding:0 24px 24px}
+  :is(#pr-releases,#pr-support,#pr-owners) .conv__titre{font-size:var(--fs-tile);
+    line-height:1.12;letter-spacing:-.01em}
+
+  /*
+    ─── LES CASES QUI SE LISENT EN DUR PORTENT UN ENONCE ───
+
+    Les cinq cases repliables ont des titres de case repliee : seuls dans
+    leur aplat, ils portent deja l'emphase que leur donne Conviction. Le 02
+    et le 03 sont les deux qui ouvrent un texte lu en entier sous eux, et au
+    corps des tuiles - 17px - leur titre devenait une etiquette posee
+    au-dessus de son propre paragraphe.
+
+    Ils prennent donc le traitement de la case « Cultivating practice… » de
+    la landing, qui fait exactement ce travail : une phrase en corps de
+    section, Maven en 900, interligne serre, et le texte descriptif dessous.
+    Le 02 a rejoint le 03 le jour ou il a cesse de se replier - meme role,
+    donc meme echelle.
+
+    LE 01 A REJOINT LE GROUPE A SON TOUR. Il restait a l'echelle des cases
+    repliables (`--fs-tile` x 1.95, soit 33,15px) alors qu'il annonce la meme
+    chose que les deux autres : une phrase, une position. A cote d'eux il ne
+    se lisait pas comme plus important, juste comme pas du meme jeu. Au
+    passage son titre tient en deux lignes au lieu de trois sur telephone.
+
+    LA REPARTITION DES LIGNES N'EST PAS ICI : `text-wrap:balance` est pose
+    une fois pour toutes sur `.conv__titre` dans Conviction.astro, ou il
+    repare aussi les cases etroites du trio et les affiches de Philosophy.
+    C'est lui qui a supprime le « floor. » seul sur 68px au milieu du 03.
+  */
   .conv__detail .eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
     letter-spacing:.2em;text-transform:uppercase}
 </style>

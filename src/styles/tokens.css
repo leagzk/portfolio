@@ -80,7 +80,15 @@
      basculement, pas une interpolation. */
   --fs-eyebrow:11px;
   --fs-h1:68px;
-  --fs-h1-mob:44px;
+  /*
+    UNE SEULE VALEUR DE H1 SUR TELEPHONE. Les pages interieures tenaient a
+    44px quand l'accueil descendait a 36 : un titre de cinq lignes y prenait
+    27% de la hauteur d'ecran avant qu'on ait lu un mot. A 36px le meme titre
+    tient en quatre lignes et 18% - la part exacte de l'accueil, qui n'a
+    jamais pose probleme. L'accueil n'est donc plus une exception, c'est la
+    regle.
+  */
+  --fs-h1-mob:36px;
   --fs-section:30px;        /* titres de section, Operating System, citation */
   --fs-lead:34px;           /* phrase forte des sections Language */
   --fs-tile:17px;           /* titres des carres - identique sur les trois */
