@@ -115,7 +115,7 @@ This is the layer no contributor can claim. **Not the components - the condition
 
 Vision & strategy
 
-It stopped being one product *the day it had to serve all of them.*
+It stopped being one product *the day it had to serve forty-five.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities** - and the tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
