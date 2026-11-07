@@ -333,6 +333,8 @@
 */
 .clef-def{position:relative;display:flex;flex-direction:column;gap:20px;
   padding:32px 32px calc(84px + 32px)}
+.clef-def__prix{margin:0;font-size:var(--fs-caption);line-height:1.5;
+  color:var(--ink-muted)}
 .clef-def__filet{position:absolute;left:0;right:0;bottom:84px;
   height:var(--rule-fine);background:var(--text)}
 .clef-def__bande{position:absolute;left:0;right:0;bottom:0;height:84px;

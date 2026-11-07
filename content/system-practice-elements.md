@@ -16,13 +16,13 @@ I first built Elements to cut time-to-launch and remove the friction
 between design and engineering. Then I scaled it to raise brand
 experience and make design excellence consistent - moving from a design
 system managed as a product to an experience design platform. One pipeline where brand,
-design and engineering pour into the same chain. **Design Lead in 2022, Director today: a €1M platform across Sanofi's digital estate, from employee to patient.** Recognized as
-Governance finalist at the Design System Awards 2025, alongside HP and
-Tesco.
+design and engineering pour into the same chain. **Design Lead in 2022, Director today: a €1M platform across Sanofi's digital estate, from employee to patient.**
 
 The system
 
 Elements is Sanofi's unified experience system - **one design language** serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
+
+Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.
 
 100%
 

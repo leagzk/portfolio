@@ -196,31 +196,13 @@ const mecanismes: Tuile[] = [
     mesure={12.3}
   >
     At global scale, a system isn't managed. It's governed.
-    {/*
-      LA PREUVE EXTERNE EST DANS LA DESCRIPTION, PAS SOUS ELLE. Le prix a
-      d'abord ete pose en ligne de credit sous l'intro, en capitales
-      espacees : un SECOND surtitre dans un hero qui en a deja un, donc une
-      hierarchie qui begaye. Il rentre dans le paragraphe.
-
-      ET IL N'EST PAS EN GRAS. Le gras tient ce qu'on a confie a Lea - role,
-      budget, perimetre ; le prix est d'un autre ordre, c'est ce qu'un TIERS
-      a valide. Dit a voix normale apres une phrase appuyee, il se lit comme
-      un fait acquis plutot que comme un argument qu'on pousse.
-
-      L'ARGUMENT, LUI, RESTE AU CHAPITRE 04, qui ne cite pas le prix mais dit
-      que ce qui compte est la CATEGORIE - gouvernance et non artisanat. Un
-      titre en haut est un justificatif, la meme phrase en bas est une
-      conclusion : les deux ne se volent rien.
-    */}
     <Fragment slot="intro">
       I first built Elements to cut time-to-launch and remove the friction
       between design and engineering. Then I scaled it to raise brand
       experience and make design excellence consistent - moving from a design
       system managed as a product to an experience design platform. One pipeline where brand,
       design and engineering pour into the same chain. <b>Design Lead in 2022, Director today: a €1M platform across
-      Sanofi's digital estate, from employee to patient.</b> Recognized as
-      Governance finalist at the Design System Awards 2025, alongside HP and
-      Tesco.
+      Sanofi's digital estate, from employee to patient.</b>
     </Fragment>
   </Hero>
 
@@ -277,6 +259,24 @@ const mecanismes: Tuile[] = [
       <Fragment slot="definition">
         <p class="clef-def__eb">The system</p>
         <p class="clef-def__phrase">Elements is Sanofi&apos;s unified experience system - <strong>one design language</strong> serving digital products and delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.</p>
+        {/*
+          LA PREUVE EXTERNE TIENT AVEC LA DEFINITION, PAS AVEC L'INTRO. Le
+          prix a vecu deux etats avant celui-ci : une ligne de credit en
+          capitales sous l'intro - un second surtitre dans un hero qui en a
+          deja un -, puis une phrase dans la description, ou il coutait 2,5
+          lignes de telephone a un hero qui en prenait deja 56% de l'ecran.
+
+          Sa place est ici pour une raison de fond, pas seulement de hauteur :
+          cette case est collee aux chiffres, c'est-a-dire a l'endroit ou la
+          page prouve. Et depuis que la definition se lit AVANT eux sur
+          telephone, le prix arrive tout aussi tot qu'avant.
+
+          EN CORPS DE LEGENDE ET SANS CAPITALES : la case a deja son surtitre,
+          une seconde ligne en capitales y referait le begaiement qu'on vient
+          d'enlever du hero. L'argument, lui, reste au chapitre 04, qui ne
+          cite pas le prix mais dit que ce qui compte est la CATEGORIE.
+        */}
+        <p class="clef-def__prix">Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.</p>
       </Fragment>
     </ChiffresCles>
 
