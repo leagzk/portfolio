@@ -27,7 +27,7 @@ Recognized as Governance finalist at the Design System Awards 2025, alongside HP
 
 component usage per product
 
-Teams build on the system, not around it.
+Capacity freed for what makes each brand experience unique.
 
 ÷3
 
