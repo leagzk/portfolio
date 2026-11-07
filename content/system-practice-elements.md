@@ -171,7 +171,7 @@ Business impact
 
 These numbers belong to *the team that made them.*
 
-**A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. **From zero users to a community of 2,000+ practitioners.**
+**A structure only counts if it holds.** This one does. **From zero users to a community of 2,000+ practitioners.**
 
 And none of it was measured after the fact. I ran the platform on live instruments, read as decisions and not trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. The data told me where to invest, what to deprecate, which product needed support next - and we acted on it: the support model rebuilt, the rituals reshaped, rotating roles introduced because the signal said so.
 
@@ -207,7 +207,11 @@ contributor
 
 maintainer
 
-So I created the **Practitioner Experience capability** to make that real, and elevated one of my team to run it - her career growth and the company's outcome, paired. I set the direction: community-led adoption, contribution over control. My team built and ran the machine - the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
+So I made it a capability, and I made it someone's. One of my design system designers had the human skills the job asked for - federating a community, running its rituals - and had to grow into the rest: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned her as **Design Ops Lead**, we founded the capability together, and it became **Practitioner Experience**. Her career growth and the company's outcome, paired.
+
+The timing was the bet. We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own - so the foundations became the standard rather than catching up with it.
+
+I set the direction: community-led adoption, contribution over control. My team built and ran the machine - the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
 
 This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. Not a mailing list: a contribution model adapted from Zalando's, where everyone gives at the level of their skill.
 
