@@ -10,11 +10,11 @@ indexable: true
 
 Philosophy · What I hold
 
-# Six convictions behind every system I've built, and the care that keeps them alive.
+# Almost everything is negotiable.
+Six things aren't.
 
-Anything can be systematized, once you truly understand each craft. But
-people move systems forward, not the other way around - so I build on
-trust over control, and on humility. **Not a system someone maintains, but one a whole community owns, defends, and grows.**
+Scope, sequence, cost, who builds what: I arbitrate all of it,
+constantly. These six I don't put on the table. **They're what makes a system worth owning - and what keeps it alive once I've handed it over.**
 
 Understanding comes before the system.
 

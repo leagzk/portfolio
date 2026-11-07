@@ -614,23 +614,20 @@ const {
 
     CHAQUE PAGE A LA SIENNE, et c'est la prop `mesure`. Largeurs minimales pour
     exactement deux lignes, relevees dans le navigateur sur le build : Operating
-    System 16.88em, Philosophy 17.40, Language 13.10, Surfaces 12.60,
-    Governance 12.03, la 404 7.11.
+    System 16.88em, Language 13.10, Surfaces 12.60, Governance 12.03, la 404
+    7.11.
 
-    DEUX LIGNES NE SUFFISENT PAS TOUJOURS, ET PHILOSOPHY LE MONTRE. A son
-    minimum de 17.40 elle coupe « Six convictions behind every system I've /
-    built, … » : la coupe tombe entre l'auxiliaire et son participe, ce qui
-    se lit comme une phrase interrompue. Il faut 19.55 pour qu'elle tombe sur
-    la virgule - une proposition par ligne, « I've built » entier. Le titre y
-    perd 7px de corps (53.8 au lieu de 60.6), et c'est le prix d'une coupe
-    qui tient au sens ; il va d'ailleurs dans le sens voulu partout ailleurs,
-    moins de titre et plus de page. Sa prop vaut donc 19.9, pas 17.7.
+    PHILOSOPHY NE SE MESURE PLUS PAREIL : son titre fait DEUX phrases, comme
+    l'accueil, et chacune porte son `.hero__phrase`. La mesure n'y arbitre
+    plus une coupe - les blocs la posent - elle garantit seulement que la
+    plus longue des deux tienne sur une ligne. « Almost everything is
+    negotiable. » demande 14.5em ; sa prop vaut 14.8, exactement comme
+    l'accueil tient son 14.5 pour « Experience systems grow culture. ».
 
     LE SEUIL SE REPREND A CHAQUE RETOUCHE DU TITRE. Ces nombres valent pour
-    UNE phrase : changer un mot les perime, et le titre retombe a trois
-    lignes sans que rien ne le signale. Le relever se fait dans le
-    navigateur, sur le build, en balayant `--titre-mesure` jusqu'a la coupe
-    voulue. Un budget unique aurait aligne tout le site
+    UNE phrase donnee : changer un mot les perime, et le titre gagne une
+    ligne sans que rien ne le signale. Le relever se fait dans le navigateur,
+    sur le build, en balayant `--titre-mesure` jusqu'a la coupe voulue. Un budget unique aurait aligne tout le site
     sur le titre le plus long - Governance serait tombee a 47.8px la ou 66.8
     tenaient deja en deux lignes. La bande garde donc son corps plein aussi
     longtemps que SA phrase le permet, ce qui est exactement ce que fait
