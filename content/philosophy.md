@@ -19,7 +19,7 @@ things: scope, sequence, cost, who builds what. **Get that right and the system 
 
 Understanding comes before the system.
 
-Not by putting experts in a room together. By understanding each craft deeply enough to translate it to the others. Systematization isn't the cause - it's what becomes possible once the understanding is there.
+Not by putting experts in a room together. By understanding each craft deeply enough to translate it to the others: that's how people who share no vocabulary become one community. Systematization isn't the cause - it's what becomes possible once the understanding is there.
 
 That's why my path runs through brand, retail, agency and product. **I don't systematize what I haven't practiced** - or at least dived into deeply enough to speak its language.
 
@@ -45,7 +45,7 @@ A system is only as strong as the people who own it, and it only stays alive bec
 
 I don't work against the current. I learn to ride it.
 
-When AI arrived, I didn't brace against it - I learned its temper first: explore, listen, build the trust, then move. You don't tame a force you don't understand. **You earn the right to ride it - guardrails first, then the speed.**
+When AI arrived, I didn't brace against it - I learned its temper first: explore, listen, build the team's trust, then move. You don't tame a force you don't understand, and you don't drag people through one. **You earn the right to ride it - guardrails first, then the speed.**
 
 ## These six aren't preferences. *Each one cost something to keep.*
 
