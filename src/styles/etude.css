@@ -933,8 +933,10 @@
 @media(max-width:860px){
   .dcarte__points{display:flex;flex-direction:column;gap:10px;margin-top:16px;
     padding-top:16px;border-top:var(--rule-fine) solid currentColor}
+  /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
+     l'ECART qu'on garde, pas le retrait. */
   .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;
-    padding-left:14px;position:relative}
+    padding-left:16px;position:relative}
   /*
     LA PUCE PREND LA COULEUR DU CHAPITRE, comme celle du sommaire du bureau -
     meme variable `--puce`, posee ici sur la carte. Sur la carte FERMEE le
@@ -942,8 +944,8 @@
     n'est pas vrai, donc la couleur ne se deploie qu'a l'ouverture et la puce
     n'a rien a concurrencer.
   */
-  .dcarte__point::before{content:"";position:absolute;left:0;top:.5em;
-    width:6px;height:6px;background:var(--puce,currentColor)}
+  .dcarte__point::before{content:"";position:absolute;left:0;top:.45em;
+    width:8px;height:8px;background:var(--puce,currentColor)}
 }
 .compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
   font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
