@@ -13,9 +13,9 @@ Philosophy · What I hold
 # Almost everything is negotiable.
 One thing isn't: community.
 
-I arbitrate most of it: scope, sequence, cost, who builds what. But I
-learn the craft before I weigh it - you can't arbitrate what you don't
-understand, or translate what you can't speak. **Get that right and the system stops needing a keeper: a whole community owns it, defends it, and grows it on its own.**
+You can't arbitrate what you don't understand, or translate what you
+can't speak - so I learn the craft before I weigh it. I arbitrate most
+things: scope, sequence, cost, who builds what. **Get that right and the system stops needing a single keeper: a whole community owns it, defends it, and grows it in alignment.**
 
 Understanding comes before the system.
 
