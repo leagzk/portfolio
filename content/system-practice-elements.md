@@ -115,11 +115,9 @@ This is the layer no contributor can claim. **Not the components - the condition
 
 Vision & strategy
 
-It stopped being one product *the day it had to serve forty-five.*
+The best architecture I built *started as the one I got backwards.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities** - and the tension is the point: they aren't parallel, each one only works because the other two hold their end.
-
-**The best architecture I built started as the one I got backwards.**
 
 - Brand × Product Corporate Experience Brand × Product The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. **Where the brand becomes tangible.**
 
