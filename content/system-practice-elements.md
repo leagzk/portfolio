@@ -85,7 +85,7 @@ Investment case
 
 A system this size is *two bets in one.* It only pays if it's adopted.
 
-Cost rationalization first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then experience at scale: one coherent journey across every touchpoint - service design for an entire organization, from employee to patient.
+Cost rationalization first, so forty-five product teams stop rebuilding the same thing. **Systematize at the source, and you reach every one of them at once.** Then experience at scale: one coherent journey across every touchpoint - service design for an entire organization.
 
 A system nobody trusts is the worst of both worlds: you fund the platform *and* the fragmentation it was meant to erase.
 
@@ -191,7 +191,7 @@ You may think it is a Figma library
 
 > Global team
 
-Multi-brand &middot; multi-theme &middot; B2B / B2C / internal &middot; from employee to patient &middot; worldwide
+Multi-brand &middot; multi-theme &middot; from employee to patient
 
 Influence & community
 
@@ -211,7 +211,7 @@ So I made it a capability, with an owner, a remit and a budget - not a volunteer
 
 The timing was the bet. We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own - so the foundations became the standard rather than catching up with it.
 
-I set the direction: community-led adoption, contribution over control. My team built and ran the machine - the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
+Community-led adoption, contribution over control - and my team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
 
 This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. Not a mailing list: a contribution model adapted from Zalando's, where everyone gives at the level of their skill.
 
