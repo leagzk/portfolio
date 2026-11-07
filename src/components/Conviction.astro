@@ -74,15 +74,21 @@ export interface Props {
    * dire, meme si la grille les pose a cote de lui.
    */
   niveau?: 2 | 3;
+  /**
+   * La case porte une DECLARATION et non un chapeau : son titre prend le
+   * corps de section, quelle que soit sa taille de case ou son etat replie.
+   * Voir la regle `.conv--declaration` dans ce fichier.
+   */
+  declaration?: boolean;
 }
-const { id, rang, intitule, titre, couleur, aire, pliante = false, large = false, niveau = 2 } = Astro.props;
+const { id, rang, intitule, titre, couleur, aire, pliante = false, large = false, niveau = 2, declaration = false } = Astro.props;
 /* Le titre est un h2 ou un h3 selon `niveau` : balise calculee, pas deux
    branches de markup a tenir en double. */
 const Titre = niveau === 3 ? 'h3' : 'h2';
 /* Le surtitre : « 01 · The premise », ou « Light » quand la case n'a pas de
    rang. Le point median ne separe plus rien s'il n'y a qu'un mot. */
 const surtitre = rang ? `${rang} \u00b7 ${intitule}` : intitule;
-const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--ouverte', large && 'conv--large'];
+const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--ouverte', large && 'conv--large', declaration && 'conv--declaration'];
 ---
 {/* data-rang : le trace anime sert les convictions dans l'ordre de leur rang
     et non dans celui du front - voir src/scripts/grille.ts. */}
@@ -240,26 +246,14 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   .conv__tete[aria-expanded="true"] .conv__ico--o{opacity:0}
   .conv__tete[aria-expanded="true"] .conv__ico--f{opacity:1}
   /*
-    UN TITRE SE REPARTIT, UN TEXTE SE REMPLIT. `text-wrap:balance` cherche la
-    coupe qui egalise les lignes au lieu de remplir la premiere jusqu'au bord
-    et de laisser tomber ce qui reste. Dans des cases etroites - 208px au
-    bureau, 123 sur la piste mobile - le remplissage produisait des lignes
-    orphelines qu'on lit comme des retours chariot : « hands. » seul sur 50px
-    sous une ligne de 244, « floor. » sur 68 sous une ligne de 247.
-
-    MIEUX QU'UNE ESPACE INSECABLE, qui donnerait la meme coupe mais la
-    figerait dans la copy : le caractere partirait dans `data-copy`, dans
-    l'export des .md, et tiendrait encore quand la case ou le texte auront
-    change de largeur. Balance recalcule a chaque mise en page.
-
-    Le 07 y gagne la coupe apres la virgule - « A team of owners, / not a
-    team of hands. » - aux deux paliers, et c'est bien l'antithese qui tient
-    une ligne chacune. Les navigateurs sans la propriete remplissent comme
-    avant : la regle n'enleve rien a personne.
+    `text-wrap:balance` NE SE DECLARE PAS ICI. C'est une regle de site - un
+    titre se repartit, un texte se remplit - posee une fois dans shared.css
+    sur toutes les classes de titre d'affiche, celle-ci comprise. Voir le
+    commentaire la-bas : il dit pourquoi elle ne vaut pas par composant, et
+    pourquoi `.hero__titre` en est exclu.
   */
   .conv__titre{display:block;margin:0;font-family:var(--display);font-weight:900;
-    font-size:var(--fs-tile);line-height:1.12;letter-spacing:-.01em;
-    text-wrap:balance}
+    font-size:var(--fs-tile);line-height:1.12;letter-spacing:-.01em}
   .conv--large .conv__titre{font-size:calc(var(--fs-tile) * 1.18)}
 
   /*
@@ -321,6 +315,23 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
   .conv--pliante .conv__titre{font-size:calc(var(--fs-tile) * 1.5);
     line-height:1.06;letter-spacing:-.02em}
   .conv--pliante.conv--large .conv__titre{font-size:calc(var(--fs-tile) * 1.95)}
+
+  /*
+    UNE DECLARATION NE SE MESURE PAS A SA CASE. Les quatre regles ci-dessus
+    accordent le titre a la PLACE dont il dispose - juste pour une tuile
+    etroite, faux pour une case large qui porte une phrase de position. Les
+    pages s'en sortaient en rattrapant la taille par une liste d'id, parce
+    qu'aucune classe ne bat `.conv--pliante.conv--large .conv__titre` et ses
+    (0,3,0) : deux declarations identiques dans deux fichiers, et un hack de
+    specificite a expliquer dans chacun. C'est une PROP.
+
+    `.conv.conv--declaration` pese les memes (0,3,0) et se declare APRES :
+    a egalite, c'est l'ordre qui tranche, et l'ordre est sur ici puisque les
+    cinq regles vivent dans le meme fichier. Le corps est celui des blocs de
+    section, `--fs-section`.
+  */
+  .conv.conv--declaration .conv__titre{font-size:var(--fs-section);
+    line-height:1.1;letter-spacing:-.015em}
 
   /*
     LA DESCRIPTION. Sur la case ouverte elle est simplement la ; sur la case

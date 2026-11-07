@@ -193,7 +193,7 @@ const sobriete: Tuile[] = [
       <Conviction
         id="pr-discovery" rang="01" intitule="Discovery" couleur="rouge"
         titre="Nothing ships without discovery."
-        aire="1 / 1 / 3 / 3" pliante large
+        aire="1 / 1 / 3 / 3" pliante large declaration
       >
         <p>Nothing ships on a hunch. Every component, every line of roadmap starts with the same work: what does the product ecosystem actually need, and what already exists to build on? <strong>Need first, existing second, decision third.</strong></p>
         <p>It's the discipline I put in place after learning, the hard way, what it costs to build for the brand instead of the people who adopt it. <strong>Discovery isn't a phase. It's the gate.</strong></p>
@@ -220,7 +220,7 @@ const sobriete: Tuile[] = [
       <Conviction
         id="pr-truth" rang="02" intitule="Source of truth" couleur="clair"
         titre="Trusted by humans, verified by machines."
-        aire="1 / 4 / 4 / 7"
+        aire="1 / 4 / 4 / 7" declaration
       >
         <p>One language, not four. <strong>Multi-surface design tokens</strong> carry brand and behavior across web, native and content; <strong>Figma variables</strong> hold the component architecture on the design side, <strong>Storybook</strong> holds it on the code side.</p>
         <p>And trust doesn't mean unchecked: <strong>automate the repeatable, measure what matters, keep the human judgment where it counts</strong>. That's governance you can't skip and don't have to police.</p>
@@ -257,7 +257,7 @@ const sobriete: Tuile[] = [
       <Conviction
         id="pr-inclusion" rang="03" intitule="Inclusion and sobriety" couleur="clair"
         titre="Accessibility is the floor. Responsibility is the reach."
-        aire="4 / 1 / 6 / 4"
+        aire="4 / 1 / 6 / 4" declaration
       >
         <p><strong>WCAG AA is a floor, not a bar to clear</strong>: the minimum for every product, not just the design system. Accessibility protects the user. Responsibility protects everything around them. <strong>Same driver - inclusion - different reach.</strong></p>
         <p>For example at Sanofi, I positioned it as the digital standard, we audited the full library to <strong>100% compliance before our first major</strong>, then held it there through continuous review - axe embedded, Storybook's native checks, manual review on top - <strong>so no product team paid the accessibility cost downstream</strong>.</p>
@@ -489,6 +489,15 @@ const sobriete: Tuile[] = [
     passent ensemble a la ligne suivante au lieu de laisser « It's » - 38px -
     tout seul en bout de ligne. Mesure a 390px, ou le titre tient sur six
     lignes : c'est la seule largeur ou le cas se presentait encore.
+
+    PHILOSOPHY NE FAIT PAS PAREIL, ET C'EST UN CHOIX, PAS UN OUBLI. Sa
+    cloture pose `display:block` sur l'em : ses deux phrases prennent chacune
+    une ligne. La solution est plus sure - aucun nombre a tenir a jour, elle
+    survit a un changement de texte -, mais elle produit exactement ce que le
+    paragraphe ci-dessus a ecarte ici : deux declarations posees l'une sur
+    l'autre. La ou Philosophy veut une denegation PUIS une assertion, cette
+    page-ci veut un seul bloc que la couleur partage. Le jour ou l'une des
+    deux doit ceder, c'est une decision de redaction, pas de CSS.
   */
   .cloture h2{margin:0;max-width:32ch;font-family:var(--display);
     font-size:var(--fs-section);font-weight:900;line-height:1.1;
@@ -656,8 +665,6 @@ const sobriete: Tuile[] = [
     repare aussi les cases etroites du trio et les affiches de Philosophy.
     C'est lui qui a supprime le « floor. » seul sur 68px au milieu du 03.
   */
-  :is(#pr-discovery,#pr-truth,#pr-inclusion) .conv__titre{font-size:var(--fs-section);
-    line-height:1.1;letter-spacing:-.015em}
   .conv__detail .eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
     letter-spacing:.2em;text-transform:uppercase}
 </style>
