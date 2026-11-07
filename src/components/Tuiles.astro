@@ -34,6 +34,16 @@ export interface Tuile {
   /** le texte du verso. HTML autorise, meme raison que `titre`. */
   texte: string;
   couleur: 'rouge' | 'bleu' | 'jaune' | 'noir';
+  /**
+   * `grid-area` quand la tuile est une CASE d'une composition, et non un
+   * element de la grille interne de cette serie. L'aire est portee par la
+   * tuile et pas par la serie : les trois sobrietes d'Operating System
+   * occupent trois aires qui ne se touchent pas - deux au-dessus du bloc
+   * 03, une a sa droite -, et une serie entiere ne peut en occuper qu'une.
+   * Des qu'une tuile en a une, la serie passe en `display:contents` au
+   * bureau et en piste a defilement sous le palier.
+   */
+  aire?: string;
   /** surtitre du recto - l'annee pour la frise, le nom de la pratique sinon */
   eyebrow?: string;
   /**
@@ -46,15 +56,6 @@ export interface Tuile {
 
 export interface Props {
   tuiles: Tuile[];
-  /**
-   * `grid-area` quand la serie est posee DANS une composition, et non dans le
-   * fil du texte. Une seule tuile par appel, alors : c'est la composition qui
-   * place les cases, pas la grille interne de ce composant, et chacune a son
-   * aire. La serie perd du meme coup son fond noir et son cadre - les filets
-   * du Mondrian sont deja portes par `.compo > *`, les doubler donnerait 3px
-   * la ou le trait en vaut 1,5.
-   */
-  aire?: string;
   /** nombre de colonnes au bureau ; en dessous de 720px la grille passe a 1 */
   colonnes?: number;
   /** nom du groupe pour les lecteurs d'ecran */
@@ -68,13 +69,20 @@ export interface Props {
    */
   hauteur?: number;
 }
-const { tuiles, colonnes = 4, label, hauteur = 240, aire } = Astro.props;
+const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
+/*
+  Une serie DE CASES des qu'une tuile porte son aire. Elle perd alors son fond
+  noir et son cadre - les filets du Mondrian sont deja portes par la case
+  elle-meme, les doubler donnerait 3px la ou le trait en vaut 1,5 - et elle
+  gagne sa pagination, qui n'a d'objet que sur la piste mobile.
+*/
+const enCases = tuiles.some((t) => t.aire);
 ---
-<ul class:list={['tuiles', aire && 'tuiles--case']}
-    style={`--tuiles-cols:${colonnes};--tuile-h:${hauteur}px${aire ? `;grid-area:${aire}` : ''}`}
+<ul class:list={['tuiles', enCases && 'tuiles--cases']}
+    style={`--tuiles-cols:${colonnes};--tuile-h:${hauteur}px`}
     aria-label={label}>
   {tuiles.map((t) => (
-    <li class="tuile">
+    <li class:list={['tuile', t.aire && 'tuile--case']} style={t.aire ? `grid-area:${t.aire}` : undefined}>
       <button class="tuile__pivot" type="button" aria-expanded="false">
         <span class:list={['tuile__face', 'tuile__recto', `tuile--${t.couleur}`]}>
           {t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
@@ -91,6 +99,19 @@ const { tuiles, colonnes = 4, label, hauteur = 240, aire } = Astro.props;
     </li>
   ))}
 </ul>
+{enCases && (
+  /*
+    LA PAGINATION DE LA PISTE, SOEUR DE LA SERIE ET NON SON ENFANT. Dans une
+    serie passee en `display:contents`, elle deviendrait une case de la
+    composition ; a cote, elle n'existe que sous le palier, ou le CSS la
+    rallume. C'est la construction de .principes__pagination sur l'accueil,
+    et le trace de la grille sait deja ignorer un enfant en display:none.
+  */
+  <div class="tuiles__pagination" aria-hidden="true">
+    <span class="tuiles__points">{tuiles.map(() => <i></i>)}</span>
+    <span class="tuiles__swipe">Swipe →</span>
+  </div>
+)}
 
 <style is:global>
   /* Le cadre est une vraie bordure, le reste du noir est le FOND que le `gap`
@@ -105,57 +126,62 @@ const { tuiles, colonnes = 4, label, hauteur = 240, aire } = Astro.props;
     24px, comme les autres petites cases du site - le carre de droite fait
     177px a 861, dont 56 seraient partis en marge a 28.
   */
-  .tuiles--case{background:none;border:0;gap:0}
-  .tuiles--case .tuile__face{padding:24px}
+  /*
+    ═══ UNE SERIE DE CASES, DEUX DISPOSITIFS ═══
+
+    AU BUREAU elle n'existe pas : `display:contents` la retire, et ses tuiles
+    remontent dans la composition comme si elles y etaient posees une a une,
+    chacune a son aire. C'est ce que fait .principes sur l'accueil, et le
+    trace des filets sait deja aplatir un enfant en contents (voir `cases`
+    dans src/scripts/grille.ts).
+
+    SOUS LE PALIER la composition s'empile sur une colonne, et trois carres
+    l'un sous l'autre font trois ecrans a faire defiler. La serie redevient
+    donc une boite : une piste a defilement horizontal, une tuile par ecran,
+    avec le bord de la suivante qui depasse pour dire qu'il y en a une. Meme
+    dispositif, meme largeur de carte et meme pagination que le rail des
+    trois principes de l'accueil - c'est le comportement du site des qu'un
+    palier impose l'empilement.
+  */
+  @media(min-width:861px){
+    .tuiles--cases{display:contents}
+  }
+  .tuile--case .tuile__face{padding:24px}
   /*
     Le recto n'a plus qu'une ligne, et `space-between` la renverrait en haut -
     il n'a plus deux choses a ecarter. Le titre se cale donc en bas, la ou le
     repere et le propos le tenaient a deux, et la ou les cases de la
     composition posent deja le leur. */
-  .tuiles--case .tuile__recto{justify-content:flex-end}
+  .tuile--case .tuile__recto{justify-content:flex-end}
+  /*
+    13px ET NON 14, et c'est le corps que `.clef__detail` emploie deja pour
+    la meme situation : un texte de verso dans une case etroite. A 861px le
+    carre de droite fait 177 et n'offre que 129px de colonne. */
+  .tuile--case .tuile__verso{font-size:13px;line-height:1.5}
 
   /*
-    ═══ AU REPOS LE CARRE, RETOURNEE LA TUILE ENTIERE ═══
+    ═══ LE CARRE TIENT SES DEUX FACES ═══
 
-    LE REPOS. Une tuile du gabarit fait la hauteur de sa face la plus haute,
-    et c'est toujours le VERSO - 272px pour « Fewer components » dans un
-    carre de 234. Posee dans une composition, cette hauteur-la ne lui
-    appartient plus : la case est carree, et le bouton qui depassait faisait
-    glisser le titre du recto 14px sous le bord, ou l'`overflow` de la case
-    le coupait. La piste, la tuile et le bouton sont donc bornes a la hauteur
-    de la case - la piste, la tuile, le bouton ET la rangee du bouton, ou les
-    deux faces se superposent : sans elle, le bouton etait bien carre mais sa
-    rangee interieure gardait la hauteur du verso, et le recto, qui s'y
-    etire, redescendait son titre sous le bord. Le verso, lui, deborde en
-    silence derriere le recto, que `backface-visibility` cache de toute
-    facon.
+    Une tuile du gabarit fait la hauteur de sa face la plus haute, et c'est
+    toujours le VERSO. Posee dans une composition, cette hauteur-la ne lui
+    appartient plus : la case est carree. La piste, la tuile, le bouton ET la
+    rangee du bouton - ou les deux faces se superposent - sont donc bornes a
+    la hauteur de la case. Sans cette derniere borne, le bouton etait bien
+    carre mais sa rangee interieure gardait la hauteur du verso, et le recto,
+    qui s'y etire, redescendait son titre 14px sous le bord.
 
-    LE RETOURNEMENT. Il faut bien que ce verso se lise en entier : mesure a
-    861px, il demande 339, 205 et 362px pour des carres de 193, 195 et 177.
-    La tuile quitte donc le flux le temps de se montrer - meme geste que les
-    cases `.conv--grandit` de cette page, et pour la meme raison : la grille
-    ne doit pas bouger sous le curseur. Elle garde sa place et sa largeur,
-    sa hauteur se libere, et elle s'etend par-dessus ce qu'il y a dessous -
-    le bloc 03 pour les deux carres du haut, le principe 04 pour celui de
-    droite. Les rangees carrees sont calculees sur la largeur des colonnes :
-    elles ne dependent d'aucun contenu, donc rien ne se retasse quand la
-    tuile part.
+    ET LE VERSO TIENT DEDANS. Il a grandi un temps par-dessus ses voisines -
+    au corps du gabarit, il demandait 227px pour un carre de 177 a 861px.
+    C'etait la description qui etait trop longue, pas le carre trop petit :
+    resserree, et au corps que `.clef__detail` emploie deja pour un verso
+    dans une case etroite, elle tient partout - 28px de marge au plus serre.
+    Rien ne sort du carre, donc rien n'a besoin d'en sortir.
   */
-  .tuiles--case{grid-template-rows:minmax(0,1fr)}
-  .tuiles--case .tuile{min-height:0}
-  .tuiles--case .tuile__pivot{min-height:0;height:100%;grid-template-rows:minmax(0,1fr)}
-
   @media(min-width:861px){
-    .compo .tuiles--case:has(.tuile__pivot:focus-visible),
-    .compo .tuiles--case:has(.tuile__pivot[aria-expanded="true"]){
-      position:absolute;left:0;right:0;top:0;height:auto;min-height:100%;z-index:5}
+    .tuile--case{grid-template-rows:minmax(0,1fr);min-height:0}
+    .tuile--case .tuile__pivot{min-height:0;height:100%;grid-template-rows:minmax(0,1fr)}
   }
-  /* Le survol demande une souris et pas seulement une largeur : au doigt il
-     resterait colle a la tuile touchee. Meme garde que .conv--grandit. */
-  @media(min-width:861px) and (hover:hover){
-    .compo .tuiles--case:hover{position:absolute;left:0;right:0;top:0;
-      height:auto;min-height:100%;z-index:5}
-  }
+
   /* La perspective vit sur le bouton ; chaque face est son enfant direct et
      tourne pour son propre compte - l'une vers 180deg, l'autre de 180 vers 360.
      backface-visibility fait le reste : a tout instant une seule est face a
@@ -218,6 +244,35 @@ const { tuiles, colonnes = 4, label, hauteur = 240, aire } = Astro.props;
   .tuile--noir{background:var(--ink);color:var(--white)}
   .tuile__pivot:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
 
+  /*
+    ─── La piste, sous le palier de la composition ───
+    860 et non 720 : c'est a 861px que `.compo` repasse sur une colonne
+    (etude.css), et la serie doit basculer au MEME endroit que la composition
+    qui la porte - une tuile large comme un ecran dans une grille a six
+    colonnes n'aurait aucun sens.
+  */
+  /* Eteinte par defaut, et declaree AVANT la requete qui la rallume : une
+     requete media n'ajoute aucune specificite, donc a egalite c'est l'ordre
+     qui tranche. Ecrite apres, elle reprenait le dessus sous le palier. */
+  .tuiles__pagination{display:none}
+
+  @media(max-width:860px){
+    .tuiles--cases{display:flex;gap:var(--rule-fine);overflow-x:auto;
+      scroll-snap-type:x mandatory;scrollbar-width:none;background:var(--text);
+      border:0;padding:0}
+    .tuiles--cases::-webkit-scrollbar{display:none}
+    /* 290px : la meme carte que le rail de l'accueil, et le bord de la
+       suivante reste visible sur un telephone de 375. */
+    .tuile--case{flex:0 0 290px;scroll-snap-align:start}
+    .tuiles__pagination{display:flex;align-items:center;justify-content:space-between;
+      gap:12px;padding:12px 0 0;background:var(--white)}
+  }
+  .tuiles__points{display:flex;gap:6px}
+  .tuiles__points i{width:10px;height:10px;background:var(--grey-mondrian)}
+  .tuiles__points i.est-actif{background:var(--ink)}
+  .tuiles__swipe{font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.12em;
+    text-transform:uppercase;color:var(--ink-muted)}
+
   @media(max-width:720px){
     .tuiles{grid-template-columns:1fr}
     .tuile__face{padding:24px}
@@ -238,5 +293,25 @@ const { tuiles, colonnes = 4, label, hauteur = 240, aire } = Astro.props;
     b.addEventListener('click', () => {
       b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
     });
+  });
+
+  /*
+    Les points de la piste. Ils ne servent que sous le palier, ou la serie
+    defile ; au-dessus elle est en display:contents et ne defile pas - d'ou
+    la garde sur la largeur reelle de la piste plutot qu'un matchMedia qui
+    redirait le point de rupture deja ecrit dans le CSS. Meme reglage que
+    .principes__points sur l'accueil.
+  */
+  document.querySelectorAll<HTMLElement>('.tuiles--cases').forEach((piste) => {
+    const pagination = piste.nextElementSibling;
+    const points = pagination ? [...pagination.querySelectorAll<HTMLElement>('i')] : [];
+    if (!points.length) return;
+    const suivre = () => {
+      if (piste.scrollWidth <= piste.clientWidth) return;
+      const i = Math.round((piste.scrollLeft / (piste.scrollWidth - piste.clientWidth)) * (points.length - 1));
+      points.forEach((p, n) => p.classList.toggle('est-actif', n === i));
+    };
+    piste.addEventListener('scroll', suivre, { passive: true });
+    suivre();
   });
 </script>
