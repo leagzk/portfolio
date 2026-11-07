@@ -36,11 +36,11 @@ But inclusion doesn't stop at who can *use* the product. A system touching 45+ p
 
 Accessibility protects the user. Responsibility protects everything around them. **Same driver - inclusion - different reach.**
 
-- Light By default. Smallest possible package weight, and modular imports - teams pulled only the components they needed, never the whole library, so production sites stayed lean. **A lighter system reaches more people, on more devices, with less energy.**
+- Light by default. Smallest possible package weight, and modular imports - teams pulled only the components they needed, never the whole library, so production sites stayed lean. **A lighter system reaches more people, on more devices, with less energy.**
 
-- Quiet By design. The system stayed deliberately sober, so brands could express themselves without fighting it. **Restraint as a feature, not a limitation.**
+- Quiet by design. The system stayed deliberately sober, so brands could express themselves without fighting it. **Restraint as a feature, not a limitation.**
 
-- Fewer components More coverage. Simple, flexible component architectures - the smallest set that meets the widest need, instead of a library that sprawls. Same for patterns: I ran a rationalization pass to keep them coherent across every product and positioned as standards.
+- Simple by architecture. Simple, flexible component architectures - the smallest set that meets the widest need, instead of a library that sprawls. Same for patterns: I ran a rationalization pass to keep them coherent across every product and positioned as standards.
 
 AI should earn trust, not exploit it.
 

@@ -107,6 +107,12 @@ const { tuiles, colonnes = 4, label, hauteur = 240, aire } = Astro.props;
   */
   .tuiles--case{background:none;border:0;gap:0}
   .tuiles--case .tuile__face{padding:24px}
+  /*
+    Le recto n'a plus qu'une ligne, et `space-between` la renverrait en haut -
+    il n'a plus deux choses a ecarter. Le titre se cale donc en bas, la ou le
+    repere et le propos le tenaient a deux, et la ou les cases de la
+    composition posent deja le leur. */
+  .tuiles--case .tuile__recto{justify-content:flex-end}
 
   /*
     ═══ AU REPOS LE CARRE, RETOURNEE LA TUILE ENTIERE ═══

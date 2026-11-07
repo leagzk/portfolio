@@ -87,12 +87,36 @@ import Bouton from '../components/Bouton.astro';
   l'etre. Le jaune et le noir prennent la rangee haute, le rouge celle du
   dessous, ou il ne touche que du blanc, du gris et le noir de 04.
 */
+/*
+  UN SEUL TITRE, PAS DE SURTITRE. Le terme et sa chute - « Light » puis « By
+  default. » - etaient le dispositif du gabarit : un repere en monospace en
+  haut, le propos en bas. Dans un carre de 255px, ces deux lignes de graisses
+  et de familles differentes se lisaient comme deux etiquettes posees loin
+  l'une de l'autre, alors que c'est UNE phrase. Elles n'en font plus qu'une,
+  dans la graisse du titre.
+
+  « Fewer components / More coverage. » devient « Simple by architecture. »
+  pour que les trois se tiennent sur la meme construction - by default, by
+  design, by architecture - et surtout au meme NIVEAU : light et quiet sont
+  des qualites, « fewer components » etait un constat, et le seul des trois
+  a tomber sur quatre lignes a 861px quand les autres en tiennent deux.
+  « Simple » est une qualite, et c'est le mot que son propre verso emploie en
+  premier.
+
+  « Sobriety by architecture » aurait ete plus court encore, et c'est
+  justement ce qu'il ne faut pas : la sobriete est ce que les trois font
+  ENSEMBLE, pas une troisieme forme. Sur une tuile, elle se lirait comme le
+  titre du trio et ferait de ses deux voisines des sous-cas - et le mot est
+  deja porte deux fois par la case d'a cote, dans son surtitre et a la fin de
+  sa description. Ce que la chute disait, « the smallest set that meets the
+  widest need », le verso le dit toujours.
+*/
 const sobriete: Tuile[] = [
-  { eyebrow: 'Light', couleur: 'jaune', titre: 'By default.',
+  { couleur: 'jaune', titre: 'Light by default.',
     texte: 'Smallest possible package weight, and modular imports - teams pulled only the components they needed, never the whole library, so production sites stayed lean. <strong>A lighter system reaches more people, on more devices, with less energy.</strong>' },
-  { eyebrow: 'Quiet', couleur: 'noir', titre: 'By design.',
+  { couleur: 'noir', titre: 'Quiet by design.',
     texte: 'The system stayed deliberately sober, so brands could express themselves without fighting it. <strong>Restraint as a feature, not a limitation.</strong>' },
-  { eyebrow: 'Fewer components', couleur: 'rouge', titre: 'More coverage.',
+  { couleur: 'rouge', titre: 'Simple by architecture.',
     texte: 'Simple, flexible component architectures - the smallest set that meets the widest need, instead of a library that sprawls. Same for patterns: I ran a rationalization pass to keep them coherent across every product and positioned as standards.' },
 ];---
 <Base
@@ -200,7 +224,7 @@ const sobriete: Tuile[] = [
           chacun dans son aire, et non la grille interne du composant. */}
       <Tuiles tuiles={[sobriete[0]]} aire="3 / 1 / 4 / 2" colonnes={1} hauteur={0} label="Sobriety: light by default" />
       <Tuiles tuiles={[sobriete[1]]} aire="3 / 2 / 4 / 4" colonnes={1} hauteur={0} label="Sobriety: quiet by design" />
-      <Tuiles tuiles={[sobriete[2]]} aire="4 / 4 / 5 / 5" colonnes={1} hauteur={0} label="Sobriety: fewer components, more coverage" />
+      <Tuiles tuiles={[sobriete[2]]} aire="4 / 4 / 5 / 5" colonnes={1} hauteur={0} label="Sobriety: simple by architecture" />
 
 
       <Conviction
