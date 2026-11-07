@@ -20,17 +20,35 @@
   de « Governance », qui montre son accroche, et les principes « I lead the
   way… », qui la cachent derriere une fleche d'agrandissement.
 
-  LE PARTAGE EST MESURE. Les six descriptions font 228, 310, 317, 404, 461 et
-  669 signes ; la coupure nette tombe entre 317 et 404. Trois cases s'ouvrent
+  LE PARTAGE EST MESURE. Les six descriptions font 228, 284, 300, 362, 380 et
+  689 signes ; la coupure nette tombe entre 300 et 362. Trois cases s'ouvrent
   d'emblee - The method, The point, The current - et les trois longues se
   replient. Chacune des trois ouvertes a recu, dans la grille, une case assez
   large pour son texte : c'est l'autre moitie de la regle, puisque « tenir
   dans la case » depend aussi de la case.
 
-  TOUT LE TEXTE EST CONSERVE : les six intitules, les six titres et les neuf
-  paragraphes sont la, mot pour mot. Seuls les <em> de couleur des anciennes
-  phrases d'attaque tombent sur les cases de couleur, ou un mot rouge sur un
-  aplat rouge ne se verrait pas ; les trois cases blanches les gardent.
+  LES SIX DISENT UNE POSITION, PAS UN PARCOURS. Le 02 racontait une
+  chronologie d'entreprise - « In 2018… », « With Elements… » - ou le lecteur
+  devait connaitre le nom interne d'un design system pour suivre. La
+  conviction passe devant, l'entreprise derriere : « Communication was my
+  subject before it became my method. For example at Sanofi… ». Meme bascule
+  sur le 05, ou le patient au bout de la chaine n'arrivait de nulle part.
+
+  LES COUPES SONT DANS LE VAGUE, pas dans la matiere : « the pivot was never
+  rigidity » ne renvoyait a aucun pivot nomme, et le 01 finissait sur une
+  concession qui reprenait ce que la phrase venait d'affirmer. Les gras
+  suivent la regle de Lea - l'idee operante, pas la figure : sur le 01 c'est
+  « I don't systematize what I haven't practiced », pas la liste des quatre
+  metiers.
+
+  LE 05 NE PEUT PLUS OUVRIR SUR « A team that isn't well can't shine ». Cette
+  phrase est devenue celle du footer, qui se lit au bas de CETTE page comme
+  des six autres : la dire deux fois a trois cents pixels d'ecart affaiblit
+  les deux. Le bloc commence donc sur ce qu'il est seul a dire.
+
+  Les <em> de couleur des anciennes phrases d'attaque tombent sur les cases
+  de couleur, ou un mot rouge sur un aplat rouge ne se verrait pas ; les
+  trois cases blanches les gardent.
 */
 import Base from '../layouts/Base.astro';
 import '../styles/etude.css';
@@ -101,7 +119,7 @@ import Bouton from '../components/Bouton.astro';
         aire="1 / 1 / 3 / 3" pliante large
       >
         <p>Not by putting experts in a room together. By understanding each craft deeply enough to translate it to the others. Systematization isn't the cause - it's what becomes possible once the understanding is there.</p>
-        <p>That's why my path runs through <strong>brand, retail, agency and product</strong>: I don't systematize what I haven't understood, and you don't understand a craft you haven't practiced - or at least dived deep enough into it to get along and speak the same language.</p>
+        <p>That's why my path runs through brand, retail, agency and product. <strong>I don't systematize what I haven't practiced</strong> - or at least dived into deeply enough to speak its language.</p>
       </Conviction>
 
       {/* Les deux colonnes fines. Posees apres la premiere case pour que
@@ -114,7 +132,7 @@ import Bouton from '../components/Bouton.astro';
         titre="Communication at the core, from brief to ship."
         aire="1 / 4 / 2 / 7"
       >
-        <p>In 2018, communication was my <em>subject</em> - I systematized how 2,500 people talked about IT. With Elements, communication became my <em>method</em> - I systematized digital products by making brand, design and engineering finally understand each other. <strong>The subject moved from communication to product. The method never did.</strong></p>
+        <p>Communication was my <em>subject</em> before it became my <em>method</em>. For example at Sanofi: first a shared language for 2,500 people, then a design system that made brand, design and engineering finally understand each other. <strong>The subject moved from communication to product. The method never did.</strong></p>
       </Conviction>
 
       <Conviction
@@ -122,7 +140,7 @@ import Bouton from '../components/Bouton.astro';
         titre="A system doesn't standardize people. It frees them."
         aire="2 / 4 / 4 / 6" pliante
       >
-        <p>The fear every craftsperson has of a system is that it will flatten them - make them interchangeable. The opposite is true. A good system carries the repeatable, so real expertise has room to breathe. The pivot was never rigidity; it was flexibility, and the collaboration with every stakeholder that made the whole thing rich. <strong>You systematize the frame that frees the craft. You don't replace the craft.</strong></p>
+        <p>The fear every craftsperson has of a system is that it will flatten them - make them interchangeable. The opposite is true: a good system carries the repeatable, so real expertise has room to breathe. What makes a system rich was never its rigidity - it's the collaboration it leaves room for. <strong>You systematize the frame that frees the craft. You don't replace the craft.</strong></p>
       </Conviction>
 
       <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 6 / 3 / 7"><span class="compo__plat compo__plat--rouge"></span></div>
@@ -133,7 +151,7 @@ import Bouton from '../components/Bouton.astro';
         titre="What's left is what matters."
         aire="3 / 1 / 4 / 3"
       >
-        <p>People doing the work that actually creates value - faster, yes, but mostly more <em>confident</em> in what they make, their core expertise valued instead of spent on what a system should have carried. Trusted to own their craft, and accountable for it. That's the point. Not adoption metrics. <strong>People who trust what they ship.</strong></p>
+        <p>People doing the work that actually creates value - faster, yes, but mostly more <em>confident</em> in what they make, their expertise spent on the craft instead of on what the system should have carried. Trusted to own it, accountable for it. <strong>The measure isn't adoption. It's people who trust what they ship.</strong></p>
       </Conviction>
 
       <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--noir"></span></div>
@@ -143,8 +161,8 @@ import Bouton from '../components/Bouton.astro';
         titre="Care isn't the soft part. It's the foundation."
         aire="4 / 1 / 5 / 4" pliante
       >
-        <p>A team that isn't well can't shine, and can't ship. So I hold the health of a team - its wellbeing, its inclusion, its safety to speak - with the <strong>same force</strong> I hold conviction and delivery.</p>
-        <p>But care doesn't stop at the team. It runs the whole length of a system's life: <strong>care for the people who build it, care for the people who use it, care for the people it ultimately reaches</strong> - the practitioner leaning on the library, and the patient on the other side of the screen.</p>
+        <p>I hold the health of a team - its wellbeing, its inclusion, its safety to speak - with the <strong>same force</strong> I hold conviction and delivery. Not after them, and not if there's time left.</p>
+        <p>But care doesn't stop at the team. It runs the whole length of a system's life: <strong>care for the people who build it, care for the people who use it, care for the people it ultimately reaches</strong> - at Sanofi, that chain ran from the practitioner leaning on the library to the patient on the other side of the screen.</p>
         <p>A system is only as strong as the people who own it, and it only stays alive because it passes, with care, from one set of hands to the next. <strong>Inclusion isn't a value I add on top. It's infrastructure.</strong></p>
       </Conviction>
 
