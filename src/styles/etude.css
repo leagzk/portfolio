@@ -974,11 +974,31 @@
      TOUCHER la ligne, sans quoi un blanc s'ouvre entre les deux et la grille
      se defait. Il part donc du bord de la boite de remplissage, c'est-a-dire
      sous le trait lui-meme. */
-  /* `bottom:-8px` COMME LE FILET, ET POUR LA MEME RAISON. Les deux descendent
-     a la meme ligne : un aplat qui s'arrete avant son trait laisse un bout de
-     filet nu, et c'est exactement ce qui se voyait. */
+  /*
+    `bottom:-8px` COMME LE FILET, ET POUR LA MEME RAISON. Les deux descendent
+    a la meme ligne : un aplat qui s'arrete avant son trait laisse un bout de
+    filet nu, et c'est exactement ce qui se voyait.
+
+    LE CADRE SE FERME SUR QUATRE COTES. Le trait du haut est celui de la zone,
+    la verticale de gauche est le `::after` ci-dessous ; restaient la droite et
+    le bas, que l'aplat porte lui-meme en bordure. `border-box` les prend DANS
+    ses 56px au lieu de les ajouter dehors : a droite il n'y a plus de place -
+    la zone touche deja le bord de la carte, et la carte coupe ce qui depasse.
+    L'aplat perd donc deux pixels de chaque cote, et les traits les occupent.
+  */
   .dcarte__bande{position:absolute;right:0;top:0;bottom:-8px;width:56px;
-    background:var(--puce,currentColor)}
+    box-sizing:border-box;background:var(--puce,currentColor);
+    border-right:var(--rule) solid var(--text);
+    border-bottom:var(--rule) solid var(--text)}
+  /*
+    LE 04 PASSE AU GRIS, parce que son noir rendait le cadre invisible : aplat
+    #0A0708 et filets #111111 se touchent a 1,06:1 - le carre n'avait plus de
+    bord, juste une masse. Le gris de la composition tranche a 14,8:1 sur le
+    meme filet, et c'est deja lui qui porte les aplats gris de la page
+    (.compo__plat--gris). Les puces du chapitre, elles, restent noires : c'est
+    la couleur de la carte, et a 8px sur blanc elle se lit.
+  */
+  .dcarte--noir .dcarte__bande{background:var(--grey-mondrian)}
   .dcarte__points::after{content:"";position:absolute;right:56px;
     top:calc(var(--rule-fine) * -1);bottom:-8px;
     width:var(--rule);background:var(--text)}
