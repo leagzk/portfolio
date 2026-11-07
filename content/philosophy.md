@@ -12,10 +12,9 @@ Philosophy · What I hold
 
 # Six convictions behind the systems, and the care that keeps them alive.
 
-Anything can be systematized, once you truly understand each craft. I
-believe people move systems forward - not the other way around. Built on
-trust over control, and humility. Not a system someone maintains, but one
-a whole community owns, defends, and grows. **Never alone. Conviction over caution, always.**
+Anything can be systematized, once you truly understand each craft. But
+people move systems forward, not the other way around - so I build on
+trust over control, and on humility. **Not a system someone maintains, but one a whole community owns, defends, and grows.**
 
 Understanding comes before the system.
 
