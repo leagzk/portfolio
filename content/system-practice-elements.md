@@ -20,7 +20,7 @@ design and engineering pour into the same chain. **Design Lead in 2022, Director
 
 The system
 
-Elements is Sanofi's unified experience system - **one design language** serving digital products and design delivery platforms globally, from B2B and B2C platforms to internal tools, across products, brands and themes.
+**One design language**, and every surface Sanofi ships speaks it - from B2B platforms to internal tools, across brands and themes, worldwide.
 
 Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.
 

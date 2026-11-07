@@ -333,7 +333,20 @@
 */
 .clef-def{position:relative;display:flex;flex-direction:column;gap:20px;
   padding:32px 32px calc(84px + 32px)}
-.clef-def__prix{margin:0;font-size:var(--fs-caption);line-height:1.5;
+/*
+  LE PRIX DESCEND CONTRE LA BANDE, et c'est `margin-top:auto` - le meme
+  geste que le bouton de la cloture. La case a une hauteur FIXE au bureau,
+  deux rangees de 240px : raccourcir la phrase de definition y a laisse 159px
+  de blanc d'un seul tenant au-dessus de la bande. Le blanc est une matiere
+  de cette composition, pas un trou, mais pas quand il s'amasse en un seul
+  endroit. Reparti en deux, il tient la definition en haut et la preuve en
+  bas, et la case se lit comme une affiche plutot que comme un texte qui
+  s'est arrete trop tot.
+
+  Sous le palier la case suit son contenu : il n'y a pas d'espace libre, donc
+  `auto` ne vaut rien et la regle ne mord pas.
+*/
+.clef-def__prix{margin:auto 0 0;font-size:var(--fs-caption);line-height:1.5;
   color:var(--ink-muted)}
 .clef-def__filet{position:absolute;left:0;right:0;bottom:84px;
   height:var(--rule-fine);background:var(--text)}
