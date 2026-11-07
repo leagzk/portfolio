@@ -115,7 +115,7 @@ This is the layer no contributor can claim. **Not the components - the condition
 
 Vision & strategy
 
-You maintain a design system. *You run a platform.*
+It stopped being one product *the day it had to serve all of them.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities** - and the tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
@@ -167,7 +167,7 @@ Next: the proof →
 
 Business impact
 
-The numbers are the system's, *not mine.*
+These numbers belong to *the team that made them.*
 
 **A structure only counts if it holds.** This one does. It started with a bold call: switching a role to a new direction, and selling it to my Head of Design to win the sponsorship it needed. **From zero users to a community of 2,000+ practitioners.**
 
