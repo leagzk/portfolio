@@ -109,11 +109,11 @@ Organisation & people
 
 I designed the organisation *before I filled it.*
 
-**The decision was the easy part. Owning it wasn't.** Its capabilities, its roles, one operating model - and the job descriptions that made them real. Then I hired into them: from one designer to **a core team of 9, organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
+**The decision was the easy part. Owning it wasn't.** Its capabilities, its roles, one operating model - and the job descriptions that made them real, **organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
 Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
 
-I set the direction, carried it to leadership, then handed my team the operational goal as **OKRs of their own**, tied to the company's annual objectives - our ambition inside a shared project, never beside it. Every decision got the same reading: what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
+Every decision got the same reading: what each opened, what it exposed, what it cost to reverse - surfaced early, then locked with the team or my stakeholders.
 
 This is the layer no contributor can claim. **Not the components - the conditions.**
 
@@ -239,9 +239,11 @@ People
 
 Zero resignations *in three years.*
 
-**I owned the *why* and the *what*. They owned the *how*** - and made it sharper than I could have specified. Each capability runs itself through the team I recruited and grew; agile is the tempo, not a checkbox. **Nothing shipped without us aligned, and nothing waited on me to be decided.**
+**I owned the *why* and the *what*. They owned the *how*** - and made it sharper than I could have specified. Agile is the tempo, not a checkbox. **Nothing shipped without us aligned, and nothing waited on me to be decided.**
 
-Design went from one to five. Average completed engagement: **23 months against a one-year target.**
+I hired into the org I had drawn - from one designer to a core team of nine, design itself going from one to five - then carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared project, never beside it.
+
+Average completed engagement: **23 months against a one-year target.**
 
 The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.** People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.
 
