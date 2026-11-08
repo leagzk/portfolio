@@ -243,6 +243,20 @@ const RANGEES = avecDef
       </div>
     )}
     {/*
+      LA LIGNE QUI OUVRE LA BANDE, au telephone seulement - c'est celle de
+      l'accueil sous le rail des principes : une bande blanche basse, son
+      filet, et un petit carre a gauche.
+
+      ELLE EST AU-DESSUS DES CHIFFRES, pas en dessous, et elle y remplace la
+      bande bleue de la definition. Celle-ci fermait la case au bureau ; au
+      telephone elle s'intercalait entre la definition et le premier chiffre
+      comme un aplat de plus, large et sans objet. La ligne dit la meme
+      coupure en 34px au lieu de 84, et sans couleur.
+
+      Sur les deux etudes qui n'ont pas de definition, elle ouvre la section.
+    */}
+    <div class="clef-ligne" aria-hidden="true"><span class="clef-ligne__carre"></span></div>
+    {/*
       LA CASE PORTE LA GRILLE, LE PANNEAU PORTE LA COULEUR - et c'est le
       montage des principes de l'accueil, repris tel quel. Le bouton remplit sa
       case ; c'est la CASE qui s'etend ou se reduit quand on la survole, et ses
@@ -322,13 +336,6 @@ const RANGEES = avecDef
         <span class="clef-bouche__plat"></span>
       </div>
     )}
-    {/*
-      LA LIGNE QUI CLOT LA SECTION, au telephone seulement - c'est celle de
-      l'accueil sous le rail des principes : une bande blanche basse, son
-      filet, et un petit carre a gauche. Elle dit que la grille s'arrete ici
-      plutot que de la laisser finir sur une arete de case.
-    */}
-    <div class="clef-fin" aria-hidden="true"><span class="clef-fin__carre"></span></div>
   </section>
 ) : (
   <section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>
