@@ -1230,12 +1230,14 @@
   monde absent pour comprendre celui-la. « What the other two render » dit la
   meme dependance a l'affirmatif, et au-dessus du resume plutot qu'apres.
 
-  EN ITALIQUE, COMME LES VIGNETTES DU CARROUSEL - « A Figma Library »,
-  « Digital Products » : c'est deja la forme du sous-titre sur cette page, et
-  elle le separe du titre sans lui voler du poids.
+  EN ITALIQUE GRAS, COMME LES VIGNETTES DU CARROUSEL - « A Figma Library »,
+  « Digital Products » : c'est deja la forme du sous-titre sur cette page.
+  L'italique seul le posait entre le titre et le resume sans trancher avec ni
+  l'un ni l'autre ; le gras en fait le DEUXIEME propos de la tuile, ce qu'il
+  est - le resume, lui, est du texte courant et doit le rester.
 */
 .tuile__titre .cap__lien{display:block;margin-top:7px;font-family:var(--body);
-  font-size:15px;font-style:italic;font-weight:400;line-height:1.3;opacity:.9}
+  font-size:15px;font-style:italic;font-weight:700;line-height:1.3;opacity:.95}
 .tuile__titre .cap__resume{display:block;margin-top:12px;font-family:var(--body);
   font-size:14px;font-weight:400;line-height:1.5;opacity:.92}
 /*

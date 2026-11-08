@@ -144,7 +144,7 @@ The pipeline is the thesis *made physical.*
 
 It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.
 
-Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **The ÷3 is not people working faster - it's three expertises working together instead of in turn.**
+Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **The ÷3 is not people working faster - it's three expertises working together instead of in three silos.**
 
 Next: the proof →
 
