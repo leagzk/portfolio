@@ -138,6 +138,9 @@ Elements isn't a single product anymore. It's several products under one governa
 
 - 03 People What keeps both of them alive. Practitioners are users in their own right - the brand's first ambassadors, and the ones who keep the system running. Practitioner Experience Community of Practice 03 **Practitioner Experience** A tiered service model, onboarding, unified tooling, rituals, an academy. The people who build the experience get one designed for them too. **The humans who use it, and those who craft it.** **Community of Practice** Inner source, contribution pathways, shared rituals, practice leadership - governance that makes contribution a craft rather than a favour. **The humans who grow it.**
 
+******
+Swipe →
+
 Build pipeline
 
 The pipeline is the thesis *made physical.*
