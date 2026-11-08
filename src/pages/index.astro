@@ -489,9 +489,28 @@ const principes = [
   .pr:hover .pr__ico--f,.pr:focus-visible .pr__ico--f,.pr[aria-expanded="true"] .pr__ico--f{opacity:1}
 
   /* ═══ Citation ═══ */
-  /* -3px de marge basse : la case fusionne visuellement avec le blanc du
-     dessous, et sans ce chevauchement un filet d'un pixel reapparait sous elle
-     (BRIEF §4.3). */
+  /*
+    PLUS DE MARGE NEGATIVE EN BAS, ET C'EST ELLE QUI DECALAIT LE DERNIER FILET.
+
+    La case portait `margin-bottom:-3px` pour chevaucher le blanc du dessous :
+    au temps ou les filets etaient le FOND NOIR de la grille vu par les `gap`,
+    un trait d'un pixel reapparaissait sous elle au sous-pixel, et le
+    chevauchement le mangeait.
+
+    Les filets ne viennent plus du fond. Chaque case porte le sien en
+    `box-shadow` (voir `.comp > *`), et le fond de `.comp` est transparent. Le
+    chevauchement ne protege donc plus de rien - il DEPLACE le trait : une
+    marge negative agrandit l'element de 3px au lieu de le remonter, la case
+    faisait 345px dans une rangee de 342, et son ombre se dessinait 3px sous
+    celle de ses voisines.
+
+    Releve a 1440px, bande noire visible par x sur la derniere ligne de la
+    grille : 887-888 de 0 a 260, RIEN de 268 a 620 - la citation couvrait le
+    trait de la barre du dessous avec son blanc -, puis 887-888 de 630 a 1072.
+    Le trait sautait donc de trois pixels sur toute la largeur de la case, et
+    c'est ce decalage qui se voyait. A zero, les quatre cases de la rangee
+    finissent sur la meme ligne.
+  */
   /*
     LA CITATION PART DU HAUT, LE BOUTON RESTE EN BAS.
 
@@ -512,7 +531,7 @@ const principes = [
     Et la rangee devient un plancher (voir .comp) : a neuf lignes il n'y a plus
     de jeu a distribuer, il faut de la place en plus.
   */
-  .citation{margin:0 0 -3px;z-index:2;padding:32px 32px 40px;
+  .citation{margin:0;z-index:2;padding:32px 32px 40px;
     display:flex;flex-direction:column;justify-content:flex-start;gap:24px}
   .citation .sb{margin-top:auto}
   .citation blockquote{margin:0;font-family:var(--display);font-size:var(--fs-section);
