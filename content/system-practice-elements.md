@@ -110,12 +110,6 @@ I designed the organisation *before I filled it.*
 
 **The decision was the easy part. Owning it wasn't.** Its capabilities, its roles, one operating model - and the job descriptions that made them real, **organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
-Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
-
-Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.
-
-And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
-
 All it could have stayed
 
 > Libraries
@@ -126,17 +120,23 @@ All it could have stayed
 
 > Global team
 
+Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
+
+Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.
+
+And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
+
 Vision & strategy
 
 The best architecture I built *started as the one I got backwards.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities - and none of them works alone.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
-- 01 Brand A brand architecture that modulates across every touchpoint, physical to digital - modular enough to travel, expressive enough to stay recognisable. Without it, consistency is whatever ships last. Corporate Experience · Experience Foundations 01 **Corporate Experience** Identity, theming and multi-brand coherence, on every corporate and marketing surface. **Where the brand becomes tangible.** **Experience Foundations** Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. **The brand's foundations, including the digital non-negotiables.**
+- 01 Brand A brand architecture that modulates across every touchpoint, physical to digital - modular enough to travel, expressive enough to stay recognisable. Without it, consistency is whatever ships last. Corporate Experience Experience Foundations 01 **Corporate Experience** Identity, theming and multi-brand coherence, on every corporate and marketing surface. **Where the brand becomes tangible.** **Experience Foundations** Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. **The brand's foundations, including the digital non-negotiables.**
 
-- 02 System Decided once, inherited everywhere downstream - by the teams that ship, and by the agents that now build with them. Without it, the brand is a promise with nothing to render it. Design Systems · Experience Patterns 02 **Design Systems** Token architecture, component libraries, illustration and content systems, integrated guidelines, engineering standards - one chain, and nobody rebuilds a link of it. **From token to production.** **Experience Patterns** Standardized but flexible patterns, from AI-driven internal tooling to marketing interfaces: business-specific where it counts, shared everywhere else. **Learn once, apply everywhere.**
+- 02 System Decided once, inherited everywhere downstream - by the teams that ship, and by the agents that now build with them. Without it, the brand is a promise with nothing to render it. Design Systems Experience Patterns 02 **Design Systems** Token architecture, component libraries, illustration and content systems, integrated guidelines, engineering standards - one chain, and nobody rebuilds a link of it. **From token to production.** **Experience Patterns** Standardized but flexible patterns, from AI-driven internal tooling to marketing interfaces: business-specific where it counts, shared everywhere else. **Learn once, apply everywhere.**
 
-- 03 People Practitioners are users in their own right - the brand's first ambassadors, and the ones who keep the system running. Without it, the other two have a system and nobody to carry it. Practitioner Experience · Community of Practice 03 **Practitioner Experience** A tiered service model, onboarding, unified tooling, rituals, an academy. The people who build the experience get one designed for them too. **The humans who use it, and those who craft it.** **Community of Practice** Inner source, contribution pathways, shared rituals, practice leadership - governance that makes contribution a craft rather than a favour. **The humans who grow it.**
+- 03 People Practitioners are users in their own right - the brand's first ambassadors, and the ones who keep the system running. Without it, the other two have a system and nobody to carry it. Practitioner Experience Community of Practice 03 **Practitioner Experience** A tiered service model, onboarding, unified tooling, rituals, an academy. The people who build the experience get one designed for them too. **The humans who use it, and those who craft it.** **Community of Practice** Inner source, contribution pathways, shared rituals, practice leadership - governance that makes contribution a craft rather than a favour. **The humans who grow it.**
 
 Build pipeline
 

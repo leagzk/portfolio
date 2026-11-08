@@ -1220,18 +1220,54 @@
   monospace que le rang en haut de la tuile, et le lecteur voit d'un coup que
   l'axe en contient deux. Ils sont a l'arret ce que le verso detaille.
 */
-.tuile__titre .cap__noms{display:block;margin-top:14px;
+/*
+  LE TITRE PREND TOUTE LA HAUTEUR POUR QUE LES DEUX NOMS TOMBENT EN BAS. Le
+  recto est un flex en `space-between` avec deux enfants - le rang, puis ce
+  bloc - donc sans `flex:1` ici, tout le contenu se tasse contre le bas de la
+  tuile. Avec, le nom de l'axe et son resume se calent sous le rang, et
+  `margin-top:auto` envoie les capabilites contre le bord oppose : trois
+  tuiles de hauteurs differentes alignent alors leurs deux listes.
+*/
+.tuile__titre:has(.cap__noms){display:flex;flex-direction:column;flex:1}
+/*
+  UN NOM PAR LIGNE, ET UNE PUCE DEVANT CHACUN. Separes par un point median,
+  les deux se lisaient comme une seule etiquette ; empiles et puces, ils se
+  lisent comme ce qu'ils sont - deux choses, qu'on retrouvera une a une au
+  verso, avec la meme puce.
+*/
+.tuile__titre .cap__noms{display:flex;flex-direction:column;gap:7px;
+  margin-top:auto;padding-top:22px;
   font-family:ui-monospace,monospace;font-size:12px;font-weight:400;
-  line-height:1.5;opacity:.8}
+  line-height:1.4;opacity:.8}
+.tuile__titre .cap__nom{display:flex;align-items:baseline;gap:9px}
+.tuile__titre .cap__nom::before{content:"";flex:none;width:6px;height:6px;
+  background:currentColor}
 /*
   LE VERSO TIENT DEUX CAPABILITES, et il faut qu'on voie ou l'une s'arrete.
   Le nom passe en bloc au-dessus de sa description - en ligne, les deux
   paragraphes se seraient lus comme un seul texte a six phrases.
 */
 .tuile__texte .cap__bloc{display:block}
-.tuile__texte .cap__bloc + .cap__bloc{margin-top:14px}
-.tuile__texte .cap__bloc b{display:block;font-family:var(--display);
-  font-size:15px;font-weight:900;line-height:1.2;margin-bottom:4px}
+/*
+  28px ET NON 14 : a 14 les deux capabilites se touchaient presque, alors que
+  l'interligne du texte vaut deja 22px - l'ecart entre les blocs doit se voir
+  plus grand que l'ecart entre deux lignes, sinon il n'y a plus de blocs.
+*/
+.tuile__texte .cap__bloc + .cap__bloc{margin-top:28px}
+/*
+  LA MEME PUCE QU'AU RECTO, MAIS A LA COULEUR DE LA TUILE. Au recto elle est
+  en `currentColor` sur l'aplat ; au verso, qui est blanc, elle reprend le
+  rouge, le bleu ou le jaune - c'est ce qui fait reconnaitre la tuile qu'on
+  vient de retourner, et ce qui relie chaque nom a sa ligne du recto.
+*/
+.tuile__texte .cap__bloc b{display:flex;align-items:baseline;gap:9px;
+  font-family:var(--display);font-size:15px;font-weight:900;line-height:1.2;
+  margin-bottom:5px}
+.tuile__texte .cap__bloc b::before{content:"";flex:none;width:8px;height:8px;
+  background:currentColor}
+.tuile--rouge + .tuile__verso .cap__bloc b::before{background:var(--red)}
+.tuile--bleu + .tuile__verso .cap__bloc b::before{background:var(--blue)}
+.tuile--jaune + .tuile__verso .cap__bloc b::before{background:var(--yellow)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*

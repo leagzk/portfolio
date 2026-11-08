@@ -294,7 +294,7 @@ const capacites: Tuile[] = [
     eyebrow: '01', rappel: true, couleur: 'rouge',
     titre: 'Brand'
       + ' <span class="cap__resume">A brand architecture that modulates across every touchpoint, physical to digital - modular enough to travel, expressive enough to stay recognisable. Without it, consistency is whatever ships last.</span>'
-      + ' <span class="cap__noms">Corporate Experience · Experience Foundations</span>',
+      + ' <span class="cap__noms"><span class="cap__nom">Corporate Experience</span> <span class="cap__nom">Experience Foundations</span></span>',
     texte:
       '<span class="cap__bloc"><b>Corporate Experience</b> Identity, theming and multi-brand coherence, on every corporate and marketing surface. <strong>Where the brand becomes tangible.</strong></span>'
       + '<span class="cap__bloc"><b>Experience Foundations</b> Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. <strong>The brand\'s foundations, including the digital non-negotiables.</strong></span>',
@@ -303,7 +303,7 @@ const capacites: Tuile[] = [
     eyebrow: '02', rappel: true, couleur: 'bleu',
     titre: 'System'
       + ' <span class="cap__resume">Decided once, inherited everywhere downstream - by the teams that ship, and by the agents that now build with them. Without it, the brand is a promise with nothing to render it.</span>'
-      + ' <span class="cap__noms">Design Systems · Experience Patterns</span>',
+      + ' <span class="cap__noms"><span class="cap__nom">Design Systems</span> <span class="cap__nom">Experience Patterns</span></span>',
     texte:
       '<span class="cap__bloc"><b>Design Systems</b> Token architecture, component libraries, illustration and content systems, integrated guidelines, engineering standards - one chain, and nobody rebuilds a link of it. <strong>From token to production.</strong></span>'
       + '<span class="cap__bloc"><b>Experience Patterns</b> Standardized but flexible patterns, from AI-driven internal tooling to marketing interfaces: business-specific where it counts, shared everywhere else. <strong>Learn once, apply everywhere.</strong></span>',
@@ -312,7 +312,7 @@ const capacites: Tuile[] = [
     eyebrow: '03', rappel: true, couleur: 'jaune',
     titre: 'People'
       + ' <span class="cap__resume">Practitioners are users in their own right - the brand\'s first ambassadors, and the ones who keep the system running. Without it, the other two have a system and nobody to carry it.</span>'
-      + ' <span class="cap__noms">Practitioner Experience · Community of Practice</span>',
+      + ' <span class="cap__noms"><span class="cap__nom">Practitioner Experience</span> <span class="cap__nom">Community of Practice</span></span>',
     texte:
       '<span class="cap__bloc"><b>Practitioner Experience</b> A tiered service model, onboarding, unified tooling, rituals, an academy. The people who build the experience get one designed for them too. <strong>The humans who use it, and those who craft it.</strong></span>'
       + '<span class="cap__bloc"><b>Community of Practice</b> Inner source, contribution pathways, shared rituals, practice leadership - governance that makes contribution a craft rather than a favour. <strong>The humans who grow it.</strong></span>',
@@ -806,9 +806,6 @@ const mecanismes: Tuile[] = [
           <p class="lead">I designed the organisation <em class="em-bleu">before I filled it.</em></p>
           <div class="body">
             <p><strong>The decision was the easy part. Owning it wasn't.</strong> Its capabilities, its roles, one operating model - and the job descriptions that made them real, <strong>organised by capability with accountable leads</strong>. The budget came with it, and the line between what the platform funded and what it shipped was mine.</p>
-            <p>Governance was where I refused the easy answer - two models, not one. <strong>A centralized core for building, a tiered service for support.</strong> The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.</p>
-            <p>Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.</p>
-            <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong>A data-driven cadence, with discovery that never closed.</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
           </div>
         </div>
         {/*
@@ -881,6 +878,16 @@ const mecanismes: Tuile[] = [
               haut avant les tuiles. */}
           sizes="(min-width: 900px) 520px, 90vw"
         />
+        <div class="split">
+          {/* La suite du raisonnement reprend la colonne de droite :
+              le carrousel l'a interrompue sur toute la largeur, il ne
+              doit pas la decaler. */}
+          <div class="body split__suite">
+            <p>Governance was where I refused the easy answer - two models, not one. <strong>A centralized core for building, a tiered service for support.</strong> The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.</p>
+            <p>Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.</p>
+            <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong>A data-driven cadence, with discovery that never closed.</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
+          </div>
+        </div>
       </div>
 
       <div class="subsec">
@@ -1202,6 +1209,9 @@ const mecanismes: Tuile[] = [
     requete media.
   */
   @media(min-width:861px){
+    /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
+       qui la reprend apres doit retomber dans la meme colonne. */
+    .pan .split__suite{grid-column:2}
     .compo{grid-template-columns:15fr 24fr 9fr 18fr 11fr 23fr 18fr;
       grid-template-rows:minmax(190px,auto) minmax(80px,auto) 36px
         minmax(200px,auto) minmax(70px,auto)}
