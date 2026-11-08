@@ -145,11 +145,11 @@ Build pipeline
 
 The pipeline is the thesis *made physical.*
 
-Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **The ÷3 is not people working faster - it's three expertises working together instead of in three silos.**
+Brand, design and engineering pour into the same chain. The wait between experts, engineered out. **The ÷3 is not people working faster. It's three expertises working together instead of in three silos.**
 
-And the chain was built inside the workflow each craft already had, never beside it. **What I systematized is the collaboration, not one more tool per craft** - how three expertises work on one thing, rather than three better ways of working alone.
+And the chain sits inside the workflow each craft already had. Never beside it. **What I systematized is the collaboration, not one more tool per craft.**
 
-It starts at the tokens - multi-brand, multi-theme, multi-surface, read the same way on a flyer, on a canvas and in code - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen - plugged into the internal LLM, so design excellence reaches past the community of practice and **every Sanofian owns it.**
+It starts at the tokens. Multi-brand, multi-theme, multi-surface - read the same way on a flyer, on a canvas and in code. It ends wherever a product ships. In between: libraries in Figma and React on GitHub. A Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing. Storybook as the living source of truth. An MCP that carries it into AI design and engineering workflows. Support streams in Slack and Teams, automation on top. A Portal where it can all be seen, plugged into the internal LLM. **Design excellence reaches past the community of practice. Every Sanofian owns it.**
 
 Next: the proof →
 
