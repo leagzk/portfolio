@@ -7,9 +7,17 @@
   focus clavier : sans le clic, le contexte serait inatteignable, et ce sont
   les lignes qui donnent leur valeur aux chiffres (BRIEF §2.7 et §11).
 
-  PLUSIEURS OUVERTS A LA FOIS, VOLONTAIREMENT. Ce ne sont pas les chapitres de
-  l'etude, qui s'excluent parce qu'ils occupent la meme place ; ce sont cinq
-  preuves cote a cote, et comparer deux contextes est une lecture legitime.
+  PLUSIEURS OUVERTS A LA FOIS AU BUREAU, VOLONTAIREMENT. Ce ne sont pas les
+  chapitres de l'etude, qui s'excluent parce qu'ils occupent la meme place ;
+  ce sont cinq preuves cote a cote, et comparer deux contextes est une lecture
+  legitime. La rangee est une bande flex : deux cases ouvertes s'y partagent
+  la largeur, les autres se rangent a 28px, et rien ne se recouvre.
+
+  UNE SEULE A LA FOIS AU TELEPHONE, et c'est la meme raison lue a l'envers :
+  la case ouverte n'a pas sa propre place, elle PREND celle de sa voisine. En
+  ouvrir une seconde, c'est demander a deux cases de tenir dans une rangee qui
+  n'en porte qu'une. Taper sur une tuile referme donc celle qui etait
+  ouverte - un seul geste, et la bande revient a sa grille.
 
   L'ETAT VIT SUR LE BOUTON (`aria-expanded`), jamais dans une variable de
   module : ce qui s'affiche et ce qu'annonce un lecteur d'ecran ne peuvent donc
@@ -32,12 +40,6 @@
   0 avec 1, 2 avec 3, 4 avec 5. Le CSS ne sait pas exprimer ca : la paire
   peut enjamber deux `.clef-rangee` (celle de Governance en porte trois pour
   deux colonnes), donc aucun selecteur de fratrie ne l'atteint.
-
-  ET LES DEUX D'UNE PAIRE NE S'OUVRENT PAS ENSEMBLE, sous le palier
-  seulement : elles se disputeraient la meme largeur de rangee et se
-  recouvriraient l'une l'autre. Au-dela, les rangees sont des bandes flex et
-  rien n'empeche plus d'en ouvrir plusieurs - c'est le propos du paragraphe
-  ci-dessus.
 */
 const PALIER = '(max-width: 860px)';
 
@@ -56,18 +58,19 @@ export function initChiffres(): void {
       });
     };
 
-    cases.forEach((c, i) => {
+    cases.forEach((c) => {
       const b = clef(c);
       if (!b) return;
       b.addEventListener('click', () => {
         const ouvre = b.getAttribute('aria-expanded') !== 'true';
-        b.setAttribute('aria-expanded', ouvre ? 'true' : 'false');
-        /* La derniere case d'un compte impair n'a pas de voisine : c'est
-           l'aplat de bouchage qui lui fait face, et il n'a rien a fermer. */
-        const voisine = cases[i ^ 1];
-        if (ouvre && voisine && window.matchMedia(PALIER).matches) {
-          clef(voisine)?.setAttribute('aria-expanded', 'false');
+        /* Sous le palier, ouvrir referme tout le reste : une case ouverte
+           occupe la place d'une autre, donc deux ne tiennent pas. */
+        if (ouvre && window.matchMedia(PALIER).matches) {
+          cases.forEach((autre) => {
+            if (autre !== c) clef(autre)?.setAttribute('aria-expanded', 'false');
+          });
         }
+        b.setAttribute('aria-expanded', ouvre ? 'true' : 'false');
         majCouvertes();
       });
     });
