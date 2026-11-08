@@ -149,7 +149,7 @@ Brand, design and engineering pour into the same chain - the wait between expert
 
 And the chain was built inside the workflow each craft already had, never beside it. **What I systematized is the collaboration, not one more tool per craft** - how three expertises work on one thing, rather than three better ways of working alone.
 
-It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.
+It starts at the tokens - multi-brand, multi-theme, multi-surface, read the same way on a flyer, on a canvas and in code - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen - plugged into the internal LLM, so design excellence reaches past the community of practice and **every Sanofian owns it.**
 
 Next: the proof →
 
