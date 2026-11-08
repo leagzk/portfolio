@@ -504,12 +504,20 @@
     width:calc(200% + var(--rule-fine) - 36px)}
   .clef-case--d .clef[aria-expanded="true"]{
     margin-left:calc(-100% - var(--rule-fine) + 36px)}
-  /* Le texte des autres s'en va : a 36px il n'y a pas de place pour une
-     ligne, et un mot coupe en pleine lettre se lit comme un bug. */
-  .cles--mondrian:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:0;
-    transition:opacity .25s}
-  .clef-case:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:1;
-    transition:opacity .3s .15s}
+  /*
+    SEULE LA VOISINE RECOUVERTE SE TAIT. A 36px il n'y a pas de place pour une
+    ligne, et un mot coupe en pleine lettre se lit comme un bug - mais c'est
+    la seule qui ait une raison de se taire.
+
+    Toute la bande se vidait, parce que c'est ce que fait le bureau. La-bas le
+    geste est au SURVOL et se defait des que le curseur bouge ; au doigt
+    l'etat reste, et retrouver les quatre autres chiffres demandait un tap de
+    plus. La classe est posee par le script, qui seul sait quelle case en
+    couvre quelle autre - la paire peut enjamber deux rangees, donc aucun
+    selecteur de fratrie ne l'atteint (voir scripts/chiffres.ts).
+  */
+  .clef__dedans{transition:opacity .3s .15s}
+  .clef-case--couverte .clef__dedans{opacity:0;transition:opacity .25s}
   /*
     ─── La definition, sans sa bande ───
     La bande bleue de 84px ferme la case au bureau, ou elle fait vis-a-vis
