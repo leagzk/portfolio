@@ -104,6 +104,12 @@ Next: the approach →
 
 ## 02 &middot; The approach
 
+- role library → platform
+
+- scope one product → the portfolio
+
+- consumer humans → humans + agents
+
 Organisation & governance
 
 I designed the organisation *before I filled it.*

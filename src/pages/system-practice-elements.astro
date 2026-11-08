@@ -289,6 +289,34 @@ const facettes: Vignette[] = [
   aux CONSTRUCTEURS, pas seulement aux usagers. La ligne d'Ethics le dit plus
   durement encore : « absolute where it would decide for a human ».
 */
+/*
+  ─── La bascule, en trois lignes ───
+
+  CE QUE LA PAGE AFFIRME PARTOUT SANS JAMAIS LE POSER D'UN COUP. Les trois
+  lignes existent deja, eparpillees : « Governed as a platform, not maintained
+  as a library » dans le bandeau de chiffres, « across Sanofi's brand
+  portfolio » dans l'intro du hero, « by the teams that ship, and by the
+  agents that now build with them » sur l'axe System. Dites ensemble, elles
+  font la bascule ; dites a trois ecrans d'intervalle, elles font trois
+  details.
+
+  LA TROISIEME EST LA SEULE VRAIMENT NEUVE. Un systeme lu par des humains ET
+  par des machines, c'est la definition de l'experience design aujourd'hui, et
+  c'est ce que la page gagne sans le dire - le MCP, le LLM du Portal, les
+  agents heritiers de l'axe System.
+
+  EN MONOSPACE, PARCE QUE C'EST UN DIFF. Le registre existe deja sur la page -
+  les rangs des tuiles, les noms de capabilites - et il dit tout de suite
+  qu'on lit un etat technique, pas une promesse. L'alignement tient aux `ch` :
+  en chasse fixe, 10ch et 12ch donnent trois fleches exactement l'une sous
+  l'autre, sans grille.
+*/
+const bascule = [
+  { cle: 'role', avant: 'library', apres: 'platform' },
+  { cle: 'scope', avant: 'one product', apres: 'the portfolio' },
+  { cle: 'consumer', avant: 'humans', apres: 'humans + agents' },
+];
+
 const capacites: Tuile[] = [
   {
     eyebrow: '01', rappel: true, couleur: 'rouge',
@@ -788,6 +816,23 @@ const mecanismes: Tuile[] = [
     {/* ═══════════ 02 · The approach ═══════════ */}
     <section class="pan" id="pan-approach" aria-labelledby="titre-approach">
       <h2 class="sr-only" id="titre-approach">02 &middot; The approach</h2>
+
+      {/* Place avant la premiere sous-partie : on sort du chapitre 01 sur le
+          probleme, on entre dans l'approche par ce qui a change. */}
+      <ul class="bascule" aria-label="What changed">
+        {bascule.map((b) => (
+          <li class="bascule__ligne">
+            <span class="bascule__cle">{b.cle}</span>{' '}
+            <span class="bascule__av">{b.avant}</span>{' '}
+            {/* La fleche est muette : un lecteur d'ecran lit « becomes ». Et
+                c'est le caractere et non l'entite, parce que l'export de copy
+                ne decode pas les entites et rendrait « &rarr; » tel quel. */}
+            <span class="bascule__fl" aria-hidden="true">→</span>
+            <span class="sr-only">becomes</span>{' '}
+            <span class="bascule__ap">{b.apres}</span>
+          </li>
+        ))}
+      </ul>
 
       <div class="subsec">
         <p class="eb" data-sommaire>Organisation &amp; governance</p>
@@ -1308,6 +1353,14 @@ const mecanismes: Tuile[] = [
     LOIN dans le bundle. A specificite egale elle gagnerait, y compris dans la
     requete media.
   */
+  .pan .bascule{list-style:none;margin:0 0 56px;padding:0;
+    font-family:ui-monospace,monospace;font-size:15px;line-height:2}
+  .pan .bascule__cle,.pan .bascule__av,.pan .bascule__fl{color:var(--ink-muted)}
+  .pan .bascule__cle{display:inline-block;min-width:10ch}
+  .pan .bascule__av{display:inline-block;min-width:12ch}
+  .pan .bascule__fl{display:inline-block;width:3ch}
+  .pan .bascule__ap{color:var(--blue);font-weight:700}
+
   @media(min-width:861px){
     /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
        qui la reprend apres doit retomber dans la meme colonne. */
@@ -1343,6 +1396,16 @@ const mecanismes: Tuile[] = [
   .pan .signature{margin:8px 0 0;font-family:var(--display);font-size:30px;
     line-height:1.15;font-weight:900;letter-spacing:-.02em;max-width:640px}
 
+  /* 40ch de chasse fixe ne tiennent pas dans 268px : la cle prend sa ligne,
+     et les deux etats restent alignes en dessous. */
+  @media(max-width:560px){
+    .pan .bascule{font-size:13px;line-height:1.7}
+    .pan .bascule__ligne{display:block;margin-bottom:14px}
+    .pan .bascule__cle{display:block;min-width:0}
+    /* 12ch et non 10 : « one product » en fait onze, et la fleche de sa
+       ligne se decalait des deux autres. */
+    .pan .bascule__av{min-width:12ch}
+  }
   @media(max-width:860px){
     .pan .signature{font-size:24px}
     .pan .parcours{gap:12px;padding:20px 16px}
