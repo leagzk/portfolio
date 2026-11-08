@@ -177,7 +177,7 @@
   serait un enfant de plus dans une grille a deux colonnes et deux rangees,
   qu'elle deborderait. Voir <ChiffresCles> pour ce qu'elle bouche.
 */
-.clef-bouche{display:none}
+.clef-bouche,.clef-fin{display:none}
 .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 .clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
@@ -460,7 +460,76 @@
   /* Au telephone les cases sont toutes de la meme largeur, donc le carre
      aussi : `--u` y designe encore le dessin du bureau, et le « 35+ » de
      Governance, a quatre unites, prendrait 112 des 171px de sa case. */
-  .clef--carre .clef__frag,.clef--encadre .clef__frag{width:84px}
+  .clef--carre .clef__frag{width:84px}
+  /*
+    LE CARRE VIDE NE SURVIT PAS AU TELEPHONE. L'encadre est un carre que seul
+    son trait dessine : a 171px de case il ne reste qu'une marque de 84 dans
+    un coin, sans plan derriere elle pour la tenir - un trait perdu, pas une
+    case qui se prolonge. La case reste blanche, simplement.
+  */
+  .clef--encadre .clef__frag{display:none}
+  /*
+    LA BANDE DEVIENT UN APLAT PLEIN. A 267px de large la bande de 30px est
+    un socle sous un nombre ; a 171px de case elle n'est plus qu'un trait de
+    couleur au bas d'un carre blanc, et la grille du telephone se lisait
+    comme quatre cases vides pour deux pleines. Le fragment prend toute la
+    case au lieu d'etre cache : il porte deja la couleur du chiffre, et il
+    continue de POUSSER a la construction comme les aplats pleins - d'ou
+    l'origine au coin haut gauche, qui est la leur.
+  */
+  .clef--bande .clef__frag{left:0;right:0;top:0;bottom:0;height:auto;
+    transform-origin:left top}
+  .clef--bande{color:var(--white)}
+  .clef--bande.clef--jaune,.clef--bande.clef--gris{color:var(--text)}
+  /*
+    ─── L'OUVERTURE SE FAIT SUR LE COTE, ET LA VOISINE DEVIENT UNE BANDE ───
+
+    C'est le geste du bureau, rendu au telephone : la case ouverte prend la
+    largeur de la rangee moins 36px, et sa voisine n'en garde que ces 36px -
+    un plan de couleur, sans texte. Le contexte se lit alors sur 307px au
+    lieu de 171, soit la moitie des lignes.
+
+    ELLE RESTE DANS LE FLUX, et c'est ce qui compte : en absolu elle ne
+    pousserait plus la rangee et flotterait au-dessus de celle du dessous. Un
+    `width` de plus de 100% la fait deborder sur sa voisine sans sortir du
+    flux, donc la rangee grandit avec son contenu. La case ouverte passe
+    devant (`z-index`) et rend son `overflow`, sans quoi elle se couperait a
+    sa propre arete.
+
+    LE COTE EST POSE AU BUILD (`--g` / `--d`), parce que CSS ne sait pas lire
+    la colonne qu'une grille a resolue - voir <ChiffresCles>.
+  */
+  .clef-case:has(.clef[aria-expanded="true"]){overflow:visible;z-index:3}
+  .clef[aria-expanded="true"]{position:relative;z-index:3;
+    width:calc(200% + var(--rule-fine) - 36px)}
+  .clef-case--d .clef[aria-expanded="true"]{
+    margin-left:calc(-100% - var(--rule-fine) + 36px)}
+  /* Le texte des autres s'en va : a 36px il n'y a pas de place pour une
+     ligne, et un mot coupe en pleine lettre se lit comme un bug. */
+  .cles--mondrian:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:0;
+    transition:opacity .25s}
+  .clef-case:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:1;
+    transition:opacity .3s .15s}
+  /*
+    ─── La definition, sans sa bande ───
+    La bande bleue de 84px ferme la case au bureau, ou elle fait vis-a-vis
+    aux deux rangees de chiffres. Empilee, elle n'a plus rien a fermer : elle
+    s'intercale entre la definition et le premier chiffre comme un aplat de
+    plus, large et sans objet. Elle part, son filet avec, et les 116px de
+    remplissage bas qu'elle reservait reviennent a 32.
+  */
+  .clef-def{padding:32px 24px}
+  .clef-def__bande,.clef-def__filet{display:none}
+  /*
+    ─── La ligne qui clot la section ───
+    Celle de l'accueil sous le rail des principes : une bande basse, son
+    filet - qui vient de l'ombre posee sur `.cles--mondrian > *` comme pour
+    toutes les cases - et un carre de 10px a gauche, aligne sur le texte des
+    cases.
+  */
+  .clef-fin{display:flex;align-items:center;grid-column:1 / -1 !important;
+    padding:12px 16px}
+  .clef-fin__carre{width:10px;height:10px;background:var(--ink)}
   .clef:hover .clef__detail,.clef:focus-visible .clef__detail{opacity:0;max-height:0}
   .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:400px}
   .clef:hover .clef__ico--o,.clef:focus-visible .clef__ico--o{opacity:1}

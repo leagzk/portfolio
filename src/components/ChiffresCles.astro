@@ -185,6 +185,20 @@ const unitesDe = (depart: number, fin: number) => {
   deux bornes pour chaque changement de nombre. La coupe suit desormais le
   compte.
 */
+/*
+  LE COTE DE LA CASE AU TELEPHONE SE CALCULE ICI, ET IL LE FAUT.
+
+  Sous le palier la bande est une seule grille de deux colonnes et les rangees
+  sont en `display:contents` : une case de rang pair tombe a gauche, une case
+  de rang impair a droite, quelle que soit la rangee dont elle vient. Le CSS,
+  lui, ne sait pas lire la colonne qu'une grille a resolue - et `nth-child` ne
+  compte QUE dans la rangee, qui n'est plus l'unite d'affichage (celle de
+  Governance en porte trois pour deux colonnes). Le cote est donc pose au
+  build, ou l'ordre des chiffres est connu.
+
+  Il sert a l'ouverture : la case s'etend vers sa voisine, a droite si elle
+  est a gauche et l'inverse, et il faut savoir de quel cote pousser.
+*/
 const MOITIE = Math.ceil(chiffres.length / 2);
 const RANGEES = avecDef
   ? [{ depart: 0, fin: MOITIE }, { depart: MOITIE, fin: chiffres.length }]
@@ -244,7 +258,10 @@ const RANGEES = avecDef
       {chiffres.slice(r.depart, r.fin).map((c, j) => {
         const i = r.depart + j;
         return (
-      <div class="clef-case" style={`--u:${unites.get(i)}`}>
+      <div
+        class:list={['clef-case', i % 2 === 0 ? 'clef-case--g' : 'clef-case--d']}
+        style={`--u:${unites.get(i)}`}
+      >
         <button
           class:list={[
             'clef',
@@ -305,6 +322,13 @@ const RANGEES = avecDef
         <span class="clef-bouche__plat"></span>
       </div>
     )}
+    {/*
+      LA LIGNE QUI CLOT LA SECTION, au telephone seulement - c'est celle de
+      l'accueil sous le rail des principes : une bande blanche basse, son
+      filet, et un petit carre a gauche. Elle dit que la grille s'arrete ici
+      plutot que de la laisser finir sur une arete de case.
+    */}
+    <div class="clef-fin" aria-hidden="true"><span class="clef-fin__carre"></span></div>
   </section>
 ) : (
   <section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>
