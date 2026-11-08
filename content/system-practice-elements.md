@@ -149,6 +149,8 @@ It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends whe
 
 Brand, design and engineering pour into the same chain - the wait between experts, engineered out. **The ÷3 is not people working faster - it's three expertises working together instead of in three silos.**
 
+And the chain was built inside the workflow each craft already had, never beside it. **What I systematized is the collaboration, not one more tool per craft** - how three expertises work on one thing, rather than three better ways of working alone.
+
 Next: the proof →
 
 ## 03 &middot; The proof
