@@ -29,6 +29,16 @@
 import Icone from './Icone.astro';
 
 export interface Props {
+  /**
+   * LA SYNTHESE NE REDIT PAS LA BANDE DE CHIFFRES. Elle est lue A COTE
+   * d'elle - la composition pose les quatre cartes sous les cinq chiffres -
+   * donc un chiffre cite ici se lit deux fois a dix centimetres d'ecart.
+   * Trois cartes le faisaient : « 87% of each product's interface » et
+   * « three times faster » et « 35+ contributors » sur Governance, « Zero
+   * resignations » sur la quatrieme, « 2,500 people » sur Language, « nine
+   * suppliers » sur Surfaces. La synthese dit ce que le chapitre PROUVE ;
+   * les chiffres restent ou ils comptent, dans la bande.
+   */
   /** identifiant du bouton - cible des « Next: … » de fin de section */
   id: string;
   /** le rang, tel qu'il s'affiche : « 01 » */

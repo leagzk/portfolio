@@ -62,11 +62,11 @@ Internalize the engineering, rebuild from zero, and run it as a platform: three 
 
 Adopted. Trusted. Extended.
 
-100% adoption across the three Digital Accelerators, 87% of each product's interface, launches shipped three times faster - and 35+ contributors who keep it alive without me.
+Adoption nobody had to mandate, across every accelerator Sanofi runs - and a community that now ships the roadmap. The system outlived the decision that funded it.
 
 I didn't build a system I hold together.
 
-Autonomy, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story.
+Autonomy, a capability each person owns, and one question every week: is the work moving, and is the person growing. An Awards jury called it a leadership story, not a system story.
 
 ## 01 &middot; The problem
 
@@ -159,39 +159,29 @@ Business impact
 
 These numbers belong to *the team that made them.*
 
-**A structure only counts if it holds.** This one does. **From zero users to a community of 2,000+ practitioners.**
+**A structure only counts if it holds, and this one holds without me.** Adoption never came from a mandate. It was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. **The platform stopped being a cost the business approves, and became what its launches plan around.**
 
-4.7 out of 5 on practitioner satisfaction, twice a year. **People don't comply with Elements, they trust it.**
-
-Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.
-
-Influence & community
+Influence
 
 A design system you install. *A community you have to earn.*
 
-Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.
+Most system owners treat community as a comms afterthought. I made it the strategy. Adoption never comes from mandate, only from ownership: a system nobody believes in dies with its founder, one a community owns outlives them.
 
-**Experience runs both ways.** Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. *Design the experience of the people designing the experience.*
+**The timing was the bet.** We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.
 
-consumer
+Trust is the part nobody can mandate, so it is the part I measured. **4.7 out of 5 on practitioner satisfaction, twice a year.** People don't comply with Elements. They trust it.
 
-contributor
+Community
 
-maintainer
+Using it is the first rung. *Owning it is the last.*
 
-So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became **Practitioner Experience**.
+Everyone starts as a consumer. Some file an issue, propose a token, fix a page - that makes them contributors. A few take a piece and keep it alive: maintainers, who own what they built. **There is no small contribution.** Each gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.
 
-The timing was the bet. We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own - so the foundations became the standard rather than catching up with it.
+So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became **Practitioner Experience**. My team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
 
-Community-led adoption, contribution over control - and my team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
-
-This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. Not a mailing list: a contribution model adapted from Zalando's, where everyone gives at the level of their skill.
+This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. *Design the experience of the people designing the experience.*
 
 > The community, in one place for once
-
-**87% average usage per product in production, from near-zero.** That isn't a launch - it's change management at scale. **Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.** It takes patience and it takes refusing - the two are the same discipline, not opposites.
-
-Collaboration
 
 - Rigour The roadmap grew on what product teams brought back. Every component started from what teams told us they were rebuilding. Their cases fed the pipeline, and the conventions that came out of it were written down once, for everyone. **A roadmap nobody had to lobby for.**
 

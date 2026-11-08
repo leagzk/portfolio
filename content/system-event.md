@@ -51,7 +51,7 @@ Declined on paper, fabric, metal and wood - then staged in the space, and closed
 
 Precise enough to be run without me in the room.
 
-One page per zone, one owner per page. I briefed nine suppliers from it, handed the day to a coordinator - and got to be in the experience instead of running it.
+One page per zone, one owner per page. I briefed every supplier from it, handed the day to a coordinator - and got to be in the experience instead of running it.
 
 ## 01 &middot; The constraint
 

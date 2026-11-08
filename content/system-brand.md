@@ -50,7 +50,7 @@ Name IT's place in the value chain first, then build the platform and a producti
 
 Adopted without being enforced.
 
-2,500 people shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com.
+People shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com.
 
 ## 01 &middot; The problem
 

@@ -50,9 +50,6 @@ import type { ImageMetadata } from 'astro';
 /* INLINES : ces quatre dessins suivent le theme par currentColor, ce qu'un
    <img> ne permet pas. Voir l'en-tete de system-brand.astro pour le detail. */
 import IdeaVisual from '../assets/elements-system/idea-visual.svg';
-import ConsumerVisual from '../assets/elements-system/consumer-visual.svg';
-import ContributorVisual from '../assets/elements-system/contributor-visual.svg';
-import MaintainerVisual from '../assets/elements-system/maintainer-visual.svg';
 
 /* Resolues a la compilation : un nom errone casse le build, la ou un chemin en
    chaine aurait produit un 404 silencieux en production. */
@@ -679,7 +676,7 @@ const mecanismes: Tuile[] = [
         rang="03"
         intitule="The proof"
         titre="Adopted. Trusted. Extended."
-        synthese="100% adoption across the three Digital Accelerators, 87% of each product's interface, launches shipped three times faster - and 35+ contributors who keep it alive without me."
+        synthese="Adoption nobody had to mandate, across every accelerator Sanofi runs - and a community that now ships the roadmap. The system outlived the decision that funded it."
         couleur="jaune"
         commande="pan-proof"
         aire="4 / 1 / 6 / 3"
@@ -702,7 +699,7 @@ const mecanismes: Tuile[] = [
         rang="04"
         intitule="The team"
         titre="I didn't build a system I hold together."
-        synthese="Autonomy, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story."
+        synthese="Autonomy, a capability each person owns, and one question every week: is the work moving, and is the person growing. An Awards jury called it a leadership story, not a system story."
         couleur="noir"
         commande="pan-team"
         aire="4 / 3 / 6 / 6"
@@ -1071,6 +1068,29 @@ const mecanismes: Tuile[] = [
     <section class="pan" id="pan-proof" aria-labelledby="titre-proof">
       <h2 class="sr-only" id="titre-proof">03 &middot; The proof</h2>
 
+      {/*
+        ═══ TROIS SOUS-PARTIES, TROIS MOTS DU TITRE ═══
+
+        LA CARTE DU CHAPITRE PROMET « ADOPTED. TRUSTED. EXTENDED. » et le
+        chapitre livrait « Business impact », « Influence & community »,
+        « Collaboration » : aucun rapport lisible entre ce qu'on annonce et
+        ce qu'on ouvre. Les intitules ne bougent pas - ce sont les bons mots
+        pour un lecteur qui scanne - mais chacun porte desormais UN des trois
+        mots. Business impact dit ce qui a ete ADOPTE, Influence ce qui a ete
+        gagne en CONFIANCE, Community ce qui s'EST ETENDU sans moi.
+
+        ET LA REPARTITION SUIVAIT MAL SON PLAN. « Business impact » ne
+        contenait aucun impact business - de l'adoption et de la satisfaction
+        - pendant que le paragraphe du 87%, qui EST l'impact, echouait a la
+        fin de la sous-partie suivante. « Influence & community » portait
+        cinq sujets. « Collaboration » ne portait que trois tuiles.
+
+        LA LIGNE « ADOPTED. TRUSTED. EXTENDED. EVERYTHING A SYSTEM NEEDS TO
+        OUTLIVE THE PERSON WHO BUILT IT » EST TOMBEE. Elle redisait le titre
+        de la carte mot pour mot, et sa seconde moitie redisait « a system
+        nobody believes in dies with its founder » deux paragraphes plus bas.
+        Le plan porte maintenant la figure ; il n'a pas besoin de l'enoncer.
+      */}
       <div class="subsec">
         <p class="eb" data-sommaire>Business impact</p>
         <div class="split">
@@ -1082,39 +1102,58 @@ const mecanismes: Tuile[] = [
           */}
           <p class="lead">These numbers belong to <em class="em-rouge">the team that made them.</em></p>
           <div class="body">
-            <p><strong>A structure only counts if it holds.</strong> This one does. <strong>From zero users to a community of 2,000+ practitioners.</strong></p>
-            <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong>People don't comply with Elements, they trust it.</strong></p>
-            <p class="qt">Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.</p>
+            {/* UN PARAGRAPHE, ET IL NE CITE PLUS LES CHIFFRES. La bande du
+                haut les porte deja ; les redire ici serait la troisieme
+                lecture du meme 87%. Ce paragraphe dit ce qu'ils ont COUTE,
+                et finit sur la seule phrase de niveau direction : ce que la
+                plateforme est devenue pour le business. */}
+            <p><strong>A structure only counts if it holds, and this one holds without me.</strong> Adoption never came from a mandate. It was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. <strong>The platform stopped being a cost the business approves, and became what its launches plan around.</strong></p>
           </div>
         </div>
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Influence &amp; community</p>
+        <p class="eb" data-sommaire>Influence</p>
         <div class="split">
           <p class="lead">A design system you install. <em class="em-rouge">A community you have to earn.</em></p>
           <div class="body">
-            <p>Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.</p>
-            <p><strong>Experience runs both ways.</strong> Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. <em>Design the experience of the people designing the experience.</em></p>
+            <p>Most system owners treat community as a comms afterthought. I made it the strategy. Adoption never comes from mandate, only from ownership: a system nobody believes in dies with its founder, one a community owns outlives them.</p>
+            <p><strong>The timing was the bet.</strong> We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.</p>
+            {/* La confiance arrive ICI et non au Business impact : c'est le
+                deuxieme mot du titre, et c'est ce qu'une adoption gagnee
+                produit. Le 4,7 n'est pas dans la bande du haut, donc il peut
+                etre cite. */}
+            <p>Trust is the part nobody can mandate, so it is the part I measured. <strong>4.7 out of 5 on practitioner satisfaction, twice a year.</strong> People don't comply with Elements. They trust it.</p>
           </div>
         </div>
+      </div>
 
-        {/* Le rang tombe a l'endroit exact ou « de consumer a maintainer » cesse
-            d'etre une idee pour devenir un dispositif. */}
-        <p class="parcours" aria-label="The practitioner path: consumer, then contributor, then maintainer">
-          <span class="parcours__s"><span class="parcours__i" aria-hidden="true"><ConsumerVisual /></span>consumer</span>
-          <span class="parcours__a" aria-hidden="true"><Icone nom="fleche" taille={20} /></span>
-          <span class="parcours__s"><span class="parcours__i" aria-hidden="true"><ContributorVisual /></span>contributor</span>
-          <span class="parcours__a" aria-hidden="true"><Icone nom="fleche" taille={20} /></span>
-          <span class="parcours__s"><span class="parcours__i" aria-hidden="true"><MaintainerVisual /></span>maintainer</span>
-        </p>
+      {/*
+        L'ECHELLE DE CONTRIBUTION SE LIT, ELLE NE S'ILLUSTRE PLUS. Trois
+        pictogrammes et trois mots - consumer, contributor, maintainer -
+        montraient qu'il y a trois rangs et rien d'autre : ni ce qu'on fait a
+        chaque rang, ni ce qui change au dernier. Dite en trois phrases, la
+        meme echelle porte la propriete, qui est tout le propos.
 
+        LES TROIS MECANISMES REJOIGNENT CETTE SOUS-PARTIE. Ils vivaient sous
+        « Collaboration », seuls, sans une ligne de texte autour. Rigueur,
+        responsabilite, ethique sont exactement ce qu'une communaute qui
+        possede le systeme en fait : une roadmap nourrie par les equipes, une
+        charge retiree de leurs epaules, une mefiance transformee en travail
+        commun. Ce sont des preuves de l'extension, pas un quatrieme sujet.
+      */}
+      <div class="subsec">
+        <p class="eb" data-sommaire>Community</p>
+        <div class="split">
+          <p class="lead">Using it is the first rung. <em class="em-rouge">Owning it is the last.</em></p>
+          <div class="body">
+            <p>Everyone starts as a consumer. Some file an issue, propose a token, fix a page - that makes them contributors. A few take a piece and keep it alive: maintainers, who own what they built. <strong>There is no small contribution.</strong> Each gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.</p>
+          </div>
+        </div>
         <div class="split split--haut">
           <div class="body">
-            <p>So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became <strong>Practitioner Experience</strong>.</p>
-            <p>The timing was the bet. We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own - so the foundations became the standard rather than catching up with it.</p>
-            <p>Community-led adoption, contribution over control - and my team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.</p>
-            <p>This is how a <strong>core interdisciplinary community of 300+ across 5 global hubs</strong> - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. Not a mailing list: a contribution model adapted from Zalando's, where everyone gives at the level of their skill.</p>
+            <p>So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became <strong>Practitioner Experience</strong>. My team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.</p>
+            <p>This is how a <strong>core interdisciplinary community of 300+ across 5 global hubs</strong> - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. <em>Design the experience of the people designing the experience.</em></p>
           </div>
           <div class="pile">
             <Figure
@@ -1127,31 +1166,6 @@ const mecanismes: Tuile[] = [
             />
           </div>
         </div>
-
-        <div class="body">
-          <p><strong>87% average usage per product in production, from near-zero.</strong> That isn't a launch - it's change management at scale. <strong>Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.</strong> It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
-        </div>
-      </div>
-
-      {/*
-        LES TROIS MECANISMES ONT CHANGE DE CHAPITRE, ET D'ANGLE. Ils vivaient
-        au 02 sous « I don't state values. I install them. » - trois
-        disciplines installees dans la machine, donc de la structure. Mais
-        Operating System porte deja ces trois principes-la, et le 02 venait
-        de recevoir l'instrumentation : « discovery » s'y disait deux fois, et
-        « le standard est en amont » aussi.
-
-        RACONTES COMME DE L'ECOUTE, ils deviennent la preuve de ce que ce
-        chapitre avance - une communaute qui faconne la plateforme. Le
-        premier dit ce que les equipes ont apporte a la roadmap, le deuxieme
-        ce qu'on leur a retire des epaules, le troisieme ce qu'on a fait de
-        leur mefiance envers l'IA. Les trois intitules ne bougent pas : la
-        rigueur, la responsabilite et l'ethique restent le nom de ces
-        mecanismes, elles cessent seulement d'etre enoncees pour etre
-        montrees.
-      */}
-      <div class="subsec">
-        <p class="eb" data-sommaire>Collaboration</p>
         <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms" hauteur={320} />
       </div>
 
@@ -1317,22 +1331,6 @@ const mecanismes: Tuile[] = [
         minmax(200px,auto) minmax(70px,auto)}
   }
 
-  /*
-    ─── Le parcours du praticien ───
-    consumer → contributor → maintainer. Les trois dessins sont INLINES et non
-    poses en <img> : leur trait suit --accent par currentColor, ce qu'un
-    document separe ne permet pas.
-  */
-  .pan .parcours{margin:0;display:flex;align-items:center;justify-content:center;
-    gap:20px;flex-wrap:wrap;padding:28px 20px;
-    border:var(--rule-fine) solid var(--text);background:var(--white)}
-  .pan .parcours__s{display:flex;align-items:center;gap:12px;
-    font-family:var(--display);font-size:22px;font-weight:900;letter-spacing:-.01em}
-  .pan .parcours__i{display:grid;place-items:center;width:46px;height:46px;
-    flex:none;color:var(--accent)}
-  .pan .parcours__i svg{width:100%;height:auto;display:block}
-  .pan .parcours__a{display:grid;place-items:center;color:var(--blue)}
-
 
   /*
     LA SIGNATURE FERME LA PAGE, et c'est la phrase du site entier - celle du
@@ -1345,9 +1343,6 @@ const mecanismes: Tuile[] = [
 
   @media(max-width:860px){
     .pan .signature{font-size:24px}
-    .pan .parcours{gap:12px;padding:20px 16px}
-    .pan .parcours__s{font-size:18px}
-    .pan .parcours__i{width:38px;height:38px}
   }
 </style>
 
