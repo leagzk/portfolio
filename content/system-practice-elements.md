@@ -120,9 +120,7 @@ Vision & strategy
 
 The best architecture I built *started as the one I got backwards.*
 
-Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities - and none of them works alone.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
-
-You may think it is a Figma library
+All it could have been
 
 > Libraries
 
@@ -132,7 +130,7 @@ You may think it is a Figma library
 
 > Global team
 
-Multi-brand &middot; multi-theme &middot; from employee to patient
+Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities - and none of them works alone.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
 - 01 Brand A brand architecture that modulates across every touchpoint, physical to digital - modular enough to travel, expressive enough to stay recognisable. Without it, everything ships, and nothing arrives. Corporate Experience · Experience Foundations 01 **Corporate Experience** Identity, theming and multi-brand coherence, on every corporate and marketing surface. **Where the brand becomes tangible.** **Experience Foundations** Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. **The brand's foundations, including the digital non-negotiables.**
 

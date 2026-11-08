@@ -828,13 +828,6 @@ const mecanismes: Tuile[] = [
             troisieme place aussi bien, et elle se lit seule.
           */}
           <p class="lead">The best architecture I built <em class="em-bleu">started as the one I got backwards.</em></p>
-          <div class="body">
-            <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities - and none of them works alone.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
-            {/* Elle conclut l'architecture, pas l'erreur : posee au chapitre 01
-                elle commentait la faute avant qu'on ait vu ce qu'elle a produit.
-                Ici, le lecteur vient de lire les trois axes - la phrase dit d'ou
-                ils viennent. */}
-          </div>
         </div>
         {/*
           LES IMAGES ONT REJOINT LA PHRASE QU'ELLES PROUVENT.
@@ -871,18 +864,22 @@ const mecanismes: Tuile[] = [
         */}
         <Carrousel
           label="Facets of the platform"
-          eyebrow="You may think it is a Figma library"
+          eyebrow="All it could have been"
           vignettes={facettes}
           ratio="16 / 9"
           fr={1.7778}
           largeur="78%"
-          {/* Deux colonnes au bureau : les quatre facettes se voient d'un
-              coup. Sous 860px la piste revient, parce qu'une mosaique y
-              ferait quatre ecrans a traverser avant les six capabilites. */}
-          mosaique={2}
+          {/* PAS DE MOSAIQUE : la piste reste une piste a toutes les
+              largeurs. Les quatre vignettes se lisent dans un ORDRE - « You
+              may think it is... », « This... », « Or even this... », « Or
+              this... » - et une mosaique deux par deux donne les quatre d'un
+              coup, donc elle casse la montee. Elle coutait aussi 683px de
+              haut avant les tuiles. */}
           sizes="(min-width: 900px) 520px, 90vw"
         />
-        <p class="cap portee">Multi-brand &middot; multi-theme &middot; from employee to patient</p>
+        <div class="body entree">
+          <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities - and none of them works alone.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
+        </div>
         <Tuiles tuiles={capacites} colonnes={3} label="Three axes, six capabilities" hauteur={340} />
       </div>
 
@@ -1187,9 +1184,10 @@ const mecanismes: Tuile[] = [
   .pan .parcours__i svg{width:100%;height:auto;display:block}
   .pan .parcours__a{display:grid;place-items:center;color:var(--blue)}
 
-  /* Le perimetre, en une ligne centree sous les quatre facettes : c'est une
-     legende de serie, pas un paragraphe. */
-  .pan .portee{text-align:center;letter-spacing:.06em}
+  /* Le paragraphe d'entree des tuiles garde la mesure qu'il avait dans le
+     .split - la colonne de droite, 7 sur 12 moins la gouttiere - pour ne pas
+     s'etaler sur toute la largeur maintenant qu'il n'a plus de voisin. */
+  .pan .entree{max-width:calc((100% - 48px) * 7 / 12)}
 
   /*
     LA SIGNATURE FERME LA PAGE, et c'est la phrase du site entier - celle du
@@ -1201,6 +1199,7 @@ const mecanismes: Tuile[] = [
     line-height:1.15;font-weight:900;letter-spacing:-.02em;max-width:640px}
 
   @media(max-width:860px){
+    .pan .entree{max-width:none}
     .pan .signature{font-size:24px}
     .pan .parcours{gap:12px;padding:20px 16px}
     .pan .parcours__s{font-size:18px}
