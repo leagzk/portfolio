@@ -162,28 +162,59 @@ const facettes: Vignette[] = [
 
 /*
   ─── Trois axes, six capabilites ───
-  LA TENSION EST LE PROPOS : ce ne sont pas trois axes paralleles, chacun ne
-  tient que parce que les deux autres tiennent leur bout. D'ou la chute au
-  verso de chaque tuile - c'est elle qu'on retourne pour lire, et c'est elle qui
-  dit a quoi sert la capabilite.
-  Six tuiles sur trois colonnes : les deux rangees font les trois axes, un axe
-  par paire de colonnes voisines.
+
+  UNE TUILE PAR AXE, ET NON PAR CAPABILITE. Les six tuiles tenaient sur trois
+  colonnes et deux rangees - 1024 x 605px -, et la grille y DECHIRAIT un axe :
+  mesure a 1440px, « Brand × Product » occupait les colonnes 1 et 2 de la
+  premiere rangee, « People » les colonnes 2 et 3 de la seconde, mais
+  « System » tombait en colonne 3 rangee 1 PUIS en colonne 1 rangee 2 - deux
+  coins opposes, 681px d'ecart. Le commentaire promettait « un axe par paire
+  de colonnes voisines » ; six tuiles sur trois colonnes font un enroulement
+  en diagonale. On annoncait trois axes et on montrait deux paires groupees
+  plus une paire arrachee.
+
+  ET RIEN N'ETAIT LISIBLE AU REPOS : le texte d'une tuile vit au verso, donc
+  il fallait six retournements pour savoir ce que l'architecture contient.
+
+  L'axe devient donc l'unite - trois tuiles, une rangee, ~340px au lieu de
+  605 - et le recto porte tout ce qui situe : le rang, le nom de l'axe, ce
+  qu'il regle, et le nom de ses deux capabilites. Seules les deux
+  DESCRIPTIONS sont au verso, la ou le detail a sa place.
+
+  LE RESUME DIT CE QUE L'AXE REGLE, PAS CE QU'IL CONTIENT. C'est la lecture
+  qui manquait : la liste des capabilites se lit deja sur le recto, et
+  repeter « identity, theming, coherence » en plus petit n'aurait rien
+  ajoute. Chacun nomme une chose que l'organisation cesse de payer.
 */
 const capacites: Tuile[] = [
-  { eyebrow: 'Brand × Product', rappel: true, couleur: 'rouge', titre: 'Corporate Experience',
-    texte: 'The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. <strong>Where the brand becomes tangible.</strong>' },
-  { eyebrow: 'Brand × Product', rappel: true, couleur: 'bleu', titre: 'Product Foundations',
-    texte: 'The mandatory building blocks of every experience: principles, accessibility, grids, spatial system, motion, data visualisation, theming. <strong>The digital non-negotiables.</strong>' },
-  { eyebrow: 'System', rappel: true, couleur: 'jaune', titre: 'Design System',
-    texte: 'The reusable, scalable foundation: token architecture, component libraries, integrated guidelines, engineering standards. <strong>From token to production.</strong>' },
-  { eyebrow: 'System', rappel: true, couleur: 'noir', titre: 'Experience Patterns',
-    texte: 'Standardized but flexible design and interaction patterns, from internal AI-driven tooling to marketing interfaces, business-specific. <strong>Learn once, apply everywhere.</strong>' },
-  { eyebrow: 'People', rappel: true, couleur: 'bleu', titre: 'Practitioner Experience',
-    texte: 'The service layer around the people who use and contribute to the system: tiered service model, onboarding, unified tooling, rituals, academy. <strong>The humans who use it, and those who craft it.</strong>' },
-  { eyebrow: 'People', rappel: true, couleur: 'rouge', titre: 'Community of Practice',
-    texte: 'The governance and culture that turn contribution into practice: inner source model, contribution pathways, shared rituals, practice leadership. <strong>The humans who grow it.</strong>' },
+  {
+    eyebrow: '01', rappel: true, couleur: 'rouge',
+    titre: 'Brand × Product'
+      + ' <span class="cap__resume">Brand decisions, settled before a product has to make them.</span>'
+      + ' <span class="cap__noms">Corporate Experience · Product Foundations</span>',
+    texte:
+      '<span class="cap__bloc"><b>Corporate Experience</b> Identity, theming and multi-brand coherence, on every corporate and marketing surface. <strong>Where the brand becomes tangible.</strong></span>'
+      + '<span class="cap__bloc"><b>Product Foundations</b> Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. <strong>The digital non-negotiables.</strong></span>',
+  },
+  {
+    eyebrow: '02', rappel: true, couleur: 'bleu',
+    titre: 'System'
+      + ' <span class="cap__resume">The part nobody should have to build twice.</span>'
+      + ' <span class="cap__noms">Design System · Experience Patterns</span>',
+    texte:
+      '<span class="cap__bloc"><b>Design System</b> Token architecture, component libraries, integrated guidelines, engineering standards - one chain, and nobody rebuilds a link of it. <strong>From token to production.</strong></span>'
+      + '<span class="cap__bloc"><b>Experience Patterns</b> Standardized but flexible patterns, from AI-driven internal tooling to marketing interfaces: business-specific where it counts, shared everywhere else. <strong>Learn once, apply everywhere.</strong></span>',
+  },
+  {
+    eyebrow: '03', rappel: true, couleur: 'jaune',
+    titre: 'People'
+      + ' <span class="cap__resume">What turns users into owners, and owners into a practice.</span>'
+      + ' <span class="cap__noms">Practitioner Experience · Community of Practice</span>',
+    texte:
+      '<span class="cap__bloc"><b>Practitioner Experience</b> A tiered service model, onboarding, unified tooling, rituals, an academy. The people who build the experience get one designed for them too. <strong>The humans who use it, and those who craft it.</strong></span>'
+      + '<span class="cap__bloc"><b>Community of Practice</b> Inner source, contribution pathways, shared rituals, practice leadership - governance that makes contribution a craft rather than a favour. <strong>The humans who grow it.</strong></span>',
+  },
 ];
-
 /*
   ─── LE SOMMAIRE EST LA LISTE DES SOUS-PARTIES ───
 
@@ -766,7 +797,7 @@ const mecanismes: Tuile[] = [
           sizes="(min-width: 900px) 520px, 90vw"
         />
         <p class="cap portee">Multi-brand &middot; multi-theme &middot; from employee to patient</p>
-        <Tuiles tuiles={capacites} colonnes={3} label="Three axes, six capabilities" hauteur={300} />
+        <Tuiles tuiles={capacites} colonnes={3} label="Three axes, six capabilities" hauteur={340} />
       </div>
 
       <div class="subsec">

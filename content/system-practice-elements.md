@@ -134,17 +134,11 @@ You may think it is a Figma library
 
 Multi-brand &middot; multi-theme &middot; from employee to patient
 
-- Brand × Product Corporate Experience Brand × Product The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. **Where the brand becomes tangible.**
+- 01 Brand × Product Brand decisions, settled before a product has to make them. Corporate Experience · Product Foundations 01 **Corporate Experience** Identity, theming and multi-brand coherence, on every corporate and marketing surface. **Where the brand becomes tangible.** **Product Foundations** Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. **The digital non-negotiables.**
 
-- Brand × Product Product Foundations Brand × Product The mandatory building blocks of every experience: principles, accessibility, grids, spatial system, motion, data visualisation, theming. **The digital non-negotiables.**
+- 02 System The part nobody should have to build twice. Design System · Experience Patterns 02 **Design System** Token architecture, component libraries, integrated guidelines, engineering standards - one chain, and nobody rebuilds a link of it. **From token to production.** **Experience Patterns** Standardized but flexible patterns, from AI-driven internal tooling to marketing interfaces: business-specific where it counts, shared everywhere else. **Learn once, apply everywhere.**
 
-- System Design System System The reusable, scalable foundation: token architecture, component libraries, integrated guidelines, engineering standards. **From token to production.**
-
-- System Experience Patterns System Standardized but flexible design and interaction patterns, from internal AI-driven tooling to marketing interfaces, business-specific. **Learn once, apply everywhere.**
-
-- People Practitioner Experience People The service layer around the people who use and contribute to the system: tiered service model, onboarding, unified tooling, rituals, academy. **The humans who use it, and those who craft it.**
-
-- People Community of Practice People The governance and culture that turn contribution into practice: inner source model, contribution pathways, shared rituals, practice leadership. **The humans who grow it.**
+- 03 People What turns users into owners, and owners into a practice. Practitioner Experience · Community of Practice 03 **Practitioner Experience** A tiered service model, onboarding, unified tooling, rituals, an academy. The people who build the experience get one designed for them too. **The humans who use it, and those who craft it.** **Community of Practice** Inner source, contribution pathways, shared rituals, practice leadership - governance that makes contribution a craft rather than a favour. **The humans who grow it.**
 
 Build pipeline
 

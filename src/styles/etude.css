@@ -1201,6 +1201,38 @@
 */
 .dcarte[aria-expanded="true"] .dcarte__points{display:none}
 
+/* ═══════════ Les trois axes de Governance ═══════════ */
+/*
+  LE RECTO D'UNE TUILE D'AXE PORTE QUATRE CHOSES, la ou le gabarit en prevoit
+  deux : le rang (l'eyebrow du composant), le nom de l'axe, ce qu'il regle, et
+  le nom de ses deux capabilites. Les trois dernieres vivent dans le `titre`,
+  qui accepte du HTML - c'est la seule facon de les poser sans ouvrir une
+  quatrieme et une cinquieme prop dans <Tuiles>, qui sert quatre autres series
+  sur le site.
+
+  Elles doivent donc se defaire du titre : il est en display 900 a 22px, et
+  une phrase de resume ecrite a cette casse serait un second titre.
+*/
+.tuile__titre .cap__resume{display:block;margin-top:10px;font-family:var(--body);
+  font-size:14px;font-weight:400;line-height:1.5;opacity:.92}
+/*
+  LES DEUX NOMS SE LISENT COMME UN REPERE, pas comme une suite du texte : meme
+  monospace que le rang en haut de la tuile, et le lecteur voit d'un coup que
+  l'axe en contient deux. Ils sont a l'arret ce que le verso detaille.
+*/
+.tuile__titre .cap__noms{display:block;margin-top:14px;
+  font-family:ui-monospace,monospace;font-size:12px;font-weight:400;
+  line-height:1.5;opacity:.8}
+/*
+  LE VERSO TIENT DEUX CAPABILITES, et il faut qu'on voie ou l'une s'arrete.
+  Le nom passe en bloc au-dessus de sa description - en ligne, les deux
+  paragraphes se seraient lus comme un seul texte a six phrases.
+*/
+.tuile__texte .cap__bloc{display:block}
+.tuile__texte .cap__bloc + .cap__bloc{margin-top:14px}
+.tuile__texte .cap__bloc b{display:block;font-family:var(--display);
+  font-size:15px;font-weight:900;line-height:1.2;margin-bottom:4px}
+
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
   Grammaire commune a toutes les sections : eyebrow → phrase forte a gauche →
