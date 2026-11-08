@@ -122,6 +122,18 @@ The best architecture I built *started as the one I got backwards.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities - and none of them works alone.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
+You may think it is a Figma library
+
+> Libraries
+
+> Product implementation
+
+> Integrated support
+
+> Global team
+
+Multi-brand &middot; multi-theme &middot; from employee to patient
+
 - Brand × Product Corporate Experience Brand × Product The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. **Where the brand becomes tangible.**
 
 - Brand × Product Product Foundations Brand × Product The mandatory building blocks of every experience: principles, accessibility, grids, spatial system, motion, data visualisation, theming. **The digital non-negotiables.**
@@ -155,20 +167,6 @@ These numbers belong to *the team that made them.*
 4.7 out of 5 on practitioner satisfaction, twice a year. **People don't comply with Elements, they trust it.**
 
 Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.
-
-What Elements actually is
-
-You may think it is a Figma library
-
-> Libraries
-
-> Product implementation
-
-> Integrated support
-
-> Global team
-
-Multi-brand &middot; multi-theme &middot; from employee to patient
 
 Influence & community
 

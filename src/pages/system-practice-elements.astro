@@ -719,6 +719,53 @@ const mecanismes: Tuile[] = [
                 ils viennent. */}
           </div>
         </div>
+        {/*
+          LES IMAGES ONT REJOINT LA PHRASE QU'ELLES PROUVENT.
+
+          Ce carrousel vivait au chapitre 03, sous un eyebrow a lui - « What
+          Elements actually is » -, entre les chiffres et la communaute. Il y
+          faisait trois choses de travers.
+
+          IL DISAIT UNE TROISIEME FOIS CE QUE LA PAGE DIT DEJA DEUX FOIS. La
+          case de definition ecrit « Governed as a platform, not maintained
+          as a library », et le paragraphe juste au-dessus « Elements isn't a
+          single product anymore ». Son propre eyebrow, « You may think it is
+          a Figma library », est le meme argument - a deux chapitres de la
+          phrase qu'il illustre. Ce qu'il apporte de neuf, ce sont les quatre
+          IMAGES ; elles sont maintenant contre leur phrase.
+
+          SON EYEBROW NE NOMMAIT PAS LA MEME CHOSE QUE LES DOUZE AUTRES. Tous
+          nomment un ARGUMENT - Root cause, Investment case, Build pipeline ;
+          celui-la nommait une chose, et sa sous-partie n'avait aucune prose
+          pour la defendre. Depuis que les eyebrows sont les puces du
+          sommaire, elle promettait un raisonnement et livrait une galerie.
+          Le sommaire passe de 3-3-4-3 a 3-3-3-3.
+
+          ET LE CHAPITRE 02 EST L'ENDROIT OU LE MALENTENDU COUTE. « Trois axes,
+          six capabilites » passe pour de la sur-ingenierie tant qu'on croit
+          parler d'une bibliotheque. L'ordre monte : la phrase l'affirme, le
+          carrousel montre l'etendue, les tuiles donnent la structure.
+
+          PAS EN FIN DE CHAPITRE 01, ou la question s'est posee : le lecteur y
+          verrait la chose finie avant qu'on lui dise ce qui a ete construit,
+          le chapitre perdrait sa chute, et surtout les chapitres sont des
+          PANNEAUX - qui ouvre 02 depuis le sommaire n'aurait jamais vu un
+          bloc pose a la fin de 01.
+        */}
+        <Carrousel
+          label="Facets of the platform"
+          eyebrow="You may think it is a Figma library"
+          vignettes={facettes}
+          ratio="16 / 9"
+          fr={1.7778}
+          largeur="78%"
+          {/* Deux colonnes au bureau : les quatre facettes se voient d'un
+              coup. Sous 860px la piste revient, parce qu'une mosaique y
+              ferait quatre ecrans a traverser avant les six capabilites. */}
+          mosaique={2}
+          sizes="(min-width: 900px) 520px, 90vw"
+        />
+        <p class="cap portee">Multi-brand &middot; multi-theme &middot; from employee to patient</p>
         <Tuiles tuiles={capacites} colonnes={3} label="Three axes, six capabilities" hauteur={300} />
       </div>
 
@@ -780,25 +827,6 @@ const mecanismes: Tuile[] = [
             <p class="qt">Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.</p>
           </div>
         </div>
-      </div>
-
-      <div class="subsec">
-        <p class="eb" data-sommaire>What Elements actually is</p>
-        <Carrousel
-          label="Facets of the platform"
-          eyebrow="You may think it is a Figma library"
-          vignettes={facettes}
-          ratio="16 / 9"
-          fr={1.7778}
-          largeur="78%"
-          {/* Deux colonnes au bureau : les cinq facettes se voient d'un coup,
-              la cinquieme ouvre sa rangee. Sous 860px la piste revient, parce
-              qu'une mosaique de cinq captures y ferait cinq ecrans a traverser
-              avant la suite du chapitre. */}
-          mosaique={2}
-          sizes="(min-width: 900px) 520px, 90vw"
-        />
-        <p class="cap portee">Multi-brand &middot; multi-theme &middot; from employee to patient</p>
       </div>
 
       <div class="subsec">
