@@ -12,10 +12,11 @@ Systematize a practice · Sanofi · 2022 - now
 
 # At global scale, a system isn't managed. It's governed.
 
-I first built Elements to cut time-to-launch and remove the friction
-between design and engineering. Then I scaled it to raise brand
-experience and make design excellence consistent - moving from a design
-system managed as a product to an experience design platform. **Design Lead in 2022, Director today: a €1M platform across Sanofi's brand portfolio, reaching from employee to patient.**
+I first built Elements as Design Lead to cut time-to-launch and remove
+the friction between design and engineering. As Director today, I scaled
+it to raise brand experience and make design excellence consistent -
+moving from a design system managed as a product to an experience design
+platform. **A €1M platform across Sanofi's brand portfolio, reaching from employee to patient.**
 
 The system
 
