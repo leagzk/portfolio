@@ -1526,6 +1526,18 @@
   color:var(--text);cursor:pointer;transition:background .2s,color .2s}
 .pan__haut:hover,.pan__haut:focus-visible{background:var(--text);color:var(--white)}
 .pan__haut:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+/*
+  LE « NEXT » PORTE LA COULEUR DU CHAPITRE QU'IL APPELLE, pas celle du
+  chapitre qui l'affiche. Les quatre etaient bleus, donc le bouton annoncait
+  la couleur de « The approach » meme au bas de « The approach ». Or le
+  sommaire tient les chapitres par la couleur - rouge, bleu, jaune, noir, et
+  chaque carte la porte -, donc le carre du bouton peut l'annoncer : « Next:
+  the proof » en jaune pointe la carte jaune qu'on verra apparaitre.
+
+  Rien a ajouter au composant : `variante` ne teinte que le carre au repos et
+  le fond au survol, et les quatre teintes existent deja avec leur couleur de
+  texte au survol - texte sombre sur le jaune, blanc sur les trois autres.
+*/
 .pan > .suite{align-self:flex-end}
 
 @media(max-width:860px){
