@@ -228,8 +228,21 @@
 .clef--bande .clef__frag{left:0;right:0;bottom:0;height:30px}
 /* Le carre descend dans le coin bas : le haut de la case est au texte, le bas
    a la couleur - et le dessin garde sa place en haut a droite. */
+/*
+  LE CARRE SE COMPTE DANS L'UNITE DE SA CASE, et 84px le disaient deja sans
+  le dire : 84 = 3 x 28, et 3 est le nombre d'unites de la case pour laquelle
+  il a ete dessine. Fixe, il valait 47% d'une case de deux unites et 24% d'une
+  case de quatre - juste ici, perdu la : la grande case blanche de Governance
+  etait un rectangle de 356px avec une marque minuscule dans le coin.
+
+  `calc(var(--u) * 28px)` ne remplace pas la valeur, il la GENERALISE - une
+  case de trois unites garde ses 84px au pixel pres - et le fragment occupe
+  31% de sa case partout : 56px sur deux unites, 84 sur trois, 112 sur quatre.
+  La hauteur ne suit pas : la rangee est fixe a 240px, donc 48 y vaut toujours
+  un cinquieme.
+*/
 .clef--carre .clef__frag,.clef--encadre .clef__frag{right:0;bottom:0;
-  width:84px;height:48px;transform-origin:right bottom}
+  width:calc(var(--u,3) * 28px);height:48px;transform-origin:right bottom}
 .clef--rouge .clef__frag{background:var(--red)}
 .clef--bleu .clef__frag{background:var(--blue)}
 .clef--jaune .clef__frag{background:var(--yellow)}
@@ -444,6 +457,10 @@
   */
   .clef{position:relative;inset:auto;min-height:170px;height:100%}
   .clef__dedans{position:relative;inset:auto;gap:16px;padding:24px 16px}
+  /* Au telephone les cases sont toutes de la meme largeur, donc le carre
+     aussi : `--u` y designe encore le dessin du bureau, et le « 35+ » de
+     Governance, a quatre unites, prendrait 112 des 171px de sa case. */
+  .clef--carre .clef__frag,.clef--encadre .clef__frag{width:84px}
   .clef:hover .clef__detail,.clef:focus-visible .clef__detail{opacity:0;max-height:0}
   .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:400px}
   .clef:hover .clef__ico--o,.clef:focus-visible .clef__ico--o{opacity:1}
