@@ -39,7 +39,7 @@ One live experience, orchestrated end to end. **Proof it travels anywhere.**](/s
 
 Philosophy
 
-I lead the way I learned: hands dirty first.
+I build rooms I can leave.
 **When to step in, and when to stay out.** Close enough to help when it counts, never close enough to hover - the measure is a team that ships the week I'm not there.
 
 Direction earned, not assigned.
