@@ -1116,7 +1116,7 @@
   */
   .dcarte__bande{position:absolute;right:0;top:0;bottom:0;width:56px;
     box-sizing:border-box;background:var(--puce,currentColor);
-    border-right:var(--rule) solid var(--text)}
+    border-right:var(--rule) solid currentColor}
   /*
     LE 04 PASSE AU GRIS, parce que son noir rendait le cadre invisible : aplat
     #0A0708 et filets #111111 se touchent a 1,06:1 - le carre n'avait plus de
@@ -1136,7 +1136,7 @@
   .dcarte--noir .dcarte__bande{background:var(--grey-mondrian)}
   .dcarte__points::after{content:"";position:absolute;right:56px;
     top:calc(var(--rule) * -1);bottom:calc(-8px - var(--rule)); /* 8 = depassement de grille, sans rapport avec le degagement des puces */
-    width:var(--rule);background:var(--text)}
+    width:var(--rule);background:currentColor}
   /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
      l'ECART qu'on garde, pas le retrait. */
   .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;
@@ -1176,6 +1176,25 @@
 .compo__sommaire--bleu,.dcarte--bleu{--puce:var(--blue)}
 .compo__sommaire--jaune,.dcarte--jaune{--puce:var(--yellow)}
 .compo__sommaire--noir,.dcarte--noir{--puce:var(--ink-muted)}
+/*
+  OUVERTE, LA CARTE EST ELLE-MEME UN APLAT DE COULEUR - et la puce ne peut
+  plus porter celle du chapitre, puisque c'est la meme. Le bloc de puces
+  disparaissait : carres de chapitre sur fond de chapitre, bande de chapitre
+  sur fond de chapitre, et il ne restait que les filets. Mesure sur le
+  chapitre 03 de Governance a 375px, carte ouverte : puce #F5CD00 sur fond
+  #F5CD00, soit 1,0:1.
+
+  La puce prend donc la couleur du TEXTE, comme les quatre filets de la zone :
+  blanche sur le rouge, le bleu et le noir, #111 sur le jaune. Le bloc se lit
+  dans les deux etats sans qu'aucune regle ne nomme une couleur de chapitre.
+
+  LE 04 REPREND LA REGLE COMMUNE A L'OUVERTURE. Sa bande est grise sur fond
+  blanc parce qu'un noir sur noir effacait son cadre ; sur son aplat ouvert,
+  qui est noir, c'est le blanc qui tranche, et le gris n'a plus de raison
+  d'etre.
+*/
+.dcarte[aria-expanded="true"]{--puce:currentColor}
+.dcarte--noir[aria-expanded="true"] .dcarte__bande{background:var(--puce)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
