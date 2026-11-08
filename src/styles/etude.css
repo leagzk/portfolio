@@ -171,6 +171,13 @@
   lisaient a l'envers au bureau. Un selecteur positionnel compte TOUS les
   freres du meme type, pas seulement ceux qui portent la classe.
 */
+/*
+  LA CASE QUI FERME LA GRILLE N'EXISTE QUE SOUS LE PALIER. Au bureau les
+  rangees sont des bandes flex et aucune cellule ne reste libre ; la case
+  serait un enfant de plus dans une grille a deux colonnes et deux rangees,
+  qu'elle deborderait. Voir <ChiffresCles> pour ce qu'elle bouche.
+*/
+.clef-bouche{display:none}
 .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 .clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
@@ -369,9 +376,9 @@
   C'est le principe de l'accueil, ou `.attend` couvre les titres ET les
   boutons : rien de ce qui est POSE SUR une case n'apparait avant elle.
 */
-.attend :is(.clef--plein,.clef__frag,.clef-def__bande){transform:scale(0)}
+.attend :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){transform:scale(0)}
 .attend :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){opacity:0}
-.vu :is(.clef--plein,.clef__frag,.clef-def__bande){
+.vu :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){
   animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
 .vu :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){
   animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
@@ -382,8 +389,27 @@
     de place au nombre. Les hauteurs se relachent, puisque rien ne se survole -
     le depliage s'y fait au clic, et la rangee peut grandir avec lui.
   */
-  .cles--mondrian{grid-template-columns:1fr;grid-template-rows:none;margin-top:48px}
+  /*
+    LA BANDE EST UNE SEULE GRILLE DE DEUX COLONNES, et non deux grilles
+    imbriquees. Chaque rangee portait sa propre grille a deux colonnes : un
+    nombre impair de chiffres y laissait une cellule libre AU MILIEU de la
+    bande, donc le troisieme chiffre d'une rangee de trois prenait les deux
+    colonnes pour la boucher. Il y gagnait 343px de large pour 104px d'encre.
+
+    A plat, les cellules libres se reportent toutes a la FIN, ou une seule
+    case suffit a fermer la grille - et tous les chiffres restent carres.
+    `display:contents` fait disparaitre la boite de la rangee sans toucher a
+    l'ordre du front : le trace anime sait deja lire un conteneur qui n'a pas
+    de boite (voir `data-cases` dans scripts/grille.ts).
+  */
+  .cles--mondrian{grid-template-columns:1fr 1fr;grid-template-rows:none;margin-top:48px}
   .cles--mondrian > *{grid-area:auto !important}
+  .clef-rangee{display:contents}
+  /* La definition reste pleine largeur : elle se lit avant les chiffres. */
+  .clef-def{grid-column:1 / -1 !important}
+  .clef-bouche{display:block;position:relative;min-height:170px}
+  .clef-bouche__plat{position:absolute;inset:0;background:var(--grey-mondrian);
+    transform-origin:left top}
   /* Au doigt rien ne se pousse : la rangee s'empile et chaque case prend la
      largeur. Le depliage se fait au clic, dans la case. */
   /*
@@ -404,8 +430,6 @@
     de trois. Les etudes sans definition portent quatre chiffres sur une
     seule rangee et restent en deux fois deux, sans exception a ecrire.
   */
-  .clef-rangee{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
-  .clef-rangee > :nth-child(3):nth-last-child(1){grid-column:1 / -1}
   .clef-case{flex:none;min-height:170px}
   /*
     LE BOUTON REMPLIT SA CASE, ET PAS SEULEMENT SES 170px. Les deux cases
