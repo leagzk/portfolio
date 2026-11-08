@@ -407,7 +407,18 @@
   .clef-rangee{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
   .clef-rangee > :nth-child(3):nth-last-child(1){grid-column:1 / -1}
   .clef-case{flex:none;min-height:170px}
-  .clef{position:relative;inset:auto;min-height:170px}
+  /*
+    LE BOUTON REMPLIT SA CASE, ET PAS SEULEMENT SES 170px. Les deux cases
+    d'une rangee sont des elements de grille : la plus haute impose sa hauteur
+    a l'autre. Le bouton, lui, n'avait qu'un `min-height` - il s'arretait a
+    170 pendant que sa case en faisait 181, et comme c'est LUI qui porte la
+    couleur, un bandeau de blanc restait sous l'aplat. Mesure sur Surfaces a
+    375px : 11px de blanc sous le noir du « 9 », la voisine « 3rd » portant
+    une troisieme ligne d'intitule. `height:100%` se resout sur une case dont
+    la grille a fixe la hauteur ; le `min-height` reste pour les rangees ou
+    rien ne depasse.
+  */
+  .clef{position:relative;inset:auto;min-height:170px;height:100%}
   .clef__dedans{position:relative;inset:auto;gap:16px;padding:24px 16px}
   .clef:hover .clef__detail,.clef:focus-visible .clef__detail{opacity:0;max-height:0}
   .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:400px}
@@ -1001,8 +1012,16 @@
     #0A0708 et filets #111111 se touchent a 1,06:1 - le carre n'avait plus de
     bord, juste une masse. Le gris de la composition tranche a 14,8:1 sur le
     meme filet, et c'est deja lui qui porte les aplats gris de la page
-    (.compo__plat--gris). Les puces du chapitre, elles, restent noires : c'est
-    la couleur de la carte, et a 8px sur blanc elle se lit.
+    (.compo__plat--gris).
+
+    LES PUCES SUIVENT L'APLAT, MAIS PAS AVEC SON GRIS. Elles etaient restees
+    noires quand la bande est passee au gris, et le chapitre parlait alors de
+    deux couleurs. Le gris de la composition ne peut pas les porter pour
+    autant : #E4E4E1 sur blanc tient 1,3:1, et un carre de 8px y disparait.
+    Les deux gris ne font pas le meme travail - l'un se pose CONTRE le filet
+    noir, l'autre SUR du blanc - donc ils n'ont pas la meme valeur. La puce
+    prend le gris sourd du site, --ink-muted, 9,0:1 sur blanc : plus noir, et
+    nettement moins que le #111 du texte a cote.
   */
   .dcarte--noir .dcarte__bande{background:var(--grey-mondrian)}
   .dcarte__points::after{content:"";position:absolute;right:56px;
@@ -1046,7 +1065,7 @@
 .compo__sommaire--rouge,.dcarte--rouge{--puce:var(--red)}
 .compo__sommaire--bleu,.dcarte--bleu{--puce:var(--blue)}
 .compo__sommaire--jaune,.dcarte--jaune{--puce:var(--yellow)}
-.compo__sommaire--noir,.dcarte--noir{--puce:var(--ink)}
+.compo__sommaire--noir,.dcarte--noir{--puce:var(--ink-muted)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
