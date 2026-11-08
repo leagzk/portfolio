@@ -794,42 +794,22 @@ const mecanismes: Tuile[] = [
             <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong>A data-driven cadence, with discovery that never closed.</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
           </div>
         </div>
-      </div>
-
-      <div class="subsec">
-        <p class="eb" data-sommaire>Vision &amp; strategy</p>
-        <div class="split">
-          {/*
-            CELLE-CI DOUBLAIT LA DEFINITION DU BANDEAU, en plus de la figure.
-            « You maintain a design system. You run a platform. » et
-            « Governed as a platform, not maintained as a library » opposent
-            les deux memes mots, a deux ecrans d'intervalle. La case des
-            chiffres garde la formule ; l'attaque raconte le moment ou le
-            systeme a change de nature, ce que personne d'autre ne dit, et
-            ce qu'annonce justement la sous-partie.
-
-            DEUX VERSIONS ONT PRECEDE CELLE-CI, et les deux decrivaient la
-            bascule - « It stopped being one product the day it had to serve
-            all of them », puis « …forty-five ». La seconde reglait le pronom
-            vague, pas le fond : la sous-partie ne RACONTE pas une bascule,
-            elle expose une architecture et dit que sa tension est le sujet.
-
-            LA PHRASE QUI OUVRE MAINTENANT N'EST PAS NEUVE, ELLE A CHANGE DE
-            PLACE. Elle vivait en `.qt` solitaire entre le paragraphe et les
-            six capacites - une ligne forte posee nulle part. En attaque,
-            elle fait ce qu'aucune des huit autres ne fait : avouer. Neuf
-            phrases qui affirment, c'est un mur ; une qui reconnait une
-            erreur rend les huit autres credibles. Et elle annonce
-            exactement ce que les six cartes montrent - une architecture
-            dont l'ordre a ete trouve, pas devine.
-
-            ELLE EST AUSSI UNE PUCE DU SOMMAIRE DU CHAPITRE 02 : propriete,
-            gouvernance, changement de nature. La nouvelle phrase tient la
-            troisieme place aussi bien, et elle se lit seule.
-          */}
-          <p class="lead">The best architecture I built <em class="em-bleu">started as the one I got backwards.</em></p>
-        </div>
         {/*
+          LE CARROUSEL OUVRE LE CHAPITRE AU LIEU DE COUPER UN RAISONNEMENT.
+
+          Il vivait dans « Vision & strategy », entre le paragraphe qui annonce
+          les trois axes et les trois axes eux-memes : on lisait l'annonce,
+          puis 551px de facettes, puis enfin les tuiles. Deplacer le
+          paragraphe sous le carrousel reparait l'ordre mais laissait le titre
+          seul dans son .split. Remonter le carrousel d'une sous-partie
+          resout les deux : « Organisation & governance » se termine par ce
+          qu'est la plateforme, « Vision & strategy » enchaine titre,
+          annonce et tuiles sans rien entre elles.
+
+          ET IL RESTE DANS LE CHAPITRE 02. La fin du chapitre 01 avait ete
+          envisagee ; les chapitres sont des PANNEAUX, donc qui ouvre 02
+          depuis le sommaire n'aurait jamais vu ces images.
+
           LES IMAGES ONT REJOINT LA PHRASE QU'ELLES PROUVENT.
 
           Ce carrousel vivait au chapitre 03, sous un eyebrow a lui - « What
@@ -884,8 +864,43 @@ const mecanismes: Tuile[] = [
               haut avant les tuiles. */}
           sizes="(min-width: 900px) 520px, 90vw"
         />
-        <div class="body entree">
-          <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities - and none of them works alone.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
+      </div>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Vision &amp; strategy</p>
+        <div class="split">
+          {/*
+            CELLE-CI DOUBLAIT LA DEFINITION DU BANDEAU, en plus de la figure.
+            « You maintain a design system. You run a platform. » et
+            « Governed as a platform, not maintained as a library » opposent
+            les deux memes mots, a deux ecrans d'intervalle. La case des
+            chiffres garde la formule ; l'attaque raconte le moment ou le
+            systeme a change de nature, ce que personne d'autre ne dit, et
+            ce qu'annonce justement la sous-partie.
+
+            DEUX VERSIONS ONT PRECEDE CELLE-CI, et les deux decrivaient la
+            bascule - « It stopped being one product the day it had to serve
+            all of them », puis « …forty-five ». La seconde reglait le pronom
+            vague, pas le fond : la sous-partie ne RACONTE pas une bascule,
+            elle expose une architecture et dit que sa tension est le sujet.
+
+            LA PHRASE QUI OUVRE MAINTENANT N'EST PAS NEUVE, ELLE A CHANGE DE
+            PLACE. Elle vivait en `.qt` solitaire entre le paragraphe et les
+            six capacites - une ligne forte posee nulle part. En attaque,
+            elle fait ce qu'aucune des huit autres ne fait : avouer. Neuf
+            phrases qui affirment, c'est un mur ; une qui reconnait une
+            erreur rend les huit autres credibles. Et elle annonce
+            exactement ce que les six cartes montrent - une architecture
+            dont l'ordre a ete trouve, pas devine.
+
+            ELLE EST AUSSI UNE PUCE DU SOMMAIRE DU CHAPITRE 02 : propriete,
+            gouvernance, changement de nature. La nouvelle phrase tient la
+            troisieme place aussi bien, et elle se lit seule.
+          */}
+          <p class="lead">The best architecture I built <em class="em-bleu">started as the one I got backwards.</em></p>
+          <div class="body">
+            <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities - and none of them works alone.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
+          </div>
         </div>
         <Tuiles tuiles={capacites} colonnes={3} label="Three axes, six capabilities" hauteur={340} />
       </div>
@@ -1191,10 +1206,6 @@ const mecanismes: Tuile[] = [
   .pan .parcours__i svg{width:100%;height:auto;display:block}
   .pan .parcours__a{display:grid;place-items:center;color:var(--blue)}
 
-  /* Le paragraphe d'entree des tuiles garde la mesure qu'il avait dans le
-     .split - la colonne de droite, 7 sur 12 moins la gouttiere - pour ne pas
-     s'etaler sur toute la largeur maintenant qu'il n'a plus de voisin. */
-  .pan .entree{max-width:calc((100% - 48px) * 7 / 12)}
 
   /*
     LA SIGNATURE FERME LA PAGE, et c'est la phrase du site entier - celle du
@@ -1206,7 +1217,6 @@ const mecanismes: Tuile[] = [
     line-height:1.15;font-weight:900;letter-spacing:-.02em;max-width:640px}
 
   @media(max-width:860px){
-    .pan .entree{max-width:none}
     .pan .signature{font-size:24px}
     .pan .parcours{gap:12px;padding:20px 16px}
     .pan .parcours__s{font-size:18px}

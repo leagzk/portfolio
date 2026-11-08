@@ -116,10 +116,6 @@ Every decision got the same reading: what it opened, what it exposed, what it co
 
 And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
 
-Vision & strategy
-
-The best architecture I built *started as the one I got backwards.*
-
 All it could have stayed
 
 > Libraries
@@ -129,6 +125,10 @@ All it could have stayed
 > Integrated support
 
 > Global team
+
+Vision & strategy
+
+The best architecture I built *started as the one I got backwards.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities - and none of them works alone.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
