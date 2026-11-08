@@ -120,7 +120,7 @@ Vision & strategy
 
 The best architecture I built *started as the one I got backwards.*
 
-All it could have been
+All it could have stayed
 
 > Libraries
 
