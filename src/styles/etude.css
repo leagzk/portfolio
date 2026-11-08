@@ -1213,7 +1213,30 @@
   Elles doivent donc se defaire du titre : il est en display 900 a 22px, et
   une phrase de resume ecrite a cette casse serait un second titre.
 */
-.tuile__titre .cap__resume{display:block;margin-top:10px;font-family:var(--body);
+/*
+  LE RANG DEVIENT GRAPHIQUE, PARCE QU'IL EST LE PREMIER PROPOS. « Three axes »
+  est annonce juste au-dessus du bloc : un 01 en monospace 13px ne comptait
+  pas jusqu'a trois, il numerotait. A 48px en display 900, les trois chiffres
+  se voient avant les mots et l'architecture s'annonce d'elle-meme. Seulement
+  au recto : le verso tient deux descriptions, un chiffre de cette taille y
+  mangerait une capability.
+*/
+.tuile__recto:has(.cap__noms) .tuile__eyebrow{font-family:var(--display);
+  font-size:48px;font-weight:900;line-height:.9;letter-spacing:-.02em;opacity:1}
+/*
+  LE SOUS-TITRE DIT CE QUE L'AXE EST POUR LES DEUX AUTRES. Il a remplace une
+  seconde phrase en « Without it, ... » : trois privations de suite se
+  lisaient comme une tournure, et elles demandaient au lecteur d'imaginer un
+  monde absent pour comprendre celui-la. « What the other two render » dit la
+  meme dependance a l'affirmatif, et au-dessus du resume plutot qu'apres.
+
+  EN ITALIQUE, COMME LES VIGNETTES DU CARROUSEL - « A Figma Library »,
+  « Digital Products » : c'est deja la forme du sous-titre sur cette page, et
+  elle le separe du titre sans lui voler du poids.
+*/
+.tuile__titre .cap__lien{display:block;margin-top:7px;font-family:var(--body);
+  font-size:15px;font-style:italic;font-weight:400;line-height:1.3;opacity:.9}
+.tuile__titre .cap__resume{display:block;margin-top:12px;font-family:var(--body);
   font-size:14px;font-weight:400;line-height:1.5;opacity:.92}
 /*
   LES DEUX NOMS SE LISENT COMME UN REPERE, pas comme une suite du texte : meme
