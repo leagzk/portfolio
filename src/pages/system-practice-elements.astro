@@ -1275,41 +1275,33 @@ const mecanismes: Tuile[] = [
 
       <div class="subsec">
         <p class="eb" data-sommaire>Team growth</p>
-        <div class="split split--haut">
-          <div class="body">
+        <div class="split">
             <p class="lead">Every week, the same question: <em class="em-gris">is the work moving, and is the person growing.</em></p>
+          <div class="body">
             <p>I hired into the org I had drawn: from one designer to a core team of nine - <strong>five designers and four React engineers</strong>. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two design roles opened, and designers from the organisation joined.</p>
             <p>I carried the direction to leadership and handed them the operational goal as <strong>OKRs of their own</strong>, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.</p>
-            <p><strong><ExternalLink href="https://nicolaschatelain.com" variant="inline">Nicolas Chatelain</ExternalLink></strong> came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as <strong>Design Ops Lead</strong>, we founded the capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. <strong>His growth and the company's outcome, paired.</strong></p>
-            {/* RODOLPHE EN REGARD DE NICOLAS. Les deux etaient cites en
-                legende sous la photo, en une phrase de credits ou l'on
-                apprenait ce qu'ils dirigeaient sans jamais savoir comment
-                ils y etaient arrives. Nicolas avait son recit, pas lui.
-                Les deux l'ont maintenant, dans le corps du texte, et la
-                legende disparait. */}
-            <p><strong><ExternalLink href="https://rodolphe.design/chat" variant="inline">Rodolphe Peruzza</ExternalLink></strong> led the System axis, from craft to experience-pattern industrialization. I also kept bandwidth free for him to explore and to vibe-code. Several of our Figma plugins came out of it - his idea, his build - and so did part of the pipeline's automation scripts. <strong>Not written by our developers. Written by a designer.</strong></p>
-            {/* LA CONCLUSION DE LA SOUS-PARTIE, et c'est la these de Lea
-                sur la croissance : une strategie claire rend comptable,
-                et c'est la place laissee dedans qui fait grandir. Les
-                deux portraits au-dessus en sont les deux preuves. */}
-            <p><strong>A strategy clear enough to be adopted is what makes people accountable for it.</strong> Room inside it for what they want to explore is what makes them grow - and what turns a personal interest into something the whole team can use.</p>
           </div>
-          <div class="pile">
+        </div>
+        {/* MEME DISPOSITIF QUE LA PHOTO DU CHAPITRE 03 : un filet et son
+            carre ouvrent le bloc, l'image suit, et le texte passe DESSOUS
+            dans la meme colonne. En face d'elle, les deux portraits se
+            lisaient a cote de trois visages qui ne sont pas forcement les
+            leurs ; dessous, la photo les introduit. */}
+        <div class="split">
+          <div class="pile split__suite">
+            <div class="filet filet--noir" aria-hidden="true"><span class="filet__carre"></span></div>
             <Figure
               src={img('lea-nicolas-rodolphe-elements-awards')}
               alt="Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards"
-              legende="<strong>Design System Awards 2025</strong> <span class='tag tag--on'>Governance finalist</span> alongside HP and Tesco. The recognition that means the most to me is the <em>category</em> - because this was never only a craft story. It was a leadership one."
-              {/* LA SOURCE EST CARREE depuis qu'on l'a recadree a 940x940 sur
-                  l'original 2000x3000 : « cover » n'a donc plus rien a rogner.
-                  Le recadrage est dans le fichier et non dans le CSS parce
-                  qu'aucun reglage d'`object-position` ne pouvait exclure le
-                  quatrieme visage - un carre garde les deux tiers de la hauteur
-                  d'une image 2:3, et ce visage commence au-dessus de ce seuil. */}
+              legende="Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story."
               ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
             />
-                      </div>
+            <p><strong><ExternalLink href="https://nicolaschatelain.com" variant="inline">Nicolas Chatelain</ExternalLink></strong> came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as <strong>Design Ops Lead</strong>, we founded the capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. <strong>His growth and the company's outcome, paired.</strong></p>
+            <p><strong><ExternalLink href="https://rodolphe.design/chat" variant="inline">Rodolphe Peruzza</ExternalLink></strong> led the System axis, from craft to experience-pattern industrialization. I also kept bandwidth free for him to explore and to vibe-code. Several of our Figma plugins came out of it - his idea, his build - and so did part of the pipeline's automation scripts. <strong>Not written by our developers. Written by a designer.</strong></p>
+            <p><strong>A strategy clear enough to be adopted is what makes people accountable for it.</strong> Room inside it for what they want to explore is what makes them grow - and what turns a personal interest into something the whole team can use.</p>
+          </div>
         </div>
       </div>
 
@@ -1414,7 +1406,11 @@ const mecanismes: Tuile[] = [
     dans le sommaire.
   */
   .pan .filet{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+  /* Le carre prend la couleur du chapitre, comme le reste : jaune au 03,
+     encre au 04. C'est l'aplat de la carte et non la teinte d'accent - a
+     dix pixels de cote, le gris du surlignage ne se verrait pas. */
   .pan .filet__carre{flex:none;width:10px;height:10px;background:var(--yellow)}
+  .pan .filet--noir .filet__carre{background:var(--ink)}
   .pan .filet::after{content:"";flex:1;height:var(--rule-fine);background:var(--text)}
 
   @media(min-width:861px){

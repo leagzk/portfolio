@@ -220,13 +220,13 @@ I hired into the org I had drawn: from one designer to a core team of nine - **f
 
 I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 
+> Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story.
+
 **[Nicolas Chatelain](https://nicolaschatelain.com)** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead**, we founded the capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. **His growth and the company's outcome, paired.**
 
 **[Rodolphe Peruzza](https://rodolphe.design/chat)** led the System axis, from craft to experience-pattern industrialization. I also kept bandwidth free for him to explore and to vibe-code. Several of our Figma plugins came out of it - his idea, his build - and so did part of the pipeline's automation scripts. **Not written by our developers. Written by a designer.**
 
 **A strategy clear enough to be adopted is what makes people accountable for it.** Room inside it for what they want to explore is what makes them grow - and what turns a personal interest into something the whole team can use.
-
-> **Design System Awards 2025** Governance finalist alongside HP and Tesco. The recognition that means the most to me is the *category* - because this was never only a craft story. It was a leadership one.
 
 Team health
 
