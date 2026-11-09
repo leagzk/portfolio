@@ -461,7 +461,7 @@ const credits = [
               legende={`<strong>${e.rang} &middot; ${e.titre}</strong> ${e.propos}`}
               ratio="4 / 3"
               ajuste="cover"
-              sizes="(min-width: 900px) 340px, 45vw"
+              sizes="(min-width: 900px) 340px, 88vw"
             />
           ))}
         </div>
@@ -696,12 +696,14 @@ const credits = [
 <script>
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
+  import { initPistes } from '../scripts/pistes';
   import { suivreCadres } from '../scripts/vues';
   import { fonduEnchaine } from '../scripts/crossfade';
   import { rendreDeplacable } from '../scripts/drag';
 
   initDossier();
   initLoupe();
+  initPistes();
   suivreCadres();
 
   /* La suite d'invitation : trois etats, 2,2s chacun. */

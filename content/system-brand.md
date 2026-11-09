@@ -163,6 +163,9 @@ The tools made people autonomous. But autonomy without a shared practice just sc
 
 - Campaign metrics Produced by default. Engagement rate, open rate, reach, on dashboards that filled themselves. What makes numbers mean anything is the engineering under them: one collection method, one reporting frequency, one reading grid. **Standardize how you measure, or you're not comparing campaigns - you're comparing methods.**
 
+********
+Swipe →
+
 **Making it a language people use - not a charter they obey.** Each department got one contact point - mine were Vaccines, R&D and Medical - a catalyst rather than a gate. Leadership's messages and the front-line's assets pulled from **the same platform**, instead of two versions of the same story. And contribution wasn't a policy: **it was the only way a shared identity survives contact with fifteen roadmaps.**
 
 A brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. **Guides on the intranet**, for the person who needs it at 9pm. **Short videos**, for what you'd rather be shown than read. And the live formats for what needs a room: **sharing sessions** where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.
@@ -199,15 +202,15 @@ What the teams made with it
 
 > ITS R&D newsletter
 
+It reached well past *the people producing on it.*
+
+200+ campaigns and internal events ran on the platform, and **every Sanofian met it somewhere in their day** - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too: 6,000 participants, and one idea that shipped - **Theia®, an app for patients living with sight loss.**
+
 Captivate, from launch to outcome
 
 > The launch post, on the internal Digital Community
 
 > Three replies on the internal community &middot; 2018, 2019, 2022
-
-It reached well past *the people producing on it.*
-
-200+ campaigns and internal events ran on the platform, and **every Sanofian met it somewhere in their day** - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too: 6,000 participants, and one idea that shipped - **Theia®, an app for patients living with sight loss.**
 
 That one travelled past the function entirely. When Theia launched publicly, the recognition came from the top of the house: **the President of Sanofi France called it &laquo; this magnificent project &raquo;** under the announcement, alongside the engineers and partners who had carried it since the hackathon.
 
@@ -323,9 +326,7 @@ So I pushed the answer one level up. Not a brand adaptation per product: **one s
 
 > Where Elements Design System begins &middot; Tokens origin
 
-## Nothing here was mandated. *That's the only reason it held.*
-
-Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. **The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.** And that's where Elements Design System begins.
+Nothing here was mandated, and that's the only reason it held. Same conviction, different surface: understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. **The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.** And that's where Elements Design System begins.
 
 Discover what came next →
 

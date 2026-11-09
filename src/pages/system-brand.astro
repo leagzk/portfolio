@@ -783,7 +783,7 @@ const pratiques: Tuile[] = [
         <div class="four">
           {appariements.map((a) => (
             <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="4 / 3"
-              sizes="(min-width: 900px) 250px, 45vw" zoom aere />
+              sizes="(min-width: 900px) 250px, 88vw" zoom aere />
           ))}
         </div>
       </div>
@@ -836,7 +836,20 @@ const pratiques: Tuile[] = [
             <p>The tools made people autonomous. But autonomy without a shared practice just scatters faster - so I standardized how the communication team itself worked. Four things, one way of running each - and each one feeds the next.</p>
           </div>
         </div>
-        <Tuiles tuiles={pratiques} label="The four standardized practices" hauteur={340} />
+        {/*
+          EN PISTE SOUS LE PALIER, ET MOINS HAUTE. Quatre tuiles de 340px
+          l'une sous l'autre font quatre ecrans de telephone a traverser avant
+          la suite du chapitre, pour un recto qui ne porte que deux lignes -
+          le reste etait de l'aplat. Le composant sait deja le faire : `piste`
+          ne sert qu'a le lui demander (voir Tuiles.astro).
+
+          LA HAUTEUR EST UN PLANCHER, PAS UNE MESURE. Les deux faces occupent
+          la meme cellule : c'est le verso le plus bavard qui decide, et le
+          plancher ne fait que l'empecher de se tasser quand il est court. 340
+          le posait au-dessus de ce que le verso demande - il n'ajoutait donc
+          que du vide au recto.
+        */}
+        <Tuiles tuiles={pratiques} label="The four standardized practices" hauteur={240} piste />
 
         {/*
           DEUX TITRES DE MOINS, ET AUCUNE IDEE PERDUE.
@@ -951,7 +964,7 @@ const pratiques: Tuile[] = [
         <div class="three">
           {adoption.map((a) => (
             <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="3 / 4"
-              sizes="(min-width: 900px) 340px, 45vw" zoom aere />
+              sizes="(min-width: 900px) 340px, 88vw" zoom aere />
           ))}
           <CadreDefilant
             src={newsletter.src}
@@ -961,7 +974,7 @@ const pratiques: Tuile[] = [
             aere
             ratio="3 / 4"
             fr={0.75}
-            sizes="(min-width: 900px) 340px, 45vw"
+            sizes="(min-width: 900px) 340px, 88vw"
             widths={[400, 800, 1200]}
             declencheur="survol"
             zoom
@@ -971,10 +984,13 @@ const pratiques: Tuile[] = [
         {/*
           ═══ L'ORDRE DU BLOC SUIT CELUI DU RECIT ═══
 
-          L'annonce et le fil des reponses sont INTERNES : ils viennent donc
-          avant le paragraphe de la portee, qu'ils preparent. Le fil LinkedIn
-          est PUBLIC : il vient juste apres la phrase qui dit que la chose est
-          sortie des murs, parce qu'il en est la preuve et rien d'autre.
+          CHAQUE PREUVE SUIT LA PHRASE QU'ELLE PROUVE, et aucune ne la precede.
+          L'annonce et le fil des reponses sont INTERNES : ils tombent apres
+          « Sanofi's first hackathons ran on it too », dont ils sont le
+          document. Poses avant, ils demandaient au lecteur de regarder deux
+          captures de hackathon sans savoir encore qu'il y avait eu un
+          hackathon. Le fil LinkedIn est PUBLIC : il vient apres la phrase qui
+          dit que la chose est sortie des murs, pour la meme raison.
 
           LES DEUX CADRES PLUTOT QUE DEUX IMAGES NUES. Les captures portent
           leur propre ombre portee, cuite dedans a la prise de vue, et posee a
@@ -990,6 +1006,13 @@ const pratiques: Tuile[] = [
           empile dans l'autre sens, le bloc faisait deux fois la hauteur de
           l'annonce d'a cote.
         */}
+        <div class="split">
+          <p class="lead">It reached well past <em class="em-jaune">the people producing on it.</em></p>
+          <div class="body">
+            <p>200+ campaigns and internal events ran on the platform, and <strong>every Sanofian met it somewhere in their day</strong> - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too: 6,000 participants, and one idea that shipped - <strong>Theia®, an app for patients living with sight loss.</strong></p>
+          </div>
+        </div>
+
         <p class="eb">Captivate, from launch to outcome</p>
         <div class="two">
           <Figure
@@ -1014,14 +1037,6 @@ const pratiques: Tuile[] = [
           />
         </div>
 
-        <div class="split">
-          <p class="lead">It reached well past <em class="em-jaune">the people producing on it.</em></p>
-          <div class="body">
-            <p>200+ campaigns and internal events ran on the platform, and <strong>every Sanofian met it somewhere in their day</strong> - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too: 6,000 participants, and one idea that shipped - <strong>Theia®, an app for patients living with sight loss.</strong></p>
-            <p>That one travelled past the function entirely. When Theia launched publicly, the recognition came from the top of the house: <strong>the President of Sanofi France called it &laquo;&nbsp;this magnificent project&nbsp;&raquo;</strong> under the announcement, alongside the engineers and partners who had carried it since the hackathon.</p>
-          </div>
-        </div>
-
         {/*
           LE FIL PUBLIC S'ALIGNE SUR LA COLONNE DU PARAGRAPHE. A pleine
           largeur - 1024px pour une source de 1360 - il ecrasait tout ce qui
@@ -1035,8 +1050,9 @@ const pratiques: Tuile[] = [
           celle de 1360, donc une image plus nette ET plus legere.
         */}
         <div class="split">
+          <div class="body split__droite">
+            <p>That one travelled past the function entirely. When Theia launched publicly, the recognition came from the top of the house: <strong>the President of Sanofi France called it &laquo;&nbsp;this magnificent project&nbsp;&raquo;</strong> under the announcement, alongside the engineers and partners who had carried it since the hackathon.</p>
           <CadreDefilant
-              class="split__droite"
             src={threadLinkedIn.src}
             alt={threadLinkedIn.alt}
             legende={threadLinkedIn.legende}
@@ -1049,6 +1065,7 @@ const pratiques: Tuile[] = [
             declencheur="survol"
             zoom
           />
+          </div>
         </div>
 
       </div>
@@ -1244,7 +1261,7 @@ const pratiques: Tuile[] = [
                   style={`--aire:${e.aire}`} data-legende={e.legende}
                   aria-label={`Enlarge ${e.legende}`}>
                   <Image src={img(e.nom)} alt={e.alt}
-                    sizes="(min-width: 900px) 300px, 45vw" loading="lazy" decoding="async" />
+                    sizes="(min-width: 900px) 300px, 88vw" loading="lazy" decoding="async" />
                   <span class="zoom__badge" aria-hidden="true"><Icone nom="loupe" taille={13} /></span>
                 </button>
               ))}
@@ -1256,7 +1273,7 @@ const pratiques: Tuile[] = [
         <div class="three">
           {contraintes.map((c) => (
             <Figure src={img(c.nom)} alt={c.alt} legende={c.legende} ratio="4 / 3"
-              sizes="(min-width: 900px) 340px, 45vw" zoom aere />
+              sizes="(min-width: 900px) 340px, 88vw" zoom aere />
           ))}
         </div>
 
@@ -1279,7 +1296,7 @@ const pratiques: Tuile[] = [
               titre={c.titre}
               ratio="4 / 3"
               fr={1.3333}
-              sizes="(min-width: 900px) 340px, 45vw"
+              sizes="(min-width: 900px) 340px, 88vw"
               widths={[640, 1080, 1400]}
               declencheur="survol"
               zoom
@@ -1308,32 +1325,33 @@ const pratiques: Tuile[] = [
         {/* Le pilote etait seul dans une sous-partie sans surtitre, donc sans
             puce et sans rattachement : c'est la demonstration de celle-ci. */}
         <Carrousel label="Pilot screens" vignettes={pilote} ratio="16 / 10" />
-      </div>
 
-      {/*
-        LA CHUTE SUR LE PILOTE EST REDESCENDUE DANS CONVERGENCE, dont le
-        paragraphe se terminait sur la meme idee en plus long - « the one that
-        would tell us what the standard got right and what it didn't ». En
-        titre de cloture elle faisait porter la sortie du chapitre par le
-        dernier detail du chapitre, et le lecteur quittait la page sur le
-        pilote au lieu du cas.
+        {/*
+          LA SORTIE DE LA PAGE EST UN PARAGRAPHE, PLUS UN BLOC DE FIN. Elle
+          vivait dans un `.closing` : un titre de 40px, un corps de 17px et le
+          bouton, poses pleine largeur apres le dernier chapitre. Deux echelles
+          de texte qui n'existaient nulle part ailleurs dans la page, pour
+          dire ce qu'un paragraphe dit - et un titre de cloture qui relancait
+          la lecture au moment de la finir.
 
-        CE QUI FERME, C'EST CE QUE LE CAS A DE PROPRE : une marque que personne
-        n'a eu a imposer. C'est la carte 03 (« adopted without a mandate ») et
-        c'est ce qui rend la suite credible - un systeme ne passe a l'echelle
-        mondiale que s'il se choisit. Le mot « standard » reste a la carte 04,
-        qui le porte deja.
-      */}
-      <div class="closing">
-        <h2>Nothing here was mandated. <em class="em-gris">That's the only reason it held.</em></h2>
-        <p class="cbody">Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <strong>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</strong> And that's where Elements Design System begins.</p>
-        <Bouton variante="bleu" href="/system-practice-elements">Discover what came next →</Bouton>
+          ELLE REJOINT DONC LA COLONNE DU TEXTE, sous le carrousel du pilote et
+          dans la sous-partie qu'elle conclut : `.split__droite` la pose en
+          colonne 2, a l'aplomb de tous les autres paragraphes. Le bouton
+          descend avec elle - c'est lui la sortie, et il se lit mieux au bout
+          du propos qu'au bout d'un bloc a part.
+        */}
+        <div class="split">
+          <div class="body split__droite">
+            <p>Nothing here was mandated, and that's the only reason it held. Same conviction, different surface: understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <strong>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</strong> And that's where Elements Design System begins.</p>
+            <Bouton variante="bleu" href="/system-practice-elements">Discover what came next →</Bouton>
+          </div>
+        </div>
       </div>
 
       {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
           qu'ailleurs : il remonte sans rien refermer. A droite, pas de
           « Next: ... » - c'est le dernier des quatre chapitres, et la sortie
-          de la page est le bouton de la cloture, qui mene a Governance.
+          de la page est le bouton qui ferme Convergence, juste au-dessus.
           Voir .pan__pied dans etude.css et dossier.ts. */}
       <div class="pan__pied">
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
@@ -1557,6 +1575,7 @@ const pratiques: Tuile[] = [
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { initPiles } from '../scripts/pile';
+  import { initPistes } from '../scripts/pistes';
   import { suivreCadres } from '../scripts/vues';
 
   /* le contexte des chiffres se deplie au clic aussi - voir le fichier. Il
@@ -1566,6 +1585,7 @@ const pratiques: Tuile[] = [
   initDossier();
   initLoupe();
   initPiles();
+  initPistes();
   /* hors champ, les cadres cessent de defiler : voir src/scripts/vues.ts */
   suivreCadres();
 </script>

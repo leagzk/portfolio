@@ -1806,13 +1806,41 @@
   /* une colonne : plus de rangees a partager, chaque concept redevient une pile */
   .pan .versus{grid-template-columns:1fr;grid-template-rows:none;gap:40px}
   .pan .vers{grid-row:auto;display:flex;flex-direction:column}
-  .pan .three,.pan .four{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /*
+    ─── Les bandes d'images deviennent des pistes ───
+
+    Trois maquettes de sanofi.com sur deux colonnes de telephone, c'est 150px
+    chacune pour des pages entieres : on voit qu'il y a eu trois directions,
+    on n'en lit aucune. Et la troisieme, orpheline, ouvrait une seconde rangee
+    a moitie vide. Chaque planche prend donc la colonne, et on passe de l'une
+    a l'autre au doigt.
+
+    88% ET NON 100% : c'est la planche suivante qui depasse qui dit qu'on peut
+    defiler, pas une pastille. Meme largeur et meme raison que les vignettes
+    du carrousel sur telephone (voir Carrousel.astro).
+
+    LA MOSAIQUE PERD SON PLACEMENT A LA MAIN, qui ne valait de toute facon
+    qu'au-dessus du palier (voir --aire). En piste, ses cases n'ont plus de
+    rangee pour leur donner une hauteur : elles reprennent le 4/3 des autres
+    planches, et gardent leur gouttiere de 8px.
+
+    `tabindex` EST POSE PAR LE SCRIPT, pas ici : une requete media ne retire
+    pas un attribut, et au-dessus du palier ces bandes sont des grilles ou
+    l'arret de tabulation ne menerait nulle part. Voir src/scripts/pistes.ts.
+  */
+  .pan :is(.three,.four,.mosaic){display:flex;gap:20px;overflow-x:auto;
+    scroll-snap-type:x proximity;padding-bottom:8px;scrollbar-width:thin}
+  .pan :is(.three,.four,.mosaic) > *{flex:0 0 88%;min-width:0;
+    scroll-snap-align:start}
+  .pan :is(.three,.four,.mosaic):focus-visible{outline:3px solid var(--focus);
+    outline-offset:4px}
+  .pan .mosaic{gap:8px}
+  .pan .mosaic > *{aspect-ratio:4 / 3}
   /* La case cesse de se partager la largeur et en prend une a elle : c'est ce
      qui fait deborder la ligne, donc defiler. */
   .pan .swi{flex:0 0 38%}
   .pan .lead{font-size:28px}
   .pan .dark{padding:28px}
-  .pan .mosaic{--cols:2;grid-auto-rows:110px}
   /*
     LA PILE SE DEPLIE EN COLONNE. Sept planches empilees dans un cadre de 4/3
     ne tiennent que parce qu'une rotation les distingue ; sur une colonne de
