@@ -14,13 +14,13 @@ Systematize a brand · Sanofi · 2018 - 2022
 
 I first built IT's brand platform as Digital Communication Service Owner, to make **an invisible function legible** and hand the people inside it **a language they could use without me**. Not a charter - a production line, and the practice that kept it running.
 
-Then Sanofi merged its three brands into one, and every internal identity was refounded under that umbrella at once. The part nobody had defined was **how a brand translates to a screen** - so I took it as Product Design Lead, and answered with one standard for the whole portfolio. **That is where Elements begins.**
+Then Sanofi merged its three brands into one, and every internal identity was refounded under that umbrella at once. The part nobody had defined was **how a brand translates to a screen** - so I took it as Product Design Lead, and answered with one standard for the whole portfolio. **The first time the answer stopped being a brand, and became a system.**
 
 The brand platform
 
-**One language, and a production line anyone could pick up** - positioning, territory and tone of voice, from a leadership deck to a front-line email. Versioned when the brand underneath it changed.
+**Every digital entity of Sanofi IT, on one language** - ten business capabilities, each with its colour and its own iconography, and a template for every intent rather than every sender.
 
-The system thinking proven here is where Elements, Sanofi's experience system, begins.
+Three identities in four years, and the same platform carried all three.
 
 2,500
 
@@ -44,17 +44,17 @@ A function driving the business, read as a service desk.
 
 Its role went unexplained, its image was dated, and every team improvised the brand. Illegibility has a name in every multinational: shadow IT.
 
-I built the platform, the production line and the practice.
+The hard part was the vocabulary, not the visuals.
 
-Positioning, territory and tone of voice; shared libraries anyone could pick up; and a standardized way of working, because autonomy without a shared practice just scatters faster.
+I named IT's place in the value chain in words a manufacturing lead or a medical rep could use - then built from there, and standardized how the team worked as much as what it shipped.
 
-It survived the identity it was built on.
+Adopted without a mandate, and re-adopted without a fight.
 
-200+ campaigns ran on it and the whole company met it somewhere in the day - then a reorg reset the brand underneath, and the platform shipped a major instead of restarting.
+I had no authority over the people who had to adopt it, so I sold each department what coherence buys them. When a reorg reset the identity underneath, nobody asked to go back.
 
-Then the whole company rebranded, and the screen had no owner.
+The platform of one function became the digital standard of the company.
 
-I took the part nobody had defined - what a corporate brand becomes once it's interactive - and answered it with one standard for the portfolio, piloted on sanofi.com.
+Not a brand adaptation per product, but one standard for the whole portfolio - piloted on sanofi.com, and the token architecture Elements still runs on.
 
 ## 01 &middot; The problem
 
