@@ -18,7 +18,7 @@ Then Sanofi merged its three brands into one, and every internal identity was re
 
 The brand platform
 
-**Mission, positioning, tone of voice** - what IT stood for, and how it was allowed to sound. Then everything that derives from it as visual territory, amplified by operational assets for every intent.
+**Mission, positioning and tone of voice** set what IT stood for and how it was allowed to sound. From them came a visual territory, and an operational asset for every intent it had to serve.
 
 Three identities in four years, and the same platform carried all three.
 
