@@ -212,14 +212,6 @@ const credits = [
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian">
-      <Fragment slot="definition">
-        <p class="clef-def__eb">The living system</p>
-        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong>, pulled off two rented objects before anything was drawn. Short enough that whoever was briefed from it could apply it without me, complete enough that nothing on the day had to be invented twice.</p>
-        <p class="clef-def__prix">Not a mood. A short list you can hold someone to.</p>
-      </Fragment>
-    </ChiffresCles>
-
     {/*
       ─── La composition des 3 cartes ───
       Troisieme grille du site, encore differente des deux autres : sept
@@ -228,28 +220,18 @@ const credits = [
       la hauteur. Les trois cartes font 472x291, 363x535 et 472x241 : trois
       formes, pas trois variantes d'un meme rectangle.
     */}
-    {/*
-      ─── La composition des 4 cartes ───
-
-      ELLE EN PORTAIT TROIS, ET LEURS TITRES NE DISAIENT PLUS LEUR CHAPITRE.
-      « It started with two rented objects » ouvrait la carte 01 alors que les
-      deux objets sont passes au chapitre 02 ; « One identity, fifty-plus
-      surfaces » ouvrait la 02 alors que la couverture est la preuve, donc le
-      03. Une carte qui annonce le chapitre d'a cote est pire qu'une carte
-      vide : elle oriente la lecture au mauvais endroit.
-
-      SEPT COLONNES ET CINQ RANGEES, et la grammaire reste celle de Surfaces -
-      deux bandes fines VERTICALES (colonnes 4 et 7) la ou l'accueil et Brand
-      posent les leurs a l'horizontale. Les quatre cartes s'engrenent deux a
-      deux : 01 et 03 se partagent la colonne de gauche, 02 et 04 celle de
-      droite, et la coupe ne tombe pas a la meme rangee des deux cotes.
-
-      Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre
-      861 et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
-      hidden - les avale. Defaut deja mesure une fois, pas question de le
-      refaire.
-    */}
+    {/* La composition porte les chiffres, la definition et les quatre cartes
+        dans une seule grille. Le dessin et le pourquoi sont dans la feuille de
+        style en bas de ce fichier. */}
     <div class="compo" id="composition" data-grille>
+    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian">
+      <Fragment slot="definition">
+        <p class="clef-def__eb">The living system</p>
+        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong>, pulled off two rented objects before anything was drawn. Short enough that whoever was briefed from it could apply it without me, complete enough that nothing on the day had to be invented twice.</p>
+        <p class="clef-def__prix">Not a mood. A short list you can hold someone to.</p>
+      </Fragment>
+    </ChiffresCles>
+
       <CarteDossier
         id="carte-contrainte"
         rang="01"
@@ -262,9 +244,6 @@ const credits = [
         aire="c1"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--jaune"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:p2"><span class="compo__plat compo__plat--noir"></span></div>
-
       <CarteDossier
         id="carte-systeme"
         rang="02"
@@ -275,8 +254,6 @@ const credits = [
         commande="pan-systeme"
         aire="c2"
       />
-
-      <div class="compo__decor" aria-hidden="true" style="grid-area:p3"><span class="compo__plat compo__plat--rouge"></span></div>
 
       <CarteDossier
         id="carte-transmission"
@@ -303,11 +280,15 @@ const credits = [
         mot="Pivot"
         intitule="The game"
         titre="A game that mixed ninety strangers, and the same lever at work."
-        synthese="Six mechanics, six clues nobody could gather alone. The same move behind a hackathon's 8,301 votes and an app that got people to update their own data."
+        synthese="Six mechanics, six clues nobody could gather alone, and ninety people who arrived in blocks and left mixed. The same move behind a hackathon's 8,301 votes, a workshop run on a deck of cards, and an app that got application owners to keep their own records current."
         couleur="noir"
         commande="pan-gamification"
         aire="c4"
       />
+
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--rouge"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:vd"></div>
+
     </div>
 
     {/* ═══════════ 01 · The problem ═══════════ */}
@@ -782,56 +763,65 @@ const credits = [
     colonnes et la definition reprend la largeur entiere, ce que la regle
     partagee fait deja.
   */
-  @media(min-width:861px){
-    .cles--mondrian.cles--mondrian{grid-template-columns:5fr 7fr}
-    .cles--mondrian .clef-def{grid-area:1 / 1 / 3 / 2}
-    .cles--mondrian .clef-rangee--1{grid-area:1 / 2 / 2 / 3}
-    .cles--mondrian .clef-rangee--2{grid-area:2 / 2 / 3 / 3}
-  }
-
   /*
-    LA COMPOSITION. DOUZE COLONNES EGALES ET DES AIRES NOMMEES, et la couleur
-    occupe des CASES, plus des bandes.
+    ═══ UNE SEULE GRILLE : LES CHIFFRES SONT DES CASES DE LA COMPOSITION ═══
 
-    Elle tenait sur sept colonnes irregulieres dont deux ne servaient qu'a
-    loger un filet : la quatrieme faisait huit unites, la septieme dix-huit, et
-    la couleur s'y posait en lamelles d'une colonne de large. Lue de loin, ce
-    n'etait plus une grille mondrianesque - c'etait un cadre avec des liseres
-    de couleur sur les cotes. Chez Mondrian la couleur occupe ce que les lignes
-    delimitent ; elle ne souligne pas les lignes.
+    Le bandeau vivait au-dessus, avec sa grille a lui collee sous celle-ci -
+    deux objets qui se touchaient sans s'aligner. `display:contents` fait
+    disparaitre ses boites sans toucher a l'ordre du front, et le trace anime
+    sait lire un conteneur sans boite (voir `data-cases` dans grille.ts).
 
-    Les trois aplats font donc deux ou trois colonnes de large sur une rangee
-    de haut - des carres, a 170px pres - et ils sont poses DANS la grille, pas
-    sur ses bords : deux empiles au tiers de la largeur, un troisieme decale
-    d'une colonne en dessous, a cheval sur la coupe des cartes.
+    LE DESSIN. La definition ouvre a gauche, etroite et haute sur trois
+    rangees. Les trois chiffres s'empilent a sa droite en carres de deux
+    colonnes - c'est leur hauteur cumulee qui donne la sienne. Le probleme
+    tient la droite sur deux rangees, et la demarche descend DESSOUS : la
+    colonne de droite se lit donc de haut en bas comme le recit, probleme puis
+    demarche puis preuve. Le pivot prend tout le bas a gauche, sous la
+    definition - c'est le seul bloc qui change de cote, et c'est voulu : il ne
+    fait pas partie de la serie.
 
-    ET L'ARRANGEMENT RESTE PROPRE A SURFACES. Brand pose ses chiffres et sa
-    definition DANS la composition ; ici la bande des chiffres vit au-dessus,
-    avec sa definition a gauche, et la composition n'a que ses quatre cartes et
-    trois aplats. Meme grammaire, deux dessins.
+    ENTRE LES DEUX, UN CARRE ROUGE ET UNE CASE VIDE, dans la colonne que les
+    chiffres laissent libre une fois leur pile finie. Ils ne decorent pas : ils
+    tiennent la jonction entre la moitie gauche et la moitie droite, la ou les
+    deux blocs ne se coupent pas a la meme rangee.
 
-    Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre 861
-    et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
-    hidden - les avale.
+    LES CARRES SONT VRAIS : douze colonnes de 88px dans 1072, donc deux
+    colonnes et une gouttiere font 177 - c'est la hauteur des trois premieres
+    rangees, et les chiffres y sont carres sans qu'on ait rien a poser.
 
-    Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre 861
-    et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
-    hidden - les avale. Defaut mesure a l'etape 4, pas question de le refaire.
-
-    Au-dessus du point de rupture seulement : etude.css remet la composition
-    sur une colonne sous 860px, et cette declaration vit plus loin dans le
-    bundle - a specificite egale elle gagnerait, media query comprise.
+    Rangees en minmax pour les deux dernieres : en pixels fixes, la synthese
+    gagne des lignes entre 861 et 1120 pendant que la rangee ne bouge pas, et
+    la carte - en overflow hidden - les avale.
   */
   @media(min-width:861px){
     .compo{grid-template-columns:repeat(12,minmax(0,1fr));
-      grid-template-rows:minmax(170px,auto) minmax(110px,auto)
-        minmax(120px,auto) minmax(140px,auto) minmax(140px,auto);
+      grid-template-rows:177px 177px 177px minmax(177px,auto) minmax(250px,auto);
       grid-template-areas:
-        "c1 c1 c1 c1 c1 c1 p1 p1 c2 c2 c2 c2"
-        "c1 c1 c1 c1 c1 c1 p2 p2 c2 c2 c2 c2"
-        "c3 c3 c3 c3 c3 p3 p3 p3 c2 c2 c2 c2"
-        "c3 c3 c3 c3 c3 c4 c4 c4 c4 c4 c4 c4"
-        "c3 c3 c3 c3 c3 c4 c4 c4 c4 c4 c4 c4"}
+        "def def def def n1 n1 c1 c1 c1 c1 c1 c1"
+        "def def def def n2 n2 c1 c1 c1 c1 c1 c1"
+        "def def def def n3 n3 c2 c2 c2 c2 c2 c2"
+        "c4 c4 c4 c4 p1 p1 c2 c2 c2 c2 c2 c2"
+        "c4 c4 c4 c4 vd vd c3 c3 c3 c3 c3 c3"}
+
+    .compo .cles--mondrian,.compo .clef-rangee{display:contents}
+    .compo .clef-rangee--1 .clef-case:nth-of-type(1){grid-area:n1}
+    .compo .clef-rangee--1 .clef-case:nth-of-type(2){grid-area:n2}
+    .compo .clef-rangee--2 .clef-case:nth-of-type(1){grid-area:n3}
+    .compo .clef-def{grid-area:def}
+
+    /* La poussee au survol est un geste de BANDE, et la bande n'existe plus.
+       Les largeurs ne bougeraient pas - mais la regle qui efface le contenu
+       des cases voisines, elle, s'appliquerait encore, et survoler un chiffre
+       viderait les deux autres. */
+    .compo .clef-rangee:hover .clef__dedans,
+    .compo .clef-rangee:focus-within .clef__dedans,
+    .compo .clef-rangee:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:1}
+
+    /* Dans la composition, ce n'est plus au bloc de fermer quoi que ce soit :
+       la grille le fait, avec le meme filet que partout. */
+    .compo .clef-def{padding:24px;gap:13px}
+    .compo .clef-def__bande,.compo .clef-def__filet{display:none}
+    .compo .clef-def__prix{margin-top:auto}
   }
 
   /* ─── Les trois blocs du systeme : formes, couleurs, type ─── */

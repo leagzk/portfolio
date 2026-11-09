@@ -54,7 +54,7 @@ Drawn flat in Illustrator, briefed from a single guide, standing at the door twe
 
 A game that mixed ninety strangers, and the same lever at work.
 
-Six mechanics, six clues nobody could gather alone. The same move behind a hackathon's 8,301 votes and an app that got people to update their own data.
+Six mechanics, six clues nobody could gather alone, and ninety people who arrived in blocks and left mixed. The same move behind a hackathon's 8,301 votes, a workshop run on a deck of cards, and an app that got application owners to keep their own records current.
 
 ## 01 &middot; The problem
 
