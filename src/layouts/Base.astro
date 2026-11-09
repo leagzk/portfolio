@@ -346,7 +346,25 @@ const personSchema = {
     Le script pose donc l'ecart a 6% du diametre ; la valeur ecrite ici n'est
     qu'un secours si le script ne tourne pas.
   */
-  .loader__anneau{position:absolute;inset:calc(var(--ecart-anneau,9px) * -1);
+  /*
+    SA TAILLE EST ECRITE, ELLE N'EST PAS DEDUITE DES QUATRE COTES. Le cadrage
+    tenait sur `inset` seul, et un <svg> est un element REMPLACE : avec les
+    quatre decalages poses mais `width` et `height` a `auto`, la boite est
+    sur-contrainte, et les moteurs ne la resolvent pas pareil. Chromium etire
+    le SVG entre les quatre cotes ; un moteur qui prend la taille intrinseque
+    a la place garde `left` et `top`, ignore `right` et `bottom`, et l'anneau
+    se peint ailleurs que sur la photo. C'est exactement ce qui est arrive
+    aux trois etats du faire-part de Surfaces, ou `width:100%` gagnait sur
+    `right`.
+
+    Deux decalages et deux dimensions ecrites ne laissent plus rien a
+    deduire : le resultat est le meme partout.
+  */
+  .loader__anneau{position:absolute;
+    top:calc(var(--ecart-anneau,9px) * -1);
+    left:calc(var(--ecart-anneau,9px) * -1);
+    width:calc(100% + var(--ecart-anneau,9px) * 2);
+    height:calc(100% + var(--ecart-anneau,9px) * 2);
     z-index:0;overflow:visible;
     transform:rotate(-90deg);will-change:transform;transition:opacity .3s ease}
   /* vector-effect : l'epaisseur reste a 1,5px quelle que soit la taille rendue. */
