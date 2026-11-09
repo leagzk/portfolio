@@ -1283,17 +1283,24 @@
     c'est la seule chose du cadre d'avant qui valait d'etre gardee.
     `border-box` le prend DANS les 56px au lieu de les ajouter dehors.
 
-    LE CARRE SORT DU PADDING DE LA CARTE A DROITE, MAIS PAS EN BAS. Les 28px
-    de retrait servent au texte ; lui file jusqu'au bord droit, ou la marge
-    negative le mene. En bas il reste dans la carte : un debord l'y faisait
-    rogner de 4px par l'`overflow:hidden`, et c'est le filet qui disparaissait.
+    LE CARRE SORT DU PADDING DE LA CARTE, A DROITE ET EN BAS. Les 28px de
+    retrait servent au texte ; lui occupe le coin, ou deux marges negatives le
+    menent. Celle du bas ne pousse rien : sur un item flex la marge entre dans
+    la taille exterieure, donc le carre compte pour 28 au lieu de 56 et la
+    zone garde la hauteur de la liste.
+
+    ET IL N'A PAS DE FILET EN BAS, parce que le filet du bas, c'est celui de
+    la carte - le carre vient s'y poser. Lui en donner un de plus le doublerait
+    sur la meme ligne. C'est deja ce que faisait la bande d'avant, qui ne
+    portait que son bord droit : les autres cotes etaient ceux de la zone.
   */
   .dcarte__points{display:flex;align-items:flex-end;gap:16px;
     margin-top:18px;margin-right:-28px;padding:0}
   .dcarte__liste{flex:1 1 auto;min-width:0;
     display:flex;flex-direction:column;gap:10px}
   .dcarte__bande{flex:none;width:56px;height:56px;box-sizing:border-box;
-    border:var(--rule) solid currentColor;
+    margin-bottom:-28px;
+    border:var(--rule) solid currentColor;border-bottom:0;
     background:var(--puce,currentColor)}
   /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
      l'ECART qu'on garde, pas le retrait. */
