@@ -159,7 +159,7 @@ Community
 
 A platform scales *when a practice carries it.*
 
-A structure only counts if it holds, and this one holds without me. Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. **The platform stopped being a cost the business approves, and became what its launches plan around.**
+Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. **The platform stopped being a cost the business approves, and became what its launches plan around.**
 
 > Part of the community in Paris. Most of it works remote, across five hubs.
 
@@ -190,7 +190,7 @@ Contribution
 
 Using it is the first rung. *Owning it is the last.*
 
-The practice got a focus of its own, a remit and a clear strategy. **Never a volunteer rota.** My team built the machine that made contributing possible: an escalation path, a contribution path, office hours, community events, public contribution recognition at the Demo, integrated onboarding. From the start.
+The practice got a focus of its own, a remit and a plan. **Never a volunteer rota.** My team built the machine that made contributing possible: an escalation path, a contribution path, office hours, community events, public contribution recognition at the Demo, integrated onboarding. From the start.
 
 **There is no small contribution.** It starts by being a consumer. It continues by submitting new ideas. It closes the loop by maintaining the system, on its own. Everyone gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.
 
