@@ -1053,11 +1053,30 @@
   elles servent : les quatre cartes sont empilees et fermees, et c'est sur
   elles qu'on choisit.
 
-  Elles sont posees par le script a chaque carte, donc eteintes par defaut :
-  au bureau le sommaire de la composition fait deja ce travail, et les avoir
-  aux deux endroits dirait tout deux fois.
+  AU BUREAU ELLES SONT UNE LIGNE, PAS UNE LISTE. Elles y etaient eteintes au
+  motif que `.compo__sommaire` fait le travail - mais il ne le fait qu'une
+  fois la carte OUVERTE, c'est-a-dire apres la decision qu'il devrait aider a
+  prendre. Sur la carte fermee, les trois mots disent de quoi le chapitre est
+  fait ; c'est ce qui donne envie de l'ouvrir.
+
+  EN LIGNE ET NON EMPILEES, pour que ca reste une mention et pas un sommaire :
+  12px, gris, des carres de 5px avant chaque mot - un a gauche, un entre
+  chacun. La version empilee, plus grande et a puce de couleur, est celle du
+  telephone et celle du sommaire latero : chacune a sa place et aucune ne
+  s'affiche en meme temps qu'une autre.
 */
-.dcarte__points{display:none}
+/* AU PALIER BUREAU ET NON EN BASE : le bloc telephone qui suit ne redeclare
+   pas la couleur, et une regle de base la lui imposerait. Les deux versions
+   ne partagent rien, donc elles ne se chevauchent pas non plus. */
+@media(min-width:861px){
+  .dcarte__points{display:block;margin-top:18px}
+  .dcarte__liste{display:flex;flex-wrap:wrap;align-items:baseline;
+    column-gap:14px;row-gap:6px}
+  .dcarte__point{display:flex;align-items:baseline;gap:7px;
+    font-size:12px;line-height:1.3;color:var(--ink-muted)}
+  .dcarte__point::before{content:"";flex:none;width:5px;height:5px;
+    background:var(--text)}
+}
 @media(max-width:860px){
   /*
     LA ZONE SE FERME SUR UNE BANDE, ET LES TRAITS FONT GRILLE. C'est la
@@ -1194,9 +1213,10 @@
   1,0:1 - et le rendre lisible revenait a garder a l'ecran un bloc qui n'a
   plus de travail. Il est retire.
 
-  Le bureau n'est pas concerne : `.dcarte__points` n'existe que sous 860px, et
-  son equivalent du bureau (`.compo__sommaire`) est hors de la carte, dans une
-  composition que le panneau ouvert remplace entierement.
+  LE BUREAU SUIT LA MEME REGLE, depuis que la ligne de puces y existe aussi :
+  elle s'eteint a l'ouverture, et `.compo__sommaire` prend le relais a cote
+  du panneau - empile, plus grand, a puce de couleur. Les deux ne sont jamais
+  a l'ecran en meme temps.
 */
 .dcarte[aria-expanded="true"] .dcarte__points{display:none}
 
