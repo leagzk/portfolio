@@ -1034,10 +1034,24 @@
   element revient de `display:none`, or `.compo--solo` masque les cartes non
   ouvertes : chaque fermeture de chapitre rejouait donc l'entree de toute la
   composition. `poser` (grille.ts) ajoute `pose` quand l'entree est finie ;
-  ces deux regles l'annulent a partir de la. Meme specificite que les deux
+  ces regles l'annulent a partir de la. Meme specificite que les deux
   ci-dessus - elles doivent donc rester APRES.
+
+  LES CHIFFRES CLES Y MANQUAIENT. La regle ne couvrait que les aplats de la
+  composition et le texte des cartes ; or Language et Surfaces posent leur
+  bandeau de chiffres DANS la composition, et ses animations a lui - `pousse`
+  sur la tuile, `monte` sur le nombre, son libelle, son icone et les deux
+  lignes du bloc de definition - repartaient a chaque fermeture de chapitre.
+  Journal des declenchements apres une fermeture, avant correction : six
+  entrees rejouees sur Surfaces au bureau, quatre sur Language aux deux
+  paliers. Governance n'etait pas touchee, son bandeau etant hors de la
+  composition - ce qui explique que le defaut ait pu passer inapercu.
+
+  Ces elements ont deja un ancetre marque `pose` : il ne manquait que de les
+  nommer.
 */
-.pose :is(.compo__plat,.conv__plat),.pose :is(.dcarte__txt,.conv__txt){animation:none}
+.pose :is(.compo__plat,.conv__plat),.pose :is(.dcarte__txt,.conv__txt),
+.pose :is(.clef,.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){animation:none}
 
 @media(max-width:860px){
   /*
