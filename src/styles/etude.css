@@ -411,9 +411,17 @@
   background:var(--blue);transform-origin:left bottom}
 .clef-def__eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
   letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
+/*
+  LE MEMBRE FORT PREND L'APLAT, PAS LA COULEUR DE TEXTE. Il etait en
+  `color:var(--red)` quand les phrases d'attaque des sections, elles, portent
+  un `em-rouge` - un aplat rouge et du blanc dessus. Deux traitements pour le
+  meme geste sur la meme page : le bloc statique disait en couleur de texte ce
+  que les sections disent en surlignage. Il prend donc le meme jeton, qui
+  apporte avec lui le `box-decoration-break` dont une phrase de 22px a besoin
+  quand elle passe a la ligne.
+*/
 .clef-def__phrase{margin:0;font-family:var(--display);font-size:22px;
   line-height:1.25;font-weight:900;letter-spacing:-.01em;color:var(--text)}
-.clef-def__phrase strong{color:var(--red)}
 
 /* La construction sert ces cases comme celles de la composition. */
 /*
