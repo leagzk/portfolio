@@ -702,7 +702,18 @@
 .pan .vers__nom{margin:0;font-family:var(--display);font-size:24px;
   line-height:1.1;font-weight:900;display:flex;align-items:center;gap:10px;
   flex-wrap:wrap}
-.pan .vers__propos{margin:0;font-size:var(--fs-body);line-height:1.7;
+/*
+  A L'ECHELLE D'UNE LEGENDE, ET C'EST UNE QUESTION DE RANG. Le propos d'un
+  concept annonce la pile de planches posee juste dessous : au corps de texte
+  il pesait autant que les paragraphes de la sous-partie, alors qu'il n'est
+  qu'un intitule - et il passait devant les legendes de ses propres planches.
+
+  IL GARDE L'ENCRE DU CORPS, lui. La taille et l'interligne d'une legende
+  suffisent a le ranger ; le gris de `.cap` en ferait un commentaire, or c'est
+  lui qui porte la comparaison. Trois rangs, donc : le nom du concept, son
+  propos, puis les legendes des planches.
+*/
+.pan .vers__propos{margin:0;font-size:var(--fs-caption);line-height:1.55;
   color:var(--text-body)}
 
 /* ─── Le dessin au trait et son propos ─── */

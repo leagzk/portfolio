@@ -227,9 +227,9 @@ Arbitration
 
 Leadership picked the concept *I argued against.*
 
-I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01 - and 01 was the shorter migration, which is the one thing I've defended everywhere else. **The shortest path for the people moving wins over the better drawing.**
+I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01, and 01 was the shorter migration - the one thing I've defended everywhere else.
 
-Taste on one side, adoption on the other. **The decision went against me. The execution didn't show it.**
+The shortest path for the people moving wins over the better drawing. Taste on one side, adoption on the other. **The decision went against me. The execution didn't show it.**
 
 Concept 01
 
@@ -311,7 +311,7 @@ Convergence
 
 ### Converging to one standard *to harmonize the experience of every digital touchpoint.*
 
-So I pushed the answer one level up. Not a brand adaptation per product: **one standard for the portfolio**, with sanofi.com as the pilot - the first real product to carry it, and the one that would tell us what the standard got right and what it didn't.
+So I pushed the answer one level up. Not a brand adaptation per product: **one standard for the portfolio**, with sanofi.com as the pilot - the first real product to carry it. **A pilot isn't a proof. It's the fastest way to find out what you got wrong.**
 
 > sanofi.com &middot; Article page
 
@@ -323,7 +323,7 @@ So I pushed the answer one level up. Not a brand adaptation per product: **one s
 
 > Where Elements Design System begins &middot; Tokens origin
 
-## A pilot isn't a proof. It's the fastest way to find out *what you got wrong.*
+## Nothing here was mandated. *That's the only reason it held.*
 
 Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. **The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.** And that's where Elements Design System begins.
 

@@ -58,16 +58,24 @@ export interface Props {
     Meme nom que l'option du carrousel, meme raison.
   */
   aere?: boolean;
+  /*
+    INTITULE EN TEXTE SIMPLE, POUR LA LOUPE. La legende visible peut porter du
+    HTML - elle passe par `set:html` et plusieurs en-tetes y mettent un
+    `&middot;`. La loupe, elle, lit `data-legende` et le pose en `textContent` :
+    une entite y arriverait telle quelle, « 2018 &middot; 2019 » en toutes
+    lettres. Meme prop et meme raison que sur CadreDefilant.
+  */
+  titre?: string;
 }
 const {
   src, url, alt, legende, ratio, ajuste = 'contain',
   sizes = '(min-width: 900px) 340px, 90vw', attente, class: classe,
-  zoom = false, aere = false,
+  zoom = false, aere = false, titre,
 } = Astro.props;
 
-/* La loupe lit `data-legende` ; sans legende visible, le texte alternatif en
-   tient lieu plutot que d'ouvrir une vue sans titre. */
-const titreLoupe = legende ?? alt;
+/* La loupe lit `data-legende` ; a defaut d'intitule simple c'est la legende,
+   et sans legende visible le texte alternatif - plutot qu'une vue sans titre. */
+const titreLoupe = titre ?? legende ?? alt;
 
 const styleCadre = [
   ratio && `aspect-ratio:${ratio}`,

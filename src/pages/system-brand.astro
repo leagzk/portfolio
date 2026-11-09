@@ -992,30 +992,24 @@ const pratiques: Tuile[] = [
         */}
         <p class="eb">Captivate, from launch to outcome</p>
         <div class="two">
-          <CadreDefilant
+          <Figure
             src={img(annonce.nom)}
             alt={annonce.alt}
             legende={annonce.legende}
             titre="Captivate announcement"
             aere
             ratio="16 / 11"
-            fr={1.4545}
             sizes="(min-width: 900px) 500px, 92vw"
-            widths={[400, 800, 1200]}
-            declencheur="survol"
             zoom
           />
-          <CadreDefilant
+          <Figure
             src={img(filCaptivate.nom)}
             alt={filCaptivate.alt}
             legende={filCaptivate.legende}
             titre="Captivate replies"
             aere
             ratio="16 / 11"
-            fr={1.4545}
             sizes="(min-width: 900px) 500px, 92vw"
-            widths={[400, 800, 1200]}
-            declencheur="survol"
             zoom
           />
         </div>
@@ -1111,7 +1105,6 @@ const pratiques: Tuile[] = [
         <div class="split">
           <p class="lead">Leadership picked the concept <em class="em-jaune">I argued against.</em></p>
           <div class="body">
-            <p>I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01 - and 01 was the shorter migration, which is the one thing I've defended everywhere else. <strong>The shortest path for the people moving wins over the better drawing.</strong></p>
             {/*
               « I arbitrated, and I shipped 01 like it had been my idea. »
               disait deux fois la meme chose, et les deux sonnaient faux :
@@ -1122,8 +1115,17 @@ const pratiques: Tuile[] = [
 
               Ce qui compte ici est verifiable et tient en deux temps : la
               decision, puis ce que l'execution en a laisse voir.
+
+              LA COUPURE TOMBE APRES LE CHOIX, PAS APRES LE PRINCIPE. Le second
+              paragraphe n'avait qu'une phrase, portee a 80% par du gras : une
+              ligne seule sous un pave se lit comme une citation detachee, pas
+              comme la fin d'un raisonnement. Le premier s'arrete donc sur ce
+              que le leadership a tranche ; le second ouvre sur le principe qui
+              lui donne raison, et garde la chute. Deux paragraphes de poids
+              comparable, et plus aucune phrase solo.
             */}
-            <p>Taste on one side, adoption on the other. <strong>The decision went against me. The execution didn't show it.</strong></p>
+            <p>I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01, and 01 was the shorter migration - the one thing I've defended everywhere else.</p>
+            <p>The shortest path for the people moving wins over the better drawing. Taste on one side, adoption on the other. <strong>The decision went against me. The execution didn't show it.</strong></p>
           </div>
         </div>
 
@@ -1300,7 +1302,7 @@ const pratiques: Tuile[] = [
         <div class="split">
           <h3 class="h3 h3--lead">Converging to one standard <em class="em-gris">to harmonize the experience of every digital touchpoint.</em></h3>
           <div class="body">
-            <p>So I pushed the answer one level up. Not a brand adaptation per product: <strong>one standard for the portfolio</strong>, with sanofi.com as the pilot - the first real product to carry it, and the one that would tell us what the standard got right and what it didn't.</p>
+            <p>So I pushed the answer one level up. Not a brand adaptation per product: <strong>one standard for the portfolio</strong>, with sanofi.com as the pilot - the first real product to carry it. <strong>A pilot isn't a proof. It's the fastest way to find out what you got wrong.</strong></p>
           </div>
         </div>
         {/* Le pilote etait seul dans une sous-partie sans surtitre, donc sans
@@ -1308,8 +1310,22 @@ const pratiques: Tuile[] = [
         <Carrousel label="Pilot screens" vignettes={pilote} ratio="16 / 10" />
       </div>
 
+      {/*
+        LA CHUTE SUR LE PILOTE EST REDESCENDUE DANS CONVERGENCE, dont le
+        paragraphe se terminait sur la meme idee en plus long - « the one that
+        would tell us what the standard got right and what it didn't ». En
+        titre de cloture elle faisait porter la sortie du chapitre par le
+        dernier detail du chapitre, et le lecteur quittait la page sur le
+        pilote au lieu du cas.
+
+        CE QUI FERME, C'EST CE QUE LE CAS A DE PROPRE : une marque que personne
+        n'a eu a imposer. C'est la carte 03 (« adopted without a mandate ») et
+        c'est ce qui rend la suite credible - un systeme ne passe a l'echelle
+        mondiale que s'il se choisit. Le mot « standard » reste a la carte 04,
+        qui le porte deja.
+      */}
       <div class="closing">
-        <h2>A pilot isn't a proof. It's the fastest way to find out <em class="em-gris">what you got wrong.</em></h2>
+        <h2>Nothing here was mandated. <em class="em-gris">That's the only reason it held.</em></h2>
         <p class="cbody">Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <strong>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</strong> And that's where Elements Design System begins.</p>
         <Bouton variante="bleu" href="/system-practice-elements">Discover what came next →</Bouton>
       </div>
