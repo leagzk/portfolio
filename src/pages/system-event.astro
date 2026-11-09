@@ -88,7 +88,7 @@ const chiffres: Chiffre[] = [
   { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'plein',
     contexte: 'Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same line as the invitation.' },
   { nombre: '9', quoi: 'suppliers, one guide', couleur: 'bleu', motif: 'plein',
-    contexte: 'One page per zone, one owner per page. On the day it ran from the brief, not from me.' },
+    contexte: 'One page per moment, one owner per page. On the day it ran from the brief, not from me.' },
 ];
 
 /*
@@ -130,19 +130,50 @@ const couleurs = [
 ];
 
 /*
-  LES TROIS PAGES DU GUIDE, RASSEMBLEES. Elles etaient les moities gauches de
-  trois blocs avant/apres - une au placement, deux au jeu - ou chacune prouvait
-  qu'un objet descend de sa page. Vrai trois fois, et trois fois la meme
-  demonstration a trois endroits. Ensemble, elles montrent ce qu'elles sont :
-  le guide de production, une zone par page.
+  LE GUIDE DE PRODUCTION, QUATORZE PAGES, DANS L'ORDRE DU JOUR.
+
+  Il en portait trois - celles qui servaient de moitie gauche aux anciens blocs
+  avant/apres. Les onze autres etaient dans le fichier d'origine et nulle part
+  sur le site.
+
+  LES MOMENTS D'ABORD, LE JEU ENSUITE. Les sept premieres sont des moments de
+  la journee : l'apero, les jeux de pelouse, la ceremonie, le placement, le
+  diner, le bar de nuit, l'urne. Les sept suivantes sont l'escape game - son
+  coeur a la fontaine, puis ses SIX epreuves dans l'ordre ou on les joue.
+
+  ET C'EST CE QUI PROUVE LA PHRASE DU CHAPITRE PIVOT. « Six riddles, six
+  different mechanics » etait une affirmation ; les six pages la rendent
+  verifiable, une par mecanique, numerotees comme le guide les numerote.
 */
 const guide: Vignette[] = [
-  { nom: 'spec-zone-seating', legende: 'Zone &middot; the seating panels',
+  { nom: 'zone-aperitif', legende: 'Friday &middot; the ap&eacute;ro',
+    alt: 'Production guide page for the Friday apero zone: food and drinks area, frames, glassware and linen checklist' },
+  { nom: 'zone-lawn-games', legende: 'Friday &middot; the lawn games',
+    alt: 'Production guide page for the lawn games zone: petanque, molkky and the trunk of blankets, with its signage' },
+  { nom: 'zone-ceremony', legende: 'Saturday &middot; the ceremony clearing',
+    alt: 'Production guide page for the ceremony: the arch, the floral columns, the rug and the benches in the clearing' },
+  { nom: 'spec-zone-seating', legende: 'Saturday &middot; the seating panels',
     alt: 'Page from the production guide: mockup of the seating panels with the material checklist' },
-  { nom: 'spec-zone-murdle', legende: 'Zone &middot; the deduction game',
+  { nom: 'zone-dinner', legende: 'Saturday &middot; the dinner room',
+    alt: 'Production guide page for the dinner: tables, tableware, linen, flowers and candles, item by item' },
+  { nom: 'zone-night-bar', legende: 'Saturday &middot; the night bar',
+    alt: 'Production guide page for the night bar: frames, cups, the tap and the onion soup service' },
+  { nom: 'zone-guestbook', legende: 'Saturday &middot; the guestbook corner',
+    alt: 'Production guide page for the guestbook corner under the pergola: desk, urn, postcards and signage' },
+  { nom: 'zone-escape-hub', legende: 'The escape game &middot; its heart, at the fountain',
+    alt: 'Production guide page for the escape game hub at the fountain: the coloured trunks, the padlocks and the pitch frame' },
+  { nom: 'zone-game-1-cats', legende: 'Game 1 &middot; CATS',
+    alt: 'Production guide page for game one, CATS: the grid frame, the tokens and the small lounge against the wall' },
+  { nom: 'spec-zone-murdle', legende: 'Game 2 &middot; Murdle',
     alt: 'Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes' },
-  { nom: 'spec-zone-wordsearch', legende: 'Zone &middot; the word grid',
+  { nom: 'spec-zone-wordsearch', legende: 'Game 3 &middot; Guests, mixed',
     alt: 'Production guide page for the word-grid game: blank poster on an easel with its material checklist' },
+  { nom: 'zone-game-4-geocaching', legende: 'Game 4 &middot; Geocaching',
+    alt: 'Production guide page for the geocaching game: the cat frames to gather and the four jars hidden in the courtyard' },
+  { nom: 'zone-game-5-crossword', legende: 'Game 5 &middot; Crossword',
+    alt: 'Production guide page for the crossword: the mirror grid against the door, the chalk pen and the clue frame' },
+  { nom: 'zone-game-6-puzzle', legende: 'Game 6 &middot; Puzzle',
+    alt: 'Production guide page for the puzzle: loose pieces on the low table, instructions frame and the seating around it' },
 ].map((e) => ({ src: img(e.nom), alt: e.alt, legende: e.legende }));
 
 /*
@@ -681,10 +712,10 @@ const credits = [
       <div class="subsec">
         <p class="eb" data-sommaire>Handover</p>
         <div class="split">
-          <p class="lead">One page per zone, <em class="em-jaune">one owner per page.</em></p>
+          <p class="lead">One page per moment, <em class="em-jaune">one owner per page.</em></p>
           <div class="body">
             <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
-            <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief.</p>
+            <p>I wrote it all down. Moment by moment: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief.</p>
           </div>
         </div>
 
@@ -697,10 +728,10 @@ const credits = [
         <Carrousel
           aere
           label="Pages from the production guide"
-          eyebrow="One page per zone"
+          eyebrow="The guide, page by page"
           vignettes={guide}
-          ratio="9 / 10"
-          fr={0.9}
+          ratio="7 / 8"
+          fr={0.875}
           largeur="38%"
           largeurMobile="76%"
           sizes="(min-width: 900px) 420px, 76vw"

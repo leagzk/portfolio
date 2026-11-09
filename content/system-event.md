@@ -32,7 +32,7 @@ Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same l
 
 suppliers, one guide
 
-One page per zone, one owner per page. On the day it ran from the brief, not from me.
+One page per moment, one owner per page. On the day it ran from the brief, not from me.
 
 No client, no reviewer, and the only critic was the one who made it.
 
@@ -202,19 +202,41 @@ The system on paper, and the system in the world - **the same jump from specific
 
 Handover
 
-One page per zone, *one owner per page.*
+One page per moment, *one owner per page.*
 
 Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.
 
-I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief.
+I wrote it all down. Moment by moment: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief.
 
-One page per zone
+The guide, page by page
 
-> Zone &middot; the seating panels
+> Friday &middot; the apéro
 
-> Zone &middot; the deduction game
+> Friday &middot; the lawn games
 
-> Zone &middot; the word grid
+> Saturday &middot; the ceremony clearing
+
+> Saturday &middot; the seating panels
+
+> Saturday &middot; the dinner room
+
+> Saturday &middot; the night bar
+
+> Saturday &middot; the guestbook corner
+
+> The escape game &middot; its heart, at the fountain
+
+> Game 1 &middot; CATS
+
+> Game 2 &middot; Murdle
+
+> Game 3 &middot; Guests, mixed
+
+> Game 4 &middot; Geocaching
+
+> Game 5 &middot; Crossword
+
+> Game 6 &middot; Puzzle
 
 Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be *in* the experience instead of running it.
 
@@ -341,9 +363,20 @@ Nothing here was switched on for the occasion. It is what I do at work, on a pro
 - Long table with patterned plates, gold cutlery and single-stem vases running down the centre
 - Place card clipped to a wine glass on the laid table, beside a small vase of ranunculus
 - Close view of the flower palette: white daisies, blue cornflowers and pink blooms
+- Production guide page for the Friday apero zone: food and drinks area, frames, glassware and linen checklist
+- Production guide page for the lawn games zone: petanque, molkky and the trunk of blankets, with its signage
+- Production guide page for the ceremony: the arch, the floral columns, the rug and the benches in the clearing
 - Page from the production guide: mockup of the seating panels with the material checklist
+- Production guide page for the dinner: tables, tableware, linen, flowers and candles, item by item
+- Production guide page for the night bar: frames, cups, the tap and the onion soup service
+- Production guide page for the guestbook corner under the pergola: desk, urn, postcards and signage
+- Production guide page for the escape game hub at the fountain: the coloured trunks, the padlocks and the pitch frame
+- Production guide page for game one, CATS: the grid frame, the tokens and the small lounge against the wall
 - Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes
 - Production guide page for the word-grid game: blank poster on an easel with its material checklist
+- Production guide page for the geocaching game: the cat frames to gather and the four jars hidden in the courtyard
+- Production guide page for the crossword: the mirror grid against the door, the chalk pen and the clue frame
+- Production guide page for the puzzle: loose pieces on the low table, instructions frame and the seating around it
 - Guests embracing at the event, the designer among them rather than running the day
 - The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement
 - Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid
