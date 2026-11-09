@@ -546,7 +546,7 @@ const credits = [
           auraient montre trois photos ; le fondu montre un objet qu'on
           deplie. src/scripts/crossfade.ts, 2,2s par etat.
         */}
-        <div class="two">
+        <div class="two two--planches">
           <figure class="fig fig--aere">
             <div class="fig__cadre fairepart" style="aspect-ratio:1400 / 1430;--fit:contain">
               <Image class="fairepart__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
@@ -555,7 +555,7 @@ const credits = [
             </div>
             <figcaption class="cap">From the canvas</figcaption>
           </figure>
-          <Figure src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 1430" ajuste="cover"
+          <Figure aere src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 1430"
             alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
             sizes="(min-width: 900px) 520px, 90vw" />
         </div>
@@ -1132,15 +1132,35 @@ const credits = [
     tous a la meme echelle, et les deux moins hauts sont simplement centres
     dans du blanc qui ne se voit pas, le cadre etant deja blanc.
 
-    `inset` SE CALE SUR LA BOITE DE PADDING, pas sur la boite de contenu : a
-    `inset:0` les trois images recouvraient le blanc tournant de `fig--aere`,
-    qui etait donc pose pour rien et l'illustration venait au ras du filet.
-    Elles reprennent la mesure par `--aere`, le jeton que `fig--aere` declare
-    sur le cadre - une seule valeur a bouger, et le palier mobile suit seul.
+    LES TROIS ETATS SE SUPERPOSENT PAR LA GRILLE, PAS EN ABSOLU. Un enfant
+    absolu se mesure sur la boite de PADDING : il recouvrait le blanc
+    tournant que `fig--aere` pose sur le cadre. Et `inset` n'y pouvait rien,
+    la regle generique des figures - `.fig__cadre :is(img,...)` - imposant
+    `width:100%;height:100%`, qui l'emporte sur `right` et `bottom` ; les
+    passer a `auto` ne fait que rendre a l'image sa taille intrinseque, 1400
+    de large, qui deborde. Trois elements dans la MEME CELLULE de grille
+    restent dans le flux : leur `width:100%` se mesure sur la boite de
+    CONTENU, et le blanc tournant tient, comme sur toute autre figure.
   */
-  .pan .fairepart{position:relative}
-  .pan .fairepart .fairepart__etat{position:absolute;inset:var(--aere,0);
-    object-fit:contain;opacity:0;transition:opacity .9s ease}
+  /*
+    LA PAIRE SE POSE SUR DU GRIS, PAS SUR DU BLANC. Les trois etats du
+    faire-part sont detoures - canal alpha - et sur le blanc que `fig--aere`
+    pose, leurs bords se perdaient dans le cadre : on ne voyait plus ou
+    s'arretait la planche. Le gris clair des cadres d'image leur rend un
+    contour.
+
+    La photo d'en face passe de `cover` a `contain` et prend le meme blanc
+    tournant. Elle fait 1400 x 2100, un portrait : rognee au rapport du
+    cadre, elle en perdait la moitie. Contenue, elle se reduit et se centre
+    dans le meme aplat - les deux planches se lisent alors comme deux
+    documents poses, et non comme une planche et une fenetre.
+  */
+  .pan .two--planches .fig--aere .fig__cadre{background:var(--placeholder)}
+
+  /* `position:relative` serait redondant : `.fig__cadre` l'a deja. */
+  .pan .fairepart{display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr)}
+  .pan .fairepart .fairepart__etat{grid-area:1/1;
+    opacity:0;transition:opacity .9s ease}
   .pan .fairepart .fairepart__etat.is-on{opacity:1}
 
   /* ─── Les neuf credits ─── */
