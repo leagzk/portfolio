@@ -85,7 +85,7 @@ const dessin = (nom: string): string => {
 
 /* ─── Chiffres cles (BRIEF §5.2) ─── */
 const chiffres: Chiffre[] = [
-  { nombre: '2,500', quoi: 'people shipping on-brand', couleur: 'rouge', motif: 'plein',
+  { nombre: '2,500+', quoi: 'people shipping on-brand', couleur: 'rouge', motif: 'plein',
     contexte: 'From COMEX to front-line, with no bottleneck in the middle.' },
   /* PLEIN ET NON `bande` : la case etait blanche avec un filet bleu en bas, et
      l'aplat bleu vivait a cote, dans une case vide. La couleur revient sur ce
@@ -119,7 +119,11 @@ const chiffres: Chiffre[] = [
     nombre le plus fort de la page cesse d'etre une case parmi quatre.
   */
   { nombre: '100,000+', quoi: 'Sanofians reached, worldwide', couleur: 'jaune', motif: 'plein',
-    contexte: 'Every employee met the platform somewhere in their day - a support notification, a rollout announcement, an event on their own site. IT talks to the whole company.' },
+    /* CE QUE LA PROSE NE DIT PAS. Ce detail enumerait la notification, le
+       rollout et l'evenement - mot pour mot la phrase du chapitre Adoption, a
+       quatre ecrans de la. La case garde l'echelle, le chapitre garde
+       l'exemple : c'est lui qui a la place de le derouler. */
+    contexte: 'Not an audience, a headcount: the platform reached every Sanofian, worldwide. At that size consistency stops being taste and becomes infrastructure.' },
 ];
 
 /*
@@ -420,12 +424,10 @@ const pratiques: Tuile[] = [
         a production line, and the practice that kept it running.
       </p>
       <p>
-        Then Sanofi merged its three brands into one, and every internal
-        identity was refounded under that umbrella at once. The part nobody
-        had defined was <b>how a brand translates to a screen</b> - so I took
-        it as Product Design Lead, and answered with one standard for the
-        whole portfolio. <b>The first time the answer stopped being a brand, and
-        became a system.</b>
+        Four years later the whole company rebranded, and the same problem
+        came back one level up - on screens this time, across every product
+        Sanofi shipped. I took it as <b>Product Design Lead</b>: one answer
+        for the portfolio, not one per product.
       </p>
     </Fragment>
   </Hero>
@@ -553,7 +555,7 @@ const pratiques: Tuile[] = [
         rang="01"
         intitule="The problem"
         titre="A function driving the business, read as a service desk."
-        synthese="Its role went unexplained, its image was dated, and every team improvised the identity. Illegibility has a name in every multinational: shadow IT."
+        synthese="A positioning problem wearing a design problem's clothes. The brief said brand; the gap was what the function could say about itself."
         couleur="rouge"
         commande="pan-problem"
         large
@@ -566,7 +568,7 @@ const pratiques: Tuile[] = [
         rang="02"
         intitule="The approach"
         titre="The hard part was the vocabulary, not the visuals."
-        synthese="I named IT's place in the value chain in words a manufacturing lead or a medical rep could use - then built from there, and standardized how the team worked as much as what it shipped."
+        synthese="Understand the function before templatizing it. Then the line that carries it - one library, one format per intent, and a practice the team runs without me."
         couleur="bleu"
         commande="pan-approach"
         aire="c2"
@@ -582,7 +584,7 @@ const pratiques: Tuile[] = [
         rang="03"
         intitule="The proof"
         titre="Adopted without a mandate, and re-adopted without a fight."
-        synthese="I had no authority over the people who had to adopt it, so I sold each department what coherence buys them. When a reorg reset the identity underneath, nobody asked to go back."
+        synthese="Adoption had to be earned one leadership team at a time, then survive a reorg that reset the identity underneath. Nobody asked to go back."
         couleur="jaune"
         commande="pan-proof"
         large
@@ -609,7 +611,7 @@ const pratiques: Tuile[] = [
         mot="Pivot"
         intitule="The standard"
         titre="The platform of one function became the digital standard of the company."
-        synthese="Not a brand adaptation per product, but one standard for the whole portfolio - piloted on sanofi.com, and the token architecture Elements still runs on."
+        synthese="The 2022 rebrand put the question to every product at once. What answered it shipped on sanofi.com first, and its token architecture is what Elements runs on today."
         couleur="noir"
         commande="pan-standard"
         aire="c4"
@@ -707,8 +709,14 @@ const pratiques: Tuile[] = [
           <p class="lead">You can't templatize what nobody <em class="em-bleu">understands yet.</em></p>
           <div class="body">
             <p>Before a single template, I did the harder work: <strong>classifying and vulgarizing what IT actually did</strong> - naming its place in the value chain in words a manufacturing lead or a medical rep could use, then translating it graphically so it could be <em>seen</em>, not just read.</p>
-            <p>That understanding is what a brand platform is built on, and I built the whole one: <strong>positioning, territory, personality, tone of voice</strong> - what IT stood for, and how it was allowed to sound. Not decoration laid over the function. The argument for it, made explicit.</p>
-            <p>And none of it was built off to the side. The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.</p>
+            {/* LE BLOC A DEJA DEFINI, LE CHAPITRE RACONTE. Ces deux
+                paragraphes relistaient les composants d'une plateforme de
+                marque et reprenaient mot pour mot « what IT stood for, and how
+                it was allowed to sound » - la phrase du bloc « The brand
+                platform », en haut de page. Un lecteur qui descend lisait deux
+                fois la definition et jamais le travail. */}
+            <p>That understanding is what a brand platform is built on, and I built the whole one - mission through tone of voice, each piece answerable to the next. Not decoration laid over the function: the argument for it, made explicit.</p>
+            <p>The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.</p>
           </div>
         </div>
 
@@ -883,9 +891,8 @@ const pratiques: Tuile[] = [
             `split__droite` renvoie le bloc en colonne 2 - voir etude.css.
           */}
           <div class="body split__droite">
-            <p><strong>Making it a language people use - not a charter they obey.</strong> Each department got one contact point - mine were Vaccines, R&amp;D and Medical - a catalyst rather than a gate. Leadership's messages and the front-line's assets pulled from <strong>the same platform</strong>, instead of two versions of the same story. And contribution wasn't a policy: <strong>it was the only way a shared identity survives contact with fifteen roadmaps.</strong></p>
-            <p>A brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. <strong>Guides on the intranet</strong>, for the person who needs it at 9pm. <strong>Short videos</strong>, for what you'd rather be shown than read. And the live formats for what needs a room: <strong>sharing sessions</strong> where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.</p>
-            <p>Same content, three ways in. <strong>Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.</strong></p>
+            <p><strong>A shared language spreads by use, never by compliance.</strong> Each department got one contact point - I held Vaccines, R&amp;D and Medical, advising their Heads of Digital on their own communication plans, and reporting into their Executive Committee member monthly and quarterly. A catalyst rather than a gate. Leadership's messages and the front-line's assets pulled from <strong>the same platform</strong>, instead of two versions of the same story. And contribution wasn't a policy: <strong>it was the only way a shared identity survives contact with fifteen roadmaps.</strong></p>
+            <p>A brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. <strong>Guides on the intranet</strong>, for the person who needs it at 9pm. <strong>Short videos</strong>, for what you'd rather be shown than read. And the live formats for what needs a room: <strong>sharing sessions</strong> where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person. <strong>Same content, three ways in - because nobody should have to wait for a calendar invite to learn how to use the thing.</strong></p>
           </div>
         </div>
 
@@ -943,7 +950,14 @@ const pratiques: Tuile[] = [
           <p class="lead">A brand only counts when people use it <em class="em-jaune">without asking.</em></p>
           <div class="body">
             <p>They did - and the proof is what they made with it, not what I drew. The platform was never judged on how it looked. It was judged on whether people reached for the tools instead of improvising around them.</p>
-            <p>None of which came from a mandate, because I didn't have one. <strong>So I started where the decisions were made.</strong> Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.</p>
+            {/* LE PARRAINAGE MANQUAIT, ET SON ABSENCE COUTAIT CHER. La page
+                repetait « no mandate » sans jamais dire que la plateforme etait
+                parrainee par le Chief Digital Officer : un lecteur y lisait donc
+                une initiative sans appui, alors que le fait est plus fort et
+                plus juste - il y avait un parrain au plus haut niveau, et il
+                n'achetait aucune conformite. C'est precisement ce qui rend
+                l'adoption remarquable. */}
+            <p>The platform was sponsored by the Chief Digital Officer. <strong>A sponsor is not a mandate</strong> - it opens doors, it doesn't make anyone walk through them, and I had no authority over a single team that had to adopt this. <strong>So I started where the decisions were made.</strong> Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.</p>
             <p>And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. <strong>Change management doesn't run beside the strategy. It rides it.</strong></p>
           </div>
         </div>
@@ -1018,7 +1032,7 @@ const pratiques: Tuile[] = [
         <div class="split">
           <p class="lead">It reached well past <em class="em-jaune">the people producing on it.</em></p>
           <div class="body">
-            <p>200+ campaigns and internal events ran on the platform, and <strong>every Sanofian met it somewhere in their day</strong> - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too: 6,000 participants, and one idea that shipped - <strong>Theia®, an app for patients living with sight loss.</strong></p>
+            <p>200+ campaigns and internal events ran on the platform, and <strong>every Sanofian met it somewhere in their day</strong> - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too - sponsored by the Chief Medical Officer and the Global Head of R&amp;D: 6,000 participants, 103 ideas, 8,301 votes, and one of them shipped - <strong>Theia®, an app for patients living with sight loss.</strong></p>
           </div>
         </div>
 
@@ -1328,7 +1342,13 @@ const pratiques: Tuile[] = [
           et tient la colonne de gauche.
         */}
         <div class="split">
-          <h3 class="h3 h3--lead">Converging to one standard <em class="em-gris">to harmonize the experience of every digital touchpoint.</em></h3>
+          {/* LA SEULE PHRASE D'ATTAQUE QUI DECRIVAIT AU LIEU D'AFFIRMER.
+              « Converging to one standard to harmonize the experience of every
+              digital touchpoint » est du vocabulaire de note de cadrage, et les
+              onze autres sous-parties ouvrent sur une these. Celle-ci dit
+              maintenant pourquoi le standard bat l'adaptation, et le paragraphe
+              dit ce que j'en ai fait - l'ordre de toute la page. */}
+          <h3 class="h3 h3--lead">A brand adapted per product <em class="em-gris">stops being one.</em></h3>
           <div class="body">
             <p>So I pushed the answer one level up. Not a brand adaptation per product: <strong>one standard for the portfolio</strong>, with sanofi.com as the pilot - the first real product to carry it. <strong>A pilot isn't a proof. It's the fastest way to find out what you got wrong.</strong></p>
           </div>

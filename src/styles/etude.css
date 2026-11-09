@@ -1256,6 +1256,31 @@
   .dcarte__point::before{content:"";position:absolute;left:0;top:.45em;
     width:8px;height:8px;background:var(--puce,currentColor)}
 }
+/*
+  ─── La tablette garde les puces et rend le cadre ───
+
+  Entre 861 et 1119px la carte est encore une case de la composition : elle a
+  ses voisines, ses filets et l'aplat de sa rangee autour d'elle. Le cadre des
+  puces - deux traits, une verticale et la bande coloree - y ajoute une
+  seconde grille a l'interieur de la premiere, a quelques pixels d'elle, et
+  les deux se concurrencent au lieu de se repondre.
+
+  SOUS 860px LE CADRE RETROUVE SA RAISON et ne bouge donc pas : la bande EST
+  la carte, il n'y a plus de composition autour, et c'est ce cadre qui tient
+  les puces ensemble - sans lui elles flottent sous la synthese.
+
+  Les puces, elles, gardent leur couleur aux deux paliers : c'est le seul
+  endroit ou la carte fermee dit de quoi le chapitre est fait.
+*/
+@media(min-width:861px) and (max-width:1119px){
+  /* 18px, l'ecart de la ligne du bureau : le trait ne separe plus, donc c'est
+     le blanc qui doit le faire, et autant que la ou il n'a jamais ete. */
+  .dcarte__points{margin-top:18px;margin-right:0;padding:0;
+    border-top:0;border-bottom:0}
+  .dcarte__points::after{display:none}
+  .dcarte__bande{display:none}
+  .dcarte__liste{padding-right:0}
+}
 .compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
   font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
   color:var(--text)}
@@ -1436,26 +1461,54 @@
   20 des 32, et c'est la seule facon d'agir sur UN gap d'un conteneur flex.
 */
 /*
+  ═══ LES QUATRE ECARTS D'UNE SOUS-PARTIE, ET IL N'Y EN A PAS D'AUTRE ═══
+
+  12px  un surtitre et ce qu'il etiquette, texte ou bande
+  32px  deux blocs de texte, dans les deux sens
+  56px  un bloc de texte et une bande visuelle, dans les deux sens
+  80px  deux bandes visuelles qui se suivent : chacune porte ses 24
+
+  Mesure sur les trois etudes a 1280px : chaque type de paire ne prend qu'une
+  seule valeur, et la meme d'une page a l'autre. Les 80px sont la consequence
+  assumee de la ligne ci-dessous - deux series distinctes qui se suivent
+  veulent plus d'air que deux paragraphes, et les ramener a 56 demanderait une
+  regle de voisinage qui ne tient pas (voir juste en dessous pourquoi).
+
   UN GROUPE DE VISUELS APPELLE PLUS D'AIR QUE DEUX PARAGRAPHES. Le `gap` de la
   sous-partie vaut 32px et convient entre deux blocs de texte ; entre la
   derniere legende d'une rangee de figures et la these suivante, a 34px de
   corps, les deux se touchent. Mesure : les trois livrables et « It reached
   well past... » se suivaient a 32px, legende comprise.
 
-  L'air est pose SUR CE QUI SUIT le groupe, et seulement la : une regle de
-  voisinage plutot qu'une classe a poser a la main, pour qu'aucun groupe
-  ajoute plus tard ne l'oublie.
+  LA REGLE EST SYMETRIQUE, ET ELLE NE L'ETAIT PAS. L'air n'etait pose QU'APRES
+  le groupe, sauf pour les tuiles qui portaient une marge des deux cotes a
+  elles seules. Une meme situation prenait donc deux valeurs selon le sens de
+  lecture : un carrousel suivi d'un surtitre valait 32px la ou une rangee de
+  figures en valait 56, et un texte suivi d'une serie de tuiles en valait 56 la
+  ou le meme texte suivi d'un carrousel en valait 32. Mesure sur les trois
+  etudes : 12, 32 et 56 existaient deja, mais pas pour les memes paires.
+
+  LE CARROUSEL ET LA BANDE DE NUANCIERS REJOIGNENT LA LISTE. Rien ne les en
+  distinguait sinon l'oubli : ce sont des bandes visuelles comme les autres.
+
+  LE SURTITRE RESTE DEHORS, et c'est la seule exception : il NOMME la bande qui
+  le suit, il ne s'en separe pas. Il garde donc ses 12px, dans les deux cas.
 */
-.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles) + :is(.split,.eb,.lead,.body,.qt){margin-top:24px}
 /*
-  LA SERIE DE TUILES RESPIRE DES DEUX COTES. Les 32px du `gap` de la
-  sous-partie conviennent entre deux blocs de texte ; entre une these a 34px et
-  une rangee de tuiles de 340px de haut, ils les collent l'un a l'autre - la
-  tuile parait repondre au titre plutot que developper ce qui vient d'etre dit.
-  Elle est la seule a porter sa marge AVANT autant qu'apres : c'est le seul
-  element de cette hauteur dans une sous-partie.
+  L'AIR EST PORTE PAR LA BANDE, ET NON PAR SON VOISIN - parce qu'une regle de
+  voisinage ne tient pas ici. Astro emet le script de chaque composant comme
+  un FRERE du composant : entre un carrousel et le paragraphe qui le suit il y
+  a un <script> dans l'arbre, et `+` ne le franchit pas. La regle marchait donc
+  sur les blocs ecrits a la main dans la page et sautait silencieusement sur
+  les composants - carrousel, tuiles -, ce qui explique exactement les quatre
+  ecarts a 32px qui restaient. Une marge posee sur la bande elle-meme n'a
+  besoin d'aucun voisin, donc rien a franchir.
 */
-.pan .subsec > .tuiles{margin:24px 0}
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw,.ba){margin:24px 0}
+/* SAUF SOUS SON PROPRE SURTITRE : il nomme la bande, il ne s'en separe pas.
+   Ici `+` est sur et le restera - un surtitre est un <p> ecrit dans la page,
+   jamais un composant, donc aucun script ne peut s'intercaler. */
+.pan .subsec > .eb + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw,.ba){margin-top:0}
 .pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */

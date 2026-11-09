@@ -14,7 +14,7 @@ Systematize a brand · Sanofi · 2018 - 2022
 
 I first built IT's brand platform as Digital Communication Service Owner, to make **an invisible function legible** and hand the people inside it **a language they could use without me**. Not a charter - a production line, and the practice that kept it running.
 
-Then Sanofi merged its three brands into one, and every internal identity was refounded under that umbrella at once. The part nobody had defined was **how a brand translates to a screen** - so I took it as Product Design Lead, and answered with one standard for the whole portfolio. **The first time the answer stopped being a brand, and became a system.**
+Four years later the whole company rebranded, and the same problem came back one level up - on screens this time, across every product Sanofi shipped. I took it as **Product Design Lead**: one answer for the portfolio, not one per product.
 
 The brand platform
 
@@ -22,7 +22,7 @@ The brand platform
 
 Three identities in four years, and the same platform carried all three.
 
-2,500
+2,500+
 
 people shipping on-brand
 
@@ -38,23 +38,23 @@ All of them ran on the system. The default way things shipped.
 
 Sanofians reached, worldwide
 
-Every employee met the platform somewhere in their day - a support notification, a rollout announcement, an event on their own site. IT talks to the whole company.
+Not an audience, a headcount: the platform reached every Sanofian, worldwide. At that size consistency stops being taste and becomes infrastructure.
 
 A function driving the business, read as a service desk.
 
-Its role went unexplained, its image was dated, and every team improvised the identity. Illegibility has a name in every multinational: shadow IT.
+A positioning problem wearing a design problem's clothes. The brief said brand; the gap was what the function could say about itself.
 
 The hard part was the vocabulary, not the visuals.
 
-I named IT's place in the value chain in words a manufacturing lead or a medical rep could use - then built from there, and standardized how the team worked as much as what it shipped.
+Understand the function before templatizing it. Then the line that carries it - one library, one format per intent, and a practice the team runs without me.
 
 Adopted without a mandate, and re-adopted without a fight.
 
-I had no authority over the people who had to adopt it, so I sold each department what coherence buys them. When a reorg reset the identity underneath, nobody asked to go back.
+Adoption had to be earned one leadership team at a time, then survive a reorg that reset the identity underneath. Nobody asked to go back.
 
 The platform of one function became the digital standard of the company.
 
-Not a brand adaptation per product, but one standard for the whole portfolio - piloted on sanofi.com, and the token architecture Elements still runs on.
+The 2022 rebrand put the question to every product at once. What answered it shipped on sanofi.com first, and its token architecture is what Elements runs on today.
 
 ## 01 &middot; The problem
 
@@ -94,9 +94,9 @@ You can't templatize what nobody *understands yet.*
 
 Before a single template, I did the harder work: **classifying and vulgarizing what IT actually did** - naming its place in the value chain in words a manufacturing lead or a medical rep could use, then translating it graphically so it could be *seen*, not just read.
 
-That understanding is what a brand platform is built on, and I built the whole one: **positioning, territory, personality, tone of voice** - what IT stood for, and how it was allowed to sound. Not decoration laid over the function. The argument for it, made explicit.
+That understanding is what a brand platform is built on, and I built the whole one - mission through tone of voice, each piece answerable to the next. Not decoration laid over the function: the argument for it, made explicit.
 
-And none of it was built off to the side. The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.
+The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.
 
 One colour per capability - recognised on sight, applied without a brief
 
@@ -166,11 +166,9 @@ The tools made people autonomous. But autonomy without a shared practice just sc
 ********
 Swipe →
 
-**Making it a language people use - not a charter they obey.** Each department got one contact point - mine were Vaccines, R&D and Medical - a catalyst rather than a gate. Leadership's messages and the front-line's assets pulled from **the same platform**, instead of two versions of the same story. And contribution wasn't a policy: **it was the only way a shared identity survives contact with fifteen roadmaps.**
+**A shared language spreads by use, never by compliance.** Each department got one contact point - I held Vaccines, R&D and Medical, advising their Heads of Digital on their own communication plans, and reporting into their Executive Committee member monthly and quarterly. A catalyst rather than a gate. Leadership's messages and the front-line's assets pulled from **the same platform**, instead of two versions of the same story. And contribution wasn't a policy: **it was the only way a shared identity survives contact with fifteen roadmaps.**
 
-A brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. **Guides on the intranet**, for the person who needs it at 9pm. **Short videos**, for what you'd rather be shown than read. And the live formats for what needs a room: **sharing sessions** where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.
-
-Same content, three ways in. **Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.**
+A brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. **Guides on the intranet**, for the person who needs it at 9pm. **Short videos**, for what you'd rather be shown than read. And the live formats for what needs a room: **sharing sessions** where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person. **Same content, three ways in - because nobody should have to wait for a calendar invite to learn how to use the thing.**
 
 Measured while it ran - *not after the fact.*
 
@@ -190,7 +188,7 @@ A brand only counts when people use it *without asking.*
 
 They did - and the proof is what they made with it, not what I drew. The platform was never judged on how it looked. It was judged on whether people reached for the tools instead of improvising around them.
 
-None of which came from a mandate, because I didn't have one. **So I started where the decisions were made.** Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.
+The platform was sponsored by the Chief Digital Officer. **A sponsor is not a mandate** - it opens doors, it doesn't make anyone walk through them, and I had no authority over a single team that had to adopt this. **So I started where the decisions were made.** Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.
 
 And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. **Change management doesn't run beside the strategy. It rides it.**
 
@@ -204,7 +202,7 @@ What the teams made with it
 
 It reached well past *the people producing on it.*
 
-200+ campaigns and internal events ran on the platform, and **every Sanofian met it somewhere in their day** - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too: 6,000 participants, and one idea that shipped - **Theia®, an app for patients living with sight loss.**
+200+ campaigns and internal events ran on the platform, and **every Sanofian met it somewhere in their day** - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too - sponsored by the Chief Medical Officer and the Global Head of R&D: 6,000 participants, 103 ideas, 8,301 votes, and one of them shipped - **Theia®, an app for patients living with sight loss.**
 
 Captivate, from launch to outcome
 
@@ -312,7 +310,7 @@ Three directions explored
 
 Convergence
 
-### Converging to one standard *to harmonize the experience of every digital touchpoint.*
+### A brand adapted per product *stops being one.*
 
 So I pushed the answer one level up. Not a brand adaptation per product: **one standard for the portfolio**, with sanofi.com as the pilot - the first real product to carry it. **A pilot isn't a proof. It's the fastest way to find out what you got wrong.**
 
