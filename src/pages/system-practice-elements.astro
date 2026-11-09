@@ -637,16 +637,15 @@ const mecanismes: Tuile[] = [
         couleur="rouge"
         commande="pan-problem"
         large
-        aire="1 / 1 / 3 / 5"
+        aire="c1"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 1 / 4 / 2"><span class="compo__plat compo__plat--gris"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 2 / 4 / 3"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 3 / 4 / 4"><span class="compo__plat compo__plat--bleu"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 4 / 4 / 5"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 5 / 2 / 6"><span class="compo__plat compo__plat--jaune"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 5 / 3 / 6"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 5 / 4 / 6"><span class="compo__plat compo__plat--rouge"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:n1"><span class="compo__plat compo__plat--jaune"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:n2"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z1"><span class="compo__plat compo__plat--gris"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z2"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z3"><span class="compo__plat compo__plat--bleu"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z4"><span class="compo__plat compo__plat--rouge"></span></div>
 
       {/*
         LA CASE QUI RESPIRE. La definition occupait les quatre cases du bas a
@@ -656,7 +655,7 @@ const mecanismes: Tuile[] = [
         quatre : c'est la respiration de la grille, apres trois cartes et une
         rangee de couleurs.
       */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 6 / 6 / 8"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:bb"></div>
 
       <CarteDossier
         id="carte-approach"
@@ -666,7 +665,7 @@ const mecanismes: Tuile[] = [
         synthese="Internalize the engineering, rebuild from zero, and run it as a platform: three axes, six capabilities, two governance models - a centralized core, contribution opened outward."
         couleur="bleu"
         commande="pan-approach"
-        aire="1 / 6 / 4 / 8"
+        aire="c2"
       />
 
 
@@ -678,7 +677,7 @@ const mecanismes: Tuile[] = [
         synthese="Adoption earned one team at a time, trust measured twice a year, and a contribution path that runs from using it to owning it. The platform's best ideas now arrive from outside my roadmap."
         couleur="jaune"
         commande="pan-proof"
-        aire="4 / 1 / 6 / 3"
+        aire="c3"
       />
 
       {/*
@@ -702,7 +701,7 @@ const mecanismes: Tuile[] = [
         synthese="Autonomy by design, a capability each person owns, and every hire judged by the people who would work with them. An Awards category named it before I did: a leadership story, not a system one."
         couleur="noir"
         commande="pan-team"
-        aire="4 / 3 / 6 / 6"
+        aire="c4"
       />
     </div>
 
@@ -1427,42 +1426,39 @@ const mecanismes: Tuile[] = [
        qui la reprend apres doit retomber dans la meme colonne. */
     .pan .split__suite{grid-column:2}
     /*
-      LES SEPT COLONNES SONT RECOUPEES POUR DEUX MESURES, PAS POUR UN DESSIN.
+      DOUZE COLONNES EGALES, COMME LES DEUX AUTRES ETUDES.
 
-      1. CHAQUE LIGNE DE PUCES TIENT SUR UN RANG. Sur deux rangs elle
-         redevient la liste qu'on ne voulait pas ; c'est la condition du
-         palier 1120 pose dans etude.css.
-      2. LES CARTES 03 ET 04 FINISSENT A LA MEME HAUTEUR. Leurs deux textes
-         font 188 et 192 signes, donc ils prennent le meme nombre de lignes -
-         a condition de tomber tous les deux dans la meme plage. Mesure : le
-         titre tient sur 2 lignes et la synthese sur 5 des que la largeur
-         INTERIEURE depasse 291px, et jusqu'a 350. En dessous, le titre de la
-         04 passe a 3 lignes ; au-dessus, la synthese de la 03 tombe a 4.
+      Elles etaient sept, et inegales - 15 24 9 18 12 22 18 - recoupees a la
+      main pour que les cartes 02, 03 et 04 finissent a la meme hauteur. Le
+      reglage tenait, mais il produisait une grille dont les bornes ne se
+      repondaient pas : en haut le seul filet vertical tombait a 599, en bas a
+      353, deux lignes voisines dont aucune ne traversait l'autre moitie. On
+      lisait deux grilles superposees plutot qu'une.
 
-      LE BUDGET EST CONTRAINT DES DEUX COTES, et c'est ce qui rend le reglage
-      etroit : les colonnes 6-7 portent la carte 02 en haut ET la case de
-      respiration en bas, donc tout ce qu'on donne a 02 est repris a 03 et 04.
-      La carte 02 ne pouvait pas etre elargie de ses 61px manquants sans
-      ramener 03 sous les 291 - c'est son SURTITRE qui a cede, et non la
-      grille (voir `libelle` dans src/scripts/dossier.ts).
+      SUR DOUZE COLONNES, TOUTES LES BORNES SONT PAIRES - 2, 4, 6, 8 - et la
+      cadence se reconstitue seule. Le filet de 8 descend sur TOUTE la hauteur
+      (il separe la colonne etroite de la carte 02 en haut, la carte 04 de la
+      case de respiration en bas) ; celui de 6 tient les trois premieres
+      rangees, celui de 4 les deux dernieres, celui de 2 la seule bande de
+      couleur. Des lignes qui traversent et qui s'arretent : c'est la
+      reference, et c'est deja ce que font Language et Surfaces.
 
-      IL N'A DONC FALLU DEPLACER QU'UN SEUL FR, de la colonne 6 vers la 5 :
-      la carte 04 gagne les 9px qui lui manquaient pour tomber dans la plage
-      avec la 03, et la 02, allegee de son libelle, tient dans ce qui reste.
-      Les colonnes 1 a 4 ne bougent pas, donc la carte 01 non plus.
-
-      Resultat a 1072 : 01 599, 02 362, 03 353, 04 354, soit des interieurs
-      de 306, 297 et 298 - et les cartes 02, 03 et 04 finissent toutes les
-      trois a 227px de contenu.
+      LE REGLAGE A LA MAIN DEVIENT INUTILE. Les cartes 02, 03 et 04 occupent
+      quatre colonnes chacune, donc elles font exactement la meme largeur -
+      la ou il fallait auparavant deplacer un `fr` de la colonne 6 vers la 5
+      pour les ramener toutes les trois dans la plage de 291 a 350px ou leurs
+      textes tiennent sur le meme nombre de lignes. Mesure a 1072 : 357
+      chacune, soit 301 d'interieur, au milieu de la plage.
     */
-    .compo{grid-template-columns:15fr 24fr 9fr 18fr 12fr 22fr 18fr;
+    .compo{grid-template-columns:repeat(12,minmax(0,1fr));
       grid-template-rows:minmax(190px,auto) minmax(80px,auto) 36px
-        minmax(200px,auto) minmax(70px,auto)}
-  }
-
-
-
-  @media(max-width:860px){
+        minmax(200px,auto) minmax(70px,auto);
+      grid-template-areas:
+        "c1 c1 c1 c1 c1 c1 n1 n1 c2 c2 c2 c2"
+        "c1 c1 c1 c1 c1 c1 n2 n2 c2 c2 c2 c2"
+        "z1 z1 z2 z2 z3 z3 z4 z4 c2 c2 c2 c2"
+        "c3 c3 c3 c3 c4 c4 c4 c4 bb bb bb bb"
+        "c3 c3 c3 c3 c4 c4 c4 c4 bb bb bb bb"}
   }
 </style>
 
