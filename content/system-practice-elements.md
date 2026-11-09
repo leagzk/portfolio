@@ -236,9 +236,9 @@ My job wasn't to hold it up. **It was to build a structure that outlasts any of 
 
 [Nicolas Chatelain](https://nicolaschatelain.com) led the People axis, from Experience Operations enablement to the Community of Practice engagement plan. [Rodolphe Peruzza](https://rodolphe.design/chat) led the System axis, from craft to experience-pattern industrialization.
 
-Innovation
+Growth
 
-The Elements MCP didn't come from my roadmap. **It came from a contributor.** And it's where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.
+**Contribution is where careers grew, mine included.** People levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.
 
 ## I removed the wait between design and engineering. *There's one wait left.*
 
