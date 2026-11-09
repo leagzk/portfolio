@@ -769,6 +769,25 @@ const credits = [
   /* ═══ Ce qui est propre a l'etude Surfaces ═══ */
 
   /*
+    UN FILET FERME LE BAS DE LA CARTE DU PROBLEME.
+
+    Elle est la plus haute de la composition - deux rangees, 356px - et son
+    texte n'en occupe que la moitie. Les puces sont descendues au bas avec
+    celles de toutes les autres cartes, ce qui les aligne sur la ligne de credit
+    de la definition juste a cote (mesure : y312 des deux cotes), mais le vide
+    entre la synthese et elles restait un vide. Le filet en fait un pied.
+
+    IL NE VAUT QUE POUR CELLE-CI, et c'est voulu : les trois autres cartes ont
+    un texte qui remplit leur case, et un trait y tomberait a deux doigts de la
+    derniere ligne de synthese. Un filet separe deux choses ; il n'a rien a
+    faire la ou il n'y a rien a separer.
+  */
+  @media(min-width:1120px){
+    #carte-contrainte .dcarte__points{
+      border-top:var(--rule-fine) solid var(--text);padding-top:20px}
+  }
+
+  /*
     LA DEFINITION PASSE A GAUCHE, ET LES CHIFFRES A DROITE.
 
     Les trois etudes posaient la meme bande : les chiffres a gauche sur sept
