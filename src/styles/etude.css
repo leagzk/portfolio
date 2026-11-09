@@ -1435,7 +1435,16 @@
   voisinage plutot qu'une classe a poser a la main, pour qu'aucun groupe
   ajoute plus tard ne l'oublie.
 */
-.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig) + :is(.split,.eb,.lead,.body,.qt){margin-top:24px}
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles) + :is(.split,.eb,.lead,.body,.qt){margin-top:24px}
+/*
+  LA SERIE DE TUILES RESPIRE DES DEUX COTES. Les 32px du `gap` de la
+  sous-partie conviennent entre deux blocs de texte ; entre une these a 34px et
+  une rangee de tuiles de 340px de haut, ils les collent l'un a l'autre - la
+  tuile parait repondre au titre plutot que developper ce qui vient d'etre dit.
+  Elle est la seule a porter sa marge AVANT autant qu'apres : c'est le seul
+  element de cette hauteur dans une sous-partie.
+*/
+.pan .subsec > .tuiles{margin:24px 0}
 .pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */
