@@ -555,7 +555,7 @@ const credits = [
             </div>
             <figcaption class="cap">From the canvas</figcaption>
           </figure>
-          <Figure aere src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 1430"
+          <Figure aere src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 2100"
             alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
             sizes="(min-width: 900px) 520px, 90vw" />
         </div>
@@ -1156,6 +1156,19 @@ const credits = [
     documents poses, et non comme une planche et une fenetre.
   */
   .pan .two--planches .fig--aere .fig__cadre{background:var(--placeholder)}
+  /*
+    CHAQUE CARTE EPOUSE SON IMAGE, ET C'EST LA COLONNE QUI S'ADAPTE. Des
+    marges egales exigent que la boite ait la proportion de ce qu'elle
+    contient : au rapport du voisin, la photo - un portrait 1400 x 2100 -
+    laissait 93 de gris a gauche et a droite pour 20 en haut et en bas.
+
+    A colonnes egales, lui rendre sa proportion l'aurait fait depasser la
+    planche de 220. Les deux colonnes se partagent donc la rangee dans le
+    rapport de leurs proportions : 0,979 contre 0,667, chrome du cadre
+    deduit - d'ou 1,4245. Les deux cartes gardent la meme hauteur, chacune
+    au format de son image, et la marge retombe a 18 des quatre cotes.
+  */
+  .pan .two--planches{grid-template-columns:minmax(0,1.4245fr) minmax(0,1fr)}
 
   /* `position:relative` serait redondant : `.fig__cadre` l'a deja. */
   .pan .fairepart{display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr)}
