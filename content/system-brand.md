@@ -12,9 +12,16 @@ Systematize a brand · Sanofi · 2018 - 2022
 
 # At 2,500 people, a brand isn't a charter, it's a shared language.
 
-I built IT's brand platform to make an invisible function legible - then
-handed its people the language to talk about it themselves. In 2022, I took
-the part nobody had defined: what the new corporate brand becomes on a screen.
+As Digital Communication Service Owner, I built IT's brand platform to make
+an invisible function legible - then handed its 2,500 people the language to
+talk about it themselves. As Product Design Lead in 2022, I took the part
+nobody had defined: what the new corporate brand becomes on a screen.
+
+The brand platform
+
+**One language for a function nobody could describe** - positioning, territory and tone of voice, with a production line any of 2,500 people could pick up. Run as a product: versioned, not redrawn, when the brand underneath it changed.
+
+The systematization logic proven here is where Elements, Sanofi's experience system, begins.
 
 2,500
 
@@ -28,47 +35,61 @@ campaigns and internal events
 
 All of them ran on the system. The default way things shipped.
 
-6,000
+100,000+
 
-participants reached
+Sanofians reached, worldwide
 
-Sanofi's first hackathons, run on the platform. One idea shipped: Theia®, an app for patients living with sight loss.
+Every employee met the platform somewhere in their day - a support notification, a rollout announcement, an event on their own site. IT talks to the whole company.
 
-1
+A function driving the business, read as a service desk.
 
-standard, one pilot
+Its role went unexplained, its image was dated, and 2,500 people improvised the brand. Illegibility has a name in every multinational: shadow IT.
 
-The 2022 rebrand, translated for screens and piloted on sanofi.com.
+I built the platform, the production line and the practice.
 
-IT was a business driver - and nobody outside IT could see it.
+Positioning, territory and tone of voice; shared libraries anyone could pick up; and a standardized way of working, because autonomy without a shared practice just scatters faster.
 
-Everyone treated as a service desk what was actually driving value. Its role went unexplained, its image was dated, every team improvised the brand - and shadow IT filled the gap.
+It survived the identity it was built on.
 
-You can't templatize what nobody understands yet.
+200+ campaigns ran on it and the whole company met it somewhere in the day - then a reorg reset the brand underneath, and the platform shipped a major instead of restarting.
 
-Name IT's place in the value chain first, then build the platform and a production line anyone could pick up - and sell what coherence buys, department by department.
+Then the whole company rebranded, and the screen had no owner.
 
-Adopted without being enforced.
-
-People shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com.
+I took the part nobody had defined - what a corporate brand becomes once it's interactive - and answered it with one standard for the portfolio, piloted on sanofi.com.
 
 ## 01 &middot; The problem
 
-The brief
+Mandate
 
-IT wasn't a support function. It was a *business driver* - and nobody outside IT could see it.
+This was never a branding brief. It was a *value chain* brief.
 
-That was the brief, and it wasn't a branding one. Sanofi needed its IT to weigh more across the value chain, and the obstacle was perception: everyone treated as a service desk what was actually driving business value. Its role went unexplained, its image was dated, and its communication was scattered across the whole function, every team improvising the brand.
+Sanofi needed its IT to weigh more across the value chain. That was the ask, and nothing in it was about assets. **A brand doesn't solve a positioning problem on its own. Nothing solves it without one.**
 
-And illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - shadow IT, the tax an organisation pays for a function it can't read. A brand doesn't solve that on its own. Nothing solves it without one.
+So the work had to start one level above the output: name what the function does, in words the rest of the company already uses, before standardizing a single thing it ships. **Understand first, systematize second.**
 
-A logo doesn't move that. Perception doesn't shift because the assets got prettier - it shifts when the function becomes legible, and when everyone inside it can say the same thing about what it does. **That's two problems, and solving one without the other solves nothing.** Understand first, systematize second. The move started here.
+Perception
+
+Everyone treated as a service desk what was actually *driving the business.*
+
+Its role went unexplained and its image was dated. A function that reached every Sanofian somewhere in their day was read as the place you call when something breaks - and perception doesn't shift because the assets got prettier.
+
+Illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - **shadow IT, the tax an organisation pays for a function it can't read.**
+
+Fragmentation
+
+Inside the function, nobody said *the same thing twice.*
+
+Communication was scattered across the whole of IT, every team improvising the brand. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like.
+
+**Consolidation reads as a loss long before it reads as a gain.** That was the real obstacle, and it wasn't a design problem.
+
+**That's two problems, and solving one without the other solves nothing.** One is how the function is read from outside. The other is whether the 2,500 people inside it can say the same thing about what it does.
 
 Next: the approach →
 
 ## 02 &middot; The approach
 
-The solution
+Brand platform
 
 You can't templatize what nobody *understands yet.*
 
@@ -78,13 +99,9 @@ That understanding is what a brand platform is built on, and I built the whole o
 
 And none of it was built off to the side. The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.
 
-### The Sanofi brand was the constraint. *The IT world was the playground.*
+One colour per capability - recognised on sight, applied without a brief
 
-One colour per business capability
-
-- R&D`#456730`
-
-Lively flat design characters
+Each capability drawn, so the work could be seen
 
 > R&D
 
@@ -112,7 +129,7 @@ Lively flat design characters
 
 > Health Authorities
 
-Sample of visual strategy pairing
+From the capability map to an icon set per capability
 
 > Capability map
 
@@ -122,6 +139,8 @@ Sample of visual strategy pairing
 
 > Business units
 
+Production line
+
 A template per intent, *not per person.*
 
 Then the system that carried it: a colour architecture that scaled across entities, a visual language with its own rules of composition, and each digital entity given its own personality - matched to the business it served, and unmistakably Sanofi.
@@ -130,37 +149,7 @@ None of which is worth anything until someone can pick it up. So the production 
 
 All of it built and systematized in the Adobe suite, for the people whose job is craft - then translated into the tools everyone else opens every morning. **PowerPoint included, yes sir.**
 
-The adoption
-
-Nobody asks for *an umbrella.* They ask for their own logo.
-
-Until then, everyone had done what they wanted. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like. **Consolidation reads as a loss long before it reads as a gain.** That was the real obstacle, and it wasn't a design problem.
-
-So I started where the decisions were made. Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.
-
-And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. **Change management doesn't run beside the strategy. It rides it.**
-
-What the teams made with it
-
-> ITS R&D quarterly report
-
-> ITS R&D report, summary spread
-
-> ITS R&D newsletter
-
-Selling it was the start. Making it *a language people use* - not a charter they obey - was the job.
-
-- **One contact point per department** - mine were Vaccines, R&D and Medical: a catalyst, not a gate.
-
-- Leadership's messages and the front-line's assets pulled from **the same platform**, instead of two versions of the same story.
-
-- Contribution and continuous improvement weren't policies. **They were the only way a shared identity survives contact with fifteen roadmaps.**
-
-And a brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. **Guides on the intranet**, for the person who needs it at 9pm. **Short videos**, for what you'd rather be shown than read. And the live formats for what needs a room: **sharing sessions** where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.
-
-Same content, three ways in. **Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.**
-
-The operations
+Operating model
 
 I didn't just standardize the assets. I standardized *the practice.*
 
@@ -174,15 +163,17 @@ The tools made people autonomous. But autonomy without a shared practice just sc
 
 - Campaign metrics Produced by default. Engagement rate, open rate, reach, on dashboards that filled themselves. What makes numbers mean anything is the engineering under them: one collection method, one reporting frequency, one reading grid. **Standardize how you measure, or you're not comparing campaigns - you're comparing methods.**
 
+**Making it a language people use - not a charter they obey.** Each department got one contact point - mine were Vaccines, R&D and Medical - a catalyst rather than a gate. Leadership's messages and the front-line's assets pulled from **the same platform**, instead of two versions of the same story. And contribution wasn't a policy: **it was the only way a shared identity survives contact with fifteen roadmaps.**
+
+A brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. **Guides on the intranet**, for the person who needs it at 9pm. **Short videos**, for what you'd rather be shown than read. And the live formats for what needs a room: **sharing sessions** where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.
+
+Same content, three ways in. **Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.**
+
 Measured while it ran - *not after the fact.*
 
 Numbers only cover what they can see. So every quarter we ran a qualitative survey on the rest - starting with whether the sessions and the webinars had been worth the time people gave them. When the signal arrives on its own, a communication team stops defending its choices and starts adjusting them - and what it learns goes back into the next ritual, and the next quarter's calendar.
 
 And I built the autonomy into people, not just process: I mentored two work-study students and levelled up colleagues until they could run the system themselves. Self-service isn't a portal - it's the day nobody needs to ask you. **Knowledge shared is autonomy that stays** - the same conviction I'd scale into Elements' 35+ contributors years later.
-
-The *what* is assets, templates, identity. The *how* is practices, method, measurement.
-
-Fragmentation lives in both, so I fixed both. The **why** is simpler. A digital function scattered across entities was meant to end up feeling like one - not looking unified, being unified, by people who worked the same way and could recognize each other's work at a glance.
 
 A shared identity makes a function legible to the outside. **A shared practice makes it a community to itself.**
 
@@ -190,23 +181,41 @@ Next: the proof →
 
 ## 03 &middot; The proof
 
-The results
+Adoption
 
 A brand only counts when people use it *without asking.*
 
 They did - and the proof is what they made with it, not what I drew. The platform was never judged on how it looked. It was judged on whether people reached for the tools instead of improvising around them.
 
+None of which came from a mandate, because I didn't have one. **So I started where the decisions were made.** Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.
+
+And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. **Change management doesn't run beside the strategy. It rides it.**
+
+What the teams made with it
+
+> ITS R&D quarterly report
+
+> ITS R&D report, summary spread
+
+> ITS R&D newsletter
+
+Captivate, from launch to outcome
+
+> The launch post, on the internal Digital Community
+
+> Three replies on the internal community &middot; 2018, 2019, 2022
+
+It reached well past *the people producing on it.*
+
+200+ campaigns and internal events ran on the platform, and **every Sanofian met it somewhere in their day** - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too: 6,000 participants, and one idea that shipped - **Theia®, an app for patients living with sight loss.**
+
+That one travelled past the function entirely. When Theia launched publicly, the recognition came from the top of the house: **the President of Sanofi France called it &laquo; this magnificent project &raquo;** under the announcement, alongside the engineers and partners who had carried it since the hackathon.
+
+> Theia&rsquo;s launch on LinkedIn &middot; 225 reactions, 27 comments
+
 Adopted without being enforced - and re-adopted when the identity underneath it changed. **That's the only result a brand platform can claim.**
 
-- 2018 communication *was* the system 2018 Digital Communication Service Owner. IT's brand platform built end to end - brand, communication, production - for 2,500 people.
-
-- 2020 the system *outlived* its own identity 2020 A reorg reset the identity from the top. I versioned it instead of defending it - V1 made IT legible, V2 made it navigable.
-
-- 2022 the brand *became* the system 2022 Sanofi unified every internal identity. As Product Design Lead, I translated it for screens - one standard, piloted on sanofi.com.
-
-- 2023 the system *grew* into the method 2023 Understand each craft, translate it to the others, systematize what's left. That's where Elements Design System begins.
-
-2020 - The system outlived its own identity
+Resilience
 
 A reorg is a breaking change.
 *I shipped a major of the brand platform.*
@@ -216,6 +225,8 @@ In 2020, IT moved from service provider to enabler - one notch up, inside a digi
 - **A refinement, not a rebuild**: a leaner structure, organized around products and service lines. The machine held: calendar, contact points, sessions, webinars - and went to work on the migration.
 
 - Campaigns became the migration path. **Communication wasn't announcing the system. It was deploying it.** There's no deprecation warning in PowerPoint: **you can't break the previous version - you can only make the next one worth the switch.**
+
+Arbitration
 
 The two concepts, surface by surface
 
@@ -259,17 +270,25 @@ Bold, screen-first, and the one I argued for: a function shipping products shoul
 
 > Social post variation
 
-Leadership picked 01. I'd argued for 02 - but 01 was the shorter migration, and the shortest path for the people moving is the one I've defended everywhere else. Taste on one side, adoption on the other. **I arbitrated, and I shipped 01 like it had been my idea.**
+Leadership picked the concept *I argued against.*
 
-The turning point
+I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01 - and 01 was the shorter migration, which is the one thing I've defended everywhere else. **The shortest path for the people moving wins over the better drawing.**
 
-### A brand book doesn't survive contact with a screen.
+Taste on one side, adoption on the other. **The decision went against me. The execution didn't show it.**
+
+Next: the standard &rarr;
+
+## 04 &middot; The standard
+
+Company scale
+
+A brand book doesn't survive *contact with a screen.*
 
 The first time the ground moved, it was one function. The second time, it was the whole company. In 2022, Sanofi unified every internal identity into a single brand. The part nobody had defined was what that brand becomes once it's interactive - so I took it: **translating the new corporate identity through a digital prism**, and shipping the first concepts that proved it could hold on a product, not just on a page.
 
 I wasn't the only one moving - and by then I'd moved too. The product teams that appeared in the last reset had turned into a function: Sanofi stood up product design in 2021 with the creation of the Consumer Experience team, and I joined it as **Product Design Lead**, carrying four years of brand and communication in with me. So when the rebrand landed, the two forces looking for each other - brand on one side, product on the other - met in a role that had lived in both. **That's the gap I've always worked in.**
 
-2022 - The brand became the system
+Portfolio audit
 
 UI kits everywhere, *one per entity,* none speaking to the others.
 
@@ -285,17 +304,19 @@ Sample of corporate constraints
 
 > Photography
 
-2023 - The system grew into the method
-
-### Converging to one standard *to harmonize the experience of every digital touchpoints.*
-
-So I pushed the answer one level up. Not a brand adaptation per product: **one standard for the portfolio**, with sanofi.com as the pilot - the first real product to carry it, and the one that would tell us what the standard got right and what it didn't.
+Three directions explored
 
 > **Clinical Revival** - Reinventing conventional Pharma standards through flexible but structured layouts to inspire trust, simplicity and focus, avoiding the unnecessary.
 
 > **Pharma-zine** - Pushing the boundaries of traditional Pharma branding by adopting magazines' graphical conventions to create a bold and dynamic content-driven storytelling.
 
 > **Connecting the Dot** - Embracing the playfulness of the Sanofi dot story through motion design to maximize the recognition of the brand and propose a unique experience.
+
+Convergence
+
+### Converging to one standard *to harmonize the experience of every digital touchpoint.*
+
+So I pushed the answer one level up. Not a brand adaptation per product: **one standard for the portfolio**, with sanofi.com as the pilot - the first real product to carry it, and the one that would tell us what the standard got right and what it didn't.
 
 > sanofi.com &middot; Article page
 
@@ -337,6 +358,9 @@ Discover what came next →
 - Cover of the ITS R&D quarterly report carrying the platform
 - Summary spread of the ITS R&D quarterly report carrying the platform
 - The ITS R&D newsletter sent to the department
+- The Sanofi Captivate hackathon announced on the internal Digital Community, a post built on the brand platform and seen by 1,024 people
+- Three internal comments on Captivate between 2018 and 2022: a request for a hackathon-as-a-service offering, eighty hackers prototyping at the XLab, and Theia credited to the hackathon four years on
+- The public LinkedIn thread on Theia's launch, where Sanofi France's president and the project team comment on an app that started at the Captivate hackathon
 - Cover slide in the Evolution concept
 - Section slide in the Evolution concept
 - Content slide in the Evolution concept

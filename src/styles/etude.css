@@ -138,6 +138,19 @@
   grid-template-rows:repeat(2,240px);gap:var(--rule-fine);overflow:hidden;
   margin-top:72px;position:relative;
   border-bottom:var(--rule-fine) solid var(--text)}
+/*
+  LE BLANC AU-DESSUS DU BANDEAU ETAIT COMPTE DEUX FOIS. `.hero` pose 72px de
+  marge basse et ce bandeau 72px de marge haute ; `.etude` etant un conteneur
+  FLEX, les deux ne fusionnent pas comme elles le feraient en flux normal.
+  Mesure sur le build : 144px de blanc entre le bas du hero et le haut du
+  bandeau, sur les trois etudes.
+
+  La marge du bandeau tombe donc quand il OUVRE l'etude - c'est-a-dire quand le
+  hero vient de poser la sienne. Elle est gardee partout ailleurs : la regle ne
+  dit pas que ce blanc est de trop, elle dit qu'il ne se prend qu'une fois.
+*/
+.etude > .cles--mondrian:first-child{margin-top:0}
+
 .cles--mondrian.pre{border-bottom-color:transparent}
 .cles--mondrian.pre > *,.cles--mondrian.pre .clef-case{box-shadow:none}
 .cles--mondrian > *{background:var(--white);min-width:0;position:relative;overflow:hidden;
@@ -610,7 +623,14 @@
 .zoom{all:unset;box-sizing:border-box;display:block;width:100%;height:100%;
   position:relative;cursor:zoom-in;line-height:0}
 .zoom:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-.zoom__badge{position:absolute;right:10px;bottom:10px;z-index:2;
+/*
+  LE BADGE EST DANS LE COIN DU CADRE, PAS POSE SUR LA PLANCHE. A 10px des
+  bords il tombait en plein milieu du lisere bleu que les planches de strategie
+  portent elles-memes, et on ne savait plus ce qui appartenait a l'image et ce
+  qui appartenait au site. Colle au coin, il se lit comme ce qu'il est - une
+  commande du cadre - et il ne mord plus sur le dessin.
+*/
+.zoom__badge{position:absolute;right:0;bottom:0;z-index:2;
   width:30px;height:30px;display:grid;place-items:center;
   background:var(--white);color:var(--text);
   border:var(--rule-fine) solid var(--text);
@@ -689,12 +709,6 @@
   propres aplats et partent donc en <img>, ou leurs classes .cls-N sorties
   d'Illustrator ne peuvent pas se marcher dessus.
 */
-.pan .taught{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);
-  gap:40px;align-items:start}
-.pan .taught__viz{aspect-ratio:1;display:grid;place-items:center;padding:22px;
-  background:var(--white);border:var(--rule-fine) solid var(--text);
-  color:var(--accent)}
-.pan .taught__viz svg{width:100%;height:auto;display:block}
 
 @media(max-width:860px){
   /*
@@ -1370,6 +1384,18 @@
   meme adresse : l'etiquette et ce qu'elle etiquette. La marge negative reprend
   20 des 32, et c'est la seule facon d'agir sur UN gap d'un conteneur flex.
 */
+/*
+  UN GROUPE DE VISUELS APPELLE PLUS D'AIR QUE DEUX PARAGRAPHES. Le `gap` de la
+  sous-partie vaut 32px et convient entre deux blocs de texte ; entre la
+  derniere legende d'une rangee de figures et la these suivante, a 34px de
+  corps, les deux se touchent. Mesure : les trois livrables et « It reached
+  well past... » se suivaient a 32px, legende comprise.
+
+  L'air est pose SUR CE QUI SUIT le groupe, et seulement la : une regle de
+  voisinage plutot qu'une classe a poser a la main, pour qu'aucun groupe
+  ajoute plus tard ne l'oublie.
+*/
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig) + :is(.split,.eb,.lead,.body,.qt){margin-top:24px}
 .pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */
@@ -1443,6 +1469,22 @@
   justify-content:center;text-align:center;padding:12px;
   font-size:var(--fs-eyebrow);letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink-muted)}
+/*
+  LE BLANC TOURNANT DES ILLUSTRATIONS. Un cadre de figure sert deux choses qui
+  ne se traitent pas pareil : une CAPTURE, dont le cadre est le bord de la page
+  montree et qui doit donc le remplir ; et une ILLUSTRATION, qui n'a pas de bord
+  a elle. Posees en `contain` dans un cadre carre, les treize vignettes des
+  personnages venaient taper les quatre cotes de l'aplat - le dessin se lisait
+  comme une capture rognee au ras.
+
+  Le blanc est pose sur le CADRE et non sur l'image : `box-sizing:border-box`
+  etant global, l'image garde `height:100%` et `contain` recalcule dans ce qui
+  reste. L'aplat de fond, lui, continue d'occuper toute la case - c'est le
+  dessin qui recule, pas la couleur.
+*/
+.carrousel--aere .fig__cadre{padding:26px}
+@media(max-width:860px){.carrousel--aere .fig__cadre{padding:16px}}
+
 .cap{font-size:var(--fs-caption);line-height:1.55;color:var(--ink-muted)}
 .cap strong{color:var(--text)}
 /* Pastille Retained / Not retained - le seul arrondi du site avec le footer. */
@@ -1569,6 +1611,16 @@
 .pan .pile--serre{gap:12px}
 .pan .two--serre{gap:12px}
 .pan .split--haut{align-items:start}
+/*
+  LA COLONNE DE DROITE, SANS THESE A GAUCHE. Un `.split` place ses enfants dans
+  l'ordre : un bloc seul tomberait donc dans la colonne de GAUCHE, celle des
+  `.lead`, et prendrait 5fr au lieu de 7. Cette classe le renvoie en colonne 2,
+  pour les blocs qui prolongent une these posee plus haut sans se reannoncer.
+
+  AU-DELA DU PALIER SEULEMENT : sous 861px le `.split` repasse en une colonne,
+  ou un `grid-column:2` ferait naitre une deuxieme colonne implicite.
+*/
+@media(min-width:861px){.pan .split > .split__droite{grid-column:2}}
 /* Un titre de section qui porte en realite le corps d'une phrase forte. */
 .pan .h3--lead{font-size:var(--fs-lead)}
 
@@ -1629,8 +1681,6 @@
   .pan .lead{font-size:28px}
   .pan .dark{padding:28px}
   .pan .mosaic{--cols:2;grid-auto-rows:110px}
-  .pan .taught{grid-template-columns:1fr;gap:20px}
-  .pan .taught__viz{max-width:200px}
   /*
     LA PILE SE DEPLIE EN COLONNE. Sept planches empilees dans un cadre de 4/3
     ne tiennent que parce qu'une rotation les distingue ; sur une colonne de
