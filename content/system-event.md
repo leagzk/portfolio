@@ -26,17 +26,17 @@ Not a mood. A short list you can hold someone to.
 
 surfaces, one identity
 
-Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same line as the invitation.
+Paper, fabric, metal, wood. Four materials, and not one of them got a different answer.
 
 9
 
 suppliers, one guide
 
-One page per moment, one owner per page. On the day it ran from the brief, not from me.
+Everything written down before anyone had to ask. On the day it ran from the brief, not from me.
 
 No client, no reviewer, and the only critic was the one who made it.
 
-Nothing outside the work was going to say it was enough, or that it had drifted. And a line still had to be drawn between what I held and what belonged to people better at it than me.
+Off the screen, the method held. What did not come with it was a brief written by someone else, the review that follows one - and anyone to say where my line stopped.
 
 A direction anyone could apply, and a production line that did not exist yet.
 
@@ -44,11 +44,11 @@ Two rented objects gave the language, then the foundations that carried it. The 
 
 Everything specified survived contact with the people who built it.
 
-Drawn flat in Illustrator, briefed from a single guide, standing at the door twelve months later - and I spent the day inside the experience instead of behind it.
+Drawn flat in Illustrator, briefed from a single guide, standing at the door twelve months later - and on the day it ran without me.
 
 A game that mixed ninety strangers, and the same lever at work.
 
-Six mechanics, six clues nobody could gather alone, and ninety people who arrived in blocks and left mixed. The same move behind a hackathon's 8,301 votes, a workshop run on a deck of cards, and an app that got application owners to keep their own records current.
+Six mechanics for one trunk, and ninety people who arrived in blocks and left mixed. The same move behind a hackathon's 8,301 votes, a workshop run on a deck of cards, and an app that made the dullest task in IT worth finishing.
 
 ## 01 &middot; The problem
 
@@ -240,7 +240,7 @@ The guide, page samples
 
 Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be *in* the experience instead of running it.
 
-> Inside it, not behind it.
+> Among the guests, on the day
 
 The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. **It works in a repo. It works in a garden.**
 
@@ -293,7 +293,7 @@ Mechanics
 
 Tightly engineered underneath, *weightless on top.*
 
-An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to *feel* effortless while being tightly engineered underneath.
+An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps whose whole job is to not feel like one.
 
 **Six riddles, six different mechanics, six clues** - geocaching across the grounds, a crossword, ciphers to break, puzzles to assemble - and one code at the end to open one trunk. Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.
 
@@ -313,7 +313,7 @@ So the mechanics were built for it rather than decorated with it. Six clues nobo
 
 What I hadn't planned was the range. **Everyone played, the youngest to the oldest**, and the groups that formed had nothing to do with the ones that arrived. The mixing I designed for was the stated goal; what actually happened went past the design.
 
-And it only became itself once people played it. I drew the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, in ways no plan could fully script.
+And it only became itself once people played it. I drew the frame; what happened inside it was never mine to script.
 
 > Opened, together
 

@@ -889,15 +889,6 @@
   pas du blanc. L'enfant, lui, s'anime sur un fond blanc qui reste en place.
 */
 .compo__plat{position:absolute;inset:0;transform-origin:left top}
-/*
-  LE SEUL TRAIT QUI NE SEPARE PAS DEUX CASES : il en coupe une. Les filets de
-  la composition sont le fond noir que les gouttieres laissent voir, donc ils
-  tombent forcement entre deux boites. Celui-ci traverse un aplat, au tiers de
-  sa hauteur, et c'est ce qui l'empeche de se lire comme un simple rectangle
-  de couleur pose en bout de ligne.
-*/
-.compo__coupe{position:absolute;left:0;right:0;top:33%;
-  height:var(--rule-fine);background:var(--text)}
 .compo__plat--gris{background:var(--grey-mondrian)}
 .compo__plat--bleu{background:var(--blue)}
 .compo__plat--rouge{background:var(--red)}
@@ -1905,7 +1896,6 @@
 /* Deux blocs empiles dans une colonne du .split. */
 .pan .pile{display:flex;flex-direction:column;gap:28px;min-width:0}
 .pan .pile--serre{gap:12px}
-.pan .two--serre{gap:12px}
 .pan .split--haut{align-items:start}
 /*
   LA COLONNE DE DROITE, SANS THESE A GAUCHE. Un `.split` place ses enfants dans
