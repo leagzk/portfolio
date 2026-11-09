@@ -296,8 +296,9 @@ const RANGEES = avecDef
         const i = r.depart + j;
         return (
       <div
-        class:list={['clef-case', i % 2 === 0 ? 'clef-case--g' : 'clef-case--d']}
-        style={`--u:${unites.get(i)}`}
+        class:list={['clef-case', i % 2 === 0 ? 'clef-case--g' : 'clef-case--d',
+          chiffres.length % 2 === 1 && i === chiffres.length - 1 && 'clef-case--seule']}
+        style={`--u:${unites.get(i)};--nb-k:${(1 / (0.52 * c.nombre.length)).toFixed(4)}`}
       >
         <button
           class:list={[
@@ -335,30 +336,6 @@ const RANGEES = avecDef
       </div>
       );
     })}
-    {/*
-      LA CASE QUI FERME LA GRILLE, ET ELLE N'EXISTE QUE SOUS LE PALIER.
-
-      Au telephone les rangees se mettent a plat - deux colonnes pour toute la
-      bande - et un nombre impair de chiffres y laisse une cellule vide. Elle
-      etait comblee autrement : le troisieme chiffre d'une rangee de trois
-      prenait les deux colonnes, ce qui lui donnait 343px de large pour un
-      nombre qui en mesure 104 d'encre, soit 207px de vide sur une seule
-      ligne. Tous les chiffres sont des carres maintenant, et c'est un APLAT
-      qui ferme la grille.
-
-      UNE CELLULE VIDE N'EXISTE PAS DANS CETTE GRAMMAIRE : partout ailleurs
-      sur le site, une case sans texte porte une couleur - c'est ce que font
-      les fragments de l'accueil. Le gris est celui de la composition, deja
-      presente sur ces pages, et il ne double aucune des couleurs voisines.
-
-      aria-hidden : il n'y a rien a y lire, et le trace anime la prend comme
-      une case de plus - elle a une boite, donc elle se mesure.
-    */}
-    {chiffres.length % 2 === 1 && (
-      <div class="clef-bouche" aria-hidden="true">
-        <span class="clef-bouche__plat"></span>
-      </div>
-    )}
   </section>
 ) : (
   <section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>

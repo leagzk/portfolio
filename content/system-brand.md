@@ -138,14 +138,14 @@ From the capability map to an icon set per capability
 
 > Business units
 
-Production line
+Production workflow
 
 A template per intent,
 *not per person.*
 
 Then the system that carried it: a colour architecture that scaled across entities, a visual language with its own rules of composition, and each digital entity given its own personality - matched to the business it served, and unmistakably Sanofi.
 
-None of which is worth anything until someone can pick it up. So the production line: **shared libraries on Creative Cloud**, where every asset lived once and updated everywhere at once - social, Microsoft suite, illustration kits, newsletters typed by objective rather than by sender.
+None of which is worth anything until someone can pick it up. So the creative production workflow: **shared libraries on Creative Cloud**, where every asset lived once and updated everywhere at once - social, Microsoft suite, illustration kits, newsletters typed by objective rather than by sender.
 
 All of it built and systematized in the Adobe suite, for the people whose job is craft - then translated into the tools everyone else opens every morning. **PowerPoint included, yes sir.**
 

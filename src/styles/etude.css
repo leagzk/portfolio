@@ -190,7 +190,7 @@
   serait un enfant de plus dans une grille a deux colonnes et deux rangees,
   qu'elle deborderait. Voir <ChiffresCles> pour ce qu'elle bouche.
 */
-.clef-bouche,.clef-ligne{display:none}
+.clef-ligne{display:none}
 .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 .clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
@@ -293,8 +293,33 @@
 .clef__dedans{position:absolute;inset:0;z-index:1;display:flex;
   flex-direction:column;justify-content:flex-start;gap:10px;
   padding:24px;overflow:hidden}
-.clef__nb{font-family:var(--display);font-size:48px;font-weight:900;line-height:1;
-  letter-spacing:-.02em}
+/*
+  LE NOMBRE S'ADAPTE A SA CASE ET A SA PROPRE LONGUEUR.
+
+  Il etait a 48px en dur. « 100,000+ » y mesure 192px d'encre pour une case
+  dont l'interieur en fait 216 : il finissait DANS l'icone d'agrandissement,
+  posee a 182. Mesure a 917px de fenetre. Et ce n'est pas un cas isole qu'on
+  pourrait corriger a la main - la case va de 171px au telephone a 343 quand
+  elle prend les deux colonnes, et le prochain chiffre long rouvrira le meme
+  defaut ailleurs.
+
+  LA CONTRAINTE S'ECRIT UNE FOIS : l'encre doit finir avant l'icone, donc
+  tenir dans la largeur de la case moins le retrait de gauche (24), la lane de
+  l'icone (18 + 16) et un ecart (8) - soit 100cqw - 66px.
+
+  `--nb-k` VIENT DU COMPOSANT et vaut 1 / (0,52 x nombre de caracteres) : 0,52
+  est la largeur moyenne d'un caractere de la Display en fraction de son
+  corps, mesuree sur les trois nombres de cette page (0,486 a 0,54 - les
+  virgules sont etroites, les chiffres pleins). Un nombre court garde donc ses
+  48px, seul un nombre long descend, et aucun ne touche l'icone.
+
+  LA CASE DEVIENT UN CONTENEUR pour que `cqw` ait un sens. `inline-size`
+  seulement : la hauteur reste libre, et c'est elle que la grille distribue.
+*/
+.clef-case{container-type:inline-size}
+.clef__nb{font-family:var(--display);font-weight:900;line-height:1;
+  letter-spacing:-.02em;
+  font-size:clamp(26px, calc((100cqw - 66px) * var(--nb-k, .024)), 48px)}
 .clef__bas{display:flex;flex-direction:column;gap:8px}
 .clef__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.35}
 /*
@@ -401,9 +426,9 @@
   C'est le principe de l'accueil, ou `.attend` couvre les titres ET les
   boutons : rien de ce qui est POSE SUR une case n'apparait avant elle.
 */
-.attend :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){transform:scale(0)}
+.attend :is(.clef--plein,.clef__frag,.clef-def__bande){transform:scale(0)}
 .attend :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){opacity:0}
-.vu :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){
+.vu :is(.clef--plein,.clef__frag,.clef-def__bande){
   animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
 .vu :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){
   animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
@@ -432,9 +457,6 @@
   .clef-rangee{display:contents}
   /* La definition reste pleine largeur : elle se lit avant les chiffres. */
   .clef-def{grid-column:1 / -1 !important}
-  .clef-bouche{display:block;position:relative;min-height:170px}
-  .clef-bouche__plat{position:absolute;inset:0;background:var(--grey-mondrian);
-    transform-origin:left top}
   /* Au doigt rien ne se pousse : la rangee s'empile et chaque case prend la
      largeur. Le depliage se fait au clic, dans la case. */
   /*
@@ -456,6 +478,20 @@
     seule rangee et restent en deux fois deux, sans exception a ecrire.
   */
   .clef-case{flex:none;min-height:170px}
+  /*
+    LA DERNIERE CASE D'UN NOMBRE IMPAIR PREND LES DEUX COLONNES.
+
+    Elle etait carree, et un aplat gris fermait la grille a cote d'elle. Le
+    raisonnement tenait tant que le nombre tenait : « 104px d'encre dans
+    343px » disait l'ancien commentaire. Mais « 100,000+ » mesure bien plus
+    que 104px - a 48px de corps dans une colonne de 170, il DEBORDAIT, et le
+    « + » etait coupe net. Une case trop large est un defaut de gout ; une
+    case trop etroite est un defaut tout court.
+
+    L'aplat gris part avec, et le composant perd la case qui le portait : une
+    cellule vide n'existe plus, donc il n'y a plus rien a boucher.
+  */
+  .clef-case--seule{grid-column:1 / -1}
   /*
     LE BOUTON REMPLIT SA CASE, ET PAS SEULEMENT SES 170px. Les deux cases
     d'une rangee sont des elements de grille : la plus haute impose sa hauteur
@@ -898,10 +934,20 @@
   padding:5px 9px;margin:-5px 0 -5px -9px}
 .dcarte--noir[aria-expanded="true"] .dcarte__eyebrow > span:first-child{
   background:none;color:var(--white);padding:5px 0;margin:-5px 0}
+/*
+  UN SEUL CORPS POUR LES TITRES DE CARTE, SUR LES TROIS ETUDES. Le titre des
+  cartes `large` portait 28px contre 24 aux autres, au motif que « la carte 01
+  est la plus grande des trois ». Ce motif a cesse d'etre vrai : les
+  compositions ont ete redessinees, chaque etude a maintenant trois ou quatre
+  cartes dont une ou deux sont larges, et le lecteur voit deux corps de titre
+  cote a cote dans une meme composition sans que rien ne les distingue d'autre.
+
+  LE MODIFICATEUR GARDE SON SENS, il ne porte simplement plus la typographie :
+  `large` dit une case plus large, pas un titre plus gros. 24px est le corps
+  que la majorite des cartes portaient deja, et aucun titre n'y gagne de ligne.
+*/
 .dcarte__titre{font-family:var(--display);font-size:24px;line-height:1.1;
   font-weight:900;max-width:420px}
-/* La carte 01 est la plus grande des trois : son titre porte un cran de plus. */
-.dcarte--large .dcarte__titre{font-size:28px}
 .dcarte__synthese{font-size:var(--fs-body-s);line-height:1.55;font-weight:500;
   opacity:.85;max-width:420px}
 /* Le « + » devient × quand la carte est ouverte (BRIEF §2.7), au meme endroit
