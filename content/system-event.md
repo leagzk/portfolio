@@ -18,7 +18,7 @@ Three weddings, three couples, three identities - this is the third: several day
 
 The living system
 
-**Five words, three shapes and one palette**, pulled off two rented objects before anything was drawn. Short enough to brief from, complete enough that nothing had to be invented twice.
+**Five words, three shapes and one palette** pulled off two rented objects before anything was drawn. Short enough to brief from, complete enough that nothing had to be invented twice.
 
 Not a mood. A short list you can hold someone to.
 

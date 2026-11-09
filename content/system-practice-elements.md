@@ -18,7 +18,7 @@ As Director today, I scaled it to raise brand experience and make design excelle
 
 The system
 
-**One shared language**, and every surface Sanofi ships speaks it - from B2B platforms to internal tools and agents, worldwide. Governed as a platform, not maintained as a library.
+**One shared language,** and every surface Sanofi ships speaks it - from B2B platforms to internal tools and agents, worldwide. Governed as a platform, not maintained as a library.
 
 Recognized as Governance finalist at the Design System Awards 2025, alongside HP and Tesco.
 
