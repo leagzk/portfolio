@@ -236,7 +236,7 @@ Health wasn't the reward for delivery. *It was the condition of it.*
 
 Three quarters of the team was freelance and I was, for a while, the only permanent person in it. **Everyone was a human first** - not a role type, not internal or external, and least of all an expertise. At that ratio it wasn't a position to hold, it was the only way the team could function at all.
 
-**Wellbeing was a line in the plan**, load-bearing and resourced like any other dependency. A pulse check closed every sprint, during the retro. It caught a drop in motivation through a stretch where we were deep in support and short on innovation - so we re-opened the team to what was happening outside, and pushed the contribution model harder to put the value somewhere else.
+**Wellbeing was a line in the plan**, load-bearing and resourced like any other dependency. A pulse check closed every sprint, during the retro. It caught a drop in motivation through a stretch where we were deep in support and short on innovation - so we re-opened the team to what was happening outside, and pushed the contribution model harder to put the value somewhere else. A signal should never be ignored.
 
 Every quarter I carried leadership's feedback back down to the team. And **no deck left the team without the whole team behind it** - stakeholders, senior executives, a demo with our peers: everyone had to be comfortable with what we were about to say, whether or not they were the one saying it.
 
