@@ -161,7 +161,7 @@ A platform scales *when a practice carries it.*
 
 A structure only counts if it holds, and this one holds without me. Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. **The platform stopped being a cost the business approves, and became what its launches plan around.**
 
-> Part of the community, in the same room for once. Most of it works remote, across five hubs.
+> Part of the community in Paris. Most of it works remote, across five hubs.
 
 A core interdisciplinary community of 300+ across 5 global hubs - 30+ product designers among them, as part of an Experience Design Organisation of 100. A decision taken in one hub stopped being re-taken in the other four. A few months later external partners joined it too, and the platform went **from zero to 2,000+ practitioners**.
 
