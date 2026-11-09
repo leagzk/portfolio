@@ -54,7 +54,7 @@ One page per zone, one owner per page. I briefed every supplier from it, handed 
 
 ## 01 &middot; The problem
 
-Medium
+Portability
 
 A living system isn't one you finish. It's one that takes its real shape *in the hands of the people who use it.*
 
@@ -88,7 +88,7 @@ Next: the system →
 
 ## 02 &middot; The approach
 
-Origin
+Creative direction
 
 Starting from a constraint *you don't own.*
 
@@ -132,6 +132,16 @@ Serenity
 
 Text - rules, timings, instructions. Plain enough to disappear behind the display face.
 
+Production pipeline
+
+An art direction with *no production line behind it.*
+
+The stationery is where the direction would compromise least: die-cuts taken off the plate's scalloped rim, exact papers, a suite that unfolds. No printer would run that at the volume and the price of a private event, and no machine I could put on my own table prints to that quality.
+
+So I built the line rather than lower the bar. **One source file, two outputs** - artwork a professional printer could run, and the same artwork cut at home on a Cricut. Which meant a second cut-line system living inside the same document as the first, each one blind to the other's marks, neither allowed to pull the drawing out of true.
+
+**A constraint, turned into an operating lever.** It is the problem a token set solves on the platform: one source of truth, several build targets, and not one of them permitted to degrade the others. Here the build targets were a press and a cutting mat.
+
 Nothing was left to chance, *and nothing drifted.*
 
 A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. **Dozens of touchpoints, one language** - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.
@@ -172,19 +182,17 @@ That's where **conviviality and playfulness** stopped being words on a moodboard
 
 > Glass rules - 100 × 150 mm
 
-Print
+Execution
+
+A specification is a promise. *Production is where it gets kept.*
+
+Printed first: die-cut stationery, an invitation suite that unfolds, every piece carrying the three shapes and the glaze palette. Then the space - an implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner.
+
+The system on paper, and the system in the world - **the same jump from specification to production I run on the platform**, made physical. Nothing in that jump is automatic, and nothing survives it by accident.
 
 > The invitation, printed
 
 > The suite, unfolding
-
-Staging
-
-Space, *staged.*
-
-An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.
-
-The system on paper, and the system in the world - **the same jump from specification to production I run on the platform**, made physical.
 
 > The room, at scale
 

@@ -267,7 +267,7 @@ const credits = [
       <div class="subsec">
         {/* « Here, off the screen, exactly as it does on it » - la phrase est
             dans le bloc. Seule sous-partie du chapitre sans surtitre. */}
-        <p class="eb" data-sommaire>Medium</p>
+        <p class="eb" data-sommaire>Portability</p>
         <div class="split">
           <p class="lead">A living system isn't one you finish. It's one that takes its real shape <em class="em-rouge">in the hands of the people who use it.</em></p>
           <div class="pile">
@@ -341,7 +341,7 @@ const credits = [
       <h2 class="sr-only" id="titre-systeme">02 &middot; The approach</h2>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Origin</p>
+        <p class="eb" data-sommaire>Creative direction</p>
         <div class="split">
           <p class="lead">Starting from a constraint <em class="em-rouge">you don't own.</em></p>
           <div class="body">
@@ -415,6 +415,25 @@ const credits = [
         </div>
       </div>
 
+      {/*
+        LA CONTRAINTE DE PRODUCTION N'ETAIT ECRITE NULLE PART, et c'est le
+        meilleur parallele technique de la page : une source, deux cibles de
+        compilation. Le hero promet « just a creative pipeline » - c'est ici
+        qu'on apprend que le mot n'etait pas une image.
+      */}
+      <div class="subsec">
+        <p class="eb" data-sommaire>Production pipeline</p>
+        <div class="split">
+          <p class="lead">An art direction with <em class="em-bleu">no production line behind it.</em></p>
+          <div class="body">
+            <p>The stationery is where the direction would compromise least: die-cuts taken off the plate's scalloped rim, exact papers, a suite that unfolds. No printer would run that at the volume and the price of a private event, and no machine I could put on my own table prints to that quality.</p>
+            <p>So I built the line rather than lower the bar. <strong>One source file, two outputs</strong> - artwork a professional printer could run, and the same artwork cut at home on a Cricut. Which meant a second cut-line system living inside the same document as the first, each one blind to the other's marks, neither allowed to pull the drawing out of true.</p>
+            <p><strong>A constraint, turned into an operating lever.</strong> It is the problem a token set solves on the platform: one source of truth, several build targets, and not one of them permitted to degrade the others. Here the build targets were a press and a cutting mat.</p>
+          </div>
+        </div>
+      </div>
+
+
       <div class="subsec">
         <div class="split">
           <p class="lead">Nothing was left to chance, <em class="em-bleu">and nothing drifted.</em></p>
@@ -472,8 +491,26 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Print</p>
-        <div class="two">
+        {/*
+          PRINT A FONDU DANS CELLE-CI. C'etait une sous-partie a elle seule
+          pour deux figures et aucun propos : une puce du sommaire promet une
+          partie du raisonnement, et « Print » n'en portait pas. L'imprime et
+          la scenographie disent de toute facon la meme chose - le passage de
+          la specification a l'objet - et c'est le titre de celle-ci.
+
+          « Space, staged. » ne tenait pas non plus comme phrase d'attaque :
+          elle decrivait la sous-partie au lieu d'affirmer quelque chose, seule
+          de la page dans ce cas.
+        */}
+        <p class="eb" data-sommaire>Execution</p>
+        <div class="split">
+          <p class="lead">A specification is a promise. <em class="em-bleu">Production is where it gets kept.</em></p>
+          <div class="body">
+            <p>Printed first: die-cut stationery, an invitation suite that unfolds, every piece carrying the three shapes and the glaze palette. Then the space - an implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner.</p>
+            <p>The system on paper, and the system in the world - <strong>the same jump from specification to production I run on the platform</strong>, made physical. Nothing in that jump is automatic, and nothing survives it by accident.</p>
+          </div>
+        </div>
+<div class="two">
           <Figure src={img('identity-invitation-detail')} legende="The invitation, printed" ratio="4 / 3" ajuste="cover"
             alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
             sizes="(min-width: 900px) 520px, 90vw" />
@@ -491,17 +528,6 @@ const credits = [
             </div>
             <figcaption class="cap">The suite, unfolding</figcaption>
           </figure>
-        </div>
-      </div>
-
-      <div class="subsec">
-        <p class="eb" data-sommaire>Staging</p>
-        <div class="split">
-          <p class="lead">Space, <em class="em-bleu">staged.</em></p>
-          <div class="body">
-            <p>An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.</p>
-            <p>The system on paper, and the system in the world - <strong>the same jump from specification to production I run on the platform</strong>, made physical.</p>
-          </div>
         </div>
         <div class="two">
           <Figure src={img('staging-hall')} legende="The room, at scale" ratio="4 / 3" ajuste="cover"
