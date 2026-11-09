@@ -1470,23 +1470,22 @@
     carte rouge → .em-rouge      carte jaune → .em-jaune
     carte bleu  → .em-bleu       carte noir  → .em-gris
 
-  CHAQUE CARTE A DONC SON ACCENT, y compris les deux qui n'en avaient pas.
-  L'aplat ne pouvait pas servir tel quel - --yellow tombe a 1,54:1 sur blanc,
-  et --ink EST la couleur du titre, donc l'accent y serait indiscernable. Ces
-  deux-la ont desormais une teinte de TEXTE, derivee de l'aplat :
+  CHAQUE CARTE A DONC SON ACCENT, y compris les deux qui n'en avaient pas -
+  mais pas de la meme maniere, parce que les deux aplats echouaient pour deux
+  raisons opposees.
 
-    --yellow-ink #998000  3,86:1   meme teinte (50°) et meme saturation que
-                                   --yellow, luminosite descendue de 48 a 30%
-    --grey-ink   #707070  4,95:1   et 3,8:1 contre le titre a #111, donc on
-                                   voit que c'est un autre gris et pas une
-                                   bavure d'impression
+  LE NOIR PASSE LE CONTRASTE ET EST LA COULEUR DU TITRE : l'accent y serait
+  indiscernable. Il lui faut donc un gris, assez clair pour se distinguer du
+  titre et assez sombre pour rester lisible - --grey-ink #707070, 4,95:1 sur
+  blanc et 3,8:1 contre le titre a #111.
 
-  3,86:1 EST UN SEUIL DE GRAND TEXTE, PAS DE TEXTE COURANT. Le lead fait 34px
-  en 900 (28px sous le palier), ce qui est « large text » au sens WCAG : le
-  minimum y est 3:1 et non 4,5. `.em-jaune` ne doit donc jamais servir dans
-  un paragraphe - c'est la seule des quatre teintes qui soit conditionnee par
-  sa taille, et c'est le prix a payer pour que le jaune reste jaune. Deux
-  crans plus sombre il passerait partout, et il serait bronze.
+  LE JAUNE, LUI, NE PEUT PAS ETRE DE L'ENCRE. 1,54:1 sur blanc quand le seuil
+  le plus bas de WCAG est 3:1 pour du grand texte : il manque un facteur 1,9,
+  et aucune taille de typo ne le rattrape puisque l'echelle s'arrete la.
+  Assombri jusqu'a passer, il cesse d'etre jaune - #998000 se lit olive.
+  Il accentue donc en SURLIGNAGE : l'aplat est le vrai --yellow et le texte
+  repasse a --text, soit 12,24:1. Le chapitre garde la couleur exacte de sa
+  carte, a saturation pleine.
 
   A VERIFIER SUR LE RENDU, PAS DANS LE SOURCE : un chapitre peut contenir
   une <section> imbriquee, et un decoupage naif du .astro saute alors la fin
@@ -1498,7 +1497,25 @@
 .pan .closing em{font-style:normal}
 :is(.pan,.etude) .em-rouge{color:var(--red)}
 :is(.pan,.etude) .em-bleu{color:var(--blue)}
-:is(.pan,.etude) .em-jaune{color:var(--yellow-ink)}
+/*
+  LE JAUNE N'EST PAS LA COULEUR DES LETTRES, C'EST CELLE DU FOND. Assombri
+  jusqu'a porter du texte, il cessait d'etre jaune - #998000 se lit olive.
+  Et il ne pouvait pas rester tel quel : 1,54:1 sur blanc, quand le seuil le
+  plus bas de WCAG est 3:1 pour du grand texte. La taille ne rattrape pas un
+  facteur 1,9, parce que l'echelle s'arrete la.
+
+  EN SURLIGNAGE, L'APLAT EST LE VRAI --yellow et le texte repasse a --text :
+  12,24:1, soit le contraste le plus confortable des quatre accents. Le
+  chapitre 03 garde donc exactement la couleur de sa carte, a saturation
+  pleine, et c'est la langue du site - les aplats du Mondrian.
+
+  `box-decoration-break:clone` pour que chaque ligne recoive sa marge : sans
+  lui, une phrase sur deux lignes n'a de padding qu'au tout debut et a la
+  toute fin, et le bloc jaune mord les lettres au retour a la ligne.
+*/
+:is(.pan,.etude) .em-jaune{color:var(--text);background:var(--yellow);
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  padding:.02em .14em;margin:0 -.06em}
 :is(.pan,.etude) .em-gris{color:var(--grey-ink)}
 .pan .dark .em-rouge{color:var(--yellow)}
 

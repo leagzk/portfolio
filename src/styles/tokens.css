@@ -41,10 +41,10 @@
   --red:#D0021B;
   --blue:#0B57A4;
   --yellow:#F5CD00;
-  /* Les deux teintes ci-dessous n'existent QUE pour du texte. Les aplats
-     gardent --yellow et --ink : un fond n'a pas de contraste a tenir, un mot
-     si. Voir la regle des accents dans etude.css. */
-  --yellow-ink:#998000;     /* 3,86:1 sur blanc - grand texte seulement */
+  /* Le gris d'accent n'existe QUE pour du texte : l'aplat garde --ink, qui
+     EST la couleur du titre et y serait indiscernable. Le jaune, lui, n'a
+     pas de version texte - assombri il cesse d'etre jaune, donc il accentue
+     en surlignage. Voir la regle des accents dans etude.css. */
   --grey-ink:#707070;       /* 4,95:1 sur blanc, 3,8:1 contre le titre */
   --white:#FFFFFF;          /* fond de page - le creme est supprime */
   --grey-mondrian:#E4E4E1;  /* composition Language uniquement */
