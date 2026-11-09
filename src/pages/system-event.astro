@@ -626,7 +626,7 @@ const credits = [
           largeurMobile="62%"
           sizes="(min-width: 900px) 340px, 62vw"
         />
-        <div class="three">
+        <div class="three three--planches">
           {/*
             LE CADRE PREND LE RAPPORT DU FICHIER, ET NON L'INVERSE. Les deux
             sont des PORTRAITS - 1100x1545 pour la carte des verres, 1100x1650
@@ -1169,6 +1169,22 @@ const credits = [
     au format de son image, et la marge retombe a 18 des quatre cotes.
   */
   .pan .two--planches{grid-template-columns:minmax(0,1.4245fr) minmax(0,1fr)}
+
+  /*
+    MEME CORRECTION POUR LA RANGEE DE TROIS. Les trois cadres declarent
+    pourtant le MEME rapport : l'ecart vient de `fig--aere`, qui passe son
+    cadre en `content-box` pour que le rapport porte sur la boite de CONTENU
+    - c'est la seule facon de donner a la planche une marge egale des quatre
+    cotes. Sa boite exterieure gagne donc ses 39 de chrome en hauteur, et la
+    carte du milieu depassait ses voisines d'autant, legendes decalees.
+
+    Sa colonne prend ces 39 en largeur a la place : 0,712 x 39, soit 11,2 de
+    plus sur une colonne d'environ 324 - d'ou 1,0349. A la largeur de la
+    rangee les trois hauteurs sont alors egales ; le chrome etant fixe et les
+    `fr` proportionnels, l'accord se defait de quelques pixels aux largeurs
+    intermediaires, sans que rien ne s'en voie.
+  */
+  .pan .three--planches{grid-template-columns:minmax(0,1fr) minmax(0,1.0349fr) minmax(0,1fr)}
 
   /* `position:relative` serait redondant : `.fig__cadre` l'a deja. */
   .pan .fairepart{display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr)}
