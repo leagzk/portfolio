@@ -49,7 +49,6 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 /* INLINES : ces quatre dessins suivent le theme par currentColor, ce qu'un
    <img> ne permet pas. Voir l'en-tete de system-brand.astro pour le detail. */
-import IdeaVisual from '../assets/elements-system/idea-visual.svg';
 
 /* Resolues a la compilation : un nom errone casse le build, la ou un chemin en
    chaine aurait produit un 404 silencieux en production. */
@@ -1108,32 +1107,28 @@ const mecanismes: Tuile[] = [
           */}
           <p class="lead">A platform scales <em class="em-rouge">when a practice carries it.</em></p>
           <div class="body">
-            <p><strong>A structure only counts if it holds, and this one holds without me.</strong> Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. <strong>The platform stopped being a cost the business approves, and became what its launches plan around.</strong></p>
+            <p>A structure only counts if it holds, and this one holds without me. Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. <strong>The platform stopped being a cost the business approves, and became what its launches plan around.</strong></p>
           </div>
         </div>
-        <div class="split split--haut">
-          <div class="body">
-            {/* TROIS PHRASES PARCE QUE LA PRECEDENTE N'EN FAISAIT PLUS UNE. En
-                remplacant « became one practice » par la clause des hubs, on
-                avait retire le VERBE : « This is how a community of 300+ ... -
-                and a decision taken in one hub stopped being re-taken » laisse
-                son sujet en l'air. L'echelle, sa consequence et son extension
-                font trois phrases, ce qui regle la grammaire et la longueur
-                d'un coup. */}
-            <p><strong>A core interdisciplinary community of 300+ across 5 global hubs</strong> - 30+ product designers among them, as part of an Experience Design Organisation of 100. A decision taken in one hub stopped being re-taken in the other four. A few months later external partners joined it too, and the platform went from zero to <strong>2,000+ practitioners</strong>.</p>
-          </div>
-          <div class="pile">
+        {/* PLUS DE COLONNE DE GAUCHE. Le paragraphe vivait EN FACE de la
+            photo, donc on lisait « 300+ across 5 global hubs » a cote de
+            quinze personnes - l'image contredisait le chiffre. Sous elle, il
+            la legende au lieu de lui faire concurrence, et la colonne reste
+            la deuxieme : meme bord et meme mesure que le reste. */}
+        <div class="split">
+          <div class="pile split__suite">
             {/* Un filet et un carre, comme sur l'accueil : le trait part du
                 blanc tournant et le carre prend le jaune du chapitre 03. */}
             <div class="filet" aria-hidden="true"><span class="filet__carre"></span></div>
             <Figure
               src={img('design-community')}
               alt="The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon"
-              legende="The community, in one place for once"
+              legende="Part of the community, in the same room for once. Most of it works remote, across five hubs."
               ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
             />
+            <p>A core interdisciplinary community of 300+ across 5 global hubs - 30+ product designers among them, as part of an Experience Design Organisation of 100. A decision taken in one hub stopped being re-taken in the other four. A few months later external partners joined it too, and the platform went <strong>from zero to 2,000+ practitioners</strong>.</p>
           </div>
         </div>
       </div>
@@ -1159,6 +1154,12 @@ const mecanismes: Tuile[] = [
                 PRODUIT ont rapporte ; ce paragraphe dit qu'on est alle voir
                 tous les metiers, ce qui n'est pas la meme largeur. */}
             <p><strong>I went to the crafts before I went to the roadmap.</strong> Design, engineering, brand, product - each one asked the same two questions: where does the work break, and what would be worth more than what you have today. Friction is the one input a backlog never gives you, and it is what the roadmap was arbitrated on.</p>
+            {/* LA THESE SUIT L'ECOUTE, PAS LA MACHINE. Posee sous
+                Contribution, elle expliquait comment on outille des
+                contributeurs ; ici elle explique comment on prend de
+                l'influence - en allant demander avant de decider. C'est le
+                geste du paragraphe d'au-dessus, dit en principe. */}
+            <p><em>Design the experience of the people designing the experience.</em> Listen first - to what they need, and to what they are measured on - then build the path that fits.</p>
             <p><strong>The timing was the bet.</strong> We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.</p>
             <p>Trust never shows up in an adoption number, so I measured it on its own. <strong>4.7 out of 5 on practitioner satisfaction, twice a year.</strong> People don't comply with Elements. They trust it.</p>
           </div>
@@ -1188,13 +1189,7 @@ const mecanismes: Tuile[] = [
             {/* LA MACHINE AVANT L'ECHELLE. On gravit des rangs parce qu'il y
                 a des prises ; les poser d'abord, c'est dire que la
                 progression a ete CONSTRUITE et non esperee. */}
-            <p>The practice got a focus of its own, a remit and a clear strategy. Never a volunteer rota. My team built the machine that made contributing possible: an escalation path, a contribution path, office hours, community events, public contribution recognition at the Demo, integrated onboarding. From the start.</p>
-            {/* La these de Practitioner Experience prend son propre temps : en
-                incise au bout de la liste, elle se lisait comme une legende
-                de plus. L'ecoute dont il s'agit ici n'est pas celle de
-                l'Influence - la-bas on ecoute pour savoir QUOI CONSTRUIRE,
-                ici pour savoir comment ils peuvent DONNER. */}
-            <p><em>Design the experience of the people designing the experience.</em> Listen first - to what they need, and to what they are measured on - then build the path that fits.</p>
+            <p>The practice got a focus of its own, a remit and a clear strategy. <strong>Never a volunteer rota.</strong> My team built the machine that made contributing possible: an escalation path, a contribution path, office hours, community events, public contribution recognition at the Demo, integrated onboarding. From the start.</p>
             <p><strong>There is no small contribution.</strong> It starts by being a consumer. It continues by submitting new ideas. It closes the loop by maintaining the system, on its own. Everyone gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.</p>
             {/* LA PREUVE QUE L'ECHELLE MONTE VRAIMENT. Un modele de
                 contribution se juge a ce qu'il produit tout en haut, pas au
@@ -1285,9 +1280,11 @@ const mecanismes: Tuile[] = [
           route, et c.est tout le propos du chapitre. */}
       <div class="subsec">
         <p class="eb" data-sommaire>Growth</p>
-        <div class="taught">
-          <div class="taught__viz" aria-hidden="true"><IdeaVisual /></div>
-          <div class="body">
+        {/* PLUS DE .taught ICI : son gabarit est une colonne de 240px pour
+            le pictogramme et une pour le texte. Sans pictogramme, l'exergue
+            serait tombee dans la colonne etroite. */}
+        <div class="split">
+          <div class="body split__suite">
           {/* UN SEUL PARAGRAPHE : l'idee venue d'un contributeur et les carrieres
               qui ont grandi la etaient la meme phrase - la premiere prouvait
               la seconde. LE MCP A QUITTE CETTE PHRASE : son origine sert
