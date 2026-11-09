@@ -200,47 +200,45 @@ Next: the team &rarr;
 
 ## 04 &middot; The team
 
-Autonomy
+Management
+
+I owned the *why* and the *what.* They owned the *how.*
+
+We were never two expertises working side by side. **My designers opened pull requests. My engineers ran design critiques and asked design questions out loud.** That holds on two things only: a floor of trust, and no ambiguity at all about who owns what.
+
+Streams were autonomous, split by capability, each moving without a central decision - inside a framing they had co-written. Shared rituals kept five hubs one system instead of an archipelago. **Nothing shipped without us aligned, and nothing waited on me to be decided.**
+
+A one-to-one every three weeks with everyone on the build side, a longer weekly status per capability, and me going to them as often as I could so a blocker never cost a sprint. **As many one-to-ones with the engineers as with the designers, and the same bar for both** - they were a dotted line, not a lesser one.
+
+When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. **You don't point at the problem from across the room. You cross it.**
+
+Team growth
 
 Every week, the same question: *is the work moving, and is the person growing.*
 
-**I didn't build a system I hold together. I built the conditions where it holds itself.**
+I hired into the org I had drawn: from one designer to a core team of nine - **five designers and four React engineers**. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two design roles opened, and designers from the organisation joined.
 
-- **Autonomous streams**, split by capability, each moving without a central decision - inside a **collective framing**, so a stream deciding alone still decides inside a frame it co-wrote.
-
-- **Shared rituals** are the connective tissue keeping five hubs one system rather than an archipelago.
-
-- **Wellbeing was a line in the plan**, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.
-
-- When a product team was under water, we got into the work *with* them - auditing, co-building, sharing the load. The standard I set: **you don't point at the problem from across the room, you cross it**. A team that only points the way isn't leading; it's watching.
-
-People
-
-Zero resignations *in three years.*
-
-**I owned the *why* and the *what*. They owned the *how*** - and made it sharper than I could have specified. Agile is the tempo, not a checkbox. **Nothing shipped without us aligned, and nothing waited on me to be decided.**
-
-I hired into the org I had drawn - from one designer to a core team of nine, design itself going from one to five - then carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared project, never beside it.
-
-**Average completed engagement: 23 months against a one-year target.**
-
-The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.** People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.
+I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared project, never beside it.
 
 **Nicolas** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead** and we founded the capability together. **His growth and the company's outcome, paired.**
-
-My job wasn't to hold it up. **It was to build a structure that outlasts any of us.**
 
 > **Design System Awards 2025** Governance finalist alongside HP and Tesco. The recognition that means the most to me is the *category* - because this was never only a craft story. It was a leadership one.
 
 [Nicolas Chatelain](https://nicolaschatelain.com) led the People axis, from Experience Operations enablement to the Community of Practice engagement plan. [Rodolphe Peruzza](https://rodolphe.design/chat) led the System axis, from craft to experience-pattern industrialization.
 
-Growth
+Team health
 
-**Contribution is where careers grew, mine included.** People levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.
+Health wasn't the reward for delivery. *It was the condition of it.*
 
-## I removed the wait between design and engineering. *There's one wait left.*
+**Every hire ended with a team fit meeting** - the whole team in the room, reading complementarity of personality and of skill rather than the line on a CV. We once said no to someone excellent on paper: the openness wasn't there, and neither was the instinct for working with others. A CV tells you what a person has done; the room tells you what they will do with the rest of us.
 
-I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's **velocity**, and it's **proximity** - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. This is the next mile of the same road.
+Three quarters of the team was freelance and I was, for a while, the only permanent person in it. **Everyone was a human first** - not a role type, not internal or external, and least of all an expertise. At that ratio it wasn't a position to hold, it was the only way the team could function at all.
+
+**Wellbeing was a line in the plan**, load-bearing and resourced like any other dependency. A pulse check closed every sprint and every retro, and it caught a drop in motivation through a stretch where we were deep in support and short on innovation. So we re-opened the team to what was happening outside, and pushed the contribution model harder to put the value somewhere else.
+
+Average completed engagement: 23 months against a one-year target. The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.**
+
+## My job wasn't to hold it up. *It was to build a structure that outlasts any of us.*
 
 Not a system people obey - one they own. **That's what growing a culture means.**
 
@@ -248,8 +246,6 @@ Design systems ship standards.
 *Experience systems grow culture.*
 
 See it off the screen →
-
-Back to the four chapters &uarr;
 
 ---
 

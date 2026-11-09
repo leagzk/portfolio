@@ -313,8 +313,6 @@ Same conviction, different surface. Understand each craft, translate it to the o
 
 Discover what came next →
 
-Back to the three chapters ↑
-
 ---
 
 ## Textes alternatifs des visuels

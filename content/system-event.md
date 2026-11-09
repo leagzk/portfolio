@@ -277,8 +277,6 @@ This wasn't a one-off. It was the third edition - each one bigger than the last:
 
 See it at global scale →
 
-Back to the three chapters ↑
-
 ---
 
 ## Textes alternatifs des visuels

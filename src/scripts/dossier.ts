@@ -256,7 +256,10 @@ export function initDossier(): void {
     defilement, lui, est deja coupe par la portee de `remonter` : depuis le
     bas d'un chapitre la composition est a plus d'un ecran.
   */
-  document.querySelectorAll<HTMLElement>('[data-haut],[data-ferme]').forEach((b) => {
+  /* Un seul declencheur depuis que le bouton « Back to the chapters » est
+     retire : il portait [data-ferme] et partageait cet ecouteur, donc il
+     faisait exactement ce que fait la fleche. */
+  document.querySelectorAll<HTMLElement>('[data-haut]').forEach((b) => {
     b.addEventListener('click', () => {
       const pan = b.closest<HTMLElement>('.pan');
       const cible = cartes.find((c) => c.getAttribute('aria-controls') === pan?.id);

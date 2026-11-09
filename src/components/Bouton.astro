@@ -45,17 +45,11 @@ export interface Props {
   externe?: boolean;
   /** sans href : identifiant de la carte a ouvrir, lu par src/scripts/dossier.ts */
   commande?: string;
-  /**
-   * sans href : referme le chapitre ouvert et rouvre le sommaire des trois
-   * cartes, lu par src/scripts/dossier.ts. C'est la fin du DERNIER chapitre
-   * d'une etude : il n'y a pas de tuile 04 vers laquelle pointer.
-   */
-  ferme?: boolean;
   class?: string;
 }
 const {
   href, variante = 'bleu', icone, telechargement, externe = false,
-  commande, ferme = false, class: classe,
+  commande, class: classe,
 } = Astro.props;
 const Balise = href ? 'a' : 'button';
 ---
@@ -64,7 +58,6 @@ const Balise = href ? 'a' : 'button';
   href={href}
   type={href ? undefined : 'button'}
   data-suite={commande}
-  data-ferme={ferme ? 'oui' : undefined}
   download={telechargement ? true : undefined}
   target={externe ? '_blank' : undefined}
   rel={externe ? 'noopener noreferrer' : undefined}
