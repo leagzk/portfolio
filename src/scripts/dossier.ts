@@ -205,7 +205,24 @@ export function initDossier(): void {
     pan.classList.remove('pan--ouvre');
   };
 
+  /*
+    OU L'ON ETAIT AVANT D'OUVRIR. `ouvrir` remonte a la composition : depuis
+    une carte lue en bas du sommaire - le cas du telephone, ou les quatre
+    s'empilent - la page bouge donc de plus d'un millier de pixels avant que
+    le chapitre n'apparaisse. A la fermeture, sans rien, on restait a la
+    composition et on avait perdu l'endroit qu'on lisait.
+
+    ON NE MEMORISE QUE DEPUIS UN SOMMAIRE FERME. Passer d'un chapitre ouvert a
+    un autre traverse `ouvrir` lui aussi, mais la position courante est alors
+    DANS le chapitre qu'on quitte - la garder ferait revenir a l'interieur
+    d'une section desormais repliee. On conserve donc celle d'avant la
+    premiere ouverture, qui est la seule a decrire le sommaire.
+  */
+  let retour: number | null = null;
+
   const ouvrir = (carte: HTMLButtonElement) => {
+    const dejaOuverte = cartes.some((c) => c.getAttribute('aria-expanded') === 'true');
+    if (!dejaOuverte) retour = window.scrollY;
     cartes.forEach((autre) => autre !== carte && fermer(autre));
     carte.setAttribute('aria-expanded', 'true');
     const pan = section(carte);
@@ -231,6 +248,19 @@ export function initDossier(): void {
       if (carte.getAttribute('aria-expanded') === 'true') {
         fermer(carte);
         majCompo();
+        /*
+          `instant` ET NON `auto` : reset.css pose `html{scroll-behavior:smooth}`
+          et `auto` s'y soumet - voir l'en-tete de `remonter`. Ici le glissement
+          serait long et inutile, on revient a un endroit qu'on connait deja.
+
+          Apres `majCompo` : le panneau est masque et la composition recomposee,
+          donc la page a repris la hauteur qu'elle avait quand on a memorise, et
+          la valeur redevient atteignable.
+        */
+        if (retour !== null) {
+          window.scrollTo({ top: retour, behavior: 'instant' });
+          retour = null;
+        }
       } else ouvrir(carte);
     });
   });
@@ -285,6 +315,9 @@ export function initDossier(): void {
       const cible = cartes.find((c) => c.getAttribute('aria-controls') === pan?.id);
       cartes.forEach((carte) => fermer(carte));
       majCompo();
+      /* Ce bouton-ci promet le HAUT, pas le retour : il remonte donc, et la
+         position memorisee est jetee pour ne pas resservir plus tard. */
+      retour = null;
       remonter();
       cible?.focus({ preventScroll: true });
     });
