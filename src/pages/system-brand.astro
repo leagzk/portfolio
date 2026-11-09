@@ -410,43 +410,6 @@ const pratiques: Tuile[] = [
 
   <div class="etude">
 
-    {/*
-      LA CASE QUI DIT CE QU'EST L'OBJET, sur le modele de Governance. La page
-      passait du hero aux quatre chiffres : on lisait une portee avant de savoir
-      de QUOI on lisait la portee. Le hero raconte un parcours - « j'ai
-      construit, puis j'ai pris » - pas une definition.
-
-      SANS BOUTON, comme sur Governance : la case affirme, elle n'envoie nulle
-      part. Et la derniere ligne annonce le pivot - sanofi.com, les tokens -
-      parce que c'est la preuve externe de cette etude, ce que le prix est a
-      l'autre.
-    */}
-    <ChiffresCles chiffres={chiffres} variante="mondrian">
-      <Fragment slot="definition">
-        {/*
-          « THE BRAND PLATFORM » ET NON « THE PLATFORM ». Le mot seul mettait
-          cette etude en concurrence avec Governance, ou « platform » designe
-          l'experience design platform : deux objets de nature differente
-          portant le meme nom a deux clics l'un de l'autre. L'adjectif dit de
-          quelle plateforme on parle, et la question ne se pose plus.
-        */}
-        <p class="clef-def__eb">The brand platform</p>
-        <p class="clef-def__phrase"><strong>One language for a function nobody could describe</strong> - positioning, territory and tone of voice, with a production line any of 2,500 people could pick up. Run as a product: versioned, not redrawn, when the brand underneath it changed.</p>
-        {/*
-          CE QUI SE PASSE ICI, ET NON OU CA A ATTERRI. Cette ligne disait
-          « Piloted on sanofi.com in 2022 » : un jalon d'execution, pose a
-          l'endroit ou la page doit dire ce que le cas APPORTE. Le pilote est
-          raconte au chapitre 04, a sa place.
-
-          Ce que cette etude a d'unique, c'est que sa maniere de systematiser
-          est celle qui tourne encore - elle n'a pas ete remplacee par Elements,
-          elle en est l'origine. C'est le pivot entre les deux etudes, et c'est
-          ce que le prix est a Governance : la preuve que l'objet a compte
-          au-dela de lui-meme.
-        */}
-        <p class="clef-def__prix">The systematization logic proven here is where Elements, Sanofi's experience system, begins.</p>
-      </Fragment>
-    </ChiffresCles>
 
     {/*
       ─── La composition des 3 cartes (BRIEF §5.3) ───
@@ -462,6 +425,56 @@ const pratiques: Tuile[] = [
       elles sont aria-hidden et ne sont pas focalisables.
     */}
     <div class="compo" id="composition" data-grille>
+
+      {/*
+        LA CASE QUI DIT CE QU'EST L'OBJET, sur le modele de Governance. La page
+        passait du hero aux quatre chiffres : on lisait une portee avant de savoir
+        de QUOI on lisait la portee. Le hero raconte un parcours - « j'ai
+        construit, puis j'ai pris » - pas une definition.
+
+        SANS BOUTON, comme sur Governance : la case affirme, elle n'envoie nulle
+        part. Et la derniere ligne annonce le pivot - sanofi.com, les tokens -
+        parce que c'est la preuve externe de cette etude, ce que le prix est a
+        l'autre.
+      */}
+    <ChiffresCles chiffres={chiffres} variante="mondrian">
+        <Fragment slot="definition">
+          {/*
+            « THE BRAND PLATFORM » ET NON « THE PLATFORM ». Le mot seul mettait
+            cette etude en concurrence avec Governance, ou « platform » designe
+            l'experience design platform : deux objets de nature differente
+            portant le meme nom a deux clics l'un de l'autre. L'adjectif dit de
+            quelle plateforme on parle, et la question ne se pose plus.
+          */}
+          <p class="clef-def__eb">The brand platform</p>
+          <p class="clef-def__phrase"><strong>One language for a function nobody could describe</strong> - positioning, territory and tone of voice, with a production line any of 2,500 people could pick up. Run as a product: versioned, not redrawn, when the brand underneath it changed.</p>
+          {/*
+            CE QUI SE PASSE ICI, ET NON OU CA A ATTERRI. Cette ligne disait
+            « Piloted on sanofi.com in 2022 » : un jalon d'execution, pose a
+            l'endroit ou la page doit dire ce que le cas APPORTE. Le pilote est
+            raconte au chapitre 04, a sa place.
+
+            Ce que cette etude a d'unique, c'est que sa maniere de systematiser
+            est celle qui tourne encore - elle n'a pas ete remplacee par Elements,
+            elle en est l'origine. C'est le pivot entre les deux etudes, et c'est
+            ce que le prix est a Governance : la preuve que l'objet a compte
+            au-dela de lui-meme.
+          */}
+          <p class="clef-def__prix">The systematization logic proven here is where Elements, Sanofi's experience system, begins.</p>
+        </Fragment>
+      </ChiffresCles>
+
+      {/*
+        DEUX APLATS, LA OU IL Y EN AVAIT DIX. Les anciennes cases decoratives
+        etaient des bandes d'une colonne sur une rangee fine : a dix, elles
+        faisaient lire un lisere raye plutot qu'une composition. Celles-ci sont
+        des CARRES de trois colonnes sur une rangee de 268px - la mesure des
+        trois chiffres d'a cote - et c'est la grammaire de l'accueil, ou la
+        couleur occupe des cases entieres.
+      */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a1"><span class="compo__plat compo__plat--rouge"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a2"><span class="compo__plat compo__plat--bleu"></span></div>
+
       {/*
         LES QUATRE CARTES SONT ECRITES DANS L'ORDRE 01 → 02 → 03 → 04, pas dans
         celui de la composition : c'est le DOM qui donne la tabulation et
@@ -487,13 +500,9 @@ const pratiques: Tuile[] = [
         couleur="rouge"
         commande="pan-problem"
         large
-        aire="1 / 1 / 4 / 4"
+        aire="c1"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 4 / 2 / 5"><span class="compo__plat compo__plat--gris"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 4 / 3 / 5"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 4 / 4 / 5"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 5 / 4 / 6"></div>
 
       <CarteDossier
         id="carte-approach"
@@ -503,18 +512,13 @@ const pratiques: Tuile[] = [
         synthese="Positioning, territory and tone of voice; shared libraries anyone could pick up; and a standardized way of working, because autonomy without a shared practice just scatters faster."
         couleur="bleu"
         commande="pan-approach"
-        aire="1 / 5 / 3 / 8"
+        aire="c2"
       />
 
       {/* LA BANDE DE RESPIRATION. Trente pixels entre les deux rangees de
           cartes, et c'est la seule rangee ou la couleur se pose en aplats
           pleins : trois sur quatre cases, parce qu'elle n'a pas de texte a
           porter. Voir .compo__plat dans etude.css. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 1 / 5 / 2"><span class="compo__plat compo__plat--bleu"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 2 / 5 / 3"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 3 / 5 / 4"><span class="compo__plat compo__plat--jaune"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 4 / 5 / 5"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 5 / 5 / 6"><span class="compo__plat compo__plat--noir"></span></div>
 
       <CarteDossier
         id="carte-proof"
@@ -525,7 +529,7 @@ const pratiques: Tuile[] = [
         couleur="jaune"
         commande="pan-proof"
         large
-        aire="5 / 1 / 7 / 5"
+        aire="c3"
       />
 
       {/*
@@ -550,13 +554,12 @@ const pratiques: Tuile[] = [
         synthese="I took the part nobody had defined - what a corporate brand becomes once it's interactive - and answered it with one standard for the portfolio, piloted on sanofi.com."
         couleur="noir"
         commande="pan-standard"
-        aire="3 / 6 / 7 / 8"
+        aire="c4"
       />
 
       {/* La case qui respire, en bas a droite : apres quatre cartes et une
           rangee de couleurs, une seule case blanche ferme la composition
           plutot qu'un trou - ou, dans cette grille, le fond noir reparaitrait. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 5 / 7 / 6"></div>
     </div>
 
     {/* ═══════════ 01 · The problem ═══════════ */}
@@ -1307,30 +1310,74 @@ const pratiques: Tuile[] = [
       les respirations - fines et voulues telles - et 04 les traverse.
     */
     /*
-      ═══ UNE SEULE COMPOSITION, ET C'EST UNE AFFAIRE DE 26 PIXELS ═══
+      ═══ UNE SEULE COMPOSITION, SUR LA GRAMMAIRE DE L'ACCUEIL ═══
 
-      Le bandeau des chiffres et cette composition se TOUCHENT deja - mesure
-      sur le build : 0px entre le bas de l'un et le haut de l'autre, le filet
-      du bandeau faisant la separation. Ce qui les empechait de se lire comme
-      un seul objet n'etait donc pas un blanc, c'etait un DESALIGNEMENT.
+      Les deux etudes voisines posent SEPT colonnes en `fr` irreguliers, et
+      chacune accroche ses cases par des coordonnees chiffrees. Ca tient, mais
+      ca ne se lit pas : aucun filet vertical ne se prolonge d'une rangee a
+      l'autre, et la couleur finit dans des cases d'une colonne sur une rangee
+      fine - dix ici - qui font un lisere raye plutot qu'un Mondrian.
 
-      Le bandeau se coupe en deux a 626px : c'est le filet vertical qui separe
-      les trois chiffres de la case « The brand platform ». Les frontieres de
-      colonne de la composition tombaient a 192, 327, 496, 574, 652, 825 - la
-      plus proche a 652, soit 26px a cote. Le trait s'arretait net au bas du
-      bandeau et un autre repartait 26px plus loin : deux grilles posees l'une
-      sur l'autre, pas une composition.
+      L'accueil fait l'inverse, et c'est pour ca que sa grille se lit :
+      DOUZE COLONNES EGALES et des ZONES NOMMEES. Toute frontiere tombe sur un
+      douzieme, donc les filets se prolongent partout ; et la couleur occupe
+      des cases entieres, pas des interstices.
 
-      Vingt-six pixels passent donc des colonnes 1 et 3 aux colonnes 6 et 7, ce
-      qui amene la cinquieme frontiere sur 626 et fait DESCENDRE le filet du
-      bandeau a travers toute la composition. Les quatre cartes gardent leurs
-      proportions relatives et leurs lignes de puces : 01 et 03 perdent une
-      trentaine de pixels, 04 en gagne autant - sa marge de puces passe meme de
-      69 a 93px.
+      CE QUE CETTE COMPOSITION PLACE :
+        · `def` - le bloc « The brand platform », six colonnes sur deux
+          rangees, au centre.
+        · `n1` `n2` `n3` - les trois chiffres, trois colonnes sur une rangee de
+          268px, soit 267x268 : des CARRES, et ils tiennent les trois coins
+          autour de `def`.
+        · `a1` - le quatrieme coin, un aplat de meme taille. `a2` - le seul
+          autre, dans la bande des cartes.
+        · `c1` a `c4` - quatre largeurs differentes : 625, 446, 356 et 535.
+          Aucune paire jumelle, ce qui est la difference entre une composition
+          et deux rangees de cartes.
+
+      LES CARTES GARDENT LEUR LIGNE DE PUCES SUR UN RANG : interieurs de 568,
+      390, 300 et 479 pour des lignes qui demandent 249, 319, 225 et 295. La
+      plus juste est la 03, avec 75px d'avance.
+
+      LA PREMIERE RANGEE EST FIXE ET LA SECONDE UN PLANCHER : les carres
+      doivent rester carres, mais `def` doit pouvoir grandir si sa phrase
+      gagne une ligne.
     */
-    .compo{grid-template-columns:187fr 140fr 162fr 80fr 80fr 193fr 272fr;
-      grid-template-rows:minmax(160px,auto) minmax(95px,auto) minmax(60px,auto)
-        40px minmax(200px,auto) minmax(60px,auto)}
+    .compo{grid-template-columns:repeat(12,minmax(0,1fr));
+      grid-template-rows:268px minmax(268px,auto)
+        minmax(300px,auto) minmax(300px,auto);
+      grid-template-areas:
+        "n1 n1 n1 def def def def def def n2 n2 n2"
+        "n3 n3 n3 def def def def def def a1 a1 a1"
+        "c1 c1 c1 c1 c1 c1 c1 c2 c2 c2 c2 c2"
+        "c3 c3 c3 c3 a2 a2 c4 c4 c4 c4 c4 c4"}
+
+    /*
+      LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait
+      sa propre grille, collee sous celle-ci : deux objets qui se touchaient
+      sans s'aligner. `display:contents` fait disparaitre ses boites sans
+      toucher a l'ordre du front - c'est exactement ce que la version mobile
+      fait deja de `.clef-rangee`, et le trace anime sait lire un conteneur
+      sans boite (voir `data-cases` dans scripts/grille.ts).
+    */
+    .compo .cles--mondrian,.compo .clef-rangee{display:contents}
+    .compo .clef-rangee--1 .clef-case:nth-of-type(1){grid-area:n1}
+    .compo .clef-rangee--1 .clef-case:nth-of-type(2){grid-area:n2}
+    .compo .clef-rangee--2 .clef-case:nth-of-type(1){grid-area:n3}
+    .compo .clef-def{grid-area:def}
+    /*
+      LA POUSSEE AU SURVOL EST UN GESTE DE BANDE, et la bande n'existe plus :
+      `flex` ne veut rien dire pour une case de grille. Les largeurs ne
+      bougeraient donc pas - mais la regle qui EFFACE le contenu des cases
+      voisines, elle, s'appliquerait encore, et survoler un chiffre viderait
+      les deux autres. On la desarme ici.
+    */
+    .compo .clef-rangee:hover .clef__dedans,
+    .compo .clef-rangee:focus-within .clef__dedans,
+    .compo .clef-rangee:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:1}
+    /* Le bloc fait deux rangees : sa ligne de credit descend au bas de la
+       case plutot que de laisser 250px de blanc sous elle. */
+    .compo .clef-def__prix{margin-top:auto}
     /*
       LA MOSAIQUE DE LA DISCOVERY : quatre colonnes, et les sept extraits poses
       a la main. Comme la composition ci-dessus, la valeur est posee ICI et non
