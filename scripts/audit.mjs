@@ -23,7 +23,7 @@ import { parse } from 'parse5';
   mosaique, les pastilles de nuancier - la place est reservee par le CSS et
   l'image ne peut pas faire sauter la mise en page.
 */
-const CADRES_RESERVES = /fig__cadre|cadref|mosaic|swc|pilep__fig|taught__viz/;
+const CADRES_RESERVES = /fig__cadre|cadref|mosaic|swc|pilep__fig/;
 
 const dist = 'dist';
 const pages = [];

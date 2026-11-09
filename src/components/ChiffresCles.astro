@@ -71,6 +71,18 @@ export interface Props {
 }
 const { chiffres, label = 'Proof points', variante = 'bandeau' } = Astro.props;
 const mondrian = variante === 'mondrian';
+/*
+  LA CASE DE DEFINITION EST FACULTATIVE, et c'est ce qui rend la forme
+  reutilisable. Governance a une phrase qui dit ce qu'EST le systeme ; les deux
+  autres etudes n'en ont pas, et leur en inventer une pour remplir un gabarit
+  serait prendre le probleme a l'envers. Sans elle, les chiffres prennent toute
+  la largeur sur une seule rangee.
+
+  ELLE EST LUE ICI, ET NON PLUS PLUS BAS : le plancher du nombre de chiffres
+  en depend desormais (voir PLANCHER), et une garde ne peut pas s'appuyer sur
+  une valeur declaree apres elle.
+*/
+const avecDef = Astro.slots.has('definition');
 
 if (!mondrian && (chiffres.length < 4 || chiffres.length > 5)) {
   throw new Error(`<ChiffresCles> attend 4 ou 5 chiffres, reçu ${chiffres.length}`);
@@ -83,20 +95,31 @@ if (!mondrian && (chiffres.length < 4 || chiffres.length > 5)) {
   Au-dela, la moitie gauche ferait des cases de moins de 150px et « 100% » n'y
   tiendrait plus sur une ligne : la garde reste, elle a juste un cran de plus.
 */
-if (mondrian && (chiffres.length < 4 || chiffres.length > 6)) {
+/*
+  TROIS CHIFFRES SONT PERMIS, MAIS SEULEMENT AVEC LA DEFINITION.
+
+  La forme plafonnait a cinq puis a six ; son plancher, lui, etait reste a
+  quatre sans raison ecrite. Or trois chiffres tres forts valent mieux que
+  quatre dont le dernier remplit un gabarit - c'est l'arbitrage pris sur
+  Language, ou « 1 - standard, one pilot » n'etait pas une preuve mais un
+  fait, pose la pour completer la rangee.
+
+  A TROIS, LA COUPE DONNE 2 PUIS 1, et c'est ce qu'on veut : deux cases en
+  haut, et la troisieme qui prend toute la largeur en dessous. Le chiffre le
+  plus large y tombe en pleine bande, comme la citation de l'accueil sous le
+  duo des principes. `MOITIE` vaut ceil(3/2) = 2 et produit cette coupe sans
+  qu'on ait rien a ecrire de special.
+
+  SANS LA DEFINITION, TROIS RESTENT REFUSES : la forme n'aurait alors qu'une
+  seule rangee de trois cases de 370px pour trois mots chacune - la bande
+  vide que le commentaire de LARGEURS decrit plus bas.
+*/
+const PLANCHER = avecDef ? 3 : 4;
+if (mondrian && (chiffres.length < PLANCHER || chiffres.length > 6)) {
   throw new Error(
-    `<ChiffresCles variante="mondrian"> attend 4 a 6 chiffres, reçu ${chiffres.length}`,
+    `<ChiffresCles variante="mondrian"> attend ${PLANCHER} a 6 chiffres, reçu ${chiffres.length}`,
   );
 }
-/*
-  LA CASE DE DEFINITION EST FACULTATIVE, et c'est ce qui rend la forme
-  reutilisable. Governance a une phrase qui dit ce qu'EST le systeme ; les deux
-  autres etudes n'en ont pas, et leur en inventer une pour remplir un gabarit
-  serait prendre le probleme a l'envers. Sans elle, les chiffres prennent toute
-  la largeur sur une seule rangee.
-*/
-const avecDef = Astro.slots.has('definition');
-
 /*
   DEUX RANGEES DE BANDES, ET NON DOUZE COLONNES - et c'est ce qui permet aux
   tuiles de SE POUSSER. Sur l'accueil, survoler un principe le fait s'etendre
@@ -273,8 +296,9 @@ const RANGEES = avecDef
         const i = r.depart + j;
         return (
       <div
-        class:list={['clef-case', i % 2 === 0 ? 'clef-case--g' : 'clef-case--d']}
-        style={`--u:${unites.get(i)}`}
+        class:list={['clef-case', i % 2 === 0 ? 'clef-case--g' : 'clef-case--d',
+          chiffres.length % 2 === 1 && i === chiffres.length - 1 && 'clef-case--seule']}
+        style={`--u:${unites.get(i)};--nb-k:${(1 / (0.52 * c.nombre.length)).toFixed(4)}`}
       >
         <button
           class:list={[
@@ -312,30 +336,6 @@ const RANGEES = avecDef
       </div>
       );
     })}
-    {/*
-      LA CASE QUI FERME LA GRILLE, ET ELLE N'EXISTE QUE SOUS LE PALIER.
-
-      Au telephone les rangees se mettent a plat - deux colonnes pour toute la
-      bande - et un nombre impair de chiffres y laisse une cellule vide. Elle
-      etait comblee autrement : le troisieme chiffre d'une rangee de trois
-      prenait les deux colonnes, ce qui lui donnait 343px de large pour un
-      nombre qui en mesure 104 d'encre, soit 207px de vide sur une seule
-      ligne. Tous les chiffres sont des carres maintenant, et c'est un APLAT
-      qui ferme la grille.
-
-      UNE CELLULE VIDE N'EXISTE PAS DANS CETTE GRAMMAIRE : partout ailleurs
-      sur le site, une case sans texte porte une couleur - c'est ce que font
-      les fragments de l'accueil. Le gris est celui de la composition, deja
-      presente sur ces pages, et il ne double aucune des couleurs voisines.
-
-      aria-hidden : il n'y a rien a y lire, et le trace anime la prend comme
-      une case de plus - elle a une boite, donc elle se mesure.
-    */}
-    {chiffres.length % 2 === 1 && (
-      <div class="clef-bouche" aria-hidden="true">
-        <span class="clef-bouche__plat"></span>
-      </div>
-    )}
   </section>
 ) : (
   <section class="cles" data-filets aria-label={label} style={`--cles-n:${chiffres.length}`}>

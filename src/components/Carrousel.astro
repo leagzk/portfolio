@@ -48,6 +48,14 @@ export interface Props {
   /** surtitre a gauche de l'en-tete. Omis, l'en-tete se reduit aux fleches. */
   eyebrow?: string;
   vignettes: Vignette[];
+  /*
+    MARGE INTERIEURE DES CADRES. Les captures d'ecran et les documents
+    remplissent leur cadre : c'est ce qu'on veut, le cadre EST le bord de la
+    page montree. Les illustrations, elles, n'ont pas de bord a elles - posees
+    en `contain`, leur dessin vient taper les quatre cotes de l'aplat. `aere`
+    leur rend un blanc tournant.
+  */
+  aere?: boolean;
   /** rapport des vignettes : « 1 / 1 » pour les personnages, « 16 / 10 » pour le pilote */
   ratio?: string;
   /** LE MEME rapport en nombre (largeur / hauteur) : les cadres defilants en
@@ -73,7 +81,7 @@ export interface Props {
   sizes?: string;
 }
 const {
-  label, eyebrow, vignettes, mosaique,
+  label, eyebrow, vignettes, mosaique, aere = false,
   ratio = '16 / 10',
   fr = 1.6,
   largeur = '72%',
@@ -82,7 +90,7 @@ const {
 } = Astro.props;
 ---
 <div
-  class:list={['carrousel', mosaique && 'carrousel--mosaique']}
+  class:list={['carrousel', mosaique && 'carrousel--mosaique', aere && 'carrousel--aere']}
   style={`--slide-w:${largeur};--slide-w-mob:${largeurMobile}${mosaique ? `;--mos-cols:${mosaique}` : ''}`}
 >
   <div class="carrousel__tete">
@@ -128,7 +136,18 @@ const {
 </div>
 
 <style is:global>
-  .carrousel{display:flex;flex-direction:column;gap:20px}
+  /*
+    DOUZE PIXELS, ET C'EST LA MESURE DES AUTRES SURTITRES. Le surtitre d'un
+    carrousel vit dans sa tete, donc son ecart au contenu vient du `gap` de ce
+    composant et non de la sous-partie qui l'accueille. Il valait 20px quand
+    tous les autres surtitres d'une etude en posent 12 - le `gap` de 32 de la
+    sous-partie, moins les 20 de marge negative que `.eb` porte.
+
+    Sur une page qui enchaine trois surtitres et trois series, l'un d'eux
+    respirait donc huit pixels de plus que ses voisins, ce qui se voit d'autant
+    mieux qu'ils se suivent.
+  */
+  .carrousel{display:flex;flex-direction:column;gap:12px}
   .carrousel__tete{display:flex;justify-content:space-between;align-items:center;gap:16px}
   .carrousel__fleches{display:flex;gap:8px;margin-left:auto}
   /* Carre, bordure 1,5px, rempli de noir au survol - comme les boutons du

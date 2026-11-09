@@ -138,6 +138,19 @@
   grid-template-rows:repeat(2,240px);gap:var(--rule-fine);overflow:hidden;
   margin-top:72px;position:relative;
   border-bottom:var(--rule-fine) solid var(--text)}
+/*
+  LE BLANC AU-DESSUS DU BANDEAU ETAIT COMPTE DEUX FOIS. `.hero` pose 72px de
+  marge basse et ce bandeau 72px de marge haute ; `.etude` etant un conteneur
+  FLEX, les deux ne fusionnent pas comme elles le feraient en flux normal.
+  Mesure sur le build : 144px de blanc entre le bas du hero et le haut du
+  bandeau, sur les trois etudes.
+
+  La marge du bandeau tombe donc quand il OUVRE l'etude - c'est-a-dire quand le
+  hero vient de poser la sienne. Elle est gardee partout ailleurs : la regle ne
+  dit pas que ce blanc est de trop, elle dit qu'il ne se prend qu'une fois.
+*/
+.etude > .cles--mondrian:first-child{margin-top:0}
+
 .cles--mondrian.pre{border-bottom-color:transparent}
 .cles--mondrian.pre > *,.cles--mondrian.pre .clef-case{box-shadow:none}
 .cles--mondrian > *{background:var(--white);min-width:0;position:relative;overflow:hidden;
@@ -177,7 +190,7 @@
   serait un enfant de plus dans une grille a deux colonnes et deux rangees,
   qu'elle deborderait. Voir <ChiffresCles> pour ce qu'elle bouche.
 */
-.clef-bouche,.clef-ligne{display:none}
+.clef-ligne{display:none}
 .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 .clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
@@ -280,8 +293,33 @@
 .clef__dedans{position:absolute;inset:0;z-index:1;display:flex;
   flex-direction:column;justify-content:flex-start;gap:10px;
   padding:24px;overflow:hidden}
-.clef__nb{font-family:var(--display);font-size:48px;font-weight:900;line-height:1;
-  letter-spacing:-.02em}
+/*
+  LE NOMBRE S'ADAPTE A SA CASE ET A SA PROPRE LONGUEUR.
+
+  Il etait a 48px en dur. « 100,000+ » y mesure 192px d'encre pour une case
+  dont l'interieur en fait 216 : il finissait DANS l'icone d'agrandissement,
+  posee a 182. Mesure a 917px de fenetre. Et ce n'est pas un cas isole qu'on
+  pourrait corriger a la main - la case va de 171px au telephone a 343 quand
+  elle prend les deux colonnes, et le prochain chiffre long rouvrira le meme
+  defaut ailleurs.
+
+  LA CONTRAINTE S'ECRIT UNE FOIS : l'encre doit finir avant l'icone, donc
+  tenir dans la largeur de la case moins le retrait de gauche (24), la lane de
+  l'icone (18 + 16) et un ecart (8) - soit 100cqw - 66px.
+
+  `--nb-k` VIENT DU COMPOSANT et vaut 1 / (0,52 x nombre de caracteres) : 0,52
+  est la largeur moyenne d'un caractere de la Display en fraction de son
+  corps, mesuree sur les trois nombres de cette page (0,486 a 0,54 - les
+  virgules sont etroites, les chiffres pleins). Un nombre court garde donc ses
+  48px, seul un nombre long descend, et aucun ne touche l'icone.
+
+  LA CASE DEVIENT UN CONTENEUR pour que `cqw` ait un sens. `inline-size`
+  seulement : la hauteur reste libre, et c'est elle que la grille distribue.
+*/
+.clef-case{container-type:inline-size}
+.clef__nb{font-family:var(--display);font-weight:900;line-height:1;
+  letter-spacing:-.02em;
+  font-size:clamp(26px, calc((100cqw - 66px) * var(--nb-k, .024)), 48px)}
 .clef__bas{display:flex;flex-direction:column;gap:8px}
 .clef__quoi{font-size:var(--fs-body-s);font-weight:700;line-height:1.35}
 /*
@@ -388,9 +426,9 @@
   C'est le principe de l'accueil, ou `.attend` couvre les titres ET les
   boutons : rien de ce qui est POSE SUR une case n'apparait avant elle.
 */
-.attend :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){transform:scale(0)}
+.attend :is(.clef--plein,.clef__frag,.clef-def__bande){transform:scale(0)}
 .attend :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){opacity:0}
-.vu :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){
+.vu :is(.clef--plein,.clef__frag,.clef-def__bande){
   animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
 .vu :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){
   animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
@@ -419,9 +457,6 @@
   .clef-rangee{display:contents}
   /* La definition reste pleine largeur : elle se lit avant les chiffres. */
   .clef-def{grid-column:1 / -1 !important}
-  .clef-bouche{display:block;position:relative;min-height:170px}
-  .clef-bouche__plat{position:absolute;inset:0;background:var(--grey-mondrian);
-    transform-origin:left top}
   /* Au doigt rien ne se pousse : la rangee s'empile et chaque case prend la
      largeur. Le depliage se fait au clic, dans la case. */
   /*
@@ -443,6 +478,20 @@
     seule rangee et restent en deux fois deux, sans exception a ecrire.
   */
   .clef-case{flex:none;min-height:170px}
+  /*
+    LA DERNIERE CASE D'UN NOMBRE IMPAIR PREND LES DEUX COLONNES.
+
+    Elle etait carree, et un aplat gris fermait la grille a cote d'elle. Le
+    raisonnement tenait tant que le nombre tenait : « 104px d'encre dans
+    343px » disait l'ancien commentaire. Mais « 100,000+ » mesure bien plus
+    que 104px - a 48px de corps dans une colonne de 170, il DEBORDAIT, et le
+    « + » etait coupe net. Une case trop large est un defaut de gout ; une
+    case trop etroite est un defaut tout court.
+
+    L'aplat gris part avec, et le composant perd la case qui le portait : une
+    cellule vide n'existe plus, donc il n'y a plus rien a boucher.
+  */
+  .clef-case--seule{grid-column:1 / -1}
   /*
     LE BOUTON REMPLIT SA CASE, ET PAS SEULEMENT SES 170px. Les deux cases
     d'une rangee sont des elements de grille : la plus haute impose sa hauteur
@@ -560,11 +609,15 @@
 .cadref{--fr:1.6;--k:calc(var(--r) * var(--fr));
   position:relative;display:block;overflow:hidden;line-height:0;
   aspect-ratio:16 / 10;background:var(--white);
-  border:var(--rule-fine) solid var(--text)}
+  border:var(--rule-fine) solid var(--cadre)}
 /* l'image deborde le cadre par le bas : hauteur libre, ancree en haut */
-.cadref :is(img,picture,picture img){position:absolute;top:0;left:0;
-  width:100%;height:auto;display:block}
-@keyframes defileCadre{from{top:0}to{top:calc((1 - var(--k)) * 100%)}}
+.cadref{--pad:0px}
+.cadref :is(img,picture,picture img){position:absolute;top:var(--pad);left:var(--pad);
+  width:calc(100% - var(--pad) * 2);height:auto;display:block}
+/* LA MARGE VOYAGE AVEC L'IMAGE. Le defilement anime `top` : une marge haute
+   posee en statique serait ecrasee des la premiere image-cle. Les deux bornes
+   partent donc de `--pad`, qui vaut 0 par defaut et n'a alors aucun effet. */
+@keyframes defileCadre{from{top:var(--pad)}to{top:calc(var(--pad) + (1 - var(--k)) * 100%)}}
 
 /*
   Les declarations d'animation sont ENFERMEES dans no-preference, et ce n'est pas
@@ -610,7 +663,14 @@
 .zoom{all:unset;box-sizing:border-box;display:block;width:100%;height:100%;
   position:relative;cursor:zoom-in;line-height:0}
 .zoom:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
-.zoom__badge{position:absolute;right:10px;bottom:10px;z-index:2;
+/*
+  LE BADGE EST DANS LE COIN DU CADRE, PAS POSE SUR LA PLANCHE. A 10px des
+  bords il tombait en plein milieu du lisere bleu que les planches de strategie
+  portent elles-memes, et on ne savait plus ce qui appartenait a l'image et ce
+  qui appartenait au site. Colle au coin, il se lit comme ce qu'il est - une
+  commande du cadre - et il ne mord plus sur le dessin.
+*/
+.zoom__badge{position:absolute;right:0;bottom:0;z-index:2;
   width:30px;height:30px;display:grid;place-items:center;
   background:var(--white);color:var(--text);
   border:var(--rule-fine) solid var(--text);
@@ -678,7 +738,18 @@
 .pan .vers__nom{margin:0;font-family:var(--display);font-size:24px;
   line-height:1.1;font-weight:900;display:flex;align-items:center;gap:10px;
   flex-wrap:wrap}
-.pan .vers__propos{margin:0;font-size:var(--fs-body);line-height:1.7;
+/*
+  A L'ECHELLE D'UNE LEGENDE, ET C'EST UNE QUESTION DE RANG. Le propos d'un
+  concept annonce la pile de planches posee juste dessous : au corps de texte
+  il pesait autant que les paragraphes de la sous-partie, alors qu'il n'est
+  qu'un intitule - et il passait devant les legendes de ses propres planches.
+
+  IL GARDE L'ENCRE DU CORPS, lui. La taille et l'interligne d'une legende
+  suffisent a le ranger ; le gris de `.cap` en ferait un commentaire, or c'est
+  lui qui porte la comparaison. Trois rangs, donc : le nom du concept, son
+  propos, puis les legendes des planches.
+*/
+.pan .vers__propos{margin:0;font-size:var(--fs-caption);line-height:1.55;
   color:var(--text-body)}
 
 /* ─── Le dessin au trait et son propos ─── */
@@ -689,12 +760,6 @@
   propres aplats et partent donc en <img>, ou leurs classes .cls-N sorties
   d'Illustrator ne peuvent pas se marcher dessus.
 */
-.pan .taught{display:grid;grid-template-columns:minmax(0,240px) minmax(0,1fr);
-  gap:40px;align-items:start}
-.pan .taught__viz{aspect-ratio:1;display:grid;place-items:center;padding:22px;
-  background:var(--white);border:var(--rule-fine) solid var(--text);
-  color:var(--accent)}
-.pan .taught__viz svg{width:100%;height:auto;display:block}
 
 @media(max-width:860px){
   /*
@@ -774,7 +839,17 @@
   selecteur elles n'auraient ni fond blanc, ni rognage, ni filet - c'est la
   meme paire que `.comp > *,.principes > *` sur l'accueil.
 */
-.compo > *,.compo .tuiles--cases > *{background:var(--white);min-width:0;
+/*
+  LES TROIS SELECTEURS, ET PAS SEULEMENT LE PREMIER. Une serie de tuiles ou le
+  bandeau des chiffres posee dans une composition passe en `display:contents` :
+  ce sont alors SES enfants qui sont les cases de la grille, pas elle. Sans les
+  selecteurs qui les visent, ces cases-la n'ont ni fond blanc, ni rognage, ni
+  filet - et le bandeau est arrive dans la composition sans son filet, ce qui
+  laissait les trois chiffres flotter entre les cartes qui, elles, avaient le
+  leur.
+*/
+.compo > *,.compo .tuiles--cases > *,
+.compo .clef-case,.compo .clef-def{background:var(--white);min-width:0;
   position:relative;overflow:hidden;box-shadow:0 0 0 var(--rule-fine) var(--text)}
 
 /*
@@ -833,10 +908,46 @@
   gap:12px;font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.18em;
   text-transform:uppercase}
 .dcarte__corps{display:flex;flex-direction:column;gap:12px}
+/*
+  ═══ LE SURTITRE DE LA QUATRIEME CARTE EST EN NEGATIF ═══
+
+  Sur chaque etude, la quatrieme carte nomme ce que le cas a d'unique - le
+  point de bascule. L'equipe pour Governance, le standard pour Language. C'est
+  la seule des quatre qui ne suive pas le systeme mais ce qui l'a fait
+  basculer, et elle doit se reperer AVANT d'etre lue.
+
+  La place qu'elle occupe dans la composition le dit deja sur Language, mais
+  pas sur les deux autres, dont les compositions different. Le surtitre, lui,
+  est au meme endroit partout : c'est donc lui qui porte le signe, et il le
+  portera de la meme maniere sur les trois.
+
+  SUR LE SEUL RANG DU TEXTE, PAS SUR TOUTE LA LARGEUR : l'aplat se cale sur le
+  mot, comme un surlignage, et laisse le « + » a sa place a droite. Un bandeau
+  pleine largeur aurait fait une barre de titre, ce qui est autre chose.
+
+  A L'OUVERTURE, LA CARTE DEVIENT NOIRE et le surtitre y disparaitrait : il
+  passe alors en blanc sur noir, c'est-a-dire a l'inverse - le texte reprend sa
+  couleur de carte ouverte et l'aplat s'efface.
+*/
+.dcarte--noir .dcarte__eyebrow > span:first-child{
+  background:var(--ink);color:var(--white);
+  padding:5px 9px;margin:-5px 0 -5px -9px}
+.dcarte--noir[aria-expanded="true"] .dcarte__eyebrow > span:first-child{
+  background:none;color:var(--white);padding:5px 0;margin:-5px 0}
+/*
+  UN SEUL CORPS POUR LES TITRES DE CARTE, SUR LES TROIS ETUDES. Le titre des
+  cartes `large` portait 28px contre 24 aux autres, au motif que « la carte 01
+  est la plus grande des trois ». Ce motif a cesse d'etre vrai : les
+  compositions ont ete redessinees, chaque etude a maintenant trois ou quatre
+  cartes dont une ou deux sont larges, et le lecteur voit deux corps de titre
+  cote a cote dans une meme composition sans que rien ne les distingue d'autre.
+
+  LE MODIFICATEUR GARDE SON SENS, il ne porte simplement plus la typographie :
+  `large` dit une case plus large, pas un titre plus gros. 24px est le corps
+  que la majorite des cartes portaient deja, et aucun titre n'y gagne de ligne.
+*/
 .dcarte__titre{font-family:var(--display);font-size:24px;line-height:1.1;
   font-weight:900;max-width:420px}
-/* La carte 01 est la plus grande des trois : son titre porte un cran de plus. */
-.dcarte--large .dcarte__titre{font-size:28px}
 .dcarte__synthese{font-size:var(--fs-body-s);line-height:1.55;font-weight:500;
   opacity:.85;max-width:420px}
 /* Le « + » devient × quand la carte est ouverte (BRIEF §2.7), au meme endroit
@@ -1191,6 +1302,31 @@
   .dcarte__point::before{content:"";position:absolute;left:0;top:.45em;
     width:8px;height:8px;background:var(--puce,currentColor)}
 }
+/*
+  ─── La tablette garde les puces et rend le cadre ───
+
+  Entre 861 et 1119px la carte est encore une case de la composition : elle a
+  ses voisines, ses filets et l'aplat de sa rangee autour d'elle. Le cadre des
+  puces - deux traits, une verticale et la bande coloree - y ajoute une
+  seconde grille a l'interieur de la premiere, a quelques pixels d'elle, et
+  les deux se concurrencent au lieu de se repondre.
+
+  SOUS 860px LE CADRE RETROUVE SA RAISON et ne bouge donc pas : la bande EST
+  la carte, il n'y a plus de composition autour, et c'est ce cadre qui tient
+  les puces ensemble - sans lui elles flottent sous la synthese.
+
+  Les puces, elles, gardent leur couleur aux deux paliers : c'est le seul
+  endroit ou la carte fermee dit de quoi le chapitre est fait.
+*/
+@media(min-width:861px) and (max-width:1119px){
+  /* 18px, l'ecart de la ligne du bureau : le trait ne separe plus, donc c'est
+     le blanc qui doit le faire, et autant que la ou il n'a jamais ete. */
+  .dcarte__points{margin-top:18px;margin-right:0;padding:0;
+    border-top:0;border-bottom:0}
+  .dcarte__points::after{display:none}
+  .dcarte__bande{display:none}
+  .dcarte__liste{padding-right:0}
+}
 .compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
   font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
   color:var(--text)}
@@ -1370,6 +1506,55 @@
   meme adresse : l'etiquette et ce qu'elle etiquette. La marge negative reprend
   20 des 32, et c'est la seule facon d'agir sur UN gap d'un conteneur flex.
 */
+/*
+  ═══ LES QUATRE ECARTS D'UNE SOUS-PARTIE, ET IL N'Y EN A PAS D'AUTRE ═══
+
+  12px  un surtitre et ce qu'il etiquette, texte ou bande
+  32px  deux blocs de texte, dans les deux sens
+  56px  un bloc de texte et une bande visuelle, dans les deux sens
+  80px  deux bandes visuelles qui se suivent : chacune porte ses 24
+
+  Mesure sur les trois etudes a 1280px : chaque type de paire ne prend qu'une
+  seule valeur, et la meme d'une page a l'autre. Les 80px sont la consequence
+  assumee de la ligne ci-dessous - deux series distinctes qui se suivent
+  veulent plus d'air que deux paragraphes, et les ramener a 56 demanderait une
+  regle de voisinage qui ne tient pas (voir juste en dessous pourquoi).
+
+  UN GROUPE DE VISUELS APPELLE PLUS D'AIR QUE DEUX PARAGRAPHES. Le `gap` de la
+  sous-partie vaut 32px et convient entre deux blocs de texte ; entre la
+  derniere legende d'une rangee de figures et la these suivante, a 34px de
+  corps, les deux se touchent. Mesure : les trois livrables et « It reached
+  well past... » se suivaient a 32px, legende comprise.
+
+  LA REGLE EST SYMETRIQUE, ET ELLE NE L'ETAIT PAS. L'air n'etait pose QU'APRES
+  le groupe, sauf pour les tuiles qui portaient une marge des deux cotes a
+  elles seules. Une meme situation prenait donc deux valeurs selon le sens de
+  lecture : un carrousel suivi d'un surtitre valait 32px la ou une rangee de
+  figures en valait 56, et un texte suivi d'une serie de tuiles en valait 56 la
+  ou le meme texte suivi d'un carrousel en valait 32. Mesure sur les trois
+  etudes : 12, 32 et 56 existaient deja, mais pas pour les memes paires.
+
+  LE CARROUSEL ET LA BANDE DE NUANCIERS REJOIGNENT LA LISTE. Rien ne les en
+  distinguait sinon l'oubli : ce sont des bandes visuelles comme les autres.
+
+  LE SURTITRE RESTE DEHORS, et c'est la seule exception : il NOMME la bande qui
+  le suit, il ne s'en separe pas. Il garde donc ses 12px, dans les deux cas.
+*/
+/*
+  L'AIR EST PORTE PAR LA BANDE, ET NON PAR SON VOISIN - parce qu'une regle de
+  voisinage ne tient pas ici. Astro emet le script de chaque composant comme
+  un FRERE du composant : entre un carrousel et le paragraphe qui le suit il y
+  a un <script> dans l'arbre, et `+` ne le franchit pas. La regle marchait donc
+  sur les blocs ecrits a la main dans la page et sautait silencieusement sur
+  les composants - carrousel, tuiles -, ce qui explique exactement les quatre
+  ecarts a 32px qui restaient. Une marge posee sur la bande elle-meme n'a
+  besoin d'aucun voisin, donc rien a franchir.
+*/
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw,.ba){margin:24px 0}
+/* SAUF SOUS SON PROPRE SURTITRE : il nomme la bande, il ne s'en separe pas.
+   Ici `+` est sur et le restera - un surtitre est un <p> ecrit dans la page,
+   jamais un composant, donc aucun script ne peut s'intercaler. */
+.pan .subsec > .eb + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw,.ba){margin-top:0}
 .pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */
@@ -1382,24 +1567,16 @@
 .pan .body{display:flex;flex-direction:column;gap:16px;font-size:var(--fs-body);
   line-height:1.7;color:var(--text-body)}
 .pan .body p{margin:0}
+/* MEME ECART SOUS UN SURTITRE, OU QU'IL SOIT. Dans une sous-partie il vaut 12px
+   - le `gap` de 32 moins les 20 de marge negative ci-dessus. Dans un `.body` le
+   `gap` n'en fait que 16 : sans ce rattrapage, un surtitre pose dans la colonne
+   du texte respirerait quatre pixels de plus que tous les autres. */
+.pan .body > .eb{margin-bottom:-4px}
 .pan .body strong,.pan .body b{color:var(--text)}
 /* Citation : filet bleu a gauche, italique. */
 .pan .qt{margin:0;padding-left:20px;border-left:3px solid var(--blue);
   font-size:17px;line-height:1.65;font-style:italic;color:var(--text-body);
   max-width:720px}
-/*
-  Les puces n'ont pas de glyphe mais un TIRET dessine - 14px sur 2px, la meme
-  epaisseur que les filets de l'accueil. `list-style:none` + ::before : un
-  marqueur natif n'aurait ni cette longueur ni cet alignement.
-*/
-.pan .pts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;
-  gap:12px}
-.pan .pts li{position:relative;padding-left:28px;font-size:var(--fs-body);
-  line-height:1.6;color:var(--text-body)}
-.pan .pts li::before{content:"";position:absolute;left:0;top:.8em;width:14px;
-  height:2px;background:var(--text)}
-.pan .pts strong,.pan .pts b{color:var(--text)}
-
 /* ─── Bloc noir ─── */
 .pan .dark{background:var(--ink);color:var(--on-ink);border-radius:var(--r-footer);
   padding:var(--pad-square);display:flex;flex-direction:column;gap:18px;
@@ -1435,7 +1612,24 @@
 */
 .fig{margin:0;display:flex;flex-direction:column;gap:10px;min-width:0}
 .fig__cadre{position:relative;overflow:hidden;border-radius:var(--r-media);
-  background:var(--placeholder)}
+  background:var(--placeholder);border:var(--rule-fine) solid var(--cadre)}
+/*
+  LE BLANC TOURNANT D'UNE PLANCHE. Une capture plein cadre remplit sa case -
+  le cadre est le bord de ce qu'on montre. Une PLANCHE, elle, est un document
+  qu'on pose : page de brandbook, rapport trimestriel, carte des capabilities.
+  Au ras du filet, elle se lit comme une capture rognee ; `aere` lui rend un
+  blanc tournant, et le fond de la case reste sous elle.
+*/
+.fig--aere .fig__cadre{padding:18px;background:var(--white)}
+/*
+  LE MEME BLANC DANS UN CADRE QUI DEFILE, PAR UNE SEULE VALEUR. `--pad` sert
+  aux trois endroits qui doivent s'accorder : le padding du cadre, le calage
+  de l'image - dont les pourcentages se resolvent sur la boite de PADDING, donc
+  un padding seul la laisserait deborder - et les deux bornes du defilement.
+*/
+.fig--aere .cadref{--pad:20px;padding:var(--pad)}
+@media(max-width:860px){.fig--aere .cadref{--pad:12px}}
+@media(max-width:860px){.fig--aere .fig__cadre{padding:12px}}
 .fig__cadre :is(img,picture,picture img){display:block;width:100%;height:100%;
   object-fit:var(--fit,contain)}
 /* Emplacement en attente d'image : il DOIT se voir comme tel. */
@@ -1443,6 +1637,22 @@
   justify-content:center;text-align:center;padding:12px;
   font-size:var(--fs-eyebrow);letter-spacing:.1em;text-transform:uppercase;
   color:var(--ink-muted)}
+/*
+  LE BLANC TOURNANT DES ILLUSTRATIONS. Un cadre de figure sert deux choses qui
+  ne se traitent pas pareil : une CAPTURE, dont le cadre est le bord de la page
+  montree et qui doit donc le remplir ; et une ILLUSTRATION, qui n'a pas de bord
+  a elle. Posees en `contain` dans un cadre carre, les treize vignettes des
+  personnages venaient taper les quatre cotes de l'aplat - le dessin se lisait
+  comme une capture rognee au ras.
+
+  Le blanc est pose sur le CADRE et non sur l'image : `box-sizing:border-box`
+  etant global, l'image garde `height:100%` et `contain` recalcule dans ce qui
+  reste. L'aplat de fond, lui, continue d'occuper toute la case - c'est le
+  dessin qui recule, pas la couleur.
+*/
+.carrousel--aere .fig__cadre{padding:26px}
+@media(max-width:860px){.carrousel--aere .fig__cadre{padding:16px}}
+
 .cap{font-size:var(--fs-caption);line-height:1.55;color:var(--ink-muted)}
 .cap strong{color:var(--text)}
 /* Pastille Retained / Not retained - le seul arrondi du site avec le footer. */
@@ -1454,9 +1664,28 @@
 /* ─── Nuancier des capabilities ─── */
 /* Le nombre de colonnes est pose par la page : huit capabilities metier sur la
    maquette, dix avec la fonction elle-meme et ses interlocuteurs. */
-.pan .sw{display:grid;grid-template-columns:repeat(var(--swc,8),minmax(0,1fr));
-  gap:10px;margin:0;padding:0;list-style:none}
-.pan .swi{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-eyebrow);
+/*
+  UNE SEULE LIGNE, ET ELLE DEFILE AU DOIGT.
+
+  Le nuancier etait une grille de cinq colonnes, donc DEUX rangees de cinq pour
+  dix capabilities. Une couleur par capability se lit comme une serie : coupee
+  en deux, elle se lit comme deux series, et on compare cinq couleurs avec cinq
+  autres au lieu de voir la palette.
+
+  Une seule ligne, donc, et `flex:1 1 0` la fait tenir entiere au bureau. Sous
+  le palier, les cases prennent une largeur FIXE superieure a ce que la ligne
+  peut porter : elle deborde, et c'est ce debordement qui la fait defiler. Le
+  calage par `scroll-snap` arrete le doigt sur une case et non entre deux.
+
+  LA PISTE EST FOCALISABLE, comme celle du carrousel : une zone qui defile et
+  qu'on ne peut pas atteindre au clavier est une zone dont le contenu n'existe
+  pas pour qui n'a pas de souris.
+*/
+.pan .sw{display:flex;gap:10px;margin:0;padding:0;list-style:none;
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity}
+.pan .sw:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.pan .swi{flex:1 1 0;min-width:0;scroll-snap-align:start;
+  display:flex;flex-direction:column;gap:6px;font-size:var(--fs-eyebrow);
   font-weight:700;line-height:1.3}
 .pan .swc{aspect-ratio:1;border-radius:var(--r-media)}
 .pan .swi code{font-size:10px;font-weight:400;color:var(--ink-muted)}
@@ -1569,8 +1798,65 @@
 .pan .pile--serre{gap:12px}
 .pan .two--serre{gap:12px}
 .pan .split--haut{align-items:start}
+/*
+  LA COLONNE DE DROITE, SANS THESE A GAUCHE. Un `.split` place ses enfants dans
+  l'ordre : un bloc seul tomberait donc dans la colonne de GAUCHE, celle des
+  `.lead`, et prendrait 5fr au lieu de 7. Cette classe le renvoie en colonne 2,
+  pour les blocs qui prolongent une these posee plus haut sans se reannoncer.
+
+  AU-DELA DU PALIER SEULEMENT : sous 861px le `.split` repasse en une colonne,
+  ou un `grid-column:2` ferait naitre une deuxieme colonne implicite.
+*/
+@media(min-width:861px){.pan .split > .split__droite{grid-column:2}}
 /* Un titre de section qui porte en realite le corps d'une phrase forte. */
 .pan .h3--lead{font-size:var(--fs-lead)}
+
+/*
+  ═══ LE RAIL DE CLOTURE ═══
+
+  L'accueil ferme sa composition sur trois cases vides de 56px : on n'y voit
+  pas les cases, on voit LES FILETS QUI LES SEPARENT - un trait horizontal
+  d'un bord a l'autre, et deux verticaux qui en partent vers le bas sans
+  rencontrer quoi que ce soit. La grille ne s'arrete pas, elle s'ouvre.
+
+  Les etudes n'avaient rien de tel : le dernier chapitre se refermait et le
+  footer noir arrivait d'un coup. Le rail leur donne la meme sortie.
+
+  LE DESSIN TIENT AU FOND ET AUX GOUTTIERES, pas a des bordures sur les cases.
+  Le conteneur est noir, les trois cases sont blanches, et les 1,5px qui
+  restent visibles entre elles SONT les filets. Un `padding-top` de la meme
+  valeur donne l'horizontale ; rien en bas, donc les verticales finissent dans
+  le blanc - c'est ce qui les fait « partir » au lieu de fermer une boite.
+
+  DEUX FILETS, ET AUX DEUX BORDS DE LA COMPOSITION. Celui du milieu a saute :
+  trois coupes sous une page qui finit faisaient une regle graduee, la ou deux
+  suffisent a dire que la grille continue. Restent 3 et 9 - le bord droit des
+  chiffres de gauche, et le bord gauche de la colonne du bloc - soit les deux
+  verticales qui encadrent la composition.
+
+  TROIS COLONNES POUR TROIS CASES. Elles avaient ete portees a quatre sans que
+  le markup suive : la quatrieme n'avait pas d'enfant, donc le fond noir du
+  conteneur s'y voyait en plein, et le rail finissait sur un aplat au lieu de
+  finir sur du blanc.
+
+  SES COLONNES SONT CELLES DE LA COMPOSITION, ET SES COUPES AUSSI. Il flottait
+  a 72px du dernier chapitre avec des largeurs a lui : deux verticales qui ne
+  prolongeaient rien, donc un ornement. Trois, trois et six douziemes posent
+  ses coupes a la troisieme et a la sixieme colonne - exactement les deux
+  filets qui traversent la composition en haut de page. Ce sont les MEMES deux
+  lignes qui reparaissent en bas et s'en vont dans le blanc.
+
+  ET IL EST COLLE A CE QUI PRECEDE : la marge haute tombe a zero. Un rail
+  separe du contenu par du blanc se lit comme un bloc ; au contact, il se lit
+  comme la fin de la grille.
+
+  PAS SOUS LE PALIER : l'accueil eteint ses rails sous 860px, ou la grille
+  devient une colonne et ou deux verticales n'ont plus rien a prolonger.
+*/
+.rails{display:grid;grid-template-columns:3fr 6fr 3fr;gap:var(--rule-fine);
+  background:var(--text);padding-top:var(--rule-fine);margin-top:0}
+.rails > *{background:var(--white);min-height:56px}
+@media(max-width:860px){.rails{display:none}}
 
 /* ─── Bloc de fin de section ─── */
 .pan .closing{display:flex;flex-direction:column;gap:24px;padding-top:24px}
@@ -1624,13 +1910,41 @@
   /* une colonne : plus de rangees a partager, chaque concept redevient une pile */
   .pan .versus{grid-template-columns:1fr;grid-template-rows:none;gap:40px}
   .pan .vers{grid-row:auto;display:flex;flex-direction:column}
-  .pan .three,.pan .four{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .pan .sw{grid-template-columns:repeat(4,minmax(0,1fr))}
+  /*
+    ─── Les bandes d'images deviennent des pistes ───
+
+    Trois maquettes de sanofi.com sur deux colonnes de telephone, c'est 150px
+    chacune pour des pages entieres : on voit qu'il y a eu trois directions,
+    on n'en lit aucune. Et la troisieme, orpheline, ouvrait une seconde rangee
+    a moitie vide. Chaque planche prend donc la colonne, et on passe de l'une
+    a l'autre au doigt.
+
+    88% ET NON 100% : c'est la planche suivante qui depasse qui dit qu'on peut
+    defiler, pas une pastille. Meme largeur et meme raison que les vignettes
+    du carrousel sur telephone (voir Carrousel.astro).
+
+    LA MOSAIQUE PERD SON PLACEMENT A LA MAIN, qui ne valait de toute facon
+    qu'au-dessus du palier (voir --aire). En piste, ses cases n'ont plus de
+    rangee pour leur donner une hauteur : elles reprennent le 4/3 des autres
+    planches, et gardent leur gouttiere de 8px.
+
+    `tabindex` EST POSE PAR LE SCRIPT, pas ici : une requete media ne retire
+    pas un attribut, et au-dessus du palier ces bandes sont des grilles ou
+    l'arret de tabulation ne menerait nulle part. Voir src/scripts/pistes.ts.
+  */
+  .pan :is(.three,.four,.mosaic){display:flex;gap:20px;overflow-x:auto;
+    scroll-snap-type:x proximity;padding-bottom:8px;scrollbar-width:thin}
+  .pan :is(.three,.four,.mosaic) > *{flex:0 0 88%;min-width:0;
+    scroll-snap-align:start}
+  .pan :is(.three,.four,.mosaic):focus-visible{outline:3px solid var(--focus);
+    outline-offset:4px}
+  .pan .mosaic{gap:8px}
+  .pan .mosaic > *{aspect-ratio:4 / 3}
+  /* La case cesse de se partager la largeur et en prend une a elle : c'est ce
+     qui fait deborder la ligne, donc defiler. */
+  .pan .swi{flex:0 0 38%}
   .pan .lead{font-size:28px}
   .pan .dark{padding:28px}
-  .pan .mosaic{--cols:2;grid-auto-rows:110px}
-  .pan .taught{grid-template-columns:1fr;gap:20px}
-  .pan .taught__viz{max-width:200px}
   /*
     LA PILE SE DEPLIE EN COLONNE. Sept planches empilees dans un cadre de 4/3
     ne tiennent que parce qu'une rotation les distingue ; sur une colonne de

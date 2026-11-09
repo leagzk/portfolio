@@ -38,9 +38,6 @@
     · LA LOUPE (<Loupe>) pour les planches de travail et les pages entieres :
       une mosaique de discovery ne se lit pas a 150px.
 
-  Et les deux dessins au trait - brand-communication, brand-variation-visual -
-  sont INLINES et non poses en <img>, contrairement aux personnages : eux seuls
-  suivent --accent par currentColor, qui ne descend pas dans un <img>.
 
   LES SVG DES PERSONNAGES SONT CHARGES EN URL (`?url`) ET POSES EN <img>, PAS
   INLINES. Inliner ne servirait qu'a laisser currentColor descendre, et ces
@@ -69,10 +66,6 @@ import Bouton from '../components/Bouton.astro';
 import { chercheurImages } from '../lib/images';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-/* INLINES, contrairement aux personnages : ces deux dessins-la suivent le theme
-   par currentColor, ce qu'un <img> ne permet pas. */
-import BrandCommunication from '../assets/brand-system/brand-communication.svg';
-import BrandVariation from '../assets/brand-system/brand-variation-visual.svg';
 
 /* Resolus a la compilation : un nom errone casse le build, la ou un chemin en
    chaine aurait produit un 404 silencieux en production. */
@@ -92,14 +85,45 @@ const dessin = (nom: string): string => {
 
 /* ─── Chiffres cles (BRIEF §5.2) ─── */
 const chiffres: Chiffre[] = [
-  { nombre: '2,500', quoi: 'people shipping on-brand', couleur: 'rouge', motif: 'plein',
+  { nombre: '2,500+', quoi: 'people shipping on-brand', couleur: 'rouge', motif: 'plein',
     contexte: 'From COMEX to front-line, with no bottleneck in the middle.' },
-  { nombre: '200+', quoi: 'campaigns and internal events', couleur: 'bleu', motif: 'bande',
+  /* PLEIN ET NON `bande` : la case etait blanche avec un filet bleu en bas, et
+     l'aplat bleu vivait a cote, dans une case vide. La couleur revient sur ce
+     qu'elle designe - c'est la grammaire de l'accueil, ou elle est TOUJOURS
+     portee par une case qui dit quelque chose. */
+  { nombre: '200+', quoi: 'campaigns and internal events', couleur: 'bleu', motif: 'plein',
     contexte: 'All of them ran on the system. The default way things shipped.' },
-  { nombre: '6,000', quoi: 'participants reached', couleur: 'jaune', motif: 'plein',
-    contexte: "Sanofi's first hackathons, run on the platform. One idea shipped: Theia®, an app for patients living with sight loss." },
-  { nombre: '1', quoi: 'standard, one pilot', couleur: 'rouge', motif: 'carre',
-    contexte: 'The 2022 rebrand, translated for screens and piloted on sanofi.com.' },
+  /*
+    LA PORTEE REELLE, ET NON UN EXEMPLE DE PORTEE. Cette case disait « 6,000
+    participants reached », pour les premiers hackathons de Sanofi. C'etait un
+    beau chiffre au mauvais endroit : il mesurait UN dispositif - l'innovation -
+    la ou les trois autres cases mesurent la plateforme. Un VP y lisait le
+    plafond de la chose alors qu'il en lisait une anecdote.
+
+    La portee de l'IT, c'est l'entreprise entiere : une notification du support,
+    l'annonce d'un rollout, un evenement sur son propre site - chaque Sanofien
+    croisait la plateforme quelque part dans sa journee. Le hackathon et Theia®
+    n'ont pas disparu, ils sont passes en prose dans « Adoption », ou ils
+    prouvent quelque chose au lieu de resumer.
+  */
+  /*
+    TROIS CHIFFRES, ET LE PLUS LARGE EN PLEINE BANDE. La rangee en portait un
+    quatrieme - « 1 - standard, one pilot » - qui n'etait pas une preuve mais
+    un fait : un pilote se raconte, il ne se compte pas, et le chapitre 04 le
+    fait. Il etait la pour completer la rangee, ce qui est la mauvaise raison
+    de garder un chiffre.
+
+    A trois, la coupe de la bande donne deux cases en haut et celle-ci en
+    dessous, sur toute la largeur - c'est le dispositif de l'accueil, ou la
+    citation prend la bande sous le duo des principes. La portee y gagne : le
+    nombre le plus fort de la page cesse d'etre une case parmi quatre.
+  */
+  { nombre: '100,000+', quoi: 'Sanofians reached, worldwide', couleur: 'jaune', motif: 'plein',
+    /* CE QUE LA PROSE NE DIT PAS. Ce detail enumerait la notification, le
+       rollout et l'evenement - mot pour mot la phrase du chapitre Adoption, a
+       quatre ecrans de la. La case garde l'echelle, le chapitre garde
+       l'exemple : c'est lui qui a la place de le derouler. */
+    contexte: 'Not an audience, a headcount: the platform reached every Sanofian, worldwide. At that size consistency stops being taste and becomes infrastructure.' },
 ];
 
 /*
@@ -176,6 +200,58 @@ const newsletter = {
   src: img('digital-rd-newsletter'),
   legende: 'ITS R&amp;D newsletter',
   alt: 'The ITS R&D newsletter sent to the department',
+};
+
+/*
+  ─── Captivate : ce que la plateforme a porte, et ce qui est revenu ───
+
+  Le chapitre 03 affirme que les gens se servaient de la plateforme sans qu'on
+  le leur demande. Ces captures sont la seule preuve DIRECTE de cette phrase
+  sur la page : le reste est raconte, celles-ci sont les mots des gens.
+
+  TROIS DATES, PAS TROIS TEMOIGNAGES. Prises ensemble elles ne disent pas « on
+  a aime », elles disent qu'un programme lance en 2018 produisait encore un
+  resultat en 2022 - la demande d'en refaire, l'edition suivante, puis Theia
+  quatre ans plus tard. C'est pour ca qu'elles sont dans « Adoption » et
+  rangees par annee.
+
+  UNE SEULE IMAGE, ET UNE SEULE ECHELLE DE TEXTE. Les trois captures etaient
+  posees en trois figures pleine colonne, chacune avec sa legende : trois
+  bandes qui se suivaient sans se repondre. Elles sont desormais composees en
+  un seul fil - et il a fallu les remettre a la meme echelle pour cela, les
+  zooms de capture differant du simple au double (avatar de 117px contre 62).
+  Voir scratchpad/fil.mjs pour la composition.
+
+  LE VERBATIM RESTE LISIBLE DANS L'IMAGE et l'alt porte le propos : ne rien
+  mettre aurait laisse la synthese vocale devant une image muette.
+*/
+const filCaptivate = {
+  nom: 'captivate-thread-2018-2022',
+  legende: 'Three replies on the internal community &middot; 2018, 2019, 2022',
+  alt: 'Three internal comments on Captivate between 2018 and 2022: a request for a hackathon-as-a-service offering, eighty hackers prototyping at the XLab, and Theia credited to the hackathon four years on',
+};
+
+const annonce = {
+  nom: 'captivate-announcement-2018',
+  legende: 'The launch post, on the internal Digital Community',
+  alt: 'The Sanofi Captivate hackathon announced on the internal Digital Community, a post built on the brand platform and seen by 1,024 people',
+};
+
+/*
+  LE FIL PUBLIC EST UNE PAGE ENTIERE : 680 de large pour 2 780 de haut, soit
+  quatre fois sa largeur. Il prend donc le cadre qui defile, comme la
+  newsletter et les pages de sanofi.com - en `contain` dans un cadre de 3/4 il
+  se reduirait a une bande de 18%.
+
+  ROGNE SUR LA SEULE COLONNE DU POST. La capture d'origine portait toute la
+  page LinkedIn : la barre de navigation, la colonne « People also viewed », et
+  le panneau de compte de Lea - statut Premium, nombre de vues du profil et des
+  publications. Rien de tout cela n'appartient a l'etude.
+*/
+const threadLinkedIn = {
+  src: img('theia-linkedin-thread'),
+  legende: 'Theia&rsquo;s launch on LinkedIn &middot; 225 reactions, 27 comments',
+  alt: "The public LinkedIn thread on Theia's launch, where Sanofi France's president and the project team comment on an app that started at the Captivate hackathon",
 };
 
 /*
@@ -303,29 +379,6 @@ const pilote: Vignette[] = [
 ].map((e) => ({ src: img(e.nom), alt: e.alt, legende: e.legende, defile: e.defile, titre: e.titre }));
 
 /*
-  ─── La frise 2018 → 2023, en tuiles qui se retournent ───
-  Le verbe en italique est le propos : il bascule a chaque palier et c'est le
-  seul mot qui change. LES QUATRE VERBES DOIVENT DIFFERER - deux fois le meme
-  dirait qu'il ne s'est rien passe entre les deux.
-  Le surtitre est RAPPELE au verso : l'annee est le repere, on doit savoir de
-  quel palier on lit le detail.
-*/
-const frise: Tuile[] = [
-  { eyebrow: '2018', rappel: true, couleur: 'rouge',
-    titre: 'communication <em>was</em> the system',
-    texte: "Digital Communication Service Owner. IT's brand platform built end to end - brand, communication, production - for 2,500 people." },
-  { eyebrow: '2020', rappel: true, couleur: 'bleu',
-    titre: 'the system <em>outlived</em> its own identity',
-    texte: 'A reorg reset the identity from the top. I versioned it instead of defending it - V1 made IT legible, V2 made it navigable.' },
-  { eyebrow: '2022', rappel: true, couleur: 'jaune',
-    titre: 'the brand <em>became</em> the system',
-    texte: 'Sanofi unified every internal identity. As Product Design Lead, I translated it for screens - one standard, piloted on sanofi.com.' },
-  { eyebrow: '2023', rappel: true, couleur: 'noir',
-    titre: 'the system <em>grew</em> into the method',
-    texte: "Understand each craft, translate it to the others, systematize what's left. That's where Elements Design System begins." },
-];
-
-/*
   ─── Les quatre pratiques standardisees ───
   L'ordre porte le « each one feeds the next » de l'entete : le rituel fait
   remonter le besoin, le calendrier l'arbitre, le plan le met en forme, la
@@ -352,19 +405,35 @@ const pratiques: Tuile[] = [
     courant="system-brand"
     eyebrow="Systematize a brand · Sanofi · 2018 - 2022"
     filigrane="Language"
-    mesure={13.4}
+    {/* Relevee sur le build pour la nouvelle phrase : elle tient en deux
+        lignes des 11,7em, plus les 0,3 d'arrondi que la prop demande. */}
+    mesure={12}
   >
-    At 2,500 people, a brand isn't a charter, it's a shared language.
+    A function run like a brand. A brand run like a service.
+    {/*
+      DEUX PARAGRAPHES, COMME GOVERNANCE. L'intro tenait en un seul bloc la ou
+      l'autre etude en pose deux : le premier mandat et ce qu'il a produit,
+      puis le role suivant et le deplacement qu'il opere, nomme en gras a la
+      fin. Les deux etudes se lisent desormais dans la meme forme.
+    */}
     <Fragment slot="intro">
-      I built IT's brand platform to make an invisible function legible - then
-      handed its people the language to talk about it themselves. In 2022, I took
-      the part nobody had defined: what the new corporate brand becomes on a screen.
+      <p>
+        I first built IT's brand platform as Digital Communication Service
+        Owner, to make <b>an invisible function legible</b> and hand the people
+        inside it <b>a language they could use without me</b>. Not a charter -
+        a production line, and the practice that kept it running.
+      </p>
+      <p>
+        Four years later the whole company rebranded, and the same problem
+        came back one level up - on screens this time, across every product
+        Sanofi shipped. I took it as <b>Product Design Lead</b>: one answer
+        for the portfolio, not one per product.
+      </p>
     </Fragment>
   </Hero>
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} variante="mondrian" />
 
     {/*
       ─── La composition des 3 cartes (BRIEF §5.3) ───
@@ -380,57 +449,177 @@ const pratiques: Tuile[] = [
       elles sont aria-hidden et ne sont pas focalisables.
     */}
     <div class="compo" id="composition" data-grille>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 1 / 2 / 2"><span class="compo__plat compo__plat--gris"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 2 / 2 / 3"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 3 / 2 / 4"><span class="compo__plat compo__plat--bleu"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 1 / 3 / 2"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 2 / 3 / 3"><span class="compo__plat compo__plat--noir"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 3 / 3 / 4"><span class="compo__plat compo__plat--rouge"></span></div>
 
+      {/*
+        LA CASE QUI DIT CE QU'EST L'OBJET, sur le modele de Governance. La page
+        passait du hero aux quatre chiffres : on lisait une portee avant de savoir
+        de QUOI on lisait la portee. Le hero raconte un parcours - « j'ai
+        construit, puis j'ai pris » - pas une definition.
+
+        SANS BOUTON, comme sur Governance : la case affirme, elle n'envoie nulle
+        part. Et la derniere ligne annonce le pivot - sanofi.com, les tokens -
+        parce que c'est la preuve externe de cette etude, ce que le prix est a
+        l'autre.
+      */}
+    <ChiffresCles chiffres={chiffres} variante="mondrian">
+        <Fragment slot="definition">
+          {/*
+            « THE BRAND PLATFORM » ET NON « THE PLATFORM ». Le mot seul mettait
+            cette etude en concurrence avec Governance, ou « platform » designe
+            l'experience design platform : deux objets de nature differente
+            portant le meme nom a deux clics l'un de l'autre. L'adjectif dit de
+            quelle plateforme on parle, et la question ne se pose plus.
+          */}
+          <p class="clef-def__eb">The brand platform</p>
+          <p class="clef-def__phrase"><strong>Mission, positioning and tone of voice</strong> set what IT stood for and how it was allowed to sound, inside the Sanofi corporate brand rather than beside it. From them came a visual territory, and an operational asset for every intent it had to serve.</p>
+          {/*
+            CE QUI SE PASSE ICI, ET NON OU CA A ATTERRI. Cette ligne disait
+            « Piloted on sanofi.com in 2022 » : un jalon d'execution, pose a
+            l'endroit ou la page doit dire ce que le cas APPORTE. Le pilote est
+            raconte au chapitre 04, a sa place.
+
+            Ce que cette etude a d'unique, c'est que sa maniere de systematiser
+            est celle qui tourne encore - elle n'a pas ete remplacee par Elements,
+            elle en est l'origine. C'est le pivot entre les deux etudes, et c'est
+            ce que le prix est a Governance : la preuve que l'objet a compte
+            au-dela de lui-meme.
+          */}
+          <p class="clef-def__prix">Three identities in four years, and the same platform carried all three.</p>
+        </Fragment>
+      </ChiffresCles>
+
+      {/*
+        DEUX APLATS, LA OU IL Y EN AVAIT DIX. Les anciennes cases decoratives
+        etaient des bandes d'une colonne sur une rangee fine : a dix, elles
+        faisaient lire un lisere raye plutot qu'une composition. Celles-ci sont
+        des CARRES de trois colonnes sur une rangee de 268px - la mesure des
+        trois chiffres d'a cote - et c'est la grammaire de l'accueil, ou la
+        couleur occupe des cases entieres.
+      */}
+      {/*
+        UN SEUL APLAT DANS TOUTE LA COMPOSITION. Elle en a porte dix, puis
+        quatre, puis deux. Celui-ci borde la carte 04 et ferme la page par le
+        bas a gauche, en rappel du carre rouge qui l'ouvre en haut a gauche.
+        Tout le reste des cases porte desormais du contenu : c'est ce qui
+        separe une composition d'un decor.
+      */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
+      {/* LE NOIR PASSE DE LA BANDE AU CARRE. Il tenait une colonne sur toute
+          la hauteur d'une rangee - 88 de large pour 268 de haut - soit une
+          barre ; et une barre a cote de trois carres de 267 ne donne pas
+          d'echelle, seulement un contraste de forme. Celui-ci fait 88x88 : un
+          carre, le plus petit de la composition, qui coupe une rangee blanche
+          comme la bande coupait les deux filets. */}
+      {/* LA CASE QUI RESPIRE, A GAUCHE DU PROBLEME. La carte courait sur neuf
+          colonnes, d'un bord au bloc : une bande, et rien pour la poser. Trois
+          colonnes de blanc la ramenent a six et la CENTRENT entre le carre
+          vide et la colonne du bloc. C'est la seule case de la composition qui
+          ne porte rien, et c'est son role. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
+      {/* LE FILET DE LA POINTE HAUTE-GAUCHE. Le carre noir avait deja un filet
+          sur son coin droit - c'est la verticale qui descend des trois
+          chiffres et s'arrete sur lui. Son coin gauche n'en avait pas. La case
+          blanche se coupe donc a la deuxieme colonne, ce qui pose un court
+          filet juste AU-DESSUS du carre, et rien en dessous : la carte 02
+          n'est pas touchee. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a2"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:k1"><span class="compo__plat compo__plat--noir"></span></div>
+      {/* LE RYTHME TIENT A DEUX ACCENTS ETROITS, ET A RIEN D'AUTRE. Une ligne
+          horizontale de 28px, coloree sur ses trois dernieres colonnes
+          seulement ; et un diviseur vertical d'UNE colonne, pose exactement
+          dans la couture entre les deux cartes du milieu. L'un coupe, l'autre
+          separe - et aucun des deux ne porte de texte, donc aucun des deux ne
+          vole de place. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h1"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h2"><span class="compo__plat compo__plat--jaune"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:v1"><span class="compo__plat compo__plat--bleu"></span></div>
+
+      {/*
+        LES QUATRE CARTES SONT ECRITES DANS L'ORDRE 01 → 02 → 03 → 04, pas dans
+        celui de la composition : c'est le DOM qui donne la tabulation et
+        l'empilement mobile. Leur place au bureau vient de `aire` (grid-area),
+        qui ne depend pas de l'ordre du DOM. Les cases decoratives, elles,
+        suivent la composition - elles sont aria-hidden et ne sont pas
+        focalisables.
+
+        AUCUN TITRE NE REDIT LE LEAD DE SON CHAPITRE. Les trois cartes
+        precedentes le faisaient mot pour mot : « You can't templatize what
+        nobody understands yet. » etait a la fois le titre de la carte 02 et la
+        premiere phrase du chapitre qu'elle ouvre, et « Adopted without being
+        enforced. » ouvrait la 03 et fermait sa premiere sous-partie. On lisait
+        donc deux fois la meme phrase a trente secondes d'intervalle. La carte
+        dit desormais CE QUI S'EST PASSE, le chapitre dit le PRINCIPE.
+      */}
       <CarteDossier
         id="carte-problem"
         rang="01"
         intitule="The problem"
-        titre="IT was a business driver - and nobody outside IT could see it."
-        synthese="Everyone treated as a service desk what was actually driving value. Its role went unexplained, its image was dated, every team improvised the brand - and shadow IT filled the gap."
+        titre="A function driving the business, read as a service desk."
+        synthese="A positioning problem wearing a design problem's clothes. The brief said brand; the gap was what the function could say about itself."
         couleur="rouge"
         commande="pan-problem"
         large
-        aire="3 / 1 / 6 / 4"
+        aire="c1"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 6 / 2 / 7"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 6 / 3 / 7"><span class="compo__plat compo__plat--bleu"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 7 / 2 / 8"><span class="compo__plat compo__plat--gris"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 7 / 3 / 8"></div>
 
       <CarteDossier
         id="carte-approach"
         rang="02"
         intitule="The approach"
-        titre="You can't templatize what nobody understands yet."
-        synthese="Name IT's place in the value chain first, then build the platform and a production line anyone could pick up - and sell what coherence buys, department by department."
+        titre="The hard part was the vocabulary, not the visuals."
+        synthese="Understand the function before templatizing it. Then the line that carries it - one library, one format per intent, and a practice the team runs without me."
         couleur="bleu"
         commande="pan-approach"
-        aire="1 / 4 / 3 / 6"
+        aire="c2"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 4 / 5 / 5"><span class="compo__plat compo__plat--jaune"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 4 / 6 / 5"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 5 / 4 / 6"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 6 / 4 / 7"><span class="compo__plat compo__plat--noir"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 7 / 4 / 8"></div>
+      {/* LA BANDE DE RESPIRATION. Trente pixels entre les deux rangees de
+          cartes, et c'est la seule rangee ou la couleur se pose en aplats
+          pleins : trois sur quatre cases, parce qu'elle n'a pas de texte a
+          porter. Voir .compo__plat dans etude.css. */}
 
       <CarteDossier
         id="carte-proof"
         rang="03"
         intitule="The proof"
-        titre="Adopted without being enforced."
-        synthese="People shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com."
+        titre="Adopted without a mandate, and re-adopted without a fight."
+        synthese="Adoption had to be earned one leadership team at a time, then survive a reorg that reset the identity underneath. Nobody asked to go back."
         couleur="jaune"
         commande="pan-proof"
-        aire="4 / 5 / 6 / 8"
+        large
+        aire="c3"
       />
+
+      {/*
+        LA QUATRIEME CARTE : la specificite de cette etude. Les trois premieres
+        suivent le systeme - le probleme, l'approche, la preuve - et celle-ci
+        suit l'ALTITUDE : la plateforme d'une fonction devient le standard
+        digital de l'entreprise. C'est le palier qui enchaine sur Elements, et
+        c'est pour cela que le chapitre s'appelle « The standard » et non « The
+        turning point » : le tournant est un mot de recit, le standard est
+        l'objet qu'un comite reconnait.
+
+        NOIRE, ET C'EST LA SEULE - comme sur Governance. Le rouge, le bleu et le
+        jaune sont pris par les trois chapitres du systeme ; le noir dit que
+        celui-ci parle d'autre chose. Ses accents de texte sont donc en
+        `em-gris` et non `em-noir` : voir la regle des accents dans etude.css.
+      */}
+      <CarteDossier
+        id="carte-standard"
+        rang="04"
+        mot="Pivot"
+        intitule="The standard"
+        titre="The platform of one function became the digital standard of the company."
+        synthese="The 2022 rebrand put the question to every product at once. What answered it shipped on sanofi.com first, and its token architecture is what Elements runs on today."
+        couleur="noir"
+        commande="pan-standard"
+        aire="c4"
+      />
+
+      {/* La case qui respire, en bas a droite : apres quatre cartes et une
+          rangee de couleurs, une seule case blanche ferme la composition
+          plutot qu'un trou - ou, dans cette grille, le fond noir reparaitrait. */}
     </div>
 
     {/* ═══════════ 01 · The problem ═══════════ */}
@@ -445,17 +634,57 @@ const pratiques: Tuile[] = [
       desormais, et le lien bouton → section reste assure par aria-controls.
     */}
       <h2 class="sr-only" id="titre-problem">01 &middot; The problem</h2>
+
+      {/*
+        ═══ TROIS PUCES, ET DEUX PROBLEMES DISTINCTS ═══
+
+        Le chapitre n'en avait qu'une - « The brief » - et portait les trois
+        idees dans un seul bloc de quatre paragraphes : le mandat, la perception
+        du dehors et l'eparpillement du dedans. Un VP qui survole y lisait une
+        seule chose, alors que la page dit elle-meme qu'il y en a deux : « That's
+        two problems, and solving one without the other solves nothing. » Les
+        trois puces disent desormais le mandat, puis chacun des deux problemes.
+
+        « SHADOW IT » N'EST PAS UNE PUCE, C'EST LE PRIX DE LA DEUXIEME. Il l'a
+        ete un moment, et c'etait un doublon : le shadow IT EST le probleme de
+        perception, chiffre en budget qui fuit. Il vit donc dans « Perception »,
+        la ou il prouve quelque chose.
+
+        LE MOT « FRAGMENTATION » REVIENT AU CHAPITRE 04, une couche plus bas -
+        dans l'interface. C'est voulu : la page dit « the exact fragmentation
+        I'd spent four years removing from communication, sitting one layer
+        deeper », et la rime ne porte que si le mot est pose ici d'abord.
+      */}
       <div class="subsec">
-        {/* « That was the brief, and it wasn't a branding one » - la phrase est
-            dans le bloc. Le chapitre n'a qu'une sous-partie, donc une seule
-            puce : c'est ce que la page contient. */}
-        <p class="eb" data-sommaire>The brief</p>
+        <p class="eb" data-sommaire>Mandate</p>
         <div class="split">
-          <p class="lead">IT wasn't a support function. It was a <em class="em-rouge">business driver</em> - and nobody outside IT could see it.</p>
+          <p class="lead">This was never a branding brief. It was a <em class="em-rouge">value chain</em> brief.</p>
           <div class="body">
-            <p>That was the brief, and it wasn't a branding one. Sanofi needed its IT to weigh more across the value chain, and the obstacle was perception: everyone treated as a service desk what was actually driving business value. Its role went unexplained, its image was dated, and its communication was scattered across the whole function, every team improvising the brand.</p>
-            <p>And illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - shadow IT, the tax an organisation pays for a function it can't read. A brand doesn't solve that on its own. Nothing solves it without one.</p>
-            <p>A logo doesn't move that. Perception doesn't shift because the assets got prettier - it shifts when the function becomes legible, and when everyone inside it can say the same thing about what it does. <strong>That's two problems, and solving one without the other solves nothing.</strong> Understand first, systematize second. The move started here.</p>
+            <p>Sanofi needed its IT to weigh more across the value chain. That was the ask, and nothing in it was about assets. <strong>A brand doesn't solve a positioning problem on its own. Nothing solves it without one.</strong></p>
+            <p>So the work had to start one level above the output: name what the function does, in words the rest of the company already uses, before standardizing a single thing it ships. <strong>Understand first, systematize second.</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Perception</p>
+        <div class="split">
+          <p class="lead">Everyone treated as a service desk what was actually <em class="em-rouge">driving the business.</em></p>
+          <div class="body">
+            <p>Its role went unexplained and its image was dated. A function that reached every Sanofian somewhere in their day was read as the place you call when something breaks - and perception doesn't shift because the assets got prettier.</p>
+            <p>Illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - <strong>shadow IT, the tax an organisation pays for a function it can't read.</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Fragmentation</p>
+        <div class="split">
+          <p class="lead">Inside the function, nobody said <em class="em-rouge">the same thing twice.</em></p>
+          <div class="body">
+            <p>Communication was scattered across the whole of IT, every team improvising the brand. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like.</p>
+            <p><strong>Consolidation reads as a loss long before it reads as a gain.</strong> That was the real obstacle, and it wasn't a design problem.</p>
+            <p><strong>That's two problems, and solving one without the other solves nothing.</strong> One is how the function is read from outside. The other is whether the 2,500 people inside it can say the same thing about what it does.</p>
           </div>
         </div>
       </div>
@@ -475,26 +704,49 @@ const pratiques: Tuile[] = [
       <h2 class="sr-only" id="titre-approach">02 &middot; The approach</h2>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>The solution</p>
+        <p class="eb" data-sommaire>Brand platform</p>
         <div class="split">
           <p class="lead">You can't templatize what nobody <em class="em-bleu">understands yet.</em></p>
           <div class="body">
             <p>Before a single template, I did the harder work: <strong>classifying and vulgarizing what IT actually did</strong> - naming its place in the value chain in words a manufacturing lead or a medical rep could use, then translating it graphically so it could be <em>seen</em>, not just read.</p>
-            <p>That understanding is what a brand platform is built on, and I built the whole one: <strong>positioning, territory, personality, tone of voice</strong> - what IT stood for, and how it was allowed to sound. Not decoration laid over the function. The argument for it, made explicit.</p>
-            <p>And none of it was built off to the side. The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.</p>
+            {/* LE BLOC A DEJA DEFINI, LE CHAPITRE RACONTE. Ces deux
+                paragraphes relistaient les composants d'une plateforme de
+                marque et reprenaient mot pour mot « what IT stood for, and how
+                it was allowed to sound » - la phrase du bloc « The brand
+                platform », en haut de page. Un lecteur qui descend lisait deux
+                fois la definition et jamais le travail. */}
+            <p>That understanding is what a brand platform is built on, and I built the whole one - mission through tone of voice, each piece answerable to the next. Not decoration laid over the function: the argument for it, made explicit.</p>
+            <p>The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.</p>
           </div>
         </div>
-      </div>
 
-      <div class="subsec">
-        <h3 class="h3">The Sanofi brand was the constraint. <em class="em-bleu">The IT world was the playground.</em></h3>
+        {/*
+          LES VISUELS SONT DANS LA SOUS-PARTIE QU'ILS ILLUSTRENT, et sans titre
+          a eux. Ils vivaient dans une sous-partie separee, ouverte par un h3 -
+          « The Sanofi brand was the constraint. The IT world was the
+          playground. » - qui disait en plus joli ce que les trois paragraphes
+          au-dessus venaient d'etablir : la plateforme derive des principes de
+          marque Sanofi et reste reconnaissable dans l'ecosysteme.
+
+          UN TITRE PAR SOUS-PARTIE, ET LE SURTITRE LE PORTE DEJA. Chaque puce
+          du chapitre ouvre sur une these ; un second titre a l'interieur de la
+          meme puce fait croire a une sous-partie de plus, et le lecteur compte
+          des sections qui n'existent pas. Les couleurs, les personnages et les
+          appariements illustrent « Brand platform » : ils lui appartiennent,
+          ils ne s'annoncent pas.
+        */}
 
         {/*
           --swc:5 : dix couleurs sur deux rangees de cinq. A huit colonnes, les
           deux dernieres seraient tombees seules sur une seconde rangee.
         */}
-        <p class="eb">One colour per business capability</p>
-        <ul class="sw" style="--swc:5">
+        {/* Meme correction que le surtitre du carrousel : « One colour per
+            business capability » enonce la regle sans dire ce qu'elle achete.
+            Une couleur par capability sert deux choses, et ce sont les deux
+            qu'un comite retient - on reconnait d'ou vient un asset sans le
+            lire, et on en produit un sans demander la permission. */}
+        <p class="eb">One colour per capability - recognised on sight, applied without a brief</p>
+        <ul class="sw" tabindex="0" role="group" aria-label="One colour per capability">
           {capacites.map((c) => (
             <li class="swi">
               <div class="swc" style={`background:${c.hex}`}></div>
@@ -510,131 +762,163 @@ const pratiques: Tuile[] = [
           capabilities d'abord, dans l'ordre du nuancier, puis les trois
           interlocuteurs : la serie se lit comme le nuancier, prolonge.
         */}
+        {/* `aere` : ce sont des dessins, pas des captures - ils ne remplissent
+            pas leur cadre bord a bord. Voir .carrousel--aere dans etude.css. */}
         <Carrousel
           label="Characters"
-          eyebrow="Lively flat design characters"
+          {/* « Lively flat design characters » decrivait le STYLE du dessin -
+              une mention de maquette, a laquelle un lecteur repond « et
+              alors ? ». Ces personnages ne sont pas la pour etre plats et
+              vifs : ils donnent un visage a chaque metier, pour qu'une
+              fonction abstraite se voie. C'est le mot du paragraphe
+              au-dessus - « so it could be seen, not just read » - et le
+              surtitre le reprend au lieu de parler technique. */}
+          eyebrow="Each capability drawn, so the work could be seen"
           vignettes={personnages}
           ratio="1 / 1"
           largeur="calc((100% - 60px) / 3.4)"
           largeurMobile="70%"
           sizes="(min-width: 900px) 300px, 70vw"
+          aere
         />
 
-        <p class="eb">Sample of visual strategy pairing</p>
+        {/* Troisieme surtitre du meme genre : « Sample of visual strategy
+            pairing » nomme un genre de livrable. Ce que la serie montre, c'est
+            une DERIVATION - une carte des capabilities, et le jeu d'icones que
+            chacune en tire. C'est ce qui fait qu'on etend le systeme sans le
+            redessiner. */}
+        <p class="eb">From the capability map to an icon set per capability</p>
         <div class="four">
           {appariements.map((a) => (
             <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="4 / 3"
-              sizes="(min-width: 900px) 250px, 45vw" />
+              sizes="(min-width: 900px) 250px, 88vw" zoom aere />
           ))}
         </div>
       </div>
 
       <div class="subsec">
+        {/* « Production line » disait une chaine de montage ; ce qui est
+            decrit ici est un flux de production creative - bibliotheques
+            partagees, gabarits par intention, mises a jour propagees. Le mot
+            juste est « workflow », et c'est « line » qui etait faux.
+
+            « Creative production workflow » a ete mesure et ne tient pas : la
+            ligne de puces de la carte 02 demande 398px pour les 390 de cette
+            carte, la plus etroite des quatre, et passe donc sur deux rangs -
+            ce que cette ligne existe justement pour eviter. A 350px celle-ci
+            garde son rang, et le format d'un ou deux mots que portent les
+            onze autres puces. */}
+        <p class="eb" data-sommaire>Production workflow</p>
         <div class="split">
-          <p class="lead">A template per intent, <em class="em-bleu">not per person.</em></p>
+          {/* LA COUPURE EST POSEE, PARCE QU'ELLE TOMBAIT DANS LE SURLIGNAGE. Laissee
+              libre, la ligne cassait entre « not » et « per person » : l'aplat
+              bleu se divisait en deux pavés decales, et c'est le dispositif
+              d'accent qui se lisait au lieu de la phrase. Le <br /> met la
+              coupure AVANT l'accent - meme procede que le lead de Resilience,
+              et deux lignes propres au lieu de deux et demie. */}
+          <p class="lead">A template per intent,<br /><em class="em-bleu">not per person.</em></p>
           <div class="body">
             <p>Then the system that carried it: a colour architecture that scaled across entities, a visual language with its own rules of composition, and each digital entity given its own personality - matched to the business it served, and unmistakably Sanofi.</p>
-            <p>None of which is worth anything until someone can pick it up. So the production line: <strong>shared libraries on Creative Cloud</strong>, where every asset lived once and updated everywhere at once - social, Microsoft suite, illustration kits, newsletters typed by objective rather than by sender.</p>
+            <p>None of which is worth anything until someone can pick it up. So the creative production workflow: <strong>shared libraries on Creative Cloud</strong>, where every asset lived once and updated everywhere at once - social, Microsoft suite, illustration kits, newsletters typed by objective rather than by sender.</p>
             <p>All of it built and systematized in the Adobe suite, for the people whose job is craft - then translated into the tools everyone else opens every morning. <strong>PowerPoint included, yes sir.</strong></p>
           </div>
         </div>
       </div>
 
+      {/*
+        ═══ LA TROISIEME PUCE : LA MACHINE, EN UN SEUL ENDROIT ═══
+
+        Ce chapitre portait SEPT sous-parties et quatre questions : ce que
+        j'ai construit, comment je l'ai vendu, comment je l'ai enseigne,
+        comment je l'ai fait tourner. A l'altitude VP, c'est illisible - on ne
+        sait plus a quelle question on lit la reponse. Il en porte trois,
+        nommees, et chacune ne repond qu'a une chose : l'objet, la chaine qui
+        le produit, la pratique qui le fait tourner.
+
+        LA VENTE EST PARTIE AU CHAPITRE 03. « Nobody asks for an umbrella »
+        n'etait pas une approche, c'etait deux choses mal rangees : l'obstacle
+        - chaque programme veut son logo - qui est un ENONCE DE PROBLEME et qui
+        a rejoint « Fragmentation » au 01, et l'argumentaire mene direction par
+        direction, qui est la PREUVE qu'un systeme peut atterrir sans autorite
+        et qui ouvre desormais « Adoption ».
+
+        LE BLOC « what / how / why » QUI FERMAIT LE CHAPITRE EST TOMBE. Il
+        resumait en trois paragraphes ce que les trois puces rendent lisible
+        d'un coup d'oeil ; seule sa derniere phrase survit, en cloture de
+        celle-ci, parce qu'elle dit ce que la pratique AJOUTE a l'identite.
+      */}
       <div class="subsec">
-        <p class="eb" data-sommaire>The adoption</p>
+        <p class="eb" data-sommaire>Operating model</p>
         <div class="split">
-          <p class="lead">Nobody asks for <em class="em-bleu">an umbrella.</em> They ask for their own logo.</p>
+          <p class="lead">I didn't just standardize the assets. I standardized <em class="em-bleu">the practice.</em></p>
           <div class="body">
-            <p>Until then, everyone had done what they wanted. Every entity had its own visual habits, and every new program launched wanting its own logo - because a logo is what having a program looks like. <strong>Consolidation reads as a loss long before it reads as a gain.</strong> That was the real obstacle, and it wasn't a design problem.</p>
-            <p>So I started where the decisions were made. Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.</p>
-            <p>And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. <strong>Change management doesn't run beside the strategy. It rides it.</strong></p>
+            <p>The tools made people autonomous. But autonomy without a shared practice just scatters faster - so I standardized how the communication team itself worked. Four things, one way of running each - and each one feeds the next.</p>
           </div>
         </div>
+        {/*
+          EN PISTE SOUS LE PALIER, ET MOINS HAUTE. Quatre tuiles de 340px
+          l'une sous l'autre font quatre ecrans de telephone a traverser avant
+          la suite du chapitre, pour un recto qui ne porte que deux lignes -
+          le reste etait de l'aplat. Le composant sait deja le faire : `piste`
+          ne sert qu'a le lui demander (voir Tuiles.astro).
+
+          LA HAUTEUR EST UN PLANCHER, PAS UNE MESURE. Les deux faces occupent
+          la meme cellule : c'est le verso le plus bavard qui decide, et le
+          plancher ne fait que l'empecher de se tasser quand il est court. 340
+          le posait au-dessus de ce que le verso demande - il n'ajoutait donc
+          que du vide au recto.
+        */}
+        <Tuiles tuiles={pratiques} label="The four standardized practices" hauteur={240} piste />
 
         {/*
-          Les trois livrables en PLEINE COLONNE et non dans la moitie du .split :
-          ce sont des documents portrait, et trois cadres de 3/4 dans une colonne
-          de 440px auraient fait 135px de large. Le cadre tient le format, voir
-          l'en-tete de la liste `adoption`.
-        */}
-        <p class="eb">What the teams made with it</p>
-        <div class="three">
-          {adoption.map((a) => (
-            <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="3 / 4"
-              sizes="(min-width: 900px) 340px, 45vw" />
-          ))}
-          <CadreDefilant
-            src={newsletter.src}
-            alt={newsletter.alt}
-            legende={newsletter.legende}
-            titre="ITS R&D newsletter"
-            ratio="3 / 4"
-            fr={0.75}
-            sizes="(min-width: 900px) 340px, 45vw"
-            widths={[400, 800, 1200]}
-            declencheur="survol"
-            zoom
-          />
-        </div>
-      </div>
+          DEUX TITRES DE MOINS, ET AUCUNE IDEE PERDUE.
 
-      <div class="subsec">
+          « Making it a language people use - not a charter they obey. » etait
+          un `.lead` de 34px pour annoncer trois puces : un titre de plus dans
+          une sous-partie qui en portait deja un. Il descend en PHRASE, en
+          gras, a la place qu'il occupe vraiment - celle d'une affirmation qui
+          gouverne la liste, pas d'une section nouvelle.
+
+          « Taught, not announced. » tombe tout court : le paragraphe qu'il
+          annonçait OUVRE sur « A brand this size has to be taught, not
+          announced ». Le titre disait le mot a mot de sa premiere phrase, a
+          trois centimetres au-dessus.
+
+          Le bloc n'a donc plus de titre du tout, et c'est voulu : la these de
+          la sous-partie est « I didn't just standardize the assets », plus
+          haut. Ce qui suit l'explique, il n'a pas a se reannoncer.
+        */}
         <div class="split">
-          <p class="lead">Selling it was the start. Making it <em class="em-bleu">a language people use</em> - not a charter they obey - was the job.</p>
-          <ul class="pts">
-            <li><strong>One contact point per department</strong> - mine were Vaccines, R&amp;D and Medical: a catalyst, not a gate.</li>
-            <li>Leadership's messages and the front-line's assets pulled from <strong>the same platform</strong>, instead of two versions of the same story.</li>
-            <li>Contribution and continuous improvement weren't policies. <strong>They were the only way a shared identity survives contact with fifteen roadmaps.</strong></li>
-          </ul>
-        </div>
+          {/*
+            UN SEUL PARAGRAPHE, ET DANS LA COLONNE DE DROITE. La phrase en gras
+            tenait la colonne de gauche et les trois puces la droite : deux
+            objets pour une seule idee, et une these absente au milieu - la
+            gauche d'un `.split` est l'emplacement d'un `.lead`, y poser une
+            phrase en gras la faisait lire comme un titre degrade. Les trois
+            puces, elles, enumeraient trois faits qui se suivent dans le temps
+            plutot que trois choses a comparer : la liste ne leur apportait
+            rien que la prose ne dise mieux.
 
-        {/*
-          LE DESSIN ET SON PROPOS. Le paragraphe des trois vitesses revient avec
-          l'illustration qui l'accompagnait : les deux disaient la meme chose,
-          separes l'un etait un item de liste et l'autre une decoration.
-          L'encre suit --accent - c'est la seule raison pour laquelle ce SVG est
-          inline et non pose en <img>. Voir .taught dans etude.css.
-        */}
-        <div class="taught">
-          <div class="taught__viz" aria-hidden="true"><BrandCommunication /></div>
-          <div class="body">
-            <p>And a brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. <strong>Guides on the intranet</strong>, for the person who needs it at 9pm. <strong>Short videos</strong>, for what you'd rather be shown than read. And the live formats for what needs a room: <strong>sharing sessions</strong> where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person.</p>
-            <p>Same content, three ways in. <strong>Nobody should have to guess how to use the thing, and nobody should have to wait for a calendar invite to find out.</strong></p>
+            `split__droite` renvoie le bloc en colonne 2 - voir etude.css.
+          */}
+          <div class="body split__droite">
+            <p><strong>A shared language spreads by use, never by compliance.</strong> Each department got one contact point - I held Vaccines, R&amp;D and Medical, advising their Heads of Digital on their own communication plans, and reporting into their Executive Committee member monthly and quarterly. A catalyst rather than a gate. Leadership's messages and the front-line's assets pulled from <strong>the same platform</strong>, instead of two versions of the same story. And contribution wasn't a policy: <strong>it was the only way a shared identity survives contact with fifteen roadmaps.</strong></p>
+            <p>A brand this size has to be taught, not announced. But "come to the session" is not a strategy for a function spread across time zones - so the training ran at three speeds. <strong>Guides on the intranet</strong>, for the person who needs it at 9pm. <strong>Short videos</strong>, for what you'd rather be shown than read. And the live formats for what needs a room: <strong>sharing sessions</strong> where an IT team walked everyone through a subject it owned, the platform reveal - what it was, how to adopt it, how to run the kits - and strategic webinars carried by leadership in person. <strong>Same content, three ways in - because nobody should have to wait for a calendar invite to learn how to use the thing.</strong></p>
           </div>
         </div>
-      </div>
 
-      <div class="subsec">
-        <p class="eb" data-sommaire>The operations</p>
-        {/* le second dessin au trait, a la place qu'il occupait : contre les
-            quatre pratiques, dont il est le filigrane. */}
-        <div class="taught">
-          <div class="taught__viz" aria-hidden="true"><BrandVariation /></div>
-          <div class="pile">
-            <p class="lead">I didn't just standardize the assets. I standardized <em class="em-bleu">the practice.</em></p>
-            <div class="body">
-              <p>The tools made people autonomous. But autonomy without a shared practice just scatters faster - so I standardized how the communication team itself worked. Four things, one way of running each - and each one feeds the next.</p>
-            </div>
-          </div>
-        </div>
-        <Tuiles tuiles={pratiques} label="The four standardized practices" hauteur={340} />
-      </div>
-
-      <div class="subsec">
         <div class="split">
+          {/* ELLE RESTE DANS « THE APPROACH », ET C'EST LA TUILE AU-DESSUS QUI
+              le decide : « Campaign metrics - Standardize how you measure, or
+              you're not comparing campaigns, you're comparing methods » est le
+              volet CHIFFRE de la mesure, et ce paragraphe en est le volet
+              QUALITATIF. Les deux se repondent ; separes, le premier devient
+              un outil sans contrepoids et le second une anecdote. Et « The
+              proof » porte deja ses trois puces. */}
           <p class="lead">Measured while it ran - <em class="em-bleu">not after the fact.</em></p>
           <div class="body">
             <p>Numbers only cover what they can see. So every quarter we ran a qualitative survey on the rest - starting with whether the sessions and the webinars had been worth the time people gave them. When the signal arrives on its own, a communication team stops defending its choices and starts adjusting them - and what it learns goes back into the next ritual, and the next quarter's calendar.</p>
             <p>And I built the autonomy into people, not just process: I mentored two work-study students and levelled up colleagues until they could run the system themselves. Self-service isn't a portal - it's the day nobody needs to ask you. <strong>Knowledge shared is autonomy that stays</strong> - the same conviction I'd scale into Elements' 35+ contributors years later.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">The <em class="em-bleu">what</em> is assets, templates, identity. The <em class="em-bleu">how</em> is practices, method, measurement.</p>
-          <div class="body">
-            <p>Fragmentation lives in both, so I fixed both. The <strong>why</strong> is simpler. A digital function scattered across entities was meant to end up feeling like one - not looking unified, being unified, by people who worked the same way and could recognize each other's work at a glance.</p>
             <p>A shared identity makes a function legible to the outside. <strong>A shared practice makes it a community to itself.</strong></p>
           </div>
         </div>
@@ -655,30 +939,246 @@ const pratiques: Tuile[] = [
     <section class="pan" id="pan-proof" aria-labelledby="titre-proof">
       <h2 class="sr-only" id="titre-proof">03 &middot; The proof</h2>
 
+      {/*
+        ═══ LA FRISE 2018 → 2023 EST TOMBEE ═══
+
+        Quatre tuiles qui se retournaient, et dont les quatre verbes - « was »,
+        « outlived », « became », « grew » - redisaient exactement les quatre
+        theses des chapitres qui les entourent. Pire : le surtitre de la
+        sous-partie suivante s'appelait « 2020 - The system outlived its own
+        identity », soit le texte MOT POUR MOT de la deuxieme tuile, lue trois
+        secondes plus tot. C'est le doublon carte/chapitre, une rangee plus bas.
+
+        La chronologie, elle, n'est pas perdue : les quatre chapitres la
+        portent desormais - 01 et 02 sont 2018-2020, 03 le reset de 2020, 04 le
+        rebrand de 2022 et le standard de 2023. Les intitules nomment l'ENJEU
+        de chaque palier au lieu de son millesime, ce qui est la lecture qu'on
+        veut d'un comite.
+      */}
       <div class="subsec">
-        <p class="eb" data-sommaire>The results</p>
+        <p class="eb" data-sommaire>Adoption</p>
         <div class="split">
           <p class="lead">A brand only counts when people use it <em class="em-jaune">without asking.</em></p>
           <div class="body">
             <p>They did - and the proof is what they made with it, not what I drew. The platform was never judged on how it looked. It was judged on whether people reached for the tools instead of improvising around them.</p>
-            <p class="qt">Adopted without being enforced - and re-adopted when the identity underneath it changed. <strong>That's the only result a brand platform can claim.</strong></p>
+            {/* LE PARRAINAGE MANQUAIT, ET SON ABSENCE COUTAIT CHER. La page
+                repetait « no mandate » sans jamais dire que la plateforme etait
+                parrainee par le Chief Digital Officer : un lecteur y lisait donc
+                une initiative sans appui, alors que le fait est plus fort et
+                plus juste - il y avait un parrain au plus haut niveau, et il
+                n'achetait aucune conformite. C'est precisement ce qui rend
+                l'adoption remarquable. */}
+            <p>The platform was sponsored by the Chief Digital Officer. <strong>A sponsor is not a mandate</strong> - it opens doors, it doesn't make anyone walk through them, and I had no authority over a single team that had to adopt this. <strong>So I started where the decisions were made.</strong> Department by department across IT, I worked the leadership teams - and I didn't sell coherence, which nobody wants. I sold what coherence buys them: their people stop spending time on form and spend it on substance, one identity covers uses they'd otherwise fund one by one, and a program gets recognized because it belongs to something, not despite it.</p>
+            <p>And I anchored the brand in what those leaders were already accountable for. Their strategy became the vehicle: the identity spoke through their priorities instead of alongside them, so adopting it wasn't extra work - it was how their agenda got heard. <strong>Change management doesn't run beside the strategy. It rides it.</strong></p>
           </div>
         </div>
-        <Tuiles tuiles={frise} label="From 2018 to 2023" hauteur={240} />
+
+        {/*
+          Les trois livrables en PLEINE COLONNE et non dans la moitie du .split :
+          ce sont des documents portrait, et trois cadres de 3/4 dans une colonne
+          de 440px auraient fait 135px de large. Le cadre tient le format, voir
+          l'en-tete de la liste `adoption`.
+
+          ILS ONT QUITTE LE CHAPITRE 02 POUR CELUI-CI. Le surtitre dit « ce que
+          les equipes en ont fait » : c'est une preuve d'adoption, pas une
+          illustration de la chaine de production. Et la phrase qui ouvre ce
+          chapitre - « the proof is what they made with it, not what I drew » -
+          les annonce litteralement.
+        */}
+        <p class="eb">What the teams made with it</p>
+        <div class="three">
+          {adoption.map((a) => (
+            <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="3 / 4"
+              sizes="(min-width: 900px) 340px, 88vw" zoom aere />
+          ))}
+          <CadreDefilant
+            src={newsletter.src}
+            alt={newsletter.alt}
+            legende={newsletter.legende}
+            titre="ITS R&D newsletter"
+            aere
+            ratio="3 / 4"
+            fr={0.75}
+            sizes="(min-width: 900px) 340px, 88vw"
+            widths={[400, 800, 1200]}
+            declencheur="survol"
+            zoom
+          />
+        </div>
+
+        {/*
+          ═══ L'ORDRE DU BLOC SUIT CELUI DU RECIT ═══
+
+          CHAQUE PREUVE SUIT LA PHRASE QU'ELLE PROUVE, et aucune ne la precede.
+          L'annonce et le fil des reponses sont INTERNES : ils tombent apres
+          « Sanofi's first hackathons ran on it too », dont ils sont le
+          document. Poses avant, ils demandaient au lecteur de regarder deux
+          captures de hackathon sans savoir encore qu'il y avait eu un
+          hackathon. Le fil LinkedIn est PUBLIC : il vient apres la phrase qui
+          dit que la chose est sortie des murs, pour la meme raison.
+
+          LES DEUX CADRES PLUTOT QUE DEUX IMAGES NUES. Les captures portent
+          leur propre ombre portee, cuite dedans a la prise de vue, et posee a
+          meme le blanc de la page elle se lisait comme un halo gris sans
+          raison. `.cadref` ferme chaque capture d'un filet - la grammaire de
+          toute la page - et l'ombre redevient ce qu'elle est, un bord de
+          carte. Le cadre apporte aussi la loupe : le fil des trois
+          commentaires est a 500px dans cette colonne, il se CONSULTE la et se
+          LIT en grand.
+
+          SANTOS OUVRE LE FIL, dans la capture elle-meme : il donne sa largeur
+          a la planche, et les deux breves de 2018 et 2019 tiennent dessous
+          dans la gouttiere qu'il laisse. Compose dans l'autre sens, le fil
+          faisait deux fois la hauteur de l'annonce.
+
+          LES DEUX PLANCHES S'EMPILENT DANS LA COLONNE DU TEXTE. Cote a cote
+          sur toute la largeur, elles faisaient 470px chacune pour des
+          captures ou l'on doit lire des commentaires, et la bande coupait la
+          page en deux a l'endroit ou le propos, lui, tient dans une colonne.
+          Empilees en colonne 2, elles gagnent une centaine de pixels chacune
+          et tombent a l'aplomb du paragraphe qu'elles documentent - comme le
+          fil LinkedIn juste apres, et pour la meme raison. Le surtitre
+          descend avec elles : il nomme ces deux planches, pas la page.
+        */}
+        <div class="split">
+          <p class="lead">It reached well past <em class="em-jaune">the people producing on it.</em></p>
+          <div class="body">
+            <p>200+ campaigns and internal events ran on the platform, and <strong>every Sanofian met it somewhere in their day</strong> - from a support notification to a rollout announcement to an event on their own site. Sanofi's first hackathons ran on it too - sponsored by the Chief Medical Officer and the Global Head of R&amp;D: 6,000 participants, 103 ideas, 8,301 votes, and one of them shipped - <strong>Theia®, an app for patients living with sight loss.</strong></p>
+          </div>
+        </div>
+
+        <div class="split">
+          <div class="body split__droite">
+            <p class="eb">Captivate, from launch to outcome</p>
+            <Figure
+              src={img(annonce.nom)}
+              alt={annonce.alt}
+              legende={annonce.legende}
+              titre="Captivate announcement"
+              aere
+              ratio="16 / 11"
+              sizes="(min-width: 900px) 560px, 92vw"
+              zoom
+            />
+            <Figure
+              src={img(filCaptivate.nom)}
+              alt={filCaptivate.alt}
+              legende={filCaptivate.legende}
+              titre="Captivate replies"
+              aere
+              ratio="16 / 11"
+              sizes="(min-width: 900px) 560px, 92vw"
+              zoom
+            />
+          </div>
+        </div>
+
+        {/*
+          LE FIL PUBLIC S'ALIGNE SUR LA COLONNE DU PARAGRAPHE. A pleine
+          largeur - 1024px pour une source de 1360 - il ecrasait tout ce qui
+          l'entoure : une capture d'ecran y prenait la place d'une planche de
+          projet, alors qu'elle illustre UNE phrase, celle qui dit que la
+          reconnaissance est venue du dehors. Pose dans la colonne de droite,
+          il fait la largeur de cette phrase et se lit avec elle.
+
+          `split__droite` le renvoie en colonne 2 - voir etude.css - et `sizes`
+          suit : a 600px le navigateur prend la candidate de 640 au lieu de
+          celle de 1360, donc une image plus nette ET plus legere.
+        */}
+        <div class="split">
+          <div class="body split__droite">
+            <p>That one travelled past the function entirely. When Theia launched publicly, the recognition came from the top of the house: <strong>the President of Sanofi France called it &laquo;&nbsp;this magnificent project&nbsp;&raquo;</strong> under the announcement, alongside the engineers and partners who had carried it since the hackathon.</p>
+          <CadreDefilant
+            src={threadLinkedIn.src}
+            alt={threadLinkedIn.alt}
+            legende={threadLinkedIn.legende}
+            titre="Theia on LinkedIn"
+              aere
+            ratio="16 / 11"
+            fr={1.4545}
+            sizes="(min-width: 900px) 600px, 92vw"
+            widths={[640, 1080, 1400]}
+            declencheur="survol"
+            zoom
+          />
+          </div>
+        </div>
+
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>2020 - The system outlived its own identity</p>
+        <p class="eb" data-sommaire>Resilience</p>
         <div class="split">
-          <p class="lead">A reorg is a breaking change.<br /><em class="em-jaune">I shipped a major of the brand platform.</em></p>
-          <div class="pile">
-            <div class="body">
-              <p>In 2020, IT moved from service provider to enabler - one notch up, inside a digital transformation running across the whole company. New digital leadership came with it, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. <strong>I didn't defend mine. I versioned it.</strong></p>
-            </div>
-            <ul class="pts">
-              <li><strong>A refinement, not a rebuild</strong>: a leaner structure, organized around products and service lines. The machine held: calendar, contact points, sessions, webinars - and went to work on the migration.</li>
-              <li>Campaigns became the migration path. <strong>Communication wasn't announcing the system. It was deploying it.</strong> There's no deprecation warning in PowerPoint: <strong>you can't break the previous version - you can only make the next one worth the switch.</strong></li>
-            </ul>
+          <p class="lead">A reorg is a breaking change. <em class="em-jaune">I shipped a major of the brand platform.</em></p>
+          {/*
+            TROIS PARAGRAPHES, PLUS DE PUCES. Les deux dernieres lignes etaient
+            une liste, et une liste promet des elements COMPARABLES qu'on peut
+            lire dans n'importe quel ordre. Celles-ci ne le sont pas : la
+            premiere dit ce qui a change dans la plateforme, la seconde comment
+            la migration s'est faite - l'une amene l'autre. Le tiret les
+            separait quand elles s'enchainent.
+
+            C'est la deuxieme liste de la page a tomber pour la meme raison,
+            apres celle d'Operating model.
+          */}
+          <div class="body">
+            <p>In 2020, IT moved from service provider to enabler - one notch up, inside a digital transformation running across the whole company. New digital leadership came with it, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. <strong>I didn't defend mine. I versioned it.</strong></p>
+            <p><strong>A refinement, not a rebuild</strong>: a leaner structure, organized around products and service lines. The machine held - calendar, contact points, sessions, webinars - and went to work on the migration.</p>
+            <p>Campaigns became the migration path. <strong>Communication wasn't announcing the system. It was deploying it.</strong> There's no deprecation warning in PowerPoint: <strong>you can't break the previous version - you can only make the next one worth the switch.</strong></p>
+          </div>
+        </div>
+
+
+      </div>
+
+      {/*
+        ═══ L'ARBITRAGE DEVIENT UNE PUCE ═══
+
+        C'etait un `.qt` orpheline sous les deux piles - une phrase de legende
+        pour le moment le plus VP de la page : le leadership tranche contre ce
+        que je defendais, et je livre quand meme. « Disagree and commit » ne se
+        lit pas en note de bas de planche ; c'est la troisieme preuve de ce
+        chapitre, a cote de l'adoption et de la resilience.
+
+        LES DEUX PILES ONT SUIVI, et elles FERMENT la sous-partie. Elles
+        vivaient dans « Resilience », ou elles illustraient le versionnage ;
+        mais sept surfaces contre sept surfaces ne montrent qu'une chose - le
+        choix entre deux partis - et c'est l'arbitrage, pas la migration.
+
+        ELLES VIENNENT APRES LE TEXTE ET NON AVANT. On les a d'abord posees en
+        ouverture, au motif qu'il fallait avoir vu les deux concepts pour que
+        « j'ai defendu le 02 » veuille dire quelque chose. Mais la these le dit
+        deja - « leadership picked the concept I argued against » se comprend
+        sans rien voir - et deux piles de sept planches posees avant le moindre
+        mot font attendre le propos. L'enonce, puis la preuve.
+      */}
+      <div class="subsec">
+        <p class="eb" data-sommaire>Arbitration</p>
+
+        <div class="split">
+          <p class="lead">Leadership picked the concept <em class="em-jaune">I argued against.</em></p>
+          <div class="body">
+            {/*
+              « I arbitrated, and I shipped 01 like it had been my idea. »
+              disait deux fois la meme chose, et les deux sonnaient faux :
+              « I arbitrated » est du vocabulaire de comite pose sur une
+              decision qui n'etait pas la mienne, et « like it had been my
+              idea » se decerne un brevet d'elegance. La phrase racontait la
+              vertu au lieu du fait.
+
+              Ce qui compte ici est verifiable et tient en deux temps : la
+              decision, puis ce que l'execution en a laisse voir.
+
+              LA COUPURE TOMBE APRES LE CHOIX, PAS APRES LE PRINCIPE. Le second
+              paragraphe n'avait qu'une phrase, portee a 80% par du gras : une
+              ligne seule sous un pave se lit comme une citation detachee, pas
+              comme la fin d'un raisonnement. Le premier s'arrete donc sur ce
+              que le leadership a tranche ; le second ouvre sur le principe qui
+              lui donne raison, et garde la chute. Deux paragraphes de poids
+              comparable, et plus aucune phrase solo.
+            */}
+            <p>I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01, and 01 was the shorter migration - the one thing I've defended everywhere else.</p>
+            <p>The shortest path for the people moving wins over the better drawing. Taste on one side, adoption on the other. <strong>The decision went against me. The execution didn't show it.</strong></p>
           </div>
         </div>
 
@@ -687,8 +1187,15 @@ const pratiques: Tuile[] = [
           surfaces de part et d'autre ne se comparent qu'a largeur egale : dans
           une colonne de 440px partagee en deux, chaque pile aurait fait 210px.
         */}
-        <p class="eb">The two concepts, surface by surface</p>
-        <div class="versus">
+        {/*
+          PLUS DE SURTITRE, ET LES PILES DANS LA COLONNE DU TEXTE. Le surtitre
+          annoncait ce que les deux piles montrent d'elles-memes - chacune
+          porte deja son rang, son nom et sa pastille Retained. Et a pleine
+          largeur elles pesaient plus que la these qu'elles illustrent : posees
+          en colonne 2, elles font la largeur des paragraphes qui les amenent.
+        */}
+        <div class="split">
+        <div class="versus split__droite">
           {versions.map((v) => (
             <section class="vers" aria-label={`Concept ${v.rang}, ${v.titre}`}>
               <p class="eb">Concept {v.rang}</p>
@@ -705,39 +1212,79 @@ const pratiques: Tuile[] = [
                 planches={v.planches}
                 base={v.base}
                 ratio="4 / 3"
-                sizes="(min-width: 900px) 480px, 92vw"
+                sizes="(min-width: 900px) 280px, 92vw"
               />
             </section>
           ))}
         </div>
-
-        {/*
-          L'arbitrage, juste SOUS les deux piles. Il ne peut pas venir avant : on
-          doit avoir vu les deux concepts pour que « j'ai defendu le 02 » veuille
-          dire quelque chose.
-        */}
-        <p class="qt">Leadership picked 01. I'd argued for 02 - but 01 was the shorter migration, and the shortest path for the people moving is the one I've defended everywhere else. Taste on one side, adoption on the other. <strong>I arbitrated, and I shipped 01 like it had been my idea.</strong></p>
+        </div>
       </div>
 
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="noir" class="suite" commande="carte-standard">Next: the standard &rarr;</Bouton>
+      </div>
+    </section>
+
+    {/* ═══════════ 04 · The standard ═══════════ */}
+    {/*
+      ═══ LE QUATRIEME CHAPITRE : LA SPECIFICITE DE CETTE ETUDE ═══
+
+      Ces trois sous-parties vivaient dans « The proof », ou elles n'avaient
+      rien a prouver : 2022 et 2023 ne sont pas la preuve de la plateforme de
+      2018, ce sont deux mandats de plus. Le chapitre 03 absorbait donc deux
+      actes entiers, et la preuve reelle - l'adoption - y tenait en deux
+      paragraphes avant que la page ne bascule en chronologie.
+
+      Ce que ces trois paliers racontent ensemble, c'est l'ALTITUDE : la
+      plateforme d'une fonction devient le standard digital de l'entreprise.
+      C'est ce qu'aucune des deux autres etudes ne raconte, et c'est le palier
+      qui enchaine sur Elements - d'ou le titre, et d'ou la place de ce
+      chapitre en quatrieme, la ou Governance met son equipe.
+    */}
+    <section class="pan" id="pan-standard" aria-labelledby="titre-standard">
+      <h2 class="sr-only" id="titre-standard">Pivot &middot; The standard</h2>
+
       {/*
-        Le tournant, sur le bloc noir. La maquette lui pose une largeur de 976px
-        et un rectangle rouge en absolu - le brief §7 le signale comme fragile.
-        Le bloc prend donc toute la colonne, et le rouge n'y est pas repose : la
-        couleur est deja portee par la composition et par les tuiles de la frise
-        juste au-dessus.
+        LE PALIER PREND LE LAYOUT DES AUTRES SOUS-PARTIES. Il etait pose sur un
+        `.dark`, un aplat noir pleine colonne herite de la maquette - et c'etait
+        le seul de la page. Rien d'autre ici ne s'annonce par un aplat : les
+        onze autres sous-parties ouvrent sur un `.split`, these a gauche et
+        paragraphes a droite, et une section qui change de forme sans changer
+        de nature fait lire une rupture qui n'existe pas. Le titre du bloc noir
+        devient donc la these - l'accent passe en `em-gris`, couleur de ce
+        chapitre - et ses deux paragraphes le corps.
+
+        Le `.dark` n'est pas mort pour autant : Surfaces s'en sert encore, la
+        regle reste dans etude.css.
+
+        « COMPANY SCALE » ET NON « THE TURNING POINT ». Le tournant est un mot
+        de recit ; ce qui s'est passe, c'est que le mandat a change d'echelle -
+        d'une fonction a l'entreprise entiere. Et aucun surtitre de cette page
+        ne porte d'article, sur le modele de Governance : « Root cause »,
+        « Build pipeline », « Team health ».
       */}
-      <div class="dark">
-        <p class="eb">The turning point</p>
-        <h3 class="h3">A brand book doesn't survive contact with a screen.</h3>
-        <p>The first time the ground moved, it was one function. The second time, it was the whole company. In 2022, Sanofi unified every internal identity into a single brand. The part nobody had defined was what that brand becomes once it's interactive - so I took it: <strong>translating the new corporate identity through a digital prism</strong>, and shipping the first concepts that proved it could hold on a product, not just on a page.</p>
-        <p>I wasn't the only one moving - and by then I'd moved too. The product teams that appeared in the last reset had turned into a function: Sanofi stood up product design in 2021 with the creation of the Consumer Experience team, and I joined it as <strong>Product Design Lead</strong>, carrying four years of brand and communication in with me. So when the rebrand landed, the two forces looking for each other - brand on one side, product on the other - met in a role that had lived in both. <strong>That's the gap I've always worked in.</strong></p>
+      <div class="subsec">
+        <p class="eb" data-sommaire>Company scale</p>
+        <div class="split">
+          <p class="lead">A brand book doesn't survive <em class="em-gris">contact with a screen.</em></p>
+          <div class="body">
+            <p>The first time the ground moved, it was one function. The second time, it was the whole company: in 2022 <strong>Sanofi merged its three brands into one</strong>, and every internal identity was refounded under that single umbrella at once - IT's among them, four years after I had built it. The part nobody had defined was what that brand becomes once it's interactive - so I took it: <strong>translating the new corporate identity through a digital prism</strong>, and shipping the first concepts that proved it could hold on a product, not just on a page.</p>
+            <p>I wasn't the only one moving - and by then I'd moved too. The product teams that appeared in the last reset had turned into a function: Sanofi stood up product design in 2021 with the creation of the Consumer Experience team, and I joined it as <strong>Product Design Lead</strong>, carrying four years of brand and communication in with me. So when the rebrand landed, the two forces looking for each other - brand on one side, product on the other - met in a role that had lived in both. <strong>That's the gap I've always worked in.</strong></p>
+          </div>
+        </div>
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>2022 - The brand became the system</p>
+        <p class="eb" data-sommaire>Portfolio audit</p>
         <div class="split split--haut">
           <div class="pile">
-            <p class="lead">UI kits everywhere, <em class="em-jaune">one per entity,</em> none speaking to the others.</p>
+            <p class="lead">UI kits everywhere, <em class="em-gris">one per entity,</em> none speaking to the others.</p>
             <div class="body">
               <p>Translating the brand meant looking hard at what it would land on. So I ran the discovery - a broad benchmark of the field, then an audit of what Sanofi already had. The finding was familiar: the exact fragmentation I'd spent four years removing from communication, sitting one layer deeper - in the interface itself.</p>
             </div>
@@ -750,7 +1297,7 @@ const pratiques: Tuile[] = [
                   style={`--aire:${e.aire}`} data-legende={e.legende}
                   aria-label={`Enlarge ${e.legende}`}>
                   <Image src={img(e.nom)} alt={e.alt}
-                    sizes="(min-width: 900px) 300px, 45vw" loading="lazy" decoding="async" />
+                    sizes="(min-width: 900px) 300px, 88vw" loading="lazy" decoding="async" />
                   <span class="zoom__badge" aria-hidden="true"><Icone nom="loupe" taille={13} /></span>
                 </button>
               ))}
@@ -762,17 +1309,20 @@ const pratiques: Tuile[] = [
         <div class="three">
           {contraintes.map((c) => (
             <Figure src={img(c.nom)} alt={c.alt} legende={c.legende} ratio="4 / 3"
-              sizes="(min-width: 900px) 340px, 45vw" />
+              sizes="(min-width: 900px) 340px, 88vw" zoom aere />
           ))}
         </div>
-      </div>
 
-      <div class="subsec">
-        <p class="eb" data-sommaire>2023 - The system grew into the method</p>
-        <h3 class="h3 h3--lead">Converging to one standard <em class="em-jaune">to harmonize the experience of every digital touchpoints.</em></h3>
-        <div class="body">
-          <p>So I pushed the answer one level up. Not a brand adaptation per product: <strong>one standard for the portfolio</strong>, with sanofi.com as the pilot - the first real product to carry it, and the one that would tell us what the standard got right and what it didn't.</p>
-        </div>
+        {/*
+          LES TROIS PISTES SONT UN RESULTAT D'AUDIT, PAS UN PAS VERS LE
+          STANDARD. Elles ouvraient « Convergence », ou elles arrivaient avant
+          la phrase qui dit de quoi on converge : on voyait trois directions
+          divergentes sous un surtitre qui annonce l'inverse. Elles closent
+          donc l'audit - le benchmark, les contraintes corporate, puis ce que
+          la marque pouvait devenir a l'ecran - et « Convergence » n'a plus
+          qu'une chose a montrer : celle qui a ete retenue, en production.
+        */}
+        <p class="eb">Three directions explored</p>
         <div class="three">
           {concepts.map((c) => (
             <CadreDefilant
@@ -782,7 +1332,7 @@ const pratiques: Tuile[] = [
               titre={c.titre}
               ratio="4 / 3"
               fr={1.3333}
-              sizes="(min-width: 900px) 340px, 45vw"
+              sizes="(min-width: 900px) 340px, 88vw"
               widths={[640, 1080, 1400]}
               declencheur="survol"
               zoom
@@ -792,20 +1342,58 @@ const pratiques: Tuile[] = [
       </div>
 
       <div class="subsec">
+        <p class="eb" data-sommaire>Convergence</p>
+        {/*
+          LE TITRE A GAUCHE, LE PARAGRAPHE A DROITE - le `.split` des onze
+          autres sous-parties. Le titre courait ici sur toute la colonne avec
+          son paragraphe dessous : seule forme de ce genre sur la page, elle
+          faisait lire une rupture la ou il n'y a qu'une sous-partie de plus.
+          `.h3--lead` porte deja le corps d'un `.lead`, et `.split` place ses
+          enfants dans l'ordre : le titre reste un h3 pour le plan du document
+          et tient la colonne de gauche.
+        */}
+        <div class="split">
+          {/* LA SEULE PHRASE D'ATTAQUE QUI DECRIVAIT AU LIEU D'AFFIRMER.
+              « Converging to one standard to harmonize the experience of every
+              digital touchpoint » est du vocabulaire de note de cadrage, et les
+              onze autres sous-parties ouvrent sur une these. Celle-ci dit
+              maintenant pourquoi le standard bat l'adaptation, et le paragraphe
+              dit ce que j'en ai fait - l'ordre de toute la page. */}
+          <h3 class="h3 h3--lead">A brand adapted per product <em class="em-gris">stops being one.</em></h3>
+          <div class="body">
+            <p>So I pushed the answer one level up. Not a brand adaptation per product: <strong>one standard for the portfolio</strong>, with sanofi.com as the pilot - the first real product to carry it. <strong>A pilot isn't a proof. It's the fastest way to find out what you got wrong.</strong></p>
+          </div>
+        </div>
+        {/* Le pilote etait seul dans une sous-partie sans surtitre, donc sans
+            puce et sans rattachement : c'est la demonstration de celle-ci. */}
         <Carrousel label="Pilot screens" vignettes={pilote} ratio="16 / 10" />
-      </div>
 
-      <div class="closing">
-        <h2>A pilot isn't a proof. It's the fastest way to find out <em class="em-jaune">what you got wrong.</em></h2>
-        <p class="cbody">Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <strong>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</strong> And that's where Elements Design System begins.</p>
-        <Bouton variante="bleu" href="/system-practice-elements">Discover what came next →</Bouton>
+        {/*
+          LA SORTIE DE LA PAGE EST UN PARAGRAPHE, PLUS UN BLOC DE FIN. Elle
+          vivait dans un `.closing` : un titre de 40px, un corps de 17px et le
+          bouton, poses pleine largeur apres le dernier chapitre. Deux echelles
+          de texte qui n'existaient nulle part ailleurs dans la page, pour
+          dire ce qu'un paragraphe dit - et un titre de cloture qui relancait
+          la lecture au moment de la finir.
+
+          ELLE REJOINT DONC LA COLONNE DU TEXTE, sous le carrousel du pilote et
+          dans la sous-partie qu'elle conclut : `.split__droite` la pose en
+          colonne 2, a l'aplomb de tous les autres paragraphes. Le bouton
+          descend avec elle - c'est lui la sortie, et il se lit mieux au bout
+          du propos qu'au bout d'un bloc a part.
+        */}
+        <div class="split">
+          <div class="body split__droite">
+            <p>Nothing here was mandated, and that's the only reason it held. Same conviction, different surface: understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. <strong>The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.</strong> And that's where Elements Design System begins.</p>
+            <Bouton variante="bleu" href="/system-practice-elements">Discover what came next →</Bouton>
+          </div>
+        </div>
       </div>
 
       {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
           qu'ailleurs : il remonte sans rien refermer. A droite, pas de
-          « Next: ... » - il n'y a pas de tuile 04, et le sommaire des
-          trois cartes est reduit a celle-ci ; ce bouton-la le rouvre. Les deux
-          remontent, l'un garde le chapitre ouvert, l'autre referme tout.
+          « Next: ... » - c'est le dernier des quatre chapitres, et la sortie
+          de la page est le bouton qui ferme Convergence, juste au-dessus.
           Voir .pan__pied dans etude.css et dossier.ts. */}
       <div class="pan__pied">
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
@@ -813,6 +1401,10 @@ const pratiques: Tuile[] = [
         </button>
       </div>
     </section>
+
+    {/* Le rail de cloture : trois cases vides dont on ne voit que les filets.
+        Voir .rails dans etude.css. */}
+    <div class="rails" aria-hidden="true"><div></div><div></div><div></div></div>
 
   </div>
 
@@ -854,9 +1446,157 @@ const pratiques: Tuile[] = [
     tenaient, les cartes faisaient 56px de large pour 1243 de haut.
   */
   @media(min-width:861px){
-    .compo{grid-template-columns:20fr 9fr 20fr 24fr 25fr 4fr 16fr;
-      grid-template-rows:minmax(170px,auto) minmax(75px,auto) 30px
-        minmax(245px,auto) minmax(60px,auto)}
+    /*
+      ═══ SEPT COLONNES, SIX RANGEES, ET UNE COMPOSITION QUI N'EST NI CELLE DE
+          GOVERNANCE NI CELLE DE SURFACES ═══
+
+      Le premier jet posait 01 en rangees 1-2 colonnes 1-3, une carte haute a
+      droite, et 03 sous 01 : c'est le squelette EXACT de Surfaces - deux cartes
+      empilees a gauche, une haute a droite - avec une quatrieme ajoutee dans le
+      trou restant. Trois etudes, trois cas differents : la composition doit le
+      dire avant le texte.
+
+      CE QUI REND CELLE-CI DIFFERENTE, et les deux decisions qui la portent :
+
+        · LA CARTE 01 EST HAUTE, A GAUCHE (rangees 1-3). Aucune des deux autres
+          pages ne met sa hauteur a gauche - Governance ouvre sur une large en
+          haut, Surfaces sur deux empilees. Ici le probleme est l'objet le plus
+          haut de la page, et il est la premiere chose lue.
+        · LA CARTE 04 EST HAUTE, A DROITE, MAIS ELLE DEMARRE A MI-HAUTEUR
+          (rangees 3-6). Les cartes hautes des deux autres etudes partent de la
+          rangee 1 et plaquent la composition contre son bord superieur. Celle-ci
+          descend : la masse se construit vers le bas a droite, ce qui est aussi
+          ce que raconte le chapitre - l'objet monte d'un palier a chaque reset.
+
+      AUCUN JOINT HORIZONTAL NE TRAVERSE LA COMPOSITION. 02 s'arrete rangee 2,
+      01 rangee 3, 03 ne commence qu'en rangee 5 : il n'existe pas une ligne qui
+      aille d'un bord a l'autre, ce qui est la difference entre une composition
+      et deux rangees de cartes.
+
+      DEUX CARTES PAR BANDE, JAMAIS TROIS, et c'est une contrainte de largeur et
+      non de gout. Une bande qui porte trois cartes leur laisse 370px chacune,
+      soit 314 d'interieur - et la ligne de puces de la 02, « Brand platform ·
+      Production line · Operating model », en demande 319. Elle casserait sur
+      deux rangs, ce que le palier 1120 d'etude.css existe precisement pour
+      empecher.
+
+      Resultat vise a 1114 de colonne : 01 a 515, 02 a 519, 03 a 595, 04 a 439 -
+      soit des interieurs de 459, 463, 539 et 383, quand les quatre lignes de
+      puces demandent 249, 319, 225 et 295. Les marges sont larges de ce
+      cote-ci, la ou le premier jet n'en laissait que 34.
+
+      LES RANGEES RESTENT DES PLANCHERS, PAS DES HAUTEURS FIXES : en
+      `minmax(Xpx, auto)` la synthese d'une carte gagne des lignes sans que la
+      carte, qui est en `overflow:hidden`, les avale. Les rangees 3 et 4 sont
+      les respirations - fines et voulues telles - et 04 les traverse.
+    */
+    /*
+      ═══ UNE SEULE COMPOSITION, SUR LA GRAMMAIRE DE L'ACCUEIL ═══
+
+      Les deux etudes voisines posent SEPT colonnes en `fr` irreguliers, et
+      chacune accroche ses cases par des coordonnees chiffrees. Ca tient, mais
+      ca ne se lit pas : aucun filet vertical ne se prolonge d'une rangee a
+      l'autre, et la couleur finit dans des cases d'une colonne sur une rangee
+      fine - dix ici - qui font un lisere raye plutot qu'un Mondrian.
+
+      L'accueil fait l'inverse, et c'est pour ca que sa grille se lit :
+      DOUZE COLONNES EGALES et des ZONES NOMMEES. Toute frontiere tombe sur un
+      douzieme, donc les filets se prolongent partout ; et la couleur occupe
+      des cases entieres, pas des interstices.
+
+      LES TROIS CHIFFRES SONT GROUPES A GAUCHE. Ils ont d'abord tenu les trois
+      coins de `def`, puis l'ont coiffe en L ; ils forment desormais un bloc -
+      deux en haut, un dessous - et c'est ce qui libere tout le haut a droite.
+      La grille y gagne deux fois : les chiffres se lisent ENSEMBLE, comme une
+      seule mesure en trois parts, et la place recuperee va a du contenu.
+
+      LES FILETS DU HAUT DESCENDENT JUSQU'EN BAS. Deux coupes verticales
+      seulement - a la troisieme colonne et a la sixieme - et elles traversent
+      les quatre rangees : 3 porte le bord droit de `n1`, de `n3` et de
+      l'aplat final ; 6 porte celui de `n2` et la couture entre `c2` et `c3`.
+      C'est ce qui fait tenir la composition : non pas des cases bien placees,
+      mais DEUX LIGNES qui vont d'un bout a l'autre.
+
+      PLUS DE RANGEE DE SEPARATION. Les deux filets horizontaux qui coupaient
+      la composition en deux etaient la pour marquer un passage ; les rangees
+      s'en chargent maintenant d'elles-memes, et la composition perd 124px de
+      hauteur sans rien perdre d'autre.
+
+      CE QUE CHAQUE CASE PORTE :
+        · `n1` `n2` `n3` - les trois chiffres, 267x268, en bloc a gauche.
+        · `def` - « The brand platform », neuf colonnes, sous `n2` et `c1`.
+        · `c1` - le probleme, en haut a droite : la place liberee par les
+          chiffres va a la premiere carte, qui ouvre le recit.
+        · `c2` `c3` - l'approche et la preuve sur la MEME rangee, coupees a la
+          sixieme colonne, donc dans la descente du filet de `n2`.
+        · `c4` - le pivot, qui ferme la page sur neuf colonnes, borde a gauche
+          par le seul aplat de la composition.
+
+      LES LIGNES DE PUCES TIENNENT TOUTES SUR UN RANG : 479px d'interieur pour
+      les trois premieres - qui demandent 249, 319 et 225 - et 748 pour la
+      quatrieme, qui en demande 295.
+    */
+    .compo{grid-template-columns:repeat(12,minmax(0,1fr));
+      grid-template-rows:268px minmax(268px,auto) 88px
+        minmax(300px,auto) minmax(260px,auto);
+      grid-template-areas:
+        "n1 n1 n1 n2 n2 n2 n3 n3 n3 def def def"
+        "a1 a1 a2 c1 c1 c1 c1 c1 c1 def def def"
+        "h1 h1 k1 h2 h2 h2 h2 h2 h2 h2 h2 h2"
+        "c2 c2 c2 c2 c2 v1 c3 c3 c3 c3 c3 c3"
+        "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
+
+    /*
+      LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait
+      sa propre grille, collee sous celle-ci : deux objets qui se touchaient
+      sans s'aligner. `display:contents` fait disparaitre ses boites sans
+      toucher a l'ordre du front - c'est exactement ce que la version mobile
+      fait deja de `.clef-rangee`, et le trace anime sait lire un conteneur
+      sans boite (voir `data-cases` dans scripts/grille.ts).
+    */
+    .compo .cles--mondrian,.compo .clef-rangee{display:contents}
+    .compo .clef-rangee--1 .clef-case:nth-of-type(1){grid-area:n1}
+    .compo .clef-rangee--1 .clef-case:nth-of-type(2){grid-area:n2}
+    .compo .clef-rangee--2 .clef-case:nth-of-type(1){grid-area:n3}
+    .compo .clef-def{grid-area:def}
+    /*
+      LA POUSSEE AU SURVOL EST UN GESTE DE BANDE, et la bande n'existe plus :
+      `flex` ne veut rien dire pour une case de grille. Les largeurs ne
+      bougeraient donc pas - mais la regle qui EFFACE le contenu des cases
+      voisines, elle, s'appliquerait encore, et survoler un chiffre viderait
+      les deux autres. On la desarme ici.
+    */
+    .compo .clef-rangee:hover .clef__dedans,
+    .compo .clef-rangee:focus-within .clef__dedans,
+    .compo .clef-rangee:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:1}
+    /*
+      LE BLOC PERD SA BANDE DE CLOTURE, ET C'EST CE QUI REND LES CHIFFRES
+      CARRES. Mesure de ses 335px de haut : 188 de texte, et 148 de padding
+      dont 116 EN BAS - reserves a `.clef-def__bande`, l'aplat de 84px qui
+      fermait la case quand le bandeau etait un objet a part.
+
+      Dans la composition, ce n'est plus a lui de fermer quoi que ce soit : la
+      grille le fait, avec le meme filet que partout. La bande et son filet
+      s'effacent donc, le padding bas revient a 32, et le bloc tient en 251px -
+      sous les 268 de la rangee. `n3`, qui partage cette rangee, cesse d'etre
+      etire et redevient le carre que les deux autres sont.
+
+      La ligne de credit garde son `margin-top:auto` : elle se pose au bas de
+      la case au lieu de flotter sous la phrase.
+    */
+    /*
+      LE BLOC SE RESSERRE POUR TENIR DANS LA HAUTEUR D'UN CARRE. Aligne sur les
+      deux chiffres du dessus, il ne fait plus que six colonnes - 535px - et sa
+      phrase y prend six lignes au lieu de quatre : 326px de haut quand la
+      rangee en vaut 268, et `n3`, qui la partage, se retrouvait etire.
+
+      Mesure de ces 326 : 222 de texte, 64 de padding et 40 de gouttieres. Les
+      gouttieres passent a 14 et le padding a 24 - 32px repris sans toucher au
+      texte - et la phrase perd une ligne, ce qui donne les 26 derniers.
+    */
+    .compo .clef-def{padding:24px;gap:13px}
+    .compo .clef-def__bande,.compo .clef-def__filet{display:none}
+    .compo .clef-def__prix{margin-top:auto}
     /*
       LA MOSAIQUE DE LA DISCOVERY : quatre colonnes, et les sept extraits poses
       a la main. Comme la composition ci-dessus, la valeur est posee ICI et non
@@ -873,14 +1613,21 @@ const pratiques: Tuile[] = [
 </style>
 
 <script>
+  import { initChiffres } from '../scripts/chiffres';
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { initPiles } from '../scripts/pile';
+  import { initPistes } from '../scripts/pistes';
   import { suivreCadres } from '../scripts/vues';
 
+  /* le contexte des chiffres se deplie au clic aussi - voir le fichier. Il
+     manquait a cette page : le survol ouvrait le detail, le clic ne faisait
+     rien, et au doigt il n'y avait donc aucun moyen de le lire. */
+  initChiffres();
   initDossier();
   initLoupe();
   initPiles();
+  initPistes();
   /* hors champ, les cadres cessent de defiler : voir src/scripts/vues.ts */
   suivreCadres();
 </script>

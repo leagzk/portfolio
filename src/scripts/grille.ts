@@ -162,7 +162,22 @@ const RETARD_TARDIF = 0.08;
 export function tracerGrille(): void {
   if (mouvementReduit() || !('IntersectionObserver' in window)) return;
   document.querySelectorAll<HTMLElement>('[data-grille]').forEach((e) => construire(e));
-  document.querySelectorAll<HTMLElement>('[data-filets]').forEach((e) => construire(e, true));
+  document.querySelectorAll<HTMLElement>('[data-filets]').forEach((e) => {
+    /*
+      UN BLOC SANS BOITE NE SE TRACE PAS, ET SURTOUT NE S'OBSERVE PAS. Le
+      bandeau des chiffres porte `data-filets` ; pose dans une composition il
+      passe en `display:contents` et cesse d'avoir une boite. L'observateur
+      d'entree ne le voit alors JAMAIS - une boite nulle n'intersecte rien -
+      donc `pre` ne lui est jamais retire, et ses cases restent indefiniment
+      dans l'etat d'attente : sans filet, et sans leur contenu deplie.
+
+      Ses cases ne sont pas perdues pour autant : elles appartiennent a la
+      composition qui l'accueille, qui les ramasse en aplatissant ses
+      conteneurs sans boite.
+    */
+    if (getComputedStyle(e).display === 'contents') return;
+    construire(e, true);
+  });
 }
 
 /*
@@ -185,11 +200,19 @@ function construire(comp: HTMLElement, bordBas = false): void {
     enfants qui sont les cases, et leurs `gap` qui dessinent les filets. Un
     `display:contents` leur retirerait precisement ce qui les fait vivre.
   */
-  const cases = Array.from(comp.children).flatMap((el) =>
+  /*
+    L'APLATISSEMENT DESCEND AUTANT DE NIVEAUX QU'IL EN FAUT. Il n'en passait
+    qu'UN, ce qui suffisait tant qu'un conteneur sans boite contenait
+    directement des cases. Le bandeau des chiffres en a deux : la section passe
+    en `display:contents`, et chacune de ses RANGEES aussi. Ses trois cases
+    etaient donc deux crans trop bas, et le trace servait les rangees - qui
+    n'ont pas de boite - au lieu des cases.
+  */
+  const aplatir = (el: HTMLElement): HTMLElement[] =>
     getComputedStyle(el).display === 'contents' || el.hasAttribute('data-cases')
-      ? (Array.from(el.children) as HTMLElement[])
-      : [el as HTMLElement],
-  );
+      ? Array.from(el.children).flatMap((e) => aplatir(e as HTMLElement))
+      : [el];
+  const cases = Array.from(comp.children).flatMap((el) => aplatir(el as HTMLElement));
 
   /* Etat d'attente pose tout de suite : sans lui le contenu s'affiche puis
      disparait pour se re-animer quand l'observateur se declenche. */

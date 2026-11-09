@@ -29,7 +29,7 @@ Governance
 
 Systematize a brand
 Language
-2,500 people, one language - then a rebrand, translated for screens. **Anything can be systematized.**](/system-brand)
+2,500+ people, one language - then a rebrand, translated for screens. **Where the method came from.**](/system-brand)
 
 [
 

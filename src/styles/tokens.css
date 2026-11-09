@@ -43,6 +43,33 @@
   --yellow:#F5CD00;
   --white:#FFFFFF;          /* fond de page - le creme est supprime */
   --grey-mondrian:#E4E4E1;  /* composition Language uniquement */
+  /*
+    LE FILET DES CADRES D'IMAGE, ET POURQUOI IL N'EST PAS NOIR.
+
+    Le site avait deux traitements qui se cotoyaient sans se ressembler : les
+    cadres defilants portaient un filet noir, les figures n'en portaient aucun.
+    Sur une meme rangee - trois documents et une newsletter - on voyait trois
+    images flottantes et une encadree.
+
+    La regle est desormais : LE NOIR STRUCTURE, LE GRIS ENCADRE. Les filets de
+    la composition et du bandeau restent en --text, parce que ces lignes-la
+    SONT la grille. Un cadre d'image, lui, ne structure rien : il soutient une
+    illustration, et un trait noir autour d'une planche claire la cerne plus
+    qu'il ne la porte.
+  */
+  /*
+    #949494, APRES DEUX CRANS. Le premier choix - #4F4F4F - etait un gris tres
+    fonce, et a 1,5px d'epaisseur il se lisait NOIR : la distinction existait
+    dans la valeur et nulle part a l'ecran. #6E6E6E se voyait, mais pesait
+    encore ; un cadre doit soutenir l'image, pas la cerner.
+
+    LA VALEUR S'ARRETE LA ET PAS PLUS HAUT, et c'est mesure : #949494 donne
+    3,04:1 sur blanc, soit le seuil AA des elements non textuels. Un cadre est
+    la limite de ce qu'on montre - sur une capture a fond blanc, c'est LUI qui
+    dit ou l'image commence. Plus clair, il deviendrait decoratif et cette
+    limite disparaitrait pour qui voit mal les contrastes.
+  */
+  --cadre:#949494;          /* filet des cadres d'image, jamais de la grille */
   --placeholder:#F3F3F3;    /* emplacements visuels, en attente des vraies images */
   /* Textes sur fond noir. Trois valeurs et non une opacite : le gris doit etre
      mesurable au contraste, ce qu'une opacite sur un fond variable n'est pas. */

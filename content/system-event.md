@@ -12,10 +12,9 @@ Systematize a moment · Living System · 3rd edition
 
 # Same systems thinking, same care - just off the screen.
 
-Over more than a year, I designed and orchestrated a live event from end to
-end - one identity, one experience, held together across every surface and
-every supplier. No repository. No deploy pipeline. Just the discipline of
-making a hundred moving parts feel like one thing.
+Over more than a year, I designed and orchestrated a live event end to end - **one identity across fifty-plus surfaces**, and nine suppliers held to it. Invitation, signage, tableware, games: every piece cut from the same system.
+
+**No repository. No deploy pipeline.** Just the discipline of making a hundred moving parts feel like one thing - and the proof that**a system is a way of working, not a technology.**
 
 1 an+
 

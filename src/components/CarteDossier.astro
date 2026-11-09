@@ -43,6 +43,21 @@ export interface Props {
   id: string;
   /** le rang, tel qu'il s'affiche : « 01 » */
   rang: string;
+  /*
+    LE MOT QUI REMPLACE LE RANG A L'AFFICHAGE, ET POURQUOI IL EST A PART.
+
+    La quatrieme carte de chaque etude ne continue pas la serie : les trois
+    premieres sont des etapes - le probleme, l'approche, la preuve - et la
+    quatrieme nomme ce qui a fait basculer le cas. L'appeler « 04 » la rangeait
+    quatrieme d'une suite dont elle ne fait pas partie ; « Pivot » dit ce
+    qu'elle est.
+
+    `rang` NE BOUGE PAS POUR AUTANT : il part dans `data-rang`, que grille.ts
+    lit en `parseInt` pour servir les cases dans l'ordre. Un mot y donnerait
+    NaN et le trace anime perdrait sa sequence. Le mot ne touche donc que ce
+    qui se lit.
+  */
+  mot?: string;
   /** l'intitule du surtitre, sans le rang : « The problem » */
   intitule: string;
   titre: string;
@@ -72,7 +87,7 @@ export interface Props {
   aire: string;
 }
 const {
-  id, rang, intitule, titre, synthese, couleur, commande,
+  id, rang, mot, intitule, titre, synthese, couleur, commande,
   large = false, aire,
 } = Astro.props;
 ---
@@ -89,7 +104,7 @@ const {
 >
   <span class:list={['dcarte__plat']} aria-hidden="true"></span>
   <span class="dcarte__txt dcarte__eyebrow">
-    <span>{rang} &middot; {intitule}</span>
+    <span>{mot ?? rang} &middot; {intitule}</span>
     <Icone nom="plus" taille={20} class="dcarte__plus" />
   </span>
   <span class="dcarte__txt dcarte__corps">

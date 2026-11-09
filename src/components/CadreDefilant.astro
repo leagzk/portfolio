@@ -36,6 +36,9 @@ import type { ImageMetadata } from 'astro';
 import Icone from './Icone.astro';
 
 export interface Props {
+  /* Blanc tournant, comme sur Figure : une planche posee n'a pas de bord a
+     elle et ne doit pas venir au ras du filet. */
+  aere?: boolean;
   src: ImageMetadata;
   alt: string;
   /** legende visible, qui peut porter du HTML (gras, pastilles) */
@@ -68,7 +71,7 @@ export interface Props {
 const {
   src, alt, legende, ratio = '16 / 10', fr = 1.6,
   sizes = '(min-width: 900px) 420px, 90vw', widths,
-  declencheur = 'vue', zoom = false, titre, class: classe,
+  declencheur = 'vue', zoom = false, titre, class: classe, aere = false,
 } = Astro.props;
 
 /* lu dans le fichier a la compilation : un re-export d'un autre format se
@@ -77,7 +80,7 @@ const r = +(src.height / src.width).toFixed(4);
 const nom = titre ?? alt;
 const styleCadre = `--r:${r};--fr:${fr};aspect-ratio:${ratio}`;
 ---
-<figure class:list={['fig', classe]}>
+<figure class:list={['fig', aere && 'fig--aere', classe]}>
   {zoom ? (
     <button
       type="button"

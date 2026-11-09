@@ -62,6 +62,22 @@
     color:var(--text);cursor:pointer}
   .loupe__fermer:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
 
+  /*
+    ═══ LES DEUX MODES SE CACHENT VRAIMENT ═══
+
+    Le script bascule entre la planche et le cadre en posant `hidden` sur
+    l'autre. Mais `[hidden]` ne vaut que `display:none` dans la feuille PAR
+    DEFAUT du navigateur : la moindre regle d'auteur qui declare un `display`
+    la bat. Or `.loupe__cadre` porte aussi `.cadref`, qui pose `display:block`,
+    et `.loupe__img` declare le sien juste en dessous.
+
+    Resultat mesure sur le build : en mode planche, le cadre cache gardait
+    750px de hauteur sous l'image - la boite faisait 1382x1764 pour une image
+    de 1382x974. C'est le « rectangle blanc » qu'on voyait sous chaque planche
+    agrandie, et il valait pour toutes les loupes du site.
+  */
+  .loupe__img[hidden],.loupe__cadre[hidden]{display:none}
+
   /* mode planche : une image fixe, bornee par la fenetre */
   .loupe__img{display:block;max-width:96vw;max-height:82dvh;
     width:auto;height:auto;background:var(--white);

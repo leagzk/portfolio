@@ -156,11 +156,23 @@ const credits = [
     mesure={12.9}
   >
     Same systems thinking, same care - just off the screen.
+    {/*
+      DEUX PARAGRAPHES, COMME LES DEUX AUTRES ETUDES. Le premier dit le mandat
+      et ce qu'il a produit, le second le deplacement qu'il opere, nomme en
+      gras a la fin. Les trois heros se lisent desormais dans la meme forme.
+    */}
     <Fragment slot="intro">
-      Over more than a year, I designed and orchestrated a live event from end to
-      end - one identity, one experience, held together across every surface and
-      every supplier. No repository. No deploy pipeline. Just the discipline of
-      making a hundred moving parts feel like one thing.
+      <p>
+        Over more than a year, I designed and orchestrated a live event end to
+        end - <b>one identity across fifty-plus surfaces</b>, and nine
+        suppliers held to it. Invitation, signage, tableware, games: every
+        piece cut from the same system.
+      </p>
+      <p>
+        <b>No repository. No deploy pipeline.</b> Just the discipline of making
+        a hundred moving parts feel like one thing - and the proof that
+        <b>a system is a way of working, not a technology.</b>
+      </p>
     </Fragment>
   </Hero>
 
@@ -292,7 +304,7 @@ const credits = [
 
           <div class="bloc">
             <p class="bloc__t">Colors</p>
-            <ul class="sw" style="--swc:5">
+            <ul class="sw" tabindex="0" role="group" aria-label="One colour per capability">
               {couleurs.map((c) => (
                 <li class="swi">
                   <div class="swc" style={`background:${c.hex}`}></div>
@@ -449,7 +461,7 @@ const credits = [
               legende={`<strong>${e.rang} &middot; ${e.titre}</strong> ${e.propos}`}
               ratio="4 / 3"
               ajuste="cover"
-              sizes="(min-width: 900px) 340px, 45vw"
+              sizes="(min-width: 900px) 340px, 88vw"
             />
           ))}
         </div>
@@ -544,6 +556,10 @@ const credits = [
         </button>
       </div>
     </section>
+
+    {/* Le rail de cloture : trois cases vides dont on ne voit que les filets.
+        Voir .rails dans etude.css. */}
+    <div class="rails" aria-hidden="true"><div></div><div></div><div></div></div>
 
   </div>
 
@@ -680,12 +696,14 @@ const credits = [
 <script>
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
+  import { initPistes } from '../scripts/pistes';
   import { suivreCadres } from '../scripts/vues';
   import { fonduEnchaine } from '../scripts/crossfade';
   import { rendreDeplacable } from '../scripts/drag';
 
   initDossier();
   initLoupe();
+  initPistes();
   suivreCadres();
 
   /* La suite d'invitation : trois etats, 2,2s chacun. */
