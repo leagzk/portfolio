@@ -551,7 +551,7 @@ const credits = [
         */}
         <div class="two">
           <figure class="fig fig--aere">
-            <div class="fig__cadre suite" style="aspect-ratio:1400 / 1022;--fit:contain">
+            <div class="fig__cadre suite" style="aspect-ratio:1400 / 1430;--fit:contain">
               <Image class="suite__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
               <Image class="suite__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
               <Image class="suite__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
@@ -1119,6 +1119,15 @@ const credits = [
     ─── La suite d'invitation qui se deplie ───
     Trois etats au MEME endroit, en fondu. Trois vignettes cote a cote
     auraient montre trois photos ; le fondu montre un objet qu'on deplie.
+
+    LE CADRE PREND LE RAPPORT DU PLUS HAUT DES TROIS, 1400 x 1430, et pas
+    celui du premier. Les trois fichiers font tous 1400 de large pour des
+    hauteurs differentes ; dans un cadre plus large qu'eux, `contain` borne
+    les plus hauts par la HAUTEUR et les reduit, si bien que la suite
+    changeait de taille a chaque fondu au lieu de se deplier sur place. Au
+    rapport du plus haut, les trois sont bornes par la LARGEUR : ils sortent
+    tous a la meme echelle, et les deux moins hauts sont simplement centres
+    dans du blanc qui ne se voit pas, le cadre etant deja blanc.
 
     `inset` SE CALE SUR LA BOITE DE PADDING, pas sur la boite de contenu : a
     `inset:0` les trois images recouvraient le blanc tournant de `fig--aere`,
