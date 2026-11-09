@@ -52,9 +52,9 @@ Precise enough to be run without me in the room.
 
 One page per zone, one owner per page. I briefed every supplier from it, handed the day to a coordinator - and got to be in the experience instead of running it.
 
-## 01 &middot; The constraint
+## 01 &middot; The problem
 
-Off the screen
+Medium
 
 A living system isn't one you finish. It's one that takes its real shape *in the hands of the people who use it.*
 
@@ -64,7 +64,11 @@ It's the proof I keep coming back to: **my way of working doesn't depend on the 
 
 > The system, in the world
 
-Where it came from
+Next: the system →
+
+## 02 &middot; The approach
+
+Origin
 
 Starting from a constraint *you don't own.*
 
@@ -76,7 +80,7 @@ The scallop became the die-cut on the stationery and the discs hung from the arc
 
 Those five words were the brief - mine, and everyone else's. **Every supplier was briefed from them, and every arbitration came back to them.** That is the whole of the creative direction: not a mood, a short list you can hold someone to.
 
-The system itself
+Foundations
 
 Shapes
 
@@ -108,10 +112,6 @@ Serenity
 
 Text - rules, timings, instructions. Plain enough to disappear behind the display face.
 
-Next: the system →
-
-## 02 &middot; The system
-
 Nothing was left to chance, *and nothing drifted.*
 
 A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. **Dozens of touchpoints, one language** - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.
@@ -136,7 +136,11 @@ One identity, fifty-plus surfaces
 
 > Collaborative game
 
-The test
+Next: the handover →
+
+## 03 &middot; The proof
+
+Coverage
 
 The test was *the boring surfaces.*
 
@@ -148,7 +152,7 @@ That's where **conviviality and playfulness** stopped being words on a moodboard
 
 > Glass rules - 100 × 150 mm
 
-Printed, in the hand
+Print
 
 > The invitation, printed
 
@@ -176,47 +180,7 @@ Built
 
 > Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later.
 
-The centrepiece
-
-A game, *by design.*
-
-An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to *feel* effortless while being tightly engineered underneath.
-
-**Six riddles, six different mechanics for six essential clues to unlock one final chest, all together.** Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.
-
-> The game, set up in the courtyard
-
-> **01 &middot; The constraint** A locked trunk, a combination, and clues scattered across the day.
-
-> **02 &middot; The crack** Progression built so the last step feels earned, not handed over.
-
-> **03 &middot; The payoff** The reward carries the identity too. The system runs to the last object.
-
-But here's what I love most about it: **it only became itself once people played it.** I designed the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, evolving as they moved through it, in ways no plan could fully script.
-
-Shipped empty. **Finished by the people who played it.**
-
-Specified
-
-Played
-
-> The deduction grid, before anyone touched it and after a hundred people did.
-
-Specified
-
-Played
-
-> I drew the grid. The marks on it aren't mine - and that was always the point.
-
-That's the whole truth about the systems I build: **you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.** An escape game, a design system, a platform: same principle.
-
-The frame is mine. **The life is theirs.**
-
-Next: the handover →
-
-## 03 &middot; The handover
-
-The part nobody sees
+Handover
 
 ### One page per zone, one owner per page.
 
@@ -302,12 +266,4 @@ See it at global scale →
 - Close view of the flower palette: white daisies, blue cornflowers and pink blooms
 - Page from the production guide: mockup of the seating panels with the material checklist
 - The seating panels installed at the venue doorway at dusk, flanked by floral columns
-- The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement
-- Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid
-- Opened trunk revealing a framed congratulations card above rows of jars
-- Rows of jars packed in the trunk, each labelled with the event monogram on striped paper
-- Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes
-- The same deduction board after play, its grid filled with pink and green wooden tokens
-- Production guide page for the word-grid game: blank poster on an easel with its material checklist
-- The word grid mid-game, crossed through with chalk lines as players work it out together
 - Guests embracing at the event, the designer among them rather than running the day

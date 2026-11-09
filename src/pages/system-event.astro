@@ -260,14 +260,14 @@ const credits = [
       />
     </div>
 
-    {/* ═══════════ 01 · The constraint ═══════════ */}
+    {/* ═══════════ 01 · The problem ═══════════ */}
     <section class="pan" id="pan-contrainte" aria-labelledby="titre-contrainte">
-      <h2 class="sr-only" id="titre-contrainte">01 &middot; The constraint</h2>
+      <h2 class="sr-only" id="titre-contrainte">01 &middot; The problem</h2>
 
       <div class="subsec">
         {/* « Here, off the screen, exactly as it does on it » - la phrase est
             dans le bloc. Seule sous-partie du chapitre sans surtitre. */}
-        <p class="eb" data-sommaire>Off the screen</p>
+        <p class="eb" data-sommaire>Medium</p>
         <div class="split">
           <p class="lead">A living system isn't one you finish. It's one that takes its real shape <em class="em-rouge">in the hands of the people who use it.</em></p>
           <div class="pile">
@@ -287,8 +287,25 @@ const credits = [
         </div>
       </div>
 
+
+
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-systeme">Next: the system →</Bouton>
+      </div>
+    </section>
+
+    {/* ═══════════ 02 · The approach ═══════════ */}
+    <section class="pan" id="pan-systeme" aria-labelledby="titre-systeme">
+      <h2 class="sr-only" id="titre-systeme">02 &middot; The approach</h2>
+
       <div class="subsec">
-        <p class="eb" data-sommaire>Where it came from</p>
+        <p class="eb" data-sommaire>Origin</p>
         <div class="split">
           <p class="lead">Starting from a constraint <em class="em-rouge">you don't own.</em></p>
           <div class="body">
@@ -301,7 +318,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>The system itself</p>
+        <p class="eb" data-sommaire>Foundations</p>
         <div class="trois-blocs">
           <div class="bloc">
             <p class="bloc__t">Shapes</p>
@@ -362,21 +379,6 @@ const credits = [
         </div>
       </div>
 
-      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
-          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
-          src/scripts/dossier.ts. */}
-      <div class="pan__pied">
-        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
-          <Icone nom="fleche-haut" taille={20} />
-        </button>
-        <Bouton variante="bleu" class="suite" commande="carte-systeme">Next: the system →</Bouton>
-      </div>
-    </section>
-
-    {/* ═══════════ 02 · The system ═══════════ */}
-    <section class="pan" id="pan-systeme" aria-labelledby="titre-systeme">
-      <h2 class="sr-only" id="titre-systeme">02 &middot; The system</h2>
-
       <div class="subsec">
         <div class="split">
           <p class="lead">Nothing was left to chance, <em class="em-bleu">and nothing drifted.</em></p>
@@ -395,8 +397,27 @@ const credits = [
         />
       </div>
 
+
+
+
+
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="jaune" class="suite" commande="carte-transmission">Next: the handover →</Bouton>
+      </div>
+    </section>
+
+    {/* ═══════════ 03 · The proof ═══════════ */}
+    <section class="pan" id="pan-transmission" aria-labelledby="titre-transmission">
+      <h2 class="sr-only" id="titre-transmission">03 &middot; The proof</h2>
+
       <div class="subsec">
-        <p class="eb" data-sommaire>The test</p>
+        <p class="eb" data-sommaire>Coverage</p>
         <div class="split">
           <p class="lead">The test was <em class="em-bleu">the boring surfaces.</em></p>
           <div class="body">
@@ -415,7 +436,7 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Printed, in the hand</p>
+        <p class="eb" data-sommaire>Print</p>
         <div class="two">
           <Figure src={img('identity-invitation-detail')} legende="The invitation, printed" ratio="4 / 3" ajuste="cover"
             alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
@@ -467,69 +488,8 @@ const credits = [
         />
       </div>
 
-      <div class="subsec">
-        <p class="eb" data-sommaire>The centrepiece</p>
-        <div class="split">
-          <p class="lead">A game, <em class="em-bleu">by design.</em></p>
-          <div class="body">
-            <p>An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
-            <p><strong>Six riddles, six different mechanics for six essential clues to unlock one final chest, all together.</strong> Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.</p>
-          </div>
-        </div>
-        <Figure src={img('game-setup-wide')} legende="The game, set up in the courtyard" ratio="16 / 9" ajuste="cover"
-          alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement"
-          sizes="(min-width: 900px) 1040px, 92vw" />
-        <div class="three">
-          {etapes.map((e) => (
-            <Figure
-              src={img(e.nom)}
-              alt={e.alt}
-              legende={`<strong>${e.rang} &middot; ${e.titre}</strong> ${e.propos}`}
-              ratio="4 / 3"
-              ajuste="cover"
-              sizes="(min-width: 900px) 340px, 88vw"
-            />
-          ))}
-        </div>
-        <div class="body">
-          <p>But here's what I love most about it: <strong>it only became itself once people played it.</strong> I designed the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, evolving as they moved through it, in ways no plan could fully script.</p>
-        </div>
-        <p class="qt">Shipped empty. <strong>Finished by the people who played it.</strong></p>
-        <BeforeAfter
-          spec={{ src: img('spec-zone-murdle'), alt: 'Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes' }}
-          built={{ src: img('game-murdle'), alt: 'The same deduction board after play, its grid filled with pink and green wooden tokens' }}
-          builtLabel="Played"
-          caption="The deduction grid, before anyone touched it and after a hundred people did."
-        />
-        <BeforeAfter
-          spec={{ src: img('spec-zone-wordsearch'), alt: 'Production guide page for the word-grid game: blank poster on an easel with its material checklist' }}
-          built={{ src: img('game-wordsearch'), alt: 'The word grid mid-game, crossed through with chalk lines as players work it out together' }}
-          builtLabel="Played"
-          caption="I drew the grid. The marks on it aren't mine - and that was always the point."
-        />
-        <div class="body">
-          <p>That's the whole truth about the systems I build: <strong>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</strong> An escape game, a design system, a platform: same principle.</p>
-          <p class="qt">The frame is mine. <strong>The life is theirs.</strong></p>
-        </div>
-      </div>
-
-      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
-          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
-          src/scripts/dossier.ts. */}
-      <div class="pan__pied">
-        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
-          <Icone nom="fleche-haut" taille={20} />
-        </button>
-        <Bouton variante="jaune" class="suite" commande="carte-transmission">Next: the handover →</Bouton>
-      </div>
-    </section>
-
-    {/* ═══════════ 03 · The handover ═══════════ */}
-    <section class="pan" id="pan-transmission" aria-labelledby="titre-transmission">
-      <h2 class="sr-only" id="titre-transmission">03 &middot; The handover</h2>
-
       <div class="dark">
-        <p class="eb" data-sommaire>The part nobody sees</p>
+        <p class="eb" data-sommaire>Handover</p>
         <h3 class="h3">One page per zone, one owner per page.</h3>
         <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
         <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief. <strong>That's the whole method.</strong></p>
@@ -544,7 +504,10 @@ const credits = [
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Credits</p>
+        {/* SANS `data-sommaire` : c'est un ours, pas une idee. Il figurait
+            dans les puces de la carte 03 entre « Handover » et rien, et une
+            puce promet une partie du raisonnement, pas une liste de noms. */}
+        <p class="eb">Credits</p>
         <div class="split">
           <p class="lead">Vision and execution directed by me - <em class="em-jaune">everything else by people far better than me at their own craft.</em></p>
           <dl class="credits">
