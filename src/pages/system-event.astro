@@ -284,7 +284,14 @@ const credits = [
         aire="c4"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--rouge"></span></div>
+      {/* L'aplat de cloture, coupe par un filet. Il ferme la ligne du bas a
+          droite du pivot, et le filet qui le traverse est le seul trait de la
+          composition qui ne separe pas deux cases : il en coupe une. C'est ce
+          que fait l'accueil sous le rail des principes. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p1">
+        <span class="compo__plat compo__plat--rouge"></span>
+        <span class="compo__coupe"></span>
+      </div>
 
 
     </div>
@@ -769,14 +776,18 @@ const credits = [
     disparaitre ses boites sans toucher a l'ordre du front, et le trace anime
     sait lire un conteneur sans boite (voir `data-cases` dans grille.ts).
 
-    LE DESSIN. La definition ouvre a gauche sur deux rangees ; les deux
-    chiffres s'empilent a sa droite en carres de deux colonnes - c'est leur
-    hauteur cumulee qui donne la sienne - et le probleme tient toute la droite
-    sur ces memes rangees. Dessous, la demarche passe sous la definition et la
-    preuve sous le probleme : chaque moitie garde sa colonne, et le recit se
-    lit en Z. Le pivot ferme en pleine largeur, avec un carre de couleur a sa
-    droite - le seul bloc qui traverse, et c'est voulu : il ne fait pas partie
-    de la serie.
+    LE DESSIN, ET UN SEUL FILET LE TIENT. La definition ouvre a gauche sur deux
+    rangees ; les deux chiffres s'empilent a sa droite en carres de deux
+    colonnes - c'est leur hauteur cumulee qui donne la sienne - et le probleme
+    tient toute la droite sur ces memes rangees. Dessous, la demarche passe
+    sous la definition et la preuve sous le probleme. Le pivot ferme a gauche,
+    et un aplat coupe d'un filet ferme a droite.
+
+    LE FILET CENTRAL NE S'INTERROMPT PLUS. A la frontiere des colonnes 6 et 7,
+    il separe les chiffres du probleme, puis la demarche de la preuve, puis le
+    pivot de l'aplat : il court du haut au bas de la composition sans qu'aucun
+    bloc l'enjambe. Le pivot le traversait quand il prenait la pleine largeur,
+    et c'est ce qui faisait lire deux dessins l'un sous l'autre au lieu d'un.
 
     LE TROISIEME CHIFFRE A SAUTE, et c'est lui qui liberait la place. « 3rd
     edition, nothing reused » redisait l'ouverture du hero - trois mariages,
@@ -804,7 +815,7 @@ const credits = [
         "def def def def n1 n1 c1 c1 c1 c1 c1 c1"
         "def def def def n2 n2 c1 c1 c1 c1 c1 c1"
         "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
-        "c4 c4 c4 c4 c4 c4 c4 c4 c4 p1 p1 p1"}
+        "c4 c4 c4 c4 c4 c4 p1 p1 p1 p1 p1 p1"}
 
     .compo .cles--mondrian,.compo .clef-rangee{display:contents}
     /* A deux chiffres, `MOITIE` vaut 1 : chaque rangee n'en porte qu'un seul. */
