@@ -64,6 +64,26 @@ It's the proof I keep coming back to: **my way of working doesn't depend on the 
 
 > The system, in the world
 
+Client
+
+Usually I do this to someone else's brief. This time *I was both ends of it.*
+
+On the two editions before this one I worked to a couple's story: they had one, I translated it, and they told me when it was theirs. This time there was nobody on the other side of the table. **Brief, execution and review all sat on the same desk** - which quietly removes every check a brief normally comes with.
+
+And I do this for a living: I like identities, I like things pixel-perfect. With no client review and no design crit, nothing outside the work was going to say it was enough, that it had drifted, or that a decision was a degree too loud for a day belonging to ninety people as much as to anyone.
+
+**No client to please, and no client to stop me. The hardest arbitration on this project was against my own taste.**
+
+Control
+
+The line between what I hold *and what I hand over.*
+
+On the first two editions I held all of it - art direction, print, setup, some of the hosting on the day. It worked, and it cost me the day itself. **You cannot both run an experience and be inside it.**
+
+The other half of the same question is the suppliers. Nine of them, each better than me at their own craft. Hold too much and you get compliance instead of their best work; hold too little and fifty surfaces drift apart by the second week. The answer isn't a tighter brief, it's a clearer one - agreed at the start, on what is fixed, what is theirs, and how we work together.
+
+**Fix the frame, open the rest.** It's the same arbitration I run on a design system: a core nobody negotiates, and everything around it contributed.
+
 Next: the system →
 
 ## 02 &middot; The approach
