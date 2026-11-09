@@ -1612,11 +1612,11 @@
   ecarts a 32px qui restaient. Une marge posee sur la bande elle-meme n'a
   besoin d'aucun voisin, donc rien a franchir.
 */
-.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw,.ba){margin:24px 0}
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw){margin:24px 0}
 /* SAUF SOUS SON PROPRE SURTITRE : il nomme la bande, il ne s'en separe pas.
    Ici `+` est sur et le restera - un surtitre est un <p> ecrit dans la page,
    jamais un composant, donc aucun script ne peut s'intercaler. */
-.pan .subsec > .eb + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw,.ba){margin-top:0}
+.pan .subsec > .eb + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw){margin-top:0}
 .pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */

@@ -182,6 +182,8 @@ One identity, fifty-plus surfaces
 
 > Glass rules - 100 × 150 mm
 
+> Seating panels, at the door
+
 Execution
 
 A specification is a promise. *Production is where it gets kept.*
@@ -206,11 +208,13 @@ Behind the identity and the staging: coordination. Florist, caterer, photographe
 
 I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief.
 
-Specified
+One page per zone
 
-Built
+> Zone &middot; the seating panels
 
-> Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later.
+> Zone &middot; the deduction game
+
+> Zone &middot; the word grid
 
 Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be *in* the experience instead of running it.
 
@@ -286,17 +290,9 @@ And it only became itself once people played it. I drew the frame - tight, delib
 
 Shipped empty. **Finished by the people who played it.**
 
-Specified
+> The deduction grid, after a hundred people
 
-Played
-
-> The deduction grid, before anyone touched it and after a hundred people did.
-
-Specified
-
-Played
-
-> I drew the grid. The marks on it aren't mine - and that was always the point.
+> I drew the grid. The marks on it aren&rsquo;t mine.
 
 Transfer
 
@@ -340,15 +336,15 @@ See it at global scale →
 - Print artwork for the first riddle: a nine by nine colour-region grid with its single rule set above it
 - Striped door tag hanging from a bedroom handle, naming the room in the identity's display type
 - Print artwork for the small card explaining what to do with your glass through the evening
+- The seating panels installed at the venue doorway at dusk, flanked by floral columns
 - Reception hall under exposed beams and string lights, long tables laid for a hundred guests
 - Long table with patterned plates, gold cutlery and single-stem vases running down the centre
 - Place card clipped to a wine glass on the laid table, beside a small vase of ranunculus
 - Close view of the flower palette: white daisies, blue cornflowers and pink blooms
 - Page from the production guide: mockup of the seating panels with the material checklist
-- The seating panels installed at the venue doorway at dusk, flanked by floral columns
+- Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes
+- Production guide page for the word-grid game: blank poster on an easel with its material checklist
 - Guests embracing at the event, the designer among them rather than running the day
 - The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement
-- Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes
-- The same deduction board after play, its grid filled with pink and green wooden tokens
-- Production guide page for the word-grid game: blank poster on an easel with its material checklist
+- The deduction board after play, its grid filled with pink and green wooden tokens
 - The word grid mid-game, crossed through with chalk lines as players work it out together
