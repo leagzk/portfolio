@@ -419,11 +419,10 @@ const credits = [
           <p class="lead">Starting from a constraint <em class="em-bleu">you don't own.</em></p>
           <div class="body">
             <p><strong>The whole thing started with two objects.</strong> Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The <strong>Popolo</strong> plate: scalloped rim, hand-painted florals, cobalt and ochre. The <strong>Roly Poly</strong> armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.</p>
-            <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colors, conviviality and playfulness.</strong> Then systematised end to end across the whole experience, from the first envelope to the last jar label.</p>
+            <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colors, conviviality and playfulness.</strong> Then systematised end to end, across every surface the days would touch.</p>
             <p>The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - <strong>are the reason the day ended up with an escape game in it.</strong></p>
           </div>
         </div>
-        <p class="qt">Those five words were the brief - mine, and everyone else's. <strong>Every supplier was briefed from them, and every arbitration came back to them.</strong> That is the whole of the creative direction: not a mood, a short list you can hold someone to.</p>
       </div>
 
       <div class="subsec">
@@ -544,7 +543,11 @@ const credits = [
             <p>That's where <strong>conviviality and playfulness</strong> stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.</p>
           </div>
         </div>
+        {/* `aere` : ces vignettes sont des objets photographies, pas des
+            captures plein cadre. Sans blanc tournant, le sujet vient taper le
+            filet. Meme traitement que sur les deux autres etudes. */}
         <Carrousel
+          aere
           label="The surfaces"
           eyebrow="One identity, fifty-plus surfaces"
           vignettes={surfaces}
@@ -554,10 +557,19 @@ const credits = [
           sizes="(min-width: 900px) 660px, 90vw"
         />
         <div class="two">
-          <Figure src={img('signage-door-tag')} legende="Room tag, in place" ratio="4 / 3" ajuste="cover"
+          {/*
+            LE CADRE PREND LE RAPPORT DU FICHIER, ET NON L'INVERSE. Les deux
+            sont des PORTRAITS - 1100x1545 pour la carte des verres, 1100x1650
+            pour l'etiquette de porte - et un cadre de 4/3 les posait couches :
+            l'artwork, en `contain`, s'y reduisait a une bande centrale avec du
+            gris de part et d'autre. 1100/1545 est le rapport de l'artwork, donc
+            il ne perd plus rien ; la photo d'a cote est en `cover` et se recadre
+            sans se deformer.
+          */}
+          <Figure src={img('signage-door-tag')} legende="Room tag, in place" ratio="1100 / 1545" ajuste="cover"
             alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type"
             sizes="(min-width: 900px) 520px, 90vw" />
-          <Figure src={img('print-glass-rules')} legende="Glass rules - 100 × 150 mm" ratio="4 / 3"
+          <Figure src={img('print-glass-rules')} legende="Glass rules - 100 × 150 mm" ratio="1100 / 1545" aere
             alt="Print artwork for the small card explaining what to do with your glass through the evening"
             sizes="(min-width: 900px) 520px, 90vw" />
         </div>
@@ -593,8 +605,10 @@ const credits = [
             auraient montre trois photos ; le fondu montre un objet qu'on
             deplie. src/scripts/crossfade.ts, 2,2s par etat.
           */}
-          <figure class="fig">
-            <div class="fig__cadre suite" style="aspect-ratio:4 / 3;--fit:contain">
+          {/* `fig--aere` : la suite est posee a plat sur un fond clair, elle
+              n'a pas de bord a elle et venait au ras du filet. */}
+          <figure class="fig fig--aere">
+            <div class="fig__cadre suite" style="aspect-ratio:1400 / 1022;--fit:contain">
               <Image class="suite__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
               <Image class="suite__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
               <Image class="suite__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
@@ -623,19 +637,45 @@ const credits = [
         />
       </div>
 
-      <div class="dark">
+      {/*
+        HANDOVER REPREND LA FORME DES ONZE AUTRES SOUS-PARTIES.
+
+        Elle etait un `.dark` : un pave noir a coins arrondis, avec son propre
+        titre en h3 et sa propre chute. Deux composants - `.dark` et
+        `.dark__chute` - qui n'existent nulle part ailleurs sur le site, pour
+        dire ce que la forme commune dit partout ailleurs : un surtitre, une
+        phrase d'attaque, un corps.
+
+        ET SES ANGLES CONTREDISAIENT LE TOKEN QU'ILS APPELAIENT. `--r-footer`
+        est documente comme « les DEUX COINS BAS du footer, seul radius du
+        site » ; le bloc le posait sur ses quatre coins. C'etait donc le seul
+        objet arrondi de toutes les pages, sur une grammaire qui n'arrondit
+        rien.
+
+        Le propos ne bouge pas, et la chute devient ce qu'elle etait : la
+        derniere phrase du dernier paragraphe.
+      */}
+      <div class="subsec">
         <p class="eb" data-sommaire>Handover</p>
-        <h3 class="h3">One page per zone, one owner per page.</h3>
-        <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
-        <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief. <strong>That's the whole method.</strong></p>
-        <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
-        <p class="dark__chute">The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. It works in a repo. It works in a garden.</p>
+        <div class="split">
+          <p class="lead">One page per zone, <em class="em-jaune">one owner per page.</em></p>
+          <div class="body">
+            <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
+            <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief.</p>
+            <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
+            <p>The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. <strong>It works in a repo. It works in a garden.</strong></p>
+          </div>
+        </div>
       </div>
 
-      <div class="subsec">
-        <Figure src={img('coordination-embrace')} legende="Inside it, not behind it." ratio="16 / 9" ajuste="cover"
+      {/* ELLE ILLUSTRE LE PARAGRAPHE QUI PRECEDE, donc elle en prend la
+          largeur. A pleine largeur - 1040px - une photo de groupe pesait plus
+          que tout le chapitre, alors qu'elle dit UNE phrase : celle qui termine
+          Handover. `split__droite` la renvoie en colonne 2, et `sizes` suit. */}
+      <div class="split">
+        <Figure class="split__droite" src={img('coordination-embrace')} legende="Inside it, not behind it." ratio="16 / 9" ajuste="cover"
           alt="Guests embracing at the event, the designer among them rather than running the day"
-          sizes="(min-width: 900px) 1040px, 92vw" />
+          sizes="(min-width: 900px) 600px, 92vw" />
       </div>
 
       <div class="subsec">

@@ -94,11 +94,9 @@ Starting from a constraint *you don't own.*
 
 **The whole thing started with two objects.** Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The **Popolo** plate: scalloped rim, hand-painted florals, cobalt and ochre. The **Roly Poly** armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.
 
-Five words came out of them, written down before anything was drawn: **shapes, type, colors, conviviality and playfulness.** Then systematised end to end across the whole experience, from the first envelope to the last jar label.
+Five words came out of them, written down before anything was drawn: **shapes, type, colors, conviviality and playfulness.** Then systematised end to end, across every surface the days would touch.
 
 The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - **are the reason the day ended up with an escape game in it.**
-
-Those five words were the brief - mine, and everyone else's. **Every supplier was briefed from them, and every arbitration came back to them.** That is the whole of the creative direction: not a mood, a short list you can hold someone to.
 
 Foundations
 
@@ -208,15 +206,15 @@ Built
 
 Handover
 
-### One page per zone, one owner per page.
+One page per zone, *one owner per page.*
 
 Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.
 
-I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief. **That's the whole method.**
+I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief.
 
 Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be *in* the experience instead of running it.
 
-The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. It works in a repo. It works in a garden.
+The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. **It works in a repo. It works in a garden.**
 
 > Inside it, not behind it.
 

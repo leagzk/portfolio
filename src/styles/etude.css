@@ -1639,20 +1639,6 @@
 .pan .qt{margin:0;padding-left:20px;border-left:3px solid var(--blue);
   font-size:17px;line-height:1.65;font-style:italic;color:var(--text-body);
   max-width:720px}
-/* ─── Bloc noir ─── */
-.pan .dark{background:var(--ink);color:var(--on-ink);border-radius:var(--r-footer);
-  padding:var(--pad-square);display:flex;flex-direction:column;gap:18px;
-  font-size:var(--fs-body);line-height:1.7}
-.pan .dark p:not(.eb){margin:0;max-width:760px}
-.pan .dark strong,.pan .dark b{color:var(--white)}
-.pan .dark .eb{color:var(--yellow)}
-.pan .dark .h3{color:var(--white)}
-/* La chute d'un bloc sombre : plus grande que le corps, plus petite qu'un
-   titre, et detachee par un filet jaune - le seul endroit de la page ou le
-   jaune porte du sens plutot que de la surface. */
-.pan .dark__chute{margin:0;padding-top:20px;border-top:var(--rule-fine) solid var(--yellow);
-  font-family:var(--display);font-size:22px;line-height:1.25;font-weight:900;
-  color:var(--white);max-width:640px}
 
 /* ─── Grilles de contenu ─── */
 .pan .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px}
@@ -2022,7 +2008,6 @@
      qui fait deborder la ligne, donc defiler. */
   .pan .swi{flex:0 0 38%}
   .pan .lead{font-size:28px}
-  .pan .dark{padding:28px}
   /*
     LA PILE SE DEPLIE EN COLONNE. Sept planches empilees dans un cadre de 4/3
     ne tiennent que parce qu'une rotation les distingue ; sur une colonne de
