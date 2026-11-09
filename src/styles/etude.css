@@ -411,9 +411,17 @@
   background:var(--blue);transform-origin:left bottom}
 .clef-def__eb{margin:0;font-size:var(--fs-eyebrow);font-weight:700;
   letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
+/*
+  LE MEMBRE FORT PREND L'APLAT, PAS LA COULEUR DE TEXTE. Il etait en
+  `color:var(--red)` quand les phrases d'attaque des sections, elles, portent
+  un `em-rouge` - un aplat rouge et du blanc dessus. Deux traitements pour le
+  meme geste sur la meme page : le bloc statique disait en couleur de texte ce
+  que les sections disent en surlignage. Il prend donc le meme jeton, qui
+  apporte avec lui le `box-decoration-break` dont une phrase de 22px a besoin
+  quand elle passe a la ligne.
+*/
 .clef-def__phrase{margin:0;font-family:var(--display);font-size:22px;
   line-height:1.25;font-weight:900;letter-spacing:-.01em;color:var(--text)}
-.clef-def__phrase strong{color:var(--red)}
 
 /* La construction sert ces cases comme celles de la composition. */
 /*
@@ -1257,90 +1265,51 @@
    ne peut pas tenir - du telephone jusqu'au seuil de la composition pleine. */
 @media(max-width:1119px){
   /*
-    LA ZONE SE FERME SUR UNE BANDE, ET LES TRAITS FONT GRILLE. C'est la
-    reference posee par Lea : chez Mondrian ce ne sont pas les aplats qui
-    structurent, ce sont les lignes - elles traversent, elles depassent leurs
-    intersections, et la couleur occupe ce qu'elles delimitent.
+    LA ZONE NE S'ENCADRE PLUS, ELLE SE MARQUE. Les deux filets, la verticale
+    et la bande pleine hauteur formaient un cadre qui coutait 36px de haut par
+    carte - 16 de degagement en haut, 16 en bas, et les deux traits - sur une
+    carte qui en fait 442 au telephone. Quatre chapitres, et c'est pres de
+    150px de defilement pour un ornement. Il reste les puces et un carre dans
+    le coin.
 
-    UNE BANDE VERTICALE PLUTOT QU'UN CARRE, et ce n'est pas qu'un gout : un
-    carre a besoin d'une taille, donc d'une hauteur, donc de la zone - et la
-    zone depend de la largeur laissee au texte, que le carre determine. Ce
-    cycle s'est referme pour de vrai : en item flex etire avec
-    `aspect-ratio`, le navigateur tranchait sur une passe perimee et
-    COMPRIMAIT la colonne. Mesure a 320px : la liste demandait 163px, la
-    rangee en rendait 107, et la carte - en `overflow:hidden` - coupait 29px.
+    LE CARRE GARDE LA LARGEUR DU MODULE, 56px, celui de l'accueil, et prend la
+    couleur du chapitre par `--puce` : la carte fermee dit toujours de quelle
+    couleur elle est. Il ne lui faut plus de bord - il n'y a plus de filet
+    contre lequel se detacher - ni de traitement a part pour le chapitre noir,
+    dont `--puce` vaut deja `--ink-muted`, lisible sur blanc.
 
-    UNE BANDE N'A QUE SA LARGEUR A ELLE. Les 56px sont le module de
-    l'accueil, ou la meme figure revient trois fois sous 720px. La hauteur
-    suit la zone sans rien lui demander : trois puces ou quatre, repliees ou
-    non, la reserve du texte (74 = 56 + 2 de filet + 16 d'ecart) ne bouge
-    pas. Plus de cycle, donc plus de coupe.
+    UNE TAILLE EN DUR, ET SURTOUT PAS EN `aspect-ratio`. La tentative
+    precedente etirait le carre en item flex : sa hauteur dependait de la
+    zone, qui dependait de la largeur laissee au texte, que le carre
+    determinait. Le cycle s'est referme pour de vrai - mesure a 320px, la
+    liste demandait 163px, la rangee en rendait 107, et la carte, en
+    `overflow:hidden`, coupait 29px. 56 x 56 ne dependent de rien, et la liste
+    prend le reste.
 
-    LE FILET DEPASSE, EN HAUT ET EN BAS. C'est ce qui le fait lire comme une
-    ligne de grille plutot que comme un bord de bande : il part DANS le trait
-    horizontal de la zone et ressort sous elle, exactement comme la verticale
-    de la reference traverse l'horizontale.
+    IL GARDE SON FILET. Sans lui le carre n'est qu'un aplat pose la ; avec,
+    il redevient une case - c'est le trait qui structure, pas la couleur, et
+    c'est la seule chose du cadre d'avant qui valait d'etre gardee.
+    `border-box` le prend DANS les 56px au lieu de les ajouter dehors.
+
+    LE CARRE SORT DU PADDING DE LA CARTE, A DROITE ET EN BAS. Les 28px de
+    retrait servent au texte ; lui occupe le coin, ou deux marges negatives le
+    menent. Celle du bas ne pousse rien : sur un item flex la marge entre dans
+    la taille exterieure, donc le carre compte pour 28 au lieu de 56 et la
+    zone garde la hauteur de la liste.
+
+    ET IL N'A PAS DE FILET EN BAS, parce que le filet du bas, c'est celui de
+    la carte - le carre vient s'y poser. Lui en donner un de plus le doublerait
+    sur la meme ligne. C'est deja ce que faisait la bande d'avant, qui ne
+    portait que son bord droit : les autres cotes etaient ceux de la zone.
   */
-  /*
-    LA ZONE SORT DU PADDING DE LA CARTE, A DROITE. Les 28px de retrait
-    servent au texte ; l'aplat et son filet, eux, doivent filer jusqu'au bord.
-    La marge negative les y mene sans sortir de la boite de la carte - qui est
-    en `overflow:hidden`, comme la composition : tout ce qui depasse ces deux
-    boites est coupe, et c'est ce qui limite le geste a 28 des 44px qui
-    separent la bande du bord de l'ecran. Les 16 restants sont la gouttiere
-    de page, hors des deux boites.
-  */
-  /* LE TRAIT DU HAUT EST AUSSI LE HAUT DU CADRE, donc `--rule` comme les trois
-     autres cotes et non `--rule-fine`. Il traverse toute la carte, pas
-     seulement l'aplat : c'est le separateur de la zone qui s'epaissit avec
-     lui, et c'est le prix d'un cadre dont les quatre cotes pesent pareil.
-     `currentColor` reste - a 1,06:1 de `--text`, l'oeil ne les separe pas, et
-     la couleur suit la carte si elle s'ouvre. */
-  .dcarte__points{position:relative;display:block;margin-top:16px;
-    margin-right:-28px;padding:16px 0 16px;
-    border-top:var(--rule) solid currentColor;
-    border-bottom:var(--rule) solid currentColor}
-  .dcarte__liste{display:flex;flex-direction:column;gap:10px;padding-right:74px}
-  /* `top:0` EST LE FILET, PAS LE TEXTE. Le `padding-top` de 16px degage la
-     premiere puce du trait ; l'aplat, lui, n'a rien a degager - il doit
-     TOUCHER la ligne, sans quoi un blanc s'ouvre entre les deux et la grille
-     se defait. Il part donc du bord de la boite de remplissage, c'est-a-dire
-     sous le trait lui-meme. */
-  /*
-    `bottom:-8px` COMME LE FILET, ET POUR LA MEME RAISON. Les deux descendent
-    a la meme ligne : un aplat qui s'arrete avant son trait laisse un bout de
-    filet nu, et c'est exactement ce qui se voyait.
-
-    LE CADRE SE FERME SUR QUATRE COTES. Le trait du haut est celui de la zone,
-    la verticale de gauche est le `::after` ci-dessous ; restaient la droite et
-    le bas, que l'aplat porte lui-meme en bordure. `border-box` les prend DANS
-    ses 56px au lieu de les ajouter dehors : a droite il n'y a plus de place -
-    la zone touche deja le bord de la carte, et la carte coupe ce qui depasse.
-    L'aplat perd donc deux pixels de chaque cote, et les traits les occupent.
-  */
-  .dcarte__bande{position:absolute;right:0;top:0;bottom:0;width:56px;
-    box-sizing:border-box;background:var(--puce,currentColor);
-    border-right:var(--rule) solid currentColor}
-  /*
-    LE 04 PASSE AU GRIS, parce que son noir rendait le cadre invisible : aplat
-    #0A0708 et filets #111111 se touchent a 1,06:1 - le carre n'avait plus de
-    bord, juste une masse. Le gris de la composition tranche a 14,8:1 sur le
-    meme filet, et c'est deja lui qui porte les aplats gris de la page
-    (.compo__plat--gris).
-
-    LES PUCES SUIVENT L'APLAT, MAIS PAS AVEC SON GRIS. Elles etaient restees
-    noires quand la bande est passee au gris, et le chapitre parlait alors de
-    deux couleurs. Le gris de la composition ne peut pas les porter pour
-    autant : #E4E4E1 sur blanc tient 1,3:1, et un carre de 8px y disparait.
-    Les deux gris ne font pas le meme travail - l'un se pose CONTRE le filet
-    noir, l'autre SUR du blanc - donc ils n'ont pas la meme valeur. La puce
-    prend le gris sourd du site, --ink-muted, 9,0:1 sur blanc : plus noir, et
-    nettement moins que le #111 du texte a cote.
-  */
-  .dcarte--noir .dcarte__bande{background:var(--grey-mondrian)}
-  .dcarte__points::after{content:"";position:absolute;right:56px;
-    top:calc(var(--rule) * -1);bottom:calc(-8px - var(--rule)); /* 8 = depassement de grille, sans rapport avec le degagement des puces */
-    width:var(--rule);background:currentColor}
+  .dcarte__points{display:flex;align-items:flex-end;gap:16px;
+    margin-top:18px;margin-right:-28px;padding:0}
+  .dcarte__liste{flex:1 1 auto;min-width:0;
+    display:flex;flex-direction:column;gap:10px}
+  .dcarte__bande{flex:none;width:56px;height:56px;box-sizing:border-box;
+    margin-bottom:-28px;
+    border:var(--rule) solid currentColor;border-bottom:0;
+    background:var(--puce,currentColor)}
   /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
      l'ECART qu'on garde, pas le retrait. */
   .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;
@@ -1374,11 +1343,8 @@
 @media(min-width:861px) and (max-width:1119px){
   /* 18px, l'ecart de la ligne du bureau : le trait ne separe plus, donc c'est
      le blanc qui doit le faire, et autant que la ou il n'a jamais ete. */
-  .dcarte__points{margin-top:18px;margin-right:0;padding:0;
-    border-top:0;border-bottom:0}
-  .dcarte__points::after{display:none}
+  .dcarte__points{margin-right:0}
   .dcarte__bande{display:none}
-  .dcarte__liste{padding-right:0}
 }
 .compo__sommaire li{position:relative;padding-left:28px;font-family:var(--display);
   font-size:16px;line-height:1.35;font-weight:700;letter-spacing:-.01em;
@@ -1837,11 +1803,12 @@
   Aucune teinte de compromis, aucun jeton de texte en plus, et le contraste
   le plus faible des quatre vaut celui que le rouge avait seul auparavant.
 
-  LA CARTE NOIRE ACCENTUE EN GRIS, ET CE N'EST PAS UN PIS-ALLER : sa propre
-  bande l'utilise deja - `.dcarte--noir .dcarte__bande` est en
-  --grey-mondrian. Le gris est la couleur SECONDE de cette carte, pas une
-  absence de couleur, et il sert partout ailleurs dans les compositions -
-  la case grise du bandeau de chiffres, les aplats de l'accueil.
+  LA CARTE NOIRE ACCENTUE EN GRIS, ET CE N'EST PAS UN PIS-ALLER : le gris est
+  la couleur SECONDE de cette carte, pas une absence de couleur, et il sert
+  partout ailleurs dans les compositions - la case grise du bandeau de
+  chiffres, les aplats de l'accueil. Sa bande au telephone l'a employe tant
+  qu'elle se detachait d'un filet noir ; le carre qui l'a remplacee se pose
+  sur du blanc et prend `--puce`, comme ses propres puces.
 
   IL EST EN REVANCHE BEAUCOUP PLUS DISCRET QUE LES TROIS AUTRES : 1,27:1
   contre le blanc de page, la ou le rouge, le bleu et le jaune sont des
