@@ -508,6 +508,12 @@ const pratiques: Tuile[] = [
           d'echelle, seulement un contraste de forme. Celui-ci fait 88x88 : un
           carre, le plus petit de la composition, qui coupe une rangee blanche
           comme la bande coupait les deux filets. */}
+      {/* LA CASE QUI RESPIRE, A GAUCHE DU PROBLEME. La carte courait sur neuf
+          colonnes, d'un bord au bloc : une bande, et rien pour la poser. Trois
+          colonnes de blanc la ramenent a six et la CENTRENT entre le carre
+          vide et la colonne du bloc. C'est la seule case de la composition qui
+          ne porte rien, et c'est son role. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:k1"><span class="compo__plat compo__plat--noir"></span></div>
       {/* LE RYTHME TIENT A DEUX ACCENTS ETROITS, ET A RIEN D'AUTRE. Une ligne
           horizontale de 28px, coloree sur ses trois dernieres colonnes
@@ -1405,11 +1411,11 @@ const pratiques: Tuile[] = [
       quatrieme, qui en demande 295.
     */
     .compo{grid-template-columns:repeat(12,minmax(0,1fr));
-      grid-template-rows:268px minmax(300px,auto) 88px
+      grid-template-rows:268px minmax(268px,auto) 88px
         minmax(300px,auto) minmax(260px,auto);
       grid-template-areas:
         "n1 n1 n1 n2 n2 n2 n3 n3 n3 def def def"
-        "c1 c1 c1 c1 c1 c1 c1 c1 c1 def def def"
+        "a1 a1 a1 c1 c1 c1 c1 c1 c1 def def def"
         "h1 h1 k1 h2 h2 h2 h2 h2 h2 h2 h2 h2"
         "c2 c2 c2 c2 c2 v1 c3 c3 c3 c3 c3 c3"
         "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
