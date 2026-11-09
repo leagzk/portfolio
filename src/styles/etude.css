@@ -1467,14 +1467,26 @@
   section. Elle s'applique telle quelle quand la couleur peut porter du
   texte sur blanc - rouge 5,67:1, bleu 7,21:1 - et pas autrement :
 
-    carte rouge → .em-rouge      carte jaune → .em-rouge  (1,54:1, echec
-    carte bleu  → .em-bleu       carte noir  → .em-bleu    meme en grand)
+    carte rouge → .em-rouge      carte jaune → .em-jaune
+    carte bleu  → .em-bleu       carte noir  → .em-gris
 
-  Le jaune ne tient que sur fond sombre, d'ou la derniere ligne ci-dessous.
-  Le noir, lui, passe le contraste mais EST la couleur du titre : l'accent
-  deviendrait indiscernable. Comme les trois etudes numerotent rouge, bleu,
-  jaune (et noir au 04 de Governance), la regle donne une alternance rouge /
-  bleu / rouge / bleu.
+  CHAQUE CARTE A DONC SON ACCENT, y compris les deux qui n'en avaient pas.
+  L'aplat ne pouvait pas servir tel quel - --yellow tombe a 1,54:1 sur blanc,
+  et --ink EST la couleur du titre, donc l'accent y serait indiscernable. Ces
+  deux-la ont desormais une teinte de TEXTE, derivee de l'aplat :
+
+    --yellow-ink #998000  3,86:1   meme teinte (50°) et meme saturation que
+                                   --yellow, luminosite descendue de 48 a 30%
+    --grey-ink   #707070  4,95:1   et 3,8:1 contre le titre a #111, donc on
+                                   voit que c'est un autre gris et pas une
+                                   bavure d'impression
+
+  3,86:1 EST UN SEUIL DE GRAND TEXTE, PAS DE TEXTE COURANT. Le lead fait 34px
+  en 900 (28px sous le palier), ce qui est « large text » au sens WCAG : le
+  minimum y est 3:1 et non 4,5. `.em-jaune` ne doit donc jamais servir dans
+  un paragraphe - c'est la seule des quatre teintes qui soit conditionnee par
+  sa taille, et c'est le prix a payer pour que le jaune reste jaune. Deux
+  crans plus sombre il passerait partout, et il serait bronze.
 
   A VERIFIER SUR LE RENDU, PAS DANS LE SOURCE : un chapitre peut contenir
   une <section> imbriquee, et un decoupage naif du .astro saute alors la fin
@@ -1482,9 +1494,12 @@
   seule valeur par `.pan`.
 */
 :is(.pan,.etude) .em-rouge,:is(.pan,.etude) .em-bleu,
+:is(.pan,.etude) .em-jaune,:is(.pan,.etude) .em-gris,
 .pan .closing em{font-style:normal}
 :is(.pan,.etude) .em-rouge{color:var(--red)}
 :is(.pan,.etude) .em-bleu{color:var(--blue)}
+:is(.pan,.etude) .em-jaune{color:var(--yellow-ink)}
+:is(.pan,.etude) .em-gris{color:var(--grey-ink)}
 .pan .dark .em-rouge{color:var(--yellow)}
 
 /* Deux blocs empiles dans une colonne du .split. */
