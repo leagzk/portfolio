@@ -114,7 +114,16 @@ if (!mondrian && (chiffres.length < 4 || chiffres.length > 5)) {
   seule rangee de trois cases de 370px pour trois mots chacune - la bande
   vide que le commentaire de LARGEURS decrit plus bas.
 */
-const PLANCHER = avecDef ? 3 : 4;
+/*
+  DEUX CHIFFRES SONT PERMIS, TOUJOURS AVEC LA DEFINITION. Le plancher etait a
+  trois pour la meme raison qu'il avait ete a quatre : la forme le supportait,
+  pas le propos. Un chiffre qui n'apporte rien coute pourtant plus cher qu'une
+  case en moins - « 3rd edition, nothing reused » redisait sur Surfaces ce que
+  son hero annonce en ouverture, et il etait la pour completer une pile.
+
+  Sous deux, la pile cesse d'etre une pile et la forme n'a plus d'objet.
+*/
+const PLANCHER = avecDef ? 2 : 4;
 if (mondrian && (chiffres.length < PLANCHER || chiffres.length > 6)) {
   throw new Error(
     `<ChiffresCles variante="mondrian"> attend ${PLANCHER} a 6 chiffres, reçu ${chiffres.length}`,

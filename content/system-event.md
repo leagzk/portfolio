@@ -18,7 +18,7 @@ Three weddings, three couples, three identities - this is the third: several day
 
 The living system
 
-**Five words, three shapes and one palette**, pulled off two rented objects before anything was drawn. Short enough that whoever was briefed from it could apply it without me, complete enough that nothing on the day had to be invented twice.
+**Five words, three shapes and one palette**, pulled off two rented objects before anything was drawn. Short enough to brief from, complete enough that nothing had to be invented twice.
 
 Not a mood. A short list you can hold someone to.
 
@@ -33,12 +33,6 @@ Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same l
 suppliers, one guide
 
 One page per zone, one owner per page. On the day it ran from the brief, not from me.
-
-3rd
-
-edition, nothing reused
-
-A full identity every time, a different game every time. I don't repeat a system - I version it.
 
 No client, no reviewer, and the only critic was the one who made it.
 

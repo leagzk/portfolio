@@ -90,8 +90,6 @@ const chiffres: Chiffre[] = [
     contexte: 'Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same line as the invitation.' },
   { nombre: '9', quoi: 'suppliers, one guide', couleur: 'bleu', motif: 'plein',
     contexte: 'One page per zone, one owner per page. On the day it ran from the brief, not from me.' },
-  { nombre: '3rd', quoi: 'edition, nothing reused', couleur: 'rouge', motif: 'plein',
-    contexte: "A full identity every time, a different game every time. I don't repeat a system - I version it." },
 ];
 
 /*
@@ -227,7 +225,7 @@ const credits = [
     <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian">
       <Fragment slot="definition">
         <p class="clef-def__eb">The living system</p>
-        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong>, pulled off two rented objects before anything was drawn. Short enough that whoever was briefed from it could apply it without me, complete enough that nothing on the day had to be invented twice.</p>
+        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong>, pulled off two rented objects before anything was drawn. Short enough to brief from, complete enough that nothing had to be invented twice.</p>
         <p class="clef-def__prix">Not a mood. A short list you can hold someone to.</p>
       </Fragment>
     </ChiffresCles>
@@ -287,7 +285,7 @@ const credits = [
       />
 
       <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:vd"></div>
+
 
     </div>
 
@@ -771,19 +769,19 @@ const credits = [
     disparaitre ses boites sans toucher a l'ordre du front, et le trace anime
     sait lire un conteneur sans boite (voir `data-cases` dans grille.ts).
 
-    LE DESSIN. La definition ouvre a gauche, etroite et haute sur trois
-    rangees. Les trois chiffres s'empilent a sa droite en carres de deux
-    colonnes - c'est leur hauteur cumulee qui donne la sienne. Le probleme
-    tient la droite sur deux rangees, et la demarche descend DESSOUS : la
-    colonne de droite se lit donc de haut en bas comme le recit, probleme puis
-    demarche puis preuve. Le pivot prend tout le bas a gauche, sous la
-    definition - c'est le seul bloc qui change de cote, et c'est voulu : il ne
-    fait pas partie de la serie.
+    LE DESSIN. La definition ouvre a gauche sur deux rangees ; les deux
+    chiffres s'empilent a sa droite en carres de deux colonnes - c'est leur
+    hauteur cumulee qui donne la sienne - et le probleme tient toute la droite
+    sur ces memes rangees. Dessous, la demarche passe sous la definition et la
+    preuve sous le probleme : chaque moitie garde sa colonne, et le recit se
+    lit en Z. Le pivot ferme en pleine largeur, avec un carre de couleur a sa
+    droite - le seul bloc qui traverse, et c'est voulu : il ne fait pas partie
+    de la serie.
 
-    ENTRE LES DEUX, UN CARRE ROUGE ET UNE CASE VIDE, dans la colonne que les
-    chiffres laissent libre une fois leur pile finie. Ils ne decorent pas : ils
-    tiennent la jonction entre la moitie gauche et la moitie droite, la ou les
-    deux blocs ne se coupent pas a la meme rangee.
+    LE TROISIEME CHIFFRE A SAUTE, et c'est lui qui liberait la place. « 3rd
+    edition, nothing reused » redisait l'ouverture du hero - trois mariages,
+    trois couples, trois identites - et il etait la pour completer une pile.
+    La pile en fait deux, et toute la composition remonte de 177px.
 
     LES CARRES SONT VRAIS : douze colonnes de 88px dans 1072, donc deux
     colonnes et une gouttiere font 177 - c'est la hauteur des trois premieres
@@ -795,18 +793,23 @@ const credits = [
   */
   @media(min-width:861px){
     .compo{grid-template-columns:repeat(12,minmax(0,1fr));
-      grid-template-rows:177px 177px 177px minmax(177px,auto) minmax(250px,auto);
+      /* Les deux premieres en minmax comme les autres : entre 861 et 1120 les
+         puces des cartes s'empilent dans leur cadre et la carte du probleme
+         debordait de 2px d'une rangee figee. Au-dela de 1120 le contenu tient
+         dans 177, donc les rangees y valent exactement 177 et les chiffres
+         restent carres - le minmax ne coute rien ou il ne sert pas. */
+      grid-template-rows:minmax(177px,auto) minmax(177px,auto)
+        minmax(300px,auto) minmax(250px,auto);
       grid-template-areas:
         "def def def def n1 n1 c1 c1 c1 c1 c1 c1"
         "def def def def n2 n2 c1 c1 c1 c1 c1 c1"
-        "def def def def n3 n3 c2 c2 c2 c2 c2 c2"
-        "c4 c4 c4 c4 p1 p1 c2 c2 c2 c2 c2 c2"
-        "c4 c4 c4 c4 vd vd c3 c3 c3 c3 c3 c3"}
+        "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
+        "c4 c4 c4 c4 c4 c4 c4 c4 c4 p1 p1 p1"}
 
     .compo .cles--mondrian,.compo .clef-rangee{display:contents}
+    /* A deux chiffres, `MOITIE` vaut 1 : chaque rangee n'en porte qu'un seul. */
     .compo .clef-rangee--1 .clef-case:nth-of-type(1){grid-area:n1}
-    .compo .clef-rangee--1 .clef-case:nth-of-type(2){grid-area:n2}
-    .compo .clef-rangee--2 .clef-case:nth-of-type(1){grid-area:n3}
+    .compo .clef-rangee--2 .clef-case:nth-of-type(1){grid-area:n2}
     .compo .clef-def{grid-area:def}
 
     /* La poussee au survol est un geste de BANDE, et la bande n'existe plus.
