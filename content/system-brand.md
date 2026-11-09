@@ -10,18 +10,17 @@ indexable: true
 
 Systematize a brand · Sanofi · 2018 - 2022
 
-# At 2,500 people, a brand isn't a charter, it's a shared language.
+# A function run like a brand. A brand run like a service.
 
-As Digital Communication Service Owner, I made an invisible function
-legible - then handed the people inside it a language they could use
-without me. As Product Design Lead in 2022, I took the part of the
-corporate rebrand nobody had defined: what a brand becomes on a screen.
+I first built IT's brand platform as Digital Communication Service Owner, to make **an invisible function legible** and hand the people inside it **a language they could use without me**. Not a charter - a production line, and the practice that kept it running.
+
+As Product Design Lead in 2022, I took the part of the corporate rebrand nobody had defined - **what a brand becomes once it's on a screen** - and answered it with one standard for the portfolio. **The same system thinking Elements runs on today.**
 
 The brand platform
 
 **One language, and a production line anyone could pick up** - positioning, territory and tone of voice, from a leadership deck to a front-line email. Versioned when the brand underneath it changed.
 
-The systematization logic proven here is where Elements, Sanofi's experience system, begins.
+The system thinking proven here is where Elements, Sanofi's experience system, begins.
 
 2,500
 

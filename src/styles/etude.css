@@ -788,7 +788,17 @@
   selecteur elles n'auraient ni fond blanc, ni rognage, ni filet - c'est la
   meme paire que `.comp > *,.principes > *` sur l'accueil.
 */
-.compo > *,.compo .tuiles--cases > *{background:var(--white);min-width:0;
+/*
+  LES TROIS SELECTEURS, ET PAS SEULEMENT LE PREMIER. Une serie de tuiles ou le
+  bandeau des chiffres posee dans une composition passe en `display:contents` :
+  ce sont alors SES enfants qui sont les cases de la grille, pas elle. Sans les
+  selecteurs qui les visent, ces cases-la n'ont ni fond blanc, ni rognage, ni
+  filet - et le bandeau est arrive dans la composition sans son filet, ce qui
+  laissait les trois chiffres flotter entre les cartes qui, elles, avaient le
+  leur.
+*/
+.compo > *,.compo .tuiles--cases > *,
+.compo .clef-case,.compo .clef-def{background:var(--white);min-width:0;
   position:relative;overflow:hidden;box-shadow:0 0 0 var(--rule-fine) var(--text)}
 
 /*
@@ -1676,13 +1686,22 @@
   valeur donne l'horizontale ; rien en bas, donc les verticales finissent dans
   le blanc - c'est ce qui les fait « partir » au lieu de fermer une boite.
 
-  TROIS LARGEURS INEGALES : a parts egales, ce serait une barre de progression.
+  SES COLONNES SONT CELLES DE LA COMPOSITION, ET SES COUPES AUSSI. Il flottait
+  a 72px du dernier chapitre avec des largeurs a lui : deux verticales qui ne
+  prolongeaient rien, donc un ornement. Trois, trois et six douziemes posent
+  ses coupes a la troisieme et a la sixieme colonne - exactement les deux
+  filets qui traversent la composition en haut de page. Ce sont les MEMES deux
+  lignes qui reparaissent en bas et s'en vont dans le blanc.
+
+  ET IL EST COLLE A CE QUI PRECEDE : la marge haute tombe a zero. Un rail
+  separe du contenu par du blanc se lit comme un bloc ; au contact, il se lit
+  comme la fin de la grille.
 
   PAS SOUS LE PALIER : l'accueil eteint ses rails sous 860px, ou la grille
   devient une colonne et ou deux verticales n'ont plus rien a prolonger.
 */
-.rails{display:grid;grid-template-columns:5fr 3fr 4fr;gap:var(--rule-fine);
-  background:var(--text);padding-top:var(--rule-fine);margin-top:72px}
+.rails{display:grid;grid-template-columns:3fr 3fr 6fr;gap:var(--rule-fine);
+  background:var(--text);padding-top:var(--rule-fine);margin-top:0}
 .rails > *{background:var(--white);min-height:56px}
 @media(max-width:860px){.rails{display:none}}
 

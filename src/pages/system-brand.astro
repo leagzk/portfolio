@@ -401,14 +401,30 @@ const pratiques: Tuile[] = [
     courant="system-brand"
     eyebrow="Systematize a brand · Sanofi · 2018 - 2022"
     filigrane="Language"
-    mesure={13.4}
+    {/* Relevee sur le build pour la nouvelle phrase : elle tient en deux
+        lignes des 11,7em, plus les 0,3 d'arrondi que la prop demande. */}
+    mesure={12}
   >
-    At 2,500 people, a brand isn't a charter, it's a shared language.
+    A function run like a brand. A brand run like a service.
+    {/*
+      DEUX PARAGRAPHES, COMME GOVERNANCE. L'intro tenait en un seul bloc la ou
+      l'autre etude en pose deux : le premier mandat et ce qu'il a produit,
+      puis le role suivant et le deplacement qu'il opere, nomme en gras a la
+      fin. Les deux etudes se lisent desormais dans la meme forme.
+    */}
     <Fragment slot="intro">
-      As Digital Communication Service Owner, I made an invisible function
-      legible - then handed the people inside it a language they could use
-      without me. As Product Design Lead in 2022, I took the part of the
-      corporate rebrand nobody had defined: what a brand becomes on a screen.
+      <p>
+        I first built IT's brand platform as Digital Communication Service
+        Owner, to make <b>an invisible function legible</b> and hand the people
+        inside it <b>a language they could use without me</b>. Not a charter -
+        a production line, and the practice that kept it running.
+      </p>
+      <p>
+        As Product Design Lead in 2022, I took the part of the corporate
+        rebrand nobody had defined - <b>what a brand becomes once it's on a
+        screen</b> - and answered it with one standard for the portfolio.{' '}
+        <b>The same system thinking Elements runs on today.</b>
+      </p>
     </Fragment>
   </Hero>
 
@@ -464,7 +480,7 @@ const pratiques: Tuile[] = [
             ce que le prix est a Governance : la preuve que l'objet a compte
             au-dela de lui-meme.
           */}
-          <p class="clef-def__prix">The systematization logic proven here is where Elements, Sanofi's experience system, begins.</p>
+          <p class="clef-def__prix">The system thinking proven here is where Elements, Sanofi's experience system, begins.</p>
         </Fragment>
       </ChiffresCles>
 
@@ -486,6 +502,13 @@ const pratiques: Tuile[] = [
       <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
       {/* Le blanc tournant a droite du bloc : il s'arrete sous `n2`, pas sous
           `c1`, et les trois colonnes qui restent ferment la rangee. */}
+      {/* LE CARRE NOIR EST UNE JONCTION, PAS UN APLAT DE PLUS. Les deux filets
+          qui bordent la rangee du bloc couraient d'un bord a l'autre sans
+          rencontrer quoi que ce soit : deux traits paralleles de 1072px, qui
+          font une bande et non une composition. Une case noire d'une colonne
+          les coupe au meme endroit - elle appartient aux deux - et la rangee
+          cesse d'etre une bande pour redevenir une suite de cases. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:j1"><span class="compo__plat compo__plat--noir"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
       {/* LE RYTHME TIENT A DEUX ACCENTS ETROITS, ET A RIEN D'AUTRE. Une ligne
           horizontale de 28px, coloree sur ses trois dernieres colonnes
@@ -1387,7 +1410,7 @@ const pratiques: Tuile[] = [
         minmax(300px,auto) minmax(260px,auto);
       grid-template-areas:
         "n1 n1 n1 n2 n2 n2 c1 c1 c1 c1 c1 c1"
-        "n3 n3 n3 def def def def def def a1 a1 a1"
+        "n3 n3 n3 def def def def def def j1 a1 a1"
         "h1 h1 h1 h1 h1 h1 h1 h1 h1 h2 h2 h2"
         "c2 c2 c2 c2 c2 v1 c3 c3 c3 c3 c3 c3"
         "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
@@ -1459,11 +1482,16 @@ const pratiques: Tuile[] = [
 </style>
 
 <script>
+  import { initChiffres } from '../scripts/chiffres';
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { initPiles } from '../scripts/pile';
   import { suivreCadres } from '../scripts/vues';
 
+  /* le contexte des chiffres se deplie au clic aussi - voir le fichier. Il
+     manquait a cette page : le survol ouvrait le detail, le clic ne faisait
+     rien, et au doigt il n'y avait donc aucun moyen de le lire. */
+  initChiffres();
   initDossier();
   initLoupe();
   initPiles();
