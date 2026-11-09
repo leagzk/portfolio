@@ -14,7 +14,7 @@ Systematize a brand · Sanofi · 2018 - 2022
 
 I first built IT's brand platform as Digital Communication Service Owner, to make **an invisible function legible** and hand the people inside it **a language they could use without me**. Not a charter - a production line, and the practice that kept it running.
 
-As Product Design Lead in 2022, I took the part of the corporate rebrand nobody had defined - **what a brand becomes once it's on a screen** - and answered it with one standard for the portfolio. **The same system thinking Elements runs on today.**
+Then Sanofi merged its three brands into one, and every internal identity was refounded under that umbrella at once. The part nobody had defined was **how a brand translates to a screen** - so I took it as Product Design Lead, and answered with one standard for the whole portfolio. **That is where Elements begins.**
 
 The brand platform
 
@@ -283,7 +283,7 @@ Company scale
 
 A brand book doesn't survive *contact with a screen.*
 
-The first time the ground moved, it was one function. The second time, it was the whole company. In 2022, Sanofi unified every internal identity into a single brand. The part nobody had defined was what that brand becomes once it's interactive - so I took it: **translating the new corporate identity through a digital prism**, and shipping the first concepts that proved it could hold on a product, not just on a page.
+The first time the ground moved, it was one function. The second time, it was the whole company: in 2022 **Sanofi merged its three brands into one**, and every internal identity was refounded under that single umbrella at once - IT's among them, four years after I had built it. The part nobody had defined was what that brand becomes once it's interactive - so I took it: **translating the new corporate identity through a digital prism**, and shipping the first concepts that proved it could hold on a product, not just on a page.
 
 I wasn't the only one moving - and by then I'd moved too. The product teams that appeared in the last reset had turned into a function: Sanofi stood up product design in 2021 with the creation of the Consumer Experience team, and I joined it as **Product Design Lead**, carrying four years of brand and communication in with me. So when the rebrand landed, the two forces looking for each other - brand on one side, product on the other - met in a role that had lived in both. **That's the gap I've always worked in.**
 
