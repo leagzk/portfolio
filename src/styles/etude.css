@@ -1893,8 +1893,6 @@
   le fond au survol, et les quatre teintes existent deja avec leur couleur de
   texte au survol - texte sombre sur le jaune, blanc sur les trois autres.
 */
-.pan > .suite{align-self:flex-end}
-
 @media(max-width:860px){
   .pan{padding:48px 0 64px 20px;gap:80px}
   .pan::before{bottom:64px}
