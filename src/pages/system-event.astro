@@ -676,6 +676,23 @@ const credits = [
           <div class="body">
             <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
             <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief.</p>
+          </div>
+        </div>
+
+        {/* LA PAGE DU GUIDE TOMBE JUSTE APRES LA PHRASE QUI LA DECRIT, et pas
+            en fin de sous-partie : « a production guide precise enough to be
+            executed without me in the room » est ce que cette image montre,
+            page a gauche et resultat a droite. Elle garde la pleine largeur -
+            une page de guide a lire ne tient pas dans une demi-colonne - et le
+            raisonnement reprend dessous, dans la colonne du texte. */}
+        <BeforeAfter
+          spec={{ src: img('spec-zone-seating'), alt: 'Page from the production guide: mockup of the seating panels with the material checklist' }}
+          built={{ src: img('staging-entrance-evening'), alt: 'The seating panels installed at the venue doorway at dusk, flanked by floral columns' }}
+          caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
+        />
+
+        <div class="split">
+          <div class="body split__droite">
             <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
             {/*
               LA PHOTO EST DANS LE CORPS, ET AVANT LA CHUTE. Posee apres la
@@ -694,16 +711,6 @@ const credits = [
             <p>The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. <strong>It works in a repo. It works in a garden.</strong></p>
           </div>
         </div>
-        {/* LA PAGE DU GUIDE ET CE QU'ELLE A PRODUIT. Elle vivait dans
-            « Execution », ou elle illustrait le passage de la specification a
-            l'objet - vrai, mais c'est ICI que le guide est le sujet : une page
-            par zone, un proprietaire par page, et la preuve que la page tient
-            douze mois plus tard sans moi dans la piece. */}
-        <BeforeAfter
-          spec={{ src: img('spec-zone-seating'), alt: 'Page from the production guide: mockup of the seating panels with the material checklist' }}
-          built={{ src: img('staging-entrance-evening'), alt: 'The seating panels installed at the venue doorway at dusk, flanked by floral columns' }}
-          caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
-        />
       </div>
 
 
