@@ -33,7 +33,7 @@ export interface Tuile {
   titre: string;
   /** le texte du verso. HTML autorise, meme raison que `titre`. */
   texte: string;
-  couleur: 'rouge' | 'bleu' | 'jaune' | 'noir';
+  couleur: 'rouge' | 'bleu' | 'jaune' | 'noir' | 'blanc';
   /**
    * `grid-area` quand la tuile est une CASE d'une composition, et non un
    * element de la grille interne de cette serie. L'aire est portee par la
@@ -259,6 +259,17 @@ const surPiste = enCases || piste;
   .tuile--bleu{background:var(--blue);color:var(--white)}
   .tuile--jaune{background:var(--yellow);color:var(--text)}
   .tuile--noir{background:var(--ink);color:var(--white)}
+  /*
+    LE BLANC EST UNE CINQUIEME TEINTE, PAS UNE ABSENCE. Dans une serie posee
+    sur fond noir avec ses filets, une tuile blanche est un TROU dans l'aplat -
+    c'est la case blanche du Mondrian, que la composition de l'accueil utilise
+    deja. Elle garde donc son cadre par le `gap` de la grille.
+
+    ELLE PERD EN REVANCHE L'INDICE COULEUR DU RETOURNEMENT : le verso est
+    blanc lui aussi, donc seul le texte change. La fleche et la rotation
+    restent, mais la tuile blanche s'annonce moins que les quatre autres.
+  */
+  .tuile--blanc{background:var(--white);color:var(--text)}
   .tuile__pivot:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
 
   /*
