@@ -90,7 +90,7 @@ And a direction still has to survive the room it's defended in. This one held th
 
 **Fix the frame, open the rest.** It's the same arbitration I run on a design system: a core nobody negotiates, and everything around it contributed.
 
-Next: the system →
+Next: the approach →
 
 ## 02 &middot; The approach
 
@@ -172,7 +172,7 @@ One identity, fifty-plus surfaces
 
 > Collaborative game
 
-Next: the handover →
+Next: the proof →
 
 ## 03 &middot; The proof
 
