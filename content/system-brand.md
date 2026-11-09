@@ -219,9 +219,9 @@ A reorg is a breaking change. *I shipped a major of the brand platform.*
 
 In 2020, IT moved from service provider to enabler - one notch up, inside a digital transformation running across the whole company. New digital leadership came with it, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. **I didn't defend mine. I versioned it.**
 
-- **A refinement, not a rebuild**: a leaner structure, organized around products and service lines. The machine held: calendar, contact points, sessions, webinars - and went to work on the migration.
+**A refinement, not a rebuild**: a leaner structure, organized around products and service lines. The machine held - calendar, contact points, sessions, webinars - and went to work on the migration.
 
-- Campaigns became the migration path. **Communication wasn't announcing the system. It was deploying it.** There's no deprecation warning in PowerPoint: **you can't break the previous version - you can only make the next one worth the switch.**
+Campaigns became the migration path. **Communication wasn't announcing the system. It was deploying it.** There's no deprecation warning in PowerPoint: **you can't break the previous version - you can only make the next one worth the switch.**
 
 Arbitration
 

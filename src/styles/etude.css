@@ -1462,19 +1462,6 @@
 .pan .qt{margin:0;padding-left:20px;border-left:3px solid var(--blue);
   font-size:17px;line-height:1.65;font-style:italic;color:var(--text-body);
   max-width:720px}
-/*
-  Les puces n'ont pas de glyphe mais un TIRET dessine - 14px sur 2px, la meme
-  epaisseur que les filets de l'accueil. `list-style:none` + ::before : un
-  marqueur natif n'aurait ni cette longueur ni cet alignement.
-*/
-.pan .pts{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;
-  gap:12px}
-.pan .pts li{position:relative;padding-left:28px;font-size:var(--fs-body);
-  line-height:1.6;color:var(--text-body)}
-.pan .pts li::before{content:"";position:absolute;left:0;top:.8em;width:14px;
-  height:2px;background:var(--text)}
-.pan .pts strong,.pan .pts b{color:var(--text)}
-
 /* ─── Bloc noir ─── */
 .pan .dark{background:var(--ink);color:var(--on-ink);border-radius:var(--r-footer);
   padding:var(--pad-square);display:flex;flex-direction:column;gap:18px;
