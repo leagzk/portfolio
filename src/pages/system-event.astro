@@ -163,15 +163,14 @@ const credits = [
     courant="system-event"
     eyebrow="Systematize a moment · Living System · 3rd edition"
     filigrane="Surfaces"
-    {/* 12,9, ET LE TITRE A CHANGE SANS QUE LA MESURE BOUGE. Verifie sur le
-        build : le seuil des deux lignes est a 12,6 - en dessous « chart. »
-        tombe seul sur une troisieme - et 12,9 est ce seuil plus les 0,3
-        d'arrondi que portent les deux autres heros. La moitie de la largeur
-        d'une ligne (12,08) ne suffit pas ici : les mots sont insecables, et la
-        seule coupe possible tombe apres « the org ». */}
-    mesure={12.9}
+    {/* Mesure sur le build apres le raccourcissement du titre : le seuil des
+        deux lignes est a 10,1, et 10,4 est ce seuil plus les 0,3 d'arrondi que
+        portent les deux autres heros. A 12,9 - la valeur de l'ancien titre,
+        plus long - la coupe tenait encore sur deux lignes mais tombait ou elle
+        pouvait, en laissant la seconde bien plus courte que la premiere. */}
+    mesure={10.4}
   >
-    Same systems thinking, same care, just off the org chart.
+    Same systems thinking, just off the org chart.
     {/*
       DEUX PARAGRAPHES, COMME LES DEUX AUTRES ETUDES. Le premier dit le mandat
       et ce qu'il a produit, le second le deplacement qu'il opere, nomme en
@@ -179,16 +178,25 @@ const credits = [
     */}
     <Fragment slot="intro">
       <p>
-        Three weddings, three couples, three identities - this is the third.
-        Over more than a year I designed and orchestrated it end to end:{' '}
-        <b>one identity across fifty-plus surfaces</b>, several days, ninety
-        guests, and nine suppliers held to it. Invitation, signage, tableware,
-        an escape game - every piece cut from the same system.
+        Three weddings, three couples, three identities - this is the third.{' '}
+        <b>One identity across fifty-plus surfaces</b> - several days, ninety
+        guests, nine suppliers held to it, and an escape game built from zero.
       </p>
+      {/*
+        LA TROISIEME NEGATION APPELAIT UNE AFFIRMATION, ET N'EN AVAIT PAS. Le
+        paragraphe enchainait sur « just the discipline of making a hundred
+        moving parts feel like one thing » : une qualite, pas un objet, la ou
+        les trois negations venaient de nommer trois objets. Le lecteur
+        attendait ce qu'il y avait A LA PLACE du depot et du pipeline.
+
+        Il y avait un pipeline. Creatif, et c'est le mot juste : du fichier
+        source a la decoupe, il a fallu le construire en entier - voir la
+        double chaine de production au chapitre 01.
+      */}
       <p>
         <b>No repository. No deploy pipeline. No org chart either</b> - nobody
-        here reported to me, and nobody had to say yes. Just the discipline of
-        making a hundred moving parts feel like one thing, and the proof that{' '}
+        here reported to me, and nobody had to say yes. Just a creative
+        pipeline, built end to end, and the proof that{' '}
         <b>a system is a way of working, not a technology.</b>
       </p>
     </Fragment>

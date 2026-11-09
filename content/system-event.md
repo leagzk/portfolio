@@ -10,11 +10,11 @@ indexable: true
 
 Systematize a moment · Living System · 3rd edition
 
-# Same systems thinking, same care, just off the org chart.
+# Same systems thinking, just off the org chart.
 
-Three weddings, three couples, three identities - this is the third. Over more than a year I designed and orchestrated it end to end: **one identity across fifty-plus surfaces**, several days, ninety guests, and nine suppliers held to it. Invitation, signage, tableware, an escape game - every piece cut from the same system.
+Three weddings, three couples, three identities - this is the third. **One identity across fifty-plus surfaces** - several days, ninety guests, nine suppliers held to it, and an escape game built from zero.
 
-**No repository. No deploy pipeline. No org chart either** - nobody here reported to me, and nobody had to say yes. Just the discipline of making a hundred moving parts feel like one thing, and the proof that **a system is a way of working, not a technology.**
+**No repository. No deploy pipeline. No org chart either** - nobody here reported to me, and nobody had to say yes. Just a creative pipeline, built end to end, and the proof that **a system is a way of working, not a technology.**
 
 1 yr+
 
