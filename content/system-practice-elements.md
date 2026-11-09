@@ -54,7 +54,7 @@ Average completed engagement: 23 months against a one-year target.
 
 Three crafts, three silos - and a system nobody adopted.
 
-A designer ships a spec, an engineer rebuilds it, a marketer briefs an agency for a palette the system already had. Then we built the answer brand-first, through a vendor - coherent, but barely adopted.
+Three crafts solving the same problem three times over - then a first answer built brand-first, through a vendor: coherent, and adopted by nobody. The second attempt had to start somewhere else entirely.
 
 I stopped fixing the output and fixed both sources.
 
@@ -98,7 +98,7 @@ A €1M bet on a model, *not a line item.*
 
 So the system was coherent, and barely adopted. **A design system nobody adopts is the oldest failure in the field**, and we'd walked straight into it.
 
-So I stopped fixing the output and fixed both sources. **I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. **Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.**
+**I pushed to internalize engineering** - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. **Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.**
 
 Next: the approach →
 
@@ -240,7 +240,7 @@ Three quarters of the team was freelance and I was, for a while, the only perman
 
 Every quarter I carried leadership's feedback back down to the team. And **no deck left the team without the whole team behind it** - stakeholders, senior executives, a demo with our peers: everyone had to be comfortable with what we were about to say, whether or not they were the one saying it.
 
-Average completed engagement: 23 months against a one-year target. The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.**
+The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.**
 
 ---
 
