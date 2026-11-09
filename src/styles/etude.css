@@ -1621,13 +1621,28 @@
   ET DEUX BANDES QUI SE SUIVENT NE COMPTENT QU'UNE FOIS. Chacune portant ses
   24px, elles s'ecartaient de 80 - le `gap` de 32 plus deux marges - la ou une
   bande et un texte s'ecartent de 56. Or une grande figure suivie de deux
-  petites, c'est UNE serie en deux temps, pas deux objets sans rapport : 80px
-  les separait plus que le chapitre ne les separe de leur paragraphe. La
-  seconde renonce donc a sa marge haute, et l'ecart revient a 56 - la valeur
-  que la page donne deja partout ailleurs entre une bande et ce qui la touche.
+  petites, c'est UNE serie en deux temps, pas deux objets sans rapport.
+
+  Les deux renoncent donc a la marge qui les separe, et l'ecart tombe au `gap`
+  nu de la sous-partie : 32px. C'est moins qu'entre une bande et un texte, et
+  c'est voulu - deux bandes qui se suivent appartiennent au meme propos, la ou
+  un texte qui suit une bande en ouvre un autre. Le blanc dit le lien, pas
+  seulement la separation.
 */
-.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw)
-  + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw){margin-top:0}
+/*
+  ET LA REGLE TOLERE UN <script> ENTRE LES DEUX. Astro emet le script d'un
+  composant comme son FRERE : entre un carrousel et la rangee qui le suit, il
+  y a donc une balise dans l'arbre, et `+` ne la franchit pas. Mesure avant
+  correction : « carrousel → three » restait a 80px quand « fig → two », sans
+  script entre eux, tombait bien a 32. C'est le meme piege qui avait deja fait
+  sauter la regle d'air des bandes - voir plus haut.
+
+  Les deux formes sont donc ecrites, avec et sans la balise.
+*/
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw):has(+ :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw)),
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw):has(+ script + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw)){margin-bottom:0}
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw) + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw),
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw) + script + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw){margin-top:0}
 .pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */

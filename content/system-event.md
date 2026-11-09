@@ -310,7 +310,7 @@ The lever is the same one I reach for at work, and it has nothing to do with poi
 
 **Data quality.** I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organisation. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. **Nobody updates a database because they were asked twice.**
 
-**Recognition.** An annual awards programme, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.
+**Recognition.** An annual awards ceremony anchored on public voting and individual submission, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.
 
 An escape game, a hackathon, a design system: **you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.**
 
