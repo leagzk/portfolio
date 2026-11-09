@@ -306,6 +306,14 @@ const credits = [
         cloture, qui le prolonge jusqu'au pied de page. Trois rangees, un seul
         trait.
       */}
+      {/* La zone que la carte du probleme libere en raccourcissant, et la
+          verticale qui la coupe tombe au dixieme douzieme - le meme x que le
+          filet de la bande du bas et que la seconde verticale du rail. Le
+          trait existe donc trois fois sur la hauteur de la page, toujours au
+          meme endroit. L'extremite est rouge. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z1"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z2"><span class="compo__plat compo__plat--rouge"></span></div>
+
       <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--noir"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:p2"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
@@ -769,25 +777,6 @@ const credits = [
   /* ═══ Ce qui est propre a l'etude Surfaces ═══ */
 
   /*
-    UN FILET FERME LE BAS DE LA CARTE DU PROBLEME.
-
-    Elle est la plus haute de la composition - deux rangees, 356px - et son
-    texte n'en occupe que la moitie. Les puces sont descendues au bas avec
-    celles de toutes les autres cartes, ce qui les aligne sur la ligne de credit
-    de la definition juste a cote (mesure : y312 des deux cotes), mais le vide
-    entre la synthese et elles restait un vide. Le filet en fait un pied.
-
-    IL NE VAUT QUE POUR CELLE-CI, et c'est voulu : les trois autres cartes ont
-    un texte qui remplit leur case, et un trait y tomberait a deux doigts de la
-    derniere ligne de synthese. Un filet separe deux choses ; il n'a rien a
-    faire la ou il n'y a rien a separer.
-  */
-  @media(min-width:1120px){
-    #carte-contrainte .dcarte__points{
-      border-top:var(--rule-fine) solid var(--text);padding-top:20px}
-  }
-
-  /*
     LA DEFINITION PASSE A GAUCHE, ET LES CHIFFRES A DROITE.
 
     Les trois etudes posaient la meme bande : les chiffres a gauche sur sept
@@ -813,10 +802,18 @@ const credits = [
     disparaitre ses boites sans toucher a l'ordre du front, et le trace anime
     sait lire un conteneur sans boite (voir `data-cases` dans grille.ts).
 
-    LE DESSIN, ET UN SEUL FILET LE TIENT. La definition ouvre a gauche sur deux
-    rangees ; les deux chiffres s'empilent a sa droite en carres de deux
-    colonnes - c'est leur hauteur cumulee qui donne la sienne - et le probleme
-    tient toute la droite sur ces memes rangees. Dessous, la demarche passe
+    LE DESSIN, ET UN SEUL FILET LE TIENT. La definition ouvre a gauche sur
+    trois rangees ; les deux chiffres s'empilent a sa droite en carres de deux
+    colonnes - le second enjambe les rangees 2 et 3, qui se partagent la
+    hauteur d'un carre - et le probleme tient la droite sur les deux
+    premieres.
+
+    LA CARTE DU PROBLEME S'ARRETE OU SON TEXTE S'ARRETE. Elle tenait les deux
+    rangees entieres pour un texte qui en occupait la moitie, et un filet pose
+    DANS la carte fermait ce vide par le dedans - un trait rentre de 28px de
+    chaque cote, qui ne rejoignait aucun autre. En raccourcissant, c'est la
+    gouttiere de la grille qui trace le trait, pleine largeur, et le vide
+    devient une case a part. Dessous, la demarche passe
     sous la definition et la preuve sous le probleme. Le pivot ferme a gauche,
     et un aplat coupe d'un filet ferme a droite.
 
@@ -853,28 +850,37 @@ const credits = [
          debordait de 2px d'une rangee figee. Au-dela de 1120 le contenu tient
          dans 177, donc les rangees y valent exactement 177 et les chiffres
          restent carres - le minmax ne coute rien ou il ne sert pas. */
-      grid-template-rows:minmax(177px,auto) minmax(177px,auto)
+      /* 57 et non 83 : la pile des chiffres occupe les trois rangees, donc
+         deux carres de 177 et une gouttiere font 355,5 de haut. La carte du
+         probleme en prend 297 sur les deux premieres, la troisieme vaut donc
+         le reste. */
+      grid-template-rows:minmax(177px,auto) minmax(92px,auto) 57px
         minmax(300px,auto) 177px minmax(177px,auto);
       grid-template-areas:
-        "def def def def n1 n1 c1 c1 c1 c1 c1 c1"
-        "def def def def n2 n2 c1 c1 c1 c1 c1 c1"
+        "def def def def nn nn c1 c1 c1 c1 c1 c1"
+        "def def def def nn nn c1 c1 c1 c1 c1 c1"
+        "def def def def nn nn z1 z1 z1 z1 z2 z2"
         "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
         "c4 c4 c4 c4 c4 c4 p1 p1 p1 p1 p2 p2"
         "c4 c4 c4 c4 c4 c4 b1 b1 b2 b2 b3 b3"}
 
-    .compo .cles--mondrian,.compo .clef-rangee{display:contents}
-    /* A deux chiffres, `MOITIE` vaut 1 : chaque rangee n'en porte qu'un seul. */
-    .compo .clef-rangee--1 .clef-case:nth-of-type(1){grid-area:n1}
-    .compo .clef-rangee--2 .clef-case:nth-of-type(1){grid-area:n2}
-    .compo .clef-def{grid-area:def}
+    .compo .cles--mondrian{display:contents}
+    /*
+      LES DEUX CHIFFRES RESTENT UNE BANDE, POSEE EN COLONNE. Decoupes en deux
+      cases de grille, chacune avait sa rangee et ne pouvait plus rien pousser :
+      ouvrir le 9 ne faisait que grandir le 9. La bande occupe donc UNE aire a
+      elle - les trois rangees de gauche - et redevient un conteneur flex, en
+      colonne au lieu d'une ligne. `flex` ne dit pas de quel cote.
 
-    /* La poussee au survol est un geste de BANDE, et la bande n'existe plus.
-       Les largeurs ne bougeraient pas - mais la regle qui efface le contenu
-       des cases voisines, elle, s'appliquerait encore, et survoler un chiffre
-       viderait les deux autres. */
-    .compo .clef-rangee:hover .clef__dedans,
-    .compo .clef-rangee:focus-within .clef__dedans,
-    .compo .clef-rangee:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:1}
+      La poussee suit sans qu'on ecrive rien : les regles de la bande sont
+      ecrites en `flex`, donc `flex:0 0 28px` sur les voisines y vaut 28px de
+      HAUT, et le contenu qui s'efface est deja prevu. Ouvrir le 9 remonte donc
+      le 50+ en un bandeau jaune de 28px, comme sur l'accueil.
+    */
+    .compo .clef-rangee--pile{grid-area:nn;display:flex;flex-direction:column;
+      gap:var(--rule-fine);min-height:0}
+    .compo .clef-rangee--pile > .clef-case{flex:1 1 0;min-height:0}
+    .compo .clef-def{grid-area:def}
 
     /* Dans la composition, ce n'est plus au bloc de fermer quoi que ce soit :
        la grille le fait, avec le meme filet que partout. */

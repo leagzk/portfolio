@@ -232,7 +232,22 @@ const unitesDe = (depart: number, fin: number) => {
   est a gauche et l'inverse, et il faut savoir de quel cote pousser.
 */
 const MOITIE = Math.ceil(chiffres.length / 2);
-const RANGEES = avecDef
+/*
+  A DEUX CHIFFRES, UNE SEULE RANGEE - ET C'EST CE QUI LEUR REND LA POUSSEE.
+
+  Coupes en deux rangees d'un, ils devenaient deux bandes d'une case : plus de
+  voisine a pousser, donc plus de geste. Or c'est le geste qui fait lire les
+  chiffres - on ouvre l'un, les autres se rangent, et le contexte prend la
+  place qu'il faut. Dans une rangee commune ils la partagent a nouveau, et la
+  bande peut etre posee en colonne par la page qui l'accueille : `flex` ne dit
+  pas de quel cote.
+
+  `--pile` signale ce cas au CSS, qui doit savoir distinguer une bande d'une
+  seule case - ou la poussee n'a pas d'objet - d'une bande qui en porte
+  plusieurs.
+*/
+const UNE_RANGEE = avecDef && chiffres.length === 2;
+const RANGEES = avecDef && !UNE_RANGEE
   ? [{ depart: 0, fin: MOITIE }, { depart: MOITIE, fin: chiffres.length }]
   : [{ depart: 0, fin: chiffres.length }];
 ---
@@ -300,7 +315,8 @@ const RANGEES = avecDef
     {RANGEES.map((r, k) => {
       const unites = unitesDe(r.depart, r.fin);
       return (
-      <div class:list={['clef-rangee', `clef-rangee--${k + 1}`]} data-cases>
+      <div class:list={['clef-rangee', `clef-rangee--${k + 1}`,
+          UNE_RANGEE && 'clef-rangee--pile']} data-cases>
       {chiffres.slice(r.depart, r.fin).map((c, j) => {
         const i = r.depart + j;
         return (
