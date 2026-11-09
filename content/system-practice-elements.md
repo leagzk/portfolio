@@ -173,9 +173,7 @@ Most system owners treat community as a comms afterthought. I made it the strate
 
 **I went to the crafts before I went to the roadmap.** Design, engineering, brand, product - each one asked the same two questions: where does the work break, and what would be worth more than what you have today. Friction is the one input a backlog never gives you, and it is what the roadmap was arbitrated on.
 
-*Design the experience of the people designing the experience.* Listen first - to what they need, and to what they are measured on - then build the path that fits.
-
-**The timing was the bet.** We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.
+*Design the experience of the people designing the experience.* Listen first - to what they need, and to what they are measured on - then build the path that fits. **And build it before they build their own: the timing was the bet.** We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.
 
 Trust never shows up in an adoption number, so I measured it on its own. **4.7 out of 5 on practitioner satisfaction, twice a year.** People don't comply with Elements. They trust it.
 
