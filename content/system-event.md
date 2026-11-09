@@ -246,7 +246,7 @@ The same move as everything else I build: design the system, iterate with stakeh
 
 Credits
 
-*Vision and execution* directed by me - everything else by people far better than me at their own craft.
+Behind the scenes, *never alone.*
 
 **Artwork & event design**
 
