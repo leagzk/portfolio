@@ -689,7 +689,14 @@ const credits = [
             puce promet une partie du raisonnement, pas une liste de noms. */}
         <p class="eb">Credits</p>
         <div class="split">
-          <p class="lead">Vision and execution directed by me - <em class="em-jaune">everything else by people far better than me at their own craft.</em></p>
+          {/* L'APLAT TIENT SUR CE QUI EST A MOI, PAS SUR LE RESTE. Il couvrait
+              « everything else by people far better than me at their own
+              craft » - soixante-quatre caracteres, trois lignes pleines de
+              jaune a 34px, soit la quasi-totalite de la phrase. Un accent qui
+              prend toute la phrase n'accentue plus rien, et celui-ci
+              surlignait le credit des autres au lieu de la part que je
+              revendique. Deux mots suffisent. */}
+          <p class="lead"><em class="em-jaune">Vision and execution</em> directed by me - everything else by people far better than me at their own craft.</p>
           <dl class="credits">
             {credits.map((c) => (
               <div class="credits__ligne">
