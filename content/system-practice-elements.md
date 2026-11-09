@@ -62,7 +62,7 @@ Internalize the engineering, rebuild from zero, and run it as a platform: three 
 
 Adopted. Trusted. Extended.
 
-Not a rollout - a practice that took the system over, accelerator by accelerator, and now ships the roadmap itself. It outlived the decision that funded it.
+Adoption earned one team at a time, trust measured twice a year, and a contribution path that runs from using it to owning it. The platform's best ideas now arrive from outside my roadmap.
 
 I didn't build a system I hold together.
 
