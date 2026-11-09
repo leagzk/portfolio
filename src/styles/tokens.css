@@ -58,12 +58,18 @@
     qu'il ne la porte.
   */
   /*
-    #6E6E6E ET NON #4F4F4F. Le premier choix etait un gris tres fonce, et a
-    1,5px d'epaisseur il se lisait NOIR : la distinction existait dans la
-    valeur et nulle part a l'ecran. Un cran plus clair, et le filet se voit
-    enfin pour ce qu'il est - un cadre qui soutient, pas une ligne de grille.
+    #949494, APRES DEUX CRANS. Le premier choix - #4F4F4F - etait un gris tres
+    fonce, et a 1,5px d'epaisseur il se lisait NOIR : la distinction existait
+    dans la valeur et nulle part a l'ecran. #6E6E6E se voyait, mais pesait
+    encore ; un cadre doit soutenir l'image, pas la cerner.
+
+    LA VALEUR S'ARRETE LA ET PAS PLUS HAUT, et c'est mesure : #949494 donne
+    3,04:1 sur blanc, soit le seuil AA des elements non textuels. Un cadre est
+    la limite de ce qu'on montre - sur une capture a fond blanc, c'est LUI qui
+    dit ou l'image commence. Plus clair, il deviendrait decoratif et cette
+    limite disparaitrait pour qui voit mal les contrastes.
   */
-  --cadre:#6E6E6E;          /* filet des cadres d'image, jamais de la grille */
+  --cadre:#949494;          /* filet des cadres d'image, jamais de la grille */
   --placeholder:#F3F3F3;    /* emplacements visuels, en attente des vraies images */
   /* Textes sur fond noir. Trois valeurs et non une opacite : le gris doit etre
      mesurable au contraste, ce qu'une opacite sur un fond variable n'est pas. */
