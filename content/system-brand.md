@@ -42,7 +42,7 @@ Every employee met the platform somewhere in their day - a support notification,
 
 A function driving the business, read as a service desk.
 
-Its role went unexplained, its image was dated, and every team improvised the brand. Illegibility has a name in every multinational: shadow IT.
+Its role went unexplained, its image was dated, and every team improvised the identity. Illegibility has a name in every multinational: shadow IT.
 
 The hard part was the vocabulary, not the visuals.
 
