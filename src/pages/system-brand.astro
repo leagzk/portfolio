@@ -405,10 +405,10 @@ const pratiques: Tuile[] = [
   >
     At 2,500 people, a brand isn't a charter, it's a shared language.
     <Fragment slot="intro">
-      As Digital Communication Service Owner, I built IT's brand platform to make
-      an invisible function legible - then handed its 2,500 people the language to
-      talk about it themselves. As Product Design Lead in 2022, I took the part
-      nobody had defined: what the new corporate brand becomes on a screen.
+      As Digital Communication Service Owner, I made an invisible function
+      legible - then handed the people inside it a language they could use
+      without me. As Product Design Lead in 2022, I took the part of the
+      corporate rebrand nobody had defined: what a brand becomes on a screen.
     </Fragment>
   </Hero>
 
@@ -451,7 +451,7 @@ const pratiques: Tuile[] = [
             quelle plateforme on parle, et la question ne se pose plus.
           */}
           <p class="clef-def__eb">The brand platform</p>
-          <p class="clef-def__phrase"><strong>One language for a function nobody could describe</strong> - positioning, territory and tone of voice, with a production line any of 2,500 could pick up. Versioned, not redrawn, when the brand underneath it changed.</p>
+          <p class="clef-def__phrase"><strong>One language, and a production line anyone could pick up</strong> - positioning, territory and tone of voice, from a leadership deck to a front-line email. Versioned when the brand underneath it changed.</p>
           {/*
             CE QUI SE PASSE ICI, ET NON OU CA A ATTERRI. Cette ligne disait
             « Piloted on sanofi.com in 2022 » : un jalon d'execution, pose a
@@ -484,6 +484,18 @@ const pratiques: Tuile[] = [
         separe une composition d'un decor.
       */}
       <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
+      {/* Le blanc tournant a droite du bloc : il s'arrete sous `n2`, pas sous
+          `c1`, et les trois colonnes qui restent ferment la rangee. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
+      {/* LE RYTHME TIENT A DEUX ACCENTS ETROITS, ET A RIEN D'AUTRE. Une ligne
+          horizontale de 28px, coloree sur ses trois dernieres colonnes
+          seulement ; et un diviseur vertical d'UNE colonne, pose exactement
+          dans la couture entre les deux cartes du milieu. L'un coupe, l'autre
+          separe - et aucun des deux ne porte de texte, donc aucun des deux ne
+          vole de place. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h1"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h2"><span class="compo__plat compo__plat--jaune"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:v1"><span class="compo__plat compo__plat--bleu"></span></div>
 
       {/*
         LES QUATRE CARTES SONT ECRITES DANS L'ORDRE 01 → 02 → 03 → 04, pas dans
@@ -506,7 +518,7 @@ const pratiques: Tuile[] = [
         rang="01"
         intitule="The problem"
         titre="A function driving the business, read as a service desk."
-        synthese="Its role went unexplained, its image was dated, and 2,500 people improvised the brand. Illegibility has a name in every multinational: shadow IT."
+        synthese="Its role went unexplained, its image was dated, and every team improvised the brand. Illegibility has a name in every multinational: shadow IT."
         couleur="rouge"
         commande="pan-problem"
         large
@@ -1367,12 +1379,13 @@ const pratiques: Tuile[] = [
       quatrieme, qui en demande 295.
     */
     .compo{grid-template-columns:repeat(12,minmax(0,1fr));
-      grid-template-rows:268px minmax(268px,auto)
+      grid-template-rows:268px minmax(268px,auto) 28px
         minmax(300px,auto) minmax(260px,auto);
       grid-template-areas:
         "n1 n1 n1 n2 n2 n2 c1 c1 c1 c1 c1 c1"
-        "n3 n3 n3 def def def def def def def def def"
-        "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
+        "n3 n3 n3 def def def def def def a1 a1 a1"
+        "h1 h1 h1 h1 h1 h1 h1 h1 h1 h2 h2 h2"
+        "c2 c2 c2 c2 c2 v1 c3 c3 c3 c3 c3 c3"
         "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
 
     /*

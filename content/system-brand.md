@@ -12,14 +12,14 @@ Systematize a brand · Sanofi · 2018 - 2022
 
 # At 2,500 people, a brand isn't a charter, it's a shared language.
 
-As Digital Communication Service Owner, I built IT's brand platform to make
-an invisible function legible - then handed its 2,500 people the language to
-talk about it themselves. As Product Design Lead in 2022, I took the part
-nobody had defined: what the new corporate brand becomes on a screen.
+As Digital Communication Service Owner, I made an invisible function
+legible - then handed the people inside it a language they could use
+without me. As Product Design Lead in 2022, I took the part of the
+corporate rebrand nobody had defined: what a brand becomes on a screen.
 
 The brand platform
 
-**One language for a function nobody could describe** - positioning, territory and tone of voice, with a production line any of 2,500 could pick up. Versioned, not redrawn, when the brand underneath it changed.
+**One language, and a production line anyone could pick up** - positioning, territory and tone of voice, from a leadership deck to a front-line email. Versioned when the brand underneath it changed.
 
 The systematization logic proven here is where Elements, Sanofi's experience system, begins.
 
@@ -43,7 +43,7 @@ Every employee met the platform somewhere in their day - a support notification,
 
 A function driving the business, read as a service desk.
 
-Its role went unexplained, its image was dated, and 2,500 people improvised the brand. Illegibility has a name in every multinational: shadow IT.
+Its role went unexplained, its image was dated, and every team improvised the brand. Illegibility has a name in every multinational: shadow IT.
 
 I built the platform, the production line and the practice.
 
