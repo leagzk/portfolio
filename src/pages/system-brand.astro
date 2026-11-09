@@ -476,22 +476,14 @@ const pratiques: Tuile[] = [
         trois chiffres d'a cote - et c'est la grammaire de l'accueil, ou la
         couleur occupe des cases entieres.
       */}
-      {/* LES DEUX CARRES SONT BLANCS. Ils ont porte le rouge et le bleu : avec
-          trois chiffres deja en aplat plein, cinq couleurs se touchaient et la
-          composition devenait une palette. Blancs, ils sont la RESPIRATION
-          entre les trois - ce que les cases blanches font sur l'accueil. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:a2"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:a3"></div>
-      {/* Les quatre segments des deux lignes : le long reste blanc, le court
-          porte la couleur, et les deux coupes sont decalees. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:h1"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:h2"><span class="compo__plat compo__plat--jaune"></span></div>
-      {/* LA BANDE BASSE N'EST PLUS UN SYSTEME DE LIGNES. Deux blocs y tiennent
-          des surfaces, et de tailles differentes - 267 et 535 de large, soit
-          du simple au double. Une ligne ne fait que separer ; un bloc pese. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--bleu"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:b2"><span class="compo__plat compo__plat--rouge"></span></div>
+      {/*
+        UN SEUL APLAT DANS TOUTE LA COMPOSITION. Elle en a porte dix, puis
+        quatre, puis deux. Celui-ci borde la carte 04 et ferme la page par le
+        bas a gauche, en rappel du carre rouge qui l'ouvre en haut a gauche.
+        Tout le reste des cases porte desormais du contenu : c'est ce qui
+        separe une composition d'un decor.
+      */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
 
       {/*
         LES QUATRE CARTES SONT ECRITES DANS L'ORDRE 01 → 02 → 03 → 04, pas dans
@@ -567,6 +559,7 @@ const pratiques: Tuile[] = [
       <CarteDossier
         id="carte-standard"
         rang="04"
+        mot="Pivot"
         intitule="The standard"
         titre="Then the whole company rebranded, and the screen had no owner."
         synthese="I took the part nobody had defined - what a corporate brand becomes once it's interactive - and answered it with one standard for the portfolio, piloted on sanofi.com."
@@ -1110,7 +1103,7 @@ const pratiques: Tuile[] = [
       chapitre en quatrieme, la ou Governance met son equipe.
     */}
     <section class="pan" id="pan-standard" aria-labelledby="titre-standard">
-      <h2 class="sr-only" id="titre-standard">04 &middot; The standard</h2>
+      <h2 class="sr-only" id="titre-standard">Pivot &middot; The standard</h2>
 
       {/*
         LE PALIER PREND LE LAYOUT DES AUTRES SOUS-PARTIES. Il etait pose sur un
@@ -1341,53 +1334,46 @@ const pratiques: Tuile[] = [
       douzieme, donc les filets se prolongent partout ; et la couleur occupe
       des cases entieres, pas des interstices.
 
-      LA FORME EST CELLE DE « CULTIVATING PRACTICE » SUR L'ACCUEIL. La citation
-      y est encadree sur DEUX cotes et non entouree : le duo des principes la
-      coiffe, un troisieme principe la borde a gauche, et le reste ouvre. Les
-      trois chiffres prennent ces trois places autour de `def` - `n1` et `n2`
-      au-dessus, `n3` a gauche - au lieu de tenir trois coins, ce qui faisait
-      une bordure et non un cadrage.
+      LES TROIS CHIFFRES SONT GROUPES A GAUCHE. Ils ont d'abord tenu les trois
+      coins de `def`, puis l'ont coiffe en L ; ils forment desormais un bloc -
+      deux en haut, un dessous - et c'est ce qui libere tout le haut a droite.
+      La grille y gagne deux fois : les chiffres se lisent ENSEMBLE, comme une
+      seule mesure en trois parts, et la place recuperee va a du contenu.
 
-      DEUX LIGNES HORIZONTALES TRAVERSENT, ET ELLES NE SE COUPENT PAS AU MEME
-      ENDROIT. La premiere separe les chiffres des cartes et casse a la
-      huitieme colonne ; la seconde separe les deux rangees de cartes et casse
-      a la troisieme. Deux coupes au meme endroit auraient fait une colonne
-      fantome ; decalees, elles donnent le rythme. Chacune porte sa couleur a
-      l'extremite opposee de l'autre - le jaune a droite, le bleu a gauche.
+      LES FILETS DU HAUT DESCENDENT JUSQU'EN BAS. Deux coupes verticales
+      seulement - a la troisieme colonne et a la sixieme - et elles traversent
+      les quatre rangees : 3 porte le bord droit de `n1`, de `n3` et de
+      l'aplat final ; 6 porte celui de `n2` et la couture entre `c2` et `c3`.
+      C'est ce qui fait tenir la composition : non pas des cases bien placees,
+      mais DEUX LIGNES qui vont d'un bout a l'autre.
 
-      LE BLEU VIENT DE LA BANDE DU BLOC. Il fermait la case « The brand
-      platform » par le bas, ou il ne designait rien ; il descend ici, ou il
-      tient une ligne de la grille.
+      PLUS DE RANGEE DE SEPARATION. Les deux filets horizontaux qui coupaient
+      la composition en deux etaient la pour marquer un passage ; les rangees
+      s'en chargent maintenant d'elles-memes, et la composition perd 124px de
+      hauteur sans rien perdre d'autre.
 
-      LA CARTE 04 SE VOIT AVANT D'ETRE LUE. Sur chaque etude, la quatrieme
-      nomme ce que le cas a d'unique - l'equipe pour Governance, le standard
-      ici - et c'est le point de bascule. Elle est donc la PLUS LARGE des
-      quatre, 713px contre 625, 446 et 356, et la seule noire. On la repere
-      sans avoir commence a lire.
+      CE QUE CHAQUE CASE PORTE :
+        · `n1` `n2` `n3` - les trois chiffres, 267x268, en bloc a gauche.
+        · `def` - « The brand platform », neuf colonnes, sous `n2` et `c1`.
+        · `c1` - le probleme, en haut a droite : la place liberee par les
+          chiffres va a la premiere carte, qui ouvre le recit.
+        · `c2` `c3` - l'approche et la preuve sur la MEME rangee, coupees a la
+          sixieme colonne, donc dans la descente du filet de `n2`.
+        · `c4` - le pivot, qui ferme la page sur neuf colonnes, borde a gauche
+          par le seul aplat de la composition.
 
-      `DEF` PREND DE LA LARGEUR PLUTOT QUE DE LA HAUTEUR. A six colonnes - 535px
-      - son texte demandait 410px de haut, et la rangee grandissant, `n3` la
-      suivait : le troisieme chiffre faisait 267x410, il n'etait plus carre. A
-      neuf colonnes il tient dans la hauteur d'un carre, et les trois chiffres
-      restent les trois memes.
-
-      LES LIGNES DE PUCES TIENNENT TOUTES SUR UN RANG : interieurs de 568, 390,
-      300 et 657 pour des lignes qui demandent 249, 319, 225 et 295.
-
-      LA PREMIERE RANGEE EST FIXE ET LA SECONDE UN PLANCHER : les chiffres
-      doivent rester carres, mais `def` doit pouvoir grandir si sa phrase gagne
-      une ligne.
+      LES LIGNES DE PUCES TIENNENT TOUTES SUR UN RANG : 479px d'interieur pour
+      les trois premieres - qui demandent 249, 319 et 225 - et 748 pour la
+      quatrieme, qui en demande 295.
     */
     .compo{grid-template-columns:repeat(12,minmax(0,1fr));
-      grid-template-rows:268px minmax(268px,auto) 36px
-        minmax(300px,auto) minmax(300px,auto) minmax(220px,auto);
+      grid-template-rows:268px minmax(268px,auto)
+        minmax(300px,auto) minmax(260px,auto);
       grid-template-areas:
-        "a1 a1 a1 n1 n1 n1 n2 n2 n2 a2 a2 a2"
-        "n3 n3 n3 def def def def def def a3 a3 a3"
-        "h1 h1 h1 h1 h1 h1 h1 h1 h2 h2 h2 h2"
-        "c1 c1 c1 c1 b1 b1 b1 c2 c2 c2 c2 c2"
-        "c3 c3 c3 c3 c3 c3 b2 b2 b2 b2 b2 b2"
-        "c4 c4 c4 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
+        "n1 n1 n1 n2 n2 n2 c1 c1 c1 c1 c1 c1"
+        "n3 n3 n3 def def def def def def def def def"
+        "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
+        "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
 
     /*
       LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait

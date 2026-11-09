@@ -198,7 +198,7 @@ The practice got a focus of its own, a remit and a plan. **Never a volunteer rot
 
 Next: the team &rarr;
 
-## 04 &middot; The team
+## Pivot &middot; The team
 
 Management
 

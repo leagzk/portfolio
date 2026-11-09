@@ -278,7 +278,7 @@ Taste on one side, adoption on the other. **The decision went against me. The ex
 
 Next: the standard &rarr;
 
-## 04 &middot; The standard
+## Pivot &middot; The standard
 
 Company scale
 
