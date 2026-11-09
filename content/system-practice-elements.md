@@ -220,7 +220,7 @@ I hired into the org I had drawn: from one designer to a core team of nine - **f
 
 I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 
-> Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story.
+> Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a team one.
 
 **[Nicolas Chatelain](https://nicolaschatelain.com)** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead**, we founded the capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. **His growth and the company's outcome, paired.**
 
