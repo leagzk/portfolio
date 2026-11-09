@@ -1487,10 +1487,15 @@
   repasse a --text, soit 12,24:1. Le chapitre garde la couleur exacte de sa
   carte, a saturation pleine.
 
+  LA REGLE VAUT SUR LES TROIS ETUDES, sans exception : Governance en quatre
+  chapitres, Language et Surfaces en trois. Le 03 de chacune porte une carte
+  jaune et surligne ; aucun n'emprunte plus la couleur d'un voisin.
+
   A VERIFIER SUR LE RENDU, PAS DANS LE SOURCE : un chapitre peut contenir
   une <section> imbriquee, et un decoupage naif du .astro saute alors la fin
-  du chapitre. La mesure qui compte est `getComputedStyle(em).color`, une
-  seule valeur par `.pan`.
+  du chapitre. Et depuis que le jaune surligne, `color` ne suffit plus - un
+  chapitre jaune y renvoie #111 comme le titre. Il faut lire le COUPLE
+  (color, backgroundColor), une seule valeur par `.pan`.
 */
 :is(.pan,.etude) .em-rouge,:is(.pan,.etude) .em-bleu,
 :is(.pan,.etude) .em-jaune,:is(.pan,.etude) .em-gris,
