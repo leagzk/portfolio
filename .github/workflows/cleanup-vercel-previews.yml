@@ -9,7 +9,7 @@ name: Nettoyer les previews Vercel
 # jamais une PR venant d'un fork. Le lancement manuel est en simulation
 # (dry run) par défaut : il liste sans rien supprimer.
 #
-# Prérequis : un secret de dépôt VERCEL_TOKEN (Vercel > Account Settings >
+# Prérequis : un secret de dépôt VERCEL_TOKEN_CLEANUP (Vercel > Account Settings >
 # Tokens, scope : la team lea-giezek).
 
 on:
@@ -49,7 +49,7 @@ jobs:
     steps:
       - name: Supprimer les previews
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN_CLEANUP }}
           # Passés par l'environnement, jamais interpolés dans le script.
           BRANCH: ${{ github.event.pull_request.head.ref || inputs.branch }}
           DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}
@@ -59,20 +59,20 @@ jobs:
           # Message à afficher quand l'échec vient du token : il dit quoi faire,
           # étape par étape, dans l'annotation d'erreur ET dans le résumé du run.
           token_help() {
-            echo "::error title=Token Vercel à renouveler::$1 À faire : (1) vercel.com/account/tokens > Create Token, scope lea-giezek. (2) GitHub > repo portfolio > Settings > Secrets and variables > Actions > VERCEL_TOKEN > Update secret. (3) Relancer ce workflow (Re-run all jobs)."
+            echo "::error title=Token Vercel à renouveler::$1 À faire : (1) vercel.com/account/tokens > Create Token, scope lea-giezek. (2) GitHub > repo portfolio > Settings > Secrets and variables > Actions > VERCEL_TOKEN_CLEANUP > Update secret. (3) Relancer ce workflow (Re-run all jobs)."
             {
               echo "### ⚠️ Token Vercel à renouveler"
               echo
               echo "$1"
               echo
               echo "1. Sur Vercel : **vercel.com/account/tokens → Create Token**, scope **lea-giezek**."
-              echo "2. Sur GitHub : repo **portfolio → Settings → Secrets and variables → Actions → VERCEL_TOKEN → Update secret**, colle le nouveau token."
+              echo "2. Sur GitHub : repo **portfolio → Settings → Secrets and variables → Actions → VERCEL_TOKEN_CLEANUP → Update secret**, colle le nouveau token."
               echo "3. Relance ce workflow : **Re-run all jobs**."
             } >> "$GITHUB_STEP_SUMMARY"
           }
 
           if [ -z "${VERCEL_TOKEN:-}" ]; then
-            token_help "Le secret VERCEL_TOKEN n'est pas défini."
+            token_help "Le secret VERCEL_TOKEN_CLEANUP n'est pas défini."
             exit 1
           fi
 
