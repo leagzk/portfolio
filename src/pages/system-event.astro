@@ -548,14 +548,14 @@ const credits = [
         */}
         <div class="two">
           <figure class="fig fig--aere">
-            <div class="fig__cadre suite" style="aspect-ratio:1400 / 1430;--fit:contain">
-              <Image class="suite__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="suite__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="suite__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+            <div class="fig__cadre fairepart" style="aspect-ratio:1400 / 1430;--fit:contain">
+              <Image class="fairepart__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="fairepart__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="fairepart__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
             </div>
             <figcaption class="cap">From the canvas</figcaption>
           </figure>
-          <Figure src={img('identity-invitation-detail')} legende="To the printed piece" ratio="4 / 3" ajuste="cover"
+          <Figure src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 1430" ajuste="cover"
             alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
             sizes="(min-width: 900px) 520px, 90vw" />
         </div>
@@ -1114,6 +1114,12 @@ const credits = [
 
   /*
     ─── La suite d'invitation qui se deplie ───
+    LE BLOC NE S'APPELLE PLUS `suite` : les trois boutons « chapitre suivant »
+    du pied portent deja `sb suite`, et le script prenait son sujet par
+    `document.querySelector('.suite')` - donc le PREMIER du document, un
+    bouton, ou il ne trouvait aucun etat et ressortait sans rien dire. Le
+    fondu n'a jamais tourne. `.pan .suite` posait au passage un
+    `position:relative` sur ces memes boutons.
     Trois etats au MEME endroit, en fondu. Trois vignettes cote a cote
     auraient montre trois photos ; le fondu montre un objet qu'on deplie.
 
@@ -1132,10 +1138,10 @@ const credits = [
     Elles reprennent la mesure par `--aere`, le jeton que `fig--aere` declare
     sur le cadre - une seule valeur a bouger, et le palier mobile suit seul.
   */
-  .pan .suite{position:relative}
-  .pan .suite .suite__etat{position:absolute;inset:var(--aere,0);
+  .pan .fairepart{position:relative}
+  .pan .fairepart .fairepart__etat{position:absolute;inset:var(--aere,0);
     object-fit:contain;opacity:0;transition:opacity .9s ease}
-  .pan .suite .suite__etat.is-on{opacity:1}
+  .pan .fairepart .fairepart__etat.is-on{opacity:1}
 
   /* ─── Les neuf credits ─── */
   .pan .credits{margin:0;display:grid;
@@ -1186,7 +1192,7 @@ const credits = [
   }
 
   @media(prefers-reduced-motion:reduce){
-    .pan .suite .suite__etat{transition:none}
+    .pan .fairepart .fairepart__etat{transition:none}
   }
 </style>
 
@@ -1204,8 +1210,8 @@ const credits = [
   suivreCadres();
 
   /* La suite d'invitation : trois etats, 2,2s chacun. */
-  const scene = document.querySelector<HTMLElement>('.suite');
-  if (scene) fonduEnchaine(scene, '.suite__etat', 2200);
+  const scene = document.querySelector<HTMLElement>('.fairepart');
+  if (scene) fonduEnchaine(scene, '.fairepart__etat', 2200);
 
   /* Les trois decoupes, deplacables seulement au-dela du palier mobile. */
   rendreDeplacable('.forme', '(max-width:860px)');
