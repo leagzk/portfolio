@@ -786,7 +786,10 @@ const mecanismes: Tuile[] = [
       <h2 class="sr-only" id="titre-approach">02 &middot; The approach</h2>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Organisation &amp; governance</p>
+        {/* La forme breve est pour la puce de la carte 02 seulement, qui est
+            trop etroite pour le surtitre entier - voir `libelle` dans
+            src/scripts/dossier.ts. Le chapitre garde son titre complet. */}
+        <p class="eb" data-sommaire="Governance">Organisation &amp; governance</p>
         <div class="split">
           {/*
             TROIS SOUS-PARTIES DE SUITE PARIAIENT. « A system this size is two
@@ -1412,7 +1415,36 @@ const mecanismes: Tuile[] = [
     /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
        qui la reprend apres doit retomber dans la meme colonne. */
     .pan .split__suite{grid-column:2}
-    .compo{grid-template-columns:15fr 24fr 9fr 18fr 11fr 23fr 18fr;
+    /*
+      LES SEPT COLONNES SONT RECOUPEES POUR DEUX MESURES, PAS POUR UN DESSIN.
+
+      1. CHAQUE LIGNE DE PUCES TIENT SUR UN RANG. Sur deux rangs elle
+         redevient la liste qu'on ne voulait pas ; c'est la condition du
+         palier 1120 pose dans etude.css.
+      2. LES CARTES 03 ET 04 FINISSENT A LA MEME HAUTEUR. Leurs deux textes
+         font 188 et 192 signes, donc ils prennent le meme nombre de lignes -
+         a condition de tomber tous les deux dans la meme plage. Mesure : le
+         titre tient sur 2 lignes et la synthese sur 5 des que la largeur
+         INTERIEURE depasse 291px, et jusqu'a 350. En dessous, le titre de la
+         04 passe a 3 lignes ; au-dessus, la synthese de la 03 tombe a 4.
+
+      LE BUDGET EST CONTRAINT DES DEUX COTES, et c'est ce qui rend le reglage
+      etroit : les colonnes 6-7 portent la carte 02 en haut ET la case de
+      respiration en bas, donc tout ce qu'on donne a 02 est repris a 03 et 04.
+      La carte 02 ne pouvait pas etre elargie de ses 61px manquants sans
+      ramener 03 sous les 291 - c'est son SURTITRE qui a cede, et non la
+      grille (voir `libelle` dans src/scripts/dossier.ts).
+
+      IL N'A DONC FALLU DEPLACER QU'UN SEUL FR, de la colonne 6 vers la 5 :
+      la carte 04 gagne les 9px qui lui manquaient pour tomber dans la plage
+      avec la 03, et la 02, allegee de son libelle, tient dans ce qui reste.
+      Les colonnes 1 a 4 ne bougent pas, donc la carte 01 non plus.
+
+      Resultat a 1072 : 01 599, 02 362, 03 353, 04 354, soit des interieurs
+      de 306, 297 et 298 - et les cartes 02, 03 et 04 finissent toutes les
+      trois a 227px de contenu.
+    */
+    .compo{grid-template-columns:15fr 24fr 9fr 18fr 12fr 22fr 18fr;
       grid-template-rows:minmax(190px,auto) minmax(80px,auto) 36px
         minmax(200px,auto) minmax(70px,auto)}
   }

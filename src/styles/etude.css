@@ -1065,10 +1065,21 @@
   telephone et celle du sommaire latero : chacune a sa place et aucune ne
   s'affiche en meme temps qu'une autre.
 */
-/* AU PALIER BUREAU ET NON EN BASE : le bloc telephone qui suit ne redeclare
-   pas la couleur, et une regle de base la lui imposerait. Les deux versions
-   ne partagent rien, donc elles ne se chevauchent pas non plus. */
-@media(min-width:861px){
+/*
+  AU PALIER BUREAU ET NON EN BASE : le bloc telephone qui suit ne redeclare
+  pas la couleur, et une regle de base la lui imposerait. Les deux versions
+  ne partagent rien, donc elles ne se chevauchent pas non plus.
+
+  ET CE PALIER EST 1120, PAS 861. La ligne ne vaut que si elle tient sur UN
+  rang : sur deux, elle redevient la liste qu'on ne voulait pas, en plus
+  petit et en plus gris. 1120 est la largeur a laquelle la composition
+  atteint sa taille pleine (1072px) et cesse de se reduire avec la fenetre ;
+  c'est donc exactement la largeur en dessous de laquelle les cartes se
+  resserrent et la ligne casse. Entre 861 et 1119 la composition garde ses
+  sept colonnes mais ses cartes sont trop etroites : les puces y reprennent
+  la forme du telephone, empilee, qui ne depend d'aucune largeur.
+*/
+@media(min-width:1120px){
   .dcarte__points{display:block;margin-top:18px}
   .dcarte__liste{display:flex;flex-wrap:wrap;align-items:baseline;
     column-gap:14px;row-gap:6px}
@@ -1077,7 +1088,10 @@
   .dcarte__point::before{content:"";flex:none;width:5px;height:5px;
     background:var(--text)}
 }
-@media(max-width:860px){
+/* 1119 ET NON 860 : voir le palier ci-dessus. Cette forme-ci ne depend pas
+   de la largeur de la carte, donc c'est elle qui tient tout ce que la ligne
+   ne peut pas tenir - du telephone jusqu'au seuil de la composition pleine. */
+@media(max-width:1119px){
   /*
     LA ZONE SE FERME SUR UNE BANDE, ET LES TRAITS FONT GRILLE. C'est la
     reference posee par Lea : chez Mondrian ce ne sont pas les aplats qui
