@@ -282,7 +282,7 @@ An escape game, designed from zero - rules, clues, progression, reward. A locked
 
 Participation
 
-Shipped empty. *Finished by the people who played it.*
+The brief was never a game. It was *ninety people who already knew their table.*
 
 Every guest list arrives pre-sorted - families, school friends, the people from work - and left alone it stays that way all day. The room is perfectly pleasant and nobody meets anyone. **That was the actual brief**: a reason for people who don't know each other to need each other for twenty minutes.
 
@@ -300,9 +300,9 @@ And it only became itself once people played it. I drew the frame - tight, delib
 
 Transfer
 
-Gamification isn't a party trick. *It's how you get people to do the boring thing.*
+Gamification isn't a party trick. *The frame is mine, the experience is theirs.*
 
-The lever is the same one I reach for at work, and it has nothing to do with points and badges. It applies wherever a result depends on people choosing to take part, and no mandate can make them.
+The lever is the same one I reach for at work, and it has nothing to do with points and badges. **It's how you get people to do the boring thing** - it works wherever a result depends on people choosing to take part, and no mandate can make them.
 
 **Hackathons.** Sanofi's first ran on the brand platform, sponsored by the Chief Medical Officer and the Global Head of R&D: 6,000 participants, 103 ideas, 8,301 votes. The voting wasn't decoration around the event - it was the engine that made six thousand people show up for it.
 
@@ -312,7 +312,7 @@ The lever is the same one I reach for at work, and it has nothing to do with poi
 
 **Recognition.** An annual awards programme, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.
 
-An escape game, a hackathon, a design system: **you design them for the people who'll use them, not for yourself. The frame is mine; the experience is theirs, and it comes alive the moment I let go.**
+An escape game, a hackathon, a design system: **you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.**
 
 I don't repeat a system - I version it. Three editions, three couples, three identities, a different game every time. And nothing in this one was switched on for the occasion: a brief held to five words, a frame fixed with the rest left open, a handover precise enough to step out of - it is what I do at work, on a project nobody paid me for. **The drivers don't stop at the screen, and they don't stop at the org chart either.**
 
