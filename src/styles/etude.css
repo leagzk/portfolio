@@ -866,7 +866,15 @@
   cases qui la partagent s'etirent avec elle. Fermee, le contenu tient sous le
   minimum de la rangee : rien ne bouge tant qu'on n'ouvre pas.
 */
-.compo .clef{position:relative;inset:auto;height:auto}
+/*
+  ET IL REMPLIT SA CASE QUAND IL EST PLUS COURT QU'ELLE. Revenu dans le flux,
+  le bouton prend la hauteur de son contenu - or c'est LUI qui porte l'aplat
+  de couleur, pas la case. Une case de 177px avec 150 de contenu laissait donc
+  27px de blanc sous le jaune, a l'interieur de son propre filet. `min-height`
+  le fait descendre jusqu'au bord sans l'empecher de grandir au-dela quand le
+  contexte s'ouvre.
+*/
+.compo .clef{position:relative;inset:auto;height:auto;min-height:100%}
 .compo .clef__dedans{position:relative;inset:auto}
 
 .compo > *,.compo .tuiles--cases > *,
@@ -1888,13 +1896,14 @@
   quarts - sans aucun rapport avec la grille qui le precede, a laquelle il est
   colle. Deux grilles qui se touchent et ne se repondent pas.
 
-  En 4-5-3, la premiere verticale tombe au tiers et la seconde aux trois
-  quarts : sur Surfaces, l'une sous le bord droit de la definition et l'autre
-  sous le filet qui separe les deux grandes cases du bas, qui la prolonge donc
-  vers le haut. Le rail cesse d'etre une bande posee dessous pour devenir la
-  derniere rangee de la meme grille.
+  En 4-4-4, ses deux verticales tombent au tiers et aux deux tiers : sur
+  Surfaces, la premiere sous le bord droit de la definition tout en haut, la
+  seconde sous le filet qui coupe la bande du bas - lequel la prolonge donc
+  vers le haut, du pied de page jusqu'a l'avant-derniere horizontale. Le rail
+  cesse d'etre une bande posee dessous pour devenir la derniere rangee de la
+  meme grille.
 */
-.rails{display:grid;grid-template-columns:4fr 5fr 3fr;gap:var(--rule-fine);
+.rails{display:grid;grid-template-columns:4fr 4fr 4fr;gap:var(--rule-fine);
   background:var(--text);padding-top:var(--rule-fine);margin-top:0}
 .rails > *{background:var(--white);min-height:56px}
 @media(max-width:860px){.rails{display:none}}
