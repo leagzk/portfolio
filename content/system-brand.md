@@ -18,7 +18,7 @@ Then Sanofi merged its three brands into one, and every internal identity was re
 
 The brand platform
 
-**Every digital entity of Sanofi IT, on one language** - ten business capabilities, each with its colour and its own iconography, and a template for every intent rather than every sender.
+**Mission, positioning, territory, personality and tone of voice** - what IT stood for, and how it was allowed to sound. Then everything that derives from it: colour, iconography and a template for every intent.
 
 Three identities in four years, and the same platform carried all three.
 
