@@ -286,21 +286,24 @@ const credits = [
 
       {/*
         LA BANDE DU BAS, A DROITE DU PIVOT, ET UNE SEULE VERTICALE LA COUPE.
-        En haut un carre rouge de deux colonnes - 177x177, la mesure exacte des
-        chiffres tout en haut - et une bande noire de quatre. En bas, sous la
-        meme coupe, une case blanche et l'aplat jaune.
+        A gauche du filet, la bande noire de quatre colonnes et, dessous, du
+        blanc. A droite, un blanc de deux colonnes puis le JAUNE, qui est un
+        carre et non un rectangle : 177x177, la mesure exacte des chiffres tout
+        en haut de la composition.
 
-        LE FILET TOMBE AU HUITIEME DOUZIEME SUR LES DEUX RANGEES, donc il les
+        LA MASSE NOIRE EST A GAUCHE, ET C'EST CE QUI FAIT TENIR LE COIN. Posee a
+        droite elle fermait la page sur son angle le plus lourd, et le jaune se
+        retrouvait sous elle au lieu d'etre degage. Le blanc au-dessus du jaune
+        est ce qui lui donne sa place : un carre de couleur a besoin d'un vide
+        pour se lire comme un carre.
+
+        LE FILET TOMBE AU DIXIEME DOUZIEME SUR LES DEUX RANGEES, donc il les
         traverse d'un trait ; et c'est aussi la seconde verticale du rail de
         cloture, qui le prolonge jusqu'au pied de page. Trois rangees, un seul
         trait.
-
-        LE BLANC EST UNE COULEUR ICI. La case sous le carre rouge reste vide :
-        quatre aplats pleins d'affilee fermeraient la page sur un mur, et c'est
-        le vide qui fait respirer la derniere ligne.
       */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:p2"><span class="compo__plat compo__plat--noir"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--noir"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p2"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:b1"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:b2"><span class="compo__plat compo__plat--jaune"></span></div>
     </div>
@@ -831,8 +834,8 @@ const credits = [
         "def def def def n1 n1 c1 c1 c1 c1 c1 c1"
         "def def def def n2 n2 c1 c1 c1 c1 c1 c1"
         "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
-        "c4 c4 c4 c4 c4 c4 p1 p1 p2 p2 p2 p2"
-        "c4 c4 c4 c4 c4 c4 b1 b1 b2 b2 b2 b2"}
+        "c4 c4 c4 c4 c4 c4 p1 p1 p1 p1 p2 p2"
+        "c4 c4 c4 c4 c4 c4 b1 b1 b1 b1 b2 b2"}
 
     .compo .cles--mondrian,.compo .clef-rangee{display:contents}
     /* A deux chiffres, `MOITIE` vaut 1 : chaque rangee n'en porte qu'un seul. */

@@ -1896,14 +1896,14 @@
   quarts - sans aucun rapport avec la grille qui le precede, a laquelle il est
   colle. Deux grilles qui se touchent et ne se repondent pas.
 
-  En 4-4-4, ses deux verticales tombent au tiers et aux deux tiers : sur
+  En 4-6-2, ses deux verticales tombent au tiers et aux cinq sixiemes : sur
   Surfaces, la premiere sous le bord droit de la definition tout en haut, la
   seconde sous le filet qui coupe la bande du bas - lequel la prolonge donc
   vers le haut, du pied de page jusqu'a l'avant-derniere horizontale. Le rail
   cesse d'etre une bande posee dessous pour devenir la derniere rangee de la
   meme grille.
 */
-.rails{display:grid;grid-template-columns:4fr 4fr 4fr;gap:var(--rule-fine);
+.rails{display:grid;grid-template-columns:4fr 6fr 2fr;gap:var(--rule-fine);
   background:var(--text);padding-top:var(--rule-fine);margin-top:0}
 .rails > *{background:var(--white);min-height:56px}
 @media(max-width:860px){.rails{display:none}}
