@@ -1001,10 +1001,19 @@ const pratiques: Tuile[] = [
           commentaires est a 500px dans cette colonne, il se CONSULTE la et se
           LIT en grand.
 
-          SANTOS OUVRE LE FIL. Il donne sa largeur au bloc, et les deux breves
-          de 2018 et 2019 tiennent dessous dans la gouttiere qu'il laisse -
-          empile dans l'autre sens, le bloc faisait deux fois la hauteur de
-          l'annonce d'a cote.
+          SANTOS OUVRE LE FIL, dans la capture elle-meme : il donne sa largeur
+          a la planche, et les deux breves de 2018 et 2019 tiennent dessous
+          dans la gouttiere qu'il laisse. Compose dans l'autre sens, le fil
+          faisait deux fois la hauteur de l'annonce.
+
+          LES DEUX PLANCHES S'EMPILENT DANS LA COLONNE DU TEXTE. Cote a cote
+          sur toute la largeur, elles faisaient 470px chacune pour des
+          captures ou l'on doit lire des commentaires, et la bande coupait la
+          page en deux a l'endroit ou le propos, lui, tient dans une colonne.
+          Empilees en colonne 2, elles gagnent une centaine de pixels chacune
+          et tombent a l'aplomb du paragraphe qu'elles documentent - comme le
+          fil LinkedIn juste apres, et pour la meme raison. Le surtitre
+          descend avec elles : il nomme ces deux planches, pas la page.
         */}
         <div class="split">
           <p class="lead">It reached well past <em class="em-jaune">the people producing on it.</em></p>
@@ -1013,28 +1022,30 @@ const pratiques: Tuile[] = [
           </div>
         </div>
 
-        <p class="eb">Captivate, from launch to outcome</p>
-        <div class="two">
-          <Figure
-            src={img(annonce.nom)}
-            alt={annonce.alt}
-            legende={annonce.legende}
-            titre="Captivate announcement"
-            aere
-            ratio="16 / 11"
-            sizes="(min-width: 900px) 500px, 92vw"
-            zoom
-          />
-          <Figure
-            src={img(filCaptivate.nom)}
-            alt={filCaptivate.alt}
-            legende={filCaptivate.legende}
-            titre="Captivate replies"
-            aere
-            ratio="16 / 11"
-            sizes="(min-width: 900px) 500px, 92vw"
-            zoom
-          />
+        <div class="split">
+          <div class="body split__droite">
+            <p class="eb">Captivate, from launch to outcome</p>
+            <Figure
+              src={img(annonce.nom)}
+              alt={annonce.alt}
+              legende={annonce.legende}
+              titre="Captivate announcement"
+              aere
+              ratio="16 / 11"
+              sizes="(min-width: 900px) 560px, 92vw"
+              zoom
+            />
+            <Figure
+              src={img(filCaptivate.nom)}
+              alt={filCaptivate.alt}
+              legende={filCaptivate.legende}
+              titre="Captivate replies"
+              aere
+              ratio="16 / 11"
+              sizes="(min-width: 900px) 560px, 92vw"
+              zoom
+            />
+          </div>
         </div>
 
         {/*

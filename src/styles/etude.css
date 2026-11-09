@@ -1468,6 +1468,11 @@
 .pan .body{display:flex;flex-direction:column;gap:16px;font-size:var(--fs-body);
   line-height:1.7;color:var(--text-body)}
 .pan .body p{margin:0}
+/* MEME ECART SOUS UN SURTITRE, OU QU'IL SOIT. Dans une sous-partie il vaut 12px
+   - le `gap` de 32 moins les 20 de marge negative ci-dessus. Dans un `.body` le
+   `gap` n'en fait que 16 : sans ce rattrapage, un surtitre pose dans la colonne
+   du texte respirerait quatre pixels de plus que tous les autres. */
+.pan .body > .eb{margin-bottom:-4px}
 .pan .body strong,.pan .body b{color:var(--text)}
 /* Citation : filet bleu a gauche, italique. */
 .pan .qt{margin:0;padding-left:20px;border-left:3px solid var(--blue);
