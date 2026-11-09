@@ -1,0 +1,159 @@
+name: Nettoyer les previews Vercel
+
+# Supprime les déploiements de PREVIEW Vercel d'une branche :
+#  - automatiquement quand une PR est mergée (previews de la branche mergée) ;
+#  - à la demande (Actions > Nettoyer les previews Vercel > Run workflow),
+#    pour purger les previews d'une branche déjà mergée.
+#
+# Garde-fous : jamais de déploiement de production, jamais la branche main,
+# jamais une PR venant d'un fork. Le lancement manuel est en simulation
+# (dry run) par défaut : il liste sans rien supprimer.
+#
+# Prérequis : un secret de dépôt VERCEL_TOKEN_CLEANUP (Vercel > Account Settings >
+# Tokens, scope : la team lea-giezek).
+
+on:
+  pull_request:
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Branche dont on supprime les previews (ex. ui/chiffres-cles)"
+        required: true
+        type: string
+      dry_run:
+        description: "Simulation : lister sans supprimer"
+        required: true
+        type: boolean
+        default: true
+
+permissions: {}
+
+env:
+  VERCEL_TEAM_ID: team_iPiOmHQe8wPoUAYfGbnKDIoV
+  VERCEL_PROJECT_ID: prj_qvYNT03PN6g8YDaP511IGyr4l0zi
+
+jobs:
+  cleanup:
+    name: Supprimer les previews de la branche
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # Sur PR : seulement si elle est mergée et vient de ce dépôt (pas d'un fork).
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.pull_request.merged == true &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    concurrency:
+      group: cleanup-vercel-${{ github.event.pull_request.head.ref || inputs.branch }}
+      cancel-in-progress: false
+    steps:
+      - name: Supprimer les previews
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN_CLEANUP }}
+          # Passés par l'environnement, jamais interpolés dans le script.
+          BRANCH: ${{ github.event.pull_request.head.ref || inputs.branch }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || 'false' }}
+        run: |
+          set -euo pipefail
+
+          # Message à afficher quand l'échec vient du token : il dit quoi faire,
+          # étape par étape, dans l'annotation d'erreur ET dans le résumé du run.
+          token_help() {
+            echo "::error title=Token Vercel à renouveler::$1 À faire : (1) vercel.com/account/tokens > Create Token, scope lea-giezek. (2) GitHub > repo portfolio > Settings > Secrets and variables > Actions > VERCEL_TOKEN_CLEANUP > Update secret. (3) Relancer ce workflow (Re-run all jobs)."
+            {
+              echo "### ⚠️ Token Vercel à renouveler"
+              echo
+              echo "$1"
+              echo
+              echo "1. Sur Vercel : **vercel.com/account/tokens → Create Token**, scope **lea-giezek**."
+              echo "2. Sur GitHub : repo **portfolio → Settings → Secrets and variables → Actions → VERCEL_TOKEN_CLEANUP → Update secret**, colle le nouveau token."
+              echo "3. Relance ce workflow : **Re-run all jobs**."
+            } >> "$GITHUB_STEP_SUMMARY"
+          }
+
+          if [ -z "${VERCEL_TOKEN:-}" ]; then
+            token_help "Le secret VERCEL_TOKEN_CLEANUP n'est pas défini."
+            exit 1
+          fi
+
+          case "$BRANCH" in
+            ""|main|master)
+              echo "::error::Branche refusée : '$BRANCH'."
+              exit 1
+              ;;
+          esac
+
+          api="https://api.vercel.com"
+          auth="Authorization: Bearer $VERCEL_TOKEN"
+
+          # 1. Lister (paginé) les previews de la branche. Le filtre se fait ici,
+          #    côté client : target différent de production ET branche = BRANCH.
+          : > ids.txt
+          until=""
+          while :; do
+            url="$api/v6/deployments?projectId=$VERCEL_PROJECT_ID&teamId=$VERCEL_TEAM_ID&limit=100"
+            if [ -n "$until" ]; then url="$url&until=$until"; fi
+            out=$(curl -sS -w '\n%{http_code}' -H "$auth" "$url")
+            code="${out##*$'\n'}"
+            resp="${out%$'\n'*}"
+            case "$code" in
+              200) ;;
+              401|403)
+                token_help "Vercel a refusé le token (HTTP $code) : il est probablement expiré, révoqué, ou sans accès à la team lea-giezek."
+                exit 1
+                ;;
+              *)
+                echo "::error::L'API Vercel a répondu HTTP $code."
+                exit 1
+                ;;
+            esac
+            echo "$resp" | jq -r --arg b "$BRANCH" '
+              .deployments[]
+              | select((.target // "preview") != "production")
+              | select(.meta.githubCommitRef == $b)
+              | (.uid // .id)' >> ids.txt
+            until=$(echo "$resp" | jq -r '.pagination.next // empty')
+            [ -z "$until" ] && break
+          done
+
+          total=$(wc -l < ids.txt | tr -d ' ')
+          echo "Previews trouvés pour '$BRANCH' : $total"
+
+          if [ "$total" -eq 0 ]; then
+            echo "Rien à supprimer pour \`$BRANCH\`." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          if [ "$DRY_RUN" = "true" ]; then
+            {
+              echo "### Simulation — rien n'a été supprimé"
+              echo "$total preview(s) seraient supprimés pour \`$BRANCH\`. Relance sans « Simulation » pour supprimer."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          # 2. Supprimer.
+          ok=0; ko=0
+          while read -r id; do
+            [ -z "$id" ] && continue
+            code=$(curl -sS -o /dev/null -w '%{http_code}' -X DELETE -H "$auth" \
+              "$api/v13/deployments/$id?teamId=$VERCEL_TEAM_ID" || echo 000)
+            if [ "$code" = "200" ] || [ "$code" = "404" ]; then
+              ok=$((ok + 1))
+            elif [ "$code" = "401" ] || [ "$code" = "403" ]; then
+              token_help "Vercel a refusé le token pendant la suppression (HTTP $code) : il est probablement expiré, révoqué, ou sans droit de suppression sur la team lea-giezek."
+              exit 1
+            else
+              ko=$((ko + 1))
+              echo "::warning::Échec ($code) pour $id"
+            fi
+            sleep 0.3
+          done < ids.txt
+
+          {
+            echo "### Previews supprimés pour \`$BRANCH\`"
+            echo "- Supprimés : $ok"
+            echo "- Échecs : $ko"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          [ "$ko" -eq 0 ]
