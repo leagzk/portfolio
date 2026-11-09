@@ -244,11 +244,6 @@ Average completed engagement: 23 months against a one-year target. The people wh
 
 ## My job wasn't to hold it up. *It was to build a structure that outlasts any of us.*
 
-Not a system people obey - one they own. **That's what growing a culture means.**
-
-Design systems ship standards.
-*Experience systems grow culture.*
-
 See it off the screen →
 
 ---
