@@ -36,7 +36,7 @@ Everything written down before anyone had to ask. On the day it ran from the bri
 
 No client, no reviewer, and the only critic was the one who made it.
 
-Off the screen, the method held. What did not come with it was a brief written by someone else, the review that follows one - and anyone to say where my line stopped.
+Off the screen, the method held. What had to be drawn from scratch was the line - what I keep, what nine other crafts carry, and where my taste stops being the argument.
 
 A direction anyone could apply, and a production line that did not exist yet.
 
