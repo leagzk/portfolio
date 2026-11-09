@@ -501,6 +501,17 @@ const pratiques: Tuile[] = [
         Tout le reste des cases porte desormais du contenu : c'est ce qui
         separe une composition d'un decor.
       */}
+      {/* LE FILET QUI PART DU COIN GAUCHE DU CARRE NOIR. Le carre tient la
+          troisieme colonne : son bord DROIT prolonge la verticale qui descend
+          des trois chiffres, et son bord GAUCHE n'allait nulle part. Les deux
+          rangees du bas se coupent desormais a cette deuxieme colonne, donc le
+          filet repart du carre et descend jusqu'au bas de la composition.
+
+          LE CARRE DEVIENT LE RELAIS ENTRE LES DEUX VERTICALES : l'une arrive
+          par la droite depuis le haut et s'arrete sur lui, l'autre repart par
+          la gauche et finit la page. C'est ce qui lui donne un role de
+          structure plutot que d'accent, et ce qui justifie qu'il soit noir. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:d1"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
       {/* LE NOIR PASSE DE LA BANDE AU CARRE. Il tenait une colonne sur toute
           la hauteur d'une rangee - 88 de large pour 268 de haut - soit une
@@ -1417,8 +1428,8 @@ const pratiques: Tuile[] = [
         "n1 n1 n1 n2 n2 n2 n3 n3 n3 def def def"
         "a1 a1 a1 c1 c1 c1 c1 c1 c1 def def def"
         "h1 h1 k1 h2 h2 h2 h2 h2 h2 h2 h2 h2"
-        "c2 c2 c2 c2 c2 v1 c3 c3 c3 c3 c3 c3"
-        "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
+        "d1 d1 c2 c2 c2 c2 c2 v1 c3 c3 c3 c3"
+        "b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
 
     /*
       LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait
