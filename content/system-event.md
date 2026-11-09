@@ -86,6 +86,8 @@ On the first two editions I held all of it - art direction, print, setup, some o
 
 The other half of the same question is the suppliers. Nine of them, each better than me at their own craft. Hold too much and you get compliance instead of their best work; hold too little and fifty surfaces drift apart by the second week. The answer isn't a tighter brief, it's a clearer one - agreed at the start, on what is fixed, what is theirs, and how we work together.
 
+And a direction still has to survive the room it's defended in. This one held three generations who don't value the same things - what reads as considered to one reads as cold to the next - and not one of them reports to anybody. Finding the argument that lands for each without moving the work itself is the job I do upstairs. **Stakeholder management, with grandparents instead of a steering committee.**
+
 **Fix the frame, open the rest.** It's the same arbitration I run on a design system: a core nobody negotiates, and everything around it contributed.
 
 Next: the system →
@@ -324,7 +326,7 @@ An escape game, a hackathon, a design system: **you design them for the people w
 
 The frame is mine. **The life is theirs.**
 
-I don't repeat a system - I version it. Three editions, three couples, three identities, a different game every time. **The pattern doesn't stop at the screen, and it doesn't stop at work either.**
+I don't repeat a system - I version it. Three editions, three couples, three identities, a different game every time. And nothing in this one was switched on for the occasion: a brief held to five words, a frame fixed with the rest left open, a handover precise enough to step out of - it is what I do at work, on a project nobody paid me for. **The drivers don't stop at the screen, and they don't stop at the org chart either.**
 
 See it at global scale →
 
