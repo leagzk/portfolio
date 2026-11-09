@@ -1643,10 +1643,6 @@
    du texte respirerait quatre pixels de plus que tous les autres. */
 .pan .body > .eb{margin-bottom:-4px}
 .pan .body strong,.pan .body b{color:var(--text)}
-/* Citation : filet bleu a gauche, italique. */
-.pan .qt{margin:0;padding-left:20px;border-left:3px solid var(--blue);
-  font-size:17px;line-height:1.65;font-style:italic;color:var(--text-body);
-  max-width:720px}
 
 /* ─── Grilles de contenu ─── */
 .pan .split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:48px}

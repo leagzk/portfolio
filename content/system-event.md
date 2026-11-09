@@ -312,9 +312,7 @@ The lever is the same one I reach for at work, and it has nothing to do with poi
 
 **Recognition.** An annual awards programme, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.
 
-An escape game, a hackathon, a design system: **you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.**
-
-The frame is mine. **The life is theirs.**
+An escape game, a hackathon, a design system: **you design them for the people who'll use them, not for yourself. The frame is mine; the experience is theirs, and it comes alive the moment I let go.**
 
 I don't repeat a system - I version it. Three editions, three couples, three identities, a different game every time. And nothing in this one was switched on for the occasion: a brief held to five words, a frame fixed with the rest left open, a handover precise enough to step out of - it is what I do at work, on a project nobody paid me for. **The drivers don't stop at the screen, and they don't stop at the org chart either.**
 
