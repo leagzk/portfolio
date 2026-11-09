@@ -40,7 +40,6 @@ import type { Vignette } from '../components/Carrousel.astro';
 import Figure from '../components/Figure.astro';
 import Bouton from '../components/Bouton.astro';
 import Icone from '../components/Icone.astro';
-import BeforeAfter from '../components/BeforeAfter.astro';
 import Loupe from '../components/Loupe.astro';
 import { chercheurImages } from '../lib/images';
 import { Image } from 'astro:assets';
@@ -65,15 +64,31 @@ const img = chercheurImages(fichiers, 'living-system');
   la duree, l'etendue, les prestataires diriges, et le fait que ce soit une
   TROISIEME edition - c'est elle qui prouve que le systeme se versionne.
 */
+/*
+  TROIS CHIFFRES, ET AUCUN QUI MESURE LE COUT.
+
+  La bande en portait quatre, et trois d'entre eux mesuraient l'EFFORT : « 1
+  yr+ » est une duree, « 9 suppliers » et « 50+ surfaces » sont un volume de
+  travail. Un lecteur y lisait ce que la chose a coute, pas ce qu'elle a
+  produit - alors que Governance ouvre sur 87% d'usage, un time-to-launch
+  divise par trois et 810 jours de developpement economises.
+
+  La duree part : c'est la seule qui ne dit rien d'autre qu'elle-meme. Les
+  trois qui restent gardent leur nombre mais changent de propos - ce n'est plus
+  l'ampleur qui est annoncee, c'est ce qui a tenu : l'identite sur les surfaces
+  ingrates, la journee sans moi dedans, et la mecanique sur trois couples qui
+  n'avaient rien en commun.
+
+  ET LA BANDE GAGNE SA DEFINITION, comme les deux autres etudes. Elle etait la
+  seule a ne pas en avoir : les chiffres y arrivaient sans que la page ait dit
+  de quel systeme ils parlent. C'est aussi ce qui autorise trois chiffres au
+  lieu de quatre - voir PLANCHER dans ChiffresCles.astro.
+*/
 const chiffres: Chiffre[] = [
-  { nombre: '1 an+', quoi: 'from first object to last jar', couleur: 'bleu', motif: 'plein',
-    contexte: 'Designed and orchestrated end to end, alongside the day job.' },
-  { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'carre',
-    contexte: 'Paper, fabric, metal, wood - and a pre-event WhatsApp community.' },
-  { nombre: '9', quoi: 'suppliers directed from one guide', couleur: 'noir', motif: 'plein',
-    contexte: 'One page per zone, one owner per page. Executed without me in the room.' },
-  { nombre: '3rd', quoi: 'edition, each bigger than the last', couleur: 'rouge', motif: 'bande',
-    contexte: "A full identity every time, an escape game every time. I don't repeat a system - I version it." },
+  { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'plein',
+    contexte: 'Paper, fabric, metal, wood. Four materials, and not one of them got a different answer.' },
+  { nombre: '9', quoi: 'suppliers, one guide', couleur: 'bleu', motif: 'plein',
+    contexte: 'Everything written down before anyone had to ask. On the day it ran from the brief, not from me.' },
 ];
 
 /*
@@ -114,23 +129,54 @@ const couleurs = [
   { hex: '#FDC1BD', nom: 'Rose' },
 ];
 
-/* Les trois etapes du jeu, dans l'ordre ou on les vit. */
-const etapes = [
-  { nom: 'game-locked', rang: '01', titre: 'The constraint',
-    propos: 'A locked trunk, a combination, and clues scattered across the day.',
-    alt: 'Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid' },
-  { nom: 'game-opened', rang: '02', titre: 'The crack',
-    propos: 'Progression built so the last step feels earned, not handed over.',
-    alt: 'Opened trunk revealing a framed congratulations card above rows of jars' },
-  { nom: 'game-reward', rang: '03', titre: 'The payoff',
-    propos: 'The reward carries the identity too. The system runs to the last object.',
-    alt: 'Rows of jars packed in the trunk, each labelled with the event monogram on striped paper' },
-];
-
 /*
-  Les neuf prestataires. data-label reprend le nom : le CSS s'en sert pour
-  reserver la largeur du gras au survol, sans faire sauter la mise en page.
+  LE GUIDE DE PRODUCTION, QUATORZE PAGES, DANS L'ORDRE DU JOUR.
+
+  Il en portait trois - celles qui servaient de moitie gauche aux anciens blocs
+  avant/apres. Les onze autres etaient dans le fichier d'origine et nulle part
+  sur le site.
+
+  LES MOMENTS D'ABORD, LE JEU ENSUITE. Les sept premieres sont des moments de
+  la journee : l'apero, les jeux de pelouse, la ceremonie, le placement, le
+  diner, le bar de nuit, l'urne. Les sept suivantes sont l'escape game - son
+  coeur a la fontaine, puis ses SIX epreuves dans l'ordre ou on les joue.
+
+  ET C'EST CE QUI PROUVE LA PHRASE DU CHAPITRE PIVOT. « Six riddles, six
+  different mechanics » etait une affirmation ; les six pages la rendent
+  verifiable, une par mecanique, numerotees comme le guide les numerote.
 */
+const guide: Vignette[] = [
+  { nom: 'zone-aperitif', legende: 'Friday &middot; the ap&eacute;ro',
+    alt: 'Production guide page for the Friday apero zone: food and drinks area, frames, glassware and linen checklist' },
+  { nom: 'zone-lawn-games', legende: 'Friday &middot; the lawn games',
+    alt: 'Production guide page for the lawn games zone: petanque, molkky and the trunk of blankets, with its signage' },
+  { nom: 'zone-ceremony', legende: 'Saturday &middot; the ceremony clearing',
+    alt: 'Production guide page for the ceremony: the arch, the floral columns, the rug and the benches in the clearing' },
+  { nom: 'spec-zone-seating', legende: 'Saturday &middot; the seating panels',
+    alt: 'Page from the production guide: mockup of the seating panels with the material checklist' },
+  { nom: 'zone-dinner', legende: 'Saturday &middot; the dinner room',
+    alt: 'Production guide page for the dinner: tables, tableware, linen, flowers and candles, item by item' },
+  { nom: 'zone-night-bar', legende: 'Saturday &middot; the night bar',
+    alt: 'Production guide page for the night bar: frames, cups, the tap and the onion soup service' },
+  { nom: 'zone-guestbook', legende: 'Saturday &middot; the guestbook corner',
+    alt: 'Production guide page for the guestbook corner under the pergola: desk, urn, postcards and signage' },
+  { nom: 'zone-escape-hub', legende: 'The escape game &middot; its heart, at the fountain',
+    alt: 'Production guide page for the escape game hub at the fountain: the coloured trunks, the padlocks and the pitch frame' },
+  { nom: 'zone-game-1-cats', legende: 'Game 1 &middot; CATS',
+    alt: 'Production guide page for game one, CATS: the grid frame, the tokens and the small lounge against the wall' },
+  { nom: 'spec-zone-murdle', legende: 'Game 2 &middot; Murdle',
+    alt: 'Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes' },
+  { nom: 'spec-zone-wordsearch', legende: 'Game 3 &middot; Guests, mixed',
+    alt: 'Production guide page for the word-grid game: blank poster on an easel with its material checklist' },
+  { nom: 'zone-game-4-geocaching', legende: 'Game 4 &middot; Geocaching',
+    alt: 'Production guide page for the geocaching game: the cat frames to gather and the four jars hidden in the courtyard' },
+  { nom: 'zone-game-5-crossword', legende: 'Game 5 &middot; Crossword',
+    alt: 'Production guide page for the crossword: the mirror grid against the door, the chalk pen and the clue frame' },
+  { nom: 'zone-game-6-puzzle', legende: 'Game 6 &middot; Puzzle',
+    alt: 'Production guide page for the puzzle: loose pieces on the low table, instructions frame and the seating around it' },
+].map((e) => ({ src: img(e.nom), alt: e.alt, legende: e.legende }));
+
+/* Les neuf prestataires. */
 const credits = [
   { role: 'Artwork & event design', nom: 'Léa Giezek' },
   { role: 'Photography', nom: 'Madeleine Photographe ©', href: 'https://studiomadeleine.fr/' },
@@ -153,9 +199,14 @@ const credits = [
     courant="system-event"
     eyebrow="Systematize a moment · Living System · 3rd edition"
     filigrane="Surfaces"
-    mesure={12.9}
+    {/* Mesure sur le build apres le raccourcissement du titre : le seuil des
+        deux lignes est a 10,1, et 10,4 est ce seuil plus les 0,3 d'arrondi que
+        portent les deux autres heros. A 12,9 - la valeur de l'ancien titre,
+        plus long - la coupe tenait encore sur deux lignes mais tombait ou elle
+        pouvait, en laissant la seconde bien plus courte que la premiere. */}
+    mesure={10.4}
   >
-    Same systems thinking, same care - just off the screen.
+    Same systems thinking, just off the org chart.
     {/*
       DEUX PARAGRAPHES, COMME LES DEUX AUTRES ETUDES. Le premier dit le mandat
       et ce qu'il a produit, le second le deplacement qu'il opere, nomme en
@@ -163,22 +214,31 @@ const credits = [
     */}
     <Fragment slot="intro">
       <p>
-        Over more than a year, I designed and orchestrated a live event end to
-        end - <b>one identity across fifty-plus surfaces</b>, and nine
-        suppliers held to it. Invitation, signage, tableware, games: every
-        piece cut from the same system.
+        Three weddings, three couples, three identities - this is the third:
+        several days, <b>one identity carried from the first envelope to the
+        last jar label</b>, and an escape game built from zero.
       </p>
+      {/*
+        LA TROISIEME NEGATION APPELAIT UNE AFFIRMATION, ET N'EN AVAIT PAS. Le
+        paragraphe enchainait sur « just the discipline of making a hundred
+        moving parts feel like one thing » : une qualite, pas un objet, la ou
+        les trois negations venaient de nommer trois objets. Le lecteur
+        attendait ce qu'il y avait A LA PLACE du depot et du pipeline.
+
+        Il y avait un pipeline. Creatif, et c'est le mot juste : du fichier
+        source a la decoupe, il a fallu le construire en entier - voir la
+        double chaine de production au chapitre 01.
+      */}
       <p>
-        <b>No repository. No deploy pipeline.</b> Just the discipline of making
-        a hundred moving parts feel like one thing - and the proof that
+        <b>No repository. No deploy pipeline. No org chart either</b> - nobody
+        here reported to me, and nobody had to say yes. Just a creative
+        pipeline, built end to end, and the proof that{' '}
         <b>a system is a way of working, not a technology.</b>
       </p>
     </Fragment>
   </Hero>
 
   <div class="etude">
-
-    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian" />
 
     {/*
       ─── La composition des 3 cartes ───
@@ -188,60 +248,117 @@ const credits = [
       la hauteur. Les trois cartes font 472x291, 363x535 et 472x241 : trois
       formes, pas trois variantes d'un meme rectangle.
     */}
+    {/* La composition porte les chiffres, la definition et les quatre cartes
+        dans une seule grille. Le dessin et le pourquoi sont dans la feuille de
+        style en bas de ce fichier. */}
     <div class="compo" id="composition" data-grille>
+    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian">
+      <Fragment slot="definition">
+        <p class="clef-def__eb">The living system</p>
+        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong>, pulled off two rented objects before anything was drawn. Short enough to brief from, complete enough that nothing had to be invented twice.</p>
+        <p class="clef-def__prix">Not a mood. A short list you can hold someone to.</p>
+      </Fragment>
+    </ChiffresCles>
+
       <CarteDossier
         id="carte-contrainte"
         rang="01"
-        intitule="The constraint"
-        titre="It started with two rented objects."
-        synthese="Not a moodboard: a plate and an armchair we could actually put in the space. One gave the pattern language, the other gave the posture - and five words came out of them before anything was drawn."
+        intitule="The problem"
+        titre="No client, no reviewer, and the only critic was the one who made it."
+        synthese="Off the screen, the method held. What had to be drawn from scratch was the line - what I keep, what nine other crafts carry, and where my taste stops being the argument."
         couleur="rouge"
         commande="pan-contrainte"
         large
-        aire="1 / 1 / 3 / 4"
+        aire="c1"
       />
-
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 4 / 2 / 5"><span class="compo__plat compo__plat--jaune"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 4 / 3 / 5"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 4 / 4 / 5"><span class="compo__plat compo__plat--noir"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 4 / 5 / 5"></div>
 
       <CarteDossier
         id="carte-systeme"
         rang="02"
-        intitule="The system"
-        titre="One identity, fifty-plus surfaces, zero inconsistency."
-        synthese="Declined on paper, fabric, metal and wood - then staged in the space, and closed by an escape game built from zero. The test was the boring surfaces."
+        intitule="The approach"
+        titre="A direction anyone could apply, and a production line that did not exist yet."
+        synthese="Two rented objects gave the language, then the foundations that carried it. The stationery would not compromise, so the artwork had to run on a press and cut on a machine at home - from one file."
         couleur="bleu"
         commande="pan-systeme"
-        aire="1 / 5 / 5 / 7"
+        aire="c2"
       />
-
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 7 / 2 / 8"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 7 / 3 / 8"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 7 / 4 / 8"><span class="compo__plat compo__plat--gris"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 7 / 5 / 8"></div>
 
       <CarteDossier
         id="carte-transmission"
         rang="03"
-        intitule="The handover"
-        titre="Precise enough to be run without me in the room."
-        synthese="One page per zone, one owner per page. I briefed every supplier from it, handed the day to a coordinator - and got to be in the experience instead of running it."
+        intitule="The proof"
+        titre="Everything specified survived contact with the people who built it."
+        synthese="Drawn flat in Illustrator, briefed from a single guide, standing at the door twelve months later - and on the day it ran without me."
         couleur="jaune"
         commande="pan-transmission"
-        aire="3 / 1 / 5 / 4"
+        large
+        aire="c3"
       />
+
+      {/*
+        LA QUATRIEME CARTE : la specificite de cette etude. Les trois premieres
+        suivent le systeme - le probleme, la demarche, la preuve - celle-ci
+        suit ce que le cas a d'unique, comme « The standard » sur Brand. Noire,
+        et c'est la seule : le rouge, le bleu et le jaune sont pris par les
+        trois chapitres du systeme.
+      */}
+      <CarteDossier
+        id="carte-gamification"
+        rang="04"
+        mot="Pivot"
+        intitule="The game"
+        titre="A game that mixed ninety strangers, and the same lever at work."
+        synthese="Six mechanics for one trunk, and ninety people who arrived in blocks and left mixed. The same move behind a hackathon's 8,301 votes, a workshop run on a deck of cards, and an app that made the dullest task in IT worth finishing."
+        couleur="noir"
+        commande="pan-gamification"
+        aire="c4"
+      />
+
+      {/*
+        LA BANDE DU BAS, A DROITE DU PIVOT. En haut, a gauche du filet, la
+        bande noire de quatre colonnes ; a droite, du blanc. En bas, trois
+        carres de deux colonnes : le ROUGE sous l'angle gauche de la bande, du
+        blanc, puis le JAUNE. Les trois font 177x177, la mesure exacte des
+        chiffres tout en haut de la composition.
+
+        LE ROUGE TIENT L'ANGLE QUE LA BANDE NOIRE OUVRE. Sans lui, la bande
+        reposait sur une seule etendue blanche de quatre colonnes et le bas de
+        la page tombait d'un bloc ; le carre lui rend un appui, et le blanc qui
+        le separe du jaune empeche les deux couleurs de se toucher.
+
+        LA MASSE NOIRE EST A GAUCHE, ET C'EST CE QUI FAIT TENIR LE COIN. Posee a
+        droite elle fermait la page sur son angle le plus lourd, et le jaune se
+        retrouvait sous elle au lieu d'etre degage. Le blanc au-dessus du jaune
+        est ce qui lui donne sa place : un carre de couleur a besoin d'un vide
+        pour se lire comme un carre.
+
+        LE FILET DU DIXIEME DOUZIEME TRAVERSE LES DEUX RANGEES d'un trait ; et c'est aussi la seconde verticale du rail de
+        cloture, qui le prolonge jusqu'au pied de page. Trois rangees, un seul
+        trait.
+      */}
+      {/* La zone que la carte du probleme libere en raccourcissant, et la
+          verticale qui la coupe tombe au dixieme douzieme - le meme x que le
+          filet de la bande du bas et que la seconde verticale du rail. Le
+          trait existe donc trois fois sur la hauteur de la page, toujours au
+          meme endroit. L'extremite est rouge. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z1"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:z2"><span class="compo__plat compo__plat--rouge"></span></div>
+
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--noir"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p2"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b2"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b3"><span class="compo__plat compo__plat--jaune"></span></div>
     </div>
 
-    {/* ═══════════ 01 · The constraint ═══════════ */}
+    {/* ═══════════ 01 · The problem ═══════════ */}
     <section class="pan" id="pan-contrainte" aria-labelledby="titre-contrainte">
-      <h2 class="sr-only" id="titre-contrainte">01 &middot; The constraint</h2>
+      <h2 class="sr-only" id="titre-contrainte">01 &middot; The problem</h2>
 
       <div class="subsec">
         {/* « Here, off the screen, exactly as it does on it » - la phrase est
             dans le bloc. Seule sous-partie du chapitre sans surtitre. */}
-        <p class="eb" data-sommaire>Off the screen</p>
+        <p class="eb" data-sommaire>Portability</p>
         <div class="split">
           <p class="lead">A living system isn't one you finish. It's one that takes its real shape <em class="em-rouge">in the hands of the people who use it.</em></p>
           <div class="pile">
@@ -261,21 +378,85 @@ const credits = [
         </div>
       </div>
 
+      {/*
+        LA CONTRAINTE QUE LA PAGE NE DISAIT PAS. Elle n'avait qu'un probleme -
+        le medium - et c'est le moins difficile des trois. Les deux autres sont
+        ceux qu'un lecteur reconnait : le designer qui devient son propre
+        client, et la ligne entre ce qu'on garde et ce qu'on confie.
+
+        ILS NE SONT PAS DECORATIFS. Le premier explique pourquoi l'arbitrage a
+        ete si dur sans jamais citer un desaccord ; le second est exactement la
+        question de gouvernance d'Elements - un noyau qu'on ne negocie pas, le
+        reste ouvert a la contribution - posee ici sans organigramme pour la
+        trancher.
+      */}
       <div class="subsec">
-        <p class="eb" data-sommaire>Where it came from</p>
+        <p class="eb" data-sommaire>Client</p>
         <div class="split">
-          <p class="lead">Starting from a constraint <em class="em-rouge">you don't own.</em></p>
+          <p class="lead">Usually I do this to someone else's brief. This time <em class="em-rouge">I was both ends of it.</em></p>
           <div class="body">
-            <p><strong>The whole thing started with two objects.</strong> Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The <strong>Popolo</strong> plate: scalloped rim, hand-painted florals, cobalt and ochre. The <strong>Roly Poly</strong> armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.</p>
-            <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colors, conviviality and playfulness.</strong> Then systematised end to end across the whole experience, from the first envelope to the last jar label.</p>
-            <p>The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - <strong>are the reason the day ended up with an escape game in it.</strong></p>
+            <p>On the two editions before this one I worked to a couple's story: they had one, I translated it, and they told me when it was theirs. This time there was nobody on the other side of the table. <strong>Brief, execution and review all sat on the same desk</strong> - which quietly removes every check a brief normally comes with.</p>
+            <p>And I do this for a living: I like identities, I like things pixel-perfect. With no client review and no design crit, nothing outside the work was going to say it was enough, that it had drifted, or that a decision was a degree too loud for a day belonging to ninety people as much as to anyone.</p>
+            <p><strong>No client to please, and no client to stop me. The hardest arbitration on this project was against my own taste.</strong></p>
           </div>
         </div>
-        <p class="qt">Those five words were the brief - mine, and everyone else's. <strong>Every supplier was briefed from them, and every arbitration came back to them.</strong> That is the whole of the creative direction: not a mood, a short list you can hold someone to.</p>
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>The system itself</p>
+        <p class="eb" data-sommaire>Control</p>
+        <div class="split">
+          <p class="lead">The line between what I hold <em class="em-rouge">and what I hand over.</em></p>
+          <div class="body">
+            <p>On the first two editions I held all of it - art direction, print, setup, some of the hosting on the day. It worked, and it cost me the day itself. <strong>You cannot both run an experience and be inside it.</strong></p>
+            <p>The other half of the same question is the suppliers. Nine of them, each better than me at their own craft. Hold too much and you get compliance instead of their best work; hold too little and fifty surfaces drift apart by the second week. The answer isn't a tighter brief, it's a clearer one - agreed at the start on what is fixed, what is theirs, how we work together, and what stays open for their own flexibility and invention. That last part isn't generosity: it's what lets everyone enjoy the thing from the inside instead of executing it from the outside.</p>
+            {/* LE SIXIEME DRIVER, EN CLIN D'OEIL ET NON EN REVENDICATION.
+                « Leading with executives » n'a pas d'equivalent ici - il n'y a
+                ni comite ni sponsor - mais defendre un parti pris devant des
+                gens qui ne portent pas les memes valeurs est exactement le
+                meme travail. « family » et non « grandparents » : le mot large
+                couvre les trois generations sans en designer une. La page le montre au lieu de le cocher. */}
+            <p>And a direction still has to survive the room it's defended in. This one held three generations who don't value the same things - what reads as considered to one reads as cold to the next - and not one of them reports to anybody. Finding the argument that lands for each without moving the work itself is the job I do upstairs. <strong>Stakeholder management, with family instead of a steering committee.</strong></p>
+            <p><strong>Fix the frame, open the rest.</strong> It's the same arbitration I run on a design system: a core nobody negotiates, and everything around it contributed.</p>
+          </div>
+        </div>
+      </div>
+
+
+
+      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
+          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
+          src/scripts/dossier.ts. */}
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="bleu" class="suite" commande="carte-systeme">Next: the approach →</Bouton>
+      </div>
+    </section>
+
+    {/* ═══════════ 02 · The approach ═══════════ */}
+    <section class="pan" id="pan-systeme" aria-labelledby="titre-systeme">
+      <h2 class="sr-only" id="titre-systeme">02 &middot; The approach</h2>
+
+      <div class="subsec">
+        {/* « Direction » et non « Creative direction » : mesure sur le build, la
+            ligne de puces de la carte 02 demande 331px pour les 300 dont elle
+            dispose et passe sur deux rangs. A 283 elle tient. Le mot seul reste
+            sans ambiguite dans une etude de design, et « Production pipeline »
+            garde son qualificatif - c'est le terme le plus precis des trois. */}
+        <p class="eb" data-sommaire>Direction</p>
+        <div class="split">
+          <p class="lead">Starting from a constraint <em class="em-bleu">you don't own.</em></p>
+          <div class="body">
+            <p><strong>The whole thing started with two objects.</strong> Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The <strong>Popolo</strong> plate: scalloped rim, hand-painted florals, cobalt and ochre. The <strong>Roly Poly</strong> armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.</p>
+            <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colors, conviviality and playfulness.</strong> Then systematised end to end, across every surface the days would touch.</p>
+            <p>The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - <strong>are the reason the day ended up with an escape game in it.</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Foundations</p>
         <div class="trois-blocs">
           <div class="bloc">
             <p class="bloc__t">Shapes</p>
@@ -336,6 +517,56 @@ const credits = [
         </div>
       </div>
 
+      {/*
+        LA CONTRAINTE DE PRODUCTION N'ETAIT ECRITE NULLE PART, et c'est le
+        meilleur parallele technique de la page : une source, deux cibles de
+        compilation. Le hero promet « just a creative pipeline » - c'est ici
+        qu'on apprend que le mot n'etait pas une image.
+      */}
+      <div class="subsec">
+        <p class="eb" data-sommaire>Production pipeline</p>
+        <div class="split">
+          <p class="lead">An art direction with <em class="em-bleu">no production line behind it.</em></p>
+          <div class="body">
+            <p>The stationery is where the direction would compromise least: die-cuts taken off the plate's scalloped rim, exact papers, a suite that unfolds. No printer would run that at the volume and the price of a private event, and no machine I could put on my own table prints to that quality.</p>
+            <p>So I built the line rather than lower the bar. <strong>One source file, two outputs</strong> - artwork a professional printer could run, and the same artwork cut at home on a Cricut. Which meant a second cut-line system living inside the same document as the first, each one blind to the other's marks, neither allowed to pull the drawing out of true.</p>
+            <p><strong>A constraint, turned into an operating lever.</strong> It is the problem a token set solves on the platform: one source of truth, several build targets, and not one of them permitted to degrade the others. Here the build targets were a press and a cutting mat.</p>
+          </div>
+        </div>
+        {/*
+          LA SOURCE ET SA SORTIE, COTE A COTE, SOUS LE PARAGRAPHE QUI LES
+          EXPLIQUE. Les deux vivaient dans « Execution », ou elles montraient
+          du papier imprime parmi d'autres objets. Ici elles montrent le
+          PIPELINE : a gauche le fichier, a droite ce que la presse en a fait.
+          L'ordre compte - on lit de la source vers l'objet - et les legendes
+          le disent.
+
+          LA SUITE SE FOND D'UN ETAT A L'AUTRE, trois images au meme endroit :
+          la pile fermee, ouverte, puis posee. Trois vignettes cote a cote
+          auraient montre trois photos ; le fondu montre un objet qu'on
+          deplie. src/scripts/crossfade.ts, 2,2s par etat.
+        */}
+        <div class="two two--planches">
+          <figure class="fig fig--aere">
+            <div class="fig__cadre fairepart" style="aspect-ratio:1400 / 1430;--fit:contain">
+              <Image class="fairepart__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="fairepart__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="fairepart__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="cap">From the canvas</figcaption>
+          </figure>
+          <Figure aere src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 2100"
+            alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
+            sizes="(min-width: 900px) 520px, 90vw" />
+        </div>
+      </div>
+
+
+
+
+
+
+
       {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
           a droite. Voir .pan__pied dans etude.css et [data-haut] dans
           src/scripts/dossier.ts. */}
@@ -343,81 +574,102 @@ const credits = [
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
           <Icone nom="fleche-haut" taille={20} />
         </button>
-        <Bouton variante="bleu" class="suite" commande="carte-systeme">Next: the system →</Bouton>
+        <Bouton variante="jaune" class="suite" commande="carte-transmission">Next: the proof →</Bouton>
       </div>
     </section>
 
-    {/* ═══════════ 02 · The system ═══════════ */}
-    <section class="pan" id="pan-systeme" aria-labelledby="titre-systeme">
-      <h2 class="sr-only" id="titre-systeme">02 &middot; The system</h2>
+    {/* ═══════════ 03 · The proof ═══════════ */}
+    <section class="pan" id="pan-transmission" aria-labelledby="titre-transmission">
+      <h2 class="sr-only" id="titre-transmission">03 &middot; The proof</h2>
 
       <div class="subsec">
+        {/*
+          LA SERIE DES SURFACES A REJOINT CETTE PARTIE. Elle vivait dans une
+          sous-partie sans surtitre du chapitre 02, donc sans puce et sans
+          rattachement - et son propos, « nothing drifted », est une PREUVE,
+          pas une demarche. Les deux disaient de toute facon la meme chose
+          sous deux phrases d'attaque differentes.
+        */}
+        <p class="eb" data-sommaire>Coverage</p>
         <div class="split">
-          <p class="lead">Nothing was left to chance, <em class="em-bleu">and nothing drifted.</em></p>
+          <p class="lead">The test was <em class="em-jaune">the boring surfaces.</em></p>
           <div class="body">
-            <p>A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. <strong>Dozens of touchpoints, one language</strong> - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.</p>
-          </div>
-        </div>
-        <Carrousel
-          label="The surfaces"
-          eyebrow="One identity, fifty-plus surfaces"
-          vignettes={surfaces}
-          ratio="4 / 3"
-          fr={1.3333}
-          largeur="62%"
-          sizes="(min-width: 900px) 660px, 90vw"
-        />
-      </div>
-
-      <div class="subsec">
-        <p class="eb" data-sommaire>The test</p>
-        <div class="split">
-          <p class="lead">The test was <em class="em-bleu">the boring surfaces.</em></p>
-          <div class="body">
-            <p>Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, welcome signage to your room to share care. Same display face, same stripes, same jokes.</p>
+            <p>A monogram, a palette, signage, stationery, room tags, table names, favours, packaging - and the WhatsApp community that ran before any of it. <strong>Dozens of touchpoints, one language</strong>, the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.</p>
+            <p>Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, how to find your room. Same display face, same stripes, same jokes.</p>
             <p>That's where <strong>conviviality and playfulness</strong> stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.</p>
           </div>
         </div>
-        <div class="two">
-          <Figure src={img('signage-door-tag')} legende="Room tag, in place" ratio="4 / 3" ajuste="cover"
-            alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type"
-            sizes="(min-width: 900px) 520px, 90vw" />
-          <Figure src={img('print-glass-rules')} legende="Glass rules - 100 × 150 mm" ratio="4 / 3"
-            alt="Print artwork for the small card explaining what to do with your glass through the evening"
-            sizes="(min-width: 900px) 520px, 90vw" />
-        </div>
-      </div>
+        {/* `aere` : ces vignettes sont des objets photographies, pas des
+            captures plein cadre. Sans blanc tournant, le sujet vient taper le
+            filet. Meme traitement que sur les deux autres etudes. */}
+        {/*
+          LE CADRE PREND LE RAPPORT DES PHOTOS : ELLES SONT TOUTES DEBOUT.
+          Huit des neuf font 2/3 exactement - 1200x1800 ou 1600x2400 - et la
+          neuvieme 0,714. Posees en `contain` dans un cadre de 4/3, elles
+          remplissaient la hauteur et laissaient le reste en gris : mesure a
+          1280, une image peinte de 281px de large dans un cadre de 580, soit
+          150px d'aplat de chaque cote et rien en haut ni en bas.
 
-      <div class="subsec">
-        <p class="eb" data-sommaire>Printed, in the hand</p>
-        <div class="two">
-          <Figure src={img('identity-invitation-detail')} legende="The invitation, printed" ratio="4 / 3" ajuste="cover"
-            alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
-            sizes="(min-width: 900px) 520px, 90vw" />
+          LA LARGEUR SUIT LE RAPPORT. A 62% de la piste, un cadre de 2/3 ferait
+          997px de haut - une vignette plus haute que l'ecran. A 30% il en fait
+          483 pour 322 de large, trois visibles d'un coup et la quatrieme qui
+          depasse : c'est elle qui dit qu'on peut defiler.
+        */}
+        <Carrousel
+          aere
+          label="The surfaces"
+          eyebrow="One identity, fifty-plus surfaces"
+          vignettes={surfaces}
+          ratio="2 / 3"
+          fr={0.6667}
+          largeur="30%"
+          largeurMobile="62%"
+          sizes="(min-width: 900px) 340px, 62vw"
+        />
+        <div class="three three--planches">
           {/*
-            LA SUITE SE FOND D'UN ETAT A L'AUTRE, trois images au meme endroit :
-            la pile fermee, ouverte, puis posee. Trois vignettes cote a cote
-            auraient montre trois photos ; le fondu montre un objet qu'on
-            deplie. src/scripts/crossfade.ts, 2,2s par etat.
+            LE CADRE PREND LE RAPPORT DU FICHIER, ET NON L'INVERSE. Les deux
+            sont des PORTRAITS - 1100x1545 pour la carte des verres, 1100x1650
+            pour l'etiquette de porte - et un cadre de 4/3 les posait couches :
+            l'artwork, en `contain`, s'y reduisait a une bande centrale avec du
+            gris de part et d'autre. 1100/1545 est le rapport de l'artwork, donc
+            il ne perd plus rien ; la photo d'a cote est en `cover` et se recadre
+            sans se deformer.
           */}
-          <figure class="fig">
-            <div class="fig__cadre suite" style="aspect-ratio:4 / 3;--fit:contain">
-              <Image class="suite__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="suite__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="suite__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-            </div>
-            <figcaption class="cap">The suite, unfolding</figcaption>
-          </figure>
+          <Figure src={img('signage-door-tag')} legende="Room tag, in place" ratio="1100 / 1545" ajuste="cover"
+            alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type"
+            sizes="(min-width: 900px) 340px, 88vw" />
+          <Figure src={img('print-glass-rules')} legende="Glass rules - 100 × 150 mm" ratio="1100 / 1545" aere
+            alt="Print artwork for the small card explaining what to do with your glass through the evening"
+            sizes="(min-width: 900px) 340px, 88vw" />
+          {/* LE PLAN DE TABLE FAIT LA TROISIEME. Il etait reste en moitie d'un
+              avant/apres, ou il ne servait qu'a prouver qu'une page de guide
+              se construit ; c'est aussi, et d'abord, une des surfaces - et sa
+              place est avec les deux autres que personne n'est cense admirer. */}
+          <Figure src={img('staging-entrance-evening')} legende="Seating panels, at the door" ratio="1100 / 1545" ajuste="cover"
+            alt="The seating panels installed at the venue doorway at dusk, flanked by floral columns"
+            sizes="(min-width: 900px) 340px, 88vw" />
         </div>
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Staging</p>
+        {/*
+          PRINT A FONDU DANS CELLE-CI. C'etait une sous-partie a elle seule
+          pour deux figures et aucun propos : une puce du sommaire promet une
+          partie du raisonnement, et « Print » n'en portait pas. L'imprime et
+          la scenographie disent de toute facon la meme chose - le passage de
+          la specification a l'objet - et c'est le titre de celle-ci.
+
+          « Space, staged. » ne tenait pas non plus comme phrase d'attaque :
+          elle decrivait la sous-partie au lieu d'affirmer quelque chose, seule
+          de la page dans ce cas.
+        */}
+        <p class="eb" data-sommaire>Execution</p>
         <div class="split">
-          <p class="lead">Space, <em class="em-bleu">staged.</em></p>
+          <p class="lead">A specification is a promise. <em class="em-jaune">Production is where it gets kept.</em></p>
           <div class="body">
-            <p>An implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner of the space.</p>
-            <p>The system on paper, and the system in the world - <strong>the same jump from specification to production I run on the platform</strong>, made physical.</p>
+            <p>Printed first: die-cut stationery, an invitation suite that unfolds, every piece carrying the three shapes and the glaze palette. Then the space - an implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner.</p>
+            <p>The system on paper, and the system in the world - <strong>the same jump from specification to production I run on the platform</strong>, made physical. Nothing in that jump is automatic, and nothing survives it by accident.</p>
           </div>
         </div>
         <div class="two">
@@ -434,93 +686,91 @@ const credits = [
             alt="Close view of the flower palette: white daisies, blue cornflowers and pink blooms"
             sizes="(min-width: 900px) 520px, 90vw" />
         </div>
-        <BeforeAfter
-          spec={{ src: img('spec-zone-seating'), alt: 'Page from the production guide: mockup of the seating panels with the material checklist' }}
-          built={{ src: img('staging-entrance-evening'), alt: 'The seating panels installed at the venue doorway at dusk, flanked by floral columns' }}
-          caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
-        />
       </div>
 
+      {/*
+        HANDOVER REPREND LA FORME DES ONZE AUTRES SOUS-PARTIES.
+
+        Elle etait un `.dark` : un pave noir a coins arrondis, avec son propre
+        titre en h3 et sa propre chute. Deux composants - `.dark` et
+        `.dark__chute` - qui n'existent nulle part ailleurs sur le site, pour
+        dire ce que la forme commune dit partout ailleurs : un surtitre, une
+        phrase d'attaque, un corps.
+
+        ET SES ANGLES CONTREDISAIENT LE TOKEN QU'ILS APPELAIENT. `--r-footer`
+        est documente comme « les DEUX COINS BAS du footer, seul radius du
+        site » ; le bloc le posait sur ses quatre coins. C'etait donc le seul
+        objet arrondi de toutes les pages, sur une grammaire qui n'arrondit
+        rien.
+
+        Le propos ne bouge pas, et la chute devient ce qu'elle etait : la
+        derniere phrase du dernier paragraphe.
+      */}
       <div class="subsec">
-        <p class="eb" data-sommaire>The centrepiece</p>
+        <p class="eb" data-sommaire>Handover</p>
         <div class="split">
-          <p class="lead">A game, <em class="em-bleu">by design.</em></p>
+          <p class="lead">One page per moment, <em class="em-jaune">one owner per page.</em></p>
           <div class="body">
-            <p>An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
-            <p><strong>Six riddles, six different mechanics for six essential clues to unlock one final chest, all together.</strong> Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.</p>
+            <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
+            <p>I wrote it all down. Moment by moment: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief.</p>
           </div>
         </div>
-        <Figure src={img('game-setup-wide')} legende="The game, set up in the courtyard" ratio="16 / 9" ajuste="cover"
-          alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement"
-          sizes="(min-width: 900px) 1040px, 92vw" />
-        <div class="three">
-          {etapes.map((e) => (
-            <Figure
-              src={img(e.nom)}
-              alt={e.alt}
-              legende={`<strong>${e.rang} &middot; ${e.titre}</strong> ${e.propos}`}
-              ratio="4 / 3"
-              ajuste="cover"
-              sizes="(min-width: 900px) 340px, 88vw"
-            />
-          ))}
-        </div>
-        <div class="body">
-          <p>But here's what I love most about it: <strong>it only became itself once people played it.</strong> I designed the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, evolving as they moved through it, in ways no plan could fully script.</p>
-        </div>
-        <p class="qt">Shipped empty. <strong>Finished by the people who played it.</strong></p>
-        <BeforeAfter
-          spec={{ src: img('spec-zone-murdle'), alt: 'Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes' }}
-          built={{ src: img('game-murdle'), alt: 'The same deduction board after play, its grid filled with pink and green wooden tokens' }}
-          builtLabel="Played"
-          caption="The deduction grid, before anyone touched it and after a hundred people did."
+
+        {/* LE GUIDE TOMBE JUSTE APRES LA PHRASE QUI LE DECRIT, et pas en fin
+            de sous-partie : « a production guide precise enough to be executed
+            without me in the room » est exactement ce que ces pages montrent.
+            Il garde la pleine largeur - une page de guide se lit, elle ne
+            s'apercoit pas - et le raisonnement reprend dessous, dans la
+            colonne du texte. */}
+        <Carrousel
+          aere
+          label="Pages from the production guide"
+          eyebrow="The guide, page samples"
+          vignettes={guide}
+          ratio="7 / 8"
+          fr={0.875}
+          largeur="38%"
+          largeurMobile="76%"
+          sizes="(min-width: 900px) 420px, 76vw"
         />
-        <BeforeAfter
-          spec={{ src: img('spec-zone-wordsearch'), alt: 'Production guide page for the word-grid game: blank poster on an easel with its material checklist' }}
-          built={{ src: img('game-wordsearch'), alt: 'The word grid mid-game, crossed through with chalk lines as players work it out together' }}
-          builtLabel="Played"
-          caption="I drew the grid. The marks on it aren't mine - and that was always the point."
-        />
-        <div class="body">
-          <p>That's the whole truth about the systems I build: <strong>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</strong> An escape game, a design system, a platform: same principle.</p>
-          <p class="qt">The frame is mine. <strong>The life is theirs.</strong></p>
-        </div>
-      </div>
 
-      {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
-          a droite. Voir .pan__pied dans etude.css et [data-haut] dans
-          src/scripts/dossier.ts. */}
-      <div class="pan__pied">
-        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
-          <Icone nom="fleche-haut" taille={20} />
-        </button>
-        <Bouton variante="jaune" class="suite" commande="carte-transmission">Next: the handover →</Bouton>
-      </div>
-    </section>
-
-    {/* ═══════════ 03 · The handover ═══════════ */}
-    <section class="pan" id="pan-transmission" aria-labelledby="titre-transmission">
-      <h2 class="sr-only" id="titre-transmission">03 &middot; The handover</h2>
-
-      <div class="dark">
-        <p class="eb" data-sommaire>The part nobody sees</p>
-        <h3 class="h3">One page per zone, one owner per page.</h3>
-        <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
-        <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief. <strong>That's the whole method.</strong></p>
-        <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
-        <p class="dark__chute">The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. It works in a repo. It works in a garden.</p>
-      </div>
-
-      <div class="subsec">
-        <Figure src={img('coordination-embrace')} legende="Inside it, not behind it." ratio="16 / 9" ajuste="cover"
-          alt="Guests embracing at the event, the designer among them rather than running the day"
-          sizes="(min-width: 900px) 1040px, 92vw" />
-      </div>
-
-      <div class="subsec">
-        <p class="eb" data-sommaire>Credits</p>
         <div class="split">
-          <p class="lead">Vision and execution directed by me - <em class="em-jaune">everything else by people far better than me at their own craft.</em></p>
+          <div class="body split__droite">
+            <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
+            {/*
+              LA PHOTO EST DANS LE CORPS, ET AVANT LA CHUTE. Posee apres la
+              sous-partie, elle arrivait une fois le raisonnement referme -
+              une illustration qui suit sa conclusion n'illustre plus rien.
+              Elle vient donc apres « I got to be IN the experience », qui est
+              exactement ce qu'elle montre, et la chute tombe derriere elle.
+
+              Dans le corps, elle prend la largeur du paragraphe sans qu'on le
+              lui demande : c'est la colonne. Son ecart est pose sur elle, voir
+              `.pan .body > .fig` dans etude.css.
+            */}
+            <Figure src={img('coordination-embrace')} legende="Among the guests, on the day" ratio="16 / 9" ajuste="cover"
+              alt="Guests embracing at the event, the designer among them rather than running the day"
+              sizes="(min-width: 900px) 600px, 92vw" />
+            <p>The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. <strong>It works in a repo. It works in a garden.</strong></p>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="subsec">
+        {/* SANS `data-sommaire` : c'est un ours, pas une idee. Il figurait
+            dans les puces de la carte 03 entre « Handover » et rien, et une
+            puce promet une partie du raisonnement, pas une liste de noms. */}
+        <p class="eb">Credits</p>
+        <div class="split">
+          {/* L'APLAT TIENT SUR CE QUI EST A MOI, PAS SUR LE RESTE. Il couvrait
+              « everything else by people far better than me at their own
+              craft » - soixante-quatre caracteres, trois lignes pleines de
+              jaune a 34px, soit la quasi-totalite de la phrase. Un accent qui
+              prend toute la phrase n'accentue plus rien, et celui-ci
+              surlignait le credit des autres au lieu de la part que je
+              revendique. Deux mots suffisent. */}
+          <p class="lead">Behind the scenes,<br /><em class="em-jaune">never alone.</em></p>
           <dl class="credits">
             {credits.map((c) => (
               <div class="credits__ligne">
@@ -529,7 +779,7 @@ const credits = [
                 <dt>{c.role}</dt>
                 <dd>
                   {c.href
-                    ? <a href={c.href} target="_blank" rel="noopener noreferrer" data-label={c.nom}>{c.nom}<span class="sr-only"> (opens in a new tab)</span></a>
+                    ? <a href={c.href} target="_blank" rel="noopener noreferrer">{c.nom}<span class="sr-only"> (opens in a new tab)</span></a>
                     : <span class="credits__moi">{c.nom}</span>}
                 </dd>
               </div>
@@ -538,18 +788,138 @@ const credits = [
         </div>
       </div>
 
-      <div class="closing">
-        <h2>I don't just repeat a system. <em class="em-jaune">I version it.</em></h2>
-        <p class="cbody">This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. <strong>The pattern doesn't stop at the screen - and it doesn't stop at work either.</strong></p>
-        <Bouton variante="bleu" href="/system-practice-elements">See it at global scale →</Bouton>
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="noir" class="suite" commande="carte-gamification">Next: the game →</Bouton>
+      </div>
+    </section>
+
+    {/* ═══════════ Pivot · Gamification ═══════════ */}
+    {/*
+      LE QUATRIEME CHAPITRE, ET C'EST LE PIVOT. Les trois premiers suivent le
+      systeme - le probleme, la demarche, la preuve - celui-ci suit ce que ce
+      cas a d'UNIQUE : un dispositif de jeu, concu pour que des gens qui ne se
+      parlent pas aient besoin les uns des autres. C'est la seule piece de
+      cette etude qui se transpose telle quelle au travail, et c'est pour cela
+      qu'elle sort du chapitre 02 ou elle n'etait qu'une partie parmi cinq.
+    */}
+    <section class="pan" id="pan-gamification" aria-labelledby="titre-gamification">
+      <h2 class="sr-only" id="titre-gamification">Pivot &middot; Gamification</h2>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Mechanics</p>
+        <div class="split">
+          <p class="lead">Tightly engineered underneath, <em class="em-gris">weightless on top.</em></p>
+          <div class="body">
+            <p>An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps whose whole job is to not feel like one.</p>
+            <p><strong>Six riddles, six different mechanics, six clues</strong> - geocaching across the grounds, a crossword, ciphers to break, puzzles to assemble - and one code at the end to open one trunk. Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.</p>
+          </div>
+        </div>
+        <Figure src={img('game-setup-wide')} legende="The game, set up in the courtyard" ratio="16 / 9" ajuste="cover"
+          alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement"
+          sizes="(min-width: 900px) 1040px, 92vw" />
+        {/* LES DEUX BOUTS DE LA MECANIQUE : la contrainte et la recompense. La
+            malle fermee avec ses cartes et ses pots poses dessus, puis la malle
+            ouverte sur ce qu'elle contenait. Entre les deux, tout le jeu - qui
+            est raconte, pas montre. Les deux fichiers font 1600x1067, donc un
+            cadre de 3/2 ne rogne ni l'un ni l'autre. */}
+        <div class="two">
+          <Figure src={img('game-locked')} legende="The trunk, and the clues on its lid" ratio="3 / 2" ajuste="cover"
+            alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid"
+            sizes="(min-width: 900px) 520px, 90vw" />
+          <Figure src={img('game-reward')} legende="The payoff, down to the last jar" ratio="3 / 2" ajuste="cover"
+            alt="Rows of jars packed in the trunk, each labelled with the event monogram on striped paper"
+            sizes="(min-width: 900px) 520px, 90vw" />
+        </div>
       </div>
 
-      {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
-          qu'ailleurs : il remonte sans rien refermer. A droite, pas de
-          « Next: ... » - il n'y a pas de tuile 04, et le sommaire des
-          trois cartes est reduit a celle-ci ; ce bouton-la le rouvre. Les deux
-          remontent, l'un garde le chapitre ouvert, l'autre referme tout.
-          Voir .pan__pied dans etude.css et dossier.ts. */}
+      <div class="subsec">
+        <p class="eb" data-sommaire>Participation</p>
+        <div class="split">
+          {/* ELLE REPREND SA THESE, parce que « Transfer » porte desormais
+              « the frame is mine, the experience is theirs » - qui disait la
+              meme chose que « shipped empty, finished by the people who played
+              it ». Deux sous-parties du meme chapitre ne peuvent pas ouvrir
+              sur la meme idee, et celle-ci a la sienne : le brief reel. */}
+          <p class="lead">The brief was never a game. It was <em class="em-gris">ninety people who already knew their table.</em></p>
+          <div class="body">
+            <p>Every guest list arrives pre-sorted - families, school friends, the people from work - and left alone it stays that way all day. The room is perfectly pleasant and nobody meets anyone. <strong>That was the actual brief</strong>: a reason for people who don't know each other to need each other for twenty minutes.</p>
+            <p>So the mechanics were built for it rather than decorated with it. Six clues nobody could gather alone, held by people scattered across the grounds: the only route through was to go and ask a stranger what they had.</p>
+            <p>What I hadn't planned was the range. <strong>Everyone played, the youngest to the oldest</strong>, and the groups that formed had nothing to do with the ones that arrived. The mixing I designed for was the stated goal; what actually happened went past the design.</p>
+            <p>And it only became itself once people played it. I drew the frame; what happened inside it was never mine to script.</p>
+          </div>
+        </div>
+        {/*
+          CE QUE CENT PERSONNES EN ONT FAIT. La malle ouverte, puis les deux
+          plateaux apres la partie : une grille remplie de jetons, une autre
+          rayee a la craie. Les trois disent la meme chose - le dispositif a
+          ete fini par ceux qui y ont joue - et ils ne le disent bien
+          qu'ensemble.
+
+          4/3 EN `cover` POUR LES TROIS : deux sont debout (0,667), la grille
+          de mots est couchee (1,5). A rapport commun il faut recadrer
+          quelqu'un, et un cadre debout aurait coupe la moitie d'un poster qui
+          est justement fait pour etre lu.
+        */}
+        <div class="three three--pile">
+          <Figure src={img('game-opened')} legende="Opened, together" ratio="4 / 3" ajuste="cover"
+            alt="Opened trunk revealing a framed congratulations card above rows of jars"
+            sizes="(min-width: 900px) 340px, 88vw" />
+          <Figure src={img('game-wordsearch')} legende="The word grid, mid-game" ratio="4 / 3" ajuste="cover"
+            alt="The word grid mid-game, crossed through with chalk lines as players work it out together"
+            sizes="(min-width: 900px) 340px, 88vw" />
+          <Figure src={img('game-murdle')} legende="The deduction grid, after a hundred people" ratio="4 / 3" ajuste="cover"
+            alt="The deduction board after play, its grid filled with pink and green wooden tokens"
+            sizes="(min-width: 900px) 340px, 88vw" />
+        </div>
+      </div>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Transfer</p>
+        <div class="split">
+          <p class="lead">Gamification isn't a party trick. <em class="em-gris">The frame is mine, the experience is theirs.</em></p>
+          <div class="body">
+            <p>The lever is the same one I reach for at work, and it has nothing to do with points and badges. <strong>It's how you get people to do the boring thing</strong> - it works wherever a result depends on people choosing to take part, and no mandate can make them.</p>
+            <p><strong>Hackathons.</strong> Sanofi's first ran on the brand platform, sponsored by the Chief Medical Officer and the Global Head of R&amp;D: 6,000 participants, 103 ideas, 8,301 votes. The voting wasn't decoration around the event - it was the engine that made six thousand people show up for it.</p>
+            <p><strong>Ways of working.</strong> Workshops built on a card game: situations to replay, in teams, instead of a deck about collaboration. A deck gets nodded at. A hand of cards gets argued with, and the argument is the point.</p>
+            <p><strong>Data quality.</strong> I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organisation. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. <strong>Nobody updates a database because they were asked twice.</strong></p>
+            <p><strong>Recognition.</strong> An annual awards ceremony anchored on public voting and individual submission, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.</p>
+            <p>An escape game, a hackathon, a design system: <strong>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</strong></p>
+          </div>
+        </div>
+      </div>
+
+      {/*
+        LA SORTIE DE LA PAGE EST UN PARAGRAPHE, ET RIEN D'AUTRE. Elle vivait
+        dans un `.closing` : un titre de 40px et un corps de 17px, deux
+        echelles qui n'existaient nulle part ailleurs sur la page, pour dire ce
+        qu'un paragraphe dit. Elle rejoint la colonne du texte, dans la
+        sous-partie qu'elle conclut, et le bouton descend avec elle.
+
+        « each one bigger than the last » etait faux ici aussi : 200, 100 et 90
+        invites, et c'est celle de 90 qui est documentee.
+      */}
+      <div class="split">
+        <div class="body split__droite">
+          {/*
+            IL NE RESTE QUE CE QUE LUI SEUL PEUT DIRE. Le paragraphe faisait
+            quatre phrases dont trois recapitulaient : « I don't repeat a
+            system - I version it » est mot pour mot le contexte du chiffre
+            « 3rd » ; « three editions, three couples, three identities » est
+            l'ouverture du hero ; et « a brief held to five words, a frame
+            fixed with the rest left open, a handover precise enough to step
+            out of » reprend les trois chapitres qu'on vient de lire.
+
+            Une sortie de page n'a pas a resumer la page. Elle a a dire ce
+            qu'on en retient, et c'est la derniere phrase - la seule qui ne se
+            lisait nulle part ailleurs.
+          */}
+          <p>Nothing here was switched on for the occasion. It is what I do at work, on a project nobody paid me for. <strong>The drivers don't stop at the screen, and they don't stop at the org chart either.</strong></p>
+        </div>
+      </div>
+
       <div class="pan__pied">
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
           <Icone nom="fleche-haut" taille={20} />
@@ -572,24 +942,116 @@ const credits = [
   /* ═══ Ce qui est propre a l'etude Surfaces ═══ */
 
   /*
-    LA COMPOSITION. Sept colonnes et QUATRE rangees - les deux autres etudes en
-    ont cinq. La bande fine est VERTICALE ici (la quatrieme colonne, 8fr) au
-    lieu d'etre horizontale, et la carte du milieu traverse toute la hauteur.
-    Mesure a 1072 : 472x291, 363x535 et 472x241. Trois formes, pas trois
-    variantes d'un meme rectangle.
+    LA DEFINITION PASSE A GAUCHE, ET LES CHIFFRES A DROITE.
 
-    Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre 861
-    et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
-    hidden - les avale. Defaut mesure a l'etape 4, pas question de le refaire.
+    Les trois etudes posaient la meme bande : les chiffres a gauche sur sept
+    douziemes, la definition a droite sur cinq. Lue trois fois de suite, la
+    forme cesse d'etre une grammaire et devient un gabarit. Ici la definition
+    ouvre - c'est elle qui dit ce qu'est un systeme vivant, et les mesures
+    viennent apres, pas l'inverse.
 
-    Au-dessus du point de rupture seulement : etude.css remet la composition
-    sur une colonne sous 860px, et cette declaration vit plus loin dans le
-    bundle - a specificite egale elle gagnerait, media query comprise.
+    5fr / 7fr ET NON 7fr / 5fr : la colonne de gauche se resserre en meme
+    temps qu'elle change de role. La definition y gagne une colonne etroite et
+    haute - deux rangees de 240 - qui se lit comme une legende de marge, la ou
+    elle faisait un pave a droite.
+
+    AU-DELA DU PALIER SEULEMENT : sous 861px la bande s'empile en deux
+    colonnes et la definition reprend la largeur entiere, ce que la regle
+    partagee fait deja.
+  */
+  /*
+    ═══ UNE SEULE GRILLE : LES CHIFFRES SONT DES CASES DE LA COMPOSITION ═══
+
+    Le bandeau vivait au-dessus, avec sa grille a lui collee sous celle-ci -
+    deux objets qui se touchaient sans s'aligner. `display:contents` fait
+    disparaitre ses boites sans toucher a l'ordre du front, et le trace anime
+    sait lire un conteneur sans boite (voir `data-cases` dans grille.ts).
+
+    LE DESSIN, ET UN SEUL FILET LE TIENT. La definition ouvre a gauche sur
+    trois rangees ; les deux chiffres s'empilent a sa droite en carres de deux
+    colonnes - le second enjambe les rangees 2 et 3, qui se partagent la
+    hauteur d'un carre - et le probleme tient la droite sur les deux
+    premieres.
+
+    LA CARTE DU PROBLEME S'ARRETE OU SON TEXTE S'ARRETE. Elle tenait les deux
+    rangees entieres pour un texte qui en occupait la moitie, et un filet pose
+    DANS la carte fermait ce vide par le dedans - un trait rentre de 28px de
+    chaque cote, qui ne rejoignait aucun autre. En raccourcissant, c'est la
+    gouttiere de la grille qui trace le trait, pleine largeur, et le vide
+    devient une case a part. Dessous, la demarche passe
+    sous la definition et la preuve sous le probleme. Le pivot ferme a gauche,
+    et un aplat coupe d'un filet ferme a droite.
+
+    LE FILET CENTRAL NE S'INTERROMPT PLUS. A la frontiere des colonnes 6 et 7,
+    il separe les chiffres du probleme, puis la demarche de la preuve, puis le
+    pivot des aplats : il court du haut au bas de la composition sans qu'aucun
+    bloc l'enjambe. Le pivot le traversait quand il prenait la pleine largeur,
+    et c'est ce qui faisait lire deux dessins l'un sous l'autre au lieu d'un.
+
+    ET LES FILETS DU RAIL DE CLOTURE TOMBENT SUR CEUX-CI. Il se decoupait en
+    3-6-3, donc ses verticales au quart et aux trois quarts, sans rapport avec
+    la composition juste au-dessus : deux grilles qui se touchent et ne se
+    repondent pas. En 4-5-3 elles tombent au tiers et aux trois quarts - la
+    premiere sous le bord droit de la definition, la seconde sous le filet qui
+    separe les deux grandes cases du bas. Voir .rails dans etude.css.
+
+    LE TROISIEME CHIFFRE A SAUTE, et c'est lui qui liberait la place. « 3rd
+    edition, nothing reused » redisait l'ouverture du hero - trois mariages,
+    trois couples, trois identites - et il etait la pour completer une pile.
+    La pile en fait deux, et toute la composition remonte de 177px.
+
+    LES CARRES SONT VRAIS : douze colonnes de 88px dans 1072, donc deux
+    colonnes et une gouttiere font 177 - c'est la hauteur des trois premieres
+    rangees, et les chiffres y sont carres sans qu'on ait rien a poser.
+
+    Rangees en minmax pour les deux dernieres : en pixels fixes, la synthese
+    gagne des lignes entre 861 et 1120 pendant que la rangee ne bouge pas, et
+    la carte - en overflow hidden - les avale.
   */
   @media(min-width:861px){
-    .compo{grid-template-columns:20fr 12fr 20fr 8fr 26fr 14fr 18fr;
-      grid-template-rows:minmax(170px,auto) minmax(95px,auto)
-        minmax(120px,auto) minmax(75px,auto)}
+    .compo{grid-template-columns:repeat(12,minmax(0,1fr));
+      /* Les deux premieres en minmax comme les autres : entre 861 et 1120 les
+         puces des cartes s'empilent dans leur cadre et la carte du probleme
+         debordait de 2px d'une rangee figee. Au-dela de 1120 le contenu tient
+         dans 177, donc les rangees y valent exactement 177 et les chiffres
+         restent carres - le minmax ne coute rien ou il ne sert pas. */
+      /* 57 et non 83 : la pile des chiffres occupe les trois rangees, donc
+         deux carres de 177 et une gouttiere font 355,5 de haut. La carte du
+         probleme en prend 297 sur les deux premieres, la troisieme vaut donc
+         le reste. */
+      grid-template-rows:minmax(177px,auto) minmax(92px,auto) 57px
+        minmax(300px,auto) 177px minmax(177px,auto);
+      grid-template-areas:
+        "def def def def nn nn c1 c1 c1 c1 c1 c1"
+        "def def def def nn nn c1 c1 c1 c1 c1 c1"
+        "def def def def nn nn z1 z1 z1 z1 z2 z2"
+        "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
+        "c4 c4 c4 c4 c4 c4 p1 p1 p1 p1 p2 p2"
+        "c4 c4 c4 c4 c4 c4 b1 b1 b2 b2 b3 b3"}
+
+    .compo .cles--mondrian{display:contents}
+    /*
+      LES DEUX CHIFFRES RESTENT UNE BANDE, POSEE EN COLONNE. Decoupes en deux
+      cases de grille, chacune avait sa rangee et ne pouvait plus rien pousser :
+      ouvrir le 9 ne faisait que grandir le 9. La bande occupe donc UNE aire a
+      elle - les trois rangees de gauche - et redevient un conteneur flex, en
+      colonne au lieu d'une ligne. `flex` ne dit pas de quel cote.
+
+      La poussee suit sans qu'on ecrive rien : les regles de la bande sont
+      ecrites en `flex`, donc `flex:0 0 28px` sur les voisines y vaut 28px de
+      HAUT, et le contenu qui s'efface est deja prevu. Ouvrir le 9 remonte donc
+      le 50+ en un bandeau jaune de 28px, comme sur l'accueil.
+    */
+    .compo .clef-rangee--pile{grid-area:nn;display:flex;flex-direction:column;
+      gap:var(--rule-fine);min-height:0}
+    .compo .clef-rangee--pile > .clef-case{flex:1 1 0;min-height:0}
+    .compo .clef-def{grid-area:def}
+
+    /* Dans la composition, ce n'est plus au bloc de fermer quoi que ce soit :
+       la grille le fait, avec le meme filet que partout. */
+    .compo .clef-def{padding:24px;gap:13px}
+    .compo .clef-def__bande,.compo .clef-def__filet{display:none}
+    .compo .clef-def__prix{margin-top:auto}
   }
 
   /* ─── Les trois blocs du systeme : formes, couleurs, type ─── */
@@ -652,13 +1114,83 @@ const credits = [
 
   /*
     ─── La suite d'invitation qui se deplie ───
+    LE BLOC NE S'APPELLE PLUS `suite` : les trois boutons « chapitre suivant »
+    du pied portent deja `sb suite`, et le script prenait son sujet par
+    `document.querySelector('.suite')` - donc le PREMIER du document, un
+    bouton, ou il ne trouvait aucun etat et ressortait sans rien dire. Le
+    fondu n'a jamais tourne. `.pan .suite` posait au passage un
+    `position:relative` sur ces memes boutons.
     Trois etats au MEME endroit, en fondu. Trois vignettes cote a cote
     auraient montre trois photos ; le fondu montre un objet qu'on deplie.
+
+    LE CADRE PREND LE RAPPORT DU PLUS HAUT DES TROIS, 1400 x 1430, et pas
+    celui du premier. Les trois fichiers font tous 1400 de large pour des
+    hauteurs differentes ; dans un cadre plus large qu'eux, `contain` borne
+    les plus hauts par la HAUTEUR et les reduit, si bien que la suite
+    changeait de taille a chaque fondu au lieu de se deplier sur place. Au
+    rapport du plus haut, les trois sont bornes par la LARGEUR : ils sortent
+    tous a la meme echelle, et les deux moins hauts sont simplement centres
+    dans du blanc qui ne se voit pas, le cadre etant deja blanc.
+
+    LES TROIS ETATS SE SUPERPOSENT PAR LA GRILLE, PAS EN ABSOLU. Un enfant
+    absolu se mesure sur la boite de PADDING : il recouvrait le blanc
+    tournant que `fig--aere` pose sur le cadre. Et `inset` n'y pouvait rien,
+    la regle generique des figures - `.fig__cadre :is(img,...)` - imposant
+    `width:100%;height:100%`, qui l'emporte sur `right` et `bottom` ; les
+    passer a `auto` ne fait que rendre a l'image sa taille intrinseque, 1400
+    de large, qui deborde. Trois elements dans la MEME CELLULE de grille
+    restent dans le flux : leur `width:100%` se mesure sur la boite de
+    CONTENU, et le blanc tournant tient, comme sur toute autre figure.
   */
-  .pan .suite{position:relative}
-  .pan .suite .suite__etat{position:absolute;inset:0;width:100%;height:100%;
-    object-fit:contain;opacity:0;transition:opacity .9s ease}
-  .pan .suite .suite__etat.is-on{opacity:1}
+  /*
+    LA PAIRE SE POSE SUR DU GRIS, PAS SUR DU BLANC. Les trois etats du
+    faire-part sont detoures - canal alpha - et sur le blanc que `fig--aere`
+    pose, leurs bords se perdaient dans le cadre : on ne voyait plus ou
+    s'arretait la planche. Le gris clair des cadres d'image leur rend un
+    contour.
+
+    La photo d'en face passe de `cover` a `contain` et prend le meme blanc
+    tournant. Elle fait 1400 x 2100, un portrait : rognee au rapport du
+    cadre, elle en perdait la moitie. Contenue, elle se reduit et se centre
+    dans le meme aplat - les deux planches se lisent alors comme deux
+    documents poses, et non comme une planche et une fenetre.
+  */
+  .pan .two--planches .fig--aere .fig__cadre{background:var(--placeholder)}
+  /*
+    CHAQUE CARTE EPOUSE SON IMAGE, ET C'EST LA COLONNE QUI S'ADAPTE. Des
+    marges egales exigent que la boite ait la proportion de ce qu'elle
+    contient : au rapport du voisin, la photo - un portrait 1400 x 2100 -
+    laissait 93 de gris a gauche et a droite pour 20 en haut et en bas.
+
+    A colonnes egales, lui rendre sa proportion l'aurait fait depasser la
+    planche de 220. Les deux colonnes se partagent donc la rangee dans le
+    rapport de leurs proportions : 0,979 contre 0,667, chrome du cadre
+    deduit - d'ou 1,4245. Les deux cartes gardent la meme hauteur, chacune
+    au format de son image, et la marge retombe a 18 des quatre cotes.
+  */
+  .pan .two--planches{grid-template-columns:minmax(0,1.4245fr) minmax(0,1fr)}
+
+  /*
+    MEME CORRECTION POUR LA RANGEE DE TROIS. Les trois cadres declarent
+    pourtant le MEME rapport : l'ecart vient de `fig--aere`, qui passe son
+    cadre en `content-box` pour que le rapport porte sur la boite de CONTENU
+    - c'est la seule facon de donner a la planche une marge egale des quatre
+    cotes. Sa boite exterieure gagne donc ses 39 de chrome en hauteur, et la
+    carte du milieu depassait ses voisines d'autant, legendes decalees.
+
+    Sa colonne prend ces 39 en largeur a la place : 0,712 x 39, soit 11,2 de
+    plus sur une colonne d'environ 324 - d'ou 1,0349. A la largeur de la
+    rangee les trois hauteurs sont alors egales ; le chrome etant fixe et les
+    `fr` proportionnels, l'accord se defait de quelques pixels aux largeurs
+    intermediaires, sans que rien ne s'en voie.
+  */
+  .pan .three--planches{grid-template-columns:minmax(0,1fr) minmax(0,1.0349fr) minmax(0,1fr)}
+
+  /* `position:relative` serait redondant : `.fig__cadre` l'a deja. */
+  .pan .fairepart{display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr)}
+  .pan .fairepart .fairepart__etat{grid-area:1/1;
+    opacity:0;transition:opacity .9s ease}
+  .pan .fairepart .fairepart__etat.is-on{opacity:1}
 
   /* ─── Les neuf credits ─── */
   .pan .credits{margin:0;display:grid;
@@ -667,13 +1199,33 @@ const credits = [
   .pan .credits__ligne dt{font-size:11px;font-weight:700;letter-spacing:.14em;
     text-transform:uppercase;color:var(--ink-muted)}
   .pan .credits__ligne dd{margin:0;font-size:16px;line-height:1.3}
-  .pan .credits__ligne a{text-decoration:none;font-weight:500;color:var(--text);
-    border-bottom:var(--rule-fine) solid var(--blue);transition:font-weight .2s}
-  /* ::after reserve la largeur du gras : sans lui, le survol ferait sauter la
-     mise en page de toute la colonne. */
-  .pan .credits__ligne a::after{content:attr(data-label);display:block;height:0;
-    overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
-  .pan .credits__ligne a:hover{font-weight:700}
+  /*
+    UN SOULIGNE DE TEXTE, PAS UN FILET DE GRILLE. Ces noms portaient un
+    `border-bottom` de `--rule-fine` - 1,5px, le jeton des filets de la
+    composition Language - en `--blue`, une couleur que rien d'autre dans ce
+    bloc n'emploie. Un trait de mise en page sous du texte de 16px, et neuf
+    fois de suite : c'est ce qui alourdissait la liste.
+
+    `text-decoration` est fait pour ca : 1px, decale de 4 sous la ligne de
+    base pour laisser respirer les jambages, dans le gris sourd des
+    intitules. Il passe a l'encre pleine au survol et au focus - l'affordance
+    est la sans crier, et le nom reste noir et lisible.
+
+    PAS D'ICONE DE LIEN SORTANT. Elle se justifie quand un lien est isole et
+    que la destination surprend ; ici les neuf lignes se comportent toutes
+    pareil, et le « opens in a new tab » est deja annonce en `sr-only`. Neuf
+    icones ajouteraient un troisieme objet a lire par ligne.
+
+    Le survol ne passe plus en gras : c'est ce gras qui obligeait a reserver
+    sa largeur avec un `::after` sur `data-label`, pour que la colonne ne
+    saute pas. Le gras parti, le `::after` et l'attribut le sont aussi.
+  */
+  .pan .credits__ligne a{font-weight:500;color:var(--text);
+    text-decoration:underline;text-decoration-thickness:1px;
+    text-underline-offset:4px;text-decoration-color:var(--ink-muted);
+    transition:text-decoration-color .2s}
+  .pan .credits__ligne a:hover,
+  .pan .credits__ligne a:focus-visible{text-decoration-color:var(--text)}
   .pan .credits__moi{font-weight:700}
 
   @media(max-width:860px){
@@ -689,7 +1241,7 @@ const credits = [
   }
 
   @media(prefers-reduced-motion:reduce){
-    .pan .suite .suite__etat{transition:none}
+    .pan .fairepart .fairepart__etat{transition:none}
   }
 </style>
 
@@ -707,8 +1259,8 @@ const credits = [
   suivreCadres();
 
   /* La suite d'invitation : trois etats, 2,2s chacun. */
-  const scene = document.querySelector<HTMLElement>('.suite');
-  if (scene) fonduEnchaine(scene, '.suite__etat', 2200);
+  const scene = document.querySelector<HTMLElement>('.fairepart');
+  if (scene) fonduEnchaine(scene, '.fairepart__etat', 2200);
 
   /* Les trois decoupes, deplacables seulement au-dela du palier mobile. */
   rendreDeplacable('.forme', '(max-width:860px)');

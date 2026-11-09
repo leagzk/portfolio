@@ -20,7 +20,7 @@
 */
 export function initPistes(): void {
   const bandes = document.querySelectorAll<HTMLElement>(
-    '.pan .three, .pan .four, .pan .mosaic',
+    '.pan .three:not(.three--pile), .pan .two, .pan .four, .pan .mosaic',
   );
   if (!bandes.length) return;
 
