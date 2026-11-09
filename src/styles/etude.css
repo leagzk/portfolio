@@ -848,6 +848,27 @@
   laissait les trois chiffres flotter entre les cartes qui, elles, avaient le
   leur.
 */
+/*
+  DANS LA COMPOSITION, UN CHIFFRE QUI S'OUVRE POUSSE SA RANGEE.
+
+  Le bouton d'un chiffre est en `position:absolute;inset:0` : dans la bande
+  d'origine c'est ce qui lui permet de remplir une case dont la hauteur est
+  figee a 240px, et le contexte s'y deplie en place parce qu'il y tient. Pose
+  dans la composition, la meme case est une case de GRILLE, dimensionnee par
+  la rangee - 177px sur Surfaces - et un contenu hors flux ne peut rien
+  pousser : il debordait, et `overflow:hidden` le coupait. Mesure : 252px de
+  contenu ouvert dans 177 de case, 75px perdus, dont la derniere ligne du
+  contexte.
+
+  Le bouton revient donc DANS le flux, comme il le fait deja sous le palier
+  telephone pour exactement la meme raison. La case prend alors la hauteur de
+  ce qu'elle porte, la rangee suit - elle est en `minmax(...,auto)` - et les
+  cases qui la partagent s'etirent avec elle. Fermee, le contenu tient sous le
+  minimum de la rangee : rien ne bouge tant qu'on n'ouvre pas.
+*/
+.compo .clef{position:relative;inset:auto;height:auto}
+.compo .clef__dedans{position:relative;inset:auto}
+
 .compo > *,.compo .tuiles--cases > *,
 .compo .clef-case,.compo .clef-def{background:var(--white);min-width:0;
   position:relative;overflow:hidden;box-shadow:0 0 0 var(--rule-fine) var(--text)}
