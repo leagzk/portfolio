@@ -1093,32 +1093,37 @@ const mecanismes: Tuile[] = [
         <p class="eb" data-sommaire>Community</p>
         <div class="split">
           {/*
-            MEME HUMILITE, SANS LA FIGURE. « The numbers are the system's,
-            not mine » etait la sixieme antithese « X, pas Y » en neuf
-            attaques - et la plus facile a reformuler sans rien perdre, le
-            propos etant d'attribuer le merite et non d'opposer deux termes.
+            « THESE NUMBERS » NE DESIGNAIT RIEN, ET LE RAPPROCHER DES CHIFFRES
+            N'A PAS SUFFI. On avait d'abord rendu l'attaque a une sous-partie
+            ou des nombres suivent ; elle restait une phrase qui commence par
+            un demonstratif sans objet, et le lecteur bute avant d'arriver au
+            premier chiffre.
 
-            ET « THESE NUMBERS » A RETROUVE SON ANTECEDENT. Sous « Business
-            impact », l'attaque ne designait rien : la sous-partie ne portait
-            plus un seul chiffre depuis qu'ils sont rendus a la bande. Ici
-            les nombres suivent dans les deux paragraphes - 45+, 300+, 5, 100
-            - et la phrase pointe ce qu'on va lire.
+            CE QUI LA REMPLACE DIT LE SUJET DE LA SOUS-PARTIE. « A platform
+            scales when a practice carries it » : l'adoption n'est pas une
+            mecanique, c'est un groupe de gens qui porte. Et la forme change
+            de celle de la voisine - « A design system you install. A
+            community you have to earn » - qui est deja une antithese en deux
+            temps.
           */}
-          <p class="lead">These numbers belong to <em class="em-rouge">the team that made them.</em></p>
+          <p class="lead">A platform scales <em class="em-rouge">when a practice carries it.</em></p>
           <div class="body">
             <p><strong>A structure only counts if it holds, and this one holds without me.</strong> Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. <strong>The platform stopped being a cost the business approves, and became what its launches plan around.</strong></p>
           </div>
         </div>
         <div class="split split--haut">
           <div class="body">
-            <p>This is how a <strong>core interdisciplinary community of 300+ across 5 global hubs</strong> - 30+ product designers among them, as part of an Experience Design Organisation of 100 - became one practice.</p>
+            <p>This is how a <strong>core interdisciplinary community of 300+ across 5 global hubs</strong> - 30+ product designers among them, as part of an Experience Design Organisation of 100 - and a decision taken in one hub stopped being re-taken in the other four.</p>
           </div>
           <div class="pile">
+            {/* Un filet et un carre, comme sur l'accueil : le trait part du
+                blanc tournant et le carre prend le jaune du chapitre 03. */}
+            <div class="filet" aria-hidden="true"><span class="filet__carre"></span></div>
             <Figure
               src={img('design-community')}
               alt="The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon"
               legende="The community, in one place for once"
-              ratio="3 / 4"
+              ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
             />
@@ -1142,11 +1147,17 @@ const mecanismes: Tuile[] = [
           <p class="lead">A design system you install. <em class="em-rouge">A community you have to earn.</em></p>
           <div class="body">
             <p>Most system owners treat community as a comms afterthought. I made it the strategy. Adoption never comes from mandate, only from ownership: a system nobody believes in dies with its founder, one a community owns outlives them.</p>
+            {/* L'ecoute vient AVANT la roadmap et non apres : c'est elle qui
+                donne de quoi arbitrer. La tuile Rigour dit ce que les equipes
+                PRODUIT ont rapporte ; ce paragraphe dit qu'on est alle voir
+                tous les metiers, ce qui n'est pas la meme largeur. */}
+            <p><strong>I went to the crafts before I went to the roadmap.</strong> Design, engineering, brand, product - each one asked the same two questions: where does the work break, and what would be worth more than what you have today. Friction is the one input a backlog never gives you, and it is what the roadmap was arbitrated on.</p>
             <p><strong>The timing was the bet.</strong> We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.</p>
             <p>Trust never shows up in an adoption number, so I measured it on its own. <strong>4.7 out of 5 on practitioner satisfaction, twice a year.</strong> People don't comply with Elements. They trust it.</p>
           </div>
         </div>
-        <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms" hauteur={320} />
+        <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms"
+          hauteur={320} piste largeurMobile="min(84%, 320px)" />
       </div>
 
       {/*
@@ -1167,8 +1178,29 @@ const mecanismes: Tuile[] = [
         <div class="split">
           <p class="lead">Using it is the first rung. <em class="em-rouge">Owning it is the last.</em></p>
           <div class="body">
-            <p>Everyone starts as a consumer. Some file an issue, propose a token, fix a page - that makes them contributors. A few take a piece and keep it alive: maintainers, who own what they built. <strong>There is no small contribution.</strong> Each gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.</p>
-            <p>None of it ran on goodwill. The practice got an owner, a remit and a budget, never a volunteer rota - and my team built the machine that made contributing possible: the Portal, the Demo, office hours, contribution and triage rituals, onboarding. <em>Design the experience of the people designing the experience.</em></p>
+            {/* LA MACHINE AVANT L'ECHELLE. On gravit des rangs parce qu'il y
+                a des prises ; les poser d'abord, c'est dire que la
+                progression a ete CONSTRUITE et non esperee. */}
+            <p>The practice got a focus of its own, a remit and a clear strategy. Never a volunteer rota. My team built the machine that made contributing possible: an escalation path, a contribution path, office hours, community events, public contribution recognition at the Demo, integrated onboarding. From the start.</p>
+            {/* La these de Practitioner Experience prend son propre temps : en
+                incise au bout de la liste, elle se lisait comme une legende
+                de plus. L'ecoute dont il s'agit ici n'est pas celle de
+                l'Influence - la-bas on ecoute pour savoir QUOI CONSTRUIRE,
+                ici pour savoir comment ils peuvent DONNER. */}
+            <p><em>Design the experience of the people designing the experience.</em> Listen first - to what they need, and to what they are measured on - then build the path that fits.</p>
+            <p><strong>There is no small contribution.</strong> It starts by being a consumer. It continues by submitting new ideas. It closes the loop by maintaining the system, on its own. Everyone gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.</p>
+            {/* LA PREUVE QUE L'ECHELLE MONTE VRAIMENT. Un modele de
+                contribution se juge a ce qu'il produit tout en haut, pas au
+                nombre de tickets ouverts en bas.
+
+                ATTENTION, LE MCP EST DEJA CITE AU CHAPITRE 04, sous
+                « Innovation », ou son origine sert a prouver que les
+                carrieres ont grandi par la contribution - et un commentaire
+                y explique que les deux moities de cette phrase ne se separent
+                pas. Les deux passages disent donc le meme FAIT pour deux
+                propos differents ; la formulation est tenue a l'ecart pour
+                que ce ne soit pas la meme phrase deux fois. */}
+            <p><strong>The biggest things were built together, not assigned.</strong> The Elements MCP and the data visualisation workstream both started as contributions. Both are part of the standard now.</p>
           </div>
         </div>
       </div>
@@ -1326,6 +1358,17 @@ const mecanismes: Tuile[] = [
     LOIN dans le bundle. A specificite egale elle gagnerait, y compris dans la
     requete media.
   */
+  /*
+    LE FILET ET SON CARRE, AU-DESSUS DE LA PHOTO. Meme dispositif que sur
+    l'accueil et au-dessus des chiffres cles : un carre plein, puis un trait
+    qui court jusqu'au bord. Il rattache l'image au blanc tournant au lieu de
+    la laisser flotter, et le carre prend le jaune - la couleur du chapitre 03
+    dans le sommaire.
+  */
+  .pan .filet{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+  .pan .filet__carre{flex:none;width:10px;height:10px;background:var(--yellow)}
+  .pan .filet::after{content:"";flex:1;height:var(--rule-fine);background:var(--text)}
+
   @media(min-width:861px){
     /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
        qui la reprend apres doit retomber dans la meme colonne. */

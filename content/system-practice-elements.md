@@ -157,11 +157,11 @@ Next: the proof →
 
 Community
 
-These numbers belong to *the team that made them.*
+A platform scales *when a practice carries it.*
 
 **A structure only counts if it holds, and this one holds without me.** Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. **The platform stopped being a cost the business approves, and became what its launches plan around.**
 
-This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, as part of an Experience Design Organisation of 100 - became one practice.
+This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, as part of an Experience Design Organisation of 100 - and a decision taken in one hub stopped being re-taken in the other four.
 
 > The community, in one place for once
 
@@ -170,6 +170,8 @@ Influence
 A design system you install. *A community you have to earn.*
 
 Most system owners treat community as a comms afterthought. I made it the strategy. Adoption never comes from mandate, only from ownership: a system nobody believes in dies with its founder, one a community owns outlives them.
+
+**I went to the crafts before I went to the roadmap.** Design, engineering, brand, product - each one asked the same two questions: where does the work break, and what would be worth more than what you have today. Friction is the one input a backlog never gives you, and it is what the roadmap was arbitrated on.
 
 **The timing was the bet.** We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.
 
@@ -181,13 +183,20 @@ Trust never shows up in an adoption number, so I measured it on its own. **4.7 o
 
 - Ethics The fear AI raised became a shared piece of work. The community said what it was wary of - judgement replaced, craft diluted, quality unchecked. I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, guardrails non-negotiable throughout. **Named out loud, the fear turned into a brief.**
 
+******
+Swipe →
+
 Contribution
 
 Using it is the first rung. *Owning it is the last.*
 
-Everyone starts as a consumer. Some file an issue, propose a token, fix a page - that makes them contributors. A few take a piece and keep it alive: maintainers, who own what they built. **There is no small contribution.** Each gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.
+The practice got a focus of its own, a remit and a clear strategy. Never a volunteer rota. My team built the machine that made contributing possible: an escalation path, a contribution path, office hours, community events, public contribution recognition at the Demo, integrated onboarding. From the start.
 
-None of it ran on goodwill. The practice got an owner, a remit and a budget, never a volunteer rota - and my team built the machine that made contributing possible: the Portal, the Demo, office hours, contribution and triage rituals, onboarding. *Design the experience of the people designing the experience.*
+*Design the experience of the people designing the experience.* Listen first - to what they need, and to what they are measured on - then build the path that fits.
+
+**There is no small contribution.** It starts by being a consumer. It continues by submitting new ideas. It closes the loop by maintaining the system, on its own. Everyone gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.
+
+**The biggest things were built together, not assigned.** The Elements MCP and the data visualisation workstream both started as contributions. Both are part of the standard now.
 
 Next: the team &rarr;
 
