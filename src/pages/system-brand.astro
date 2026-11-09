@@ -1028,28 +1028,41 @@ const pratiques: Tuile[] = [
           </div>
         </div>
 
-        <CadreDefilant
-          src={threadLinkedIn.src}
-          alt={threadLinkedIn.alt}
-          legende={threadLinkedIn.legende}
-          titre="Theia on LinkedIn"
-            aere
-          ratio="16 / 11"
-          fr={1.4545}
-          sizes="(min-width: 900px) 1024px, 92vw"
-          widths={[640, 1080, 1400]}
-          declencheur="survol"
-          zoom
-        />
+        {/*
+          LE FIL PUBLIC S'ALIGNE SUR LA COLONNE DU PARAGRAPHE. A pleine
+          largeur - 1024px pour une source de 1360 - il ecrasait tout ce qui
+          l'entoure : une capture d'ecran y prenait la place d'une planche de
+          projet, alors qu'elle illustre UNE phrase, celle qui dit que la
+          reconnaissance est venue du dehors. Pose dans la colonne de droite,
+          il fait la largeur de cette phrase et se lit avec elle.
 
-        {/* La cloture de la sous-partie, apres la preuve publique et non avant. */}
-        <p class="qt">Adopted without being enforced - and re-adopted when the identity underneath it changed. <strong>That's the only result a brand platform can claim.</strong></p>
+          `split__droite` le renvoie en colonne 2 - voir etude.css - et `sizes`
+          suit : a 600px le navigateur prend la candidate de 640 au lieu de
+          celle de 1360, donc une image plus nette ET plus legere.
+        */}
+        <div class="split">
+          <CadreDefilant
+              class="split__droite"
+            src={threadLinkedIn.src}
+            alt={threadLinkedIn.alt}
+            legende={threadLinkedIn.legende}
+            titre="Theia on LinkedIn"
+              aere
+            ratio="16 / 11"
+            fr={1.4545}
+            sizes="(min-width: 900px) 600px, 92vw"
+            widths={[640, 1080, 1400]}
+            declencheur="survol"
+            zoom
+          />
+        </div>
+
       </div>
 
       <div class="subsec">
         <p class="eb" data-sommaire>Resilience</p>
         <div class="split">
-          <p class="lead">A reorg is a breaking change.<br /><em class="em-jaune">I shipped a major of the brand platform.</em></p>
+          <p class="lead">A reorg is a breaking change. <em class="em-jaune">I shipped a major of the brand platform.</em></p>
           <div class="pile">
             <div class="body">
               <p>In 2020, IT moved from service provider to enabler - one notch up, inside a digital transformation running across the whole company. New digital leadership came with it, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. <strong>I didn't defend mine. I versioned it.</strong></p>

@@ -213,12 +213,9 @@ That one travelled past the function entirely. When Theia launched publicly, the
 
 > Theia&rsquo;s launch on LinkedIn &middot; 225 reactions, 27 comments
 
-Adopted without being enforced - and re-adopted when the identity underneath it changed. **That's the only result a brand platform can claim.**
-
 Resilience
 
-A reorg is a breaking change.
-*I shipped a major of the brand platform.*
+A reorg is a breaking change. *I shipped a major of the brand platform.*
 
 In 2020, IT moved from service provider to enabler - one notch up, inside a digital transformation running across the whole company. New digital leadership came with it, and the digital identity was reset from the top. Positioning moved, territory moved - the problem underneath didn't. **I didn't defend mine. I versioned it.**
 
