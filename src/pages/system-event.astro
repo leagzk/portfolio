@@ -835,7 +835,7 @@ const credits = [
           quelqu'un, et un cadre debout aurait coupe la moitie d'un poster qui
           est justement fait pour etre lu.
         */}
-        <div class="three">
+        <div class="three three--pile">
           <Figure src={img('game-opened')} legende="Opened, together" ratio="4 / 3" ajuste="cover"
             alt="Opened trunk revealing a framed congratulations card above rows of jars"
             sizes="(min-width: 900px) 340px, 88vw" />
@@ -864,7 +864,7 @@ const credits = [
       </div>
 
       {/*
-        LA SORTIE DE LA PAGE EST UN PARAGRAPHE, comme sur Brand. Elle vivait
+        LA SORTIE DE LA PAGE EST UN PARAGRAPHE, ET RIEN D'AUTRE. Elle vivait
         dans un `.closing` : un titre de 40px et un corps de 17px, deux
         echelles qui n'existaient nulle part ailleurs sur la page, pour dire ce
         qu'un paragraphe dit. Elle rejoint la colonne du texte, dans la
@@ -875,8 +875,20 @@ const credits = [
       */}
       <div class="split">
         <div class="body split__droite">
-          <p>I don't repeat a system - I version it. Three editions, three couples, three identities, a different game every time. And nothing in this one was switched on for the occasion: a brief held to five words, a frame fixed with the rest left open, a handover precise enough to step out of - it is what I do at work, on a project nobody paid me for. <strong>The drivers don't stop at the screen, and they don't stop at the org chart either.</strong></p>
-          <Bouton variante="bleu" href="/system-practice-elements">See it at global scale →</Bouton>
+          {/*
+            IL NE RESTE QUE CE QUE LUI SEUL PEUT DIRE. Le paragraphe faisait
+            quatre phrases dont trois recapitulaient : « I don't repeat a
+            system - I version it » est mot pour mot le contexte du chiffre
+            « 3rd » ; « three editions, three couples, three identities » est
+            l'ouverture du hero ; et « a brief held to five words, a frame
+            fixed with the rest left open, a handover precise enough to step
+            out of » reprend les trois chapitres qu'on vient de lire.
+
+            Une sortie de page n'a pas a resumer la page. Elle a a dire ce
+            qu'on en retient, et c'est la derniere phrase - la seule qui ne se
+            lisait nulle part ailleurs.
+          */}
+          <p>Nothing here was switched on for the occasion. It is what I do at work, on a project nobody paid me for. <strong>The drivers don't stop at the screen, and they don't stop at the org chart either.</strong></p>
         </div>
       </div>
 

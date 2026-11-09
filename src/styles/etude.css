@@ -1617,6 +1617,17 @@
    Ici `+` est sur et le restera - un surtitre est un <p> ecrit dans la page,
    jamais un composant, donc aucun script ne peut s'intercaler. */
 .pan .subsec > .eb + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw){margin-top:0}
+/*
+  ET DEUX BANDES QUI SE SUIVENT NE COMPTENT QU'UNE FOIS. Chacune portant ses
+  24px, elles s'ecartaient de 80 - le `gap` de 32 plus deux marges - la ou une
+  bande et un texte s'ecartent de 56. Or une grande figure suivie de deux
+  petites, c'est UNE serie en deux temps, pas deux objets sans rapport : 80px
+  les separait plus que le chapitre ne les separe de leur paragraphe. La
+  seconde renonce donc a sa marge haute, et l'ecart revient a 56 - la valeur
+  que la page donne deja partout ailleurs entre une bande et ce qui la touche.
+*/
+.pan .subsec > :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw)
+  + :is(.three,.two,.four,.pile,.versus,.mosaic,.fig,.tuiles,.carrousel,.sw){margin-top:0}
 .pan .subsec > .eb{margin-bottom:-20px}
 
 /* ─── Typographie du contenu ─── */
@@ -1993,7 +2004,7 @@
 @media(max-width:860px){
   .pan{padding:48px 0 64px 20px;gap:80px}
   .pan::before{bottom:64px}
-  .pan .split,.pan .two,.pan .vc{grid-template-columns:1fr;gap:24px}
+  .pan .split,.pan .vc{grid-template-columns:1fr;gap:24px}
   /* une colonne : plus de rangees a partager, chaque concept redevient une pile */
   .pan .versus{grid-template-columns:1fr;grid-template-rows:none;gap:40px}
   .pan .vers{grid-row:auto;display:flex;flex-direction:column}
@@ -2019,12 +2030,27 @@
     pas un attribut, et au-dessus du palier ces bandes sont des grilles ou
     l'arret de tabulation ne menerait nulle part. Voir src/scripts/pistes.ts.
   */
-  .pan :is(.three,.four,.mosaic){display:flex;gap:20px;overflow-x:auto;
+  /* `.two` EST DANS LA LISTE DEPUIS QU'ELLE NE PORTE QUE DES IMAGES. Elle
+     s'empilait avec `.split` et `.vc` - deux colonnes de texte, qui doivent
+     bien passer a une sur telephone - alors que ses trois usages du site sont
+     des PAIRES DE PHOTOS. Empilees, elles font deux ecrans a traverser ; en
+     piste, un seul, et le bord de la seconde dit qu'elle est la. */
+  .pan :is(.three,.two,.four,.mosaic){display:flex;gap:20px;overflow-x:auto;
     scroll-snap-type:x proximity;padding-bottom:8px;scrollbar-width:thin}
-  .pan :is(.three,.four,.mosaic) > *{flex:0 0 88%;min-width:0;
+  .pan :is(.three,.two,.four,.mosaic) > *{flex:0 0 88%;min-width:0;
     scroll-snap-align:start}
-  .pan :is(.three,.four,.mosaic):focus-visible{outline:3px solid var(--focus);
+  .pan :is(.three,.two,.four,.mosaic):focus-visible{outline:3px solid var(--focus);
     outline-offset:4px}
+  /*
+    SAUF CELLES QUI DOIVENT SE VOIR ENSEMBLE. Une piste est le bon geste pour
+    un catalogue - les surfaces, les concepts, les planches - ou chaque image
+    vaut pour elle-meme et ou le doigt remplace le regard. Elle est le mauvais
+    geste quand les images forment UN propos : les trois du jeu disent ce que
+    cent personnes en ont fait, et deux cachees sur trois, il n'en reste plus
+    rien. Celles-la s'empilent, et le pouce fait le travail du defilement.
+  */
+  .pan .three--pile{display:grid;grid-template-columns:1fr;overflow:visible}
+  .pan .three--pile > *{flex:none}
   .pan .mosaic{gap:8px}
   .pan .mosaic > *{aspect-ratio:4 / 3}
   /* La case cesse de se partager la largeur et en prend une a elle : c'est ce
