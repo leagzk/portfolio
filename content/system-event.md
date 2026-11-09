@@ -16,41 +16,45 @@ Three weddings, three couples, three identities - this is the third. **One ident
 
 **No repository. No deploy pipeline. No org chart either** - nobody here reported to me, and nobody had to say yes. Just a creative pipeline, built end to end, and the proof that **a system is a way of working, not a technology.**
 
-1 yr+
+The living system
 
-from first object to last jar
+**Five words, three shapes and one palette** - a creative direction short enough to hold nine suppliers to, and complete enough to carry fifty surfaces from the first envelope to the last jar label. No repository to keep it honest, so the brief had to do it.
 
-Designed and orchestrated end to end, alongside the day job.
+Three editions, three couples, and the same method carried all three.
 
 50+
 
 surfaces, one identity
 
-Paper, fabric, metal, wood - and a pre-event WhatsApp community.
+Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same line as the invitation.
 
 9
 
-suppliers directed from one guide
+suppliers, one guide
 
-One page per zone, one owner per page. Executed without me in the room.
+One page per zone, one owner per page. On the day it ran from the brief, not from me.
 
 3rd
 
-edition, three couples, three identities
+edition, three couples
 
-A full identity every time, a different escape game every time. I don't repeat a system - I version it.
+A full identity every time, a different game every time. I don't repeat a system - I version it.
 
-It started with two rented objects.
+No client, no reviewer, and nine people better than me at their own craft.
 
-Not a moodboard: a plate and an armchair we could actually put in the space. One gave the pattern language, the other gave the posture - and five words came out of them before anything was drawn.
+Off the screen there is no repository to keep a system honest, so the brief has to do it. And nothing external was going to say the work was enough, or that it had drifted.
 
-One identity, fifty-plus surfaces, zero inconsistency.
+Five words, three shapes, and a production line I had to build.
 
-Declined on paper, fabric, metal and wood - then staged in the space, and closed by an escape game built from zero. The test was the boring surfaces.
+A creative direction short enough to brief nine suppliers from, foundations anyone could apply, and one source file that ran on a press and cut on a machine at home.
 
-Precise enough to be run without me in the room.
+Fifty surfaces held, and the day ran without me in it.
 
-One page per zone, one owner per page. I briefed every supplier from it, handed the day to a coordinator - and got to be in the experience instead of running it.
+The test was the signage nobody is meant to enjoy. Then the handover: one page per zone, one owner per page, executed by nine suppliers from the brief alone.
+
+A game that mixed ninety strangers, and the same lever at work.
+
+Six mechanics, six clues nobody could gather alone. The same move behind a hackathon's 8,301 votes and an app that got people to update their own data.
 
 ## 01 &middot; The problem
 

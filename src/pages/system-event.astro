@@ -65,25 +65,33 @@ const img = chercheurImages(fichiers, 'living-system');
   la duree, l'etendue, les prestataires diriges, et le fait que ce soit une
   TROISIEME edition - c'est elle qui prouve que le systeme se versionne.
 */
+/*
+  TROIS CHIFFRES, ET AUCUN QUI MESURE LE COUT.
+
+  La bande en portait quatre, et trois d'entre eux mesuraient l'EFFORT : « 1
+  yr+ » est une duree, « 9 suppliers » et « 50+ surfaces » sont un volume de
+  travail. Un lecteur y lisait ce que la chose a coute, pas ce qu'elle a
+  produit - alors que Governance ouvre sur 87% d'usage, un time-to-launch
+  divise par trois et 810 jours de developpement economises.
+
+  La duree part : c'est la seule qui ne dit rien d'autre qu'elle-meme. Les
+  trois qui restent gardent leur nombre mais changent de propos - ce n'est plus
+  l'ampleur qui est annoncee, c'est ce qui a tenu : l'identite sur les surfaces
+  ingrates, la journee sans moi dedans, et la mecanique sur trois couples qui
+  n'avaient rien en commun.
+
+  ET LA BANDE GAGNE SA DEFINITION, comme les deux autres etudes. Elle etait la
+  seule a ne pas en avoir : les chiffres y arrivaient sans que la page ait dit
+  de quel systeme ils parlent. C'est aussi ce qui autorise trois chiffres au
+  lieu de quatre - voir PLANCHER dans ChiffresCles.astro.
+*/
 const chiffres: Chiffre[] = [
-  /* « 1 an+ » etait reste en francais sur une page qui ne l'est pas, a cote de
-     « 50+ », « 9 » et « 3rd ». Un seul mot, mais c'est le premier chiffre que
-     le lecteur rencontre. */
-  { nombre: '1 yr+', quoi: 'from first object to last jar', couleur: 'bleu', motif: 'plein',
-    contexte: 'Designed and orchestrated end to end, alongside the day job.' },
-  { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'carre',
-    contexte: 'Paper, fabric, metal, wood - and a pre-event WhatsApp community.' },
-  { nombre: '9', quoi: 'suppliers directed from one guide', couleur: 'noir', motif: 'plein',
-    contexte: 'One page per zone, one owner per page. Executed without me in the room.' },
-  /*
-    « EACH BIGGER THAN THE LAST » ETAIT FAUX. Les trois editions comptent 200,
-    100 et 90 invites, et c'est celle de 90 qui est documentee ici : la
-    progression allait dans l'autre sens. Le chiffre ne vaut pas par la taille
-    de toute facon - il vaut parce que la mecanique a tenu sur trois couples
-    qui n'avaient ni les memes gouts ni le meme monde autour d'eux.
-  */
-  { nombre: '3rd', quoi: 'edition, three couples, three identities', couleur: 'rouge', motif: 'bande',
-    contexte: "A full identity every time, a different escape game every time. I don't repeat a system - I version it." },
+  { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'plein',
+    contexte: 'Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same line as the invitation.' },
+  { nombre: '9', quoi: 'suppliers, one guide', couleur: 'bleu', motif: 'plein',
+    contexte: 'One page per zone, one owner per page. On the day it ran from the brief, not from me.' },
+  { nombre: '3rd', quoi: 'edition, three couples', couleur: 'rouge', motif: 'plein',
+    contexte: "A full identity every time, a different game every time. I don't repeat a system - I version it." },
 ];
 
 /*
@@ -204,7 +212,13 @@ const credits = [
 
   <div class="etude">
 
-    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian" />
+    <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian">
+      <Fragment slot="definition">
+        <p class="clef-def__eb">The living system</p>
+        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong> - a creative direction short enough to hold nine suppliers to, and complete enough to carry fifty surfaces from the first envelope to the last jar label. No repository to keep it honest, so the brief had to do it.</p>
+        <p class="clef-def__prix">Three editions, three couples, and the same method carried all three.</p>
+      </Fragment>
+    </ChiffresCles>
 
     {/*
       ─── La composition des 3 cartes ───
@@ -214,13 +228,34 @@ const credits = [
       la hauteur. Les trois cartes font 472x291, 363x535 et 472x241 : trois
       formes, pas trois variantes d'un meme rectangle.
     */}
+    {/*
+      ─── La composition des 4 cartes ───
+
+      ELLE EN PORTAIT TROIS, ET LEURS TITRES NE DISAIENT PLUS LEUR CHAPITRE.
+      « It started with two rented objects » ouvrait la carte 01 alors que les
+      deux objets sont passes au chapitre 02 ; « One identity, fifty-plus
+      surfaces » ouvrait la 02 alors que la couverture est la preuve, donc le
+      03. Une carte qui annonce le chapitre d'a cote est pire qu'une carte
+      vide : elle oriente la lecture au mauvais endroit.
+
+      SEPT COLONNES ET CINQ RANGEES, et la grammaire reste celle de Surfaces -
+      deux bandes fines VERTICALES (colonnes 4 et 7) la ou l'accueil et Brand
+      posent les leurs a l'horizontale. Les quatre cartes s'engrenent deux a
+      deux : 01 et 03 se partagent la colonne de gauche, 02 et 04 celle de
+      droite, et la coupe ne tombe pas a la meme rangee des deux cotes.
+
+      Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre
+      861 et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
+      hidden - les avale. Defaut deja mesure une fois, pas question de le
+      refaire.
+    */}
     <div class="compo" id="composition" data-grille>
       <CarteDossier
         id="carte-contrainte"
         rang="01"
-        intitule="The constraint"
-        titre="It started with two rented objects."
-        synthese="Not a moodboard: a plate and an armchair we could actually put in the space. One gave the pattern language, the other gave the posture - and five words came out of them before anything was drawn."
+        intitule="The problem"
+        titre="No client, no reviewer, and nine people better than me at their own craft."
+        synthese="Off the screen there is no repository to keep a system honest, so the brief has to do it. And nothing external was going to say the work was enough, or that it had drifted."
         couleur="rouge"
         commande="pan-contrainte"
         large
@@ -231,32 +266,54 @@ const credits = [
       <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 4 / 3 / 5"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 4 / 4 / 5"><span class="compo__plat compo__plat--noir"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 4 / 5 / 5"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 4 / 6 / 5"><span class="compo__plat compo__plat--bleu"></span></div>
 
       <CarteDossier
         id="carte-systeme"
         rang="02"
-        intitule="The system"
-        titre="One identity, fifty-plus surfaces, zero inconsistency."
-        synthese="Declined on paper, fabric, metal and wood - then staged in the space, and closed by an escape game built from zero. The test was the boring surfaces."
+        intitule="The approach"
+        titre="Five words, three shapes, and a production line I had to build."
+        synthese="A creative direction short enough to brief nine suppliers from, foundations anyone could apply, and one source file that ran on a press and cut on a machine at home."
         couleur="bleu"
         commande="pan-systeme"
-        aire="1 / 5 / 5 / 7"
+        aire="1 / 5 / 4 / 7"
       />
 
       <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 7 / 2 / 8"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 7 / 3 / 8"><span class="compo__plat compo__plat--rouge"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 7 / 4 / 8"><span class="compo__plat compo__plat--gris"></span></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 7 / 5 / 8"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 7 / 6 / 8"></div>
 
       <CarteDossier
         id="carte-transmission"
         rang="03"
-        intitule="The handover"
-        titre="Precise enough to be run without me in the room."
-        synthese="One page per zone, one owner per page. I briefed every supplier from it, handed the day to a coordinator - and got to be in the experience instead of running it."
+        intitule="The proof"
+        titre="Fifty surfaces held, and the day ran without me in it."
+        synthese="The test was the signage nobody is meant to enjoy. Then the handover: one page per zone, one owner per page, executed by nine suppliers from the brief alone."
         couleur="jaune"
         commande="pan-transmission"
-        aire="3 / 1 / 5 / 4"
+        large
+        aire="3 / 1 / 6 / 4"
+      />
+
+      {/*
+        LA QUATRIEME CARTE : la specificite de cette etude. Les trois premieres
+        suivent le systeme - le probleme, la demarche, la preuve - celle-ci
+        suit ce que le cas a d'unique, comme « The standard » sur Brand. Noire,
+        et c'est la seule : le rouge, le bleu et le jaune sont pris par les
+        trois chapitres du systeme.
+      */}
+      <CarteDossier
+        id="carte-gamification"
+        rang="04"
+        mot="Pivot"
+        intitule="The game"
+        titre="A game that mixed ninety strangers, and the same lever at work."
+        synthese="Six mechanics, six clues nobody could gather alone. The same move behind a hackathon's 8,301 votes and an app that got people to update their own data."
+        couleur="noir"
+        commande="pan-gamification"
+        aire="4 / 5 / 6 / 7"
       />
     </div>
 
@@ -704,11 +761,12 @@ const credits = [
   /* ═══ Ce qui est propre a l'etude Surfaces ═══ */
 
   /*
-    LA COMPOSITION. Sept colonnes et QUATRE rangees - les deux autres etudes en
-    ont cinq. La bande fine est VERTICALE ici (la quatrieme colonne, 8fr) au
-    lieu d'etre horizontale, et la carte du milieu traverse toute la hauteur.
-    Mesure a 1072 : 472x291, 363x535 et 472x241. Trois formes, pas trois
-    variantes d'un meme rectangle.
+    LA COMPOSITION. Sept colonnes et CINQ rangees depuis la quatrieme carte.
+    Les bandes fines sont VERTICALES ici - les colonnes 4 et 7 - la ou
+    l'accueil et Brand posent les leurs a l'horizontale, et c'est ce qui garde
+    les trois compositions distinctes. Les quatre cartes s'engrenent deux a
+    deux : 01 et 03 a gauche, 02 et 04 a droite, et la coupe ne tombe pas a la
+    meme rangee des deux cotes.
 
     Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre 861
     et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
@@ -721,7 +779,7 @@ const credits = [
   @media(min-width:861px){
     .compo{grid-template-columns:20fr 12fr 20fr 8fr 26fr 14fr 18fr;
       grid-template-rows:minmax(170px,auto) minmax(95px,auto)
-        minmax(120px,auto) minmax(75px,auto)}
+        minmax(120px,auto) minmax(110px,auto) minmax(110px,auto)}
   }
 
   /* ─── Les trois blocs du systeme : formes, couleurs, type ─── */
