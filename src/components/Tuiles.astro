@@ -33,7 +33,7 @@ export interface Tuile {
   titre: string;
   /** le texte du verso. HTML autorise, meme raison que `titre`. */
   texte: string;
-  couleur: 'rouge' | 'bleu' | 'jaune' | 'noir';
+  couleur: 'rouge' | 'bleu' | 'jaune' | 'noir' | 'blanc';
   /**
    * `grid-area` quand la tuile est une CASE d'une composition, et non un
    * element de la grille interne de cette serie. L'aire est portee par la
@@ -68,8 +68,18 @@ export interface Props {
    * texte.
    */
   hauteur?: number;
+  /**
+   * Passe la serie en piste a defilement SOUS LE PALIER. Une serie de cases
+   * l'est deja d'office - elle n'a pas le choix, la composition s'empile -
+   * mais une serie ordinaire peut le demander : trois tuiles l'une sous
+   * l'autre font trois ecrans a traverser, et la piste n'en fait qu'un.
+   */
+  piste?: boolean;
+  /** Largeur d'une tuile sur la piste. Le reste montre le bord de la suivante. */
+  largeurMobile?: string;
 }
-const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
+const { tuiles, colonnes = 4, label, hauteur = 240, piste = false,
+  largeurMobile = '290px' } = Astro.props;
 /*
   Une serie DE CASES des qu'une tuile porte son aire. Elle perd alors son fond
   noir et son cadre - les filets du Mondrian sont deja portes par la case
@@ -77,9 +87,16 @@ const { tuiles, colonnes = 4, label, hauteur = 240 } = Astro.props;
   gagne sa pagination, qui n'a d'objet que sur la piste mobile.
 */
 const enCases = tuiles.some((t) => t.aire);
+/*
+  UNE SEULE PISTE POUR LES DEUX CAS. Les cases y arrivent par necessite, les
+  autres par choix, mais le dispositif est le meme - meme defilement, meme
+  accroche, meme pagination, meme script. `--cases` ne garde que ce qui lui
+  est propre : la perte du fond et du cadre.
+*/
+const surPiste = enCases || piste;
 ---
-<ul class:list={['tuiles', enCases && 'tuiles--cases']}
-    style={`--tuiles-cols:${colonnes};--tuile-h:${hauteur}px`}
+<ul class:list={['tuiles', enCases && 'tuiles--cases', surPiste && 'tuiles--piste']}
+    style={`--tuiles-cols:${colonnes};--tuile-h:${hauteur}px;--tuile-w-mob:${largeurMobile}`}
     aria-label={label}>
   {tuiles.map((t) => (
     <li class:list={['tuile', t.aire && 'tuile--case']} style={t.aire ? `grid-area:${t.aire}` : undefined}>
@@ -99,7 +116,7 @@ const enCases = tuiles.some((t) => t.aire);
     </li>
   ))}
 </ul>
-{enCases && (
+{surPiste && (
   /*
     LA PAGINATION DE LA PISTE, SOEUR DE LA SERIE ET NON SON ENFANT. Dans une
     serie passee en `display:contents`, elle deviendrait une case de la
@@ -242,6 +259,17 @@ const enCases = tuiles.some((t) => t.aire);
   .tuile--bleu{background:var(--blue);color:var(--white)}
   .tuile--jaune{background:var(--yellow);color:var(--text)}
   .tuile--noir{background:var(--ink);color:var(--white)}
+  /*
+    LE BLANC EST UNE CINQUIEME TEINTE, PAS UNE ABSENCE. Dans une serie posee
+    sur fond noir avec ses filets, une tuile blanche est un TROU dans l'aplat -
+    c'est la case blanche du Mondrian, que la composition de l'accueil utilise
+    deja. Elle garde donc son cadre par le `gap` de la grille.
+
+    ELLE PERD EN REVANCHE L'INDICE COULEUR DU RETOURNEMENT : le verso est
+    blanc lui aussi, donc seul le texte change. La fleche et la rotation
+    restent, mais la tuile blanche s'annonce moins que les quatre autres.
+  */
+  .tuile--blanc{background:var(--white);color:var(--text)}
   .tuile__pivot:focus-visible{outline:3px solid var(--focus);outline-offset:-6px}
 
   /*
@@ -257,13 +285,16 @@ const enCases = tuiles.some((t) => t.aire);
   .tuiles__pagination{display:none}
 
   @media(max-width:860px){
-    .tuiles--cases{display:flex;gap:var(--rule-fine);overflow-x:auto;
-      scroll-snap-type:x mandatory;scrollbar-width:none;background:var(--text);
-      border:0;padding:0}
-    .tuiles--cases::-webkit-scrollbar{display:none}
-    /* 290px : la meme carte que le rail de l'accueil, et le bord de la
-       suivante reste visible sur un telephone de 375. */
-    .tuile--case{flex:0 0 290px;scroll-snap-align:start}
+    .tuiles--piste{display:flex;overflow-x:auto;
+      scroll-snap-type:x mandatory;scrollbar-width:none}
+    .tuiles--piste::-webkit-scrollbar{display:none}
+    /* Une serie de cases perd en plus son cadre : les filets du Mondrian sont
+       deja portes par la case. Une serie ordinaire garde le sien, et la piste
+       defile alors DANS son encadre. */
+    .tuiles--cases{background:var(--text);border:0;padding:0}
+    /* 290px par defaut : la meme carte que le rail de l'accueil, et le bord de
+       la suivante reste visible sur un telephone de 375. */
+    .tuiles--piste > .tuile{flex:0 0 var(--tuile-w-mob,290px);scroll-snap-align:start}
     /*
       `min-height:0` : la pagination est un enfant direct de `.compo`, donc
       la regle mobile qui donne 170px de plancher aux CASES l'attrapait aussi
@@ -313,7 +344,7 @@ const enCases = tuiles.some((t) => t.aire);
     redirait le point de rupture deja ecrit dans le CSS. Meme reglage que
     .principes__points sur l'accueil.
   */
-  document.querySelectorAll<HTMLElement>('.tuiles--cases').forEach((piste) => {
+  document.querySelectorAll<HTMLElement>('.tuiles--piste').forEach((piste) => {
     const pagination = piste.nextElementSibling;
     const points = pagination ? [...pagination.querySelectorAll<HTMLElement>('i')] : [];
     if (!points.length) return;

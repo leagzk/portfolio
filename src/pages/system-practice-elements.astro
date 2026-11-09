@@ -49,10 +49,6 @@ import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 /* INLINES : ces quatre dessins suivent le theme par currentColor, ce qu'un
    <img> ne permet pas. Voir l'en-tete de system-brand.astro pour le detail. */
-import IdeaVisual from '../assets/elements-system/idea-visual.svg';
-import ConsumerVisual from '../assets/elements-system/consumer-visual.svg';
-import ContributorVisual from '../assets/elements-system/contributor-visual.svg';
-import MaintainerVisual from '../assets/elements-system/maintainer-visual.svg';
 
 /* Resolues a la compilation : un nom errone casse le build, la ou un chemin en
    chaine aurait produit un 404 silencieux en production. */
@@ -118,7 +114,17 @@ const chiffres: Chiffre[] = [
   */
   { nombre: '810+', quoi: 'development days saved', couleur: 'noir', motif: 'bande',
     contexte: 'The rebuild that forty-five teams no longer pay for.' },
-  { nombre: '35+', quoi: 'contributors, from zero in 18 months', couleur: 'rouge', motif: 'encadre',
+  /*
+    LA COULEUR VA A LA GRANDE SURFACE, LE BLANC A LA PETITE. Le 35+ et le 0
+    fermaient la bande en filet sur la case la plus LARGE et en aplat
+    noir sur la plus etroite, depuis que la largeur suit le nombre : 356px de
+    blanc pour une marque dans un coin, pendant qu'un plan noir tenait dans
+    267. Les motifs s'echangent, pas les couleurs - la bande compte toujours
+    deux aplats pleins, un filet et deux bandes, et « la couleur est rare »
+    tient. Governance y perd son plan noir, qui reste porte par la bande du
+    810+ et par la composition en dessous.
+  */
+  { nombre: '35+', quoi: 'contributors, from zero in 18 months', couleur: 'rouge', motif: 'plein',
     contexte: 'Inner source, not headcount. Capability that no budget line bought.' },
   /*
     LE CINQUIEME PROUVE LA DIRECTION, PAS LE SYSTEME. Les quatre premiers
@@ -127,7 +133,7 @@ const chiffres: Chiffre[] = [
     au troisieme tiers du troisieme chapitre - derriere un clic, a l'endroit
     le plus enterre, pour l'argument le plus cherche.
   */
-  { nombre: '0', quoi: 'resignations in three years', couleur: 'noir', motif: 'plein',
+  { nombre: '0', quoi: 'resignations in three years', couleur: 'noir', motif: 'filet',
     contexte: 'Average completed engagement: 23 months against a one-year target.' },
 ];
 
@@ -152,28 +158,165 @@ const facettes: Vignette[] = [
 
 /*
   ─── Trois axes, six capabilites ───
-  LA TENSION EST LE PROPOS : ce ne sont pas trois axes paralleles, chacun ne
-  tient que parce que les deux autres tiennent leur bout. D'ou la chute au
-  verso de chaque tuile - c'est elle qu'on retourne pour lire, et c'est elle qui
-  dit a quoi sert la capabilite.
-  Six tuiles sur trois colonnes : les deux rangees font les trois axes, un axe
-  par paire de colonnes voisines.
+
+  UNE TUILE PAR AXE, ET NON PAR CAPABILITE. Les six tuiles tenaient sur trois
+  colonnes et deux rangees - 1024 x 605px -, et la grille y DECHIRAIT un axe :
+  mesure a 1440px, « Brand » occupait les colonnes 1 et 2 de la
+  premiere rangee, « People » les colonnes 2 et 3 de la seconde, mais
+  « System » tombait en colonne 3 rangee 1 PUIS en colonne 1 rangee 2 - deux
+  coins opposes, 681px d'ecart. Le commentaire promettait « un axe par paire
+  de colonnes voisines » ; six tuiles sur trois colonnes font un enroulement
+  en diagonale. On annoncait trois axes et on montrait deux paires groupees
+  plus une paire arrachee.
+
+  ET RIEN N'ETAIT LISIBLE AU REPOS : le texte d'une tuile vit au verso, donc
+  il fallait six retournements pour savoir ce que l'architecture contient.
+
+  L'axe devient donc l'unite - trois tuiles, une rangee, ~340px au lieu de
+  605 - et le recto porte tout ce qui situe : le rang, le nom de l'axe, ce
+  qu'il regle, et le nom de ses deux capabilites. Seules les deux
+  DESCRIPTIONS sont au verso, la ou le detail a sa place.
+
+  L'AXE S'APPELLE « BRAND », PAS « BRAND × PRODUCT ». Nommer le produit dans
+  le nom de l'axe le faisait lire plus etroit qu'il n'est : ce qui s'y joue
+  vaut sur l'ensemble des surfaces, du physique au digital, et le produit n'en
+  est qu'une. Les trois axes se lisent donc Brand, System, People - trois
+  mots, aucun a dechiffrer.
+
+  « EXPERIENCE FOUNDATIONS », PAS « PRODUCT FOUNDATIONS ». Sous un axe qui
+  s'appelle Brand, une capability nommee d'apres le produit restait orpheline :
+  grids, motion et dataviz n'ont rien a voir avec l'expression de marque. Le
+  nom elargi la remet dans l'axe - ce sont les fondations de l'EXPERIENCE,
+  donc de la marque, et sa chute le dit : « including the digital
+  non-negotiables ». C'est la le trou dans la raquette de la plupart des
+  systemes de marque, ou le branding est tenu a part par le marketing et
+  s'effondre des qu'il atteint le digital.
+
+  « DESIGN SYSTEMS » AU PLURIEL, et ce pluriel fait le travail. La fonction
+  design ne tient pas UN systeme d'interface : elle tient une architecture de
+  tokens, des bibliotheques de composants, un systeme d'illustration, un
+  systeme de contenu. Le singulier laissait lire l'UI kit ; le pluriel dit la
+  fonction. Et il renforce la these de la page - le design system n'est plus
+  le tout, il n'est meme plus un.
+
+  ET IL GARDE « DESIGN », CE QUI N'EST PAS UN DEFAUT DE COURAGE. « Experience
+  Systems » n'aurait rien arrange : « Experience System » est deja le libelle
+  de CETTE page dans la navigation, et une capability qui porterait le nom du
+  tout se lirait comme une erreur. Surtout, la these de la page est que le
+  design system n'est plus le tout mais l'une des six - le nommer platement
+  est ce qui PROUVE la retrogradation.
+
+  LA DIMENSION AGENTIQUE EST DANS LE RESUME, PAS DANS UNE CAPABILITY. On a
+  d'abord essaye de la glisser dans la description de Design Systems : mauvais
+  etage, et 45px. Ce qui a change avec l'IA n'est pas le contenu du systeme,
+  c'est QUI LE CONSOMME - donc c'est une propriete de l'axe entier, pas d'une
+  de ses deux capabilites. Experience Patterns disait deja « AI-driven
+  internal tooling » ; le resume dit maintenant qui herite, et les agents y
+  sont nommes a cote des equipes.
+
+  ET CE RESUME ETAIT LE PLUS FAIBLE DES TROIS. « Operational excellence,
+  accelerated at scale » etait la seule formule de la page qui aurait pu
+  figurer dans n'importe quel deck, au-dessus des six phrases les plus
+  concretes de l'etude - le resume etait plus vague que ce qu'il resumait.
+  Il reprenait « excellence » au hero et « twice » a Experience Foundations.
+  « Decided once, inherited everywhere downstream » dit le meme mecanisme que
+  l'acceleration a l'echelle, mais il le NOMME : c'est l'heritage qui rend
+  rapide.
+
+  LES NOMS DES CAPABILITES RESTENT SUR LE RECTO. Ils font doublon avec les
+  intitules du verso, volontairement - meme rappel que le numero d'eyebrow.
+  Sans eux, « Three axes, six capabilities » n'est verifiable qu'apres trois
+  retournements, ce qui est exactement le defaut que cette refonte corrige.
+
+  LE RESUME DIT CE QUE L'AXE TIENT, PAS CE QU'IL CONTIENT. C'est la lecture
+  qui manquait : la liste des capabilites se lit deja sur le recto, et
+  repeter « identity, theming, coherence » en plus petit n'aurait rien
+  ajoute. 01 tient une architecture de marque modulable a l'echelle, coherente
+  du physique au digital, pour que la reconnaissance survive au changement de
+  canal - modularite ET expression ; 02 accelere l'excellence operationnelle a
+  l'echelle ; 03 dit que les praticiens sont des utilisateurs a part entiere,
+  les premiers ambassadeurs de la marque, et ceux qui font tourner le reste.
+
+  ET SA SECONDE PHRASE DIT CE QUI S'EFFONDRE SANS LUI. Le paragraphe
+  au-dessus des tuiles affirme que « none of them works alone » et que
+  « the tension is the point » - or rien dans les tuiles ne le MONTRAIT :
+  trois aplats cote a cote se lisent comme trois choses paralleles, ce que
+  le texte dit precisement qu'elles ne sont pas. Chaque axe nomme donc ce
+  que les deux autres perdent en son absence, et la dependance cesse d'etre
+  une affirmation pour devenir une lecture.
+
+  L'ANAPHORE EST VOULUE : trois « Without it » lus cote a cote font une
+  forme, pas une repetition - c'est elle qui tient les trois tuiles
+  ensemble.
+
+  ET CHAQUE PERTE DESIGNE LES AUTRES, JAMAIS SOI. C'est la regle qui fait
+  tenir la figure, et 01 l'avait perdue : en retirant « components » de sa
+  seconde phrase - a raison, l'axe n'est pas une affaire de composants - on
+  avait aussi retire le seul mot qui pointait vers 02. « Recognition stops at
+  the channel it was designed for » ne parlait plus que de lui-meme.
+  « CONSISTENCY IS WHATEVER SHIPS LAST » nomme la perte et designe qui la
+  cause. Ce qui SHIP, c'est le travail des deux autres axes : sans axe de
+  marque, la derniere equipe a livrer decide de la coherence, et elle en
+  decide sans le savoir. Le verbe est deja celui de la page - « every surface
+  Sanofi ships », « the teams that ship », « wherever a product ships ».
+
+  DEUX AUTRES FORMULATIONS ONT ETE ECARTEES, chacune pour un defaut precis.
+  « Everything ships, and nothing arrives » sonnait mais ne montrait rien :
+  les deux autres phrases nomment une CHOSE et ce qui lui manque - une
+  promesse sans rien pour la rendre, un systeme sans personne pour le porter -
+  celle-la ne nommait aucun objet. Et « experience consistency shrinks »
+  visait juste, la coherence EST ce que l'axe tient, mais « shrinks » dit une
+  degradation graduelle la ou les deux autres disent une panne totale, et deux
+  noms abstraits accoles ne montrent rien non plus.
+
+  LA SECONDE PHRASE DOIT DIRE AUTRE CHOSE QUE LA PREMIERE, et c'est ce qui a
+  fait tomber « consistency shrinks » telle quelle : la premiere promet deja
+  « coherent room » et « expressive enough to stay recognisable », donc nier
+  la coherence revenait a retourner la phrase d'au-dessus. « Whatever ships
+  last » ajoute le MECANISME - la coherence ne disparait pas, elle est decidee
+  par defaut, par la derniere equipe a livrer.
+
+  PAS DE « HUMAN-CENTERED DESIGN » SUR CETTE PAGE, ET C'EST DELIBERE. Le
+  terme n'apparait nulle part sur le site. L'idee, elle, est partout : les
+  praticiens sont traites comme des utilisateurs a part entiere, « the humans
+  who use it, and those who craft it », « the humans who grow it ». Le poser
+  comme label serait le seul moment ou la page dirait ce que tout le monde
+  dit, et il affaiblirait ce qu'elle fait de plus rare - appliquer le regard
+  aux CONSTRUCTEURS, pas seulement aux usagers. La ligne d'Ethics le dit plus
+  durement encore : « absolute where it would decide for a human ».
 */
 const capacites: Tuile[] = [
-  { eyebrow: 'Brand × Product', rappel: true, couleur: 'rouge', titre: 'Corporate Experience',
-    texte: 'The Sanofi brand expressed across corporate and marketing surfaces: identity, theming, multi-brand coherence. <strong>Where the brand becomes tangible.</strong>' },
-  { eyebrow: 'Brand × Product', rappel: true, couleur: 'bleu', titre: 'Product Foundations',
-    texte: 'The mandatory building blocks of every experience: principles, accessibility, grids, spatial system, motion, data visualisation, theming. <strong>The digital non-negotiables.</strong>' },
-  { eyebrow: 'System', rappel: true, couleur: 'jaune', titre: 'Design System',
-    texte: 'The reusable, scalable foundation: token architecture, component libraries, integrated guidelines, engineering standards. <strong>From token to production.</strong>' },
-  { eyebrow: 'System', rappel: true, couleur: 'noir', titre: 'Experience Patterns',
-    texte: 'Standardized but flexible design and interaction patterns, from internal AI-driven tooling to marketing interfaces, business-specific. <strong>Learn once, apply everywhere.</strong>' },
-  { eyebrow: 'People', rappel: true, couleur: 'bleu', titre: 'Practitioner Experience',
-    texte: 'The service layer around the people who use and contribute to the system: tiered service model, onboarding, unified tooling, rituals, academy. <strong>The humans who use it, and those who craft it.</strong>' },
-  { eyebrow: 'People', rappel: true, couleur: 'rouge', titre: 'Community of Practice',
-    texte: 'The governance and culture that turn contribution into practice: inner source model, contribution pathways, shared rituals, practice leadership. <strong>The humans who grow it.</strong>' },
+  {
+    eyebrow: '01', rappel: true, couleur: 'rouge',
+    titre: 'Brand'
+      + ' <span class="cap__lien">What the other two render.</span>'
+      + ' <span class="cap__resume">A brand architecture that modulates across every touchpoint, physical to digital - modular enough to travel, expressive enough to stay recognisable.</span>'
+      + ' <span class="cap__noms"><span class="cap__nom">Corporate Experience</span> <span class="cap__nom">Experience Foundations</span></span>',
+    texte:
+      '<span class="cap__bloc"><b>Corporate Experience</b> Identity, theming and multi-brand coherence, on every corporate and marketing surface. <strong>Where the brand becomes tangible.</strong></span>'
+      + '<span class="cap__bloc"><b>Experience Foundations</b> Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. <strong>The brand\'s foundations, including the digital non-negotiables.</strong></span>',
+  },
+  {
+    eyebrow: '02', rappel: true, couleur: 'bleu',
+    titre: 'System'
+      + ' <span class="cap__lien">What the brand needs to exist.</span>'
+      + ' <span class="cap__resume">Decided once, inherited everywhere downstream - by the teams that ship, and by the agents that now build with them.</span>'
+      + ' <span class="cap__noms"><span class="cap__nom">Design Systems</span> <span class="cap__nom">Experience Patterns</span></span>',
+    texte:
+      '<span class="cap__bloc"><b>Design Systems</b> Token architecture, component libraries, illustration and content systems, integrated guidelines, engineering standards - one chain, and nobody rebuilds a link of it. <strong>From token to production.</strong></span>'
+      + '<span class="cap__bloc"><b>Experience Patterns</b> Standardized but flexible patterns, from AI-driven internal tooling to marketing interfaces: business-specific where it counts, shared everywhere else. <strong>Learn once, apply everywhere.</strong></span>',
+  },
+  {
+    eyebrow: '03', rappel: true, couleur: 'jaune',
+    titre: 'People'
+      + ' <span class="cap__lien">What keeps both of them alive.</span>'
+      + ' <span class="cap__resume">Practitioners are users in their own right - the brand\'s first ambassadors, and the ones who keep the system running.</span>'
+      + ' <span class="cap__noms"><span class="cap__nom">Practitioner Experience</span> <span class="cap__nom">Community of Practice</span></span>',
+    texte:
+      '<span class="cap__bloc"><b>Practitioner Experience</b> A tiered service model, onboarding, unified tooling, rituals, an academy. The people who build the experience get one designed for them too. <strong>The humans who use it, and those who craft it.</strong></span>'
+      + '<span class="cap__bloc"><b>Community of Practice</b> Inner source, contribution pathways, shared rituals, practice leadership - governance that makes contribution a craft rather than a favour. <strong>The humans who grow it.</strong></span>',
+  },
 ];
-
 /*
   ─── LE SOMMAIRE EST LA LISTE DES SOUS-PARTIES ───
 
@@ -274,9 +417,9 @@ ONZE D'ENTRE EUX FAISAIENT UN SECOND METIER, ET NE LE FONT PLUS. Ils
   plutot qu'une mesure.
 */
 const mecanismes: Tuile[] = [
-  { eyebrow: 'Rigour', couleur: 'rouge', titre: 'The roadmap grew on what product teams brought back.',
+  { eyebrow: 'Rigour', couleur: 'jaune', titre: 'The roadmap grew on what product teams brought back.',
     texte: 'Every component started from what teams told us they were rebuilding. Their cases fed the pipeline, and the conventions that came out of it were written down once, for everyone. <strong>A roadmap nobody had to lobby for.</strong>' },
-  { eyebrow: 'Responsibility', couleur: 'bleu', titre: 'We took the accessibility load off forty-five backlogs.',
+  { eyebrow: 'Responsibility', couleur: 'blanc', titre: 'We took the accessibility load off forty-five backlogs.',
     texte: 'Teams told us where the cost landed: audits to run, fixes to retrofit, a bar to clear alone. So we carried it - WCAG AA as the Sanofi standard, 100% before our first major, checks living where the work happens. <strong>Their time goes to what makes their product theirs.</strong>' },
   { eyebrow: 'Ethics', couleur: 'noir', titre: 'The fear AI raised became a shared piece of work.',
     texte: 'The community said what it was wary of - judgement replaced, craft diluted, quality unchecked. I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, guardrails non-negotiable throughout. <strong>Named out loud, the fear turned into a brief.</strong>' },
@@ -294,12 +437,58 @@ const mecanismes: Tuile[] = [
     mesure={12.3}
   >
     At global scale, a system isn't managed. It's governed.
+    {/*
+      LE ROLE S'ATTACHE AU VERBE, IL NE SUIT PLUS EN ETIQUETTE. L'intro
+      finissait sur « Design Lead in 2022, Director today : », deux titres
+      poses devant la portee comme un bandeau de credentials - et le lecteur
+      devait revenir en arriere pour savoir laquelle des deux choses avait
+      ete faite depuis quel poste. « as Design Lead » et « As Director
+      today » disent la meme progression a l'endroit ou elle compte : sur
+      l'action. La derniere phrase cesse d'etre un titre pour redevenir ce
+      qu'elle est, une mesure de portee.
+
+      ET L'ECHELLE SE LIT AVANT LA SECONDE ETAPE, pas apres. Les trois
+      phrases disent une progression : ce qui a ete construit, ce que cela
+      pese, ce que c'est devenu. Le €1M ferme donc la premiere etape au lieu
+      de clore l'intro - c'est la mesure de ce que le Design Lead a bati, et
+      elle donne au « scaled it » qui suit quelque chose a mettre a
+      l'echelle. Lue en dernier, elle arrivait apres la transformation et
+      ne pesait plus que comme un chiffre de fin.
+
+      ET C'EST BIEN UN « design system » A CE MOMENT-LA. Le mot change avec
+      le poste : systeme de design sous Design Lead, plateforme d'experience
+      sous Director. C'est tout le sujet de la derniere phrase, et l'intro
+      l'ecrit au lieu de l'annoncer.
+
+      LE GRAS VA A LA TRANSFORMATION, et non a la taille. « moving from a
+      design system managed as a product to an experience design platform »
+      est la these de la page - les quatre chapitres racontent ce
+      deplacement. Le €1M, lui, est une preuve de perimetre : il porte, il
+      n'affirme pas.
+
+      DEUX PARAGRAPHES, UN PAR POSTE. Les trois temps tenaient dans un seul
+      bloc de six lignes, ou la bascule « As Director today » arrivait au
+      milieu d'une ligne : la progression etait ecrite mais pas visible. La
+      coupe la met a sa place - ce que le Design Lead a bati, puis ce que la
+      Directrice en a fait. Le `.hero__intro` sait deja porter plusieurs <p>
+      (Operating System en compte trois), et il les espace de 14px.
+
+      ET LES GRAS FONT LA COLONNE VERTEBRALE : « cut time-to-launch »,
+      « remove the friction », « across Sanofi's brand portfolio », puis la
+      transformation. Lus seuls, les quatre disent l'essentiel de la page -
+      ce que le systeme a fait, ou il porte, ce qu'il est devenu.
+    */}
     <Fragment slot="intro">
-      I first built Elements to cut time-to-launch and remove the friction
-      between design and engineering. Then I scaled it to raise brand
-      experience and make design excellence consistent - moving from a design
-      system managed as a product to an experience design platform. <b>Design Lead in 2022, Director today: a €1M platform across
-      Sanofi's brand portfolio, reaching from employee to patient.</b>
+      <p>
+        I first built Elements as Design Lead to <b>cut time-to-launch</b> and <b>remove
+        the friction</b> between design and engineering. A €1M design system <b>across
+        Sanofi's brand portfolio</b>, reaching from employee to patient.
+      </p>
+      <p>
+        As Director today, I scaled it to raise brand experience and make design
+        excellence consistent - <b>moving from a design system managed as a
+        product to an experience design platform.</b>
+      </p>
     </Fragment>
   </Hero>
 
@@ -444,7 +633,7 @@ const mecanismes: Tuile[] = [
         rang="01"
         intitule="The problem"
         titre="Three crafts, three silos - and a system nobody adopted."
-        synthese="A designer ships a spec, an engineer rebuilds it, a marketer briefs an agency for a palette the system already had. Then we built the answer brand-first, through a vendor - coherent, but barely adopted."
+        synthese="Three crafts solving the same problem three times over - then a first answer built brand-first, through a vendor: coherent, and adopted by nobody. The second attempt had to start somewhere else entirely."
         couleur="rouge"
         commande="pan-problem"
         large
@@ -486,7 +675,7 @@ const mecanismes: Tuile[] = [
         rang="03"
         intitule="The proof"
         titre="Adopted. Trusted. Extended."
-        synthese="100% adoption across the three Digital Accelerators, 87% of each product's interface, launches shipped three times faster - and 35+ contributors who keep it alive without me."
+        synthese="Adoption earned one team at a time, trust measured twice a year, and a contribution path that runs from using it to owning it. The platform's best ideas now arrive from outside my roadmap."
         couleur="jaune"
         commande="pan-proof"
         aire="4 / 1 / 6 / 3"
@@ -508,8 +697,8 @@ const mecanismes: Tuile[] = [
         id="carte-team"
         rang="04"
         intitule="The team"
-        titre="I didn't build a system I hold together."
-        synthese="Autonomy, a capability each person owns, and one question every week: is the work moving, and is the person growing. Zero resignations in three years - and an Awards category that called it a leadership story."
+        titre="The thing I cared most about was the team."
+        synthese="Autonomy by design, a capability each person owns, and every hire judged by the people who would work with them. An Awards category named it before I did: a leadership story, not a system one."
         couleur="noir"
         commande="pan-team"
         aire="4 / 3 / 6 / 6"
@@ -576,7 +765,7 @@ const mecanismes: Tuile[] = [
             <p><strong>You can't outsource the thing your whole system depends on.</strong> The engineering was externalized before my time - not my call.</p>
             <p><strong>The bet I shared, and got wrong, was priority.</strong> Sanofi's rebranding was a massive effort, and we poured the roadmap into brand alignment - a beautifully unified system, piloted on sanofi.com and boxed into its framework. We quietly deprioritized what product teams actually needed.</p>
             <p>So the system was coherent, and barely adopted. <strong>A design system nobody adopts is the oldest failure in the field</strong>, and we'd walked straight into it.</p>
-            <p>So I stopped fixing the output and fixed both sources. <strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. <strong>Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.</strong></p>
+            <p><strong>I pushed to internalize engineering</strong> - inside Sanofi, one team, one objective: adoption. And I led the rebuild from zero, this time from a holistic view of the whole portfolio. <strong>Internalizing means owning the budget, the hiring, the reorg. I drove it, and I carried it through.</strong></p>
           </div>
         </div>
       </div>
@@ -597,7 +786,10 @@ const mecanismes: Tuile[] = [
       <h2 class="sr-only" id="titre-approach">02 &middot; The approach</h2>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Organisation &amp; governance</p>
+        {/* La forme breve est pour la puce de la carte 02 seulement, qui est
+            trop etroite pour le surtitre entier - voir `libelle` dans
+            src/scripts/dossier.ts. Le chapitre garde son titre complet. */}
+        <p class="eb" data-sommaire="Governance">Organisation &amp; governance</p>
         <div class="split">
           {/*
             TROIS SOUS-PARTIES DE SUITE PARIAIENT. « A system this size is two
@@ -616,6 +808,83 @@ const mecanismes: Tuile[] = [
           <p class="lead">I designed the organisation <em class="em-bleu">before I filled it.</em></p>
           <div class="body">
             <p><strong>The decision was the easy part. Owning it wasn't.</strong> Its capabilities, its roles, one operating model - and the job descriptions that made them real, <strong>organised by capability with accountable leads</strong>. The budget came with it, and the line between what the platform funded and what it shipped was mine.</p>
+          </div>
+        </div>
+        {/*
+          LE CARROUSEL OUVRE LE CHAPITRE AU LIEU DE COUPER UN RAISONNEMENT.
+
+          Il vivait dans « Vision & strategy », entre le paragraphe qui annonce
+          les trois axes et les trois axes eux-memes : on lisait l'annonce,
+          puis 551px de facettes, puis enfin les tuiles. Deplacer le
+          paragraphe sous le carrousel reparait l'ordre mais laissait le titre
+          seul dans son .split. Remonter le carrousel d'une sous-partie
+          resout les deux : « Organisation & governance » se termine par ce
+          qu'est la plateforme, « Vision & strategy » enchaine titre,
+          annonce et tuiles sans rien entre elles.
+
+          ET IL RESTE DANS LE CHAPITRE 02. La fin du chapitre 01 avait ete
+          envisagee ; les chapitres sont des PANNEAUX, donc qui ouvre 02
+          depuis le sommaire n'aurait jamais vu ces images.
+
+          LES IMAGES ONT REJOINT LA PHRASE QU'ELLES PROUVENT.
+
+          Ce carrousel vivait au chapitre 03, sous un eyebrow a lui - « What
+          Elements actually is » -, entre les chiffres et la communaute. Il y
+          faisait trois choses de travers.
+
+          IL DISAIT UNE TROISIEME FOIS CE QUE LA PAGE DIT DEJA DEUX FOIS. La
+          case de definition ecrit « Governed as a platform, not maintained
+          as a library », et le paragraphe juste au-dessus « Elements isn't a
+          single product anymore ». Son propre eyebrow, « You may think it is
+          a Figma library », est le meme argument - a deux chapitres de la
+          phrase qu'il illustre. Ce qu'il apporte de neuf, ce sont les quatre
+          IMAGES ; elles sont maintenant contre leur phrase.
+
+          SON EYEBROW NE NOMMAIT PAS LA MEME CHOSE QUE LES DOUZE AUTRES. Tous
+          nomment un ARGUMENT - Root cause, Investment case, Build pipeline ;
+          celui-la nommait une chose, et sa sous-partie n'avait aucune prose
+          pour la defendre. Depuis que les eyebrows sont les puces du
+          sommaire, elle promettait un raisonnement et livrait une galerie.
+          Le sommaire passe de 3-3-4-3 a 3-3-3-3.
+
+          ET LE CHAPITRE 02 EST L'ENDROIT OU LE MALENTENDU COUTE. « Trois axes,
+          six capabilites » passe pour de la sur-ingenierie tant qu'on croit
+          parler d'une bibliotheque. L'ordre monte : la phrase l'affirme, le
+          carrousel montre l'etendue, les tuiles donnent la structure.
+
+          PAS EN FIN DE CHAPITRE 01, ou la question s'est posee : le lecteur y
+          verrait la chose finie avant qu'on lui dise ce qui a ete construit,
+          le chapitre perdrait sa chute, et surtout les chapitres sont des
+          PANNEAUX - qui ouvre 02 depuis le sommaire n'aurait jamais vu un
+          bloc pose a la fin de 01.
+        */}
+        <Carrousel
+          label="Facets of the platform"
+          eyebrow="All it could have stayed"
+          vignettes={facettes}
+          ratio="16 / 9"
+          fr={1.7778}
+          largeur="78%"
+          {/* L'EYEBROW EST UN FRAGMENT QUE LA PREMIERE VIGNETTE ACHEVE.
+              Il disait « You may think it is a Figma library », soit mot pour
+              mot ce que l'image porte deja - « You May Think It Is... A Figma
+              Library ». « All it could have stayed » cadre la serie sans en
+              redire une carte, et la phrase se termine dans l'image : tout ce
+              qu'il aurait pu rester... une bibliotheque Figma. Les trois
+              suivantes disent que non. */}
+          {/* PAS DE MOSAIQUE : la piste reste une piste a toutes les
+              largeurs. Les quatre vignettes se lisent dans un ORDRE - « You
+              may think it is... », « This... », « Or even this... », « Or
+              this... » - et une mosaique deux par deux donne les quatre d'un
+              coup, donc elle casse la montee. Elle coutait aussi 683px de
+              haut avant les tuiles. */}
+          sizes="(min-width: 900px) 520px, 90vw"
+        />
+        <div class="split">
+          {/* La suite du raisonnement reprend la colonne de droite :
+              le carrousel l'a interrompue sur toute la largeur, il ne
+              doit pas la decaler. */}
+          <div class="body split__suite">
             <p>Governance was where I refused the easy answer - two models, not one. <strong>A centralized core for building, a tiered service for support.</strong> The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.</p>
             <p>Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.</p>
             <p>And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. <strong>A data-driven cadence, with discovery that never closed.</strong> - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.</p>
@@ -654,16 +923,35 @@ const mecanismes: Tuile[] = [
             gouvernance, changement de nature. La nouvelle phrase tient la
             troisieme place aussi bien, et elle se lit seule.
           */}
+          {/*
+            « AND NONE OF THEM WORKS ALONE » DISAIT CE QUE LA PHRASE SUIVANTE
+            DIT DEJA. « The tension is the point: they aren't parallel, each
+            one only works because the other two hold their end » : meme
+            propos, deux fois de suite. Et depuis que chaque tuile porte son
+            sous-titre - « What the other two render » -, la dependance se
+            lit sur les tuiles elles-memes, donc la premiere occurrence
+            n'avait plus de travail.
+
+            CE QUI LA REMPLACE RACCROCHE LES SIX A LA PHRASE D'AVANT. « It's
+            several products under one governance » annonce des produits ; la
+            liste qui suit annonce des capabilites. Rien ne disait que ce sont
+            les MEMES, ni a quoi ils servent : accelerer l'execution.
+
+            ET LA LISTE RESTE OUVERTE, SANS « AND » FINAL. « Products,
+            services, innovative projects » : une capability ne livre pas un
+            objet mais une famille, et l'asyndete dit qu'elle ne s'arrete pas
+            la - c'est deja la forme des listes de la page (« Principles,
+            accessibility, grids, spatial system, motion, data
+            visualisation »). « All of it » fait ensuite la somme que le
+            « and » aurait faite, mais apres coup et sur les six a la fois.
+          */}
           <p class="lead">The best architecture I built <em class="em-bleu">started as the one I got backwards.</em></p>
           <div class="body">
-            <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities - and none of them works alone.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
-            {/* Elle conclut l'architecture, pas l'erreur : posee au chapitre 01
-                elle commentait la faute avant qu'on ait vu ce qu'elle a produit.
-                Ici, le lecteur vient de lire les trois axes - la phrase dit d'ou
-                ils viennent. */}
+            <p>Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. <strong>Three axes, six capabilities, each with their own products, services, innovative projects - all of it to speed up execution on brand.</strong> The tension is the point: they aren't parallel, each one only works because the other two hold their end.</p>
           </div>
         </div>
-        <Tuiles tuiles={capacites} colonnes={3} label="Three axes, six capabilities" hauteur={300} />
+        <Tuiles tuiles={capacites} colonnes={3} label="Three axes, six capabilities"
+          hauteur={340} piste largeurMobile="min(84%, 320px)" />
       </div>
 
       <div class="subsec">
@@ -685,10 +973,84 @@ const mecanismes: Tuile[] = [
           tous - nommes au passage plutot qu'alignes.
         */}
         <div class="split">
+          {/*
+            LE ÷3 RENVOIE AUX TROIS SILOS DU CHAPITRE 01, qui ouvre sur
+            « Three crafts, three silos - and a system nobody adopted ». Le
+            chiffre cesse d'etre une performance a croire : trois silos, trois
+            fois moins long, c'est la meme arithmetique lue a l'endroit.
+
+            ET LA PHRASE NE NIE PLUS DEUX FOIS. « It's expertises no longer
+            waiting on each other » enchainait « not » et « no longer » :
+            deux negations pour dire un gain. L'affirmation nomme ce qui se
+            passe, et « instead of in three silos » garde l'opposition sans
+            la porter.
+          */}
           <p class="lead">The pipeline is the thesis <em class="em-bleu">made physical.</em></p>
           <div class="body">
-            <p>It starts at the tokens - multi-brand, multi-theme, multi-surface - and ends wherever a product ships. In between: libraries in Figma and React on GitHub, a Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, Storybook as the living source of truth, an MCP that carries all of it into AI design and engineering workflows, support streams in Slack and Teams with automation on top, and a Portal where the whole thing can be seen.</p>
-            <p>Brand, design and engineering pour into the same chain - the wait between experts, engineered out. <strong>The ÷3 is not people working faster - it's expertises no longer waiting on each other.</strong></p>
+            <p>Brand, design and engineering pour into the same chain. The wait between experts, engineered out. <strong>The ÷3 is not people working faster. It's three expertises working together instead of in three silos.</strong></p>
+            {/*
+              LE PONT NE SE DECRETE PAS, IL SE POSE OU LES GENS TRAVAILLENT
+              DEJA. Le paragraphe d'avant dit que la chaine existe et ce
+              qu'elle fait gagner ; il ne disait pas COMMENT trois metiers
+              l'ont acceptee. La reponse n'est pas un outil de plus, c'est
+              d'etre alle chercher chacun dans son flux - Figma, GitHub,
+              Slack, Teams, tous nommes au paragraphe precedent - au lieu de
+              lui demander d'en changer.
+
+              ET CE QUI EST SYSTEMATISE, C'EST LA COLLABORATION. Un systeme
+              d'outils donne a chacun une meilleure facon de travailler seul ;
+              celui-la decrit la facon dont trois metiers tiennent le meme
+              objet. C'est ce qui distingue l'experience system du design
+              system, et la these de la page en depend.
+            */}
+            <p>And the chain sits inside the workflow each craft already had. Never beside it. <strong>What I systematized is the collaboration, not one more tool per craft.</strong></p>
+            {/*
+              THESE, METHODE, PREUVES - ET NON L'INVERSE. L'inventaire du
+              pipeline ouvrait le chapitre : on lisait vingt noms d'outils
+              avant de savoir ce qu'ils servent, et la liste se lisait comme
+              un catalogue. Remise en dernier, elle devient la DEMONSTRATION
+              des deux phrases qui la precedent.
+
+              ET CHAQUE ENTREE DIT QUI ELLE SERT. « Read the same way on a
+              flyer, on a canvas and in code » : les tokens portent le
+              physique comme le numerique, ce que l'axe Brand promet deux
+              sous-parties plus haut. « From website to emailing » : la
+              Companion ne cadre pas une maquette, elle cadre une famille de
+              supports. Et le LLM interne est branche sur le PORTAL, pas sur
+              le MCP - le MCP sert les deux metiers du pipeline, le Portal
+              sert tous les autres.
+
+              LA DERNIERE CLAUSE FERME LE CHAPITRE SUR LA PROPRIETE. « So
+              design excellence reaches past the community of practice and
+              every Sanofian owns it » : la communaute de pratique est une
+              capability de l'axe People, et le chapitre 02 se termine donc
+              sur ce qui la deborde. C'est aussi ce que l'axe People annonce
+              - « what turns users into owners » - et ce que le chapitre 03
+              va prouver.
+
+              DES PHRASES COURTES, PARCE QUE C'EST UNE LISTE. L'inventaire
+              tenait en deux phrases de cinquante mots, enfilees sur des
+              virgules : on perdait le compte avant la fin. Un outil, un
+              point. La ponctuation fait le travail que les puces feraient,
+              sans sortir du paragraphe.
+
+              ET LA QUEUE DU DEUXIEME PARAGRAPHE EST TOMBEE. « How three
+              expertises work on one thing, rather than three better ways of
+              working alone » redisait le gras du premier - « three
+              expertises working together instead of in three silos » - a
+              deux lignes d'intervalle. La phrase gardee est celle qui
+              n'existe qu'une fois.
+
+              CE SONT DES OUTILS TRANSVERSES, ET CA NE SE VOIT QU'APRES. Les
+              tokens valent autant pour qui dessine que pour qui code, la
+              Figma Companion rend une maquette coherente avec ce que le code
+              rendra, les controles d'accessibilite servent le PM comme le
+              designer, le MCP branche l'ensemble sur les outils des deux
+              metiers. Lue en premier, la liste ne disait rien de tout cela ;
+              lue apres « what I systematized is the collaboration », chaque
+              entree en est un cas.
+            */}
+            <p>It starts at the tokens. Multi-brand, multi-theme, multi-surface - read the same way on a flyer, on a canvas and in code. It ends wherever a product ships. In between: libraries in Figma and React on GitHub. A Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing. Storybook as the living source of truth. An MCP that carries it into AI design and engineering workflows. Support streams in Slack and Teams, automation on top. A Portal where it can all be seen, plugged into the internal LLM. <strong>Design excellence reaches past the community of practice. Every Sanofian owns it.</strong></p>
           </div>
         </div>
       </div>
@@ -700,7 +1062,7 @@ const mecanismes: Tuile[] = [
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
           <Icone nom="fleche-haut" taille={20} />
         </button>
-        <Bouton variante="bleu" class="suite" commande="carte-proof">Next: the proof →</Bouton>
+        <Bouton variante="jaune" class="suite" commande="carte-proof">Next: the proof →</Bouton>
       </div>
     </section>
 
@@ -708,107 +1070,160 @@ const mecanismes: Tuile[] = [
     <section class="pan" id="pan-proof" aria-labelledby="titre-proof">
       <h2 class="sr-only" id="titre-proof">03 &middot; The proof</h2>
 
+      {/*
+        ═══ TROIS SOUS-PARTIES, TROIS MOTS DU TITRE ═══
+
+        LA CARTE DU CHAPITRE PROMET « ADOPTED. TRUSTED. EXTENDED. ». Les
+        trois sous-parties portent donc un mot chacune : Community ce qui a
+        ete ADOPTE, Influence ce qui a ete gagne en CONFIANCE, Contribution
+        ce qui s'ETEND sans elle.
+
+        « BUSINESS IMPACT » A DISPARU COMME INTITULE, et c'est la bande de
+        chiffres qui le rend inutile : elle fait deja ce travail en haut de
+        page, cinq nombres et une definition. Garder le mot ici promettait
+        une troisieme lecture des memes preuves. Ce que le paragraphe
+        racontait - une adoption gagnee une equipe a la fois - est du change
+        management, donc de la communaute : il passe sous Community, avec
+        les gens qu'il decrit.
+
+        L'ORDRE VA DU FAIT A LA CONSEQUENCE. Community dit que ca a ete
+        adopte et a quel prix ; Influence dit par quelles decisions ;
+        Contribution dit ce que ca devient quand d'autres en possedent des
+        morceaux - et ouvre sur le chapitre 04, qui parle de l'equipe.
+      */}
       <div class="subsec">
-        <p class="eb" data-sommaire>Business impact</p>
+        <p class="eb" data-sommaire>Community</p>
         <div class="split">
           {/*
-            MEME HUMILITE, SANS LA FIGURE. « The numbers are the system's,
-            not mine » etait la sixieme antithese « X, pas Y » en neuf
-            attaques - et la plus facile a reformuler sans rien perdre, le
-            propos etant d'attribuer le merite et non d'opposer deux termes.
+            « THESE NUMBERS » NE DESIGNAIT RIEN, ET LE RAPPROCHER DES CHIFFRES
+            N'A PAS SUFFI. On avait d'abord rendu l'attaque a une sous-partie
+            ou des nombres suivent ; elle restait une phrase qui commence par
+            un demonstratif sans objet, et le lecteur bute avant d'arriver au
+            premier chiffre.
+
+            CE QUI LA REMPLACE DIT LE SUJET DE LA SOUS-PARTIE. « A platform
+            scales when a practice carries it » : l'adoption n'est pas une
+            mecanique, c'est un groupe de gens qui porte. Et la forme change
+            de celle de la voisine - « A design system you install. A
+            community you have to earn » - qui est deja une antithese en deux
+            temps.
           */}
-          <p class="lead">These numbers belong to <em class="em-rouge">the team that made them.</em></p>
+          <p class="lead">A platform scales <em class="em-jaune">when a practice carries it.</em></p>
           <div class="body">
-            <p><strong>A structure only counts if it holds.</strong> This one does. <strong>From zero users to a community of 2,000+ practitioners.</strong></p>
-            <p>4.7 out of 5 on practitioner satisfaction, twice a year. <strong>People don't comply with Elements, they trust it.</strong></p>
-            <p class="qt">Adopted. Trusted. Extended. Everything a system needs to outlive the person who built it.</p>
+            {/* « A STRUCTURE ONLY COUNTS IF IT HOLDS, AND THIS ONE HOLDS WITHOUT
+                ME » EST PARTIE : c'est l'exergue du chapitre 04 - « my job
+                wasn't to hold it up, it was to build a structure that
+                outlasts any of us » - dite deux chapitres plus tot et en
+                moins bien. La-bas elle est une chute, ici elle n'etait
+                qu'une ouverture.
+
+                ET LE PARAGRAPHE OUVRE MIEUX SUR UN FAIT. Le lead porte deja
+                la maxime - « a platform scales when a practice carries it » -
+                donc on lisait deux sentences avant le premier chiffre. */}
+            <p>Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. <strong>The platform stopped being a cost the business approves, and became what its launches plan around.</strong></p>
           </div>
         </div>
-      </div>
-
-      <div class="subsec">
-        <p class="eb" data-sommaire>What Elements actually is</p>
-        <Carrousel
-          label="Facets of the platform"
-          eyebrow="You may think it is a Figma library"
-          vignettes={facettes}
-          ratio="16 / 9"
-          fr={1.7778}
-          largeur="78%"
-          {/* Deux colonnes au bureau : les cinq facettes se voient d'un coup,
-              la cinquieme ouvre sa rangee. Sous 860px la piste revient, parce
-              qu'une mosaique de cinq captures y ferait cinq ecrans a traverser
-              avant la suite du chapitre. */}
-          mosaique={2}
-          sizes="(min-width: 900px) 520px, 90vw"
-        />
-        <p class="cap portee">Multi-brand &middot; multi-theme &middot; from employee to patient</p>
-      </div>
-
-      <div class="subsec">
-        <p class="eb" data-sommaire>Influence &amp; community</p>
+        {/* PLUS DE COLONNE DE GAUCHE. Le paragraphe vivait EN FACE de la
+            photo, donc on lisait « 300+ across 5 global hubs » a cote de
+            quinze personnes - l'image contredisait le chiffre. Sous elle, il
+            la legende au lieu de lui faire concurrence, et la colonne reste
+            la deuxieme : meme bord et meme mesure que le reste. */}
         <div class="split">
-          <p class="lead">A design system you install. <em class="em-rouge">A community you have to earn.</em></p>
-          <div class="body">
-            <p>Most system owners treat community as a comms afterthought. I made it the strategy - adoption never comes from mandate, only from ownership. A system nobody believes in dies with its founder; one a community owns, outlives them.</p>
-            <p><strong>Experience runs both ways.</strong> Elements serves end users - patients, healthcare professionals - and it serves the people who build for them. A practitioner is a user too, so their practice gets the same care as any patient journey. <em>Design the experience of the people designing the experience.</em></p>
-          </div>
-        </div>
-
-        {/* Le rang tombe a l'endroit exact ou « de consumer a maintainer » cesse
-            d'etre une idee pour devenir un dispositif. */}
-        <p class="parcours" aria-label="The practitioner path: consumer, then contributor, then maintainer">
-          <span class="parcours__s"><span class="parcours__i" aria-hidden="true"><ConsumerVisual /></span>consumer</span>
-          <span class="parcours__a" aria-hidden="true"><Icone nom="fleche" taille={20} /></span>
-          <span class="parcours__s"><span class="parcours__i" aria-hidden="true"><ContributorVisual /></span>contributor</span>
-          <span class="parcours__a" aria-hidden="true"><Icone nom="fleche" taille={20} /></span>
-          <span class="parcours__s"><span class="parcours__i" aria-hidden="true"><MaintainerVisual /></span>maintainer</span>
-        </p>
-
-        <div class="split split--haut">
-          <div class="body">
-            <p>So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became <strong>Practitioner Experience</strong>.</p>
-            <p>The timing was the bet. We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own - so the foundations became the standard rather than catching up with it.</p>
-            <p>Community-led adoption, contribution over control - and my team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.</p>
-            <p>This is how a <strong>core interdisciplinary community of 300+ across 5 global hubs</strong> - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. Not a mailing list: a contribution model adapted from Zalando's, where everyone gives at the level of their skill.</p>
-          </div>
-          <div class="pile">
+          <div class="pile split__suite">
+            {/* Un filet et un carre, comme sur l'accueil : le trait part du
+                blanc tournant et le carre prend le jaune du chapitre 03. */}
+            <div class="filet" aria-hidden="true"><span class="filet__carre"></span></div>
             <Figure
               src={img('design-community')}
               alt="The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon"
-              legende="The community, in one place for once"
-              ratio="3 / 4"
+              legende="Part of the community in Paris. Most of it works remote, across five hubs."
+              ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
             />
+            <p>A core interdisciplinary community of 300+ across 5 global hubs - 30+ product designers among them, as part of an Experience Design Organisation of 100. A decision taken in one hub stopped being re-taken in the other four. A few months later external partners joined it too, and the platform went <strong>from zero to 2,000+ practitioners</strong>.</p>
           </div>
-        </div>
-
-        <div class="body">
-          <p><strong>87% average usage per product in production, from near-zero.</strong> That isn't a launch - it's change management at scale. <strong>Turning resistance into ownership across 45+ product teams, one team, one hub, one priority at a time.</strong> It takes patience and it takes refusing - the two are the same discipline, not opposites.</p>
         </div>
       </div>
 
       {/*
-        LES TROIS MECANISMES ONT CHANGE DE CHAPITRE, ET D'ANGLE. Ils vivaient
-        au 02 sous « I don't state values. I install them. » - trois
-        disciplines installees dans la machine, donc de la structure. Mais
-        Operating System porte deja ces trois principes-la, et le 02 venait
-        de recevoir l'instrumentation : « discovery » s'y disait deux fois, et
-        « le standard est en amont » aussi.
-
-        RACONTES COMME DE L'ECOUTE, ils deviennent la preuve de ce que ce
-        chapitre avance - une communaute qui faconne la plateforme. Le
-        premier dit ce que les equipes ont apporte a la roadmap, le deuxieme
-        ce qu'on leur a retire des epaules, le troisieme ce qu'on a fait de
-        leur mefiance envers l'IA. Les trois intitules ne bougent pas : la
-        rigueur, la responsabilite et l'ethique restent le nom de ces
-        mecanismes, elles cessent seulement d'etre enoncees pour etre
-        montrees.
+        LES TROIS MECANISMES PROUVENT LA CONFIANCE, PAS L'EXTENSION. Ils
+        vivaient sous « Collaboration », seuls, puis sous Contribution. Mais
+        chacun raconte la meme chose : la communaute a parle, et la
+        plateforme a bouge. Une roadmap qu'on n'a pas eu a reclamer, une
+        charge d'accessibilite retiree de quarante-cinq backlogs, une peur de
+        l'IA transformee en travail commun. C'est exactement ce qui fait
+        qu'on fait confiance a un systeme - donc leur place est ici, sous la
+        mesure de cette confiance, et non sous l'echelle de contribution.
       */}
       <div class="subsec">
-        <p class="eb" data-sommaire>Collaboration</p>
-        <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms" hauteur={320} />
+        <p class="eb" data-sommaire>Influence</p>
+        <div class="split">
+          <p class="lead">A design system you install. <em class="em-jaune">A community you have to earn.</em></p>
+          <div class="body">
+            <p>Most system owners treat community as a comms afterthought. I made it the strategy. Adoption never comes from mandate, only from ownership: a system nobody believes in dies with its founder, one a community owns outlives them.</p>
+            {/* L'ecoute vient AVANT la roadmap et non apres : c'est elle qui
+                donne de quoi arbitrer. La tuile Rigour dit ce que les equipes
+                PRODUIT ont rapporte ; ce paragraphe dit qu'on est alle voir
+                tous les metiers, ce qui n'est pas la meme largeur. */}
+            <p><strong>I went to the crafts before I went to the roadmap.</strong> Design, engineering, brand, product - each one asked the same two questions: where does the work break, and what would be worth more than what you have today. Friction is the one input a backlog never gives you, and it is what the roadmap was arbitrated on.</p>
+            {/* LA THESE SUIT L'ECOUTE, PAS LA MACHINE. Posee sous
+                Contribution, elle expliquait comment on outille des
+                contributeurs ; ici elle explique comment on prend de
+                l'influence - en allant demander avant de decider. C'est le
+                geste du paragraphe d'au-dessus, dit en principe. */}
+            {/* UN SEUL PARAGRAPHE, PARCE QUE LE TIMING EST UNE CONDITION DE
+                LA STRATEGIE ET NON UN SUJET VOISIN. Separes, on lisait deux
+                idees posees l'une apres l'autre ; le pivot reprend le dernier
+                verbe de la strategie - « build the path that fits » - et le
+                retourne en contrainte : le construire AVANT qu'ils aient
+                construit le leur. La sous-partie se lit alors en trois temps,
+                insight, strategie sous contrainte, resultat. */}
+            <p><em>Design the experience of the people designing the experience.</em> Listen first - to what they need, and to what they are measured on - then build the path that fits. <strong>And build it before they build their own: the timing was the bet.</strong> We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.</p>
+            <p>Trust never shows up in an adoption number, so I measured it on its own. <strong>4.7 out of 5 on practitioner satisfaction, twice a year.</strong> People don't comply with Elements. They trust it.</p>
+          </div>
+        </div>
+        <Tuiles tuiles={mecanismes} colonnes={3} label="The three mechanisms"
+          hauteur={320} piste largeurMobile="min(84%, 320px)" />
+      </div>
+
+      {/*
+        LA CAPABILITY NE SE RE-ANNONCE PAS, ELLE SE PROLONGE. « So I made it
+        a capability... it became Practitioner Experience » redisait l'axe
+        People du chapitre 02, qui porte deja « Practitioner Experience » en
+        toutes lettres sous la tuile. Ce qui reste est ce que le chapitre 02
+        ne dit pas : qu'elle a eu un budget plutot que des volontaires, et ce
+        que l'argent a produit.
+
+        ET LA CHUTE ITALIQUE TOMBE SUR LA MACHINE. « Design the experience of
+        the people designing the experience » est la these de Practitioner
+        Experience ; elle ne vaut qu'accrochee a la liste qui la prouve - un
+        portail, une demo, des permanences, des rituels, un onboarding.
+      */}
+      <div class="subsec">
+        <p class="eb" data-sommaire>Contribution</p>
+        <div class="split">
+          <p class="lead">Using it is the first rung. <em class="em-jaune">Owning it is the last.</em></p>
+          <div class="body">
+            {/* LA MACHINE AVANT L'ECHELLE. On gravit des rangs parce qu'il y
+                a des prises ; les poser d'abord, c'est dire que la
+                progression a ete CONSTRUITE et non esperee. */}
+            <p>The practice got a focus of its own, a remit and a plan. <strong>Never a volunteer rota.</strong> My team built the machine that made contributing possible: an escalation path, a contribution path, office hours, community events, public contribution recognition at the Demo, integrated onboarding. From the start.</p>
+            <p><strong>There is no small contribution.</strong> It starts by being a consumer. It continues by submitting new ideas. It closes the loop by maintaining the system, on its own. Everyone gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.</p>
+            {/* LA PREUVE QUE L'ECHELLE MONTE VRAIMENT. Un modele de
+                contribution se juge a ce qu'il produit tout en haut, pas au
+                nombre de tickets ouverts en bas.
+
+                ATTENTION, LE MCP EST DEJA CITE AU CHAPITRE 04, sous
+                « Innovation », ou son origine sert a prouver que les
+                carrieres ont grandi par la contribution - et un commentaire
+                y explique que les deux moities de cette phrase ne se separent
+                pas. Les deux passages disent donc le meme FAIT pour deux
+                propos differents ; la formulation est tenue a l'ecart pour
+                que ce ne soit pas la meme phrase deux fois. */}
+            <p><strong>The biggest things were built together, not assigned.</strong> The Elements MCP and the data visualisation workstream both started as contributions. Both are part of the standard now.</p>
+          </div>
+        </div>
       </div>
 
       {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
@@ -818,103 +1233,120 @@ const mecanismes: Tuile[] = [
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
           <Icone nom="fleche-haut" taille={20} />
         </button>
-        <Bouton variante="bleu" class="suite" commande="carte-team">Next: the team &rarr;</Bouton>
+        <Bouton variante="noir" class="suite" commande="carte-team">Next: the team &rarr;</Bouton>
       </div>
     </section>
     {/* ═══════════ 04 · The team ═══════════ */}
     <section class="pan" id="pan-team" aria-labelledby="titre-team">
       <h2 class="sr-only" id="titre-team">04 &middot; The team</h2>
 
+      {/*
+        ═══ TROIS RESPONSABILITES, PAS TROIS QUALITES ═══
+
+        « Autonomy », « People », « Growth » nommaient des qualites - des
+        choses que l'equipe AVAIT. Management, Team growth et Team health
+        nomment ce qu'une direction FAIT : comment elle dirige, ce qu'elle
+        fait grandir, ce qu'elle protege. Meme bascule qu'au chapitre 03.
+
+        ET CE CHAPITRE DONNE LES EXEMPLES D'OPERATING MODEL, IL NE LES REDIT
+        PAS. Cette page-la porte les principes - « ownership is structural,
+        not a pep talk », « retros run every sprint », « reverse mentoring by
+        practice ». Ici ce sont les instances : qui ouvre une PR, ce qu'un
+        pulse check a trouve, pourquoi un CV a ete refuse. Le reverse
+        mentoring a ete RETIRE du chapitre pour cette raison - Operating
+        Model le dit deja en toutes lettres.
+
+        L'ARGUMENT DU RATTACHEMENT A L'INGENIERIE EST TOMBE. « I've argued
+        Elements belongs closer to engineering » decrivait une organisation
+        qui n'a pas eu lieu. Ce qu'il portait a eu lieu, en revanche, dans
+        l'equipe : deux metiers qui ne travaillent pas cote a cote mais sur
+        le meme objet. C'est passe sous Management, au present et avec ses
+        preuves.
+      */}
       <div class="subsec">
-        <p class="eb" data-sommaire>Autonomy</p>
+        <p class="eb" data-sommaire>Management</p>
         <div class="split">
-          <p class="lead">Every week, the same question: <em class="em-bleu">is the work moving, and is the person growing.</em></p>
+          <p class="lead">I owned the <em class="em-gris">why</em> and the <em class="em-gris">what.</em> They owned the <em class="em-gris">how.</em></p>
           <div class="body">
-            <p><strong>I didn't build a system I hold together. I built the conditions where it holds itself.</strong></p>
-            <ul class="pts">
-            <li><strong>Autonomous streams</strong>, split by capability, each moving without a central decision - inside a <strong>collective framing</strong>, so a stream deciding alone still decides inside a frame it co-wrote.</li>
-            <li><strong>Shared rituals</strong> are the connective tissue keeping five hubs one system rather than an archipelago.</li>
-            {/* Cette puce ouvrait sur « A team that isn't well doesn't ship » :
-                mot pour mot la premiere phrase du footer, qui se lit au bas de
-                CETTE page comme des six autres. Elle dit maintenant ce que la
-                page est seule a pouvoir dire - non pas la conviction, mais la
-                place qu'elle a prise dans un plan. */}
-            <li><strong>Wellbeing was a line in the plan</strong>, not a nice-to-have on the side - load-bearing, and resourced like any other dependency.</li>
-            <li>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. The standard I set: <strong>you don't point at the problem from across the room, you cross it</strong>. A team that only points the way isn't leading; it's watching.</li>
-            </ul>
+            {/* LA PHRASE QUI FERMAIT LE CHAPITRE L'OUVRE. En titre de cloture,
+                elle arrivait APRES les trois sous-parties qui la prouvent -
+                un cadrage co-ecrit, des OKR a eux, une equipe qui valide ce
+                qu'on dit d'elle. Posee en tete de Management, elle annonce
+                ce que le chapitre va montrer au lieu de le resumer. Sans
+                gras : le lead juste au-dessus porte deja la these, et le
+                paragraphe garde son unique gras pour sa preuve. */}
+            <p>My job wasn't to hold it up. It was to build a structure that outlasts any of us. We were never two expertises working side by side. <strong>My designers opened pull requests. My engineers ran design critiques and asked design questions out loud.</strong> That holds on two things only: a floor of trust, and no ambiguity at all about who owns what.</p>
+            <p>Streams were autonomous, split by capability, each moving without a central decision - inside a framing they had co-written. Shared rituals kept five hubs one system instead of an archipelago. <strong>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong></p>
+            <p>A one-to-one every three weeks with everyone on the build side, a longer weekly status per capability, and me going to them as often as I could so a blocker never cost a sprint. <strong>As many one-to-ones with the engineers as with the designers, and the same bar for both</strong> - they were a dotted line, not a lesser one.</p>
+            <p>When a product team was under water, we got into the work <em>with</em> them - auditing, co-building, sharing the load. <strong>You don't point at the problem from across the room. You cross it.</strong></p>
           </div>
         </div>
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>People</p>
-        <div class="split split--haut">
-          <div class="pile">
-            <p class="lead">Zero resignations <em class="em-bleu">in three years.</em></p>
-            <div class="body">
-              <p><strong>I owned the <em>why</em> and the <em>what</em>. They owned the <em>how</em></strong> - and made it sharper than I could have specified. Agile is the tempo, not a checkbox. <strong>Nothing shipped without us aligned, and nothing waited on me to be decided.</strong></p>
-            <p>I hired into the org I had drawn - from one designer to a core team of nine, design itself going from one to five - then carried the direction to leadership and handed them the operational goal as <strong>OKRs of their own</strong>, tied to the company's annual objectives: our ambition inside a shared project, never beside it.</p>
-            <p><strong>Average completed engagement: 23 months against a one-year target.</strong></p>
-              <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong> People stay where their growth and their wellbeing are part of the plan - the same care I built into the system, pointed at the team.</p>
-              <p><strong>Nicolas</strong> came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as <strong>Design Ops Lead</strong> and we founded the capability together. <strong>His growth and the company's outcome, paired.</strong></p>
-            <p class="qt">My job wasn't to hold it up. <strong>It was to build a structure that outlasts any of us.</strong></p>
-            </div>
+        <p class="eb" data-sommaire>Team growth</p>
+        <div class="split">
+            <p class="lead">Every week, the same question: <em class="em-gris">is the work moving, and is the person growing.</em></p>
+          <div class="body">
+            <p>I hired into the org I had drawn: from one designer to a core team of nine - <strong>five designers and four React engineers</strong>. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two design roles opened, and designers from the organisation joined.</p>
+            <p>I carried the direction to leadership and handed them the operational goal as <strong>OKRs of their own</strong>, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.</p>
           </div>
-          <div class="pile">
+        </div>
+        {/* MEME DISPOSITIF QUE LA PHOTO DU CHAPITRE 03 : un filet et son
+            carre ouvrent le bloc, l'image suit, et le texte passe DESSOUS
+            dans la meme colonne. En face d'elle, les deux portraits se
+            lisaient a cote de trois visages qui ne sont pas forcement les
+            leurs ; dessous, la photo les introduit. */}
+        <div class="split">
+          <div class="pile split__suite">
+            <div class="filet filet--noir" aria-hidden="true"><span class="filet__carre"></span></div>
             <Figure
               src={img('lea-nicolas-rodolphe-elements-awards')}
               alt="Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards"
-              legende="<strong>Design System Awards 2025</strong> <span class='tag tag--on'>Governance finalist</span> alongside HP and Tesco. The recognition that means the most to me is the <em>category</em> - because this was never only a craft story. It was a leadership one."
-              {/* LA SOURCE EST CARREE depuis qu'on l'a recadree a 940x940 sur
-                  l'original 2000x3000 : « cover » n'a donc plus rien a rogner.
-                  Le recadrage est dans le fichier et non dans le CSS parce
-                  qu'aucun reglage d'`object-position` ne pouvait exclure le
-                  quatrieme visage - un carre garde les deux tiers de la hauteur
-                  d'une image 2:3, et ce visage commence au-dessus de ce seuil. */}
+              legende="Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a team one."
               ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
             />
-            <p class="cap"><ExternalLink href="https://nicolaschatelain.com" variant="inline">Nicolas Chatelain</ExternalLink> led the People axis, from Experience Operations enablement to the Community of Practice engagement plan. <ExternalLink href="https://rodolphe.design/chat" variant="inline">Rodolphe Peruzza</ExternalLink> led the System axis, from craft to experience-pattern industrialization.</p>
+            <p><strong><ExternalLink href="https://nicolaschatelain.com" variant="inline">Nicolas Chatelain</ExternalLink></strong> came to Elements as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as <strong>Design Ops Lead</strong>, we founded the <strong>Practitioner Experience</strong> capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. <strong>His growth and the company's outcome, paired.</strong></p>
+            <p><strong><ExternalLink href="https://rodolphe.design/chat" variant="inline">Rodolphe Peruzza</ExternalLink></strong> led the System axis, from craft to experience-pattern industrialization. I also kept bandwidth free for him to explore and to vibe-code. Several of our Figma plugins came out of it - his idea, his build - and so did part of the pipeline's automation scripts. <strong>Not written by our developers. Written by a designer.</strong></p>
+            <p><strong>A strategy clear enough to be adopted is what makes people accountable for it.</strong> Room inside it for what they want to explore is what makes them grow - and what turns a personal interest into something the whole team can use.</p>
           </div>
         </div>
       </div>
 
-      {/* Le dessin et sa preuve : l.idee n.est pas venue de la feuille de
-          route, et c.est tout le propos du chapitre. */}
       <div class="subsec">
-        <p class="eb" data-sommaire>Innovation</p>
-        <div class="taught">
-          <div class="taught__viz" aria-hidden="true"><IdeaVisual /></div>
+        <p class="eb" data-sommaire>Team health</p>
+        <div class="split">
+          <p class="lead">Health wasn't the reward for delivery. <em class="em-gris">It was the condition of it.</em></p>
           <div class="body">
-          {/* UN SEUL PARAGRAPHE : l'idee venue d'un contributeur et les carrieres
-              qui ont grandi la sont la meme phrase - la premiere est la preuve
-              de la seconde. Separees, la chute retombait avant d'avoir servi.
-              L'exergue garde son filet : c'est elle qui porte. */}
-            <p class="qt">The Elements MCP didn&apos;t come from my roadmap. <strong>It came from a contributor.</strong> And it&apos;s where careers grew, mine included: people levelled up by contributing and teaching, not by climbing a ladder - reverse mentoring that kept me learning as much as I led.</p>
+            <p><strong>Every hire ended with a team fit meeting</strong> - the whole team in the room, reading complementarity of personality and of skill rather than the line on a CV. We once said no to someone excellent on paper: the openness wasn't there, and neither was the instinct for working with others. A CV tells you what a person has done; the room tells you what they will do with the rest of us.</p>
+            <p>Three quarters of the team was freelance and I was, for a while, the only permanent person in it. <strong>Everyone was a human first</strong> - not a role type, not internal or external, and least of all an expertise. At that ratio it wasn't a position to hold, it was the only way the team could function at all.</p>
+            <p><strong>Wellbeing was a line in the plan</strong>, load-bearing and resourced like any other dependency. A pulse check closed every sprint, during the retro. It caught a drop in motivation through a stretch where we were deep in support and short on innovation - so we re-opened the team to what was happening outside, and pushed the contribution model harder to put the value somewhere else. A signal should never be ignored.</p>
+            {/* LE DERNIER PARAGRAPHE EST CELUI QUI COUTE LE PLUS CHER A
+                TENIR. Faire valider chaque presentation par toute
+                l'equipe ralentit, et c'est le prix d'une equipe qui ne
+                subit pas ce qu'on dit d'elle. Il ferme la sous-partie
+                parce que c'est la preuve la moins attendue : la sante
+                d'une equipe se mesure aussi a ce qu'elle laisse sortir
+                de la piece. */}
+            <p>Every quarter I carried leadership's feedback back down to the team. And <strong>no deck left the team without the whole team behind it</strong> - stakeholders, senior executives, a demo with our peers: everyone had to be comfortable with what we were about to say, whether or not they were the one saying it.</p>
+            <p>The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. <strong>Not one left me.</strong></p>
           </div>
         </div>
       </div>
 
-      <div class="closing">
-        <h2>I removed the wait between design and engineering. <em class="em-bleu">There's one wait left.</em></h2>
-        <p class="cbody">I've argued Elements belongs closer to engineering - one reporting line from design to production. Not for tidiness: the border between design and engineering is dissolving, and a structure that keeps the two crafts siloed slows everyone down. It's <strong>velocity</strong>, and it's <strong>proximity</strong> - end to end with product teams instead of handing work across expertise walls. Better to build that structure before the shift forces it than retrofit it after. The move I made once - agency to in-house - pointed here. This is the next mile of the same road.</p>
-        <p class="cbody">Not a system people obey - one they own. <strong>That's what growing a culture means.</strong></p>
-        <p class="signature">Design systems ship standards.<br /><em class="em-bleu">Experience systems grow culture.</em></p>
-        <Bouton variante="bleu" href="/system-event">See it off the screen →</Bouton>
-      </div>
-
-      {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
-          qu'ailleurs : il remonte sans rien refermer. A droite, pas de
-          « Next: ... » - il n'y a pas de tuile 05, et le sommaire des
-          quatre cartes est reduit a celle-ci ; ce bouton-la le rouvre. Les deux
-          remontent, l'un garde le chapitre ouvert, l'autre referme tout.
-          Voir .pan__pied dans etude.css et dossier.ts. */}
+      {/* LE PIED DU DERNIER CHAPITRE. Il ne porte plus que le retour en haut,
+          a gauche. Le bouton « Back to the four chapters » qui l'accompagnait
+          a droite faisait EXACTEMENT la meme chose : `[data-haut]` et
+          `[data-ferme]` partagent un seul ecouteur dans dossier.ts, qui
+          referme toutes les cartes, remonte et rend le focus. Le commentaire
+          d'ici affirmait le contraire - « l'un garde le chapitre ouvert,
+          l'autre referme tout » - et c'est ce qui a masque le doublon. */}
       <div class="pan__pied">
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
           <Icone nom="fleche-haut" taille={20} />
         </button>
-        <Bouton variante="noir" class="suite" ferme>Back to the four chapters &uarr;</Bouton>
       </div>
     </section>
 
@@ -964,46 +1396,62 @@ const mecanismes: Tuile[] = [
     LOIN dans le bundle. A specificite egale elle gagnerait, y compris dans la
     requete media.
   */
+  /*
+    LE FILET ET SON CARRE, AU-DESSUS DE LA PHOTO. Meme dispositif que sur
+    l'accueil et au-dessus des chiffres cles : un carre plein, puis un trait
+    qui court jusqu'au bord. Il rattache l'image au blanc tournant au lieu de
+    la laisser flotter, et le carre prend le jaune - la couleur du chapitre 03
+    dans le sommaire.
+  */
+  .pan .filet{display:flex;align-items:center;gap:12px;margin:0 0 16px}
+  /* Le carre prend la couleur du chapitre, comme le reste : jaune au 03,
+     encre au 04. C'est l'aplat de la carte et non la teinte d'accent - a
+     dix pixels de cote, le gris du surlignage ne se verrait pas. */
+  .pan .filet__carre{flex:none;width:10px;height:10px;background:var(--yellow)}
+  .pan .filet--noir .filet__carre{background:var(--ink)}
+  .pan .filet::after{content:"";flex:1;height:var(--rule-fine);background:var(--text)}
+
   @media(min-width:861px){
-    .compo{grid-template-columns:15fr 24fr 9fr 18fr 11fr 23fr 18fr;
+    /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
+       qui la reprend apres doit retomber dans la meme colonne. */
+    .pan .split__suite{grid-column:2}
+    /*
+      LES SEPT COLONNES SONT RECOUPEES POUR DEUX MESURES, PAS POUR UN DESSIN.
+
+      1. CHAQUE LIGNE DE PUCES TIENT SUR UN RANG. Sur deux rangs elle
+         redevient la liste qu'on ne voulait pas ; c'est la condition du
+         palier 1120 pose dans etude.css.
+      2. LES CARTES 03 ET 04 FINISSENT A LA MEME HAUTEUR. Leurs deux textes
+         font 188 et 192 signes, donc ils prennent le meme nombre de lignes -
+         a condition de tomber tous les deux dans la meme plage. Mesure : le
+         titre tient sur 2 lignes et la synthese sur 5 des que la largeur
+         INTERIEURE depasse 291px, et jusqu'a 350. En dessous, le titre de la
+         04 passe a 3 lignes ; au-dessus, la synthese de la 03 tombe a 4.
+
+      LE BUDGET EST CONTRAINT DES DEUX COTES, et c'est ce qui rend le reglage
+      etroit : les colonnes 6-7 portent la carte 02 en haut ET la case de
+      respiration en bas, donc tout ce qu'on donne a 02 est repris a 03 et 04.
+      La carte 02 ne pouvait pas etre elargie de ses 61px manquants sans
+      ramener 03 sous les 291 - c'est son SURTITRE qui a cede, et non la
+      grille (voir `libelle` dans src/scripts/dossier.ts).
+
+      IL N'A DONC FALLU DEPLACER QU'UN SEUL FR, de la colonne 6 vers la 5 :
+      la carte 04 gagne les 9px qui lui manquaient pour tomber dans la plage
+      avec la 03, et la 02, allegee de son libelle, tient dans ce qui reste.
+      Les colonnes 1 a 4 ne bougent pas, donc la carte 01 non plus.
+
+      Resultat a 1072 : 01 599, 02 362, 03 353, 04 354, soit des interieurs
+      de 306, 297 et 298 - et les cartes 02, 03 et 04 finissent toutes les
+      trois a 227px de contenu.
+    */
+    .compo{grid-template-columns:15fr 24fr 9fr 18fr 12fr 22fr 18fr;
       grid-template-rows:minmax(190px,auto) minmax(80px,auto) 36px
         minmax(200px,auto) minmax(70px,auto)}
   }
 
-  /*
-    ─── Le parcours du praticien ───
-    consumer → contributor → maintainer. Les trois dessins sont INLINES et non
-    poses en <img> : leur trait suit --accent par currentColor, ce qu'un
-    document separe ne permet pas.
-  */
-  .pan .parcours{margin:0;display:flex;align-items:center;justify-content:center;
-    gap:20px;flex-wrap:wrap;padding:28px 20px;
-    border:var(--rule-fine) solid var(--text);background:var(--white)}
-  .pan .parcours__s{display:flex;align-items:center;gap:12px;
-    font-family:var(--display);font-size:22px;font-weight:900;letter-spacing:-.01em}
-  .pan .parcours__i{display:grid;place-items:center;width:46px;height:46px;
-    flex:none;color:var(--accent)}
-  .pan .parcours__i svg{width:100%;height:auto;display:block}
-  .pan .parcours__a{display:grid;place-items:center;color:var(--blue)}
 
-  /* Le perimetre, en une ligne centree sous les quatre facettes : c'est une
-     legende de serie, pas un paragraphe. */
-  .pan .portee{text-align:center;letter-spacing:.06em}
-
-  /*
-    LA SIGNATURE FERME LA PAGE, et c'est la phrase du site entier - celle du
-    hero d'accueil, de la banniere LinkedIn et du CV (BRIEF §0bis). Elle est
-    posee en display, au-dessus du bouton, et c'est le seul endroit de l'etude
-    ou une phrase n'a ni surtitre ni corps autour d'elle.
-  */
-  .pan .signature{margin:8px 0 0;font-family:var(--display);font-size:30px;
-    line-height:1.15;font-weight:900;letter-spacing:-.02em;max-width:640px}
 
   @media(max-width:860px){
-    .pan .signature{font-size:24px}
-    .pan .parcours{gap:12px;padding:20px 16px}
-    .pan .parcours__s{font-size:18px}
-    .pan .parcours__i{width:38px;height:38px}
   }
 </style>
 

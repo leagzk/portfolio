@@ -80,6 +80,26 @@ export function initDossier(): void {
     d'elle. Voir .compo__sommaire dans etude.css.
   */
   const COULEURS = ['rouge', 'bleu', 'jaune', 'noir'] as const;
+  /*
+    UN LIBELLE COURT QUAND LE SURTITRE NE TIENT PAS SUR LA LIGNE DE LA CARTE.
+    `data-sommaire` est vide douze fois sur treize : le surtitre fait le
+    libelle, et c'est la regle. La treizieme - « Organisation & governance »,
+    le plus long surtitre de la page - demande a elle seule 61px de plus que
+    sa carte n'en a ; les lui donner reviendrait a les prendre aux cartes 03
+    et 04, qui n'en ont pas. Elle porte donc sa forme breve en valeur.
+
+    LE CHAPITRE, LUI, GARDE SON SURTITRE ENTIER : la carte annonce le sujet,
+    le chapitre le nomme en entier. C'est la seule copy de la page qui ne
+    passe pas par `npm run content`, puisqu'elle vit dans un attribut et non
+    dans le texte - elle est ici, et nulle part ailleurs.
+  */
+  const libelle = (p: HTMLElement) => {
+    const court = p.dataset.sommaire?.trim();
+    return court
+      ? [document.createTextNode(court)]
+      : Array.from(p.cloneNode(true).childNodes);
+  };
+
   const sommaire = (carte: HTMLButtonElement, pan: HTMLElement) => {
     compo?.querySelector('.compo__sommaire')?.remove();
     const phrases = Array.from(pan.querySelectorAll<HTMLElement>('[data-sommaire]'));
@@ -91,7 +111,7 @@ export function initDossier(): void {
     liste.setAttribute('aria-hidden', 'true');
     phrases.forEach((p) => {
       const item = document.createElement('li');
-      item.append(...Array.from(p.cloneNode(true).childNodes));
+      item.append(...libelle(p));
       liste.appendChild(item);
     });
     compo.appendChild(liste);
@@ -131,7 +151,7 @@ export function initDossier(): void {
     phrases.forEach((p) => {
       const point = document.createElement('span');
       point.className = 'dcarte__point';
-      point.append(...Array.from(p.cloneNode(true).childNodes));
+      point.append(...libelle(p));
       liste.appendChild(point);
     });
     bloc.appendChild(liste);
@@ -256,7 +276,10 @@ export function initDossier(): void {
     defilement, lui, est deja coupe par la portee de `remonter` : depuis le
     bas d'un chapitre la composition est a plus d'un ecran.
   */
-  document.querySelectorAll<HTMLElement>('[data-haut],[data-ferme]').forEach((b) => {
+  /* Un seul declencheur depuis que le bouton « Back to the chapters » est
+     retire : il portait [data-ferme] et partageait cet ecouteur, donc il
+     faisait exactement ce que fait la fleche. */
+  document.querySelectorAll<HTMLElement>('[data-haut]').forEach((b) => {
     b.addEventListener('click', () => {
       const pan = b.closest<HTMLElement>('.pan');
       const cible = cartes.find((c) => c.getAttribute('aria-controls') === pan?.id);

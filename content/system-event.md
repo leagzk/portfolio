@@ -51,7 +51,7 @@ Declined on paper, fabric, metal and wood - then staged in the space, and closed
 
 Precise enough to be run without me in the room.
 
-One page per zone, one owner per page. I briefed nine suppliers from it, handed the day to a coordinator - and got to be in the experience instead of running it.
+One page per zone, one owner per page. I briefed every supplier from it, handed the day to a coordinator - and got to be in the experience instead of running it.
 
 ## 01 &middot; The constraint
 
@@ -276,8 +276,6 @@ Léa Giezek
 This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. **The pattern doesn't stop at the screen - and it doesn't stop at work either.**
 
 See it at global scale →
-
-Back to the three chapters ↑
 
 ---
 

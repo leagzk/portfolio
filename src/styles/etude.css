@@ -171,6 +171,13 @@
   lisaient a l'envers au bureau. Un selecteur positionnel compte TOUS les
   freres du meme type, pas seulement ceux qui portent la classe.
 */
+/*
+  LA CASE QUI FERME LA GRILLE N'EXISTE QUE SOUS LE PALIER. Au bureau les
+  rangees sont des bandes flex et aucune cellule ne reste libre ; la case
+  serait un enfant de plus dans une grille a deux colonnes et deux rangees,
+  qu'elle deborderait. Voir <ChiffresCles> pour ce qu'elle bouche.
+*/
+.clef-bouche,.clef-ligne{display:none}
 .clef-rangee--1{grid-area:1 / 1 / 2 / 2}
 .clef-rangee--2{grid-area:2 / 1 / 3 / 2}
 .clef-def{grid-area:1 / 2 / 3 / 3}
@@ -211,7 +218,7 @@
   DOM et le contenu est en z-index 1), donc le chiffre peut mordre dessus sans
   que la couleur le mange.
 */
-.clef--bande,.clef--carre,.clef--encadre{background:var(--white);color:var(--text)}
+.clef--bande,.clef--carre,.clef--filet{background:var(--white);color:var(--text)}
 .clef__frag{position:absolute;transform-origin:left bottom}
 /*
   LE TEXTE NE TOUCHE PAS LE FRAGMENT : il est cale en haut, la couleur occupe
@@ -221,27 +228,39 @@
 .clef--bande .clef__frag{left:0;right:0;bottom:0;height:30px}
 /* Le carre descend dans le coin bas : le haut de la case est au texte, le bas
    a la couleur - et le dessin garde sa place en haut a droite. */
-.clef--carre .clef__frag,.clef--encadre .clef__frag{right:0;bottom:0;
-  width:84px;height:48px;transform-origin:right bottom}
+/*
+  LE CARRE SE COMPTE DANS L'UNITE DE SA CASE, et 84px le disaient deja sans
+  le dire : 84 = 3 x 28, et 3 est le nombre d'unites de la case pour laquelle
+  il a ete dessine. Fixe, il valait 47% d'une case de deux unites et 24% d'une
+  case de quatre - juste ici, perdu la : la grande case blanche de Governance
+  etait un rectangle de 356px avec une marque minuscule dans le coin.
+
+  `calc(var(--u) * 28px)` ne remplace pas la valeur, il la GENERALISE - une
+  case de trois unites garde ses 84px au pixel pres - et le fragment occupe
+  31% de sa case partout : 56px sur deux unites, 84 sur trois, 112 sur quatre.
+  La hauteur ne suit pas : la rangee est fixe a 240px, donc 48 y vaut toujours
+  un cinquieme.
+*/
+.clef--carre .clef__frag{right:0;bottom:0;
+  width:calc(var(--u,3) * 28px);height:48px;transform-origin:right bottom}
 .clef--rouge .clef__frag{background:var(--red)}
 .clef--bleu .clef__frag{background:var(--blue)}
 .clef--jaune .clef__frag{background:var(--yellow)}
 .clef--gris .clef__frag{background:var(--grey-mondrian)}
 .clef--noir .clef__frag{background:var(--ink)}
 /*
-  LE COIN VIDE, OU SEUL LE TRAIT DESSINE. C'est un motif a lui (`encadre`), et
-  non le comportement de tous les carres : la regle valait pour CHAQUE `carre`
-  du site, donc elle vidait aussi le jaune de Surfaces et le rouge de Language.
-  Un motif se choisit page par page, il ne s'impose pas.
+  UN TRAIT QUI TRAVERSE, A LA PLACE DU COIN VIDE. Le motif `encadre` posait un
+  petit rectangle blanc borde sur deux cotes dans le coin bas droit : une
+  mini-case dans la case, qui se lisait comme un defaut de decoupe plutot que
+  comme un motif. Le filet garde sa ligne - celle qui etait le bord HAUT du
+  rectangle, a 48px du bas - et la mene d'un bord a l'autre.
 
-  DEUX COTES, PAS QUATRE : le carre est a ras du coin bas droit, et ses bords
-  droit et bas tombent sur le `gap` de la rangee, deja noir. Les y border
-  doublerait le filet a 3px. Seuls le haut et la gauche se voient, et ce sont
-  eux qui decoupent le coin.
+  C'EST LE SEUL MOTIF QUI NE REMPLIT RIEN. Les trois autres posent de la
+  couleur ; celui-la ne pose qu'un trait, et c'est ce qui convient a la case
+  qui porte un zero.
 */
-.clef--encadre .clef__frag{background:var(--white);
-  border-top:var(--rule-fine) solid var(--text);
-  border-left:var(--rule-fine) solid var(--text)}
+.clef--filet .clef__frag{left:0;right:0;bottom:48px;height:var(--rule-fine);
+  transform-origin:left center}
 
 /*
   24px ET NON `--pad-square`, QUI EN VAUT 48. Les aplats de l'accueil sont des
@@ -369,9 +388,9 @@
   C'est le principe de l'accueil, ou `.attend` couvre les titres ET les
   boutons : rien de ce qui est POSE SUR une case n'apparait avant elle.
 */
-.attend :is(.clef--plein,.clef__frag,.clef-def__bande){transform:scale(0)}
+.attend :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){transform:scale(0)}
 .attend :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){opacity:0}
-.vu :is(.clef--plein,.clef__frag,.clef-def__bande){
+.vu :is(.clef--plein,.clef__frag,.clef-def__bande,.clef-bouche__plat){
   animation:pousse .6s cubic-bezier(.4,0,.2,1) var(--retard,0s) both}
 .vu :is(.clef__nb,.clef__bas,.clef__ico,.clef-def__eb,.clef-def__phrase){
   animation:monte .85s cubic-bezier(.16,1,.3,1) calc(var(--retard,0s) + .22s) both}
@@ -382,8 +401,27 @@
     de place au nombre. Les hauteurs se relachent, puisque rien ne se survole -
     le depliage s'y fait au clic, et la rangee peut grandir avec lui.
   */
-  .cles--mondrian{grid-template-columns:1fr;grid-template-rows:none;margin-top:48px}
+  /*
+    LA BANDE EST UNE SEULE GRILLE DE DEUX COLONNES, et non deux grilles
+    imbriquees. Chaque rangee portait sa propre grille a deux colonnes : un
+    nombre impair de chiffres y laissait une cellule libre AU MILIEU de la
+    bande, donc le troisieme chiffre d'une rangee de trois prenait les deux
+    colonnes pour la boucher. Il y gagnait 343px de large pour 104px d'encre.
+
+    A plat, les cellules libres se reportent toutes a la FIN, ou une seule
+    case suffit a fermer la grille - et tous les chiffres restent carres.
+    `display:contents` fait disparaitre la boite de la rangee sans toucher a
+    l'ordre du front : le trace anime sait deja lire un conteneur qui n'a pas
+    de boite (voir `data-cases` dans scripts/grille.ts).
+  */
+  .cles--mondrian{grid-template-columns:1fr 1fr;grid-template-rows:none;margin-top:48px}
   .cles--mondrian > *{grid-area:auto !important}
+  .clef-rangee{display:contents}
+  /* La definition reste pleine largeur : elle se lit avant les chiffres. */
+  .clef-def{grid-column:1 / -1 !important}
+  .clef-bouche{display:block;position:relative;min-height:170px}
+  .clef-bouche__plat{position:absolute;inset:0;background:var(--grey-mondrian);
+    transform-origin:left top}
   /* Au doigt rien ne se pousse : la rangee s'empile et chaque case prend la
      largeur. Le depliage se fait au clic, dans la case. */
   /*
@@ -404,11 +442,101 @@
     de trois. Les etudes sans definition portent quatre chiffres sur une
     seule rangee et restent en deux fois deux, sans exception a ecrire.
   */
-  .clef-rangee{display:grid;grid-template-columns:1fr 1fr;overflow:visible}
-  .clef-rangee > :nth-child(3):nth-last-child(1){grid-column:1 / -1}
   .clef-case{flex:none;min-height:170px}
-  .clef{position:relative;inset:auto;min-height:170px}
+  /*
+    LE BOUTON REMPLIT SA CASE, ET PAS SEULEMENT SES 170px. Les deux cases
+    d'une rangee sont des elements de grille : la plus haute impose sa hauteur
+    a l'autre. Le bouton, lui, n'avait qu'un `min-height` - il s'arretait a
+    170 pendant que sa case en faisait 181, et comme c'est LUI qui porte la
+    couleur, un bandeau de blanc restait sous l'aplat. Mesure sur Surfaces a
+    375px : 11px de blanc sous le noir du « 9 », la voisine « 3rd » portant
+    une troisieme ligne d'intitule. `height:100%` se resout sur une case dont
+    la grille a fixe la hauteur ; le `min-height` reste pour les rangees ou
+    rien ne depasse.
+  */
+  .clef{position:relative;inset:auto;min-height:170px;height:100%}
   .clef__dedans{position:relative;inset:auto;gap:16px;padding:24px 16px}
+  /* Au telephone les cases sont toutes de la meme largeur, donc le carre
+     aussi : `--u` y designe encore le dessin du bureau, et le « 35+ » de
+     Governance, a quatre unites, prendrait 112 des 171px de sa case. */
+  .clef--carre .clef__frag{width:84px}
+  /*
+    LE FILET NE SURVIT PAS AU TELEPHONE. Un trait a 48px du bas, sur une
+    case qui n'en fait plus que 170, tombe au milieu du chiffre. Et la case
+    du zero est la seule impaire de la bande : c'est elle qui ferme, et elle
+    ferme mieux nue.
+  */
+  .clef--filet .clef__frag{display:none}
+  /*
+    LA BANDE DEVIENT UN APLAT PLEIN. A 267px de large la bande de 30px est
+    un socle sous un nombre ; a 171px de case elle n'est plus qu'un trait de
+    couleur au bas d'un carre blanc, et la grille du telephone se lisait
+    comme quatre cases vides pour deux pleines. Le fragment prend toute la
+    case au lieu d'etre cache : il porte deja la couleur du chiffre, et il
+    continue de POUSSER a la construction comme les aplats pleins - d'ou
+    l'origine au coin haut gauche, qui est la leur.
+  */
+  .clef--bande .clef__frag{left:0;right:0;top:0;bottom:0;height:auto;
+    transform-origin:left top}
+  .clef--bande{color:var(--white)}
+  .clef--bande.clef--jaune,.clef--bande.clef--gris{color:var(--text)}
+  /*
+    ─── L'OUVERTURE SE FAIT SUR LE COTE, ET LA VOISINE DEVIENT UNE BANDE ───
+
+    C'est le geste du bureau, rendu au telephone : la case ouverte prend la
+    largeur de la rangee moins 36px, et sa voisine n'en garde que ces 36px -
+    un plan de couleur, sans texte. Le contexte se lit alors sur 307px au
+    lieu de 171, soit la moitie des lignes.
+
+    ELLE RESTE DANS LE FLUX, et c'est ce qui compte : en absolu elle ne
+    pousserait plus la rangee et flotterait au-dessus de celle du dessous. Un
+    `width` de plus de 100% la fait deborder sur sa voisine sans sortir du
+    flux, donc la rangee grandit avec son contenu. La case ouverte passe
+    devant (`z-index`) et rend son `overflow`, sans quoi elle se couperait a
+    sa propre arete.
+
+    LE COTE EST POSE AU BUILD (`--g` / `--d`), parce que CSS ne sait pas lire
+    la colonne qu'une grille a resolue - voir <ChiffresCles>.
+  */
+  .clef-case:has(.clef[aria-expanded="true"]){overflow:visible;z-index:3}
+  .clef[aria-expanded="true"]{position:relative;z-index:3;
+    width:calc(200% + var(--rule-fine) - 36px)}
+  .clef-case--d .clef[aria-expanded="true"]{
+    margin-left:calc(-100% - var(--rule-fine) + 36px)}
+  /*
+    SEULE LA VOISINE RECOUVERTE SE TAIT. A 36px il n'y a pas de place pour une
+    ligne, et un mot coupe en pleine lettre se lit comme un bug - mais c'est
+    la seule qui ait une raison de se taire.
+
+    Toute la bande se vidait, parce que c'est ce que fait le bureau. La-bas le
+    geste est au SURVOL et se defait des que le curseur bouge ; au doigt
+    l'etat reste, et retrouver les quatre autres chiffres demandait un tap de
+    plus. La classe est posee par le script, qui seul sait quelle case en
+    couvre quelle autre - la paire peut enjamber deux rangees, donc aucun
+    selecteur de fratrie ne l'atteint (voir scripts/chiffres.ts).
+  */
+  .clef__dedans{transition:opacity .3s .15s}
+  .clef-case--couverte .clef__dedans{opacity:0;transition:opacity .25s}
+  /*
+    ─── La definition, sans sa bande ───
+    La bande bleue de 84px ferme la case au bureau, ou elle fait vis-a-vis
+    aux deux rangees de chiffres. Empilee, elle n'a plus rien a fermer : elle
+    s'intercale entre la definition et le premier chiffre comme un aplat de
+    plus, large et sans objet. Elle part, son filet avec, et les 116px de
+    remplissage bas qu'elle reservait reviennent a 32.
+  */
+  .clef-def{padding:32px 24px}
+  .clef-def__bande,.clef-def__filet{display:none}
+  /*
+    ─── La ligne qui ouvre la bande ───
+    Celle de l'accueil sous le rail des principes : une bande basse, son
+    filet - qui vient de l'ombre posee sur `.cles--mondrian > *` comme pour
+    toutes les cases - et un carre de 10px a gauche, aligne sur le texte des
+    cases. Elle prend la place de la bande bleue de la definition.
+  */
+  .clef-ligne{display:flex;align-items:center;grid-column:1 / -1 !important;
+    padding:12px 16px}
+  .clef-ligne__carre{width:10px;height:10px;background:var(--ink)}
   .clef:hover .clef__detail,.clef:focus-visible .clef__detail{opacity:0;max-height:0}
   .clef[aria-expanded="true"] .clef__detail{opacity:1;max-height:400px}
   .clef:hover .clef__ico--o,.clef:focus-visible .clef__ico--o{opacity:1}
@@ -925,12 +1053,45 @@
   elles servent : les quatre cartes sont empilees et fermees, et c'est sur
   elles qu'on choisit.
 
-  Elles sont posees par le script a chaque carte, donc eteintes par defaut :
-  au bureau le sommaire de la composition fait deja ce travail, et les avoir
-  aux deux endroits dirait tout deux fois.
+  AU BUREAU ELLES SONT UNE LIGNE, PAS UNE LISTE. Elles y etaient eteintes au
+  motif que `.compo__sommaire` fait le travail - mais il ne le fait qu'une
+  fois la carte OUVERTE, c'est-a-dire apres la decision qu'il devrait aider a
+  prendre. Sur la carte fermee, les trois mots disent de quoi le chapitre est
+  fait ; c'est ce qui donne envie de l'ouvrir.
+
+  EN LIGNE ET NON EMPILEES, pour que ca reste une mention et pas un sommaire :
+  12px, gris, des carres de 5px avant chaque mot - un a gauche, un entre
+  chacun. La version empilee, plus grande et a puce de couleur, est celle du
+  telephone et celle du sommaire latero : chacune a sa place et aucune ne
+  s'affiche en meme temps qu'une autre.
 */
-.dcarte__points{display:none}
-@media(max-width:860px){
+/*
+  AU PALIER BUREAU ET NON EN BASE : le bloc telephone qui suit ne redeclare
+  pas la couleur, et une regle de base la lui imposerait. Les deux versions
+  ne partagent rien, donc elles ne se chevauchent pas non plus.
+
+  ET CE PALIER EST 1120, PAS 861. La ligne ne vaut que si elle tient sur UN
+  rang : sur deux, elle redevient la liste qu'on ne voulait pas, en plus
+  petit et en plus gris. 1120 est la largeur a laquelle la composition
+  atteint sa taille pleine (1072px) et cesse de se reduire avec la fenetre ;
+  c'est donc exactement la largeur en dessous de laquelle les cartes se
+  resserrent et la ligne casse. Entre 861 et 1119 la composition garde ses
+  sept colonnes mais ses cartes sont trop etroites : les puces y reprennent
+  la forme du telephone, empilee, qui ne depend d'aucune largeur.
+*/
+@media(min-width:1120px){
+  .dcarte__points{display:block;margin-top:18px}
+  .dcarte__liste{display:flex;flex-wrap:wrap;align-items:baseline;
+    column-gap:14px;row-gap:6px}
+  .dcarte__point{display:flex;align-items:baseline;gap:7px;
+    font-size:12px;line-height:1.3;color:var(--ink-muted)}
+  .dcarte__point::before{content:"";flex:none;width:5px;height:5px;
+    background:var(--text)}
+}
+/* 1119 ET NON 860 : voir le palier ci-dessus. Cette forme-ci ne depend pas
+   de la largeur de la carte, donc c'est elle qui tient tout ce que la ligne
+   ne peut pas tenir - du telephone jusqu'au seuil de la composition pleine. */
+@media(max-width:1119px){
   /*
     LA ZONE SE FERME SUR UNE BANDE, ET LES TRAITS FONT GRILLE. C'est la
     reference posee par Lea : chez Mondrian ce ne sont pas les aplats qui
@@ -995,19 +1156,27 @@
   */
   .dcarte__bande{position:absolute;right:0;top:0;bottom:0;width:56px;
     box-sizing:border-box;background:var(--puce,currentColor);
-    border-right:var(--rule) solid var(--text)}
+    border-right:var(--rule) solid currentColor}
   /*
     LE 04 PASSE AU GRIS, parce que son noir rendait le cadre invisible : aplat
     #0A0708 et filets #111111 se touchent a 1,06:1 - le carre n'avait plus de
     bord, juste une masse. Le gris de la composition tranche a 14,8:1 sur le
     meme filet, et c'est deja lui qui porte les aplats gris de la page
-    (.compo__plat--gris). Les puces du chapitre, elles, restent noires : c'est
-    la couleur de la carte, et a 8px sur blanc elle se lit.
+    (.compo__plat--gris).
+
+    LES PUCES SUIVENT L'APLAT, MAIS PAS AVEC SON GRIS. Elles etaient restees
+    noires quand la bande est passee au gris, et le chapitre parlait alors de
+    deux couleurs. Le gris de la composition ne peut pas les porter pour
+    autant : #E4E4E1 sur blanc tient 1,3:1, et un carre de 8px y disparait.
+    Les deux gris ne font pas le meme travail - l'un se pose CONTRE le filet
+    noir, l'autre SUR du blanc - donc ils n'ont pas la meme valeur. La puce
+    prend le gris sourd du site, --ink-muted, 9,0:1 sur blanc : plus noir, et
+    nettement moins que le #111 du texte a cote.
   */
   .dcarte--noir .dcarte__bande{background:var(--grey-mondrian)}
   .dcarte__points::after{content:"";position:absolute;right:56px;
     top:calc(var(--rule) * -1);bottom:calc(-8px - var(--rule)); /* 8 = depassement de grille, sans rapport avec le degagement des puces */
-    width:var(--rule);background:var(--text)}
+    width:var(--rule);background:currentColor}
   /* 16 = la puce (8) plus l'ecart (8). Le 14 d'avant valait 6 + 8 : c'est
      l'ECART qu'on garde, pas le retrait. */
   .dcarte__point{display:block;font-size:var(--fs-caption);line-height:1.45;
@@ -1046,7 +1215,117 @@
 .compo__sommaire--rouge,.dcarte--rouge{--puce:var(--red)}
 .compo__sommaire--bleu,.dcarte--bleu{--puce:var(--blue)}
 .compo__sommaire--jaune,.dcarte--jaune{--puce:var(--yellow)}
-.compo__sommaire--noir,.dcarte--noir{--puce:var(--ink)}
+.compo__sommaire--noir,.dcarte--noir{--puce:var(--ink-muted)}
+/*
+  OUVERTE, LA CARTE N'A PLUS DE SOMMAIRE A PORTER - et le bloc de puces s'en
+  va. Il annonce ce que la section contient ; une fois la section ouverte, le
+  contenu est la, et le sommaire redit ce qu'on est en train de lire.
+
+  IL AVAIT D'ABORD CHANGE DE COULEUR, et c'etait traiter le symptome. Puce de
+  chapitre sur fond de chapitre, le bloc disparaissait - mesure sur le
+  chapitre 03 de Governance a 375px, carte ouverte : #F5CD00 sur #F5CD00,
+  1,0:1 - et le rendre lisible revenait a garder a l'ecran un bloc qui n'a
+  plus de travail. Il est retire.
+
+  LE BUREAU SUIT LA MEME REGLE, depuis que la ligne de puces y existe aussi :
+  elle s'eteint a l'ouverture, et `.compo__sommaire` prend le relais a cote
+  du panneau - empile, plus grand, a puce de couleur. Les deux ne sont jamais
+  a l'ecran en meme temps.
+*/
+.dcarte[aria-expanded="true"] .dcarte__points{display:none}
+
+/* ═══════════ Les trois axes de Governance ═══════════ */
+/*
+  LE RECTO D'UNE TUILE D'AXE PORTE QUATRE CHOSES, la ou le gabarit en prevoit
+  deux : le rang (l'eyebrow du composant), le nom de l'axe, ce qu'il regle, et
+  le nom de ses deux capabilites. Les trois dernieres vivent dans le `titre`,
+  qui accepte du HTML - c'est la seule facon de les poser sans ouvrir une
+  quatrieme et une cinquieme prop dans <Tuiles>, qui sert quatre autres series
+  sur le site.
+
+  Elles doivent donc se defaire du titre : il est en display 900 a 22px, et
+  une phrase de resume ecrite a cette casse serait un second titre.
+*/
+/*
+  LE RANG DEVIENT GRAPHIQUE, PARCE QU'IL EST LE PREMIER PROPOS. « Three axes »
+  est annonce juste au-dessus du bloc : un 01 en monospace 13px ne comptait
+  pas jusqu'a trois, il numerotait. A 48px en display 900, les trois chiffres
+  se voient avant les mots et l'architecture s'annonce d'elle-meme. Seulement
+  au recto : le verso tient deux descriptions, un chiffre de cette taille y
+  mangerait une capability.
+*/
+.tuile__recto:has(.cap__noms) .tuile__eyebrow{font-family:var(--display);
+  font-size:48px;font-weight:900;line-height:.9;letter-spacing:-.02em;opacity:1}
+/*
+  LE SOUS-TITRE DIT CE QUE L'AXE EST POUR LES DEUX AUTRES. Il a remplace une
+  seconde phrase en « Without it, ... » : trois privations de suite se
+  lisaient comme une tournure, et elles demandaient au lecteur d'imaginer un
+  monde absent pour comprendre celui-la. « What the other two render » dit la
+  meme dependance a l'affirmatif, et au-dessus du resume plutot qu'apres.
+
+  EN ITALIQUE GRAS, COMME LES VIGNETTES DU CARROUSEL - « A Figma Library »,
+  « Digital Products » : c'est deja la forme du sous-titre sur cette page.
+  L'italique seul le posait entre le titre et le resume sans trancher avec ni
+  l'un ni l'autre ; le gras en fait le DEUXIEME propos de la tuile, ce qu'il
+  est - le resume, lui, est du texte courant et doit le rester.
+*/
+.tuile__titre .cap__lien{display:block;margin-top:7px;font-family:var(--body);
+  font-size:15px;font-style:italic;font-weight:700;line-height:1.3;opacity:.95}
+.tuile__titre .cap__resume{display:block;margin-top:12px;font-family:var(--body);
+  font-size:14px;font-weight:400;line-height:1.5;opacity:.92}
+/*
+  LES DEUX NOMS SE LISENT COMME UN REPERE, pas comme une suite du texte : meme
+  monospace que le rang en haut de la tuile, et le lecteur voit d'un coup que
+  l'axe en contient deux. Ils sont a l'arret ce que le verso detaille.
+*/
+/*
+  LE TITRE PREND TOUTE LA HAUTEUR POUR QUE LES DEUX NOMS TOMBENT EN BAS. Le
+  recto est un flex en `space-between` avec deux enfants - le rang, puis ce
+  bloc - donc sans `flex:1` ici, tout le contenu se tasse contre le bas de la
+  tuile. Avec, le nom de l'axe et son resume se calent sous le rang, et
+  `margin-top:auto` envoie les capabilites contre le bord oppose : trois
+  tuiles de hauteurs differentes alignent alors leurs deux listes.
+*/
+.tuile__titre:has(.cap__noms){display:flex;flex-direction:column;flex:1}
+/*
+  UN NOM PAR LIGNE, ET UNE PUCE DEVANT CHACUN. Separes par un point median,
+  les deux se lisaient comme une seule etiquette ; empiles et puces, ils se
+  lisent comme ce qu'ils sont - deux choses, qu'on retrouvera une a une au
+  verso, avec la meme puce.
+*/
+.tuile__titre .cap__noms{display:flex;flex-direction:column;gap:7px;
+  margin-top:auto;padding-top:22px;
+  font-family:ui-monospace,monospace;font-size:12px;font-weight:400;
+  line-height:1.4;opacity:.8}
+.tuile__titre .cap__nom{display:flex;align-items:baseline;gap:9px}
+.tuile__titre .cap__nom::before{content:"";flex:none;width:6px;height:6px;
+  background:currentColor}
+/*
+  LE VERSO TIENT DEUX CAPABILITES, et il faut qu'on voie ou l'une s'arrete.
+  Le nom passe en bloc au-dessus de sa description - en ligne, les deux
+  paragraphes se seraient lus comme un seul texte a six phrases.
+*/
+.tuile__texte .cap__bloc{display:block}
+/*
+  28px ET NON 14 : a 14 les deux capabilites se touchaient presque, alors que
+  l'interligne du texte vaut deja 22px - l'ecart entre les blocs doit se voir
+  plus grand que l'ecart entre deux lignes, sinon il n'y a plus de blocs.
+*/
+.tuile__texte .cap__bloc + .cap__bloc{margin-top:28px}
+/*
+  LA MEME PUCE QU'AU RECTO, MAIS A LA COULEUR DE LA TUILE. Au recto elle est
+  en `currentColor` sur l'aplat ; au verso, qui est blanc, elle reprend le
+  rouge, le bleu ou le jaune - c'est ce qui fait reconnaitre la tuile qu'on
+  vient de retourner, et ce qui relie chaque nom a sa ligne du recto.
+*/
+.tuile__texte .cap__bloc b{display:flex;align-items:baseline;gap:9px;
+  font-family:var(--display);font-size:15px;font-weight:900;line-height:1.2;
+  margin-bottom:5px}
+.tuile__texte .cap__bloc b::before{content:"";flex:none;width:8px;height:8px;
+  background:currentColor}
+.tuile--rouge + .tuile__verso .cap__bloc b::before{background:var(--red)}
+.tuile--bleu + .tuile__verso .cap__bloc b::before{background:var(--blue)}
+.tuile--jaune + .tuile__verso .cap__bloc b::before{background:var(--yellow)}
 
 /* ═══════════ Contenu deplie (BRIEF §5.4) ═══════════ */
 /*
@@ -1221,25 +1500,69 @@
   section. Elle s'applique telle quelle quand la couleur peut porter du
   texte sur blanc - rouge 5,67:1, bleu 7,21:1 - et pas autrement :
 
-    carte rouge → .em-rouge      carte jaune → .em-rouge  (1,54:1, echec
-    carte bleu  → .em-bleu       carte noir  → .em-bleu    meme en grand)
+    carte rouge → .em-rouge      carte jaune → .em-jaune
+    carte bleu  → .em-bleu       carte noir  → .em-gris
 
-  Le jaune ne tient que sur fond sombre, d'ou la derniere ligne ci-dessous.
-  Le noir, lui, passe le contraste mais EST la couleur du titre : l'accent
-  deviendrait indiscernable. Comme les trois etudes numerotent rouge, bleu,
-  jaune (et noir au 04 de Governance), la regle donne une alternance rouge /
-  bleu / rouge / bleu.
+  L'ACCENT EST UN APLAT, PAS UNE ENCRE. Les quatre couleurs ne tenaient pas
+  la meme promesse en lettres : le rouge et le bleu passaient, le jaune
+  echouait a 1,54:1, le noir passait mais EST la couleur du titre. Trois
+  comportements pour une seule regle, et deux chapitres qui empruntaient la
+  couleur d'un voisin.
+
+  EN SURLIGNAGE, LES QUATRE SE VALENT. L'aplat porte la couleur exacte de la
+  carte, a saturation pleine, et le texte repasse en blanc ou en #111 :
+
+    rouge  blanc sur --red              5,67:1
+    bleu   blanc sur --blue             7,21:1
+    jaune  #111  sur --yellow          12,24:1
+    gris   #111  sur --grey-mondrian   14,82:1
+
+  Aucune teinte de compromis, aucun jeton de texte en plus, et le contraste
+  le plus faible des quatre vaut celui que le rouge avait seul auparavant.
+
+  LA CARTE NOIRE ACCENTUE EN GRIS, ET CE N'EST PAS UN PIS-ALLER : sa propre
+  bande l'utilise deja - `.dcarte--noir .dcarte__bande` est en
+  --grey-mondrian. Le gris est la couleur SECONDE de cette carte, pas une
+  absence de couleur, et il sert partout ailleurs dans les compositions -
+  la case grise du bandeau de chiffres, les aplats de l'accueil.
+
+  IL EST EN REVANCHE BEAUCOUP PLUS DISCRET QUE LES TROIS AUTRES : 1,27:1
+  contre le blanc de page, la ou le rouge, le bleu et le jaune sont des
+  aplats francs. C'est un surlignage au crayon gris a cote de trois
+  marqueurs. Le texte, lui, est le plus lisible des quatre.
+
+  C'EST UN DISPOSITIF DE TITRE. Les accents vivent dans un .lead a 34px, un
+  h3 a 34 ou un h2 a 40 - verifie element par element sur les trois etudes.
+  Derriere seize pixels de texte courant, un aplat serait une autre idee.
+
+  `box-decoration-break:clone` pour que chaque ligne recoive sa marge : sans
+  lui, une phrase sur deux lignes n'a de padding qu'au tout debut et a la
+  toute fin, et l'aplat mord les lettres au retour a la ligne.
+
+  LA REGLE VAUT SUR LES TROIS ETUDES, sans exception : Governance en quatre
+  chapitres, Language et Surfaces en trois.
 
   A VERIFIER SUR LE RENDU, PAS DANS LE SOURCE : un chapitre peut contenir
   une <section> imbriquee, et un decoupage naif du .astro saute alors la fin
-  du chapitre. La mesure qui compte est `getComputedStyle(em).color`, une
-  seule valeur par `.pan`.
+  du chapitre. Et `color` ne suffit plus - c'est le COUPLE (color,
+  backgroundColor) qu'il faut lire, une seule valeur par `.pan`.
 */
-:is(.pan,.etude) .em-rouge,:is(.pan,.etude) .em-bleu,
+:is(.pan,.etude) :is(.em-rouge,.em-bleu,.em-jaune,.em-gris),
 .pan .closing em{font-style:normal}
-:is(.pan,.etude) .em-rouge{color:var(--red)}
-:is(.pan,.etude) .em-bleu{color:var(--blue)}
-.pan .dark .em-rouge{color:var(--yellow)}
+/*
+  `width:fit-content` POUR LES ACCENTS QUI SONT DES BLOCS. La cloture de
+  Philosophy pose `display:block` sur son em, pour que sa phrase prenne sa
+  ligne. Un aplat sur un bloc prend alors la largeur du CONTENEUR et ne
+  s'arrete plus au point - une bande rouge jusqu'au bord. Sans effet sur un
+  em inline, qui n'a pas de largeur a calculer.
+*/
+:is(.pan,.etude) :is(.em-rouge,.em-bleu,.em-jaune,.em-gris){
+  box-decoration-break:clone;-webkit-box-decoration-break:clone;
+  padding:.02em .14em;margin:0 -.06em;width:fit-content;max-width:100%}
+:is(.pan,.etude) .em-rouge{background:var(--red);color:var(--white)}
+:is(.pan,.etude) .em-bleu{background:var(--blue);color:var(--white)}
+:is(.pan,.etude) .em-jaune{background:var(--yellow);color:var(--text)}
+:is(.pan,.etude) .em-gris{background:var(--grey-mondrian);color:var(--text)}
 
 /* Deux blocs empiles dans une colonne du .split. */
 .pan .pile{display:flex;flex-direction:column;gap:28px;min-width:0}
@@ -1280,6 +1603,18 @@
   color:var(--text);cursor:pointer;transition:background .2s,color .2s}
 .pan__haut:hover,.pan__haut:focus-visible{background:var(--text);color:var(--white)}
 .pan__haut:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+/*
+  LE « NEXT » PORTE LA COULEUR DU CHAPITRE QU'IL APPELLE, pas celle du
+  chapitre qui l'affiche. Les quatre etaient bleus, donc le bouton annoncait
+  la couleur de « The approach » meme au bas de « The approach ». Or le
+  sommaire tient les chapitres par la couleur - rouge, bleu, jaune, noir, et
+  chaque carte la porte -, donc le carre du bouton peut l'annoncer : « Next:
+  the proof » en jaune pointe la carte jaune qu'on verra apparaitre.
+
+  Rien a ajouter au composant : `variante` ne teinte que le carre au repos et
+  le fond au survol, et les quatre teintes existent deja avec leur couleur de
+  texte au survol - texte sombre sur le jaune, blanc sur les trois autres.
+*/
 .pan > .suite{align-self:flex-end}
 
 @media(max-width:860px){

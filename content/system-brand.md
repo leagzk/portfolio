@@ -50,7 +50,7 @@ Name IT's place in the value chain first, then build the platform and a producti
 
 Adopted without being enforced.
 
-2,500 people shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com.
+People shipped on-brand without being asked. A reorg broke the identity, so I shipped a major - then translated the new corporate brand for screens, piloted on sanofi.com.
 
 ## 01 &middot; The problem
 
@@ -312,8 +312,6 @@ So I pushed the answer one level up. Not a brand adaptation per product: **one s
 Same conviction, different surface. Understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. **The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.** And that's where Elements Design System begins.
 
 Discover what came next →
-
-Back to the three chapters ↑
 
 ---
 

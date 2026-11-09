@@ -39,14 +39,14 @@ One live experience, orchestrated end to end. **Proof it travels anywhere.**](/s
 
 Philosophy
 
-I lead the way I learned: hands dirty first.
-It's how I lead people: I know **when to step in and when to stay out** - close enough to help when it counts, **never close enough to hover.**
+I build rooms I can leave.
+**When to step in, and when to stay out.** Close enough to help when it counts, never close enough to hover - the measure is a team that ships the week I'm not there.
 
 Direction earned, not assigned.
-It's how I make the calls: I've designed **the brand, the product and the system**, so my direction comes from the work, not the org chart - **I know what it costs to execute.**
+I've designed **the brand, the product and the system**, so my direction comes from the work and not the org chart - **I know what it costs to execute** before I ask for it.
 
-Enough engineering to earn the room.
-**I read the code and ran component QA myself** - to back my team up, and to understand the work well enough **never to decide against it.**
+Fluent enough to be argued with.
+**I read the code and ran component QA myself** - not to do the work, but to know it well enough that **a no from my engineers lands, and a yes from me holds.**
 
 ******
 Swipe →

@@ -55,19 +55,63 @@ const travaux = [
 
   Les descriptions sont differenciees a dessein (§3.2) : le rouge dit comment je
   dirige les gens, le jaune comment je prends les decisions.
+
+  LA DIFFERENCE SE LIT DANS LE CONTENU, PAS DANS UNE ETIQUETTE. Les deux
+  premieres s'ouvraient sur « It's how I lead people : » et « It's how I make
+  the calls : » - l'annonce du sujet avant le sujet. Cinq mots par carte qui
+  nommaient la categorie au lieu de dire quelque chose, sur des cartes qui en
+  comptent trente. Ils sont rendus a la substance, et chaque description finit
+  maintenant sur ce que la chose CHANGE plutot que sur ce qu'elle est.
+
+  LE TROISIEME TITRE NE DIT PLUS « earn ». « Enough engineering to earn the
+  room » doublait le « earned » du jaune - deux cartes sur trois sur le meme
+  mot, et le jaune porte la plus tendue des deux lignes. Il avait un second
+  defaut : gagner la salle, c'est justifier sa place. Le nouveau titre dit la
+  profondeur technique par ce qu'elle AUTORISE - qu'on la contredise - et sa
+  description cesse d'etre une preuve de savoir-faire.
+
+  ═══ UN SUJET PAR CARTE, ET CE SONT CEUX DE LA CITATION ═══
+
+  Oter le mot « earn » n'a pas suffi, parce que la repetition n'etait pas
+  dans le mot : elle etait dans l'argument. « I lead the way I LEARNED »,
+  « Direction EARNED », « FLUENT enough » - trois facons de dire que
+  l'autorite vient d'avoir fait le metier. Un principe decline trois fois,
+  pas trois principes.
+
+  LA ROUGE DOUBLAIT AUSSI LE HERO. « I lead the way I learned: hands dirty
+  first » dit ce que dit deja, 300px plus haut, « every rung of the craft
+  before the direction ». La meme phrase deux fois sur le meme ecran.
+
+  ET AUCUNE NE PARLAIT DE COMMUNAUTE - la moitie de la citation sous laquelle
+  elles sont posees (« through Design Leadership and Community Building »), et
+  la seule chose que la page Philosophy declare non negociable.
+
+  LES DESCRIPTIONS, ELLES, ETAIENT DEJA BIEN REPARTIES : la rouge parle de
+  distance et finit sur une equipe qui livre sans elle - c'est la communaute ;
+  la jaune parle de direction et de cout - c'est le leadership ; la noire
+  parle de lire le code - c'est la pratique. Seul le titre rouge ne suivait
+  pas sa propre description. Il change, les deux autres restent, et les trois
+  cartes cessent de se ressembler parce qu'elles cessent de parler du meme
+  sujet.
+
+  L'ORDRE A L'ECRAN VA DE LA COMMUNAUTE A LA PRATIQUE quand la citation va de
+  la pratique a la communaute. L'echo tient - ce sont les trois memes termes -
+  et le remettre dans l'ordre demanderait d'echanger les contenus du rouge et
+  du noir, donc la couleur que porte chaque sujet : le brief (§3.2) fixe rouge
+  = les gens, jaune = les decisions.
 */
 const principes = [
   {
-    cle: 'a', couleur: 'rouge', titre: 'I lead the way I learned: hands dirty first.',
-    detail: "It's how I lead people: I know <b>when to step in and when to stay out</b> - close enough to help when it counts, <b>never close enough to hover.</b>",
+    cle: 'a', couleur: 'rouge', titre: 'I build rooms I can leave.',
+    detail: "<b>When to step in, and when to stay out.</b> Close enough to help when it counts, never close enough to hover - the measure is a team that ships the week I'm not there.",
   },
   {
     cle: 'b', couleur: 'jaune', titre: 'Direction earned, not assigned.',
-    detail: "It's how I make the calls: I've designed <b>the brand, the product and the system</b>, so my direction comes from the work, not the org chart - <b>I know what it costs to execute.</b>",
+    detail: "I've designed <b>the brand, the product and the system</b>, so my direction comes from the work and not the org chart - <b>I know what it costs to execute</b> before I ask for it.",
   },
   {
-    cle: 'c', couleur: 'noir', titre: 'Enough engineering to earn the room.',
-    detail: '<b>I read the code and ran component QA myself</b> - to back my team up, and to understand the work well enough <b>never to decide against it.</b>',
+    cle: 'c', couleur: 'noir', titre: 'Fluent enough to be argued with.',
+    detail: '<b>I read the code and ran component QA myself</b> - not to do the work, but to know it well enough that <b>a no from my engineers lands, and a yes from me holds.</b>',
   },
 ];
 ---
@@ -489,9 +533,28 @@ const principes = [
   .pr:hover .pr__ico--f,.pr:focus-visible .pr__ico--f,.pr[aria-expanded="true"] .pr__ico--f{opacity:1}
 
   /* ═══ Citation ═══ */
-  /* -3px de marge basse : la case fusionne visuellement avec le blanc du
-     dessous, et sans ce chevauchement un filet d'un pixel reapparait sous elle
-     (BRIEF §4.3). */
+  /*
+    PLUS DE MARGE NEGATIVE EN BAS, ET C'EST ELLE QUI DECALAIT LE DERNIER FILET.
+
+    La case portait `margin-bottom:-3px` pour chevaucher le blanc du dessous :
+    au temps ou les filets etaient le FOND NOIR de la grille vu par les `gap`,
+    un trait d'un pixel reapparaissait sous elle au sous-pixel, et le
+    chevauchement le mangeait.
+
+    Les filets ne viennent plus du fond. Chaque case porte le sien en
+    `box-shadow` (voir `.comp > *`), et le fond de `.comp` est transparent. Le
+    chevauchement ne protege donc plus de rien - il DEPLACE le trait : une
+    marge negative agrandit l'element de 3px au lieu de le remonter, la case
+    faisait 345px dans une rangee de 342, et son ombre se dessinait 3px sous
+    celle de ses voisines.
+
+    Releve a 1440px, bande noire visible par x sur la derniere ligne de la
+    grille : 887-888 de 0 a 260, RIEN de 268 a 620 - la citation couvrait le
+    trait de la barre du dessous avec son blanc -, puis 887-888 de 630 a 1072.
+    Le trait sautait donc de trois pixels sur toute la largeur de la case, et
+    c'est ce decalage qui se voyait. A zero, les quatre cases de la rangee
+    finissent sur la meme ligne.
+  */
   /*
     LA CITATION PART DU HAUT, LE BOUTON RESTE EN BAS.
 
@@ -512,7 +575,7 @@ const principes = [
     Et la rangee devient un plancher (voir .comp) : a neuf lignes il n'y a plus
     de jeu a distribuer, il faut de la place en plus.
   */
-  .citation{margin:0 0 -3px;z-index:2;padding:32px 32px 40px;
+  .citation{margin:0;z-index:2;padding:32px 32px 40px;
     display:flex;flex-direction:column;justify-content:flex-start;gap:24px}
   .citation .sb{margin-top:auto}
   .citation blockquote{margin:0;font-family:var(--display);font-size:var(--fs-section);
