@@ -64,7 +64,7 @@ Adopted. Trusted. Extended.
 
 Adoption earned one team at a time, trust measured twice a year, and a contribution path that runs from using it to owning it. The platform's best ideas now arrive from outside my roadmap.
 
-The hardest thing I built was the team.
+The thing I cared most about was the team.
 
 Autonomy by design, a capability each person owns, and every hire judged by the people who would work with them. An Awards category named it before I did: a leadership story, not a system one.
 
