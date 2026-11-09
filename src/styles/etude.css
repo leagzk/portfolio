@@ -945,7 +945,26 @@
 .dcarte__eyebrow{display:flex;justify-content:space-between;align-items:center;
   gap:12px;font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.18em;
   text-transform:uppercase}
-.dcarte__corps{display:flex;flex-direction:column;gap:12px}
+/*
+  LES PUCES SE POSENT AU BAS DE LA CARTE.
+
+  Une carte est une case de la composition : sa hauteur vient de la grille, pas
+  de son contenu. Deux cartes voisines portent donc le meme rectangle avec des
+  textes de longueurs differentes, et leurs puces s'arretaient chacune ou leur
+  synthese les laissait - deux lignes a deux hauteurs dans une grille dont tout
+  le propos est que les traits se continuent.
+
+  Le corps prend donc la hauteur disponible et les puces descendent au bas :
+  d'une carte a l'autre d'une meme rangee, elles s'alignent, et le blanc remonte
+  entre la synthese et elles - ou il se lit comme une respiration au lieu d'un
+  reste.
+
+  C'EST `.dcarte__corps` ET NON `.dcarte__txt` : cette seconde classe designe
+  AUSSI la ligne de surtitre, et la poser en colonne flex avec un `gap` y
+  ajoutait un ecart qui faisait deborder les douze cartes du site.
+*/
+.dcarte__corps{display:flex;flex-direction:column;gap:12px;flex:1}
+.dcarte__points{margin-top:auto}
 /*
   ═══ LE SURTITRE DE LA QUATRIEME CARTE EST EN NEGATIF ═══
 
@@ -1229,7 +1248,12 @@
   la forme du telephone, empilee, qui ne depend d'aucune largeur.
 */
 @media(min-width:1120px){
-  .dcarte__points{display:block;margin-top:18px}
+  /* `auto` POUSSE, LE PADDING GARDE L'ECART. `margin-top:18px` ecrasait le
+     `auto` pose plus haut - meme specificite, et cette regle vient apres - donc
+     les puces restaient collees a leur synthese dans les cartes plus hautes que
+     leur contenu. Le `auto` les descend au bas de la carte, et les 18px passent
+     en padding pour que l'ecart minimal ne depende plus de la marge. */
+  .dcarte__points{display:block;margin-top:auto;padding-top:18px}
   .dcarte__liste{display:flex;flex-wrap:wrap;align-items:baseline;
     column-gap:14px;row-gap:6px}
   .dcarte__point{display:flex;align-items:baseline;gap:7px;
@@ -1822,7 +1846,20 @@
   s'arrete plus au point - une bande rouge jusqu'au bord. Sans effet sur un
   em inline, qui n'a pas de largeur a calculer.
 */
+/*
+  `font-style:normal`, ET C'EST UNE CORRECTION, PAS UN REGLAGE. Ces accents
+  sont portes par un <em>, choisi pour ce qu'il dit a une synthese vocale -
+  une emphase - et pas pour sa forme. Mais aucune regle ne reprenait son
+  italique par defaut : les trois etudes affichaient donc toutes leurs phrases
+  d'attaque avec un membre en italique DANS un aplat de couleur, a 34px de
+  Display. L'aplat est deja l'emphase ; l'italique la disait une seconde fois,
+  et deformait la lettre a l'endroit ou elle est la plus grosse.
+
+  L'italique reste disponible la ou il travaille : un <em> sans classe, dans
+  un paragraphe, garde le sien.
+*/
 :is(.pan,.etude) :is(.em-rouge,.em-bleu,.em-jaune,.em-gris){
+  font-style:normal;
   box-decoration-break:clone;-webkit-box-decoration-break:clone;
   padding:.02em .14em;margin:0 -.06em;width:fit-content;max-width:100%}
 :is(.pan,.etude) .em-rouge{background:var(--red);color:var(--white)}

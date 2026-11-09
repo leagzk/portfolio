@@ -80,7 +80,7 @@ On the first two editions I held all of it - art direction, print, setup, some o
 
 The other half of the same question is the suppliers. Nine of them, each better than me at their own craft. Hold too much and you get compliance instead of their best work; hold too little and fifty surfaces drift apart by the second week. The answer isn't a tighter brief, it's a clearer one - agreed at the start, on what is fixed, what is theirs, and how we work together.
 
-And a direction still has to survive the room it's defended in. This one held three generations who don't value the same things - what reads as considered to one reads as cold to the next - and not one of them reports to anybody. Finding the argument that lands for each without moving the work itself is the job I do upstairs. **Stakeholder management, with grandparents instead of a steering committee.**
+And a direction still has to survive the room it's defended in. This one held three generations who don't value the same things - what reads as considered to one reads as cold to the next - and not one of them reports to anybody. Finding the argument that lands for each without moving the work itself is the job I do upstairs. **Stakeholder management, with family instead of a steering committee.**
 
 **Fix the frame, open the rest.** It's the same arbitration I run on a design system: a core nobody negotiates, and everything around it contributed.
 
