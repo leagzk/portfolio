@@ -20,6 +20,7 @@
 */
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
+import Icone from './Icone.astro';
 
 export interface Props {
   src?: ImageMetadata;
@@ -38,11 +39,28 @@ export interface Props {
   attente?: string;
   /** classes supplementaires - le parent decide de la place qu'elle occupe */
   class?: string;
+  /*
+    LA LOUPE. Une planche de travail - une carte des capabilities, un jeu
+    d'iconographie, une page de brandbook - ne se lit pas a 250px de large :
+    elle y sert de matiere, et il faut pouvoir l'ouvrir en grand. `zoom` fait
+    du cadre un bouton que src/scripts/loupe.ts ramasse comme les cases de la
+    mosaique, dont il reprend `.zoom` et son badge.
+
+    PAS SUR TOUTES LES FIGURES : une capture de produit ou un document montre
+    en entier n'a rien de plus a reveler, et un badge de loupe sur chacune
+    promettrait un agrandissement sans objet.
+  */
+  zoom?: boolean;
 }
 const {
   src, url, alt, legende, ratio, ajuste = 'contain',
   sizes = '(min-width: 900px) 340px, 90vw', attente, class: classe,
+  zoom = false,
 } = Astro.props;
+
+/* La loupe lit `data-legende` ; sans legende visible, le texte alternatif en
+   tient lieu plutot que d'ouvrir une vue sans titre. */
+const titreLoupe = legende ?? alt;
 
 const styleCadre = [
   ratio && `aspect-ratio:${ratio}`,
@@ -51,11 +69,23 @@ const styleCadre = [
 ---
 <figure class:list={['fig', classe]}>
   <div class="fig__cadre" style={styleCadre}>
-    {src && (
-      <Image src={src} alt={alt} sizes={sizes} loading="lazy" decoding="async" />
+    {zoom && (src || url) ? (
+      <button type="button" class="zoom" data-loupe="image"
+        data-legende={titreLoupe} aria-label={`Enlarge ${alt}`}>
+        {src
+          ? <Image src={src} alt={alt} sizes={sizes} loading="lazy" decoding="async" />
+          : <img src={url} alt={alt} loading="lazy" decoding="async" />}
+        <span class="zoom__badge" aria-hidden="true"><Icone nom="loupe" taille={13} /></span>
+      </button>
+    ) : (
+      <Fragment>
+        {src && (
+          <Image src={src} alt={alt} sizes={sizes} loading="lazy" decoding="async" />
+        )}
+        {!src && url && <img src={url} alt={alt} loading="lazy" decoding="async" />}
+        {!src && !url && <span class="fig__attente">{attente ?? alt}</span>}
+      </Fragment>
     )}
-    {!src && url && <img src={url} alt={alt} loading="lazy" decoding="async" />}
-    {!src && !url && <span class="fig__attente">{attente ?? alt}</span>}
   </div>
   {legende && <figcaption class="cap" set:html={legende} />}
 </figure>
