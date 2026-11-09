@@ -218,7 +218,7 @@ Every week, the same question: *is the work moving, and is the person growing.*
 
 I hired into the org I had drawn: from one designer to a core team of nine - **five designers and four React engineers**. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two design roles opened, and designers from the organisation joined.
 
-I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared project, never beside it.
+I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 
 **Nicolas** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead** and we founded the capability together. **His growth and the company's outcome, paired.**
 
