@@ -847,6 +847,32 @@
   gap:12px;font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.18em;
   text-transform:uppercase}
 .dcarte__corps{display:flex;flex-direction:column;gap:12px}
+/*
+  ═══ LE SURTITRE DE LA QUATRIEME CARTE EST EN NEGATIF ═══
+
+  Sur chaque etude, la quatrieme carte nomme ce que le cas a d'unique - le
+  point de bascule. L'equipe pour Governance, le standard pour Language. C'est
+  la seule des quatre qui ne suive pas le systeme mais ce qui l'a fait
+  basculer, et elle doit se reperer AVANT d'etre lue.
+
+  La place qu'elle occupe dans la composition le dit deja sur Language, mais
+  pas sur les deux autres, dont les compositions different. Le surtitre, lui,
+  est au meme endroit partout : c'est donc lui qui porte le signe, et il le
+  portera de la meme maniere sur les trois.
+
+  SUR LE SEUL RANG DU TEXTE, PAS SUR TOUTE LA LARGEUR : l'aplat se cale sur le
+  mot, comme un surlignage, et laisse le « + » a sa place a droite. Un bandeau
+  pleine largeur aurait fait une barre de titre, ce qui est autre chose.
+
+  A L'OUVERTURE, LA CARTE DEVIENT NOIRE et le surtitre y disparaitrait : il
+  passe alors en blanc sur noir, c'est-a-dire a l'inverse - le texte reprend sa
+  couleur de carte ouverte et l'aplat s'efface.
+*/
+.dcarte--noir .dcarte__eyebrow > span:first-child{
+  background:var(--ink);color:var(--white);
+  padding:5px 9px;margin:-5px 0 -5px -9px}
+.dcarte--noir[aria-expanded="true"] .dcarte__eyebrow > span:first-child{
+  background:none;color:var(--white);padding:5px 0;margin:-5px 0}
 .dcarte__titre{font-family:var(--display);font-size:24px;line-height:1.1;
   font-weight:900;max-width:420px}
 /* La carte 01 est la plus grande des trois : son titre porte un cran de plus. */

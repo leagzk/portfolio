@@ -19,7 +19,7 @@ nobody had defined: what the new corporate brand becomes on a screen.
 
 The brand platform
 
-**One language for a function nobody could describe** - positioning, territory and tone of voice, with a production line any of 2,500 people could pick up. Run as a product: versioned, not redrawn, when the brand underneath it changed.
+**One language for a function nobody could describe** - positioning, territory and tone of voice, with a production line any of 2,500 could pick up. Versioned, not redrawn, when the brand underneath it changed.
 
 The systematization logic proven here is where Elements, Sanofi's experience system, begins.
 

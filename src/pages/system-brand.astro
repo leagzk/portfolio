@@ -451,7 +451,7 @@ const pratiques: Tuile[] = [
             quelle plateforme on parle, et la question ne se pose plus.
           */}
           <p class="clef-def__eb">The brand platform</p>
-          <p class="clef-def__phrase"><strong>One language for a function nobody could describe</strong> - positioning, territory and tone of voice, with a production line any of 2,500 people could pick up. Run as a product: versioned, not redrawn, when the brand underneath it changed.</p>
+          <p class="clef-def__phrase"><strong>One language for a function nobody could describe</strong> - positioning, territory and tone of voice, with a production line any of 2,500 could pick up. Versioned, not redrawn, when the brand underneath it changed.</p>
           {/*
             CE QUI SE PASSE ICI, ET NON OU CA A ATTERRI. Cette ligne disait
             « Piloted on sanofi.com in 2022 » : un jalon d'execution, pose a
@@ -482,12 +482,16 @@ const pratiques: Tuile[] = [
           entre les trois - ce que les cases blanches font sur l'accueil. */}
       <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:a2"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a3"></div>
       {/* Les quatre segments des deux lignes : le long reste blanc, le court
           porte la couleur, et les deux coupes sont decalees. */}
       <div class="compo__decor" aria-hidden="true" style="grid-area:h1"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:h2"><span class="compo__plat compo__plat--jaune"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:h3"><span class="compo__plat compo__plat--bleu"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:h4"></div>
+      {/* LA BANDE BASSE N'EST PLUS UN SYSTEME DE LIGNES. Deux blocs y tiennent
+          des surfaces, et de tailles differentes - 267 et 535 de large, soit
+          du simple au double. Une ligne ne fait que separer ; un bloc pese. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--bleu"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b2"><span class="compo__plat compo__plat--rouge"></span></div>
 
       {/*
         LES QUATRE CARTES SONT ECRITES DANS L'ORDRE 01 → 02 → 03 → 04, pas dans
@@ -1376,14 +1380,14 @@ const pratiques: Tuile[] = [
     */
     .compo{grid-template-columns:repeat(12,minmax(0,1fr));
       grid-template-rows:268px minmax(268px,auto) 36px
-        minmax(300px,auto) 36px minmax(300px,auto);
+        minmax(300px,auto) minmax(300px,auto) minmax(220px,auto);
       grid-template-areas:
         "a1 a1 a1 n1 n1 n1 n2 n2 n2 a2 a2 a2"
-        "n3 n3 n3 def def def def def def def def def"
+        "n3 n3 n3 def def def def def def a3 a3 a3"
         "h1 h1 h1 h1 h1 h1 h1 h1 h2 h2 h2 h2"
-        "c1 c1 c1 c1 c1 c1 c1 c2 c2 c2 c2 c2"
-        "h3 h3 h3 h4 h4 h4 h4 h4 h4 h4 h4 h4"
-        "c3 c3 c3 c3 c4 c4 c4 c4 c4 c4 c4 c4"}
+        "c1 c1 c1 c1 b1 b1 b1 c2 c2 c2 c2 c2"
+        "c3 c3 c3 c3 c3 c3 b2 b2 b2 b2 b2 b2"
+        "c4 c4 c4 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
 
     /*
       LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait
@@ -1423,7 +1427,17 @@ const pratiques: Tuile[] = [
       La ligne de credit garde son `margin-top:auto` : elle se pose au bas de
       la case au lieu de flotter sous la phrase.
     */
-    .compo .clef-def{padding-bottom:32px}
+    /*
+      LE BLOC SE RESSERRE POUR TENIR DANS LA HAUTEUR D'UN CARRE. Aligne sur les
+      deux chiffres du dessus, il ne fait plus que six colonnes - 535px - et sa
+      phrase y prend six lignes au lieu de quatre : 326px de haut quand la
+      rangee en vaut 268, et `n3`, qui la partage, se retrouvait etire.
+
+      Mesure de ces 326 : 222 de texte, 64 de padding et 40 de gouttieres. Les
+      gouttieres passent a 14 et le padding a 24 - 32px repris sans toucher au
+      texte - et la phrase perd une ligne, ce qui donne les 26 derniers.
+    */
+    .compo .clef-def{padding:24px;gap:13px}
     .compo .clef-def__bande,.compo .clef-def__filet{display:none}
     .compo .clef-def__prix{margin-top:auto}
     /*
