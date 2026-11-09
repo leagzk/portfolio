@@ -140,6 +140,10 @@ So I built the line rather than lower the bar. **One source file, two outputs** 
 
 **A constraint, turned into an operating lever.** It is the problem a token set solves on the platform: one source of truth, several build targets, and not one of them permitted to degrade the others. Here the build targets were a press and a cutting mat.
 
+> From the canvas
+
+> To the printed piece
+
 Next: the proof →
 
 ## 03 &middot; The proof
@@ -186,10 +190,6 @@ Printed first: die-cut stationery, an invitation suite that unfolds, every piece
 
 The system on paper, and the system in the world - **the same jump from specification to production I run on the platform**, made physical. Nothing in that jump is automatic, and nothing survives it by accident.
 
-> The invitation, printed
-
-> The suite, unfolding
-
 > The room, at scale
 
 > Tablescape
@@ -197,12 +197,6 @@ The system on paper, and the system in the world - **the same jump from specific
 > Place card
 
 > Palette
-
-Specified
-
-Built
-
-> Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later.
 
 Handover
 
@@ -217,6 +211,12 @@ Because the point was never to hold every thread myself. It was to build somethi
 > Inside it, not behind it.
 
 The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. **It works in a repo. It works in a garden.**
+
+Specified
+
+Built
+
+> Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later.
 
 Credits
 
@@ -325,6 +325,10 @@ See it at global scale →
 ## Textes alternatifs des visuels
 
 - Ceremony arch hung with shapes from the event's visual identity, framed by floral pedestals and two seats
+- The invitation suite laid flat, first arrangement
+- The invitation suite fully opened out, every card visible
+- The invitation suite arranged in place
+- Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table
 - Welcome sign on an easel showing the event monogram, beside stacked metal trunks
 - Invitation suite of layered printed cards and coloured envelopes
 - Monogram disc and a striped disc hanging from the ceremony arch above a floral pedestal
@@ -336,17 +340,13 @@ See it at global scale →
 - Print artwork for the first riddle: a nine by nine colour-region grid with its single rule set above it
 - Striped door tag hanging from a bedroom handle, naming the room in the identity's display type
 - Print artwork for the small card explaining what to do with your glass through the evening
-- Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table
-- The invitation suite laid flat, first arrangement
-- The invitation suite fully opened out, every card visible
-- The invitation suite arranged in place
 - Reception hall under exposed beams and string lights, long tables laid for a hundred guests
 - Long table with patterned plates, gold cutlery and single-stem vases running down the centre
 - Place card clipped to a wine glass on the laid table, beside a small vase of ranunculus
 - Close view of the flower palette: white daisies, blue cornflowers and pink blooms
+- Guests embracing at the event, the designer among them rather than running the day
 - Page from the production guide: mockup of the seating panels with the material checklist
 - The seating panels installed at the venue doorway at dusk, flanked by floral columns
-- Guests embracing at the event, the designer among them rather than running the day
 - The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement
 - Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes
 - The same deduction board after play, its grid filled with pink and green wooden tokens

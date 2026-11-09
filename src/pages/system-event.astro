@@ -503,6 +503,32 @@ const credits = [
             <p><strong>A constraint, turned into an operating lever.</strong> It is the problem a token set solves on the platform: one source of truth, several build targets, and not one of them permitted to degrade the others. Here the build targets were a press and a cutting mat.</p>
           </div>
         </div>
+        {/*
+          LA SOURCE ET SA SORTIE, COTE A COTE, SOUS LE PARAGRAPHE QUI LES
+          EXPLIQUE. Les deux vivaient dans « Execution », ou elles montraient
+          du papier imprime parmi d'autres objets. Ici elles montrent le
+          PIPELINE : a gauche le fichier, a droite ce que la presse en a fait.
+          L'ordre compte - on lit de la source vers l'objet - et les legendes
+          le disent.
+
+          LA SUITE SE FOND D'UN ETAT A L'AUTRE, trois images au meme endroit :
+          la pile fermee, ouverte, puis posee. Trois vignettes cote a cote
+          auraient montre trois photos ; le fondu montre un objet qu'on
+          deplie. src/scripts/crossfade.ts, 2,2s par etat.
+        */}
+        <div class="two">
+          <figure class="fig fig--aere">
+            <div class="fig__cadre suite" style="aspect-ratio:1400 / 1022;--fit:contain">
+              <Image class="suite__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="suite__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="suite__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+            </div>
+            <figcaption class="cap">From the canvas</figcaption>
+          </figure>
+          <Figure src={img('identity-invitation-detail')} legende="To the printed piece" ratio="4 / 3" ajuste="cover"
+            alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
+            sizes="(min-width: 900px) 520px, 90vw" />
+        </div>
       </div>
 
 
@@ -546,15 +572,29 @@ const credits = [
         {/* `aere` : ces vignettes sont des objets photographies, pas des
             captures plein cadre. Sans blanc tournant, le sujet vient taper le
             filet. Meme traitement que sur les deux autres etudes. */}
+        {/*
+          LE CADRE PREND LE RAPPORT DES PHOTOS : ELLES SONT TOUTES DEBOUT.
+          Huit des neuf font 2/3 exactement - 1200x1800 ou 1600x2400 - et la
+          neuvieme 0,714. Posees en `contain` dans un cadre de 4/3, elles
+          remplissaient la hauteur et laissaient le reste en gris : mesure a
+          1280, une image peinte de 281px de large dans un cadre de 580, soit
+          150px d'aplat de chaque cote et rien en haut ni en bas.
+
+          LA LARGEUR SUIT LE RAPPORT. A 62% de la piste, un cadre de 2/3 ferait
+          997px de haut - une vignette plus haute que l'ecran. A 30% il en fait
+          483 pour 322 de large, trois visibles d'un coup et la quatrieme qui
+          depasse : c'est elle qui dit qu'on peut defiler.
+        */}
         <Carrousel
           aere
           label="The surfaces"
           eyebrow="One identity, fifty-plus surfaces"
           vignettes={surfaces}
-          ratio="4 / 3"
-          fr={1.3333}
-          largeur="62%"
-          sizes="(min-width: 900px) 660px, 90vw"
+          ratio="2 / 3"
+          fr={0.6667}
+          largeur="30%"
+          largeurMobile="62%"
+          sizes="(min-width: 900px) 340px, 62vw"
         />
         <div class="two">
           {/*
@@ -595,27 +635,6 @@ const credits = [
             <p>The system on paper, and the system in the world - <strong>the same jump from specification to production I run on the platform</strong>, made physical. Nothing in that jump is automatic, and nothing survives it by accident.</p>
           </div>
         </div>
-<div class="two">
-          <Figure src={img('identity-invitation-detail')} legende="The invitation, printed" ratio="4 / 3" ajuste="cover"
-            alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
-            sizes="(min-width: 900px) 520px, 90vw" />
-          {/*
-            LA SUITE SE FOND D'UN ETAT A L'AUTRE, trois images au meme endroit :
-            la pile fermee, ouverte, puis posee. Trois vignettes cote a cote
-            auraient montre trois photos ; le fondu montre un objet qu'on
-            deplie. src/scripts/crossfade.ts, 2,2s par etat.
-          */}
-          {/* `fig--aere` : la suite est posee a plat sur un fond clair, elle
-              n'a pas de bord a elle et venait au ras du filet. */}
-          <figure class="fig fig--aere">
-            <div class="fig__cadre suite" style="aspect-ratio:1400 / 1022;--fit:contain">
-              <Image class="suite__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="suite__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="suite__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-            </div>
-            <figcaption class="cap">The suite, unfolding</figcaption>
-          </figure>
-        </div>
         <div class="two">
           <Figure src={img('staging-hall')} legende="The room, at scale" ratio="4 / 3" ajuste="cover"
             alt="Reception hall under exposed beams and string lights, long tables laid for a hundred guests"
@@ -630,11 +649,6 @@ const credits = [
             alt="Close view of the flower palette: white daisies, blue cornflowers and pink blooms"
             sizes="(min-width: 900px) 520px, 90vw" />
         </div>
-        <BeforeAfter
-          spec={{ src: img('spec-zone-seating'), alt: 'Page from the production guide: mockup of the seating panels with the material checklist' }}
-          built={{ src: img('staging-entrance-evening'), alt: 'The seating panels installed at the venue doorway at dusk, flanked by floral columns' }}
-          caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
-        />
       </div>
 
       {/*
@@ -680,6 +694,16 @@ const credits = [
             <p>The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. <strong>It works in a repo. It works in a garden.</strong></p>
           </div>
         </div>
+        {/* LA PAGE DU GUIDE ET CE QU'ELLE A PRODUIT. Elle vivait dans
+            « Execution », ou elle illustrait le passage de la specification a
+            l'objet - vrai, mais c'est ICI que le guide est le sujet : une page
+            par zone, un proprietaire par page, et la preuve que la page tient
+            douze mois plus tard sans moi dans la piece. */}
+        <BeforeAfter
+          spec={{ src: img('spec-zone-seating'), alt: 'Page from the production guide: mockup of the seating panels with the material checklist' }}
+          built={{ src: img('staging-entrance-evening'), alt: 'The seating panels installed at the venue doorway at dusk, flanked by floral columns' }}
+          caption="Drawn in Illustrator, briefed to four suppliers, standing at the door twelve months later."
+        />
       </div>
 
 

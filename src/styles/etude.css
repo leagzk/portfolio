@@ -1676,7 +1676,18 @@
   Au ras du filet, elle se lit comme une capture rognee ; `aere` lui rend un
   blanc tournant, et le fond de la case reste sous elle.
 */
-.fig--aere .fig__cadre{padding:18px;background:var(--white)}
+/*
+  LE RAPPORT S'APPLIQUE A L'INTERIEUR DU CADRE, PAS A SON BORD. `aspect-ratio`
+  porte par defaut sur la boite de BORDURE : un cadre de 2/3 avec 18px de
+  blanc tournant a donc un interieur de (W-36)/(H-36), qui n'est plus 2/3. La
+  photo, en `contain`, s'y centre selon le cote le plus serre et laisse le
+  reste en marge - mesure sur le carrousel : 28px a gauche et a droite, 41 en
+  haut et en bas, pour un cadre pourtant pose au rapport exact des images.
+
+  `content-box` fait porter le rapport sur l'interieur : la photo y tient alors
+  pile, et le blanc tournant vaut son padding sur les quatre cotes.
+*/
+.fig--aere .fig__cadre{padding:18px;background:var(--white);box-sizing:content-box}
 /*
   LE MEME BLANC DANS UN CADRE QUI DEFILE, PAR UNE SEULE VALEUR. `--pad` sert
   aux trois endroits qui doivent s'accorder : le padding du cadre, le calage
@@ -1706,8 +1717,16 @@
   reste. L'aplat de fond, lui, continue d'occuper toute la case - c'est le
   dessin qui recule, pas la couleur.
 */
-.carrousel--aere .fig__cadre{padding:26px}
-@media(max-width:860px){.carrousel--aere .fig__cadre{padding:16px}}
+/*
+  LE CARROUSEL NE POSE PLUS SON PROPRE BLANC TOURNANT. Il avait sa regle a lui
+  - 26px, 16 sous le palier - la ou `Figure` en a deja une, `fig--aere`, qui
+  fait le meme travail a 18px. Deux mecanismes pour un geste : le carrousel
+  marquait sa racine d'une classe et la vignette, elle, n'etait jamais `aere`,
+  donc tout ce qui s'attache a `fig--aere` la manquait. C'est ce qui a fait
+  rater le `box-sizing` du rapport. `aere` descend maintenant jusqu'a la
+  figure, et la classe de racine ne sert plus qu'a ce qui est propre a la
+  piste.
+*/
 
 .cap{font-size:var(--fs-caption);line-height:1.55;color:var(--ink-muted)}
 .cap strong{color:var(--text)}
