@@ -388,8 +388,23 @@ const principes = [
   .cell--w3 .wt::after{content:"";position:absolute;z-index:0;right:96px;top:0;width:var(--rule);height:56px;background:var(--text)}
 
   .wt__eyebrow,.wt__nom,.wt__accroche{position:relative;z-index:2;transition:color .3s}
-  .wt__eyebrow{display:flex;justify-content:space-between;align-items:center;gap:12px;
-    font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.18em;text-transform:uppercase}
+  /*
+    LE SURTITRE DE LA TUILE TIENT SUR UN RANG, ET IL S'EN FALLAIT DE DEUX
+    PIXELS. « Systematize a moment » passait sur deux lignes quand ses deux
+    voisins tenaient : mesure sur le build, 173px de texte pour 171 de place
+    dans les tuiles etroites - la fleche et son ecart prenant le reste des
+    203px. « Systematize a brand » n'en demande que 162 et ne montrait donc
+    rien ; c'est le mot le plus long des trois qui revelait la limite.
+
+    LA PLACE EST REPRISE DES DEUX COTES plutot que d'un seul, pour qu'aucun
+    des deux reglages n'aille au bout de sa marge : l'ecart passe de 12 a 8px,
+    et l'interlettrage de .18 a .16em - soit 175px de place pour 169 de texte,
+    six pixels d'avance au lieu de deux. Ce n'est pas la valeur d'eyebrow du
+    reste du site, et c'est assume : ailleurs le surtitre a toute sa ligne,
+    ici il la partage avec une fleche dans une tuile de 267px.
+  */
+  .wt__eyebrow{display:flex;justify-content:space-between;align-items:center;gap:8px;
+    font-size:var(--fs-eyebrow);font-weight:700;letter-spacing:.16em;text-transform:uppercase}
   .wt__fleche{flex:none;transition:transform .35s cubic-bezier(.2,.7,.2,1)}
   .wt__nom{font-family:var(--display);font-size:var(--fs-section);font-weight:900;line-height:1}
   .wt__accroche{font-size:14px;line-height:1.55}
