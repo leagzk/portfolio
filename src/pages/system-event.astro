@@ -66,14 +66,24 @@ const img = chercheurImages(fichiers, 'living-system');
   TROISIEME edition - c'est elle qui prouve que le systeme se versionne.
 */
 const chiffres: Chiffre[] = [
-  { nombre: '1 an+', quoi: 'from first object to last jar', couleur: 'bleu', motif: 'plein',
+  /* « 1 an+ » etait reste en francais sur une page qui ne l'est pas, a cote de
+     « 50+ », « 9 » et « 3rd ». Un seul mot, mais c'est le premier chiffre que
+     le lecteur rencontre. */
+  { nombre: '1 yr+', quoi: 'from first object to last jar', couleur: 'bleu', motif: 'plein',
     contexte: 'Designed and orchestrated end to end, alongside the day job.' },
   { nombre: '50+', quoi: 'surfaces, one identity', couleur: 'jaune', motif: 'carre',
     contexte: 'Paper, fabric, metal, wood - and a pre-event WhatsApp community.' },
   { nombre: '9', quoi: 'suppliers directed from one guide', couleur: 'noir', motif: 'plein',
     contexte: 'One page per zone, one owner per page. Executed without me in the room.' },
-  { nombre: '3rd', quoi: 'edition, each bigger than the last', couleur: 'rouge', motif: 'bande',
-    contexte: "A full identity every time, an escape game every time. I don't repeat a system - I version it." },
+  /*
+    « EACH BIGGER THAN THE LAST » ETAIT FAUX. Les trois editions comptent 200,
+    100 et 90 invites, et c'est celle de 90 qui est documentee ici : la
+    progression allait dans l'autre sens. Le chiffre ne vaut pas par la taille
+    de toute facon - il vaut parce que la mecanique a tenu sur trois couples
+    qui n'avaient ni les memes gouts ni le meme monde autour d'eux.
+  */
+  { nombre: '3rd', quoi: 'edition, three couples, three identities', couleur: 'rouge', motif: 'bande',
+    contexte: "A full identity every time, a different escape game every time. I don't repeat a system - I version it." },
 ];
 
 /*
@@ -153,9 +163,15 @@ const credits = [
     courant="system-event"
     eyebrow="Systematize a moment · Living System · 3rd edition"
     filigrane="Surfaces"
+    {/* 12,9, ET LE TITRE A CHANGE SANS QUE LA MESURE BOUGE. Verifie sur le
+        build : le seuil des deux lignes est a 12,6 - en dessous « chart. »
+        tombe seul sur une troisieme - et 12,9 est ce seuil plus les 0,3
+        d'arrondi que portent les deux autres heros. La moitie de la largeur
+        d'une ligne (12,08) ne suffit pas ici : les mots sont insecables, et la
+        seule coupe possible tombe apres « the org ». */}
     mesure={12.9}
   >
-    Same systems thinking, same care - just off the screen.
+    Same systems thinking, same care, just off the org chart.
     {/*
       DEUX PARAGRAPHES, COMME LES DEUX AUTRES ETUDES. Le premier dit le mandat
       et ce qu'il a produit, le second le deplacement qu'il opere, nomme en
@@ -163,14 +179,16 @@ const credits = [
     */}
     <Fragment slot="intro">
       <p>
-        Over more than a year, I designed and orchestrated a live event end to
-        end - <b>one identity across fifty-plus surfaces</b>, and nine
-        suppliers held to it. Invitation, signage, tableware, games: every
-        piece cut from the same system.
+        Three weddings, three couples, three identities - this is the third.
+        Over more than a year I designed and orchestrated it end to end:{' '}
+        <b>one identity across fifty-plus surfaces</b>, several days, ninety
+        guests, and nine suppliers held to it. Invitation, signage, tableware,
+        an escape game - every piece cut from the same system.
       </p>
       <p>
-        <b>No repository. No deploy pipeline.</b> Just the discipline of making
-        a hundred moving parts feel like one thing - and the proof that
+        <b>No repository. No deploy pipeline. No org chart either</b> - nobody
+        here reported to me, and nobody had to say yes. Just the discipline of
+        making a hundred moving parts feel like one thing, and the proof that{' '}
         <b>a system is a way of working, not a technology.</b>
       </p>
     </Fragment>

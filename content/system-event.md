@@ -10,13 +10,13 @@ indexable: true
 
 Systematize a moment · Living System · 3rd edition
 
-# Same systems thinking, same care - just off the screen.
+# Same systems thinking, same care, just off the org chart.
 
-Over more than a year, I designed and orchestrated a live event end to end - **one identity across fifty-plus surfaces**, and nine suppliers held to it. Invitation, signage, tableware, games: every piece cut from the same system.
+Three weddings, three couples, three identities - this is the third. Over more than a year I designed and orchestrated it end to end: **one identity across fifty-plus surfaces**, several days, ninety guests, and nine suppliers held to it. Invitation, signage, tableware, an escape game - every piece cut from the same system.
 
-**No repository. No deploy pipeline.** Just the discipline of making a hundred moving parts feel like one thing - and the proof that**a system is a way of working, not a technology.**
+**No repository. No deploy pipeline. No org chart either** - nobody here reported to me, and nobody had to say yes. Just the discipline of making a hundred moving parts feel like one thing, and the proof that **a system is a way of working, not a technology.**
 
-1 an+
+1 yr+
 
 from first object to last jar
 
@@ -36,9 +36,9 @@ One page per zone, one owner per page. Executed without me in the room.
 
 3rd
 
-edition, each bigger than the last
+edition, three couples, three identities
 
-A full identity every time, an escape game every time. I don't repeat a system - I version it.
+A full identity every time, a different escape game every time. I don't repeat a system - I version it.
 
 It started with two rented objects.
 
