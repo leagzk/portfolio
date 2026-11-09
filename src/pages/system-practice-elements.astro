@@ -1459,20 +1459,6 @@ const mecanismes: Tuile[] = [
         "z1 z1 z2 z2 z3 z3 z4 z4 c2 c2 c2 c2"
         "c3 c3 c3 c3 c4 c4 c4 c4 bb bb bb bb"
         "c3 c3 c3 c3 c4 c4 c4 c4 bb bb bb bb"}
-
-    /*
-      LES RAILS SUIVENT LA GRILLE DE CETTE PAGE. La valeur partagee -
-      `4fr 6fr 2fr` dans etude.css - pose ses deux filets a 4 et 10 douziemes.
-      Elle est calee sur Surfaces, dont la grille a bien une borne a 10 ; ici
-      il n'y en a pas, et le filet de droite tombait a 892 quand la carte du
-      pivot s'arrete a 899. Sept pixels : assez pour qu'on voie deux lignes au
-      lieu d'une.
-
-      Trois colonnes egales posent les filets a 4 et 8 douziemes, c'est-a-dire
-      exactement sur les deux bords de la carte 04. Le bandeau prolonge alors
-      la composition au lieu de la croiser.
-    */
-    .rails{grid-template-columns:repeat(3,minmax(0,1fr))}
   }
 </style>
 

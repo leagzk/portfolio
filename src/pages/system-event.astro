@@ -1029,6 +1029,11 @@ const credits = [
         "c4 c4 c4 c4 c4 c4 p1 p1 p1 p1 p2 p2"
         "c4 c4 c4 c4 c4 c4 b1 b1 b2 b2 b3 b3"}
 
+    /* Les rails suivent la grille de cette page : 4 et 10 douziemes, les
+       bornes de `p1` et de `b2`. C'etait la valeur partagee jusqu'ici, mais
+       elle ne decrivait que cette composition - voir .rails dans etude.css. */
+    .rails{grid-template-columns:4fr 6fr 2fr}
+
     .compo .cles--mondrian{display:contents}
     /*
       LES DEUX CHIFFRES RESTENT UNE BANDE, POSEE EN COLONNE. Decoupes en deux

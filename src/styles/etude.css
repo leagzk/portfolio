@@ -1932,7 +1932,21 @@
   cesse d'etre une bande posee dessous pour devenir la derniere rangee de la
   meme grille.
 */
-.rails{display:grid;grid-template-columns:4fr 6fr 2fr;gap:var(--rule-fine);
+/*
+  LES COLONNES NE SONT PAS ICI, ET C'EST LE POINT. Cette regle portait
+  `4fr 6fr 2fr`, qui est la grille de Surfaces et d'elle seule : ses filets
+  tombent a 4 et 10 douziemes, les deux bornes que cette composition-la
+  possede. Les deux autres etudes heritaient donc d'un decoupage etranger -
+  Language voyait ses filets passer a 89px de toute borne de sa grille.
+
+  Le partage garde ce qui est commun - la grille, le filet, la hauteur - et
+  chaque etude declare SES colonnes a cote de ses propres aires. Trois
+  colonnes egales servent de defaut : elles posent les filets a 4 et 8
+  douziemes, des bornes qu'une composition sur douze colonnes a presque
+  toujours.
+*/
+.rails{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:var(--rule-fine);
   background:var(--text);padding-top:var(--rule-fine);margin-top:0}
 .rails > *{background:var(--white);min-height:56px}
 @media(max-width:860px){.rails{display:none}}

@@ -1547,6 +1547,19 @@ const pratiques: Tuile[] = [
         "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
 
     /*
+      LES RAILS SUIVENT LA GRILLE DE CETTE PAGE. La valeur partagee -
+      `4fr 6fr 2fr` dans etude.css - pose ses filets a 4 et 10 douziemes, et
+      elle est calee sur Surfaces, la seule des trois dont la grille ait une
+      borne a 10. Ici les bornes sont a 2, 3, 5, 6 et 9 : les deux filets
+      tombaient a 357 et 893, soit 89px de la borne la plus proche dans les
+      deux cas. Le bandeau ne prolongeait rien, il coupait.
+
+      3 / 6 / 3 les ramene a 268 et 804 - le bord droit de `h1`, et celui de
+      `c2` sous lequel la carte 03 commence.
+    */
+    .rails{grid-template-columns:3fr 6fr 3fr}
+
+    /*
       LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait
       sa propre grille, collee sous celle-ci : deux objets qui se touchaient
       sans s'aligner. `display:contents` fait disparaitre ses boites sans
