@@ -541,7 +541,24 @@ const {
 
     5% du diametre font 10% du rayon, a toutes les largeurs.
   */
-  .hero__anneau{position:absolute;inset:calc(var(--avatar-w) * -0.05);
+  /*
+    SA TAILLE EST ECRITE, ELLE N'EST PAS DEDUITE DES QUATRE COTES - meme
+    correctif que l'anneau du loader, et meme cause. Un <svg> est un element
+    REMPLACE : avec les quatre decalages poses mais `width` et `height` a
+    `auto`, la boite est sur-contrainte, et les moteurs ne la resolvent pas
+    pareil. Chromium etire le SVG entre les quatre cotes ; un moteur qui
+    prend la taille intrinseque garde `left` et `top`, ignore `right` et
+    `bottom`, et l'anneau se peint ailleurs que sur le portrait.
+
+    C'est le facteur COMMUN aux deux anneaux, et c'est ce qui explique qu'ils
+    derivent tous les deux sur le meme appareil : ils partageaient le meme
+    cadrage sur-contraint.
+  */
+  .hero__anneau{position:absolute;
+    top:calc(var(--avatar-w) * -0.05);
+    left:calc(var(--avatar-w) * -0.05);
+    width:calc(var(--avatar-w) * 1.1);
+    height:calc(var(--avatar-w) * 1.1);
     overflow:visible;
     transform:rotate(-90deg);will-change:transform;pointer-events:none}
   /*
