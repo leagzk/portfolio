@@ -56,8 +56,23 @@ jobs:
         run: |
           set -euo pipefail
 
+          # Message à afficher quand l'échec vient du token : il dit quoi faire,
+          # étape par étape, dans l'annotation d'erreur ET dans le résumé du run.
+          token_help() {
+            echo "::error title=Token Vercel à renouveler::$1 À faire : (1) vercel.com/account/tokens > Create Token, scope lea-giezek. (2) GitHub > repo portfolio > Settings > Secrets and variables > Actions > VERCEL_TOKEN > Update secret. (3) Relancer ce workflow (Re-run all jobs)."
+            {
+              echo "### ⚠️ Token Vercel à renouveler"
+              echo
+              echo "$1"
+              echo
+              echo "1. Sur Vercel : **vercel.com/account/tokens → Create Token**, scope **lea-giezek**."
+              echo "2. Sur GitHub : repo **portfolio → Settings → Secrets and variables → Actions → VERCEL_TOKEN → Update secret**, colle le nouveau token."
+              echo "3. Relance ce workflow : **Re-run all jobs**."
+            } >> "$GITHUB_STEP_SUMMARY"
+          }
+
           if [ -z "${VERCEL_TOKEN:-}" ]; then
-            echo "::error::Le secret VERCEL_TOKEN n'est pas défini (Settings > Secrets and variables > Actions)."
+            token_help "Le secret VERCEL_TOKEN n'est pas défini."
             exit 1
           fi
 
@@ -78,7 +93,20 @@ jobs:
           while :; do
             url="$api/v6/deployments?projectId=$VERCEL_PROJECT_ID&teamId=$VERCEL_TEAM_ID&limit=100"
             if [ -n "$until" ]; then url="$url&until=$until"; fi
-            resp=$(curl -fsS -H "$auth" "$url")
+            out=$(curl -sS -w '\n%{http_code}' -H "$auth" "$url")
+            code="${out##*$'\n'}"
+            resp="${out%$'\n'*}"
+            case "$code" in
+              200) ;;
+              401|403)
+                token_help "Vercel a refusé le token (HTTP $code) : il est probablement expiré, révoqué, ou sans accès à la team lea-giezek."
+                exit 1
+                ;;
+              *)
+                echo "::error::L'API Vercel a répondu HTTP $code."
+                exit 1
+                ;;
+            esac
             echo "$resp" | jq -r --arg b "$BRANCH" '
               .deployments[]
               | select((.target // "preview") != "production")
@@ -112,6 +140,9 @@ jobs:
               "$api/v13/deployments/$id?teamId=$VERCEL_TEAM_ID" || echo 000)
             if [ "$code" = "200" ] || [ "$code" = "404" ]; then
               ok=$((ok + 1))
+            elif [ "$code" = "401" ] || [ "$code" = "403" ]; then
+              token_help "Vercel a refusé le token pendant la suppression (HTTP $code) : il est probablement expiré, révoqué, ou sans droit de suppression sur la team lea-giezek."
+              exit 1
             else
               ko=$((ko + 1))
               echo "::warning::Échec ($code) pour $id"
