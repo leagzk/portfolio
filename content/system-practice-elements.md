@@ -126,7 +126,7 @@ Every decision got the same reading: what it opened, what it exposed, what it co
 
 And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
 
-Vision & strategy
+Strategy
 
 The best architecture I built *started as the one I got backwards.*
 

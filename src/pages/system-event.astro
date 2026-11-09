@@ -259,14 +259,11 @@ const credits = [
         couleur="rouge"
         commande="pan-contrainte"
         large
-        aire="1 / 1 / 3 / 4"
+        aire="c1"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 4 / 2 / 5"><span class="compo__plat compo__plat--jaune"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 4 / 3 / 5"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 4 / 4 / 5"><span class="compo__plat compo__plat--noir"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 4 / 5 / 5"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 4 / 6 / 5"><span class="compo__plat compo__plat--bleu"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--jaune"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p2"><span class="compo__plat compo__plat--noir"></span></div>
 
       <CarteDossier
         id="carte-systeme"
@@ -276,14 +273,10 @@ const credits = [
         synthese="Two rented objects gave the language, then the foundations that carried it. The stationery would not compromise, so the artwork had to run on a press and cut on a machine at home - from one file."
         couleur="bleu"
         commande="pan-systeme"
-        aire="1 / 5 / 4 / 7"
+        aire="c2"
       />
 
-      <div class="compo__decor" aria-hidden="true" style="grid-area:1 / 7 / 2 / 8"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:2 / 7 / 3 / 8"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:3 / 7 / 4 / 8"><span class="compo__plat compo__plat--gris"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:4 / 7 / 5 / 8"></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:5 / 7 / 6 / 8"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p3"><span class="compo__plat compo__plat--rouge"></span></div>
 
       <CarteDossier
         id="carte-transmission"
@@ -294,7 +287,7 @@ const credits = [
         couleur="jaune"
         commande="pan-transmission"
         large
-        aire="3 / 1 / 6 / 4"
+        aire="c3"
       />
 
       {/*
@@ -313,7 +306,7 @@ const credits = [
         synthese="Six mechanics, six clues nobody could gather alone. The same move behind a hackathon's 8,301 votes and an app that got people to update their own data."
         couleur="noir"
         commande="pan-gamification"
-        aire="4 / 5 / 6 / 7"
+        aire="c4"
       />
     </div>
 
@@ -404,7 +397,12 @@ const credits = [
       <h2 class="sr-only" id="titre-systeme">02 &middot; The approach</h2>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Creative direction</p>
+        {/* « Direction » et non « Creative direction » : mesure sur le build, la
+            ligne de puces de la carte 02 demande 331px pour les 300 dont elle
+            dispose et passe sur deux rangs. A 283 elle tient. Le mot seul reste
+            sans ambiguite dans une etude de design, et « Production pipeline »
+            garde son qualificatif - c'est le terme le plus precis des trois. */}
+        <p class="eb" data-sommaire>Direction</p>
         <div class="split">
           <p class="lead">Starting from a constraint <em class="em-bleu">you don't own.</em></p>
           <div class="body">
@@ -767,12 +765,54 @@ const credits = [
   /* ═══ Ce qui est propre a l'etude Surfaces ═══ */
 
   /*
-    LA COMPOSITION. Sept colonnes et CINQ rangees depuis la quatrieme carte.
-    Les bandes fines sont VERTICALES ici - les colonnes 4 et 7 - la ou
-    l'accueil et Brand posent les leurs a l'horizontale, et c'est ce qui garde
-    les trois compositions distinctes. Les quatre cartes s'engrenent deux a
-    deux : 01 et 03 a gauche, 02 et 04 a droite, et la coupe ne tombe pas a la
-    meme rangee des deux cotes.
+    LA DEFINITION PASSE A GAUCHE, ET LES CHIFFRES A DROITE.
+
+    Les trois etudes posaient la meme bande : les chiffres a gauche sur sept
+    douziemes, la definition a droite sur cinq. Lue trois fois de suite, la
+    forme cesse d'etre une grammaire et devient un gabarit. Ici la definition
+    ouvre - c'est elle qui dit ce qu'est un systeme vivant, et les mesures
+    viennent apres, pas l'inverse.
+
+    5fr / 7fr ET NON 7fr / 5fr : la colonne de gauche se resserre en meme
+    temps qu'elle change de role. La definition y gagne une colonne etroite et
+    haute - deux rangees de 240 - qui se lit comme une legende de marge, la ou
+    elle faisait un pave a droite.
+
+    AU-DELA DU PALIER SEULEMENT : sous 861px la bande s'empile en deux
+    colonnes et la definition reprend la largeur entiere, ce que la regle
+    partagee fait deja.
+  */
+  @media(min-width:861px){
+    .cles--mondrian.cles--mondrian{grid-template-columns:5fr 7fr}
+    .cles--mondrian .clef-def{grid-area:1 / 1 / 3 / 2}
+    .cles--mondrian .clef-rangee--1{grid-area:1 / 2 / 2 / 3}
+    .cles--mondrian .clef-rangee--2{grid-area:2 / 2 / 3 / 3}
+  }
+
+  /*
+    LA COMPOSITION. DOUZE COLONNES EGALES ET DES AIRES NOMMEES, et la couleur
+    occupe des CASES, plus des bandes.
+
+    Elle tenait sur sept colonnes irregulieres dont deux ne servaient qu'a
+    loger un filet : la quatrieme faisait huit unites, la septieme dix-huit, et
+    la couleur s'y posait en lamelles d'une colonne de large. Lue de loin, ce
+    n'etait plus une grille mondrianesque - c'etait un cadre avec des liseres
+    de couleur sur les cotes. Chez Mondrian la couleur occupe ce que les lignes
+    delimitent ; elle ne souligne pas les lignes.
+
+    Les trois aplats font donc deux ou trois colonnes de large sur une rangee
+    de haut - des carres, a 170px pres - et ils sont poses DANS la grille, pas
+    sur ses bords : deux empiles au tiers de la largeur, un troisieme decale
+    d'une colonne en dessous, a cheval sur la coupe des cartes.
+
+    ET L'ARRANGEMENT RESTE PROPRE A SURFACES. Brand pose ses chiffres et sa
+    definition DANS la composition ; ici la bande des chiffres vit au-dessus,
+    avec sa definition a gauche, et la composition n'a que ses quatre cartes et
+    trois aplats. Meme grammaire, deux dessins.
+
+    Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre 861
+    et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
+    hidden - les avale.
 
     Rangees en minmax : en pixels fixes, la synthese gagne des lignes entre 861
     et 1120 pendant que la rangee ne bouge pas, et la carte - en overflow
@@ -783,9 +823,15 @@ const credits = [
     bundle - a specificite egale elle gagnerait, media query comprise.
   */
   @media(min-width:861px){
-    .compo{grid-template-columns:20fr 12fr 20fr 8fr 26fr 14fr 18fr;
-      grid-template-rows:minmax(170px,auto) minmax(95px,auto)
-        minmax(120px,auto) minmax(110px,auto) minmax(110px,auto)}
+    .compo{grid-template-columns:repeat(12,minmax(0,1fr));
+      grid-template-rows:minmax(170px,auto) minmax(110px,auto)
+        minmax(120px,auto) minmax(140px,auto) minmax(140px,auto);
+      grid-template-areas:
+        "c1 c1 c1 c1 c1 c1 p1 p1 c2 c2 c2 c2"
+        "c1 c1 c1 c1 c1 c1 p2 p2 c2 c2 c2 c2"
+        "c3 c3 c3 c3 c3 p3 p3 p3 c2 c2 c2 c2"
+        "c3 c3 c3 c3 c3 c4 c4 c4 c4 c4 c4 c4"
+        "c3 c3 c3 c3 c3 c4 c4 c4 c4 c4 c4 c4"}
   }
 
   /* ─── Les trois blocs du systeme : formes, couleurs, type ─── */

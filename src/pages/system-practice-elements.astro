@@ -894,7 +894,13 @@ const mecanismes: Tuile[] = [
       </div>
 
       <div class="subsec">
-        <p class="eb" data-sommaire>Vision &amp; strategy</p>
+        {/* « Strategy » et non « Vision & strategy » : mesure sur le build, la
+            ligne de puces de la carte 02 demande 294px pour les 257 dont elle
+            dispose, et passe sur deux rangs - ce que cette ligne existe
+            precisement pour eviter. « Vision » est la moitie molle des deux ;
+            c'est « strategy » qui porte, et la sous-partie commence de toute
+            facon par la vision. */}
+        <p class="eb" data-sommaire>Strategy</p>
         <div class="split">
           {/*
             CELLE-CI DOUBLAIT LA DEFINITION DU BANDEAU, en plus de la figure.

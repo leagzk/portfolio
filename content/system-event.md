@@ -94,7 +94,7 @@ Next: the approach →
 
 ## 02 &middot; The approach
 
-Creative direction
+Direction
 
 Starting from a constraint *you don't own.*
 
