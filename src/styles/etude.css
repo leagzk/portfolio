@@ -218,7 +218,7 @@
   DOM et le contenu est en z-index 1), donc le chiffre peut mordre dessus sans
   que la couleur le mange.
 */
-.clef--bande,.clef--carre,.clef--encadre{background:var(--white);color:var(--text)}
+.clef--bande,.clef--carre,.clef--filet{background:var(--white);color:var(--text)}
 .clef__frag{position:absolute;transform-origin:left bottom}
 /*
   LE TEXTE NE TOUCHE PAS LE FRAGMENT : il est cale en haut, la couleur occupe
@@ -241,7 +241,7 @@
   La hauteur ne suit pas : la rangee est fixe a 240px, donc 48 y vaut toujours
   un cinquieme.
 */
-.clef--carre .clef__frag,.clef--encadre .clef__frag{right:0;bottom:0;
+.clef--carre .clef__frag{right:0;bottom:0;
   width:calc(var(--u,3) * 28px);height:48px;transform-origin:right bottom}
 .clef--rouge .clef__frag{background:var(--red)}
 .clef--bleu .clef__frag{background:var(--blue)}
@@ -249,19 +249,18 @@
 .clef--gris .clef__frag{background:var(--grey-mondrian)}
 .clef--noir .clef__frag{background:var(--ink)}
 /*
-  LE COIN VIDE, OU SEUL LE TRAIT DESSINE. C'est un motif a lui (`encadre`), et
-  non le comportement de tous les carres : la regle valait pour CHAQUE `carre`
-  du site, donc elle vidait aussi le jaune de Surfaces et le rouge de Language.
-  Un motif se choisit page par page, il ne s'impose pas.
+  UN TRAIT QUI TRAVERSE, A LA PLACE DU COIN VIDE. Le motif `encadre` posait un
+  petit rectangle blanc borde sur deux cotes dans le coin bas droit : une
+  mini-case dans la case, qui se lisait comme un defaut de decoupe plutot que
+  comme un motif. Le filet garde sa ligne - celle qui etait le bord HAUT du
+  rectangle, a 48px du bas - et la mene d'un bord a l'autre.
 
-  DEUX COTES, PAS QUATRE : le carre est a ras du coin bas droit, et ses bords
-  droit et bas tombent sur le `gap` de la rangee, deja noir. Les y border
-  doublerait le filet a 3px. Seuls le haut et la gauche se voient, et ce sont
-  eux qui decoupent le coin.
+  C'EST LE SEUL MOTIF QUI NE REMPLIT RIEN. Les trois autres posent de la
+  couleur ; celui-la ne pose qu'un trait, et c'est ce qui convient a la case
+  qui porte un zero.
 */
-.clef--encadre .clef__frag{background:var(--white);
-  border-top:var(--rule-fine) solid var(--text);
-  border-left:var(--rule-fine) solid var(--text)}
+.clef--filet .clef__frag{left:0;right:0;bottom:48px;height:var(--rule-fine);
+  transform-origin:left center}
 
 /*
   24px ET NON `--pad-square`, QUI EN VAUT 48. Les aplats de l'accueil sont des
@@ -462,12 +461,12 @@
      Governance, a quatre unites, prendrait 112 des 171px de sa case. */
   .clef--carre .clef__frag{width:84px}
   /*
-    LE CARRE VIDE NE SURVIT PAS AU TELEPHONE. L'encadre est un carre que seul
-    son trait dessine : a 171px de case il ne reste qu'une marque de 84 dans
-    un coin, sans plan derriere elle pour la tenir - un trait perdu, pas une
-    case qui se prolonge. La case reste blanche, simplement.
+    LE FILET NE SURVIT PAS AU TELEPHONE. Un trait a 48px du bas, sur une
+    case qui n'en fait plus que 170, tombe au milieu du chiffre. Et la case
+    du zero est la seule impaire de la bande : c'est elle qui ferme, et elle
+    ferme mieux nue.
   */
-  .clef--encadre .clef__frag{display:none}
+  .clef--filet .clef__frag{display:none}
   /*
     LA BANDE DEVIENT UN APLAT PLEIN. A 267px de large la bande de 30px est
     un socle sous un nombre ; a 171px de case elle n'est plus qu'un trait de

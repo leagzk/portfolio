@@ -50,7 +50,7 @@ export interface Chiffre {
    *
    * `plein` - toute la case est de couleur. `bande` et `carre` - la case
    * reste BLANCHE et la couleur n'y tient qu'un fragment : une bande en bas,
-   * un carre dans le coin, comme `.wt__fragment` sur l'accueil. `encadre` -
+   * un carre dans le coin, comme `.wt__fragment` sur l'accueil. `filet` -
    * le meme carre, mais VIDE : seul son trait le dessine, et c'est la grille
    * qui semble se prolonger dans la case.
    *
@@ -59,7 +59,7 @@ export interface Chiffre {
    * RARETE : trois aplats pleins au milieu de cases blanches que la couleur ne
    * fait qu'effleurer. On reprend ce dosage.
    */
-  motif?: 'plein' | 'bande' | 'carre' | 'encadre';
+  motif?: 'plein' | 'bande' | 'carre' | 'filet';
 }
 
 export interface Props {
