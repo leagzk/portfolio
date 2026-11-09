@@ -208,7 +208,7 @@ Behind the identity and the staging: coordination. Florist, caterer, photographe
 
 I wrote it all down. Moment by moment: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief.
 
-The guide, page by page
+The guide, page samples
 
 > Friday &middot; the apéro
 
