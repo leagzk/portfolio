@@ -1709,7 +1709,7 @@
   `content-box` fait porter le rapport sur l'interieur : la photo y tient alors
   pile, et le blanc tournant vaut son padding sur les quatre cotes.
 */
-.fig--aere .fig__cadre{padding:18px;background:var(--white);box-sizing:content-box}
+.fig--aere .fig__cadre{--aere:18px;padding:var(--aere);background:var(--white);box-sizing:content-box}
 /*
   LE MEME BLANC DANS UN CADRE QUI DEFILE, PAR UNE SEULE VALEUR. `--pad` sert
   aux trois endroits qui doivent s'accorder : le padding du cadre, le calage
@@ -1718,7 +1718,7 @@
 */
 .fig--aere .cadref{--pad:20px;padding:var(--pad)}
 @media(max-width:860px){.fig--aere .cadref{--pad:12px}}
-@media(max-width:860px){.fig--aere .fig__cadre{padding:12px}}
+@media(max-width:860px){.fig--aere .fig__cadre{--aere:12px}}
 .fig__cadre :is(img,picture,picture img){display:block;width:100%;height:100%;
   object-fit:var(--fit,contain)}
 /* Emplacement en attente d'image : il DOIT se voir comme tel. */
