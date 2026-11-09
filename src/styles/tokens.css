@@ -57,7 +57,13 @@
     illustration, et un trait noir autour d'une planche claire la cerne plus
     qu'il ne la porte.
   */
-  --cadre:#4F4F4F;          /* filet des cadres d'image, jamais de la grille */
+  /*
+    #6E6E6E ET NON #4F4F4F. Le premier choix etait un gris tres fonce, et a
+    1,5px d'epaisseur il se lisait NOIR : la distinction existait dans la
+    valeur et nulle part a l'ecran. Un cran plus clair, et le filet se voit
+    enfin pour ce qu'il est - un cadre qui soutient, pas une ligne de grille.
+  */
+  --cadre:#6E6E6E;          /* filet des cadres d'image, jamais de la grille */
   --placeholder:#F3F3F3;    /* emplacements visuels, en attente des vraies images */
   /* Textes sur fond noir. Trois valeurs et non une opacite : le gris doit etre
      mesurable au contraste, ce qu'une opacite sur un fond variable n'est pas. */

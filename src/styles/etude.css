@@ -575,9 +575,13 @@
   aspect-ratio:16 / 10;background:var(--white);
   border:var(--rule-fine) solid var(--cadre)}
 /* l'image deborde le cadre par le bas : hauteur libre, ancree en haut */
-.cadref :is(img,picture,picture img){position:absolute;top:0;left:0;
-  width:100%;height:auto;display:block}
-@keyframes defileCadre{from{top:0}to{top:calc((1 - var(--k)) * 100%)}}
+.cadref{--pad:0px}
+.cadref :is(img,picture,picture img){position:absolute;top:var(--pad);left:var(--pad);
+  width:calc(100% - var(--pad) * 2);height:auto;display:block}
+/* LA MARGE VOYAGE AVEC L'IMAGE. Le defilement anime `top` : une marge haute
+   posee en statique serait ecrasee des la premiere image-cle. Les deux bornes
+   partent donc de `--pad`, qui vaut 0 par defaut et n'a alors aucun effet. */
+@keyframes defileCadre{from{top:var(--pad)}to{top:calc(var(--pad) + (1 - var(--k)) * 100%)}}
 
 /*
   Les declarations d'animation sont ENFERMEES dans no-preference, et ce n'est pas
@@ -1506,6 +1510,14 @@
   blanc tournant, et le fond de la case reste sous elle.
 */
 .fig--aere .fig__cadre{padding:18px;background:var(--white)}
+/*
+  LE MEME BLANC DANS UN CADRE QUI DEFILE, PAR UNE SEULE VALEUR. `--pad` sert
+  aux trois endroits qui doivent s'accorder : le padding du cadre, le calage
+  de l'image - dont les pourcentages se resolvent sur la boite de PADDING, donc
+  un padding seul la laisserait deborder - et les deux bornes du defilement.
+*/
+.fig--aere .cadref{--pad:20px;padding:var(--pad)}
+@media(max-width:860px){.fig--aere .cadref{--pad:12px}}
 @media(max-width:860px){.fig--aere .fig__cadre{padding:12px}}
 .fig__cadre :is(img,picture,picture img){display:block;width:100%;height:100%;
   object-fit:var(--fit,contain)}
@@ -1541,9 +1553,28 @@
 /* ─── Nuancier des capabilities ─── */
 /* Le nombre de colonnes est pose par la page : huit capabilities metier sur la
    maquette, dix avec la fonction elle-meme et ses interlocuteurs. */
-.pan .sw{display:grid;grid-template-columns:repeat(var(--swc,8),minmax(0,1fr));
-  gap:10px;margin:0;padding:0;list-style:none}
-.pan .swi{display:flex;flex-direction:column;gap:6px;font-size:var(--fs-eyebrow);
+/*
+  UNE SEULE LIGNE, ET ELLE DEFILE AU DOIGT.
+
+  Le nuancier etait une grille de cinq colonnes, donc DEUX rangees de cinq pour
+  dix capabilities. Une couleur par capability se lit comme une serie : coupee
+  en deux, elle se lit comme deux series, et on compare cinq couleurs avec cinq
+  autres au lieu de voir la palette.
+
+  Une seule ligne, donc, et `flex:1 1 0` la fait tenir entiere au bureau. Sous
+  le palier, les cases prennent une largeur FIXE superieure a ce que la ligne
+  peut porter : elle deborde, et c'est ce debordement qui la fait defiler. Le
+  calage par `scroll-snap` arrete le doigt sur une case et non entre deux.
+
+  LA PISTE EST FOCALISABLE, comme celle du carrousel : une zone qui defile et
+  qu'on ne peut pas atteindre au clavier est une zone dont le contenu n'existe
+  pas pour qui n'a pas de souris.
+*/
+.pan .sw{display:flex;gap:10px;margin:0;padding:0;list-style:none;
+  overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity}
+.pan .sw:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+.pan .swi{flex:1 1 0;min-width:0;scroll-snap-align:start;
+  display:flex;flex-direction:column;gap:6px;font-size:var(--fs-eyebrow);
   font-weight:700;line-height:1.3}
 .pan .swc{aspect-ratio:1;border-radius:var(--r-media)}
 .pan .swi code{font-size:10px;font-weight:400;color:var(--ink-muted)}
@@ -1686,6 +1717,17 @@
   valeur donne l'horizontale ; rien en bas, donc les verticales finissent dans
   le blanc - c'est ce qui les fait « partir » au lieu de fermer une boite.
 
+  DEUX FILETS, ET AUX DEUX BORDS DE LA COMPOSITION. Celui du milieu a saute :
+  trois coupes sous une page qui finit faisaient une regle graduee, la ou deux
+  suffisent a dire que la grille continue. Restent 3 et 9 - le bord droit des
+  chiffres de gauche, et le bord gauche de la colonne du bloc - soit les deux
+  verticales qui encadrent la composition.
+
+  TROIS COLONNES POUR TROIS CASES. Elles avaient ete portees a quatre sans que
+  le markup suive : la quatrieme n'avait pas d'enfant, donc le fond noir du
+  conteneur s'y voyait en plein, et le rail finissait sur un aplat au lieu de
+  finir sur du blanc.
+
   SES COLONNES SONT CELLES DE LA COMPOSITION, ET SES COUPES AUSSI. Il flottait
   a 72px du dernier chapitre avec des largeurs a lui : deux verticales qui ne
   prolongeaient rien, donc un ornement. Trois, trois et six douziemes posent
@@ -1700,7 +1742,7 @@
   PAS SOUS LE PALIER : l'accueil eteint ses rails sous 860px, ou la grille
   devient une colonne et ou deux verticales n'ont plus rien a prolonger.
 */
-.rails{display:grid;grid-template-columns:3fr 3fr 6fr;gap:var(--rule-fine);
+.rails{display:grid;grid-template-columns:3fr 6fr 3fr;gap:var(--rule-fine);
   background:var(--text);padding-top:var(--rule-fine);margin-top:0}
 .rails > *{background:var(--white);min-height:56px}
 @media(max-width:860px){.rails{display:none}}
@@ -1758,7 +1800,9 @@
   .pan .versus{grid-template-columns:1fr;grid-template-rows:none;gap:40px}
   .pan .vers{grid-row:auto;display:flex;flex-direction:column}
   .pan .three,.pan .four{grid-template-columns:repeat(2,minmax(0,1fr))}
-  .pan .sw{grid-template-columns:repeat(4,minmax(0,1fr))}
+  /* La case cesse de se partager la largeur et en prend une a elle : c'est ce
+     qui fait deborder la ligne, donc defiler. */
+  .pan .swi{flex:0 0 38%}
   .pan .lead{font-size:28px}
   .pan .dark{padding:28px}
   .pan .mosaic{--cols:2;grid-auto-rows:110px}

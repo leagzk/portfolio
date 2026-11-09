@@ -304,7 +304,7 @@ const credits = [
 
           <div class="bloc">
             <p class="bloc__t">Colors</p>
-            <ul class="sw" style="--swc:5">
+            <ul class="sw" tabindex="0" role="group" aria-label="One colour per capability">
               {couleurs.map((c) => (
                 <li class="swi">
                   <div class="swc" style={`background:${c.hex}`}></div>

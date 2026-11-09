@@ -140,7 +140,8 @@ From the capability map to an icon set per capability
 
 Production line
 
-A template per intent, *not per person.*
+A template per intent,
+*not per person.*
 
 Then the system that carried it: a colour architecture that scaled across entities, a visual language with its own rules of composition, and each digital entity given its own personality - matched to the business it served, and unmistakably Sanofi.
 
@@ -227,6 +228,12 @@ In 2020, IT moved from service provider to enabler - one notch up, inside a digi
 
 Arbitration
 
+Leadership picked the concept *I argued against.*
+
+I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01 - and 01 was the shorter migration, which is the one thing I've defended everywhere else. **The shortest path for the people moving wins over the better drawing.**
+
+Taste on one side, adoption on the other. **The decision went against me. The execution didn't show it.**
+
 The two concepts, surface by surface
 
 Concept 01
@@ -268,12 +275,6 @@ Bold, screen-first, and the one I argued for: a function shipping products shoul
 > Social post
 
 > Social post variation
-
-Leadership picked the concept *I argued against.*
-
-I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01 - and 01 was the shorter migration, which is the one thing I've defended everywhere else. **The shortest path for the people moving wins over the better drawing.**
-
-Taste on one side, adoption on the other. **The decision went against me. The execution didn't show it.**
 
 Next: the standard &rarr;
 

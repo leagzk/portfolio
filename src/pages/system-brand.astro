@@ -501,17 +501,6 @@ const pratiques: Tuile[] = [
         Tout le reste des cases porte desormais du contenu : c'est ce qui
         separe une composition d'un decor.
       */}
-      {/* LE FILET QUI PART DU COIN GAUCHE DU CARRE NOIR. Le carre tient la
-          troisieme colonne : son bord DROIT prolonge la verticale qui descend
-          des trois chiffres, et son bord GAUCHE n'allait nulle part. Les deux
-          rangees du bas se coupent desormais a cette deuxieme colonne, donc le
-          filet repart du carre et descend jusqu'au bas de la composition.
-
-          LE CARRE DEVIENT LE RELAIS ENTRE LES DEUX VERTICALES : l'une arrive
-          par la droite depuis le haut et s'arrete sur lui, l'autre repart par
-          la gauche et finit la page. C'est ce qui lui donne un role de
-          structure plutot que d'accent, et ce qui justifie qu'il soit noir. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:d1"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:b1"><span class="compo__plat compo__plat--rouge"></span></div>
       {/* LE NOIR PASSE DE LA BANDE AU CARRE. Il tenait une colonne sur toute
           la hauteur d'une rangee - 88 de large pour 268 de haut - soit une
@@ -525,6 +514,13 @@ const pratiques: Tuile[] = [
           vide et la colonne du bloc. C'est la seule case de la composition qui
           ne porte rien, et c'est son role. */}
       <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
+      {/* LE FILET DE LA POINTE HAUTE-GAUCHE. Le carre noir avait deja un filet
+          sur son coin droit - c'est la verticale qui descend des trois
+          chiffres et s'arrete sur lui. Son coin gauche n'en avait pas. La case
+          blanche se coupe donc a la deuxieme colonne, ce qui pose un court
+          filet juste AU-DESSUS du carre, et rien en dessous : la carte 02
+          n'est pas touchee. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a2"></div>
       <div class="compo__decor" aria-hidden="true" style="grid-area:k1"><span class="compo__plat compo__plat--noir"></span></div>
       {/* LE RYTHME TIENT A DEUX ACCENTS ETROITS, ET A RIEN D'AUTRE. Une ligne
           horizontale de 28px, coloree sur ses trois dernieres colonnes
@@ -742,7 +738,7 @@ const pratiques: Tuile[] = [
             qu'un comite retient - on reconnait d'ou vient un asset sans le
             lire, et on en produit un sans demander la permission. */}
         <p class="eb">One colour per capability - recognised on sight, applied without a brief</p>
-        <ul class="sw" style="--swc:5">
+        <ul class="sw" tabindex="0" role="group" aria-label="One colour per capability">
           {capacites.map((c) => (
             <li class="swi">
               <div class="swc" style={`background:${c.hex}`}></div>
@@ -795,7 +791,13 @@ const pratiques: Tuile[] = [
       <div class="subsec">
         <p class="eb" data-sommaire>Production line</p>
         <div class="split">
-          <p class="lead">A template per intent, <em class="em-bleu">not per person.</em></p>
+          {/* LA COUPURE EST POSEE, PARCE QU'ELLE TOMBAIT DANS LE SURLIGNAGE. Laissee
+              libre, la ligne cassait entre « not » et « per person » : l'aplat
+              bleu se divisait en deux pavés decales, et c'est le dispositif
+              d'accent qui se lisait au lieu de la phrase. Le <br /> met la
+              coupure AVANT l'accent - meme procede que le lead de Resilience,
+              et deux lignes propres au lieu de deux et demie. */}
+          <p class="lead">A template per intent,<br /><em class="em-bleu">not per person.</em></p>
           <div class="body">
             <p>Then the system that carried it: a colour architecture that scaled across entities, a visual language with its own rules of composition, and each digital entity given its own personality - matched to the business it served, and unmistakably Sanofi.</p>
             <p>None of which is worth anything until someone can pick it up. So the production line: <strong>shared libraries on Creative Cloud</strong>, where every asset lived once and updated everywhere at once - social, Microsoft suite, illustration kits, newsletters typed by objective rather than by sender.</p>
@@ -956,6 +958,7 @@ const pratiques: Tuile[] = [
             alt={newsletter.alt}
             legende={newsletter.legende}
             titre="ITS R&D newsletter"
+            aere
             ratio="3 / 4"
             fr={0.75}
             sizes="(min-width: 900px) 340px, 45vw"
@@ -994,6 +997,7 @@ const pratiques: Tuile[] = [
             alt={annonce.alt}
             legende={annonce.legende}
             titre="Captivate announcement"
+            aere
             ratio="16 / 11"
             fr={1.4545}
             sizes="(min-width: 900px) 500px, 92vw"
@@ -1006,6 +1010,7 @@ const pratiques: Tuile[] = [
             alt={filCaptivate.alt}
             legende={filCaptivate.legende}
             titre="Captivate replies"
+            aere
             ratio="16 / 11"
             fr={1.4545}
             sizes="(min-width: 900px) 500px, 92vw"
@@ -1028,6 +1033,7 @@ const pratiques: Tuile[] = [
           alt={threadLinkedIn.alt}
           legende={threadLinkedIn.legende}
           titre="Theia on LinkedIn"
+            aere
           ratio="16 / 11"
           fr={1.4545}
           sizes="(min-width: 900px) 1024px, 92vw"
@@ -1067,16 +1073,40 @@ const pratiques: Tuile[] = [
         lit pas en note de bas de planche ; c'est la troisieme preuve de ce
         chapitre, a cote de l'adoption et de la resilience.
 
-        LES DEUX PILES ONT SUIVI, et elles ouvrent la sous-partie. Elles
+        LES DEUX PILES ONT SUIVI, et elles FERMENT la sous-partie. Elles
         vivaient dans « Resilience », ou elles illustraient le versionnage ;
         mais sept surfaces contre sept surfaces ne montrent qu'une chose - le
-        choix entre deux partis - et c'est l'arbitrage, pas la migration. Elles
-        se lisent donc AVANT le texte de cette sous-partie, parce qu'on doit
-        avoir vu les deux concepts pour que « j'ai defendu le 02 » veuille dire
-        quelque chose.
+        choix entre deux partis - et c'est l'arbitrage, pas la migration.
+
+        ELLES VIENNENT APRES LE TEXTE ET NON AVANT. On les a d'abord posees en
+        ouverture, au motif qu'il fallait avoir vu les deux concepts pour que
+        « j'ai defendu le 02 » veuille dire quelque chose. Mais la these le dit
+        deja - « leadership picked the concept I argued against » se comprend
+        sans rien voir - et deux piles de sept planches posees avant le moindre
+        mot font attendre le propos. L'enonce, puis la preuve.
       */}
       <div class="subsec">
         <p class="eb" data-sommaire>Arbitration</p>
+
+        <div class="split">
+          <p class="lead">Leadership picked the concept <em class="em-jaune">I argued against.</em></p>
+          <div class="body">
+            <p>I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01 - and 01 was the shorter migration, which is the one thing I've defended everywhere else. <strong>The shortest path for the people moving wins over the better drawing.</strong></p>
+            {/*
+              « I arbitrated, and I shipped 01 like it had been my idea. »
+              disait deux fois la meme chose, et les deux sonnaient faux :
+              « I arbitrated » est du vocabulaire de comite pose sur une
+              decision qui n'etait pas la mienne, et « like it had been my
+              idea » se decerne un brevet d'elegance. La phrase racontait la
+              vertu au lieu du fait.
+
+              Ce qui compte ici est verifiable et tient en deux temps : la
+              decision, puis ce que l'execution en a laisse voir.
+            */}
+            <p>Taste on one side, adoption on the other. <strong>The decision went against me. The execution didn't show it.</strong></p>
+          </div>
+        </div>
+
         {/*
           LES DEUX CONCEPTS EN PLEINE COLONNE, pas dans la moitie d'un .vc. Sept
           surfaces de part et d'autre ne se comparent qu'a largeur egale : dans
@@ -1104,25 +1134,6 @@ const pratiques: Tuile[] = [
               />
             </section>
           ))}
-        </div>
-
-        <div class="split">
-          <p class="lead">Leadership picked the concept <em class="em-jaune">I argued against.</em></p>
-          <div class="body">
-            <p>I'd defended 02: bold, screen-first, on the argument that a function shipping products should look like one. Leadership picked 01 - and 01 was the shorter migration, which is the one thing I've defended everywhere else. <strong>The shortest path for the people moving wins over the better drawing.</strong></p>
-            {/*
-              « I arbitrated, and I shipped 01 like it had been my idea. »
-              disait deux fois la meme chose, et les deux sonnaient faux :
-              « I arbitrated » est du vocabulaire de comite pose sur une
-              decision qui n'etait pas la mienne, et « like it had been my
-              idea » se decerne un brevet d'elegance. La phrase racontait la
-              vertu au lieu du fait.
-
-              Ce qui compte ici est verifiable et tient en deux temps : la
-              decision, puis ce que l'execution en a laisse voir.
-            */}
-            <p>Taste on one side, adoption on the other. <strong>The decision went against me. The execution didn't show it.</strong></p>
-          </div>
         </div>
       </div>
 
@@ -1426,10 +1437,10 @@ const pratiques: Tuile[] = [
         minmax(300px,auto) minmax(260px,auto);
       grid-template-areas:
         "n1 n1 n1 n2 n2 n2 n3 n3 n3 def def def"
-        "a1 a1 a1 c1 c1 c1 c1 c1 c1 def def def"
+        "a1 a1 a2 c1 c1 c1 c1 c1 c1 def def def"
         "h1 h1 k1 h2 h2 h2 h2 h2 h2 h2 h2 h2"
-        "d1 d1 c2 c2 c2 c2 c2 v1 c3 c3 c3 c3"
-        "b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
+        "c2 c2 c2 c2 c2 v1 c3 c3 c3 c3 c3 c3"
+        "b1 b1 b1 c4 c4 c4 c4 c4 c4 c4 c4 c4"}
 
     /*
       LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait
