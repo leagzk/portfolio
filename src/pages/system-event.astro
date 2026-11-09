@@ -129,7 +129,6 @@ const couleurs = [
   { hex: '#FDC1BD', nom: 'Rose' },
 ];
 
-/* Les trois etapes du jeu, dans l'ordre ou on les vit. */
 /*
   LES TROIS PAGES DU GUIDE, RASSEMBLEES. Elles etaient les moities gauches de
   trois blocs avant/apres - une au placement, deux au jeu - ou chacune prouvait
@@ -145,18 +144,6 @@ const guide: Vignette[] = [
   { nom: 'spec-zone-wordsearch', legende: 'Zone &middot; the word grid',
     alt: 'Production guide page for the word-grid game: blank poster on an easel with its material checklist' },
 ].map((e) => ({ src: img(e.nom), alt: e.alt, legende: e.legende }));
-
-const etapes = [
-  { nom: 'game-locked', rang: '01', titre: 'The constraint',
-    propos: 'A locked trunk, a combination, and clues scattered across the day.',
-    alt: 'Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid' },
-  { nom: 'game-opened', rang: '02', titre: 'The crack',
-    propos: 'Progression built so the last step feels earned, not handed over.',
-    alt: 'Opened trunk revealing a framed congratulations card above rows of jars' },
-  { nom: 'game-reward', rang: '03', titre: 'The payoff',
-    propos: 'The reward carries the identity too. The system runs to the last object.',
-    alt: 'Rows of jars packed in the trunk, each labelled with the event monogram on striped paper' },
-];
 
 /*
   Les neuf prestataires. data-label reprend le nom : le CSS s'en sert pour
@@ -805,12 +792,32 @@ const credits = [
         <Figure src={img('game-setup-wide')} legende="The game, set up in the courtyard" ratio="16 / 9" ajuste="cover"
           alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement"
           sizes="(min-width: 900px) 1040px, 92vw" />
+        {/* LES DEUX BOUTS DE LA MECANIQUE : la contrainte et la recompense. La
+            malle fermee avec ses cartes et ses pots poses dessus, puis la malle
+            ouverte sur ce qu'elle contenait. Entre les deux, tout le jeu - qui
+            est raconte, pas montre. Les deux fichiers font 1600x1067, donc un
+            cadre de 3/2 ne rogne ni l'un ni l'autre. */}
+        <div class="two">
+          <Figure src={img('game-locked')} legende="The trunk, and the clues on its lid" ratio="3 / 2" ajuste="cover"
+            alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid"
+            sizes="(min-width: 900px) 520px, 90vw" />
+          <Figure src={img('game-reward')} legende="The payoff, down to the last jar" ratio="3 / 2" ajuste="cover"
+            alt="Rows of jars packed in the trunk, each labelled with the event monogram on striped paper"
+            sizes="(min-width: 900px) 520px, 90vw" />
+        </div>
       </div>
 
       <div class="subsec">
         <p class="eb" data-sommaire>Participation</p>
         <div class="split">
-          <p class="lead">The brief was never a game. It was <em class="em-gris">ninety people who already knew their table.</em></p>
+          {/* LA PHRASE LA PLUS FORTE DE LA SOUS-PARTIE EN DEVIENT LE TITRE.
+              Elle vivait en citation sous le corps, donc apres le
+              raisonnement qu'elle resume. « The brief was never a game. It was
+              ninety people who already knew their table » disait le brief -
+              mais le premier paragraphe le dit deja, et plus precisement :
+              « a reason for people who don't know each other to need each
+              other for twenty minutes ». */}
+          <p class="lead">Shipped empty. <em class="em-gris">Finished by the people who played it.</em></p>
           <div class="body">
             <p>Every guest list arrives pre-sorted - families, school friends, the people from work - and left alone it stays that way all day. The room is perfectly pleasant and nobody meets anyone. <strong>That was the actual brief</strong>: a reason for people who don't know each other to need each other for twenty minutes.</p>
             <p>So the mechanics were built for it rather than decorated with it. Six clues nobody could gather alone, held by people scattered across the grounds: the only route through was to go and ask a stranger what they had.</p>
@@ -818,21 +825,28 @@ const credits = [
             <p>And it only became itself once people played it. I drew the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, in ways no plan could fully script.</p>
           </div>
         </div>
-        <p class="qt">Shipped empty. <strong>Finished by the people who played it.</strong></p>
         {/*
-          LES DEUX PLATEAUX JOUES, COTE A COTE. Ils etaient les moities droites
-          de deux blocs avant/apres dont les moities gauches sont parties au
-          guide. Ce qui compte ici n'est pas qu'ils descendent d'une page -
-          c'est ce que cent personnes en ont fait : une grille remplie de
-          jetons, une autre rayee a la craie.
+          CE QUE CENT PERSONNES EN ONT FAIT. La malle ouverte, puis les deux
+          plateaux apres la partie : une grille remplie de jetons, une autre
+          rayee a la craie. Les trois disent la meme chose - le dispositif a
+          ete fini par ceux qui y ont joue - et ils ne le disent bien
+          qu'ensemble.
+
+          4/3 EN `cover` POUR LES TROIS : deux sont debout (0,667), la grille
+          de mots est couchee (1,5). A rapport commun il faut recadrer
+          quelqu'un, et un cadre debout aurait coupe la moitie d'un poster qui
+          est justement fait pour etre lu.
         */}
-        <div class="two">
+        <div class="three">
+          <Figure src={img('game-opened')} legende="Opened, together" ratio="4 / 3" ajuste="cover"
+            alt="Opened trunk revealing a framed congratulations card above rows of jars"
+            sizes="(min-width: 900px) 340px, 88vw" />
+          <Figure src={img('game-wordsearch')} legende="The word grid, mid-game" ratio="4 / 3" ajuste="cover"
+            alt="The word grid mid-game, crossed through with chalk lines as players work it out together"
+            sizes="(min-width: 900px) 340px, 88vw" />
           <Figure src={img('game-murdle')} legende="The deduction grid, after a hundred people" ratio="4 / 3" ajuste="cover"
             alt="The deduction board after play, its grid filled with pink and green wooden tokens"
-            sizes="(min-width: 900px) 520px, 90vw" />
-          <Figure src={img('game-wordsearch')} legende="I drew the grid. The marks on it aren&rsquo;t mine." ratio="4 / 3" ajuste="cover"
-            alt="The word grid mid-game, crossed through with chalk lines as players work it out together"
-            sizes="(min-width: 900px) 520px, 90vw" />
+            sizes="(min-width: 900px) 340px, 88vw" />
         </div>
       </div>
 

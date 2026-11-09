@@ -276,9 +276,13 @@ An escape game, designed from zero - rules, clues, progression, reward. A locked
 
 > The game, set up in the courtyard
 
+> The trunk, and the clues on its lid
+
+> The payoff, down to the last jar
+
 Participation
 
-The brief was never a game. It was *ninety people who already knew their table.*
+Shipped empty. *Finished by the people who played it.*
 
 Every guest list arrives pre-sorted - families, school friends, the people from work - and left alone it stays that way all day. The room is perfectly pleasant and nobody meets anyone. **That was the actual brief**: a reason for people who don't know each other to need each other for twenty minutes.
 
@@ -288,11 +292,11 @@ What I hadn't planned was the range. **Everyone played, the youngest to the olde
 
 And it only became itself once people played it. I drew the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, in ways no plan could fully script.
 
-Shipped empty. **Finished by the people who played it.**
+> Opened, together
+
+> The word grid, mid-game
 
 > The deduction grid, after a hundred people
-
-> I drew the grid. The marks on it aren&rsquo;t mine.
 
 Transfer
 
@@ -346,5 +350,8 @@ See it at global scale →
 - Production guide page for the word-grid game: blank poster on an easel with its material checklist
 - Guests embracing at the event, the designer among them rather than running the day
 - The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement
-- The deduction board after play, its grid filled with pink and green wooden tokens
+- Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid
+- Rows of jars packed in the trunk, each labelled with the event monogram on striped paper
+- Opened trunk revealing a framed congratulations card above rows of jars
 - The word grid mid-game, crossed through with chalk lines as players work it out together
+- The deduction board after play, its grid filled with pink and green wooden tokens
