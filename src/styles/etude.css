@@ -1777,7 +1777,6 @@
   backgroundColor) qu'il faut lire, une seule valeur par `.pan`.
 */
 :is(.pan,.etude) :is(.em-rouge,.em-bleu,.em-jaune,.em-gris),
-.pan .closing em{font-style:normal}
 /*
   `width:fit-content` POUR LES ACCENTS QUI SONT DES BLOCS. La cloture de
   Philosophy pose `display:block` sur son em, pour que sa phrase prenne sa
@@ -1858,13 +1857,6 @@
 .rails > *{background:var(--white);min-height:56px}
 @media(max-width:860px){.rails{display:none}}
 
-/* ─── Bloc de fin de section ─── */
-.pan .closing{display:flex;flex-direction:column;gap:24px;padding-top:24px}
-.pan .closing h2{margin:0;font-family:var(--display);font-size:40px;line-height:1.05;
-  font-weight:900;letter-spacing:-.02em;max-width:640px}
-.pan .cbody{margin:0;font-size:17px;line-height:1.7;color:var(--text-body);
-  max-width:640px}
-.pan .cbody strong{color:var(--text)}
 /* Le bouton de fin de partie est ferre a droite, a la meme place dans les trois
    sections (BRIEF §5.4). */
 /*
@@ -1959,7 +1951,6 @@
   .pilep__pose{transform:none;transition:none}
   .pilep__fig{height:auto}
   .pilep__fig img{flex:none;height:auto}
-  .pan .closing h2{font-size:30px}
   .pan .h3--lead{font-size:28px}
 }
 

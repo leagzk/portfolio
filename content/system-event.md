@@ -262,9 +262,65 @@ Léa Giezek
 
 [Le Horse Bar](https://sobarsodrink.squarespace.com/)
 
-## I don't just repeat a system. *I version it.*
+Next: the game →
 
-This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. **The pattern doesn't stop at the screen - and it doesn't stop at work either.**
+## Pivot &middot; Gamification
+
+Mechanics
+
+Tightly engineered underneath, *weightless on top.*
+
+An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to *feel* effortless while being tightly engineered underneath.
+
+**Six riddles, six different mechanics, six clues** - geocaching across the grounds, a crossword, ciphers to break, puzzles to assemble - and one code at the end to open one trunk. Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.
+
+> The game, set up in the courtyard
+
+Participation
+
+The brief was never a game. It was *ninety people who already knew their table.*
+
+Every guest list arrives pre-sorted - families, school friends, the people from work - and left alone it stays that way all day. The room is perfectly pleasant and nobody meets anyone. **That was the actual brief**: a reason for people who don't know each other to need each other for twenty minutes.
+
+So the mechanics were built for it rather than decorated with it. Six clues nobody could gather alone, held by people scattered across the grounds: the only route through was to go and ask a stranger what they had.
+
+What I hadn't planned was the range. **Everyone played, the youngest to the oldest**, and the groups that formed had nothing to do with the ones that arrived. The mixing I designed for was the stated goal; what actually happened went past the design.
+
+And it only became itself once people played it. I drew the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, in ways no plan could fully script.
+
+Shipped empty. **Finished by the people who played it.**
+
+Specified
+
+Played
+
+> The deduction grid, before anyone touched it and after a hundred people did.
+
+Specified
+
+Played
+
+> I drew the grid. The marks on it aren't mine - and that was always the point.
+
+Transfer
+
+Gamification isn't a party trick. *It's how you get people to do the boring thing.*
+
+The lever is the same one I reach for at work, and it has nothing to do with points and badges. It applies wherever a result depends on people choosing to take part, and no mandate can make them.
+
+**Hackathons.** Sanofi's first ran on the brand platform, sponsored by the Chief Medical Officer and the Global Head of R&D: 6,000 participants, 103 ideas, 8,301 votes. The voting wasn't decoration around the event - it was the engine that made six thousand people show up for it.
+
+**Ways of working.** Workshops built on a card game: situations to replay, in teams, instead of a deck about collaboration. A deck gets nodded at. A hand of cards gets argued with, and the argument is the point.
+
+**Data quality.** I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organisation. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. **Nobody updates a database because they were asked twice.**
+
+**Recognition.** An annual awards programme, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.
+
+An escape game, a hackathon, a design system: **you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.**
+
+The frame is mine. **The life is theirs.**
+
+I don't repeat a system - I version it. Three editions, three couples, three identities, a different game every time. **The pattern doesn't stop at the screen, and it doesn't stop at work either.**
 
 See it at global scale →
 
@@ -295,3 +351,8 @@ See it at global scale →
 - Page from the production guide: mockup of the seating panels with the material checklist
 - The seating panels installed at the venue doorway at dusk, flanked by floral columns
 - Guests embracing at the event, the designer among them rather than running the day
+- The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement
+- Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes
+- The same deduction board after play, its grid filled with pink and green wooden tokens
+- Production guide page for the word-grid game: blank poster on an easel with its material checklist
+- The word grid mid-game, crossed through with chalk lines as players work it out together

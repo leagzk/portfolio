@@ -589,18 +589,99 @@ const credits = [
         </div>
       </div>
 
-      <div class="closing">
-        <h2>I don't just repeat a system. <em class="em-jaune">I version it.</em></h2>
-        <p class="cbody">This wasn't a one-off. It was the third edition - each one bigger than the last: a full identity every time, an escape game every time, the level raised at every turn. <strong>The pattern doesn't stop at the screen - and it doesn't stop at work either.</strong></p>
-        <Bouton variante="bleu" href="/system-practice-elements">See it at global scale →</Bouton>
+      <div class="pan__pied">
+        <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
+          <Icone nom="fleche-haut" taille={20} />
+        </button>
+        <Bouton variante="noir" class="suite" commande="carte-gamification">Next: the game →</Bouton>
+      </div>
+    </section>
+
+    {/* ═══════════ Pivot · Gamification ═══════════ */}
+    {/*
+      LE QUATRIEME CHAPITRE, ET C'EST LE PIVOT. Les trois premiers suivent le
+      systeme - le probleme, la demarche, la preuve - celui-ci suit ce que ce
+      cas a d'UNIQUE : un dispositif de jeu, concu pour que des gens qui ne se
+      parlent pas aient besoin les uns des autres. C'est la seule piece de
+      cette etude qui se transpose telle quelle au travail, et c'est pour cela
+      qu'elle sort du chapitre 02 ou elle n'etait qu'une partie parmi cinq.
+    */}
+    <section class="pan" id="pan-gamification" aria-labelledby="titre-gamification">
+      <h2 class="sr-only" id="titre-gamification">Pivot &middot; Gamification</h2>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Mechanics</p>
+        <div class="split">
+          <p class="lead">Tightly engineered underneath, <em class="em-gris">weightless on top.</em></p>
+          <div class="body">
+            <p>An escape game, designed from zero - rules, clues, progression, reward. A locked trunk, a sequence to crack, a payoff at the end. Experience design in its purest form: a system of constraints and steps that has to <em>feel</em> effortless while being tightly engineered underneath.</p>
+            <p><strong>Six riddles, six different mechanics, six clues</strong> - geocaching across the grounds, a crossword, ciphers to break, puzzles to assemble - and one code at the end to open one trunk. Each had to be learnable in thirty seconds, solvable by people holding a drink, and unmistakably part of the same day as the invitation and the table.</p>
+          </div>
+        </div>
+        <Figure src={img('game-setup-wide')} legende="The game, set up in the courtyard" ratio="16 / 9" ajuste="cover"
+          alt="The escape game set up in the courtyard: painted trunks, a mirrored clue panel and the first floral arrangement"
+          sizes="(min-width: 900px) 1040px, 92vw" />
       </div>
 
-      {/* LE PIED DU DERNIER CHAPITRE. A gauche, le meme retour en haut
-          qu'ailleurs : il remonte sans rien refermer. A droite, pas de
-          « Next: ... » - il n'y a pas de tuile 04, et le sommaire des
-          trois cartes est reduit a celle-ci ; ce bouton-la le rouvre. Les deux
-          remontent, l'un garde le chapitre ouvert, l'autre referme tout.
-          Voir .pan__pied dans etude.css et dossier.ts. */}
+      <div class="subsec">
+        <p class="eb" data-sommaire>Participation</p>
+        <div class="split">
+          <p class="lead">The brief was never a game. It was <em class="em-gris">ninety people who already knew their table.</em></p>
+          <div class="body">
+            <p>Every guest list arrives pre-sorted - families, school friends, the people from work - and left alone it stays that way all day. The room is perfectly pleasant and nobody meets anyone. <strong>That was the actual brief</strong>: a reason for people who don't know each other to need each other for twenty minutes.</p>
+            <p>So the mechanics were built for it rather than decorated with it. Six clues nobody could gather alone, held by people scattered across the grounds: the only route through was to go and ask a stranger what they had.</p>
+            <p>What I hadn't planned was the range. <strong>Everyone played, the youngest to the oldest</strong>, and the groups that formed had nothing to do with the ones that arrived. The mixing I designed for was the stated goal; what actually happened went past the design.</p>
+            <p>And it only became itself once people played it. I drew the frame - tight, deliberate, engineered underneath - and the experience took its real shape in their hands, in ways no plan could fully script.</p>
+          </div>
+        </div>
+        <p class="qt">Shipped empty. <strong>Finished by the people who played it.</strong></p>
+        <BeforeAfter
+          spec={{ src: img('spec-zone-murdle'), alt: 'Production guide page for the deduction game: empty grid on an easel, material checklist and set-up notes' }}
+          built={{ src: img('game-murdle'), alt: 'The same deduction board after play, its grid filled with pink and green wooden tokens' }}
+          builtLabel="Played"
+          caption="The deduction grid, before anyone touched it and after a hundred people did."
+        />
+        <BeforeAfter
+          spec={{ src: img('spec-zone-wordsearch'), alt: 'Production guide page for the word-grid game: blank poster on an easel with its material checklist' }}
+          built={{ src: img('game-wordsearch'), alt: 'The word grid mid-game, crossed through with chalk lines as players work it out together' }}
+          builtLabel="Played"
+          caption="I drew the grid. The marks on it aren't mine - and that was always the point."
+        />
+      </div>
+
+      <div class="subsec">
+        <p class="eb" data-sommaire>Transfer</p>
+        <div class="split">
+          <p class="lead">Gamification isn't a party trick. <em class="em-gris">It's how you get people to do the boring thing.</em></p>
+          <div class="body">
+            <p>The lever is the same one I reach for at work, and it has nothing to do with points and badges. It applies wherever a result depends on people choosing to take part, and no mandate can make them.</p>
+            <p><strong>Hackathons.</strong> Sanofi's first ran on the brand platform, sponsored by the Chief Medical Officer and the Global Head of R&amp;D: 6,000 participants, 103 ideas, 8,301 votes. The voting wasn't decoration around the event - it was the engine that made six thousand people show up for it.</p>
+            <p><strong>Ways of working.</strong> Workshops built on a card game: situations to replay, in teams, instead of a deck about collaboration. A deck gets nodded at. A hand of cards gets argued with, and the argument is the point.</p>
+            <p><strong>Data quality.</strong> I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organisation. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. <strong>Nobody updates a database because they were asked twice.</strong></p>
+            <p><strong>Recognition.</strong> An annual awards programme, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.</p>
+            <p>An escape game, a hackathon, a design system: <strong>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</strong></p>
+            <p class="qt">The frame is mine. <strong>The life is theirs.</strong></p>
+          </div>
+        </div>
+      </div>
+
+      {/*
+        LA SORTIE DE LA PAGE EST UN PARAGRAPHE, comme sur Brand. Elle vivait
+        dans un `.closing` : un titre de 40px et un corps de 17px, deux
+        echelles qui n'existaient nulle part ailleurs sur la page, pour dire ce
+        qu'un paragraphe dit. Elle rejoint la colonne du texte, dans la
+        sous-partie qu'elle conclut, et le bouton descend avec elle.
+
+        « each one bigger than the last » etait faux ici aussi : 200, 100 et 90
+        invites, et c'est celle de 90 qui est documentee.
+      */}
+      <div class="split">
+        <div class="body split__droite">
+          <p>I don't repeat a system - I version it. Three editions, three couples, three identities, a different game every time. <strong>The pattern doesn't stop at the screen, and it doesn't stop at work either.</strong></p>
+          <Bouton variante="bleu" href="/system-practice-elements">See it at global scale →</Bouton>
+        </div>
+      </div>
+
       <div class="pan__pied">
         <button class="pan__haut" type="button" data-haut aria-label="Back to the top of the chapters">
           <Icone nom="fleche-haut" taille={20} />
