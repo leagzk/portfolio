@@ -176,10 +176,7 @@ const guide: Vignette[] = [
     alt: 'Production guide page for the puzzle: loose pieces on the low table, instructions frame and the seating around it' },
 ].map((e) => ({ src: img(e.nom), alt: e.alt, legende: e.legende }));
 
-/*
-  Les neuf prestataires. data-label reprend le nom : le CSS s'en sert pour
-  reserver la largeur du gras au survol, sans faire sauter la mise en page.
-*/
+/* Les neuf prestataires. */
 const credits = [
   { role: 'Artwork & event design', nom: 'Léa Giezek' },
   { role: 'Photography', nom: 'Madeleine Photographe ©', href: 'https://studiomadeleine.fr/' },
@@ -773,7 +770,7 @@ const credits = [
               prend toute la phrase n'accentue plus rien, et celui-ci
               surlignait le credit des autres au lieu de la part que je
               revendique. Deux mots suffisent. */}
-          <p class="lead">Behind the scenes, <em class="em-jaune">never alone.</em></p>
+          <p class="lead">Behind the scenes,<br /><em class="em-jaune">never alone.</em></p>
           <dl class="credits">
             {credits.map((c) => (
               <div class="credits__ligne">
@@ -782,7 +779,7 @@ const credits = [
                 <dt>{c.role}</dt>
                 <dd>
                   {c.href
-                    ? <a href={c.href} target="_blank" rel="noopener noreferrer" data-label={c.nom}>{c.nom}<span class="sr-only"> (opens in a new tab)</span></a>
+                    ? <a href={c.href} target="_blank" rel="noopener noreferrer">{c.nom}<span class="sr-only"> (opens in a new tab)</span></a>
                     : <span class="credits__moi">{c.nom}</span>}
                 </dd>
               </div>
@@ -1147,13 +1144,33 @@ const credits = [
   .pan .credits__ligne dt{font-size:11px;font-weight:700;letter-spacing:.14em;
     text-transform:uppercase;color:var(--ink-muted)}
   .pan .credits__ligne dd{margin:0;font-size:16px;line-height:1.3}
-  .pan .credits__ligne a{text-decoration:none;font-weight:500;color:var(--text);
-    border-bottom:var(--rule-fine) solid var(--blue);transition:font-weight .2s}
-  /* ::after reserve la largeur du gras : sans lui, le survol ferait sauter la
-     mise en page de toute la colonne. */
-  .pan .credits__ligne a::after{content:attr(data-label);display:block;height:0;
-    overflow:hidden;visibility:hidden;font-weight:700;pointer-events:none}
-  .pan .credits__ligne a:hover{font-weight:700}
+  /*
+    UN SOULIGNE DE TEXTE, PAS UN FILET DE GRILLE. Ces noms portaient un
+    `border-bottom` de `--rule-fine` - 1,5px, le jeton des filets de la
+    composition Language - en `--blue`, une couleur que rien d'autre dans ce
+    bloc n'emploie. Un trait de mise en page sous du texte de 16px, et neuf
+    fois de suite : c'est ce qui alourdissait la liste.
+
+    `text-decoration` est fait pour ca : 1px, decale de 4 sous la ligne de
+    base pour laisser respirer les jambages, dans le gris sourd des
+    intitules. Il passe a l'encre pleine au survol et au focus - l'affordance
+    est la sans crier, et le nom reste noir et lisible.
+
+    PAS D'ICONE DE LIEN SORTANT. Elle se justifie quand un lien est isole et
+    que la destination surprend ; ici les neuf lignes se comportent toutes
+    pareil, et le « opens in a new tab » est deja annonce en `sr-only`. Neuf
+    icones ajouteraient un troisieme objet a lire par ligne.
+
+    Le survol ne passe plus en gras : c'est ce gras qui obligeait a reserver
+    sa largeur avec un `::after` sur `data-label`, pour que la colonne ne
+    saute pas. Le gras parti, le `::after` et l'attribut le sont aussi.
+  */
+  .pan .credits__ligne a{font-weight:500;color:var(--text);
+    text-decoration:underline;text-decoration-thickness:1px;
+    text-underline-offset:4px;text-decoration-color:var(--ink-muted);
+    transition:text-decoration-color .2s}
+  .pan .credits__ligne a:hover,
+  .pan .credits__ligne a:focus-visible{text-decoration-color:var(--text)}
   .pan .credits__moi{font-weight:700}
 
   @media(max-width:860px){

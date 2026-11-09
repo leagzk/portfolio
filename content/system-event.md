@@ -246,7 +246,8 @@ The same move as everything else I build: design the system, iterate with stakeh
 
 Credits
 
-Behind the scenes, *never alone.*
+Behind the scenes,
+*never alone.*
 
 **Artwork & event design**
 
