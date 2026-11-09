@@ -204,7 +204,7 @@ Management
 
 I owned the *why* and the *what.* They owned the *how.*
 
-We were never two expertises working side by side. **My designers opened pull requests. My engineers ran design critiques and asked design questions out loud.** That holds on two things only: a floor of trust, and no ambiguity at all about who owns what.
+My job wasn't to hold it up. It was to build a structure that outlasts any of us. We were never two expertises working side by side. **My designers opened pull requests. My engineers ran design critiques and asked design questions out loud.** That holds on two things only: a floor of trust, and no ambiguity at all about who owns what.
 
 Streams were autonomous, split by capability, each moving without a central decision - inside a framing they had co-written. Shared rituals kept five hubs one system instead of an archipelago. **Nothing shipped without us aligned, and nothing waited on me to be decided.**
 
@@ -241,10 +241,6 @@ Three quarters of the team was freelance and I was, for a while, the only perman
 Every quarter I carried leadership's feedback back down to the team. And **no deck left the team without the whole team behind it** - stakeholders, senior executives, a demo with our peers: everyone had to be comfortable with what we were about to say, whether or not they were the one saying it.
 
 Average completed engagement: 23 months against a one-year target. The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.**
-
-## My job wasn't to hold it up. *It was to build a structure that outlasts any of us.*
-
-See it off the screen →
 
 ---
 
