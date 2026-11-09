@@ -87,7 +87,11 @@ const dessin = (nom: string): string => {
 const chiffres: Chiffre[] = [
   { nombre: '2,500', quoi: 'people shipping on-brand', couleur: 'rouge', motif: 'plein',
     contexte: 'From COMEX to front-line, with no bottleneck in the middle.' },
-  { nombre: '200+', quoi: 'campaigns and internal events', couleur: 'bleu', motif: 'bande',
+  /* PLEIN ET NON `bande` : la case etait blanche avec un filet bleu en bas, et
+     l'aplat bleu vivait a cote, dans une case vide. La couleur revient sur ce
+     qu'elle designe - c'est la grammaire de l'accueil, ou elle est TOUJOURS
+     portee par une case qui dit quelque chose. */
+  { nombre: '200+', quoi: 'campaigns and internal events', couleur: 'bleu', motif: 'plein',
     contexte: 'All of them ran on the system. The default way things shipped.' },
   /*
     LA PORTEE REELLE, ET NON UN EXEMPLE DE PORTEE. Cette case disait « 6,000
@@ -472,8 +476,18 @@ const pratiques: Tuile[] = [
         trois chiffres d'a cote - et c'est la grammaire de l'accueil, ou la
         couleur occupe des cases entieres.
       */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:a1"><span class="compo__plat compo__plat--rouge"></span></div>
-      <div class="compo__decor" aria-hidden="true" style="grid-area:a2"><span class="compo__plat compo__plat--bleu"></span></div>
+      {/* LES DEUX CARRES SONT BLANCS. Ils ont porte le rouge et le bleu : avec
+          trois chiffres deja en aplat plein, cinq couleurs se touchaient et la
+          composition devenait une palette. Blancs, ils sont la RESPIRATION
+          entre les trois - ce que les cases blanches font sur l'accueil. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a1"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:a2"></div>
+      {/* Les quatre segments des deux lignes : le long reste blanc, le court
+          porte la couleur, et les deux coupes sont decalees. */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h1"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h2"><span class="compo__plat compo__plat--jaune"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h3"><span class="compo__plat compo__plat--bleu"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:h4"></div>
 
       {/*
         LES QUATRE CARTES SONT ECRITES DANS L'ORDRE 01 → 02 → 03 → 04, pas dans
@@ -725,7 +739,7 @@ const pratiques: Tuile[] = [
         <div class="four">
           {appariements.map((a) => (
             <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="4 / 3"
-              sizes="(min-width: 900px) 250px, 45vw" zoom />
+              sizes="(min-width: 900px) 250px, 45vw" zoom aere />
           ))}
         </div>
       </div>
@@ -887,7 +901,7 @@ const pratiques: Tuile[] = [
         <div class="three">
           {adoption.map((a) => (
             <Figure src={img(a.nom)} alt={a.alt} legende={a.legende} ratio="3 / 4"
-              sizes="(min-width: 900px) 340px, 45vw" zoom />
+              sizes="(min-width: 900px) 340px, 45vw" zoom aere />
           ))}
           <CadreDefilant
             src={newsletter.src}
@@ -1153,7 +1167,7 @@ const pratiques: Tuile[] = [
         <div class="three">
           {contraintes.map((c) => (
             <Figure src={img(c.nom)} alt={c.alt} legende={c.legende} ratio="4 / 3"
-              sizes="(min-width: 900px) 340px, 45vw" zoom />
+              sizes="(min-width: 900px) 340px, 45vw" zoom aere />
           ))}
         </div>
 
@@ -1323,34 +1337,53 @@ const pratiques: Tuile[] = [
       douzieme, donc les filets se prolongent partout ; et la couleur occupe
       des cases entieres, pas des interstices.
 
-      CE QUE CETTE COMPOSITION PLACE :
-        · `def` - le bloc « The brand platform », six colonnes sur deux
-          rangees, au centre.
-        · `n1` `n2` `n3` - les trois chiffres, trois colonnes sur une rangee de
-          268px, soit 267x268 : des CARRES, et ils tiennent les trois coins
-          autour de `def`.
-        · `a1` - le quatrieme coin, un aplat de meme taille. `a2` - le seul
-          autre, dans la bande des cartes.
-        · `c1` a `c4` - quatre largeurs differentes : 625, 446, 356 et 535.
-          Aucune paire jumelle, ce qui est la difference entre une composition
-          et deux rangees de cartes.
+      LA FORME EST CELLE DE « CULTIVATING PRACTICE » SUR L'ACCUEIL. La citation
+      y est encadree sur DEUX cotes et non entouree : le duo des principes la
+      coiffe, un troisieme principe la borde a gauche, et le reste ouvre. Les
+      trois chiffres prennent ces trois places autour de `def` - `n1` et `n2`
+      au-dessus, `n3` a gauche - au lieu de tenir trois coins, ce qui faisait
+      une bordure et non un cadrage.
 
-      LES CARTES GARDENT LEUR LIGNE DE PUCES SUR UN RANG : interieurs de 568,
-      390, 300 et 479 pour des lignes qui demandent 249, 319, 225 et 295. La
-      plus juste est la 03, avec 75px d'avance.
+      DEUX LIGNES HORIZONTALES TRAVERSENT, ET ELLES NE SE COUPENT PAS AU MEME
+      ENDROIT. La premiere separe les chiffres des cartes et casse a la
+      huitieme colonne ; la seconde separe les deux rangees de cartes et casse
+      a la troisieme. Deux coupes au meme endroit auraient fait une colonne
+      fantome ; decalees, elles donnent le rythme. Chacune porte sa couleur a
+      l'extremite opposee de l'autre - le jaune a droite, le bleu a gauche.
 
-      LA PREMIERE RANGEE EST FIXE ET LA SECONDE UN PLANCHER : les carres
-      doivent rester carres, mais `def` doit pouvoir grandir si sa phrase
-      gagne une ligne.
+      LE BLEU VIENT DE LA BANDE DU BLOC. Il fermait la case « The brand
+      platform » par le bas, ou il ne designait rien ; il descend ici, ou il
+      tient une ligne de la grille.
+
+      LA CARTE 04 SE VOIT AVANT D'ETRE LUE. Sur chaque etude, la quatrieme
+      nomme ce que le cas a d'unique - l'equipe pour Governance, le standard
+      ici - et c'est le point de bascule. Elle est donc la PLUS LARGE des
+      quatre, 713px contre 625, 446 et 356, et la seule noire. On la repere
+      sans avoir commence a lire.
+
+      `DEF` PREND DE LA LARGEUR PLUTOT QUE DE LA HAUTEUR. A six colonnes - 535px
+      - son texte demandait 410px de haut, et la rangee grandissant, `n3` la
+      suivait : le troisieme chiffre faisait 267x410, il n'etait plus carre. A
+      neuf colonnes il tient dans la hauteur d'un carre, et les trois chiffres
+      restent les trois memes.
+
+      LES LIGNES DE PUCES TIENNENT TOUTES SUR UN RANG : interieurs de 568, 390,
+      300 et 657 pour des lignes qui demandent 249, 319, 225 et 295.
+
+      LA PREMIERE RANGEE EST FIXE ET LA SECONDE UN PLANCHER : les chiffres
+      doivent rester carres, mais `def` doit pouvoir grandir si sa phrase gagne
+      une ligne.
     */
     .compo{grid-template-columns:repeat(12,minmax(0,1fr));
-      grid-template-rows:268px minmax(268px,auto)
-        minmax(300px,auto) minmax(300px,auto);
+      grid-template-rows:268px minmax(268px,auto) 36px
+        minmax(300px,auto) 36px minmax(300px,auto);
       grid-template-areas:
-        "n1 n1 n1 def def def def def def n2 n2 n2"
-        "n3 n3 n3 def def def def def def a1 a1 a1"
+        "a1 a1 a1 n1 n1 n1 n2 n2 n2 a2 a2 a2"
+        "n3 n3 n3 def def def def def def def def def"
+        "h1 h1 h1 h1 h1 h1 h1 h1 h2 h2 h2 h2"
         "c1 c1 c1 c1 c1 c1 c1 c2 c2 c2 c2 c2"
-        "c3 c3 c3 c3 a2 a2 c4 c4 c4 c4 c4 c4"}
+        "h3 h3 h3 h4 h4 h4 h4 h4 h4 h4 h4 h4"
+        "c3 c3 c3 c3 c4 c4 c4 c4 c4 c4 c4 c4"}
 
     /*
       LE BANDEAU DES CHIFFRES DEVIENT DES CASES DE LA COMPOSITION. Il gardait
@@ -1375,8 +1408,23 @@ const pratiques: Tuile[] = [
     .compo .clef-rangee:hover .clef__dedans,
     .compo .clef-rangee:focus-within .clef__dedans,
     .compo .clef-rangee:has(.clef[aria-expanded="true"]) .clef__dedans{opacity:1}
-    /* Le bloc fait deux rangees : sa ligne de credit descend au bas de la
-       case plutot que de laisser 250px de blanc sous elle. */
+    /*
+      LE BLOC PERD SA BANDE DE CLOTURE, ET C'EST CE QUI REND LES CHIFFRES
+      CARRES. Mesure de ses 335px de haut : 188 de texte, et 148 de padding
+      dont 116 EN BAS - reserves a `.clef-def__bande`, l'aplat de 84px qui
+      fermait la case quand le bandeau etait un objet a part.
+
+      Dans la composition, ce n'est plus a lui de fermer quoi que ce soit : la
+      grille le fait, avec le meme filet que partout. La bande et son filet
+      s'effacent donc, le padding bas revient a 32, et le bloc tient en 251px -
+      sous les 268 de la rangee. `n3`, qui partage cette rangee, cesse d'etre
+      etire et redevient le carre que les deux autres sont.
+
+      La ligne de credit garde son `margin-top:auto` : elle se pose au bas de
+      la case au lieu de flotter sous la phrase.
+    */
+    .compo .clef-def{padding-bottom:32px}
+    .compo .clef-def__bande,.compo .clef-def__filet{display:none}
     .compo .clef-def__prix{margin-top:auto}
     /*
       LA MOSAIQUE DE LA DISCOVERY : quatre colonnes, et les sept extraits poses

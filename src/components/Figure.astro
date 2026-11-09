@@ -51,11 +51,18 @@ export interface Props {
     promettrait un agrandissement sans objet.
   */
   zoom?: boolean;
+  /*
+    BLANC TOURNANT. Une planche posee - page de brandbook, rapport, carte des
+    capabilities - n'a pas de bord a elle et ne doit pas venir au ras du filet.
+    Une capture plein cadre, si : son cadre EST le bord de ce qu'elle montre.
+    Meme nom que l'option du carrousel, meme raison.
+  */
+  aere?: boolean;
 }
 const {
   src, url, alt, legende, ratio, ajuste = 'contain',
   sizes = '(min-width: 900px) 340px, 90vw', attente, class: classe,
-  zoom = false,
+  zoom = false, aere = false,
 } = Astro.props;
 
 /* La loupe lit `data-legende` ; sans legende visible, le texte alternatif en
@@ -67,7 +74,7 @@ const styleCadre = [
   `--fit:${ajuste}`,
 ].filter(Boolean).join(';');
 ---
-<figure class:list={['fig', classe]}>
+<figure class:list={['fig', aere && 'fig--aere', classe]}>
   <div class="fig__cadre" style={styleCadre}>
     {zoom && (src || url) ? (
       <button type="button" class="zoom" data-loupe="image"

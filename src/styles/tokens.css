@@ -43,6 +43,21 @@
   --yellow:#F5CD00;
   --white:#FFFFFF;          /* fond de page - le creme est supprime */
   --grey-mondrian:#E4E4E1;  /* composition Language uniquement */
+  /*
+    LE FILET DES CADRES D'IMAGE, ET POURQUOI IL N'EST PAS NOIR.
+
+    Le site avait deux traitements qui se cotoyaient sans se ressembler : les
+    cadres defilants portaient un filet noir, les figures n'en portaient aucun.
+    Sur une meme rangee - trois documents et une newsletter - on voyait trois
+    images flottantes et une encadree.
+
+    La regle est desormais : LE NOIR STRUCTURE, LE GRIS ENCADRE. Les filets de
+    la composition et du bandeau restent en --text, parce que ces lignes-la
+    SONT la grille. Un cadre d'image, lui, ne structure rien : il soutient une
+    illustration, et un trait noir autour d'une planche claire la cerne plus
+    qu'il ne la porte.
+  */
+  --cadre:#4F4F4F;          /* filet des cadres d'image, jamais de la grille */
   --placeholder:#F3F3F3;    /* emplacements visuels, en attente des vraies images */
   /* Textes sur fond noir. Trois valeurs et non une opacite : le gris doit etre
      mesurable au contraste, ce qu'une opacite sur un fond variable n'est pas. */
