@@ -231,8 +231,6 @@ I'd defended 02: bold, screen-first, on the argument that a function shipping pr
 
 Taste on one side, adoption on the other. **The decision went against me. The execution didn't show it.**
 
-The two concepts, surface by surface
-
 Concept 01
 
 EvolutionRetained

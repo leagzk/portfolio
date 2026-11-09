@@ -1132,8 +1132,15 @@ const pratiques: Tuile[] = [
           surfaces de part et d'autre ne se comparent qu'a largeur egale : dans
           une colonne de 440px partagee en deux, chaque pile aurait fait 210px.
         */}
-        <p class="eb">The two concepts, surface by surface</p>
-        <div class="versus">
+        {/*
+          PLUS DE SURTITRE, ET LES PILES DANS LA COLONNE DU TEXTE. Le surtitre
+          annoncait ce que les deux piles montrent d'elles-memes - chacune
+          porte deja son rang, son nom et sa pastille Retained. Et a pleine
+          largeur elles pesaient plus que la these qu'elles illustrent : posees
+          en colonne 2, elles font la largeur des paragraphes qui les amenent.
+        */}
+        <div class="split">
+        <div class="versus split__droite">
           {versions.map((v) => (
             <section class="vers" aria-label={`Concept ${v.rang}, ${v.titre}`}>
               <p class="eb">Concept {v.rang}</p>
@@ -1150,10 +1157,11 @@ const pratiques: Tuile[] = [
                 planches={v.planches}
                 base={v.base}
                 ratio="4 / 3"
-                sizes="(min-width: 900px) 480px, 92vw"
+                sizes="(min-width: 900px) 280px, 92vw"
               />
             </section>
           ))}
+        </div>
         </div>
       </div>
 
