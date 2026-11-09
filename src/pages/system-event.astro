@@ -284,16 +284,23 @@ const credits = [
         aire="c4"
       />
 
-      {/* L'aplat de cloture, coupe par un filet. Il ferme la ligne du bas a
-          droite du pivot, et le filet qui le traverse est le seul trait de la
-          composition qui ne separe pas deux cases : il en coupe une. C'est ce
-          que fait l'accueil sous le rail des principes. */}
-      <div class="compo__decor" aria-hidden="true" style="grid-area:p1">
-        <span class="compo__plat compo__plat--rouge"></span>
-        <span class="compo__coupe"></span>
-      </div>
+      {/*
+        LA BANDE DU BAS, A DROITE DU PIVOT. Trois carres de deux colonnes -
+        177x177, la meme mesure que les chiffres en haut - puis deux grandes
+        cases dessous. Le filet qui separe ces deux-la tombe au neuvieme
+        douzieme, c'est-a-dire exactement sur le filet droit du rail de
+        cloture : les deux n'en font plus qu'un, et il remonte du pied de page
+        jusqu'a l'avant-derniere horizontale.
 
-
+        LE BLANC EST UNE COULEUR ICI. La case de gauche reste vide : trois
+        aplats pleins suivis de deux autres fermeraient la page sur un mur, et
+        c'est le vide qui fait respirer la derniere ligne.
+      */}
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p1"><span class="compo__plat compo__plat--rouge"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p2"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:p3"><span class="compo__plat compo__plat--noir"></span></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b1"></div>
+      <div class="compo__decor" aria-hidden="true" style="grid-area:b2"><span class="compo__plat compo__plat--jaune"></span></div>
     </div>
 
     {/* ═══════════ 01 · The problem ═══════════ */}
@@ -785,9 +792,16 @@ const credits = [
 
     LE FILET CENTRAL NE S'INTERROMPT PLUS. A la frontiere des colonnes 6 et 7,
     il separe les chiffres du probleme, puis la demarche de la preuve, puis le
-    pivot de l'aplat : il court du haut au bas de la composition sans qu'aucun
+    pivot des aplats : il court du haut au bas de la composition sans qu'aucun
     bloc l'enjambe. Le pivot le traversait quand il prenait la pleine largeur,
     et c'est ce qui faisait lire deux dessins l'un sous l'autre au lieu d'un.
+
+    ET LES FILETS DU RAIL DE CLOTURE TOMBENT SUR CEUX-CI. Il se decoupait en
+    3-6-3, donc ses verticales au quart et aux trois quarts, sans rapport avec
+    la composition juste au-dessus : deux grilles qui se touchent et ne se
+    repondent pas. En 4-5-3 elles tombent au tiers et aux trois quarts - la
+    premiere sous le bord droit de la definition, la seconde sous le filet qui
+    separe les deux grandes cases du bas. Voir .rails dans etude.css.
 
     LE TROISIEME CHIFFRE A SAUTE, et c'est lui qui liberait la place. « 3rd
     edition, nothing reused » redisait l'ouverture du hero - trois mariages,
@@ -810,12 +824,13 @@ const credits = [
          dans 177, donc les rangees y valent exactement 177 et les chiffres
          restent carres - le minmax ne coute rien ou il ne sert pas. */
       grid-template-rows:minmax(177px,auto) minmax(177px,auto)
-        minmax(300px,auto) minmax(250px,auto);
+        minmax(300px,auto) 177px minmax(177px,auto);
       grid-template-areas:
         "def def def def n1 n1 c1 c1 c1 c1 c1 c1"
         "def def def def n2 n2 c1 c1 c1 c1 c1 c1"
         "c2 c2 c2 c2 c2 c2 c3 c3 c3 c3 c3 c3"
-        "c4 c4 c4 c4 c4 c4 p1 p1 p1 p1 p1 p1"}
+        "c4 c4 c4 c4 c4 c4 p1 p1 p2 p2 p3 p3"
+        "c4 c4 c4 c4 c4 c4 b1 b1 b1 b2 b2 b2"}
 
     .compo .cles--mondrian,.compo .clef-rangee{display:contents}
     /* A deux chiffres, `MOITIE` vaut 1 : chaque rangee n'en porte qu'un seul. */

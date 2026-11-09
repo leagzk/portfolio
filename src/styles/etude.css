@@ -1882,7 +1882,19 @@
   PAS SOUS LE PALIER : l'accueil eteint ses rails sous 860px, ou la grille
   devient une colonne et ou deux verticales n'ont plus rien a prolonger.
 */
-.rails{display:grid;grid-template-columns:3fr 6fr 3fr;gap:var(--rule-fine);
+/*
+  LES VERTICALES DU RAIL TOMBENT SUR CELLES DE LA COMPOSITION. Il se decoupait
+  en 3-6-3 sur douze colonnes, donc ses deux traits au quart et aux trois
+  quarts - sans aucun rapport avec la grille qui le precede, a laquelle il est
+  colle. Deux grilles qui se touchent et ne se repondent pas.
+
+  En 4-5-3, la premiere verticale tombe au tiers et la seconde aux trois
+  quarts : sur Surfaces, l'une sous le bord droit de la definition et l'autre
+  sous le filet qui separe les deux grandes cases du bas, qui la prolonge donc
+  vers le haut. Le rail cesse d'etre une bande posee dessous pour devenir la
+  derniere rangee de la meme grille.
+*/
+.rails{display:grid;grid-template-columns:4fr 5fr 3fr;gap:var(--rule-fine);
   background:var(--text);padding-top:var(--rule-fine);margin-top:0}
 .rails > *{background:var(--white);min-height:56px}
 @media(max-width:860px){.rails{display:none}}
