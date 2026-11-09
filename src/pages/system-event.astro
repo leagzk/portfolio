@@ -90,7 +90,7 @@ const chiffres: Chiffre[] = [
     contexte: 'Paper, fabric, metal, wood. The signage nobody is meant to enjoy held the same line as the invitation.' },
   { nombre: '9', quoi: 'suppliers, one guide', couleur: 'bleu', motif: 'plein',
     contexte: 'One page per zone, one owner per page. On the day it ran from the brief, not from me.' },
-  { nombre: '3rd', quoi: 'edition, three couples', couleur: 'rouge', motif: 'plein',
+  { nombre: '3rd', quoi: 'edition, nothing reused', couleur: 'rouge', motif: 'plein',
     contexte: "A full identity every time, a different game every time. I don't repeat a system - I version it." },
 ];
 
@@ -186,9 +186,9 @@ const credits = [
     */}
     <Fragment slot="intro">
       <p>
-        Three weddings, three couples, three identities - this is the third.{' '}
-        <b>One identity across fifty-plus surfaces</b> - several days, ninety
-        guests, nine suppliers held to it, and an escape game built from zero.
+        Three weddings, three couples, three identities - this is the third:
+        several days, <b>one identity carried from the first envelope to the
+        last jar label</b>, and an escape game built from zero.
       </p>
       {/*
         LA TROISIEME NEGATION APPELAIT UNE AFFIRMATION, ET N'EN AVAIT PAS. Le
@@ -215,8 +215,8 @@ const credits = [
     <ChiffresCles chiffres={chiffres} label="The measure of it" variante="mondrian">
       <Fragment slot="definition">
         <p class="clef-def__eb">The living system</p>
-        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong> - a creative direction short enough to hold nine suppliers to, and complete enough to carry fifty surfaces from the first envelope to the last jar label. No repository to keep it honest, so the brief had to do it.</p>
-        <p class="clef-def__prix">Three editions, three couples, and the same method carried all three.</p>
+        <p class="clef-def__phrase"><strong>Five words, three shapes and one palette</strong>, pulled off two rented objects before anything was drawn. Short enough that whoever was briefed from it could apply it without me, complete enough that nothing on the day had to be invented twice.</p>
+        <p class="clef-def__prix">Not a mood. A short list you can hold someone to.</p>
       </Fragment>
     </ChiffresCles>
 
@@ -254,8 +254,8 @@ const credits = [
         id="carte-contrainte"
         rang="01"
         intitule="The problem"
-        titre="No client, no reviewer, and nine people better than me at their own craft."
-        synthese="Off the screen there is no repository to keep a system honest, so the brief has to do it. And nothing external was going to say the work was enough, or that it had drifted."
+        titre="No client, no reviewer, and the only critic was the one who made it."
+        synthese="Nothing outside the work was going to say it was enough, or that it had drifted. And a line still had to be drawn between what I held and what belonged to people better at it than me."
         couleur="rouge"
         commande="pan-contrainte"
         large
@@ -272,8 +272,8 @@ const credits = [
         id="carte-systeme"
         rang="02"
         intitule="The approach"
-        titre="Five words, three shapes, and a production line I had to build."
-        synthese="A creative direction short enough to brief nine suppliers from, foundations anyone could apply, and one source file that ran on a press and cut on a machine at home."
+        titre="A direction anyone could apply, and a production line that did not exist yet."
+        synthese="Two rented objects gave the language, then the foundations that carried it. The stationery would not compromise, so the artwork had to run on a press and cut on a machine at home - from one file."
         couleur="bleu"
         commande="pan-systeme"
         aire="1 / 5 / 4 / 7"
@@ -289,8 +289,8 @@ const credits = [
         id="carte-transmission"
         rang="03"
         intitule="The proof"
-        titre="Fifty surfaces held, and the day ran without me in it."
-        synthese="The test was the signage nobody is meant to enjoy. Then the handover: one page per zone, one owner per page, executed by nine suppliers from the brief alone."
+        titre="Everything specified survived contact with the people who built it."
+        synthese="Drawn flat in Illustrator, briefed from a single guide, standing at the door twelve months later - and I spent the day inside the experience instead of behind it."
         couleur="jaune"
         commande="pan-transmission"
         large
@@ -406,7 +406,7 @@ const credits = [
       <div class="subsec">
         <p class="eb" data-sommaire>Creative direction</p>
         <div class="split">
-          <p class="lead">Starting from a constraint <em class="em-rouge">you don't own.</em></p>
+          <p class="lead">Starting from a constraint <em class="em-bleu">you don't own.</em></p>
           <div class="body">
             <p><strong>The whole thing started with two objects.</strong> Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The <strong>Popolo</strong> plate: scalloped rim, hand-painted florals, cobalt and ochre. The <strong>Roly Poly</strong> armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.</p>
             <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colors, conviviality and playfulness.</strong> Then systematised end to end across the whole experience, from the first envelope to the last jar label.</p>
@@ -497,23 +497,6 @@ const credits = [
       </div>
 
 
-      <div class="subsec">
-        <div class="split">
-          <p class="lead">Nothing was left to chance, <em class="em-bleu">and nothing drifted.</em></p>
-          <div class="body">
-            <p>A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. <strong>Dozens of touchpoints, one language</strong> - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.</p>
-          </div>
-        </div>
-        <Carrousel
-          label="The surfaces"
-          eyebrow="One identity, fifty-plus surfaces"
-          vignettes={surfaces}
-          ratio="4 / 3"
-          fr={1.3333}
-          largeur="62%"
-          sizes="(min-width: 900px) 660px, 90vw"
-        />
-      </div>
 
 
 
@@ -535,14 +518,31 @@ const credits = [
       <h2 class="sr-only" id="titre-transmission">03 &middot; The proof</h2>
 
       <div class="subsec">
+        {/*
+          LA SERIE DES SURFACES A REJOINT CETTE PARTIE. Elle vivait dans une
+          sous-partie sans surtitre du chapitre 02, donc sans puce et sans
+          rattachement - et son propos, « nothing drifted », est une PREUVE,
+          pas une demarche. Les deux disaient de toute facon la meme chose
+          sous deux phrases d'attaque differentes.
+        */}
         <p class="eb" data-sommaire>Coverage</p>
         <div class="split">
-          <p class="lead">The test was <em class="em-bleu">the boring surfaces.</em></p>
+          <p class="lead">The test was <em class="em-jaune">the boring surfaces.</em></p>
           <div class="body">
-            <p>Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, welcome signage to your room to share care. Same display face, same stripes, same jokes.</p>
+            <p>A monogram, a palette, signage, stationery, room tags, table names, favours, packaging - and the WhatsApp community that ran before any of it. <strong>Dozens of touchpoints, one language</strong>, the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.</p>
+            <p>Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, how to find your room. Same display face, same stripes, same jokes.</p>
             <p>That's where <strong>conviviality and playfulness</strong> stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.</p>
           </div>
         </div>
+        <Carrousel
+          label="The surfaces"
+          eyebrow="One identity, fifty-plus surfaces"
+          vignettes={surfaces}
+          ratio="4 / 3"
+          fr={1.3333}
+          largeur="62%"
+          sizes="(min-width: 900px) 660px, 90vw"
+        />
         <div class="two">
           <Figure src={img('signage-door-tag')} legende="Room tag, in place" ratio="4 / 3" ajuste="cover"
             alt="Striped door tag hanging from a bedroom handle, naming the room in the identity's display type"
@@ -567,7 +567,7 @@ const credits = [
         */}
         <p class="eb" data-sommaire>Execution</p>
         <div class="split">
-          <p class="lead">A specification is a promise. <em class="em-bleu">Production is where it gets kept.</em></p>
+          <p class="lead">A specification is a promise. <em class="em-jaune">Production is where it gets kept.</em></p>
           <div class="body">
             <p>Printed first: die-cut stationery, an invitation suite that unfolds, every piece carrying the three shapes and the glaze palette. Then the space - an implantation plan for the day, then the scenography that brought it to life: the arch, the seating, the floral pedestals, the palette carried into every corner.</p>
             <p>The system on paper, and the system in the world - <strong>the same jump from specification to production I run on the platform</strong>, made physical. Nothing in that jump is automatic, and nothing survives it by accident.</p>

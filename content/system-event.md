@@ -12,15 +12,15 @@ Systematize a moment · Living System · 3rd edition
 
 # Same systems thinking, just off the org chart.
 
-Three weddings, three couples, three identities - this is the third. **One identity across fifty-plus surfaces** - several days, ninety guests, nine suppliers held to it, and an escape game built from zero.
+Three weddings, three couples, three identities - this is the third: several days, **one identity carried from the first envelope to the last jar label**, and an escape game built from zero.
 
 **No repository. No deploy pipeline. No org chart either** - nobody here reported to me, and nobody had to say yes. Just a creative pipeline, built end to end, and the proof that **a system is a way of working, not a technology.**
 
 The living system
 
-**Five words, three shapes and one palette** - a creative direction short enough to hold nine suppliers to, and complete enough to carry fifty surfaces from the first envelope to the last jar label. No repository to keep it honest, so the brief had to do it.
+**Five words, three shapes and one palette**, pulled off two rented objects before anything was drawn. Short enough that whoever was briefed from it could apply it without me, complete enough that nothing on the day had to be invented twice.
 
-Three editions, three couples, and the same method carried all three.
+Not a mood. A short list you can hold someone to.
 
 50+
 
@@ -36,21 +36,21 @@ One page per zone, one owner per page. On the day it ran from the brief, not fro
 
 3rd
 
-edition, three couples
+edition, nothing reused
 
 A full identity every time, a different game every time. I don't repeat a system - I version it.
 
-No client, no reviewer, and nine people better than me at their own craft.
+No client, no reviewer, and the only critic was the one who made it.
 
-Off the screen there is no repository to keep a system honest, so the brief has to do it. And nothing external was going to say the work was enough, or that it had drifted.
+Nothing outside the work was going to say it was enough, or that it had drifted. And a line still had to be drawn between what I held and what belonged to people better at it than me.
 
-Five words, three shapes, and a production line I had to build.
+A direction anyone could apply, and a production line that did not exist yet.
 
-A creative direction short enough to brief nine suppliers from, foundations anyone could apply, and one source file that ran on a press and cut on a machine at home.
+Two rented objects gave the language, then the foundations that carried it. The stationery would not compromise, so the artwork had to run on a press and cut on a machine at home - from one file.
 
-Fifty surfaces held, and the day ran without me in it.
+Everything specified survived contact with the people who built it.
 
-The test was the signage nobody is meant to enjoy. Then the handover: one page per zone, one owner per page, executed by nine suppliers from the brief alone.
+Drawn flat in Illustrator, briefed from a single guide, standing at the door twelve months later - and I spent the day inside the experience instead of behind it.
 
 A game that mixed ninety strangers, and the same lever at work.
 
@@ -148,9 +148,19 @@ So I built the line rather than lower the bar. **One source file, two outputs** 
 
 **A constraint, turned into an operating lever.** It is the problem a token set solves on the platform: one source of truth, several build targets, and not one of them permitted to degrade the others. Here the build targets were a press and a cutting mat.
 
-Nothing was left to chance, *and nothing drifted.*
+Next: the proof →
 
-A full visual identity, declined across every physical surface the day would touch - and even before it, animating the pre-event through a WhatsApp community. A monogram, a palette, signage, stationery, room tags, table names, favours, packaging. **Dozens of touchpoints, one language** - the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.
+## 03 &middot; The proof
+
+Coverage
+
+The test was *the boring surfaces.*
+
+A monogram, a palette, signage, stationery, room tags, table names, favours, packaging - and the WhatsApp community that ran before any of it. **Dozens of touchpoints, one language**, the same coherence I hold across 45+ digital products, applied to paper, fabric, metal and wood.
+
+Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, how to find your room. Same display face, same stripes, same jokes.
+
+That's where **conviviality and playfulness** stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.
 
 One identity, fifty-plus surfaces
 
@@ -171,18 +181,6 @@ One identity, fifty-plus surfaces
 > Guest gift
 
 > Collaborative game
-
-Next: the proof →
-
-## 03 &middot; The proof
-
-Coverage
-
-The test was *the boring surfaces.*
-
-Anyone can be charming on an invitation. The proof is on the signage nobody is meant to enjoy - where to leave your glass, welcome signage to your room to share care. Same display face, same stripes, same jokes.
-
-That's where **conviviality and playfulness** stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.
 
 > Room tag, in place
 
