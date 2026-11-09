@@ -220,11 +220,13 @@ I hired into the org I had drawn: from one designer to a core team of nine - **f
 
 I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 
-**Nicolas** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead** and we founded the capability together. **His growth and the company's outcome, paired.**
+**[Nicolas Chatelain](https://nicolaschatelain.com)** came to Practitioner Experience as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead**, we founded the capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. **His growth and the company's outcome, paired.**
+
+**[Rodolphe Peruzza](https://rodolphe.design/chat)** led the System axis, from craft to experience-pattern industrialization. I also kept bandwidth free for him to explore and to vibe-code. Several of our Figma plugins came out of it - his idea, his build - and so did part of the pipeline's automation scripts. **Not written by our developers. Written by a designer.**
+
+**A strategy clear enough to be adopted is what makes people accountable for it.** Room inside it for what they want to explore is what makes them grow - and what turns a personal interest into something the whole team can use.
 
 > **Design System Awards 2025** Governance finalist alongside HP and Tesco. The recognition that means the most to me is the *category* - because this was never only a craft story. It was a leadership one.
-
-[Nicolas Chatelain](https://nicolaschatelain.com) led the People axis, from Experience Operations enablement to the Community of Practice engagement plan. [Rodolphe Peruzza](https://rodolphe.design/chat) led the System axis, from craft to experience-pattern industrialization.
 
 Team health
 
@@ -234,7 +236,9 @@ Health wasn't the reward for delivery. *It was the condition of it.*
 
 Three quarters of the team was freelance and I was, for a while, the only permanent person in it. **Everyone was a human first** - not a role type, not internal or external, and least of all an expertise. At that ratio it wasn't a position to hold, it was the only way the team could function at all.
 
-**Wellbeing was a line in the plan**, load-bearing and resourced like any other dependency. A pulse check closed every sprint and every retro, and it caught a drop in motivation through a stretch where we were deep in support and short on innovation. So we re-opened the team to what was happening outside, and pushed the contribution model harder to put the value somewhere else.
+**Wellbeing was a line in the plan**, load-bearing and resourced like any other dependency. A pulse check closed every sprint, during the retro. It caught a drop in motivation through a stretch where we were deep in support and short on innovation - so we re-opened the team to what was happening outside, and pushed the contribution model harder to put the value somewhere else.
+
+Every quarter I carried leadership's feedback back down to the team. And **no deck left the team without the whole team behind it** - stakeholders, senior executives, a demo with our peers: everyone had to be comfortable with what we were about to say, whether or not they were the one saying it.
 
 Average completed engagement: 23 months against a one-year target. The people who left in 2026 left for reasons none of us chose - a budget call, a product remap, a scoped engagement that ended as planned. **Not one left me.**
 
