@@ -663,20 +663,25 @@ const credits = [
             <p>Behind the identity and the staging: coordination. Florist, caterer, photographer, venue, rentals - a full ecosystem of suppliers, each with their own constraints, all pulling toward one coherent experience.</p>
             <p>I wrote it all down. Zone by zone: what goes where, what it's made of, what it's for. <strong>A production guide precise enough to be executed without me in the room</strong> - then I handed the day itself to Hera &amp; Harmonia, who ran it from the brief.</p>
             <p>Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be <em>in</em> the experience instead of running it.</p>
+            {/*
+              LA PHOTO EST DANS LE CORPS, ET AVANT LA CHUTE. Posee apres la
+              sous-partie, elle arrivait une fois le raisonnement referme -
+              une illustration qui suit sa conclusion n'illustre plus rien.
+              Elle vient donc apres « I got to be IN the experience », qui est
+              exactement ce qu'elle montre, et la chute tombe derriere elle.
+
+              Dans le corps, elle prend la largeur du paragraphe sans qu'on le
+              lui demande : c'est la colonne. Son ecart est pose sur elle, voir
+              `.pan .body > .fig` dans etude.css.
+            */}
+            <Figure src={img('coordination-embrace')} legende="Inside it, not behind it." ratio="16 / 9" ajuste="cover"
+              alt="Guests embracing at the event, the designer among them rather than running the day"
+              sizes="(min-width: 900px) 600px, 92vw" />
             <p>The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. <strong>It works in a repo. It works in a garden.</strong></p>
           </div>
         </div>
       </div>
 
-      {/* ELLE ILLUSTRE LE PARAGRAPHE QUI PRECEDE, donc elle en prend la
-          largeur. A pleine largeur - 1040px - une photo de groupe pesait plus
-          que tout le chapitre, alors qu'elle dit UNE phrase : celle qui termine
-          Handover. `split__droite` la renvoie en colonne 2, et `sizes` suit. */}
-      <div class="split">
-        <Figure class="split__droite" src={img('coordination-embrace')} legende="Inside it, not behind it." ratio="16 / 9" ajuste="cover"
-          alt="Guests embracing at the event, the designer among them rather than running the day"
-          sizes="(min-width: 900px) 600px, 92vw" />
-      </div>
 
       <div class="subsec">
         {/* SANS `data-sommaire` : c'est un ours, pas une idee. Il figurait

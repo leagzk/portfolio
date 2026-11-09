@@ -214,9 +214,9 @@ I wrote it all down. Zone by zone: what goes where, what it's made of, what it's
 
 Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be *in* the experience instead of running it.
 
-The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. **It works in a repo. It works in a garden.**
-
 > Inside it, not behind it.
+
+The same move as everything else I build: design the system, iterate with stakeholders, brief the owners, step back and collect the feedback. **It works in a repo. It works in a garden.**
 
 Credits
 

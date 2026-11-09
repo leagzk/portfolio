@@ -1629,6 +1629,14 @@
 .pan .body{display:flex;flex-direction:column;gap:16px;font-size:var(--fs-body);
   line-height:1.7;color:var(--text-body)}
 .pan .body p{margin:0}
+/*
+  UNE FIGURE DANS LA COLONNE DU TEXTE RESPIRE PLUS QUE DEUX PARAGRAPHES. Le
+  `gap` du corps vaut 16px et c'est la bonne mesure entre deux phrases ; entre
+  une phrase et une photo, les deux se touchent. Les 24px repris ici sont ceux
+  que porte une bande visuelle dans une sous-partie - meme geste, une echelle
+  en dessous : 40px de part et d'autre au lieu de 56.
+*/
+.pan .body > .fig{margin:24px 0}
 /* MEME ECART SOUS UN SURTITRE, OU QU'IL SOIT. Dans une sous-partie il vaut 12px
    - le `gap` de 32 moins les 20 de marge negative ci-dessus. Dans un `.body` le
    `gap` n'en fait que 16 : sans ce rattrapage, un surtitre pose dans la colonne
