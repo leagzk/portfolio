@@ -62,7 +62,7 @@ Internalize the engineering, rebuild from zero, and run it as a platform: three 
 
 Adopted. Trusted. Extended.
 
-Adoption nobody had to mandate, across every accelerator Sanofi runs - and a community that now ships the roadmap. The system outlived the decision that funded it.
+Not a rollout - a practice that took the system over, accelerator by accelerator, and now ships the roadmap itself. It outlived the decision that funded it.
 
 I didn't build a system I hold together.
 
@@ -155,11 +155,15 @@ Next: the proof →
 
 ## 03 &middot; The proof
 
-Business impact
+Community
 
 These numbers belong to *the team that made them.*
 
-**A structure only counts if it holds, and this one holds without me.** Adoption never came from a mandate. It was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. **The platform stopped being a cost the business approves, and became what its launches plan around.**
+**A structure only counts if it holds, and this one holds without me.** Adoption was won one team and one priority at a time, across 45+ product teams and every accelerator Sanofi runs. That isn't a launch - it's change management at scale. It takes patience and it takes refusing; the two are the same discipline, not opposites. **The platform stopped being a cost the business approves, and became what its launches plan around.**
+
+This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, as part of an Experience Design Organisation of 100 - became one practice.
+
+> The community, in one place for once
 
 Influence
 
@@ -169,25 +173,21 @@ Most system owners treat community as a comms afterthought. I made it the strate
 
 **The timing was the bet.** We aligned the ways of working of the design function across the accelerators while the accelerators were still defining their own. The foundations became the standard instead of catching up with it.
 
-Trust is the part nobody can mandate, so it is the part I measured. **4.7 out of 5 on practitioner satisfaction, twice a year.** People don't comply with Elements. They trust it.
-
-Community
-
-Using it is the first rung. *Owning it is the last.*
-
-Everyone starts as a consumer. Some file an issue, propose a token, fix a page - that makes them contributors. A few take a piece and keep it alive: maintainers, who own what they built. **There is no small contribution.** Each gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.
-
-So I made it a capability, with an owner, a remit and a budget - not a volunteer rota. It started as Design Ops and became **Practitioner Experience**. My team built the machine that made it work: the Portal, the Demo, office hours, contribution and triage rituals, onboarding.
-
-This is how a **core interdisciplinary community of 300+ across 5 global hubs** - 30+ product designers among them, partnering with an Experience Design Organisation of 100 - became one practice. *Design the experience of the people designing the experience.*
-
-> The community, in one place for once
+Trust never shows up in an adoption number, so I measured it on its own. **4.7 out of 5 on practitioner satisfaction, twice a year.** People don't comply with Elements. They trust it.
 
 - Rigour The roadmap grew on what product teams brought back. Every component started from what teams told us they were rebuilding. Their cases fed the pipeline, and the conventions that came out of it were written down once, for everyone. **A roadmap nobody had to lobby for.**
 
 - Responsibility We took the accessibility load off forty-five backlogs. Teams told us where the cost landed: audits to run, fixes to retrofit, a bar to clear alone. So we carried it - WCAG AA as the Sanofi standard, 100% before our first major, checks living where the work happens. **Their time goes to what makes their product theirs.**
 
 - Ethics The fear AI raised became a shared piece of work. The community said what it was wary of - judgement replaced, craft diluted, quality unchecked. I set the line before we built: pragmatic where it accelerates the craft, absolute where it would decide for a human, guardrails non-negotiable throughout. **Named out loud, the fear turned into a brief.**
+
+Contribution
+
+Using it is the first rung. *Owning it is the last.*
+
+Everyone starts as a consumer. Some file an issue, propose a token, fix a page - that makes them contributors. A few take a piece and keep it alive: maintainers, who own what they built. **There is no small contribution.** Each gives at the level of their skill, their time, their reach - a contribution model adapted from Zalando's.
+
+None of it ran on goodwill. The practice got an owner, a remit and a budget, never a volunteer rota - and my team built the machine that made contributing possible: the Portal, the Demo, office hours, contribution and triage rituals, onboarding. *Design the experience of the people designing the experience.*
 
 Next: the team &rarr;
 
