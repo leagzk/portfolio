@@ -1659,6 +1659,33 @@
 /* Un titre de section qui porte en realite le corps d'une phrase forte. */
 .pan .h3--lead{font-size:var(--fs-lead)}
 
+/*
+  ═══ LE RAIL DE CLOTURE ═══
+
+  L'accueil ferme sa composition sur trois cases vides de 56px : on n'y voit
+  pas les cases, on voit LES FILETS QUI LES SEPARENT - un trait horizontal
+  d'un bord a l'autre, et deux verticaux qui en partent vers le bas sans
+  rencontrer quoi que ce soit. La grille ne s'arrete pas, elle s'ouvre.
+
+  Les etudes n'avaient rien de tel : le dernier chapitre se refermait et le
+  footer noir arrivait d'un coup. Le rail leur donne la meme sortie.
+
+  LE DESSIN TIENT AU FOND ET AUX GOUTTIERES, pas a des bordures sur les cases.
+  Le conteneur est noir, les trois cases sont blanches, et les 1,5px qui
+  restent visibles entre elles SONT les filets. Un `padding-top` de la meme
+  valeur donne l'horizontale ; rien en bas, donc les verticales finissent dans
+  le blanc - c'est ce qui les fait « partir » au lieu de fermer une boite.
+
+  TROIS LARGEURS INEGALES : a parts egales, ce serait une barre de progression.
+
+  PAS SOUS LE PALIER : l'accueil eteint ses rails sous 860px, ou la grille
+  devient une colonne et ou deux verticales n'ont plus rien a prolonger.
+*/
+.rails{display:grid;grid-template-columns:5fr 3fr 4fr;gap:var(--rule-fine);
+  background:var(--text);padding-top:var(--rule-fine);margin-top:72px}
+.rails > *{background:var(--white);min-height:56px}
+@media(max-width:860px){.rails{display:none}}
+
 /* ─── Bloc de fin de section ─── */
 .pan .closing{display:flex;flex-direction:column;gap:24px;padding-top:24px}
 .pan .closing h2{margin:0;font-family:var(--display);font-size:40px;line-height:1.05;
