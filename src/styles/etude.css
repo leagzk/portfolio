@@ -664,6 +664,30 @@
   }
 }
 
+/* ─── Fondu enchaine : plusieurs images au meme endroit ─── */
+/*
+  Les regles vivaient dans system-event.astro sous le nom `fairepart`, celui de
+  la suite d'invitation qu'elles animaient. Governance en a eu besoin pour deux
+  captures du LLM interne, et il n'y avait rien a changer : le dispositif ne
+  tient ni a la page ni a ce qu'on y fond. Il a donc pris un nom qui le dit.
+
+  LA GRILLE PLUTOT QUE L'ABSOLU. Trois images en position:absolute sortent du
+  flux et le cadre perd sa hauteur ; empilees en grid elles y restent, et la
+  plus haute donne la mesure. C'est la lecon de la suite d'invitation, qu'on ne
+  refait pas.
+
+  `position:relative` serait redondant : `.fig__cadre` l'a deja.
+  Le minuteur est dans src/scripts/crossfade.ts - hors champ, il s'arrete.
+*/
+.pan .fondu{display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr)}
+.pan .fondu .fondu__etat{grid-area:1/1;opacity:0;transition:opacity .9s ease}
+.pan .fondu .fondu__etat.is-on{opacity:1}
+/* Le script ne demarre pas du tout en mouvement reduit : seule la premiere
+   image reste, et la transition n'aurait rien a animer. */
+@media(prefers-reduced-motion:reduce){
+  .pan .fondu .fondu__etat{transition:none}
+}
+
 /* ─── Bouton d'agrandissement ─── */
 /*
   UN <button> ET NON UN <div> AVEC UN onclick : c'est ce qui donne gratuitement

@@ -154,6 +154,8 @@ And the chain sits inside the workflow each craft already had. Never beside it. 
 
 It starts at the tokens. Multi-brand, multi-theme, multi-surface - read the same way on a flyer, on a canvas and in code. It ends wherever a product ships. In between: libraries in Figma and React on GitHub. A Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing. Storybook as the living source of truth. An MCP that carries it into AI design and engineering workflows. Support streams in Slack and Teams, automation on top. A Portal where it can all be seen, plugged into the internal LLM. **Design excellence reaches past the community of practice. Every Sanofian owns it.**
 
+> Concierge, Sanofi's internal assistant, plugged into the Elements Portal. Anyone in the company can ask how to contribute, and get the process back.
+
 Next: the proof →
 
 ## 03 &middot; The proof
@@ -257,6 +259,8 @@ The people who left in 2026 left for reasons none of us chose - a budget call, a
 - Two Sanofi products in production - a component explorer on a laptop and a public campaign page on a desktop screen - with a mobile study card in front
 - Two phone screens side by side: a question answered in the Elements Slack community, and a GitHub issue on the design system component library
 - Portraits of the team arranged over a world map, showing how widely its members are spread
+- The internal assistant answering the question: what counts as a contribution to Elements, then the steps - get in touch, submit the form, open a pull request, comment in the UI kit
+- The assistant's home screen with the question typed in: I'd like to contribute to Elements, but I don't know how. Could you help?
 - The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon
 - The Elements one-pager submitted to the Design System Awards 2025, a single tall page running from the community and the library to the tooling, the support model, the impact figures and inclusive design
 - Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards

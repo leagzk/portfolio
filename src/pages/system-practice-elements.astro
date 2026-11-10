@@ -1066,6 +1066,38 @@ const mecanismes: Tuile[] = [
             <p>It starts at the tokens. Multi-brand, multi-theme, multi-surface - read the same way on a flyer, on a canvas and in code. It ends wherever a product ships. In between: libraries in Figma and React on GitHub. A Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing. Storybook as the living source of truth. An MCP that carries it into AI design and engineering workflows. Support streams in Slack and Teams, automation on top. A Portal where it can all be seen, plugged into the internal LLM. <strong>Design excellence reaches past the community of practice. Every Sanofian owns it.</strong></p>
           </div>
         </div>
+        {/*
+          LA PHRASE DIT « EVERY SANOFIAN », ET VOICI A QUOI CA RESSEMBLE. Le
+          paragraphe finit sur « a Portal where it can all be seen, plugged
+          into the internal LLM » ; ces deux captures sont ce branchement en
+          service. Quelqu'un qui n'est ni designer ni developpeur demande
+          comment contribuer, et c'est l'assistant de l'entreprise qui repond.
+
+          DEUX ETATS, UN FONDU - meme dispositif que la suite d'invitation de
+          Language, dont les regles sont desormais dans etude.css sous
+          `.fondu`. Les deux captures sont recadrees sur EXACTEMENT la meme
+          fenetre de 2132 x 1949, chacune centree sur son propre contenu :
+          c'est ce qui evite le saut d'echelle entre les deux etats.
+
+          LA REPONSE EST L'ETAT AU REPOS, ET CE N'EST PAS L'ORDRE DE LECTURE.
+          En mouvement reduit le script ne demarre pas et laisse la premiere
+          image : si c'etait la question, il ne resterait que la question -
+          c'est-a-dire rien. La preuve passe donc devant.
+        */}
+        <div class="split">
+          <div class="pile split__suite">
+            <div class="filet filet--bleu" aria-hidden="true"><span class="filet__carre"></span></div>
+            <figure class="fig">
+              <div class="fig__cadre fondu" style="aspect-ratio:2132 / 1949;--fit:contain">
+                <Image class="fondu__etat is-on" src={img('elements-llm-answer')} sizes="(min-width: 861px) 40vw, 90vw" loading="lazy" decoding="async"
+                  alt="The internal assistant answering the question: what counts as a contribution to Elements, then the steps - get in touch, submit the form, open a pull request, comment in the UI kit" />
+                <Image class="fondu__etat" src={img('elements-llm-prompt')} sizes="(min-width: 861px) 40vw, 90vw" loading="lazy" decoding="async"
+                  alt="The assistant's home screen with the question typed in: I'd like to contribute to Elements, but I don't know how. Could you help?" />
+              </div>
+              <figcaption class="cap">Concierge, Sanofi's internal assistant, plugged into the Elements Portal. Anyone in the company can ask how to contribute, and get the process back.</figcaption>
+            </figure>
+          </div>
+        </div>
       </div>
 
       {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
@@ -1473,6 +1505,7 @@ const mecanismes: Tuile[] = [
      dix pixels de cote, le gris du surlignage ne se verrait pas. */
   .pan .filet__carre{flex:none;width:10px;height:10px;background:var(--yellow)}
   .pan .filet--noir .filet__carre{background:var(--ink)}
+  .pan .filet--bleu .filet__carre{background:var(--blue)}
   .pan .filet::after{content:"";flex:1;height:var(--rule-fine);background:var(--text)}
 
   /*
@@ -1553,6 +1586,7 @@ const mecanismes: Tuile[] = [
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { suivreCadres } from '../scripts/vues';
+  import { fonduEnchaine } from '../scripts/crossfade';
 
   /* le contexte des chiffres se deplie au clic aussi - voir le fichier */
   initChiffres();
@@ -1560,4 +1594,10 @@ const mecanismes: Tuile[] = [
   initLoupe();
   /* hors champ, les cadres cessent de defiler : voir src/scripts/vues.ts */
   suivreCadres();
+
+  /* Les deux captures du LLM : 4s par etat, soit presque le double de la
+     suite d'invitation de Language. Ce sont des ecrans qu'on lit, pas trois
+     vues d'un meme objet. */
+  const llm = document.querySelector<HTMLElement>('.fondu');
+  if (llm) fonduEnchaine(llm, '.fondu__etat', 4000);
 </script>
