@@ -160,6 +160,8 @@ That's where **conviviality and playfulness** stopped being words on a moodboard
 
 One identity, fifty-plus surfaces
 
+1 / 9
+
 > Signage
 
 > Stationery
@@ -209,6 +211,8 @@ Behind the identity and the staging: coordination. Florist, caterer, photographe
 I wrote it all down. Moment by moment: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief.
 
 The guide, page samples
+
+1 / 14
 
 > Friday &middot; the apéro
 

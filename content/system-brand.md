@@ -102,6 +102,8 @@ One colour per capability - recognized on sight, applied without a brief
 
 Each capability drawn, so the work could be seen
 
+1 / 13
+
 > R&D
 
 > Development
@@ -313,6 +315,8 @@ Convergence
 ### A brand adapted per product *stops being one.*
 
 So I pushed the answer one level up. Not a brand adaptation per product: **one standard for the portfolio**, with sanofi.com as the pilot - the first real product to carry it. **A pilot isn't a proof. It's the fastest way to find out what you got wrong.**
+
+1 / 5
 
 > sanofi.com &middot; Article page
 

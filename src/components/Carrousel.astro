@@ -96,6 +96,14 @@ const {
   <div class="carrousel__tete">
     {eyebrow && <p class="eb">{eyebrow}</p>}
     <div class="carrousel__fleches">
+      {/*
+        L'INDICATEUR DIT COMBIEN IL EN RESTE. Une piste ne montre que deux
+        vignettes et demie : sans compte, rien ne dit s'il y en a quatre ou
+        quatorze - et le carrousel du guide en a quatorze. Il est
+        `aria-hidden` parce que la piste s'annonce deja comme un groupe nomme,
+        et qu'un compteur qui change au defilement bavarderait.
+      */}
+      <p class="carrousel__compte" aria-hidden="true"><span data-rang>1</span> / {vignettes.length}</p>
       <button class="carrousel__btn" type="button" data-sens="-1" aria-label={`Previous ${label}`}>
         <Icone nom="fleche-gauche" taille={18} />
       </button>
@@ -150,7 +158,9 @@ const {
   */
   .carrousel{display:flex;flex-direction:column;gap:12px}
   .carrousel__tete{display:flex;justify-content:space-between;align-items:center;gap:16px}
-  .carrousel__fleches{display:flex;gap:8px;margin-left:auto}
+  .carrousel__fleches{display:flex;gap:8px;margin-left:auto;align-items:center}
+  .carrousel__compte{margin:0;font-size:13px;font-variant-numeric:tabular-nums;
+    color:var(--ink-muted);white-space:nowrap}
   /* Carre, bordure 1,5px, rempli de noir au survol - comme les boutons du
      gabarit, aucun arrondi (BRIEF §1). 44px : la cible tactile minimale. */
   .carrousel__btn{display:grid;place-items:center;width:44px;height:44px;padding:0;
@@ -166,6 +176,15 @@ const {
 
   @media(max-width:860px){
     .carrousel__slide{flex:0 0 var(--slide-w-mob,88%)}
+    /*
+      AU DOIGT, PAS DE FLECHES. C'est l'arbitrage pose pour tout le site : le
+      bureau recoit des fleches, le telephone le glissement - les dix autres
+      bandes des etudes n'ont jamais eu que lui, et deux paires de boutons de
+      44px au-dessus d'une piste qu'on fait defiler du pouce ne servent qu'a
+      prendre de la hauteur. Le compte reste : c'est lui qui dit ce que la
+      piste cache.
+    */
+    .carrousel__btn{display:none}
   }
 
   /*
@@ -226,7 +245,24 @@ const {
       if (defile) piste.setAttribute('tabindex', '0');
       else piste.removeAttribute('tabindex');
     };
+    /*
+      LE RANG SE DEDUIT DU DEFILEMENT, pas d'un compteur qu'on incremente : les
+      fleches, le pouce et les fleches du clavier bougent tous la meme piste,
+      et une seule source evite qu'ils divergent. Meme calcul que les points
+      de `.tuiles--piste`.
+    */
+    const rang = car.querySelector<HTMLElement>('[data-rang]');
+    const n = piste.children.length;
+    const suivreRang = () => {
+      if (!rang || n < 2) return;
+      const course = piste.scrollWidth - piste.clientWidth;
+      const i = course > 1 ? Math.round((piste.scrollLeft / course) * (n - 1)) : 0;
+      rang.textContent = String(i + 1);
+    };
+    suivreRang();
+    piste.addEventListener('scroll', suivreRang, { passive: true });
+
     suivreTabindex();
-    addEventListener('resize', suivreTabindex, { passive: true });
+    addEventListener('resize', () => { suivreTabindex(); suivreRang(); }, { passive: true });
   });
 </script>
