@@ -2065,15 +2065,27 @@
   .pan .swi{flex:0 0 38%}
   .pan .lead{font-size:28px}
   /*
-    LA PILE SE DEPLIE EN COLONNE. Sept planches empilees dans un cadre de 4/3
-    ne tiennent que parce qu'une rotation les distingue ; sur une colonne de
-    telephone la rotation mord sur les bords et le cadre clippe. On les remet
-    donc a plat, les unes sous les autres - et le script ne tourne pas sous ce
-    palier, sans quoi quatre d'entre elles resteraient retirees.
+    LA PILE SE DEPLIE EN PISTE, ET NON PLUS EN COLONNE. Sept planches
+    empilees dans un cadre de 4/3 ne tiennent que parce qu'une rotation les
+    distingue ; sur une colonne de telephone la rotation mord sur les bords et
+    le cadre clippe. On les remet donc a plat - mais a plat EN COLONNE, les
+    deux concepts faisaient quatorze planches a traverser au pouce, soit la
+    moitie du chapitre en defilement vertical.
+
+    En piste, chaque concept tient sur un ecran et le bord de la planche
+    suivante dit qu'elle est la. C'est le meme dispositif que les trois autres
+    series de cette page - la regle est juste au-dessus - et le meme geste :
+    un catalogue ou chaque planche vaut pour elle-meme.
+
+    Le script ne tourne pas sous ce palier, sans quoi quatre d'entre elles
+    resteraient retirees.
   */
   .pile-cadre{overflow:visible;padding:0}
-  .pilep{aspect-ratio:auto !important;display:grid;gap:16px}
-  .pilep__carte{position:static;transform:none;z-index:auto}
+  .pilep{aspect-ratio:auto !important;display:flex;gap:16px;overflow-x:auto;
+    scroll-snap-type:x proximity;padding-bottom:8px;scrollbar-width:thin}
+  .pilep:focus-visible{outline:3px solid var(--focus);outline-offset:4px}
+  .pilep__carte{position:static;transform:none;z-index:auto;
+    flex:0 0 88%;min-width:0;scroll-snap-align:start}
   .pilep__carte--loin{opacity:1}
   .pilep__pose{transform:none;transition:none}
   .pilep__fig{height:auto}

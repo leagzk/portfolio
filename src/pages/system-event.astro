@@ -825,7 +825,10 @@ const credits = [
             ouverte sur ce qu'elle contenait. Entre les deux, tout le jeu - qui
             est raconte, pas montre. Les deux fichiers font 1600x1067, donc un
             cadre de 3/2 ne rogne ni l'un ni l'autre. */}
-        <div class="two">
+        {/* Le nom est ecrit ici parce que `pistes.ts` le prend d'un `.eb`
+            precedent, et cette paire-ci suit une figure : devenue focusable au
+            telephone, elle s'annoncait sans nom. */}
+        <div class="two" aria-label="The trunk and its payoff">
           <Figure src={img('game-locked')} legende="The trunk, and the clues on its lid" ratio="3 / 2" ajuste="cover"
             alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid"
             sizes="(min-width: 900px) 520px, 90vw" />
