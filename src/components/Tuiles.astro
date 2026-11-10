@@ -244,12 +244,22 @@ const surPiste = enCases || piste;
     transform:rotateY(180deg);justify-content:flex-start;gap:10px;
     font-size:14px;line-height:1.6}
   .tuile__verso strong,.tuile__verso b{color:var(--text)}
-  .tuile__pivot:hover .tuile__face,
+  /*
+    LE SURVOL EST RESERVE AUX APPAREILS QUI SURVOLENT. Sur iOS, un appui
+    laisse `:hover` colle sur l'element jusqu'au prochain appui ailleurs : le
+    second tap repassait bien `aria-expanded` a false, mais le survol fantome
+    tenait la tuile retournee, et elle ne revenait jamais d'elle-meme. Le
+    `hover:hover` le rend aux souris et aux trackpads ; au doigt, seul
+    l'attribut decide, et c'est lui que le script bascule.
+  */
   .tuile__pivot:focus-visible .tuile__face,
   .tuile__pivot[aria-expanded="true"] .tuile__face{transform:rotateY(180deg)}
-  .tuile__pivot:hover .tuile__verso,
   .tuile__pivot:focus-visible .tuile__verso,
   .tuile__pivot[aria-expanded="true"] .tuile__verso{transform:rotateY(360deg)}
+  @media(hover:hover){
+    .tuile__pivot:hover .tuile__face{transform:rotateY(180deg)}
+    .tuile__pivot:hover .tuile__verso{transform:rotateY(360deg)}
+  }
 
   /* Monospace et non capitales espacees : c'est un REPERE - une annee, le nom
      d'une pratique -, pas un surtitre de section. La maquette l'ecrit en <code>
@@ -348,9 +358,22 @@ const surPiste = enCases || piste;
     lecteurs d'ecran, et en faire aussi le crochet de style garantit que
     l'affichage et l'annonce ne peuvent pas diverger.
   */
+  /*
+    UNE SEULE RETOURNEE A LA FOIS, PAR SERIE. Deux versos ouverts cote a cote
+    donnent deux blocs de texte blanc dans une rangee de couleurs, et on ne
+    sait plus lequel on vient d'ouvrir. On ferme donc les voisines - celles de
+    la MEME serie seulement, deux series voisines n'ayant pas a se repondre.
+  */
   document.querySelectorAll<HTMLButtonElement>('.tuile__pivot').forEach((b) => {
     b.addEventListener('click', () => {
-      b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+      const ouvre = b.getAttribute('aria-expanded') !== 'true';
+      if (ouvre) {
+        const serie = b.closest('.tuiles') ?? document;
+        serie.querySelectorAll<HTMLButtonElement>('.tuile__pivot').forEach((autre) => {
+          if (autre !== b) autre.setAttribute('aria-expanded', 'false');
+        });
+      }
+      b.setAttribute('aria-expanded', ouvre ? 'true' : 'false');
     });
   });
 
