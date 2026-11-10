@@ -233,7 +233,7 @@ I carried the direction to leadership and handed them the operational goal as **
 
 **[Nicolas Chatelain](https://nicolaschatelain.com)** came to Elements as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead**, we founded the **Practitioner Experience** capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. **His growth and the company's outcome, paired.**
 
-**[Rodolphe Peruzza](https://rodolphe.design/chat)** led the System axis, from craft to experience-pattern industrialization. I also kept bandwidth free for him to explore and to vibe-code. Several of our Figma plugins came out of it - his idea, his build - and so did part of the pipeline's automation scripts. **Not written by our developers. Written by a designer.**
+**[Rodolphe Peruzza](https://rodolphe.design/chat)** was first freelance and then I got him as my Design System Lead in a permanent position, overseeing the System axis from craft to experience patterns' industrialization. I also kept bandwidth free for him to explore and to vibe-code. Several of our Figma plugins came out of it - his idea, his build - and so did part of the pipeline's automation scripts. **Not written by our developers. Written by a designer.**
 
 **A strategy clear enough to be adopted is what makes people accountable for it.** Room inside it for what they want to explore is what makes them grow - and what turns a personal interest into something the whole team can use.
 
