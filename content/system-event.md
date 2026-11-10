@@ -160,8 +160,6 @@ That's where **conviviality and playfulness** stopped being words on a moodboard
 
 One identity, fifty-plus surfaces
 
-1 / 9
-
 > Signage
 
 > Stationery
@@ -179,6 +177,9 @@ One identity, fifty-plus surfaces
 > Guest gift
 
 > Collaborative game
+
+******************
+Swipe &rarr;
 
 > Room tag, in place
 
@@ -212,8 +213,6 @@ I wrote it all down. Moment by moment: what goes where, what it's made of, what 
 
 The guide, page samples
 
-1 / 14
-
 > Friday &middot; the apéro
 
 > Friday &middot; the lawn games
@@ -241,6 +240,9 @@ The guide, page samples
 > Game 5 &middot; Crossword
 
 > Game 6 &middot; Puzzle
+
+****************************
+Swipe &rarr;
 
 Because the point was never to hold every thread myself. It was to build something clear enough that someone else could carry it, and to trust them to. On the day, the system held, and I got to be *in* the experience instead of running it.
 

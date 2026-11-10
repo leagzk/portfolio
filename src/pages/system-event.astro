@@ -1183,7 +1183,13 @@ const credits = [
     plus la planche mais la photo. C'est le bon sens de lecture - on va du
     fichier vers l'objet, et l'objet merite la place.
   */
-  .pan .two--planches{grid-template-columns:minmax(0,0.6747fr) minmax(0,1fr)}
+  /* AU-DELA DU PALIER SEULEMENT. Sous 860px la paire s'empile en pleine
+     largeur - voir `.pan .two--planches` dans etude.css - et deux colonnes
+     ecrites ici sans borne gagneraient sur cette regle, la feuille de page
+     passant apres la feuille partagee. */
+  @media(min-width:861px){
+    .pan .two--planches{grid-template-columns:minmax(0,0.6747fr) minmax(0,1fr)}
+  }
 
   /*
     MEME CORRECTION POUR LA RANGEE DE TROIS. Les trois cadres declarent

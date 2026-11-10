@@ -96,14 +96,6 @@ const {
   <div class="carrousel__tete">
     {eyebrow && <p class="eb">{eyebrow}</p>}
     <div class="carrousel__fleches">
-      {/*
-        L'INDICATEUR DIT COMBIEN IL EN RESTE. Une piste ne montre que deux
-        vignettes et demie : sans compte, rien ne dit s'il y en a quatre ou
-        quatorze - et le carrousel du guide en a quatorze. Il est
-        `aria-hidden` parce que la piste s'annonce deja comme un groupe nomme,
-        et qu'un compteur qui change au defilement bavarderait.
-      */}
-      <p class="carrousel__compte" aria-hidden="true"><span data-rang>1</span> / {vignettes.length}</p>
       <button class="carrousel__btn" type="button" data-sens="-1" aria-label={`Previous ${label}`}>
         <Icone nom="fleche-gauche" taille={18} />
       </button>
@@ -112,6 +104,16 @@ const {
       </button>
     </div>
   </div>
+  {/*
+    LA PAGINATION EST SOUS LE CONTENU, ET C'EST LE DISPOSITIF DU SITE. Les
+    tuiles et les trois principes de l'accueil paginent deja ainsi : une
+    rangee de carres de 10px, le courant en encre, et le mot « Swipe » a
+    l'autre bout tant qu'on est au doigt. Un carrousel qui compterait
+    autrement dirait la meme chose d'une troisieme facon.
+
+    `aria-hidden` : la piste s'annonce deja comme un groupe nomme, et une
+    rangee de carres qui change au defilement n'a rien a dire a l'oreille.
+  */}
   <div class="carrousel__piste" tabindex="0" role="group" aria-label={label}>
     {vignettes.map((v) => (
       v.defile && v.src ? (
@@ -142,6 +144,10 @@ const {
       )
     ))}
   </div>
+  <div class="carrousel__pagination" aria-hidden="true">
+    <span class="carrousel__points">{vignettes.map(() => <i></i>)}</span>
+    <span class="carrousel__swipe">Swipe &rarr;</span>
+  </div>
 </div>
 
 <style is:global>
@@ -159,8 +165,18 @@ const {
   .carrousel{display:flex;flex-direction:column;gap:12px}
   .carrousel__tete{display:flex;justify-content:space-between;align-items:center;gap:16px}
   .carrousel__fleches{display:flex;gap:8px;margin-left:auto;align-items:center}
-  .carrousel__compte{margin:0;font-size:13px;font-variant-numeric:tabular-nums;
-    color:var(--ink-muted);white-space:nowrap}
+  /* Memes valeurs que `.tuiles__pagination` : meme rangee, meme carre, meme
+     ecart. Deux paginations qui se ressemblent a dix pixels pres se liraient
+     comme deux dispositifs. */
+  .carrousel__pagination{display:flex;align-items:center;justify-content:space-between;
+    gap:12px;padding:12px 0}
+  .carrousel__points{display:flex;gap:6px;flex-wrap:wrap}
+  .carrousel__points i{width:10px;height:10px;background:var(--grey-mondrian)}
+  .carrousel__points i.est-actif{background:var(--ink)}
+  /* Le mot ne s'adresse qu'au doigt : au bureau, ce sont les fleches qui
+     disent le geste, et elles sont dans l'en-tete. */
+  .carrousel__swipe{display:none;font-size:var(--fs-eyebrow);font-weight:700;
+    letter-spacing:.12em;text-transform:uppercase;color:var(--ink-muted)}
   /* Carre, bordure 1,5px, rempli de noir au survol - comme les boutons du
      gabarit, aucun arrondi (BRIEF §1). 44px : la cible tactile minimale. */
   .carrousel__btn{display:grid;place-items:center;width:44px;height:44px;padding:0;
@@ -185,6 +201,7 @@ const {
       piste cache.
     */
     .carrousel__btn{display:none}
+    .carrousel__swipe{display:block}
   }
 
   /*
@@ -251,13 +268,13 @@ const {
       et une seule source evite qu'ils divergent. Meme calcul que les points
       de `.tuiles--piste`.
     */
-    const rang = car.querySelector<HTMLElement>('[data-rang]');
-    const n = piste.children.length;
+    const points = [...car.querySelectorAll<HTMLElement>('.carrousel__points i')];
+    const n = points.length;
     const suivreRang = () => {
-      if (!rang || n < 2) return;
+      if (n < 2) return;
       const course = piste.scrollWidth - piste.clientWidth;
       const i = course > 1 ? Math.round((piste.scrollLeft / course) * (n - 1)) : 0;
-      rang.textContent = String(i + 1);
+      points.forEach((p, k) => p.classList.toggle('est-actif', k === i));
     };
     suivreRang();
     piste.addEventListener('scroll', suivreRang, { passive: true });

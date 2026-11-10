@@ -102,8 +102,6 @@ One colour per capability - recognized on sight, applied without a brief
 
 Each capability drawn, so the work could be seen
 
-1 / 13
-
 > R&D
 
 > Development
@@ -129,6 +127,9 @@ Each capability drawn, so the work could be seen
 > Physicians
 
 > Health Authorities
+
+**************************
+Swipe &rarr;
 
 From the capability map to an icon set per capability
 
@@ -316,8 +317,6 @@ Convergence
 
 So I pushed the answer one level up. Not a brand adaptation per product: **one standard for the portfolio**, with sanofi.com as the pilot - the first real product to carry it. **A pilot isn't a proof. It's the fastest way to find out what you got wrong.**
 
-1 / 5
-
 > sanofi.com &middot; Article page
 
 > sanofi.com &middot; Event page
@@ -327,6 +326,9 @@ So I pushed the answer one level up. Not a brand adaptation per product: **one s
 > sanofi.com &middot; Video grid
 
 > Where Elements Design System begins &middot; Tokens origin
+
+**********
+Swipe &rarr;
 
 Nothing here was mandated, and that's the only reason it held. Same conviction, different surface: understand each craft, translate it to the others, systematize what's left - so people spend their expertise on what actually matters. **The wait between experts is where time hides. I've been removing it, at bigger and bigger scale, for a decade.** And that's where Elements Design System begins.
 
