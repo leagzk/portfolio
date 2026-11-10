@@ -1,5 +1,4 @@
-import { statSync } from 'node:fs';
-import { join } from 'node:path';
+import { poidsPublic } from './poids';
 
 /*
   LE CV, DECLARE UNE FOIS.
@@ -9,17 +8,11 @@ import { join } from 'node:path';
   ou le PDF est remplace, les quatre mentent ensemble : le fichier est passe de
   3,6 a 4,3 Mo et les quatre annoncaient toujours 3,6.
 
-  LE POIDS EST LU DANS LE FICHIER A LA COMPILATION. Le site est statique, donc
-  ce `statSync` ne tourne qu'au build - jamais chez le visiteur - et le chiffre
-  ne peut plus diverger du fichier servi. Un CV remplace et un `npm run build`
-  suffisent.
-
-  « MB » ET NON « Mo » : la page est en anglais, et le lecteur d'ecran la lit en
-  anglais. L'unite francaise y passait pour une coquille.
+  LA LECTURE DU POIDS EST PARTIE DANS src/lib/poids.ts le jour ou le one-pager
+  des awards a eu besoin de la meme chose. Ce qui reste ici, c'est le CV : son
+  chemin, et son poids tenu a jour tout seul par un `npm run build`.
 */
 export const CV_HREF = '/Lea-Giezek-CV.pdf';
 
-const octets = statSync(join(process.cwd(), 'public', 'Lea-Giezek-CV.pdf')).size;
-
-/** « PDF, 4.3 MB » - annonce au lecteur d'ecran avant le telechargement */
-export const CV_POIDS = `PDF, ${(octets / 1_048_576).toFixed(1)} MB`;
+/** « PDF, 2.1 MB » - annonce au lecteur d'ecran avant le telechargement */
+export const CV_POIDS = poidsPublic('Lea-Giezek-CV.pdf');

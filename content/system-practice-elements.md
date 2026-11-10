@@ -154,6 +154,8 @@ And the chain sits inside the workflow each craft already had. Never beside it. 
 
 It starts at the tokens. Multi-brand, multi-theme, multi-surface - read the same way on a flyer, on a canvas and in code. It ends wherever a product ships. In between: libraries in Figma and React on GitHub. A Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing. Storybook as the living source of truth. An MCP that carries it into AI design and engineering workflows. Support streams in Slack and Teams, automation on top. A Portal where it can all be seen, plugged into the internal LLM. **Design excellence reaches past the community of practice. Every Sanofian owns it.**
 
+> Concierge is Sanofi's internal AI assistant and is one of the internal products using Elements in production. On the user side - because it is plugged into the Elements data sources - anyone in the company can ask anything like how to contribute, and get the process back.
+
 Next: the proof →
 
 ## 03 &middot; The proof
@@ -199,6 +201,10 @@ The practice got a focus of its own, a remit and a plan. **Never a volunteer rot
 
 **The biggest things were built together, not assigned.** The Elements MCP and the data visualisation workstream both started as contributions. Both are part of the standard now.
 
+> Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a collective one.
+
+Download the awards one-pager
+
 Next: the team &rarr;
 
 ## Pivot &middot; The team
@@ -223,7 +229,7 @@ I hired into the org I had drawn: from one designer to a core team of nine - **f
 
 I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 
-> Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a team one.
+> Part of the Design team at the Design System Awards 2025 ceremony, representing Elements as Governance finalist alongside HP and Tesco.
 
 **[Nicolas Chatelain](https://nicolaschatelain.com)** came to Elements as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead**, we founded the **Practitioner Experience** capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. **His growth and the company's outcome, paired.**
 
@@ -253,5 +259,8 @@ The people who left in 2026 left for reasons none of us chose - a budget call, a
 - Two Sanofi products in production - a component explorer on a laptop and a public campaign page on a desktop screen - with a mobile study card in front
 - Two phone screens side by side: a question answered in the Elements Slack community, and a GitHub issue on the design system component library
 - Portraits of the team arranged over a world map, showing how widely its members are spread
+- The internal assistant answering the question: what counts as a contribution to Elements, then the steps - get in touch, submit the form, open a pull request, comment in the UI kit
+- The assistant's home screen with the question typed in: I'd like to contribute to Elements, but I don't know how. Could you help?
 - The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon
+- The Elements one-pager submitted to the Design System Awards 2025, a single tall page running from the community and the library to the tooling, the support model, the impact figures and inclusive design
 - Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards

@@ -546,13 +546,17 @@ const credits = [
           la pile fermee, ouverte, puis posee. Trois vignettes cote a cote
           auraient montre trois photos ; le fondu montre un objet qu'on
           deplie. src/scripts/crossfade.ts, 2,2s par etat.
+
+          LE DISPOSITIF A PRIS UN NOM A LUI. Il s'appelait comme ce qu'il
+          animait ; Governance s'en sert pour deux captures d'un LLM. Les
+          regles sont dans etude.css, sous `.fondu`.
         */}
         <div class="two two--planches">
           <figure class="fig fig--aere">
-            <div class="fig__cadre fairepart" style="aspect-ratio:1400 / 1430;--fit:contain">
-              <Image class="fairepart__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="fairepart__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
-              <Image class="fairepart__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+            <div class="fig__cadre fondu" style="aspect-ratio:1400 / 1430;--fit:contain">
+              <Image class="fondu__etat is-on" src={img('suite-state-1')} alt="The invitation suite laid flat, first arrangement" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="fondu__etat" src={img('suite-state-2')} alt="The invitation suite fully opened out, every card visible" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
+              <Image class="fondu__etat" src={img('suite-state-3')} alt="The invitation suite arranged in place" sizes="(min-width: 900px) 520px, 90vw" loading="lazy" decoding="async" />
             </div>
             <figcaption class="cap">From the canvas</figcaption>
           </figure>
@@ -1207,12 +1211,6 @@ const credits = [
   */
   .pan .three--planches{grid-template-columns:minmax(0,1fr) minmax(0,1.0349fr) minmax(0,1fr)}
 
-  /* `position:relative` serait redondant : `.fig__cadre` l'a deja. */
-  .pan .fairepart{display:grid;grid-template:minmax(0,1fr)/minmax(0,1fr)}
-  .pan .fairepart .fairepart__etat{grid-area:1/1;
-    opacity:0;transition:opacity .9s ease}
-  .pan .fairepart .fairepart__etat.is-on{opacity:1}
-
   /* ─── Les neuf credits ─── */
   .pan .credits{margin:0;display:grid;
     grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:20px 28px}
@@ -1261,9 +1259,6 @@ const credits = [
     .pan .spec__sans{font-size:34px}
   }
 
-  @media(prefers-reduced-motion:reduce){
-    .pan .fairepart .fairepart__etat{transition:none}
-  }
 </style>
 
 <script>
@@ -1286,8 +1281,8 @@ const credits = [
   suivreCadres();
 
   /* La suite d'invitation : trois etats, 2,2s chacun. */
-  const scene = document.querySelector<HTMLElement>('.fairepart');
-  if (scene) fonduEnchaine(scene, '.fairepart__etat', 2200);
+  const scene = document.querySelector<HTMLElement>('.fondu');
+  if (scene) fonduEnchaine(scene, '.fondu__etat', 2200);
 
   /* Les trois decoupes, deplacables seulement au-dela du palier mobile. */
   rendreDeplacable('.forme', '(max-width:860px)');

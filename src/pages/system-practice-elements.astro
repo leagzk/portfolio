@@ -36,6 +36,7 @@ import ChiffresCles from '../components/ChiffresCles.astro';
 import type { Chiffre } from '../components/ChiffresCles.astro';
 import CarteDossier from '../components/CarteDossier.astro';
 import Carrousel from '../components/Carrousel.astro';
+import CadreDefilant from '../components/CadreDefilant.astro';
 import type { Vignette } from '../components/Carrousel.astro';
 import Figure from '../components/Figure.astro';
 import Tuiles from '../components/Tuiles.astro';
@@ -45,6 +46,7 @@ import Loupe from '../components/Loupe.astro';
 import Icone from '../components/Icone.astro';
 import ExternalLink from '../components/ExternalLink.astro';
 import { chercheurImages } from '../lib/images';
+import { poidsPublic } from '../lib/poids';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 /* INLINES : ces quatre dessins suivent le theme par currentColor, ce qu'un
@@ -56,6 +58,10 @@ const fichiers = import.meta.glob<ImageMetadata>('../assets/elements-system/*.we
   eager: true, import: 'default',
 });
 const img = chercheurImages(fichiers, 'elements-system');
+
+/* Le poids du one-pager est lu dans public/ a la compilation, comme celui du
+   CV : le fichier remplace, la mention suit. Voir src/lib/poids.ts. */
+const poidsOnepager = poidsPublic('elements-onepager-awards2025.pdf');
 
 /*
   ─── Chiffres cles (BRIEF §5.2) ───
@@ -1060,6 +1066,44 @@ const mecanismes: Tuile[] = [
             <p>It starts at the tokens. Multi-brand, multi-theme, multi-surface - read the same way on a flyer, on a canvas and in code. It ends wherever a product ships. In between: libraries in Figma and React on GitHub. A Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing. Storybook as the living source of truth. An MCP that carries it into AI design and engineering workflows. Support streams in Slack and Teams, automation on top. A Portal where it can all be seen, plugged into the internal LLM. <strong>Design excellence reaches past the community of practice. Every Sanofian owns it.</strong></p>
           </div>
         </div>
+        {/*
+          LA PHRASE DIT « EVERY SANOFIAN », ET VOICI A QUOI CA RESSEMBLE. Le
+          paragraphe finit sur « a Portal where it can all be seen, plugged
+          into the internal LLM » ; ces deux captures sont ce branchement en
+          service. Quelqu'un qui n'est ni designer ni developpeur demande
+          comment contribuer, et c'est l'assistant de l'entreprise qui repond -
+          lui-meme un produit qui tourne sur Elements.
+
+          L'ADRESSE DE L'EQUIPE EST CAVIARDEE DANS LA CAPTURE, a la source et
+          non sur la vignette : le fichier publie fait 1600 de large et
+          s'ouvre directement. La zone est reduite a douze pixels puis
+          redilatee - les glyphes ne sont pas etales, ils ne sont plus la.
+
+          DEUX ETATS, UN FONDU - meme dispositif que la suite d'invitation de
+          Language, dont les regles sont desormais dans etude.css sous
+          `.fondu`. Les deux captures sont recadrees sur EXACTEMENT la meme
+          fenetre de 2132 x 1949, chacune centree sur son propre contenu :
+          c'est ce qui evite le saut d'echelle entre les deux etats.
+
+          LA REPONSE EST L'ETAT AU REPOS, ET CE N'EST PAS L'ORDRE DE LECTURE.
+          En mouvement reduit le script ne demarre pas et laisse la premiere
+          image : si c'etait la question, il ne resterait que la question -
+          c'est-a-dire rien. La preuve passe donc devant.
+        */}
+        <div class="split">
+          <div class="pile split__suite">
+            <div class="filet filet--bleu" aria-hidden="true"><span class="filet__carre"></span></div>
+            <figure class="fig">
+              <div class="fig__cadre fondu" style="aspect-ratio:2132 / 1949;--fit:contain">
+                <Image class="fondu__etat is-on" src={img('elements-llm-answer')} sizes="(min-width: 861px) 40vw, 90vw" loading="lazy" decoding="async"
+                  alt="The internal assistant answering the question: what counts as a contribution to Elements, then the steps - get in touch, submit the form, open a pull request, comment in the UI kit" />
+                <Image class="fondu__etat" src={img('elements-llm-prompt')} sizes="(min-width: 861px) 40vw, 90vw" loading="lazy" decoding="async"
+                  alt="The assistant's home screen with the question typed in: I'd like to contribute to Elements, but I don't know how. Could you help?" />
+              </div>
+              <figcaption class="cap">Concierge is Sanofi's internal AI assistant and is one of the internal products using Elements in production. On the user side - because it is plugged into the Elements data sources - anyone in the company can ask anything like how to contribute, and get the process back.</figcaption>
+            </figure>
+          </div>
+        </div>
       </div>
 
       {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
@@ -1231,6 +1275,53 @@ const mecanismes: Tuile[] = [
             <p><strong>The biggest things were built together, not assigned.</strong> The Elements MCP and the data visualisation workstream both started as contributions. Both are part of the standard now.</p>
           </div>
         </div>
+        {/*
+          LE DOSSIER DES AWARDS FERME « THE PROOF », A L'ENDROIT OU LA
+          CONTRIBUTION VIENT D'ETRE DITE COLLECTIVE. Le one-pager envoye au
+          jury n'est pas une piece de plus : c'est tout le chapitre en un seul
+          objet - la communaute, la bibliotheque, l'outillage, le support, les
+          chiffres, l'inclusion. Il arrive apres « built together, not
+          assigned », que sa legende reprend d'un mot.
+
+          ET IL LAISSE LA CEREMONIE AU CHAPITRE 04. La photo des trois y
+          introduit Nicolas et Rodolphe ; elle ne porte plus la phrase sur la
+          categorie, qui appartient au dossier et non aux gens.
+
+          UNE PAGE DE 1 920 SUR 11 689 - SIX FOIS SA LARGEUR. Comme la
+          newsletter de Language, elle ne se lit que dans un cadre qui defile ;
+          la loupe l'ouvre en grand, et le bouton la donne en entier. Meme
+          dispositif que la photo de « Community » juste au-dessus : un filet,
+          son carre jaune, et la colonne de droite.
+        */}
+        <div class="split">
+          <div class="pile split__suite">
+            <div class="filet" aria-hidden="true"><span class="filet__carre"></span></div>
+            <CadreDefilant
+              src={img('elements-onepager-awards2025')}
+              alt="The Elements one-pager submitted to the Design System Awards 2025, a single tall page running from the community and the library to the tooling, the support model, the impact figures and inclusive design"
+              legende="Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a collective one."
+              titre="Elements one-pager, Design System Awards 2025"
+              class="fig--lent"
+              ratio="1 / 1"
+              fr={1}
+              {/* La colonne fait 40% de la fenetre au-dela du palier - mesure,
+                  pas estimee : 569px de cadre pour 1440 de fenetre. Le 420px
+                  ecrit a cote de la photo de Community sous-sert l'image d'un
+                  cran. Le 1920 n'est la que pour la loupe, qui demande 92vw. */}
+              sizes="(min-width: 861px) 40vw, 90vw"
+              widths={[420, 840, 1260, 1920]}
+              zoom
+            />
+            {/* PAS LE BOUTON PLEIN DU SITE. A deux cents pixels de « Next: the
+                team », deux aplats se disputaient la fin du chapitre et le
+                secondaire passait pour le principal. Le lien du footer dit la
+                meme chose sans peser : l'icone a gauche, le libelle en gras,
+                rien autour. Le poids part au lecteur d'ecran, comme pour le CV. */}
+            <a class="btn3" href="/elements-onepager-awards2025.pdf" download>
+              <Icone nom="telecharger" taille={20} /><span data-copy>Download the awards one-pager</span><span class="sr-only"> ({poidsOnepager})</span>
+            </a>
+          </div>
+        </div>
       </div>
 
       {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
@@ -1310,7 +1401,7 @@ const mecanismes: Tuile[] = [
             <Figure
               src={img('lea-nicolas-rodolphe-elements-awards')}
               alt="Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards"
-              legende="Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a team one."
+              legende="Part of the Design team at the Design System Awards 2025 ceremony, representing Elements as Governance finalist alongside HP and Tesco."
               ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
@@ -1420,7 +1511,40 @@ const mecanismes: Tuile[] = [
      dix pixels de cote, le gris du surlignage ne se verrait pas. */
   .pan .filet__carre{flex:none;width:10px;height:10px;background:var(--yellow)}
   .pan .filet--noir .filet__carre{background:var(--ink)}
+  .pan .filet--bleu .filet__carre{background:var(--blue)}
   .pan .filet::after{content:"";flex:1;height:var(--rule-fine);background:var(--text)}
+
+  /*
+    UNE PAGE QU'ON LIT, PAS UNE PLANCHE QU'ON PARCOURT. Les cadres de Language
+    defilent pour dire qu'une page EST une page - on y reconnait une mise en
+    page, on n'y lit rien. Le one-pager des awards porte des phrases, et a
+    2,6s par hauteur de cadre elles passaient avant d'etre lues.
+
+    LA CADENCE COMMUNE NE PERD RIEN : c'est le seul cadre defilant de cette
+    page, donc il n'a aucun voisin avec qui tenir le pas. La loupe, elle,
+    redeclare --vitesse et garde la cadence du site - a cette taille-la, on
+    lit sans avoir besoin qu'on ralentisse.
+  */
+  .pan .fig--lent{--vitesse:7s}
+
+  /*
+    LE LIEN APPARTIENT A LA LEGENDE, PAS A LA PILE. Les 28px de gap l'en
+    detachaient autant que la figure l'est du filet, et on lisait trois blocs
+    la ou il y en a deux. Les 700 remplacent le 600 de .btn3, cale pour la
+    bande noire du footer : en pleine page il s'alignait sur le texte courant.
+
+    L'ICONE PORTE LA COULEUR, LE LIBELLE RESTE DU TEXTE. Le rouge de .btn3
+    teignait la ligne entiere et la tirait au-dessus de la legende qu'elle
+    prolonge. Seule la fleche est bleue - elle suffit a dire que c'est une
+    commande - et le libelle se lit comme le reste de la page.
+
+    ET LE SURVOL PASSE LE LIBELLE AU BLEU, faute de quoi la ligne ne repondrait
+    plus a rien : le rouge changeait de teinte au survol, ce noir-la non.
+    #0B57A4 tient 7,2:1 sur blanc, donc il reste lisible en texte plein.
+  */
+  .pan .fig + .btn3{margin-top:-16px;font-weight:700;color:var(--text)}
+  .pan .fig + .btn3 svg{color:var(--blue)}
+  .pan .fig + .btn3:hover,.pan .fig + .btn3:focus-visible{color:var(--blue)}
 
   @media(min-width:861px){
     /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
@@ -1468,6 +1592,7 @@ const mecanismes: Tuile[] = [
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { suivreCadres } from '../scripts/vues';
+  import { fonduEnchaine } from '../scripts/crossfade';
 
   /* le contexte des chiffres se deplie au clic aussi - voir le fichier */
   initChiffres();
@@ -1475,4 +1600,10 @@ const mecanismes: Tuile[] = [
   initLoupe();
   /* hors champ, les cadres cessent de defiler : voir src/scripts/vues.ts */
   suivreCadres();
+
+  /* Les deux captures du LLM : 4s par etat, soit presque le double de la
+     suite d'invitation de Language. Ce sont des ecrans qu'on lit, pas trois
+     vues d'un meme objet. */
+  const llm = document.querySelector<HTMLElement>('.fondu');
+  if (llm) fonduEnchaine(llm, '.fondu__etat', 4000);
 </script>
