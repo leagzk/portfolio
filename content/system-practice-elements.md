@@ -112,8 +112,6 @@ I designed the organization *before I filled it.*
 
 All it could have stayed
 
-1 / 4
-
 > Libraries
 
 > Product implementation
@@ -121,6 +119,9 @@ All it could have stayed
 > Integrated support
 
 > Global team
+
+********
+Swipe &rarr;
 
 Governance was where I refused the easy answer - two models, not one. **A centralized core for building, a tiered service for support.** The build side stays hybrid: my team owns the core, contribution opens outward through inner source, never fully federated - that's the trap. The support side is tiered by each product's place in the portfolio and re-reviewed quarterly, so it follows strategy and not the loudest request.
 

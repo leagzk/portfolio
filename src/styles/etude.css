@@ -2058,6 +2058,17 @@
   */
   .pan .three--pile{display:grid;grid-template-columns:1fr;overflow:visible}
   .pan .three--pile > *{flex:none}
+  /*
+    LA PAIRE DU PIPELINE S'EMPILE AUSSI. Elle dit UN propos en deux temps -
+    le fichier, puis l'objet imprime - et une piste en cache la moitie : on
+    ne voit plus le passage, qui est tout le sujet. Empilees et en pleine
+    largeur, les deux se lisent l'une apres l'autre, dans l'ordre.
+
+    Leurs hauteurs different alors, et c'est normal : chacune epouse son
+    image. L'egalite n'a de sens qu'au bureau, ou elles sont cote a cote.
+  */
+  .pan .two--planches{display:grid;grid-template-columns:1fr;overflow:visible}
+  .pan .two--planches > *{flex:none}
   .pan .mosaic{gap:8px}
   .pan .mosaic > *{aspect-ratio:4 / 3}
   /* La case cesse de se partager la largeur et en prend une a elle : c'est ce
