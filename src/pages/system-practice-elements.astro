@@ -1493,8 +1493,19 @@ const mecanismes: Tuile[] = [
     detachaient autant que la figure l'est du filet, et on lisait trois blocs
     la ou il y en a deux. Les 700 remplacent le 600 de .btn3, cale pour la
     bande noire du footer : en pleine page il s'alignait sur le texte courant.
+
+    L'ICONE PORTE LA COULEUR, LE LIBELLE RESTE DU TEXTE. Le rouge de .btn3
+    teignait la ligne entiere et la tirait au-dessus de la legende qu'elle
+    prolonge. Seule la fleche est bleue - elle suffit a dire que c'est une
+    commande - et le libelle se lit comme le reste de la page.
+
+    ET LE SURVOL PASSE LE LIBELLE AU BLEU, faute de quoi la ligne ne repondrait
+    plus a rien : le rouge changeait de teinte au survol, ce noir-la non.
+    #0B57A4 tient 7,2:1 sur blanc, donc il reste lisible en texte plein.
   */
-  .pan .fig + .btn3{margin-top:-16px;font-weight:700}
+  .pan .fig + .btn3{margin-top:-16px;font-weight:700;color:var(--text)}
+  .pan .fig + .btn3 svg{color:var(--blue)}
+  .pan .fig + .btn3:hover,.pan .fig + .btn3:focus-visible{color:var(--blue)}
 
   @media(min-width:861px){
     /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
