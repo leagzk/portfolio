@@ -1263,8 +1263,9 @@ const mecanismes: Tuile[] = [
               alt="The Elements one-pager submitted to the Design System Awards 2025, a single tall page running from the community and the library to the tooling, the support model, the impact figures and inclusive design"
               legende="Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a collective one."
               titre="Elements one-pager, Design System Awards 2025"
-              ratio="3 / 4"
-              fr={0.75}
+              class="fig--lent"
+              ratio="1 / 1"
+              fr={1}
               {/* La colonne fait 40% de la fenetre au-dela du palier - mesure,
                   pas estimee : 569px de cadre pour 1440 de fenetre. Le 420px
                   ecrit a cote de la photo de Community sous-sert l'image d'un
@@ -1273,8 +1274,14 @@ const mecanismes: Tuile[] = [
               widths={[420, 840, 1260, 1920]}
               zoom
             />
-            <Bouton href="/elements-onepager-awards2025.pdf" variante="jaune"
-              icone="telecharger" telechargement={poidsOnepager}>Download the one-pager</Bouton>
+            {/* PAS LE BOUTON PLEIN DU SITE. A deux cents pixels de « Next: the
+                team », deux aplats se disputaient la fin du chapitre et le
+                secondaire passait pour le principal. Le lien du footer dit la
+                meme chose sans peser : l'icone a gauche, le libelle en gras,
+                rien autour. Le poids part au lecteur d'ecran, comme pour le CV. */}
+            <a class="btn3" href="/elements-onepager-awards2025.pdf" download>
+              <Icone nom="telecharger" taille={20} /><span data-copy>Download the awards one-pager</span><span class="sr-only"> ({poidsOnepager})</span>
+            </a>
           </div>
         </div>
       </div>
@@ -1467,6 +1474,27 @@ const mecanismes: Tuile[] = [
   .pan .filet__carre{flex:none;width:10px;height:10px;background:var(--yellow)}
   .pan .filet--noir .filet__carre{background:var(--ink)}
   .pan .filet::after{content:"";flex:1;height:var(--rule-fine);background:var(--text)}
+
+  /*
+    UNE PAGE QU'ON LIT, PAS UNE PLANCHE QU'ON PARCOURT. Les cadres de Language
+    defilent pour dire qu'une page EST une page - on y reconnait une mise en
+    page, on n'y lit rien. Le one-pager des awards porte des phrases, et a
+    2,6s par hauteur de cadre elles passaient avant d'etre lues.
+
+    LA CADENCE COMMUNE NE PERD RIEN : c'est le seul cadre defilant de cette
+    page, donc il n'a aucun voisin avec qui tenir le pas. La loupe, elle,
+    redeclare --vitesse et garde la cadence du site - a cette taille-la, on
+    lit sans avoir besoin qu'on ralentisse.
+  */
+  .pan .fig--lent{--vitesse:7s}
+
+  /*
+    LE LIEN APPARTIENT A LA LEGENDE, PAS A LA PILE. Les 28px de gap l'en
+    detachaient autant que la figure l'est du filet, et on lisait trois blocs
+    la ou il y en a deux. Les 700 remplacent le 600 de .btn3, cale pour la
+    bande noire du footer : en pleine page il s'alignait sur le texte courant.
+  */
+  .pan .fig + .btn3{margin-top:-16px;font-weight:700}
 
   @media(min-width:861px){
     /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce

@@ -201,7 +201,7 @@ The practice got a focus of its own, a remit and a plan. **Never a volunteer rot
 
 > Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a collective one.
 
-Download the one-pager
+Download the awards one-pager
 
 Next: the team &rarr;
 
