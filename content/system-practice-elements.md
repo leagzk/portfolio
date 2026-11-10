@@ -1,7 +1,7 @@
 ---
 page: /system-practice-elements
 title: "Governance - Systematize a practice - Léa Giezek"
-description: "At global scale a system isn't managed, it's governed. Sanofi's experience system: 45+ products, €1M a year, 35+ contributors, Design System Awards finalist."
+description: "At global scale a system isn't managed, it's governed. Sanofi's experience system: 45+ products, €1M+ a year, 35+ contributors, Design System Awards finalist."
 indexable: true
 ---
 
@@ -12,7 +12,7 @@ Systematize a practice · Sanofi · 2022 - now
 
 # At global scale, a system isn't managed. It's governed.
 
-I first built Elements as Design Lead to **cut time-to-launch** and **remove the friction** between design and engineering. A €1M design system **across Sanofi's brand portfolio**, reaching from employee to patient.
+I first built Elements as Design Lead to **cut time-to-launch** and **remove the friction** between design and engineering. A €1M+ design system **across Sanofi's brand portfolio**, reaching from employee to patient.
 
 As Director today, I scaled it to raise brand experience and make design excellence consistent - **moving from a design system managed as a product to an experience design platform.**
 
@@ -90,7 +90,7 @@ A system nobody trusts is the worst of both worlds: you fund the platform *and* 
 
 Executive partnership
 
-A €1M bet on a model, *not a line item.*
+A €1M+ bet on a model, *not a line item.*
 
 **You can't outsource the thing your whole system depends on.** The engineering was externalized before my time - not my call.
 
