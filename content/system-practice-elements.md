@@ -225,7 +225,7 @@ Team growth
 
 Every week, the same question: *is the work moving, and is the person growing.*
 
-I hired into the org I had drawn: from one designer to a core team of nine - **five designers and four React engineers**. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two design roles opened, and designers from the organization joined.
+I hired into the org I had drawn: from one designer to a core team of nine - **five designers and four React engineers**. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two permanent roles opened, and two designers already in the organization moved under my line.
 
 I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 
