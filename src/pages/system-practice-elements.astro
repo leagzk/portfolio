@@ -1535,16 +1535,24 @@ const mecanismes: Tuile[] = [
 
     L'ICONE PORTE LA COULEUR, LE LIBELLE RESTE DU TEXTE. Le rouge de .btn3
     teignait la ligne entiere et la tirait au-dessus de la legende qu'elle
-    prolonge. Seule la fleche est bleue - elle suffit a dire que c'est une
+    prolonge. Seule la fleche est coloree - elle suffit a dire que c'est une
     commande - et le libelle se lit comme le reste de la page.
 
-    ET LE SURVOL PASSE LE LIBELLE AU BLEU, faute de quoi la ligne ne repondrait
-    plus a rien : le rouge changeait de teinte au survol, ce noir-la non.
-    #0B57A4 tient 7,2:1 sur blanc, donc il reste lisible en texte plein.
+    LE JAUNE DU CHAPITRE, ET IL NE DOIT RIEN AU CONTRASTE. #F5CD00 tient 1,6:1
+    sur blanc : illisible en texte, et sans objet ici. La fleche est en
+    `aria-hidden`, elle ne porte aucune information que le libelle n'ait deja -
+    « Download the awards one-pager » se suffit. Le critere 1.4.11 vise les
+    elements graphiques NECESSAIRES a la comprehension ; celui-la ne l'est pas.
+
+    LE SURVOL SOULIGNE LE LIBELLE AU LIEU DE LE RECOLORER. Un jaune passe en
+    texte serait illisible, et un noir qui vire au noir ne repond a rien. Le
+    trait est celui des liens des credits de Language : 1px, a 4 d'ecart. Au
+    clavier, l'anneau global de reset.css fait deja le travail.
   */
   .pan .fig + .btn3{margin-top:-16px;font-weight:700;color:var(--text)}
-  .pan .fig + .btn3 svg{color:var(--blue)}
-  .pan .fig + .btn3:hover,.pan .fig + .btn3:focus-visible{color:var(--blue)}
+  .pan .fig + .btn3 svg{color:var(--yellow)}
+  .pan .fig + .btn3:hover [data-copy]{text-decoration:underline;
+    text-decoration-thickness:1px;text-underline-offset:4px}
 
   @media(min-width:861px){
     /* Le carrousel coupe la colonne de droite sur toute la largeur ; ce
