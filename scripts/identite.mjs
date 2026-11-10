@@ -133,8 +133,32 @@ const ico = (images) => {
   return Buffer.concat([tete, ...entrees, ...images.map((i) => i.png)]);
 };
 
-/* ═══ 2. L'image d'apercu (BRIEF §9) ═══ */
-async function apercu(hanken, maven) {
+/* ═══ 2. Les images d'apercu (BRIEF §9) ═══ */
+/*
+  UNE CARTE PAR PAGE, ET NON UNE POUR TOUT LE SITE. Les six pages
+  partageaient og-default : une etude partagee dans une conversation
+  annoncait le titre de l'accueil, pas le sien. Le gabarit ne bouge pas - il
+  est decrit une seule fois ici - seules changent les trois choses qui
+  identifient la page : son surtitre, son titre et son filigrane. Ce sont
+  exactement celles que le <Hero> porte, donc la carte et la page ne peuvent
+  pas diverger sans qu'on le voie.
+*/
+const PAGES = [
+  { fichier: 'og-default.png', surtitre: 'MOVING DESIGN PRACTICE FORWARD', filigrane: 'portfolio',
+    lignes: ['Design systems ship standards.', 'Experience systems grow culture.', "That's my leadership bet."] },
+  { fichier: 'og-practice.png', surtitre: 'SYSTEMATIZE A PRACTICE · GOVERNANCE', filigrane: 'Governance',
+    lignes: ["At global scale, a system isn't", "managed. It's governed."] },
+  { fichier: 'og-brand.png', surtitre: 'SYSTEMATIZE A BRAND · LANGUAGE', filigrane: 'Language',
+    lignes: ['A function run like a brand.', 'A brand run like a service.'] },
+  { fichier: 'og-event.png', surtitre: 'SYSTEMATIZE A MOMENT · SURFACES', filigrane: 'Surfaces',
+    lignes: ['Same systems thinking,', 'just off the org chart.'] },
+  { fichier: 'og-philosophy.png', surtitre: 'PHILOSOPHY · WHAT I HOLD', filigrane: 'Philosophy',
+    lignes: ['Almost everything is negotiable.', "One thing isn't: community."] },
+  { fichier: 'og-operating.png', surtitre: 'OPERATING SYSTEM · PRACTICE PRINCIPLES', filigrane: 'Ownership',
+    lignes: ["I don't want a team that executes.", 'I want a team of owners.'] },
+];
+
+async function apercu(hanken, maven, page) {
   const L = 1200, H = 627;
   /*
     LE TITRE EST CELUI DU SITE, et c'est un ecart assume a la maquette §9.
@@ -144,11 +168,7 @@ async function apercu(hanken, maven) {
     meme que la banniere LinkedIn (§8) et que le CV. Une carte d'apercu qui
     annonce autre chose que la page qu'elle previent se lit comme une erreur.
   */
-  const lignes = [
-    'Design systems ship standards.',
-    'Experience systems grow culture.',
-    "That's my leadership bet.",
-  ];
+  const lignes = page.lignes;
   const GAUCHE = 80;
   const FILET_X = 898;
   const DISPO = FILET_X - GAUCHE - 25; // la marge avant le filet, §9
@@ -163,12 +183,12 @@ async function apercu(hanken, maven) {
   }
   const interligne = Math.round(taille * 1.0);
 
-  const eb = tracer(maven, { texte: 'MOVING DESIGN PRACTICE FORWARD', taille: 16, wght: 700, x: GAUCHE, y: 0, fill: EYEBROW, lettrage: 0.2 });
+  const eb = tracer(maven, { texte: page.surtitre, taille: 16, wght: 700, x: GAUCHE, y: 0, fill: EYEBROW, lettrage: 0.2 });
   const sig = tracer(maven, { texte: 'LÉA GIEZEK', taille: 16, wght: 700, x: GAUCHE + 28, y: 0, fill: BLANC, lettrage: 0.2 });
 
   /* Le filigrane : 190px, 8% de blanc, cale en bas a gauche et DEBORDANT - il
      passe sous le texte sans le toucher (§9). */
-  const fil = tracer(hanken, { texte: 'portfolio', taille: 190, wght: 900, x: -10, y: H - 24, fill: 'rgba(255,255,255,.08)', lettrage: -0.03 });
+  const fil = tracer(hanken, { texte: page.filigrane, taille: 190, wght: 900, x: -10, y: H - 24, fill: 'rgba(255,255,255,.08)', lettrage: -0.03 });
 
   /* Mise en page verticale : eyebrow a 140, titre dessous, signature en bas du
      bloc - les valeurs de la maquette, l'interligne suivant la taille retenue. */
@@ -190,14 +210,14 @@ async function apercu(hanken, maven) {
   <rect x="1036" y="98" width="2" height="${H - 98}" fill="${FILET}"/>
   <rect x="1038" y="98" width="${L - 1038}" height="${H - 98 - 180}" fill="${BLANC}"/>
   <rect x="1038" y="${H - 180}" width="${L - 1038}" height="180" fill="${JAUNE}"/>
-  ${tracer(maven, { texte: 'MOVING DESIGN PRACTICE FORWARD', taille: 16, wght: 700, x: GAUCHE, y: yEb, fill: EYEBROW, lettrage: 0.2 }).svg}
+  ${tracer(maven, { texte: page.surtitre, taille: 16, wght: 700, x: GAUCHE, y: yEb, fill: EYEBROW, lettrage: 0.2 }).svg}
   ${corps}
   <rect x="${GAUCHE}" y="${ySig - 13}" width="16" height="16" fill="${JAUNE}"/>
   ${tracer(maven, { texte: 'LÉA GIEZEK', taille: 16, wght: 700, x: GAUCHE + 28, y: ySig, fill: BLANC, lettrage: 0.2 }).svg}
 </svg>`;
 
-  fs.writeFileSync(pub('og-default.png'), rendre(svg, L));
-  return { taille, largeurs: mesures.map((m) => Math.round(m.largeur)), dispo: DISPO, eb: Math.round(eb.largeur), sig: Math.round(sig.largeur), fil: Math.round(fil.largeur) };
+  fs.writeFileSync(pub(page.fichier), rendre(svg, L));
+  return { fichier: page.fichier, taille, largeurs: mesures.map((m) => Math.round(m.largeur)), dispo: DISPO, eb: Math.round(eb.largeur), sig: Math.round(sig.largeur), fil: Math.round(fil.largeur) };
 }
 
 /* ═══ Execution ═══ */
@@ -227,13 +247,16 @@ fs.writeFileSync(
     .toBuffer(),
 );
 
-const og = await apercu(hanken, maven);
+const ogs = [];
+for (const page of PAGES) ogs.push(await apercu(hanken, maven, page));
 
 const taille = (f) => (fs.statSync(pub(f)).size / 1024).toFixed(1) + ' ko';
 console.log(`favicon.svg          ${taille('favicon.svg')}`);
 console.log(`favicon-32.png       ${taille('favicon-32.png')}  32x32`);
 console.log(`favicon.ico          ${taille('favicon.ico')}  16 + 32`);
 console.log(`apple-touch-icon.png ${taille('apple-touch-icon.png')}  180x180, marge ${marge}px`);
-console.log(`og-default.png       ${taille('og-default.png')}  1200x627`);
-console.log(`  titre a ${og.taille}px - lignes ${og.largeurs.join(' / ')}px pour ${og.dispo} disponibles`);
-console.log(`  eyebrow ${og.eb}px - signature ${og.sig}px - filigrane ${og.fil}px`);
+for (const og of ogs) {
+  console.log(`${og.fichier.padEnd(21)}${taille(og.fichier)}  1200x627`);
+  console.log(`  titre a ${og.taille}px - lignes ${og.largeurs.join(' / ')}px pour ${og.dispo} disponibles`);
+  console.log(`  eyebrow ${og.eb}px - signature ${og.sig}px - filigrane ${og.fil}px`);
+}
