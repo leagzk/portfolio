@@ -164,7 +164,26 @@ const personSchema = {
 {brandFonts && (
   <>
     <link rel="preconnect" href="https://use.typekit.net" crossorigin />
-    <link rel="stylesheet" href="https://use.typekit.net/hdf1vwn.css" />
+    {/*
+      EN `preload`, PAS EN `stylesheet` : UN PROXY NE DOIT PAS POUVOIR RETENIR
+      LA PAGE. Une feuille de style distante bloque la premiere peinture
+      jusqu'a ce qu'elle arrive - ou jusqu'a l'expiration du delai. Derriere un
+      proxy d'entreprise qui inspecte le trafic et filtre par categorie,
+      use.typekit.net peut etre retarde de plusieurs secondes ou coupe net, et
+      c'est alors TOUTE la page qui attend, pour un specimen typographique qui
+      occupe un tiers d'ecran.
+
+      `rel="preload" as="style"` lance le telechargement aussi tot, sans
+      bloquer : le script de ce layout le promeut en feuille des qu'il arrive.
+      Si le proxy coupe, la page s'affiche sans le specimen et rien d'autre ne
+      change - les deux polices du site sont locales.
+
+      Le <noscript> rend la feuille bloquante a ceux qui n'executent pas de
+      script : pour eux rien ne pourra la promouvoir, et un specimen sans ses
+      polices ne dit plus rien.
+    */}
+    <link rel="preload" as="style" href="https://use.typekit.net/hdf1vwn.css" data-police-marque />
+    <noscript><link rel="stylesheet" href="https://use.typekit.net/hdf1vwn.css" /></noscript>
   </>
 )}
 <script type="application/ld+json" set:html={JSON.stringify(personSchema)} is:inline />
@@ -410,6 +429,14 @@ const personSchema = {
   import { revealAll } from '../scripts/reveal';
   import { ajusterFiligranes } from '../scripts/filigrane';
   import { tracerGrille } from '../scripts/grille';
+
+  /*
+    La feuille d'Adobe Fonts est posee en `preload` pour ne pas bloquer la
+    premiere peinture - voir son commentaire dans le <head>. On la promeut ici,
+    une fois le document interprete.
+  */
+  const kit = document.querySelector<HTMLLinkElement>('link[data-police-marque]');
+  if (kit) kit.rel = 'stylesheet';
 
   initChrome();
   /* Le hero est rendu par les sept pages : la mise a l'echelle du mot en

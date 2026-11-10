@@ -30,6 +30,22 @@ export default defineConfig({
   scopedStyleStrategy: 'where',
 
   /*
+    AUCUN MARKDOWN N'EST RENDU PAR CE SITE. Les sept pages sont des .astro ;
+    `content/` n'est qu'un reflet du HTML construit, hors de `src/`, et le
+    dossier n'a pas de collection. La coloration syntaxique d'Astro - Shiki -
+    tournait donc pour rien, et le build le disait a chaque fois :
+
+      [config] Shiki syntax highlighting uses inline styles that are not
+      compatible with Content Security Policy (CSP).
+
+    L'avertissement etait juste : Shiki pose ses couleurs en attribut `style`,
+    ce que notre CSP n'autorise qu'a titre de concession etroite. L'eteindre
+    retire du build un composant incompatible avec la politique, et une
+    dependance qui ne servait a rien.
+  */
+  markdown: { syntaxHighlight: false },
+
+  /*
     Content-Security-Policy, emise par Astro dans un <meta http-equiv> a chaque
     page.
 
