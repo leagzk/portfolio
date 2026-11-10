@@ -341,9 +341,11 @@ const RANGEES = avecDef && !UNE_RANGEE
             {/* data-copy : un <button> ne peut pas porter de <p>, donc rien ici
                 ne sortirait dans l'export de contenu sans ce crochet. Voir
                 scripts/export-content.mjs. */}
-            <span class="clef__nb" data-copy>{c.nombre}</span>
+            {/* Meme raison : « 0 » et « resignations » se lisaient
+                « 0resignations », et « /3 » colle a « time-to-launch ». */}
+            <span class="clef__nb" data-copy>{c.nombre}</span>{' '}
             <span class="clef__bas">
-              <span class="clef__quoi" data-copy>{c.quoi}</span>
+              <span class="clef__quoi" data-copy>{c.quoi}</span>{' '}
               <span class="clef__detail" data-copy>{c.contexte}</span>
             </span>
             {/* Deux dessins, un seul visible : la fleche qui ouvre cede la

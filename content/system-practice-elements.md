@@ -1,7 +1,7 @@
 ---
 page: /system-practice-elements
 title: "Governance - Systematize a practice - Léa Giezek"
-description: "At global scale a system isn't managed, it's governed. Sanofi's experience system: 45+ products, €1M a year, 35+ contributors, Design System Awards finalist."
+description: "At global scale a system isn't managed, it's governed. Sanofi's experience system: 45+ products, €1M+ a year, 35+ contributors, Design System Awards finalist."
 indexable: true
 ---
 
@@ -12,7 +12,7 @@ Systematize a practice · Sanofi · 2022 - now
 
 # At global scale, a system isn't managed. It's governed.
 
-I first built Elements as Design Lead to **cut time-to-launch** and **remove the friction** between design and engineering. A €1M design system **across Sanofi's brand portfolio**, reaching from employee to patient.
+I first built Elements as Design Lead to **cut time-to-launch** and **remove the friction** between design and engineering. A €1M+ design system **across Sanofi's brand portfolio**, reaching from employee to patient.
 
 As Director today, I scaled it to raise brand experience and make design excellence consistent - **moving from a design system managed as a product to an experience design platform.**
 
@@ -90,7 +90,7 @@ A system nobody trusts is the worst of both worlds: you fund the platform *and* 
 
 Executive partnership
 
-A €1M bet on a model, *not a line item.*
+A €1M+ bet on a model, *not a line item.*
 
 **You can't outsource the thing your whole system depends on.** The engineering was externalized before my time - not my call.
 
@@ -104,13 +104,15 @@ Next: the approach →
 
 ## 02 &middot; The approach
 
-Organisation & governance
+Organization & governance
 
-I designed the organisation *before I filled it.*
+I designed the organization *before I filled it.*
 
-**The decision was the easy part. Owning it wasn't.** Its capabilities, its roles, one operating model - and the job descriptions that made them real, **organised by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
+**The decision was the easy part. Owning it wasn't.** Its capabilities, its roles, one operating model - and the job descriptions that made them real, **organized by capability with accountable leads**. The budget came with it, and the line between what the platform funded and what it shipped was mine.
 
 All it could have stayed
+
+1 / 4
 
 > Libraries
 
@@ -124,7 +126,7 @@ Governance was where I refused the easy answer - two models, not one. **A centra
 
 Every decision got the same reading: what it opened, what it exposed, what it cost to reverse. Surfaced early, then locked with the team or my stakeholders.
 
-And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** - the signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
+And none of it ran on opinion. The platform had live instruments, read as decisions and not as trophies: DORA metrics every sprint, a practitioner satisfaction survey twice a year, priorities re-reviewed quarterly. **A data-driven cadence, with discovery that never closed.** The signal said where to invest, what to deprecate, which product needed support next, and it was acted on.
 
 Strategy
 
@@ -132,7 +134,7 @@ The best architecture I built *started as the one I got backwards.*
 
 Elements isn't a single product anymore. It's several products under one governance, one pipeline, for one community. **Three axes, six capabilities, each with their own products, services, innovative projects - all of it to speed up execution on brand.** The tension is the point: they aren't parallel, each one only works because the other two hold their end.
 
-- 01 Brand What the other two render. A brand architecture that modulates across every touchpoint, physical to digital - modular enough to travel, expressive enough to stay recognisable. Corporate Experience Experience Foundations 01 **Corporate Experience** Identity, theming and multi-brand coherence, on every corporate and marketing surface. **Where the brand becomes tangible.** **Experience Foundations** Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. **The brand's foundations, including the digital non-negotiables.**
+- 01 Brand What the other two render. A brand architecture that modulates across every touchpoint, physical to digital - modular enough to travel, expressive enough to stay recognizable. Corporate Experience Experience Foundations 01 **Corporate Experience** Identity, theming and multi-brand coherence, on every corporate and marketing surface. **Where the brand becomes tangible.** **Experience Foundations** Principles, accessibility, grids, spatial system, motion, data visualisation - mandatory, so no team argues them twice. **The brand's foundations, including the digital non-negotiables.**
 
 - 02 System What the brand needs to exist. Decided once, inherited everywhere downstream - by the teams that ship, and by the agents that now build with them. Design Systems Experience Patterns 02 **Design Systems** Token architecture, component libraries, illustration and content systems, integrated guidelines, engineering standards - one chain, and nobody rebuilds a link of it. **From token to production.** **Experience Patterns** Standardized but flexible patterns, from AI-driven internal tooling to marketing interfaces: business-specific where it counts, shared everywhere else. **Learn once, apply everywhere.**
 
@@ -163,7 +165,7 @@ Adoption was won one team and one priority at a time, across 45+ product teams a
 
 > Part of the community in Paris. Most of it works remote, across five hubs.
 
-A core interdisciplinary community of 300+ across 5 global hubs - 30+ product designers among them, as part of an Experience Design Organisation of 100. A decision taken in one hub stopped being re-taken in the other four. A few months later external partners joined it too, and the platform went **from zero to 2,000+ practitioners**.
+A core interdisciplinary community of 300+ across 5 global hubs - 30+ product designers among them, as part of an Experience Design Organization of 100. A decision taken in one hub stopped being re-taken in the other four. A few months later external partners joined it too, and the platform went **from zero to 2,000+ practitioners**.
 
 Influence
 
@@ -216,7 +218,7 @@ Team growth
 
 Every week, the same question: *is the work moving, and is the person growing.*
 
-I hired into the org I had drawn: from one designer to a core team of nine - **five designers and four React engineers**. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two design roles opened, and designers from the organisation joined.
+I hired into the org I had drawn: from one designer to a core team of nine - **five designers and four React engineers**. Three quarters of it was freelance, and at the start I was the only permanent person on it. Then two design roles opened, and designers from the organization joined.
 
 I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 

@@ -94,7 +94,7 @@ Starting from a constraint *you don't own.*
 
 **The whole thing started with two objects.** Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The **Popolo** plate: scalloped rim, hand-painted florals, cobalt and ochre. The **Roly Poly** armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.
 
-Five words came out of them, written down before anything was drawn: **shapes, type, colors, conviviality and playfulness.** Then systematised end to end, across every surface the days would touch.
+Five words came out of them, written down before anything was drawn: **shapes, type, colours, conviviality and playfulness.** Then systematized end to end, across every surface the days would touch.
 
 The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - **are the reason the day ended up with an escape game in it.**
 
@@ -110,9 +110,9 @@ Shapes
 
 Three cut-outs, taken off the plate's rim and the chair's silhouette. Every badge, tag, disc and die-cut in the identity is one of these three.
 
-Colors
+Colours
 
-- Vert`#008C68`
+- Vert `#008C68`
 
 Taken straight off the glaze of the Popolo plate.
 
@@ -159,6 +159,8 @@ Anyone can be charming on an invitation. The proof is on the signage nobody is m
 That's where **conviviality and playfulness** stopped being words on a moodboard and became a rule I had to keep, on the two hundredth decision as much as the first.
 
 One identity, fifty-plus surfaces
+
+1 / 9
 
 > Signage
 
@@ -209,6 +211,8 @@ Behind the identity and the staging: coordination. Florist, caterer, photographe
 I wrote it all down. Moment by moment: what goes where, what it's made of, what it's for. **A production guide precise enough to be executed without me in the room** - then I handed the day itself to Hera & Harmonia, who ran it from the brief.
 
 The guide, page samples
+
+1 / 14
 
 > Friday &middot; the apéro
 
@@ -331,7 +335,7 @@ The lever is the same one I reach for at work, and it has nothing to do with poi
 
 **Ways of working.** Workshops built on a card game: situations to replay, in teams, instead of a deck about collaboration. A deck gets nodded at. A hand of cards gets argued with, and the argument is the point.
 
-**Data quality.** I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organisation. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. **Nobody updates a database because they were asked twice.**
+**Data quality.** I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organization. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. **Nobody updates a database because they were asked twice.**
 
 **Recognition.** An annual awards ceremony anchored on public voting and individual submission, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.
 
@@ -347,7 +351,7 @@ Nothing here was switched on for the occasion. It is what I do at work, on a pro
 - The invitation suite laid flat, first arrangement
 - The invitation suite fully opened out, every card visible
 - The invitation suite arranged in place
-- Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table
+- The printed suite on a wooden table: die-cut cards in the glaze palette, a striped disc and a scalloped sticker, beside a posy of wild flowers
 - Welcome sign on an easel showing the event monogram, beside stacked metal trunks
 - Invitation suite of layered printed cards and coloured envelopes
 - Monogram disc and a striped disc hanging from the ceremony arch above a floral pedestal

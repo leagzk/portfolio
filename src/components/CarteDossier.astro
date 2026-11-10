@@ -110,7 +110,12 @@ const {
   <span class="dcarte__txt dcarte__corps">
     {/* data-copy : un <button> ne peut pas contenir de <p>, donc rien ici ne
         serait sorti dans l'export de contenu. Voir scripts/export-content.mjs. */}
-    <span class="dcarte__titre" data-copy>{titre}</span>
+    {/* L'ESPACE EST ECRIT. Le nom accessible d'un bouton concatene ses textes :
+        sans noeud blanc, le titre finissant par un point et la synthese
+        commencant par une majuscule, une synthese vocale lisait « a system
+        nobody adopted.Three crafts solving ». Sans effet a l'affichage, les
+        deux etant des blocs. */}
+    <span class="dcarte__titre" data-copy>{titre}</span>{' '}
     {synthese && <span class="dcarte__synthese" data-copy>{synthese}</span>}
   </span>
 </button>

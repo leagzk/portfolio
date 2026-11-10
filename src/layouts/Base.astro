@@ -107,7 +107,13 @@ const personSchema = {
 {/* 627 et non 630 : c'est la hauteur reelle du fichier (BRIEF §9). Une hauteur
     declaree fausse fait recadrer la vignette par certains clients. */}
 <meta property="og:image:height" content="627" />
-<meta property="og:image:alt" content="Design systems ship standards. Experience systems grow culture. - Léa Giezek" />
+{/*
+  L'ALTERNATIVE DECRIT LA CARTE, DONC ELLE SUIT LA PAGE. Elle etait figee sur
+  le titre de l'accueil : depuis que chaque page a sa propre carte, elle
+  annoncait pour cinq d'entre elles un visuel qui n'existe plus. Le titre de
+  la page le dit deja, et c'est lui que la carte porte en grand.
+*/}
+<meta property="og:image:alt" content={`${title} - preview card`} />
 <meta property="og:locale" content="en_GB" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />

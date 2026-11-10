@@ -399,6 +399,7 @@ const pratiques: Tuile[] = [
 <Base
   title="Language - Systematize a brand - Léa Giezek"
   description="At 2,500 people a brand isn't a charter, it's a shared language. Sanofi IT's brand platform, then the digital standard its rebrand landed on."
+  ogImage="/og-brand.png"
 >
 
   <Hero
@@ -672,7 +673,7 @@ const pratiques: Tuile[] = [
           <p class="lead">Everyone treated as a service desk what was actually <em class="em-rouge">driving the business.</em></p>
           <div class="body">
             <p>Its role went unexplained and its image was dated. A function that reached every Sanofian somewhere in their day was read as the place you call when something breaks - and perception doesn't shift because the assets got prettier.</p>
-            <p>Illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - <strong>shadow IT, the tax an organisation pays for a function it can't read.</strong></p>
+            <p>Illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - <strong>shadow IT, the tax an organization pays for a function it can't read.</strong></p>
           </div>
         </div>
       </div>
@@ -745,12 +746,12 @@ const pratiques: Tuile[] = [
             Une couleur par capability sert deux choses, et ce sont les deux
             qu'un comite retient - on reconnait d'ou vient un asset sans le
             lire, et on en produit un sans demander la permission. */}
-        <p class="eb">One colour per capability - recognised on sight, applied without a brief</p>
+        <p class="eb">One colour per capability - recognized on sight, applied without a brief</p>
         <ul class="sw" tabindex="0" role="group" aria-label="One colour per capability">
           {capacites.map((c) => (
             <li class="swi">
               <div class="swc" style={`background:${c.hex}`}></div>
-              <span>{c.nom}</span>
+              <span>{c.nom}</span>{' '}
               <code>{c.hex}</code>
             </li>
           ))}

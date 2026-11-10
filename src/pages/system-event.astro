@@ -193,6 +193,7 @@ const credits = [
   title="Surfaces - Systematize a moment - Léa Giezek"
   description="One live experience treated as a design system: identity, staging, a six-puzzle centrepiece and the production guide that let others run it without me."
   brandFonts
+  ogImage="/og-event.png"
 >{/* brandFonts : le specimen .spec charge fino-sans et serenity via Adobe Fonts */}
 
   <Hero
@@ -449,7 +450,7 @@ const credits = [
           <p class="lead">Starting from a constraint <em class="em-bleu">you don't own.</em></p>
           <div class="body">
             <p><strong>The whole thing started with two objects.</strong> Not a moodboard and not a colour study - two rented pieces we could actually put in the space. The <strong>Popolo</strong> plate: scalloped rim, hand-painted florals, cobalt and ochre. The <strong>Roly Poly</strong> armchair: fat legs, round shoulders, no straight line anywhere. One gave the pattern language. The other gave the posture. Then making every other decision agree with them - that's most of the job on the platform too.</p>
-            <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colors, conviviality and playfulness.</strong> Then systematised end to end, across every surface the days would touch.</p>
+            <p>Five words came out of them, written down before anything was drawn: <strong>shapes, type, colours, conviviality and playfulness.</strong> Then systematized end to end, across every surface the days would touch.</p>
             <p>The scallop became the die-cut on the stationery and the discs hung from the arch. The chair's soft geometry became the arched panels on the signage. The palette came straight off the glaze. And the last two - conviviality and playfulness, the ones that aren't visual properties at all - <strong>are the reason the day ended up with an escape game in it.</strong></p>
           </div>
         </div>
@@ -484,12 +485,12 @@ const credits = [
           </div>
 
           <div class="bloc">
-            <p class="bloc__t">Colors</p>
+            <p class="bloc__t">Colours</p>
             <ul class="sw" tabindex="0" role="group" aria-label="One colour per capability">
               {couleurs.map((c) => (
                 <li class="swi">
                   <div class="swc" style={`background:${c.hex}`}></div>
-                  <span lang="fr">{c.nom}</span>
+                  <span lang="fr">{c.nom}</span>{' '}
                   <code>{c.hex}</code>
                 </li>
               ))}
@@ -555,8 +556,8 @@ const credits = [
             </div>
             <figcaption class="cap">From the canvas</figcaption>
           </figure>
-          <Figure aere src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 2100"
-            alt="Close view of the printed invitation: die-cut cards, coloured blocks and a heart sticker on a wooden table"
+          <Figure aere src={img('identity-invitation-detail')} legende="To the printed piece" ratio="1400 / 933"
+            alt="The printed suite on a wooden table: die-cut cards in the glaze palette, a striped disc and a scalloped sticker, beside a posy of wild flowers"
             sizes="(min-width: 900px) 520px, 90vw" />
         </div>
       </div>
@@ -825,7 +826,10 @@ const credits = [
             ouverte sur ce qu'elle contenait. Entre les deux, tout le jeu - qui
             est raconte, pas montre. Les deux fichiers font 1600x1067, donc un
             cadre de 3/2 ne rogne ni l'un ni l'autre. */}
-        <div class="two">
+        {/* Le nom est ecrit ici parce que `pistes.ts` le prend d'un `.eb`
+            precedent, et cette paire-ci suit une figure : devenue focusable au
+            telephone, elle s'annoncait sans nom. */}
+        <div class="two" aria-label="The trunk and its payoff">
           <Figure src={img('game-locked')} legende="The trunk, and the clues on its lid" ratio="3 / 2" ajuste="cover"
             alt="Hands working a combination padlock on a metal trunk, playing cards and jars set out on the lid"
             sizes="(min-width: 900px) 520px, 90vw" />
@@ -884,7 +888,7 @@ const credits = [
             <p>The lever is the same one I reach for at work, and it has nothing to do with points and badges. <strong>It's how you get people to do the boring thing</strong> - it works wherever a result depends on people choosing to take part, and no mandate can make them.</p>
             <p><strong>Hackathons.</strong> Sanofi's first ran on the brand platform, sponsored by the Chief Medical Officer and the Global Head of R&amp;D: 6,000 participants, 103 ideas, 8,301 votes. The voting wasn't decoration around the event - it was the engine that made six thousand people show up for it.</p>
             <p><strong>Ways of working.</strong> Workshops built on a card game: situations to replay, in teams, instead of a deck about collaboration. A deck gets nodded at. A hand of cards gets argued with, and the argument is the point.</p>
-            <p><strong>Data quality.</strong> I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organisation. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. <strong>Nobody updates a database because they were asked twice.</strong></p>
+            <p><strong>Data quality.</strong> I mentored a product designer on an app aimed at application owners and business stakeholders, whose job was to keep their own records current - the least rewarding task in any IT organization. Turning it into something with progress, standing and visible completion is what produced a clean dataset of Sanofi's application landscape. <strong>Nobody updates a database because they were asked twice.</strong></p>
             <p><strong>Recognition.</strong> An annual awards ceremony anchored on public voting and individual submission, back when I ran communication: the same mechanic at company scale, with status as the reward instead of a trunk.</p>
             <p>An escape game, a hackathon, a design system: <strong>you design them for the people who'll use them, not for yourself - and they come alive the moment you let go.</strong></p>
           </div>
@@ -1169,11 +1173,17 @@ const credits = [
 
     A colonnes egales, lui rendre sa proportion l'aurait fait depasser la
     planche de 220. Les deux colonnes se partagent donc la rangee dans le
-    rapport de leurs proportions : 0,979 contre 0,667, chrome du cadre
-    deduit - d'ou 1,4245. Les deux cartes gardent la meme hauteur, chacune
-    au format de son image, et la marge retombe a 18 des quatre cotes.
+    rapport de leurs proportions, chrome du cadre deduit : 0,979 pour la
+    planche contre 1,5006 pour la photo - d'ou 0,6747. Les deux cartes
+    gardent la meme hauteur, chacune au format de son image, et la marge
+    retombe a 18 des quatre cotes.
+
+    LA PHOTO EST PASSEE DU PORTRAIT AU PAYSAGE, et le rapport des colonnes
+    avec elle : 1400 x 2100 devenait 1400 x 933, donc la large des deux n'est
+    plus la planche mais la photo. C'est le bon sens de lecture - on va du
+    fichier vers l'objet, et l'objet merite la place.
   */
-  .pan .two--planches{grid-template-columns:minmax(0,1.4245fr) minmax(0,1fr)}
+  .pan .two--planches{grid-template-columns:minmax(0,0.6747fr) minmax(0,1fr)}
 
   /*
     MEME CORRECTION POUR LA RANGEE DE TROIS. Les trois cadres declarent
@@ -1251,6 +1261,7 @@ const credits = [
 </style>
 
 <script>
+  import { initChiffres } from '../scripts/chiffres';
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { initPistes } from '../scripts/pistes';
@@ -1258,6 +1269,11 @@ const credits = [
   import { fonduEnchaine } from '../scripts/crossfade';
   import { rendreDeplacable } from '../scripts/drag';
 
+  /* SANS LUI LES DEUX CHIFFRES NE S'OUVRAIENT PAS. Cette page ne l'importait
+     pas, a la difference de Language et de Governance : ses tuiles portaient
+     bien leur contexte dans le balisage, mais rien ne posait `aria-expanded`,
+     donc le detail restait a `max-height:0` a toutes les largeurs. */
+  initChiffres();
   initDossier();
   initLoupe();
   initPistes();
