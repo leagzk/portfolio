@@ -561,6 +561,13 @@
   .clef-case--d .clef[aria-expanded="true"]{
     margin-left:calc(-100% - var(--rule-fine) + 36px)}
   /*
+    LA TUILE SEULE SUR SA LIGNE N'A PERSONNE A RECOUVRIR. Le chiffre impair
+    occupe les deux colonnes ; les 200% la portaient alors a 682px sur un
+    ecran de 390 - 308px hors champ, et son contexte avec. Elle garde sa
+    largeur, et n'a pas de marge a reprendre puisqu'elle part de la gauche.
+  */
+  .clef-case--seule .clef[aria-expanded="true"]{width:100%;margin-left:0}
+  /*
     SEULE LA VOISINE RECOUVERTE SE TAIT. A 36px il n'y a pas de place pour une
     ligne, et un mot coupe en pleine lettre se lit comme un bug - mais c'est
     la seule qui ait une raison de se taire.

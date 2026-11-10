@@ -1257,6 +1257,7 @@ const credits = [
 </style>
 
 <script>
+  import { initChiffres } from '../scripts/chiffres';
   import { initDossier } from '../scripts/dossier';
   import { initLoupe } from '../scripts/loupe';
   import { initPistes } from '../scripts/pistes';
@@ -1264,6 +1265,11 @@ const credits = [
   import { fonduEnchaine } from '../scripts/crossfade';
   import { rendreDeplacable } from '../scripts/drag';
 
+  /* SANS LUI LES DEUX CHIFFRES NE S'OUVRAIENT PAS. Cette page ne l'importait
+     pas, a la difference de Language et de Governance : ses tuiles portaient
+     bien leur contexte dans le balisage, mais rien ne posait `aria-expanded`,
+     donc le detail restait a `max-height:0` a toutes les largeurs. */
+  initChiffres();
   initDossier();
   initLoupe();
   initPistes();
