@@ -154,7 +154,7 @@ And the chain sits inside the workflow each craft already had. Never beside it. 
 
 It starts at the tokens. Multi-brand, multi-theme, multi-surface - read the same way on a flyer, on a canvas and in code. It ends wherever a product ships. In between: libraries in Figma and React on GitHub. A Figma Companion that puts palettes, accessibility checks and layout scaffolding on the canvas, from website to emailing. Storybook as the living source of truth. An MCP that carries it into AI design and engineering workflows. Support streams in Slack and Teams, automation on top. A Portal where it can all be seen, plugged into the internal LLM. **Design excellence reaches past the community of practice. Every Sanofian owns it.**
 
-> Concierge is Sanofi's internal AI assistant and is one of the internal products using Elements in production. On the user side - because it is plugged into the Elements Portal - anyone in the company can ask how to contribute, and get the process back.
+> Concierge is Sanofi's internal AI assistant and is one of the internal products using Elements in production. On the user side - because it is plugged into the Elements data sources - anyone in the company can ask anything like how to contribute, and get the process back.
 
 Next: the proof →
 
