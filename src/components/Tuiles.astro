@@ -102,14 +102,31 @@ const surPiste = enCases || piste;
     <li class:list={['tuile', t.aire && 'tuile--case']} style={t.aire ? `grid-area:${t.aire}` : undefined}>
       <button class="tuile__pivot" type="button" aria-expanded="false">
         <span class:list={['tuile__face', 'tuile__recto', `tuile--${t.couleur}`]}>
-          {t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
+          {/*
+            L'ESPACE EST ECRIT, SINON LES DEUX TEXTES SE COLLENT. Le nom
+            accessible d'un bouton est la concatenation de ses textes : sans
+            noeud blanc entre le numero et le titre, une synthese vocale lisait
+            « 01Brand », et « Experience Foundations01 » a la jonction
+            suivante. Le `{' '}` pose ce noeud ; il ne change rien a
+            l'affichage, le surtitre etant un bloc.
+          */}
+          {t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}{' '}
           <span class="tuile__titre" set:html={t.titre} />
           {/* La fleche circulaire et non un « + » : cette tuile ne deplie rien,
               elle se retourne. Voir `tourner` dans Icone.astro. */}
           <Icone nom="tourner" taille={18} class="tuile__tourne" />
-        </span>
+        </span>{' '}
+        {/* Meme raison entre les deux FACES : le titre du recto finit par un
+            point et le texte du verso commence par une majuscule, donc sans ce
+            noeud blanc on entendait « brought back.Every component ». */}
         <span class="tuile__face tuile__verso">
-          {t.rappel && t.eyebrow && <span class="tuile__eyebrow">{t.eyebrow}</span>}
+          {/*
+            LE RAPPEL EST VISUEL, PAS VOCAL. Le verso reste dans l'arbre
+            d'accessibilite meme non retourne, donc son numero s'annoncait une
+            seconde fois dans le meme bouton. Il ne dit rien que le recto n'ait
+            deja dit.
+          */}
+          {t.rappel && t.eyebrow && <span class="tuile__eyebrow" aria-hidden="true">{t.eyebrow}</span>}
           <span class="tuile__texte" set:html={t.texte} />
         </span>
       </button>

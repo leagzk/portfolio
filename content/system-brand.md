@@ -72,7 +72,7 @@ Everyone treated as a service desk what was actually *driving the business.*
 
 Its role went unexplained and its image was dated. A function that reached every Sanofian somewhere in their day was read as the place you call when something breaks - and perception doesn't shift because the assets got prettier.
 
-Illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - **shadow IT, the tax an organisation pays for a function it can't read.**
+Illegibility has a price every multinational knows by name. Teams that can't see where IT begins or ends stop waiting and build their own - **shadow IT, the tax an organization pays for a function it can't read.**
 
 Fragmentation
 
@@ -98,7 +98,7 @@ That understanding is what a brand platform is built on, and I built the whole o
 
 The platform derived from Sanofi's own brand principles and stayed answerable to them - coherent with the corporate brand, and still distinct enough to be recognized on sight inside the ecosystem.
 
-One colour per capability - recognised on sight, applied without a brief
+One colour per capability - recognized on sight, applied without a brief
 
 Each capability drawn, so the work could be seen
 

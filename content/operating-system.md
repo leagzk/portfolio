@@ -27,7 +27,7 @@ At Sanofi, it's how we knew what to build versus what to buy - and it didn't sto
 
 Trusted by humans, verified by machines.
 
-One language, not four. **Multi-surface design tokens** carry brand and behavior across web, native and content; **Figma variables** hold the component architecture on the design side, **Storybook** holds it on the code side.
+One language, not four. **Multi-surface design tokens** carry brand and behaviour across web, native and content; **Figma variables** hold the component architecture on the design side, **Storybook** holds it on the code side.
 
 And trust doesn't mean unchecked: **automate the repeatable, measure what matters, keep the human judgment where it counts**. That's governance you can't skip and don't have to police.
 

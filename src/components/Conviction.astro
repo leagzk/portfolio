@@ -129,7 +129,10 @@ const classes = ['conv', `conv--${couleur}`, pliante ? 'conv--pliante' : 'conv--
           </span>
           {/* data-copy : un <button> ne peut pas contenir de <p>, donc rien ici
               ne serait sorti dans l'export de contenu. */}
-          <span class="conv__txt conv__titre" data-copy>{titre}</span>
+          {/* L'espace separe le surtitre du titre dans le nom accessible du
+              bouton : sans lui, « 04 · Ethics » et « AI should earn trust » se
+              lisaient d'un trait. */}
+          {' '}<span class="conv__txt conv__titre" data-copy>{titre}</span>
         </button>
       </Titre>
       <div class="conv__txt conv__detail" id={`${id}-txt`} hidden>
