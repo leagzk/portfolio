@@ -199,6 +199,10 @@ The practice got a focus of its own, a remit and a plan. **Never a volunteer rot
 
 **The biggest things were built together, not assigned.** The Elements MCP and the data visualisation workstream both started as contributions. Both are part of the standard now.
 
+> Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a collective one.
+
+Download the one-pager
+
 Next: the team &rarr;
 
 ## Pivot &middot; The team
@@ -223,7 +227,7 @@ I hired into the org I had drawn: from one designer to a core team of nine - **f
 
 I carried the direction to leadership and handed them the operational goal as **OKRs of their own**, tied to the company's annual objectives: our ambition inside a shared strategy, never beside it.
 
-> Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a team one.
+> Part of the Design team at the Design System Awards 2025 ceremony, representing Elements as Governance finalist alongside HP and Tesco.
 
 **[Nicolas Chatelain](https://nicolaschatelain.com)** came to Elements as a design system designer, with the human half of the job already there - federating a community, running its rituals. The rest he had to grow into: structuring ideas, articulating a strategic plan, carrying feedback upward. I positioned him as **Design Ops Lead**, we founded the **Practitioner Experience** capability together, and he went on to lead the People axis - from Experience Operations enablement to the Community of Practice engagement plan. **His growth and the company's outcome, paired.**
 
@@ -254,4 +258,5 @@ The people who left in 2026 left for reasons none of us chose - a budget call, a
 - Two phone screens side by side: a question answered in the Elements Slack community, and a GitHub issue on the design system component library
 - Portraits of the team arranged over a world map, showing how widely its members are spread
 - The design community gathered outside in front of the Arc de Triomphe in Paris, fifteen practitioners posing together on a winter afternoon
+- The Elements one-pager submitted to the Design System Awards 2025, a single tall page running from the community and the library to the tooling, the support model, the impact figures and inclusive design
 - Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards

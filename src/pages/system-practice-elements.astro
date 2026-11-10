@@ -36,6 +36,7 @@ import ChiffresCles from '../components/ChiffresCles.astro';
 import type { Chiffre } from '../components/ChiffresCles.astro';
 import CarteDossier from '../components/CarteDossier.astro';
 import Carrousel from '../components/Carrousel.astro';
+import CadreDefilant from '../components/CadreDefilant.astro';
 import type { Vignette } from '../components/Carrousel.astro';
 import Figure from '../components/Figure.astro';
 import Tuiles from '../components/Tuiles.astro';
@@ -45,6 +46,7 @@ import Loupe from '../components/Loupe.astro';
 import Icone from '../components/Icone.astro';
 import ExternalLink from '../components/ExternalLink.astro';
 import { chercheurImages } from '../lib/images';
+import { poidsPublic } from '../lib/poids';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 /* INLINES : ces quatre dessins suivent le theme par currentColor, ce qu'un
@@ -56,6 +58,10 @@ const fichiers = import.meta.glob<ImageMetadata>('../assets/elements-system/*.we
   eager: true, import: 'default',
 });
 const img = chercheurImages(fichiers, 'elements-system');
+
+/* Le poids du one-pager est lu dans public/ a la compilation, comme celui du
+   CV : le fichier remplace, la mention suit. Voir src/lib/poids.ts. */
+const poidsOnepager = poidsPublic('elements-onepager-awards2025.pdf');
 
 /*
   ─── Chiffres cles (BRIEF §5.2) ───
@@ -1231,6 +1237,46 @@ const mecanismes: Tuile[] = [
             <p><strong>The biggest things were built together, not assigned.</strong> The Elements MCP and the data visualisation workstream both started as contributions. Both are part of the standard now.</p>
           </div>
         </div>
+        {/*
+          LE DOSSIER DES AWARDS FERME « THE PROOF », A L'ENDROIT OU LA
+          CONTRIBUTION VIENT D'ETRE DITE COLLECTIVE. Le one-pager envoye au
+          jury n'est pas une piece de plus : c'est tout le chapitre en un seul
+          objet - la communaute, la bibliotheque, l'outillage, le support, les
+          chiffres, l'inclusion. Il arrive apres « built together, not
+          assigned », que sa legende reprend d'un mot.
+
+          ET IL LAISSE LA CEREMONIE AU CHAPITRE 04. La photo des trois y
+          introduit Nicolas et Rodolphe ; elle ne porte plus la phrase sur la
+          categorie, qui appartient au dossier et non aux gens.
+
+          UNE PAGE DE 1 920 SUR 11 689 - SIX FOIS SA LARGEUR. Comme la
+          newsletter de Language, elle ne se lit que dans un cadre qui defile ;
+          la loupe l'ouvre en grand, et le bouton la donne en entier. Meme
+          dispositif que la photo de « Community » juste au-dessus : un filet,
+          son carre jaune, et la colonne de droite.
+        */}
+        <div class="split">
+          <div class="pile split__suite">
+            <div class="filet" aria-hidden="true"><span class="filet__carre"></span></div>
+            <CadreDefilant
+              src={img('elements-onepager-awards2025')}
+              alt="The Elements one-pager submitted to the Design System Awards 2025, a single tall page running from the community and the library to the tooling, the support model, the impact figures and inclusive design"
+              legende="Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a collective one."
+              titre="Elements one-pager, Design System Awards 2025"
+              ratio="3 / 4"
+              fr={0.75}
+              {/* La colonne fait 40% de la fenetre au-dela du palier - mesure,
+                  pas estimee : 569px de cadre pour 1440 de fenetre. Le 420px
+                  ecrit a cote de la photo de Community sous-sert l'image d'un
+                  cran. Le 1920 n'est la que pour la loupe, qui demande 92vw. */}
+              sizes="(min-width: 861px) 40vw, 90vw"
+              widths={[420, 840, 1260, 1920]}
+              zoom
+            />
+            <Bouton href="/elements-onepager-awards2025.pdf" variante="jaune"
+              icone="telecharger" telechargement={poidsOnepager}>Download the one-pager</Bouton>
+          </div>
+        </div>
       </div>
 
       {/* Le pied de chapitre : retour au sommaire a gauche, chapitre suivant
@@ -1310,7 +1356,7 @@ const mecanismes: Tuile[] = [
             <Figure
               src={img('lea-nicolas-rodolphe-elements-awards')}
               alt="Léa Giezek, Nicolas Chatelain and Rodolphe Peruzza together at the Design System Awards"
-              legende="Design System Awards 2025, Governance finalist alongside HP and Tesco. The recognition that means the most to me is the category - this was never only a craft story, but a team one."
+              legende="Part of the Design team at the Design System Awards 2025 ceremony, representing Elements as Governance finalist alongside HP and Tesco."
               ratio="1 / 1"
               ajuste="cover"
               sizes="(min-width: 900px) 420px, 90vw"
